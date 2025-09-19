@@ -423,7 +423,7 @@ class ControllerPagesAccountOrderDetails extends AController
             if (is_numeric($download_info['filename'])) {
                 $rl = new AResource('download');
                 $resource = $rl->getResource($download_info['filename']);
-                $download_info['filename'] = $rl->getTypeDir() . $resource['resource_path'];
+                $download_info['filename'] = $rl->getTypeDir() . str_replace('/', DS, $resource['resource_path']);
             }
             $size = filesize(DIR_RESOURCE . $download_info['filename']);
             $i = 0;
@@ -445,7 +445,7 @@ class ControllerPagesAccountOrderDetails extends AController
                         'style' => 'button',
                         'href'  => $this->html->getSecureURL(
                             'account/order_details/startdownload',
-                            '&order_download_id=' . $download_info['order_download_id']
+                            '&order_download_id=' . (int)$download_info['order_download_id']
                             . ($this->data['guest'] ? '&ot=' . $this->data['order_token'] : '')
                         ),
                         'icon'  => 'fa fa-download-alt',

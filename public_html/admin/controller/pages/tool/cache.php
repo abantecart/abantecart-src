@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -24,7 +24,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerPagesToolCache extends AController
 {
     public $error = [];
-    public $data;
 
     public function main()
     {
@@ -33,17 +32,17 @@ class ControllerPagesToolCache extends AController
         $this->document->setTitle($this->language->get('heading_title'));
         $this->document->initBreadcrumb(
             [
-            'href'      => $this->html->getSecureURL('index/home'),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
+                'href'      => $this->html->getSecureURL('index/home'),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
             ]
         );
         $this->document->addBreadcrumb(
             [
-            'href'      => $this->html->getSecureURL('tool/cache'),
-            'text'      => $this->language->get('heading_title'),
-            'separator' => ' :: ',
-            'current'   => true,
+                'href'      => $this->html->getSecureURL('tool/cache'),
+                'text'      => $this->language->get('heading_title'),
+                'separator' => ' :: ',
+                'current'   => true,
             ]
         );
 
@@ -53,8 +52,8 @@ class ControllerPagesToolCache extends AController
                 'text'        => $this->language->get('text_configuration'),
                 'description' => $this->language->get('desc_configuration'),
                 'keywords'    => 'settings,extensions,store,stores,attribute,attributes,'
-                                .'length_class,contents,tax_class,order_status,stock_status,'
-                                .'weight_class,storefront_menu,tables',
+                    . 'length_class,contents,tax_class,order_status,stock_status,'
+                    . 'weight_class,storefront_menu,tables',
             ],
             [
                 'id'          => 'layout',
@@ -137,11 +136,8 @@ class ControllerPagesToolCache extends AController
             ]
         );
 
-        if (isset($this->error['warning'])) {
-            $this->data['error_warning'] = $this->error['warning'];
-        } else {
-            $this->data['error_warning'] = '';
-        }
+        $this->data['error_warning'] = $this->error['warning'] ?? '';
+
         if (isset($this->session->data['success'])) {
             $this->data['success'] = $this->session->data['success'];
             unset($this->session->data['success']);
@@ -179,7 +175,7 @@ class ControllerPagesToolCache extends AController
                             $this->deleteThumbnails();
                             break;
                         case 'error_log':
-                            $file = DIR_LOGS.$this->config->get('config_error_filename');
+                            $file = DIR_LOGS . $this->config->get('config_error_filename');
                             if (is_file($file)) {
                                 unlink($file);
                             }
@@ -195,7 +191,7 @@ class ControllerPagesToolCache extends AController
                             $this->cache->remove($group);
                             foreach ($languages as $lang) {
                                 foreach ($stores as $store) {
-                                    $this->cache->remove($group."_".$store['store_id']."_".$lang['language_id']);
+                                    $this->cache->remove($group . "_" . $store['store_id'] . "_" . $lang['language_id']);
                                 }
                             }
                     }
@@ -216,12 +212,9 @@ class ControllerPagesToolCache extends AController
 
     public function deleteThumbnails()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
-        $path = DIR_IMAGE.'thumbnails/';
-
+        $path = DIR_IMAGE . 'thumbnails' . DS;
         $iter = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
             RecursiveIteratorIterator::CHILD_FIRST);
@@ -230,27 +223,17 @@ class ControllerPagesToolCache extends AController
             if (basename($file) == 'index.html') {
                 continue;
             }
-            if (is_dir($file)) {
-                rmdir($file);
-            } else {
-                unlink($file);
-            }
+            is_dir($file) ? rmdir($file) : unlink($file);
         }
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _validateDelete()
+    protected function _validateDelete()
     {
         if (!$this->user->canModify('tool/cache')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
-
-        if (!$this->error) {
-            return true;
-        } else {
-            return false;
-        }
+        return !$this->error;
     }
-
 }

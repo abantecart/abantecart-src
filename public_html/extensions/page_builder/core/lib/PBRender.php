@@ -171,7 +171,7 @@ class PBRender
             if (is_numeric($iconUri)) {
                 $resource = new AResource('image');
                 $resourceInfo = $resource->getResource($iconUri);
-                if (is_file(DIR_RESOURCE.$resourceInfo['type_dir'].$resourceInfo['resource_path'])) {
+                if (is_file(DIR_RESOURCE.$resourceInfo['type_dir'].str_replace('/',DS,$resourceInfo['resource_path']))) {
                     $iconUri = $resourceInfo['type_dir'].$resourceInfo['resource_path'];
                 }
             }

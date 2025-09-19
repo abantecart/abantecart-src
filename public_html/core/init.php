@@ -17,10 +17,10 @@
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
-
+const DS = DIRECTORY_SEPARATOR;
 //check minimal system requirements
-$composerJson = file_get_contents(DIR_ROOT.'/composer.json');
-if($composerJson){
+$composerJson = file_get_contents(DIR_ROOT . DS . 'composer.json');
+if ($composerJson) {
     $composer = json_decode($composerJson, true);
     // Required PHP Version
     define("MIN_PHP_VERSION", preg_replace('/[^0-9.]/', '', $composer['require']['php']));
@@ -28,13 +28,13 @@ if($composerJson){
     define(
         'MIN_DB_VERSIONS',
         [
-            'mysql' => preg_replace('/[^0-9.]/', '', $composer['suggest']['mysql']),
+            'mysql'   => preg_replace('/[^0-9.]/', '', $composer['suggest']['mysql']),
             'mariadb' => preg_replace('/[^0-9.]/', '', $composer['suggest']['mariadb']),
         ]
     );
 
     if (version_compare(phpversion(), MIN_PHP_VERSION, '<')) {
-        exit(MIN_PHP_VERSION.'+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
+        exit(MIN_PHP_VERSION . '+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
     }
 }
 
@@ -46,13 +46,13 @@ ini_set('default_charset', 'utf-8');
 ini_set('serialize_precision', 16);
 
 //default error reporting level.
-// See another levels based on debug settings
+// See another level based on debug settings
 /** @see AException::logError() */
 error_reporting(E_ERROR & ~E_NOTICE);
 // AbanteCart Version
 include('version.php');
 const VERSION = MASTER_VERSION . '.' . MINOR_VERSION . '.' . VERSION_BUILT;
-const DS = DIRECTORY_SEPARATOR;
+
 
 // Detect if localhost is used.
 if (!isset($_SERVER['HTTP_HOST'])) {
@@ -93,7 +93,7 @@ const DIR_CACHE = DIR_ROOT . DS . 'system' . DS . 'cache' . DS;
 const DIR_LOGS = DIR_ROOT . DS . 'system' . DS . 'logs' . DS;
 const DIR_VENDOR = DIR_ROOT . DS . 'vendor' . DS;
 
-require DIR_VENDOR.'autoload.php';
+require DIR_VENDOR . 'autoload.php';
 
 // SEO URL Keyword separator
 const SEO_URL_SEPARATOR = '-';
@@ -114,10 +114,10 @@ const DEFAULT_ADDRESS_FORMAT =
     . '{country}';
 
 // Error Reporting
-require_once(DIR_CORE.'lib'.DS.'debug.php');
-require_once(DIR_CORE.'lib'.DS.'exceptions.php');
-require_once(DIR_CORE.'lib'.DS.'error.php');
-require_once(DIR_CORE.'lib'.DS.'warning.php');
+require_once(DIR_CORE . 'lib' . DS . 'debug.php');
+require_once(DIR_CORE . 'lib' . DS . 'exceptions.php');
+require_once(DIR_CORE . 'lib' . DS . 'error.php');
+require_once(DIR_CORE . 'lib' . DS . 'warning.php');
 
 //define rt - route for application controller
 if (isset($_GET['rt'])) {
@@ -144,24 +144,24 @@ const INDEX_FILE = 'index.php';
 
 if (defined('ADMIN_PATH')
     &&
-    ((isset($_GET['s']) && $_GET['s'] == ADMIN_PATH)  || (isset($_POST['s'])) && $_POST['s'] == ADMIN_PATH)
-    ) {
+    ((isset($_GET['s']) && $_GET['s'] == ADMIN_PATH) || (isset($_POST['s'])) && $_POST['s'] == ADMIN_PATH)
+) {
     define('IS_ADMIN', true);
-    define('DIR_APP_SECTION', DIR_ROOT.DS.'admin'.DS);
-    define('DIR_LANGUAGE', DIR_ROOT.DS.'admin'.DS.'language'.DS);
-    define('DIR_TEMPLATE', DIR_ROOT.DS.'admin'.DS.'view'.DS);
-    define('DIR_STOREFRONT', DIR_ROOT.DS.'storefront'.DS);
-    define('DIR_BACKUP', DIR_ROOT.DS.'admin'.DS.'system'.DS.'backup'.DS);
-    define('DIR_DATA', DIR_ROOT.DS.'admin'.DS.'system'.DS.'data'.DS);
+    define('DIR_APP_SECTION', DIR_ROOT . DS . 'admin' . DS);
+    define('DIR_LANGUAGE', DIR_ROOT . DS . 'admin' . DS . 'language' . DS);
+    define('DIR_TEMPLATE', DIR_ROOT . DS . 'admin' . DS . 'view' . DS);
+    define('DIR_STOREFRONT', DIR_ROOT . DS . 'storefront' . DS);
+    define('DIR_BACKUP', DIR_ROOT . DS . 'admin' . DS . 'system' . DS . 'backup' . DS);
+    define('DIR_DATA', DIR_ROOT . DS . 'admin' . DS . 'system' . DS . 'data' . DS);
     //generate unique session name.
     //NOTE: This is a session name not to confuse with actual session id. Candidate to renaming
-    define('SESSION_ID', defined('UNIQUE_ID') ? 'AC_CP_'.strtoupper(substr(UNIQUE_ID, 0, 10)) : 'AC_CP_PHPSESSID');
+    define('SESSION_ID', defined('UNIQUE_ID') ? 'AC_CP_' . strtoupper(substr(UNIQUE_ID, 0, 10)) : 'AC_CP_PHPSESSID');
 } else {
     define('IS_ADMIN', false);
-    define('DIR_APP_SECTION', DIR_ROOT.DS.'storefront'.DS);
-    define('DIR_LANGUAGE', DIR_ROOT.DS.'storefront'.DS.'language'.DS);
-    define('DIR_TEMPLATE', DIR_ROOT.DS.'storefront'.DS.'view'.DS);
-    define('SESSION_ID', defined('UNIQUE_ID') ? 'AC_SF_'.strtoupper(substr(UNIQUE_ID, 0, 10)) : 'AC_SF_PHPSESSID');
+    define('DIR_APP_SECTION', DIR_ROOT . DS . 'storefront' . DS);
+    define('DIR_LANGUAGE', DIR_ROOT . DS . 'storefront' . DS . 'language' . DS);
+    define('DIR_TEMPLATE', DIR_ROOT . DS . 'storefront' . DS . 'view' . DS);
+    define('SESSION_ID', defined('UNIQUE_ID') ? 'AC_SF_' . strtoupper(substr(UNIQUE_ID, 0, 10)) : 'AC_SF_PHPSESSID');
     define('EMBED_TOKEN_NAME', 'ABC_TOKEN');
 }
 
@@ -220,7 +220,7 @@ try {
         if (isset($_SERVER['SCRIPT_FILENAME'])) {
             $_SERVER['DOCUMENT_ROOT'] = str_replace(
                 '\\',
-                '/',
+                DS,
                 substr($_SERVER['SCRIPT_FILENAME'], 0, 0 - strlen($_SERVER['PHP_SELF']))
             );
         }
@@ -230,7 +230,7 @@ try {
         if (isset($_SERVER['PATH_TRANSLATED'])) {
             $_SERVER['DOCUMENT_ROOT'] = str_replace(
                 '\\',
-                '/',
+                DS,
                 substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0 - strlen($_SERVER['PHP_SELF']))
             );
         }
@@ -239,22 +239,22 @@ try {
     if (!isset($_SERVER['REQUEST_URI'])) {
         $_SERVER['REQUEST_URI'] = substr($_SERVER['PHP_SELF'], 1);
         if (isset($_SERVER['QUERY_STRING'])) {
-            $_SERVER['REQUEST_URI'] .= '?'.$_SERVER['QUERY_STRING'];
+            $_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
         }
     }
 
 // relative paths for extensions
-    define('DIR_EXTENSIONS', 'extensions'.DS);
-    define('DIR_EXT', DIR_ROOT.DS.DIR_EXTENSIONS);
-    define('DIR_EXT_CORE', DS.'core'.DS);
-    define('DIR_EXT_STORE', DS.'storefront'.DS);
-    define('DIR_EXT_ADMIN', DS.'admin'.DS);
-    define('DIR_EXT_IMAGE', DS.'image'.DS);
-    define('DIR_EXT_LANGUAGE', 'language'.DS);
-    define('DIR_EXT_TEMPLATE', 'view'.DS);
+    define('DIR_EXTENSIONS', 'extensions' . DS);
+    define('DIR_EXT', DIR_ROOT . DS . DIR_EXTENSIONS);
+    define('DIR_EXT_CORE', DS . 'core' . DS);
+    define('DIR_EXT_STORE', DS . 'storefront' . DS);
+    define('DIR_EXT_ADMIN', DS . 'admin' . DS);
+    define('DIR_EXT_IMAGE', DS . 'image' . DS);
+    define('DIR_EXT_LANGUAGE', 'language' . DS);
+    define('DIR_EXT_TEMPLATE', 'view' . DS);
 
 //resources
-    define('DIR_RESOURCE', DIR_ROOT.DS.'resources'.DS);
+    define('DIR_RESOURCE', DIR_ROOT . DS . 'resources' . DS);
 
 //postfixes for template override
     define('POSTFIX_OVERRIDE', '.override');
@@ -262,93 +262,93 @@ try {
     define('POSTFIX_POST', '.post');
 
 // Include Engine
-    require_once(DIR_CORE.'engine'.DS.'router.php');
-    require_once(DIR_CORE.'engine'.DS.'page.php');
-    require_once(DIR_CORE.'engine'.DS.'response.php');
-    require_once(DIR_CORE.'engine'.DS.'api.php');
-    require_once(DIR_CORE.'engine'.DS.'task.php');
-    require_once(DIR_CORE.'engine'.DS.'dispatcher.php');
-    require_once(DIR_CORE.'engine'.DS.'controller.php');
-    require_once(DIR_CORE.'engine'.DS.'controller_api.php');
-    require_once(DIR_CORE.'engine'.DS.'view.php');
-    require_once(DIR_CORE.'engine'.DS.'loader.php');
-    require_once(DIR_CORE.'engine'.DS.'model.php');
-    require_once(DIR_CORE.'engine'.DS.'registry.php');
-    require_once(DIR_CORE.'engine'.DS.'resources.php');
-    require_once(DIR_CORE.'engine'.DS.'html.php');
-    require_once(DIR_CORE.'engine'.DS.'layout.php');
-    require_once(DIR_CORE.'engine'.DS.'form.php');
-    require_once(DIR_CORE.'engine'.DS.'extensions.php');
-    require_once(DIR_CORE.'engine'.DS.'hook.php');
-    require_once(DIR_CORE.'engine'.DS.'attribute.php');
-    require_once(DIR_CORE.'engine'.DS.'promotion.php');
-    require_once(DIR_CORE.'engine'.DS.'language.php');
+    require_once(DIR_CORE . 'engine' . DS . 'router.php');
+    require_once(DIR_CORE . 'engine' . DS . 'page.php');
+    require_once(DIR_CORE . 'engine' . DS . 'response.php');
+    require_once(DIR_CORE . 'engine' . DS . 'api.php');
+    require_once(DIR_CORE . 'engine' . DS . 'task.php');
+    require_once(DIR_CORE . 'engine' . DS . 'dispatcher.php');
+    require_once(DIR_CORE . 'engine' . DS . 'controller.php');
+    require_once(DIR_CORE . 'engine' . DS . 'controller_api.php');
+    require_once(DIR_CORE . 'engine' . DS . 'view.php');
+    require_once(DIR_CORE . 'engine' . DS . 'loader.php');
+    require_once(DIR_CORE . 'engine' . DS . 'model.php');
+    require_once(DIR_CORE . 'engine' . DS . 'registry.php');
+    require_once(DIR_CORE . 'engine' . DS . 'resources.php');
+    require_once(DIR_CORE . 'engine' . DS . 'html.php');
+    require_once(DIR_CORE . 'engine' . DS . 'layout.php');
+    require_once(DIR_CORE . 'engine' . DS . 'form.php');
+    require_once(DIR_CORE . 'engine' . DS . 'extensions.php');
+    require_once(DIR_CORE . 'engine' . DS . 'hook.php');
+    require_once(DIR_CORE . 'engine' . DS . 'attribute.php');
+    require_once(DIR_CORE . 'engine' . DS . 'promotion.php');
+    require_once(DIR_CORE . 'engine' . DS . 'language.php');
 
-    require_once(DIR_CORE.'helper'.DS.'constants.php');
+    require_once(DIR_CORE . 'helper' . DS . 'constants.php');
 
-    require_once(DIR_CORE.'helper'.DS.'html.php');
-    require_once(DIR_CORE.'helper'.DS.'utils.php');
-    require_once(DIR_CORE.'helper'.DS.'system_check.php');
+    require_once(DIR_CORE . 'helper' . DS . 'html.php');
+    require_once(DIR_CORE . 'helper' . DS . 'utils.php');
+    require_once(DIR_CORE . 'helper' . DS . 'system_check.php');
 
 // Include library files
-    require_once(DIR_CORE.'lib'.DS.'cache.php');
-    require_once(DIR_CORE.'lib'.DS.'config.php');
-    require_once(DIR_CORE.'lib'.DS.'db.php');
-    require_once(DIR_CORE.'lib'.DS.'connect.php');
-    require_once(DIR_CORE.'lib'.DS.'document.php');
-    require_once(DIR_CORE.'lib'.DS.'image.php');
-    require_once(DIR_CORE.'lib'.DS.'log.php');
-    require_once(DIR_CORE.'lib'.DS.'mail.php');
-    require_once(DIR_CORE.'lib'.DS.'message.php');
-    require_once(DIR_CORE.'lib'.DS.'pagination.php');
-    require_once(DIR_CORE.'lib'.DS.'request.php');
-    require_once(DIR_CORE.'lib'.DS.'response.php');
-    require_once(DIR_CORE.'lib'.DS.'session.php');
-    require_once(DIR_CORE.'lib'.DS.'template.php');
-    require_once(DIR_CORE.'lib'.DS.'xml2array.php');
-    require_once(DIR_CORE.'lib'.DS.'data.php');
-    require_once(DIR_CORE.'lib'.DS.'file.php');
-    require_once(DIR_CORE.'lib'.DS.'download.php');
+    require_once(DIR_CORE . 'lib' . DS . 'cache.php');
+    require_once(DIR_CORE . 'lib' . DS . 'config.php');
+    require_once(DIR_CORE . 'lib' . DS . 'db.php');
+    require_once(DIR_CORE . 'lib' . DS . 'connect.php');
+    require_once(DIR_CORE . 'lib' . DS . 'document.php');
+    require_once(DIR_CORE . 'lib' . DS . 'image.php');
+    require_once(DIR_CORE . 'lib' . DS . 'log.php');
+    require_once(DIR_CORE . 'lib' . DS . 'mail.php');
+    require_once(DIR_CORE . 'lib' . DS . 'message.php');
+    require_once(DIR_CORE . 'lib' . DS . 'pagination.php');
+    require_once(DIR_CORE . 'lib' . DS . 'request.php');
+    require_once(DIR_CORE . 'lib' . DS . 'response.php');
+    require_once(DIR_CORE . 'lib' . DS . 'session.php');
+    require_once(DIR_CORE . 'lib' . DS . 'template.php');
+    require_once(DIR_CORE . 'lib' . DS . 'xml2array.php');
+    require_once(DIR_CORE . 'lib' . DS . 'data.php');
+    require_once(DIR_CORE . 'lib' . DS . 'file.php');
+    require_once(DIR_CORE . 'lib' . DS . 'download.php');
 
 // Application Classes
-    require_once(DIR_CORE.'lib'.DS.'customer.php');
-    require_once(DIR_CORE.'lib'.DS.'order.php');
-    require_once(DIR_CORE.'lib'.DS.'order_status.php');
-    require_once(DIR_CORE.'lib'.DS.'currency.php');
-    require_once(DIR_CORE.'lib'.DS.'tax.php');
-    require_once(DIR_CORE.'lib'.DS.'weight.php');
-    require_once(DIR_CORE.'lib'.DS.'length.php');
-    require_once(DIR_CORE.'lib'.DS.'cart.php');
-    require_once(DIR_CORE.'lib'.DS.'user.php');
-    require_once(DIR_CORE.'lib'.DS.'dataset.php');
-    require_once(DIR_CORE.'lib'.DS.'encryption.php');
-    require_once(DIR_CORE.'lib'.DS.'menu_control.php');
-    require_once(DIR_CORE.'lib'.DS.'menu_control_storefront.php');
-    require_once(DIR_CORE.'lib'.DS.'rest.php');
-    require_once(DIR_CORE.'lib'.DS.'filter.php');
-    require_once(DIR_CORE.'lib'.DS.'listing.php');
-    require_once(DIR_CORE.'lib'.DS.'task_manager.php');
-    require_once(DIR_CORE.'lib'.DS.'im.php');
-    require_once(DIR_CORE.'lib'.DS.'csrf_token.php');
-    require_once(DIR_CORE.'lib'.DS.'ASupplier.php');
+    require_once(DIR_CORE . 'lib' . DS . 'customer.php');
+    require_once(DIR_CORE . 'lib' . DS . 'order.php');
+    require_once(DIR_CORE . 'lib' . DS . 'order_status.php');
+    require_once(DIR_CORE . 'lib' . DS . 'currency.php');
+    require_once(DIR_CORE . 'lib' . DS . 'tax.php');
+    require_once(DIR_CORE . 'lib' . DS . 'weight.php');
+    require_once(DIR_CORE . 'lib' . DS . 'length.php');
+    require_once(DIR_CORE . 'lib' . DS . 'cart.php');
+    require_once(DIR_CORE . 'lib' . DS . 'user.php');
+    require_once(DIR_CORE . 'lib' . DS . 'dataset.php');
+    require_once(DIR_CORE . 'lib' . DS . 'encryption.php');
+    require_once(DIR_CORE . 'lib' . DS . 'menu_control.php');
+    require_once(DIR_CORE . 'lib' . DS . 'menu_control_storefront.php');
+    require_once(DIR_CORE . 'lib' . DS . 'rest.php');
+    require_once(DIR_CORE . 'lib' . DS . 'filter.php');
+    require_once(DIR_CORE . 'lib' . DS . 'listing.php');
+    require_once(DIR_CORE . 'lib' . DS . 'task_manager.php');
+    require_once(DIR_CORE . 'lib' . DS . 'im.php');
+    require_once(DIR_CORE . 'lib' . DS . 'csrf_token.php');
+    require_once(DIR_CORE . 'lib' . DS . 'ASupplier.php');
 
 //Admin manager classes
     if (IS_ADMIN === true) {
-        require_once(DIR_CORE.'lib'.DS.'order_manager.php');
-        require_once(DIR_CORE.'lib'.DS.'layout_manager.php');
-        require_once(DIR_CORE.'lib'.DS.'content_manager.php');
-        require_once(DIR_CORE.'lib'.DS.'package_manager.php');
-        require_once(DIR_CORE.'lib'.DS.'form_manager.php');
-        require_once(DIR_CORE.'lib'.DS.'extension_manager.php');
-        require_once(DIR_CORE.'lib'.DS.'resource_manager.php');
-        require_once(DIR_CORE.'lib'.DS.'resource_upload.php');
-        require_once(DIR_CORE.'lib'.DS.'listing_manager.php');
-        require_once(DIR_CORE.'lib'.DS.'attribute_manager.php');
-        require_once(DIR_CORE.'lib'.DS.'language_manager.php');
-        require_once(DIR_CORE.'lib'.DS.'backup.php');
-        require_once(DIR_CORE.'lib'.DS.'file_uploads_manager.php');
-        require_once(DIR_CORE.'lib'.DS.'admin_commands.php');
-        require_once(DIR_CORE.'lib'.DS.'im_manager.php');
+        require_once(DIR_CORE . 'lib' . DS . 'order_manager.php');
+        require_once(DIR_CORE . 'lib' . DS . 'layout_manager.php');
+        require_once(DIR_CORE . 'lib' . DS . 'content_manager.php');
+        require_once(DIR_CORE . 'lib' . DS . 'package_manager.php');
+        require_once(DIR_CORE . 'lib' . DS . 'form_manager.php');
+        require_once(DIR_CORE . 'lib' . DS . 'extension_manager.php');
+        require_once(DIR_CORE . 'lib' . DS . 'resource_manager.php');
+        require_once(DIR_CORE . 'lib' . DS . 'resource_upload.php');
+        require_once(DIR_CORE . 'lib' . DS . 'listing_manager.php');
+        require_once(DIR_CORE . 'lib' . DS . 'attribute_manager.php');
+        require_once(DIR_CORE . 'lib' . DS . 'language_manager.php');
+        require_once(DIR_CORE . 'lib' . DS . 'backup.php');
+        require_once(DIR_CORE . 'lib' . DS . 'file_uploads_manager.php');
+        require_once(DIR_CORE . 'lib' . DS . 'admin_commands.php');
+        require_once(DIR_CORE . 'lib' . DS . 'im_manager.php');
     }
 
 // Registry
@@ -365,7 +365,7 @@ try {
     $response = new AResponse();
     $response->addHeader('Content-Type: text/html; charset=utf-8');
     $response->addHeader('X-Content-Type-Options: nosniff');
-    if(IS_ADMIN === true) {
+    if (IS_ADMIN === true) {
         /** @var ModelToolMPAPI $mpMdl */
         $mpMdl = $registry->get('load')->model('tool/mp_api');
         $mpUrl = parse_url($mpMdl->getMPURL());
@@ -382,7 +382,7 @@ try {
     $hook = new AHook($registry);
 
 // Database
-    $registry->set('db', new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, (defined('DB_PORT') ? DB_PORT : NULL)));
+    $registry->set('db', new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, (defined('DB_PORT') ? DB_PORT : null)));
 
 // Cache
     $registry->set('cache', new ACache());
@@ -395,11 +395,11 @@ try {
 
     if (IS_ADMIN === true) {
         if ($config->has('current_store_id')) {
-            $registry->get('session')->data['current_store_id'] = (int) $config->get('current_store_id');
+            $registry->get('session')->data['current_store_id'] = (int)$config->get('current_store_id');
         } elseif (isset($registry->get('session')->data['current_store_id'])) {
             $config->set('current_store_id', $registry->get('session')->data['current_store_id']);
-        }else{
-            $config->set('current_store_id', (int) $config->get('config_store_id'));
+        } else {
+            $config->set('current_store_id', (int)$config->get('config_store_id'));
         }
     }
 
@@ -410,20 +410,20 @@ try {
     if (IS_ADMIN === true) {
         define('HTTP_DIR_NAME', rtrim(dirname($_SERVER['PHP_SELF']), '/.\\'));
         // Admin HTTP
-        define('AUTO_SERVER', '//'.REAL_HOST.HTTP_DIR_NAME.'/');
-        define('HTTP_SERVER', 'http:'.AUTO_SERVER);
+        define('AUTO_SERVER', '//' . REAL_HOST . HTTP_DIR_NAME . '/');
+        define('HTTP_SERVER', 'http:' . AUTO_SERVER);
         define('HTTP_CATALOG', HTTP_SERVER);
-        define('HTTP_EXT', HTTP_SERVER.'extensions/');
-        define('HTTP_IMAGE', HTTP_SERVER.'image/');
-        define('HTTP_DIR_RESOURCE', HTTP_SERVER.'resources/');
+        define('HTTP_EXT', HTTP_SERVER . 'extensions/');
+        define('HTTP_IMAGE', HTTP_SERVER . 'image/');
+        define('HTTP_DIR_RESOURCE', HTTP_SERVER . 'resources/');
         //we use Protocol-relative URLs here
-        define('HTTPS_IMAGE', AUTO_SERVER.'image/');
-        define('HTTPS_DIR_RESOURCE', AUTO_SERVER.'resources/');
+        define('HTTPS_IMAGE', AUTO_SERVER . 'image/');
+        define('HTTPS_DIR_RESOURCE', AUTO_SERVER . 'resources/');
         //Admin HTTPS
         if (HTTPS === true) {
-            define('HTTPS_SERVER', 'https:'.AUTO_SERVER);
+            define('HTTPS_SERVER', 'https:' . AUTO_SERVER);
             define('HTTPS_CATALOG', HTTPS_SERVER);
-            define('HTTPS_EXT', HTTPS_SERVER.'extensions/');
+            define('HTTPS_EXT', HTTPS_SERVER . 'extensions/');
         } else {
             define('HTTPS_SERVER', HTTP_SERVER);
             define('HTTPS_CATALOG', HTTP_CATALOG);
@@ -436,25 +436,25 @@ try {
         // Storefront HTTP
         $store_url = $config->get('config_url');
         define('HTTP_SERVER', $store_url);
-        define('HTTP_IMAGE', HTTP_SERVER.'image/');
-        define('HTTP_EXT', HTTP_SERVER.'extensions/');
-        define('HTTP_DIR_RESOURCE', HTTP_SERVER.'resources/');
+        define('HTTP_IMAGE', HTTP_SERVER . 'image/');
+        define('HTTP_EXT', HTTP_SERVER . 'extensions/');
+        define('HTTP_DIR_RESOURCE', HTTP_SERVER . 'resources/');
         // Storefront HTTPS
         if ($config->get('config_ssl') || HTTPS === true) {
             if ($config->get('config_ssl_url')) {
                 $store_url = $config->get('config_ssl_url');
             }
-            define('AUTO_SERVER', '//'.preg_replace('/\w+:\/\//', '', $store_url));
-            define('HTTPS_SERVER', 'https:'.AUTO_SERVER);
-            define('HTTPS_EXT', HTTPS_SERVER.'extensions/');
+            define('AUTO_SERVER', '//' . preg_replace('/\w+:\/\//', '', $store_url));
+            define('HTTPS_SERVER', 'https:' . AUTO_SERVER);
+            define('HTTPS_EXT', HTTPS_SERVER . 'extensions/');
         } else {
-            define('AUTO_SERVER', '//'.preg_replace('/\w+:\/\//', '', $store_url));
+            define('AUTO_SERVER', '//' . preg_replace('/\w+:\/\//', '', $store_url));
             define('HTTPS_SERVER', HTTP_SERVER);
             define('HTTPS_EXT', HTTP_EXT);
         }
         //we use Protocol-relative URLs here
-        define('HTTPS_DIR_RESOURCE', AUTO_SERVER.'resources/');
-        define('HTTPS_IMAGE', AUTO_SERVER.'image/');
+        define('HTTPS_DIR_RESOURCE', AUTO_SERVER . 'resources/');
+        define('HTTPS_IMAGE', AUTO_SERVER . 'image/');
 
         //set internal sign of shared ssl domains
         if (preg_replace('/\w+:\/\//', '', HTTPS_SERVER) != preg_replace('/\w+:\/\//', '', HTTP_SERVER)) {
@@ -462,23 +462,23 @@ try {
         }
     }
 
-    $registry->get('response')->addHeader('Access-Control-Allow-Origin: '.$_SERVER['REQUEST_SCHEME'].'://'.REAL_HOST);
+    $registry->get('response')->addHeader('Access-Control-Allow-Origin: ' . $_SERVER['REQUEST_SCHEME'] . '://' . REAL_HOST);
 //Messages
     $registry->set('messages', new AMessage());
 
 // Log
-    $registry->set('log', new ALog(DIR_LOGS.$config->get('config_error_filename')));
+    $registry->set('log', new ALog(DIR_LOGS . $config->get('config_error_filename')));
 
 // Document
     $registry->set('document', new ADocument());
 
 // AbanteCart Snapshot details
-    $registry->set('snapshot', 'AbanteCart/'.VERSION.' '.$_SERVER['SERVER_SOFTWARE'].' ('.$_SERVER['SERVER_NAME'].')');
+    $registry->set('snapshot', 'AbanteCart/' . VERSION . ' ' . $_SERVER['SERVER_SOFTWARE'] . ' (' . $_SERVER['SERVER_NAME'] . ')');
 //Non-apache fix for REQUEST_URI
     if (!isset($_SERVER['REQUEST_URI'])) {
         $_SERVER['REQUEST_URI'] = substr($_SERVER['PHP_SELF'], 1);
         if (isset($_SERVER['QUERY_STRING'])) {
-            $_SERVER['REQUEST_URI'] .= '?'.$_SERVER['QUERY_STRING'];
+            $_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
         }
     }
     $registry->set('uri', $_SERVER['REQUEST_URI']);
@@ -506,8 +506,8 @@ try {
     $template = 'default';
     if (IS_ADMIN !== true && !empty($request->get['sf'])) {
         $template = preformatTextID($request->get['sf']);
-        $dir = $template.DIR_EXT_STORE.DIR_EXT_TEMPLATE.$template;
-        if (in_array($template, $enabled_extensions) && is_dir(DIR_EXT.$dir)) {
+        $dir = $template . DIR_EXT_STORE . DIR_EXT_TEMPLATE . $template;
+        if (in_array($template, $enabled_extensions) && is_dir(DIR_EXT . $dir)) {
             $is_valid = true;
         } else {
             $is_valid = false;
@@ -518,25 +518,25 @@ try {
         //check template defined in settings
         if (IS_ADMIN === true) {
             $template = $config->get('admin_template');
-            $dir = $template.DIR_EXT_ADMIN.DIR_EXT_TEMPLATE.$template;
+            $dir = $template . DIR_EXT_ADMIN . DIR_EXT_TEMPLATE . $template;
         } else {
             $template = $config->get('config_storefront_template');
-            $dir = $template.DIR_EXT_STORE.DIR_EXT_TEMPLATE.$template;
+            $dir = $template . DIR_EXT_STORE . DIR_EXT_TEMPLATE . $template;
         }
 
-        if (in_array($template, $enabled_extensions) && is_dir(DIR_EXT.$dir)) {
+        if (in_array($template, $enabled_extensions) && is_dir(DIR_EXT . $dir)) {
             $is_valid = true;
         } else {
             $is_valid = false;
         }
         //check if this is default template
-        if (!$is_valid && is_dir(DIR_TEMPLATE.$template)) {
+        if (!$is_valid && is_dir(DIR_TEMPLATE . $template)) {
             $is_valid = true;
         }
     }
 
     if (!$is_valid) {
-        $error = new AError ('Template '.$template.' is not found - roll back to default');
+        $error = new AError ('Template ' . $template . ' is not found - roll back to default');
         $error->toLog()->toDebug();
         $template = 'default';
     }

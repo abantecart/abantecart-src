@@ -468,7 +468,7 @@ class AHtml extends AController
         $result = $db->query($sql);
         $kList = array_merge(
             array_column($result->rows, 'keyword'),
-            array_map('basename', glob(DIR_ROOT . '/*', GLOB_ONLYDIR))
+            array_map('basename', glob(DIR_ROOT . DS . '*', GLOB_ONLYDIR))
         );
         if (in_array($seo_key, $kList)) {
             $url = HTTP_CATALOG . $seo_key;
@@ -1879,7 +1879,7 @@ class CheckboxHtmlElement extends HtmlElement
                 'value'      => $this->value,
                 'attr'       => $this->attr,
                 'required'   => $this->required,
-                'label_text' => $this->label_text?: $this->display_name,
+                'label_text' => $this->label_text ?: $this->display_name,
                 'checked'    => $checked,
                 'style'      => $this->style,
                 'text_on'    => $text_on,

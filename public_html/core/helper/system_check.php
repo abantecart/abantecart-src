@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -37,24 +37,24 @@ if (!defined('DIR_CORE')) {
 
 function run_system_check($registry, $mode = 'log')
 {
-    $mlog = $counts = [];
+    $mLog = $counts = [];
     //run anyway
-    $mlog[] = check_install_directory();
+    $mLog[] = check_install_directory();
 
     if ( //run on admin side
         (IS_ADMIN === true && (!$registry->get('config')->get('config_system_check') || $registry->get('config')->get('config_system_check') == 1))
         || //run on storefront side
         (IS_ADMIN !== true && (!$registry->get('config')->get('config_system_check') || $registry->get('config')->get('config_system_check') == 2))
     ) {
-        $mlog = array_merge($mlog, check_file_permissions($registry));
-        $mlog = array_merge($mlog, checkPhpConfiguration());
-        $mlog = array_merge($mlog, check_server_configuration($registry));
-        $mlog = array_merge($mlog, check_order_statuses($registry));
-        $mlog = array_merge($mlog, check_web_access());
+        $mLog = array_merge($mLog, check_file_permissions($registry));
+        $mLog = array_merge($mLog, checkPhpConfiguration());
+        $mLog = array_merge($mLog, check_server_configuration($registry));
+        $mLog = array_merge($mLog, check_order_statuses($registry));
+        $mLog = array_merge($mLog, check_web_access());
     }
 
     $counts['error_count'] = $counts['warning_count'] = $counts['notice_count'] = 0;
-    foreach ($mlog as $message) {
+    foreach ($mLog as $message) {
         if ($message['type'] == 'E') {
             if ($mode == 'log') {
                 //only save errors to the log
@@ -80,13 +80,13 @@ function run_system_check($registry, $mode = 'log')
         }
     }
 
-    return [$mlog, $counts];
+    return [$mLog, $counts];
 }
 
 function check_install_directory()
 {
     //check if install dir existing. warn
-    if (file_exists(DIR_ROOT.'/install')) {
+    if (file_exists(DIR_ROOT . DS . 'install')) {
         return [
             'title' => 'Security warning',
             'body'  => 'You still have install directory present in your AbanteCart main directory. It is highly recommended to delete install directory.',
@@ -106,34 +106,34 @@ function check_file_permissions($registry)
 {
     //check file permissions.
     $ret_array = [];
-    $index = DIR_ROOT.'/index.php';
+    $index = DIR_ROOT . DS . 'index.php';
     if (is_writable($index) || substr(sprintf("%o", fileperms($index)), -3) == '777') {
         $ret_array[] = [
             'title' => 'Incorrect index.php file permissions',
-            'body'  => $index.' file is writable. It is recommended to set read and execute modes for this file to keep it secured and running properly!',
+            'body'  => $index . ' file is writable. It is recommended to set read and execute modes for this file to keep it secured and running properly!',
             'type'  => 'W',
         ];
     }
 
-    if (is_writable(DIR_SYSTEM.'config.php')) {
+    if (is_writable(DIR_SYSTEM . 'config.php')) {
         $ret_array[] = [
             'title' => 'Incorrect config.php file permissions',
-            'body'  => DIR_SYSTEM.'config.php'.' file needs to be set to read and execute modes to keep it secured from editing!',
+            'body'  => DIR_SYSTEM . 'config.php' . ' file needs to be set to read and execute modes to keep it secured from editing!',
             'type'  => 'W',
         ];
     }
 
-    if (is_writable(DIR_ROOT.'/vendor')) {
+    if (is_writable(DIR_ROOT . DS . 'vendor')) {
         $ret_array[] = [
             'title' => 'Not secure vendor directory',
-            'body'  => DIR_ROOT.'/vendor'.' directory and its content needs to be set to read and execute only!',
+            'body'  => DIR_ROOT . DS . 'vendor' . ' directory and its content needs to be set to read and execute only!',
             'type'  => 'W',
         ];
     }
 
     //if cache is enabled
     if ($registry->get('config')->get('config_cache_enable') && CACHE_DRIVER == 'file') {
-        $cache_files = get_all_files_dirs(DIR_SYSTEM.'cache/');
+        $cache_files = get_all_files_dirs(DIR_SYSTEM . 'cache' . DS);
         $cache_message = '';
         foreach ($cache_files as $file) {
             if (!is_file($file)) {
@@ -144,90 +144,91 @@ function check_file_permissions($registry)
                 continue;
             }
             if (!is_writable($file)) {
-                $cache_message .= $file."<br/>";
+                $cache_message .= $file . "<br/>";
             }
         }
         if ($cache_message) {
             $ret_array[] = [
                 'title' => 'Incorrect cache files permissions',
-                'body'  => "Following files do not have write permissions. AbanteCart will not function properly. <br/>".$cache_message,
+                'body'  => "Following files do not have write permissions. AbanteCart will not function properly. <br/>" . $cache_message,
                 'type'  => 'E',
             ];
         }
     }
 
-    if (!is_writable(DIR_SYSTEM.'logs') || !is_writable(DIR_SYSTEM.'logs/error.txt')) {
+    if (!is_writable(DIR_SYSTEM . 'logs') || !is_writable(DIR_SYSTEM . 'logs' . DS . 'error.txt')) {
         $ret_array[] = [
             'title' => 'Incorrect log dir/file permissions',
-            'body'  => DIR_SYSTEM.'logs'.' directory or error.txt file needs to be set to full permissions(777)! Error logs can not be saved',
+            'body'  => DIR_SYSTEM . 'logs' . ' directory or error.txt file needs to be set to full permissions(777)! Error logs can not be saved',
             'type'  => 'W',
         ];
     }
     //check resource directories
-    $resource_files = get_all_files_dirs(DIR_ROOT.'/resources/');
+    $resource_files = get_all_files_dirs(DIR_ROOT . DS . 'resources' . DS);
     $resource_message = '';
     foreach ($resource_files as $file) {
         if (in_array(basename($file), ['.htaccess', 'index.php', 'index.html', '.', '', '..'])) {
             continue;
         }
         if (!is_writable($file)) {
-            $resource_message .= $file."<br/>";
+            $resource_message .= $file . "<br/>";
         }
     }
     if ($resource_message) {
         $ret_array[] = [
             'title' => 'Incorrect resource files permissions',
-            'body'  => "Following files(folders) do not have write permissions. AbanteCart Media Manager will not function properly. <br/>".$resource_message,
+            'body'  => "Following files(folders) do not have write permissions. AbanteCart Media Manager will not function properly. <br/>" . $resource_message,
             'type'  => 'W',
         ];
     }
 
-    $image_files = get_all_files_dirs(DIR_ROOT.'/image/thumbnails/');
+    $image_files = get_all_files_dirs(DIR_ROOT . DS . 'image' . DS . 'thumbnails' . DS);
     $image_message = '';
     foreach ($image_files as $file) {
         if (in_array(basename($file), ['index.php', 'index.html', '.', '', '..'])) {
             continue;
         }
         if (!is_writable($file)) {
-            $image_message .= $file."<br/>";
+            $image_message .= $file . "<br/>";
         }
     }
     if ($image_message) {
         $ret_array[] = [
             'title' => 'Incorrect image files permissions',
-            'body'  => "Following files do not have write permissions. AbanteCart thumbnail images will not function properly. <br/>".$image_message,
+            'body'  => "The following files do not have write permissions. AbanteCart thumbnail images will not function properly. <br/>" . $image_message,
             'type'  => 'W',
         ];
     }
 
-    if (!is_writable(DIR_ROOT.'/admin/system')) {
+    if (!is_writable(DIR_ROOT . DS . 'admin' . DS . 'system')) {
         $ret_array[] = [
             'title' => 'Incorrect directory permission',
-            'body'  => DIR_ROOT.'/admin/system'.' directory needs to be set to full permissions(777)! AbanteCart backups and upgrade will not work.',
+            'body'  => DIR_ROOT . DS . 'admin' . DS . 'system' . ' directory needs to be set to full permissions(775)! AbanteCart backups and upgrade will not work.',
             'type'  => 'W',
         ];
     }
 
-    if (is_dir(DIR_ROOT.'/admin/system/backup') && !is_writable(DIR_ROOT.'/admin/system/backup')) {
+    $bkpDir = DIR_ROOT . DS . 'admin' . DS . 'system' . DS . 'backup';
+    if (is_dir($bkpDir) && !is_writable($bkpDir)) {
         $ret_array[] = [
             'title' => 'Incorrect backup directory permission',
-            'body'  => DIR_ROOT.'/admin/system/backup'.' directory needs to be set to full permissions(777)! AbanteCart backups and upgrade will not work.',
+            'body'  => $bkpDir . ' directory needs to be set to full permissions(775)! AbanteCart backups and upgrade will not work.',
             'type'  => 'W',
         ];
     }
-
-    if (is_dir(DIR_ROOT.'/admin/system/temp') && !is_writable(DIR_ROOT.'/admin/system/temp')) {
+    $tempDir = DIR_ROOT . DS . 'admin' . DS . 'system' . DS . 'temp';
+    if (is_dir($tempDir) && !is_writable($tempDir)) {
         $ret_array[] = [
             'title' => 'Incorrect temp directory permission',
-            'body'  => DIR_ROOT.'/admin/system/temp'.' directory needs to be set to full permissions(777)!',
+            'body'  => $tempDir . ' directory needs to be set to full permissions(775)!',
             'type'  => 'W',
         ];
     }
-
-    if (is_dir(DIR_ROOT.'/admin/system/uploads') && !is_writable(DIR_ROOT.'/admin/system/uploads')) {
+    $uploadDir = DIR_ROOT . DS . 'admin' . DS . 'system' . DS . 'uploads';
+    if (is_dir($uploadDir) && !is_writable($uploadDir)) {
         $ret_array[] = [
             'title' => 'Incorrect "uploads" directory permission',
-            'body'  => DIR_ROOT.'/admin/system/uploads'.' directory needs to be set to full permissions(777)! Probably AbanteCart file uploads will not work.',
+            'body'  => $uploadDir . ' directory needs to be set to full permissions(775)! Probably AbanteCart file uploads will not work.',
             'type'  => 'W',
         ];
     }
@@ -241,26 +242,26 @@ function check_file_permissions($registry)
  *
  * @return array
  */
-function checkPhpConfiguration( $modules = [], $phpMinVersion = null)
+function checkPhpConfiguration($modules = [], $phpMinVersion = null)
 {
     $output = [];
     $phpMinVersion = $phpMinVersion ?: MIN_PHP_VERSION;
-    if (version_compare(phpversion(), $phpMinVersion, '<') == true) {
+    if (version_compare(phpversion(), $phpMinVersion, '<')) {
         $output['php_version'] = [
             'title' => 'Incompatible PHP version',
-            'body'  => 'You need to use PHP '.$phpMinVersion.' or above!',
+            'body'  => 'You need to use PHP ' . $phpMinVersion . ' or above!',
             'type'  => 'E',
         ];
     }
 
     //if needs to check specific php-extensions
-    if($modules){
-        foreach($modules as $module){
+    if ($modules) {
+        foreach ($modules as $module) {
             $module = strtolower($module);
             if (!extension_loaded($module)) {
                 $output[$module] = [
-                    'title' => ucfirst($module).' extension is missing',
-                    'body'  => ucfirst($module).' extension needs to be enabled on PHP!',
+                    'title' => ucfirst($module) . ' extension is missing',
+                    'body'  => ucfirst($module) . ' extension needs to be enabled on PHP!',
                     'type'  => 'E',
                 ];
             }
@@ -350,12 +351,12 @@ function checkPhpConfiguration( $modules = [], $phpMinVersion = null)
             break;
     }
 
-    //Recommended minimal PHP memory size is 64mb
+    //The recommended minimal PHP memory size is 64Mb
     if ($memory_limit > 0 && $memory_limit < (64 * 1024 * 1024)) {
         $output['memory_limit'] = [
             'title' => 'Memory limitation',
             'body'  => 'Low PHP memory setting. Some Abantecart features will not work with memory limit less than 64Mb! '
-                .'Check <a href="https://php.net/manual/en/ini.core.php#ini.memory-limit" target="_help_doc">PHP memory-limit setting</a>',
+                . 'Check <a href="https://php.net/manual/en/ini.core.php#ini.memory-limit" target="_help_doc">PHP memory-limit setting</a>',
             'type'  => 'W',
         ];
     }
@@ -379,19 +380,19 @@ function check_server_configuration($registry)
     if (isset($size['bytes']) && $size['bytes'] < 1024 * 10000) {
         $output[] = [
             'title' => 'Critically low disk space',
-            'body'  => 'AbanteCart is running on critically low disk space of '.$size['human'].'! Increase disk size to prevent failure.',
+            'body'  => 'AbanteCart is running on critically low disk space of ' . $size['human'] . '! Increase disk size to prevent failure.',
             'type'  => 'E',
         ];
     }
 
     //if SEO is enabled
     if ($registry->get('config')->get('enable_seo_url') && IS_ADMIN) {
-        $curl_handle=curl_init();
+        $curl_handle = curl_init();
 
         $storeUrl = $registry->get('config')->get('config_url');
 
         $options = [
-            CURLOPT_URL            => $storeUrl.(substr($storeUrl, -1) !== '/' ? '/' : '' ).'check_seo_url',
+            CURLOPT_URL            => $storeUrl . (substr($storeUrl, -1) !== '/' ? '/' : '') . 'check_seo_url',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HEADER         => true,
             CURLOPT_FOLLOWLOCATION => true,
@@ -401,7 +402,7 @@ function check_server_configuration($registry)
             CURLOPT_TIMEOUT        => 120,
             CURLOPT_MAXREDIRS      => 10,
         ];
-        curl_setopt_array( $curl_handle, $options );
+        curl_setopt_array($curl_handle, $options);
         curl_exec($curl_handle);
         $httpCode = curl_getinfo($curl_handle, CURLINFO_HTTP_CODE);
         curl_close($curl_handle);
@@ -445,7 +446,7 @@ function get_all_files_dirs($start_dir)
  */
 function disk_size($path)
 {
-    //check if this is supported by server
+    //check if this supported by server
     if (function_exists('disk_free_space')) {
         try {
             $bytes = disk_free_space($path);
@@ -454,7 +455,7 @@ function disk_size($path)
             $class = min((int)log($bytes, $base), count($si_prefix) - 1);
             return [
                 'bytes' => $bytes,
-                'human' => sprintf('%1.2f', $bytes / pow($base, $class)).' '.$si_prefix[$class],
+                'human' => sprintf('%1.2f', $bytes / pow($base, $class)) . ' ' . $si_prefix[$class],
             ];
         } catch (Exception $e) {
             return [];
@@ -480,10 +481,10 @@ function check_order_statuses($registry)
 
     $query = $db->query(
         "SELECT osi.order_status_id, osi.status_text_id
-        FROM ".$db->table('order_statuses')." os
-        INNER JOIN ".$db->table('order_status_ids')." osi
+        FROM " . $db->table('order_statuses') . " os
+        INNER JOIN " . $db->table('order_status_ids') . " osi
             ON osi.order_status_id = os.order_status_id
-        WHERE os.language_id = '".$language_id."'"
+        WHERE os.language_id = '" . $language_id . "'"
     );
     $db_statuses = [];
     foreach ($query->rows as $row) {
@@ -494,10 +495,10 @@ function check_order_statuses($registry)
     foreach ($order_statuses as $id => $text_id) {
         if ($text_id != $db_statuses[$id]) {
             $ret_array[] = [
-                'title' => 'Incorrect order status with id '.$id,
-                'body'  => 'Incorrect status text id for order status #'.$id.'. Value must be "'.$text_id
-                    .'" ('.$db_statuses[$id].'). Please check data of tables '
-                    .$db->table('order_status_ids').' and '.$db->table('order_statuses'),
+                'title' => 'Incorrect order status with id ' . $id,
+                'body'  => 'Incorrect status text id for order status #' . $id . '. Value must be "' . $text_id
+                    . '" (' . $db_statuses[$id] . '). Please check data of tables '
+                    . $db->table('order_status_ids') . ' and ' . $db->table('order_statuses'),
                 'type'  => 'W',
             ];
         }
@@ -523,7 +524,7 @@ function check_web_access()
     $ret_array = [];
 
     foreach ($areas as $subfolder => $rules) {
-        $dirname = DIR_ROOT.'/'.$subfolder;
+        $dirname = DIR_ROOT . DS . $subfolder;
         if (!is_dir($dirname)) {
             continue;
         }
@@ -532,18 +533,18 @@ function check_web_access()
             $message = '';
             switch ($rule) {
                 case '.htaccess':
-                    if (!is_file($dirname.'/.htaccess')) {
-                        $message = 'Restricted directory '.$dirname.' have public access. It is highly recommended to create .htaccess file and forbid access. ';
+                    if (!is_file($dirname . DS . '.htaccess')) {
+                        $message = 'Restricted directory ' . $dirname . ' have public access. It is highly recommended to create .htaccess file and forbid access. ';
                     }
                     break;
                 case 'index.php':
-                    if (!is_file($dirname.'/index.php')) {
-                        $message = 'Restricted directory '.$dirname.' does not contain index.php file. It is highly recommended to create it.';
+                    if (!is_file($dirname . DS . 'index.php')) {
+                        $message = 'Restricted directory ' . $dirname . ' does not contain index.php file. It is highly recommended to create it.';
                     }
                     break;
                 case 'index.html':
-                    if (!is_file($dirname.'/index.html')) {
-                        $message = 'Restricted directory '.$dirname.' does not contain empty index.html file. It is highly recommended to create it.';
+                    if (!is_file($dirname . DS . 'index.html')) {
+                        $message = 'Restricted directory ' . $dirname . ' does not contain empty index.html file. It is highly recommended to create it.';
                     }
 
                     break;
@@ -552,7 +553,7 @@ function check_web_access()
             }
             if ($message) {
                 $ret_array[] = [
-                    'title' => 'Security warning ('.$subfolder.', '.$rule.')',
+                    'title' => 'Security warning (' . $subfolder . ', ' . $rule . ')',
                     'body'  => $message,
                     'type'  => 'W',
                 ];
@@ -598,18 +599,18 @@ function run_critical_system_check($registry, $mode = 'log')
 function check_session_save_path()
 {
     $save_path = ini_get('session.save_path');
-    //check for non-empty path (it can be on some fast-cgi php)
+    //check for a non-empty path (it can be on some fast-cgi php)
     if ($save_path) {
         $parts = explode(';', $save_path);
         $path = array_pop($parts);
         if (!is_writable($path)) {
             Registry::getInstance()?->get('log')?->write(
-                __FUNCTION__ .': Session save path "'.$path.' (session.save_path='.$save_path.')" is not writable! '
+                __FUNCTION__ . ': Session save path "' . $path . ' (session.save_path=' . $save_path . ')" is not writable! '
             );
             return [
-                'title' => 'Session save path "'.$save_path.'" is not writable! ',
+                'title' => 'Session save path "' . $save_path . '" is not writable! ',
                 'body'  => 'Your server is unable to create a session necessary for AbanteCart functionality. '
-                    .'Check logs for exact error details and contact your hosting support administrator to resolve this error.',
+                    . 'Check logs for exact error details and contact your hosting support administrator to resolve this error.',
             ];
         }
     }
@@ -624,57 +625,56 @@ function check_session_save_path()
  *
  * @throws AException
  */
-function findExtensionsLayouts($excludeExtension = ''){
+function findExtensionsLayouts($excludeExtension = '')
+{
 
     $output = [];
     $registry = Registry::getInstance();
     $config = $registry->get('config');
     $exts = $registry->get('extensions');
     $allExtensions = $exts->getExtensionInfo();
-    if($excludeExtension) {
+    if ($excludeExtension) {
         $lm = new ALayoutManager($config->get('config_storefront_template'));
         $currentTemplatePages = $lm->getAllPages();
-        $currentTemplatePages = array_column($currentTemplatePages,'layout_name');
+        $currentTemplatePages = array_column($currentTemplatePages, 'layout_name');
     }
-    foreach($allExtensions as $ext){
-        if(
+    foreach ($allExtensions as $ext) {
+        if (
             $excludeExtension == $ext['key']
             //or not installed
-            || !$config->has($ext['key'].'_status')
-            // or extension is template
+            || !$config->has($ext['key'] . '_status')
+            // or extension is a template
             || $ext['category'] == 'template'
-            || !is_dir(DIR_EXT.$ext['key'])
-        ){
+            || !is_dir(DIR_EXT . $ext['key'])
+        ) {
             continue;
         }
 
-        $xmlLayouts = glob(DIR_EXT.$ext['key'].'/*{layout}*.xml',GLOB_BRACE);
-        if(!$xmlLayouts){
+        $xmlLayouts = glob(DIR_EXT . $ext['key'] . DS.'*{layout}*.xml', GLOB_BRACE);
+        if (!$xmlLayouts) {
             continue;
         }
-        if($excludeExtension){
+        if ($excludeExtension) {
             $absent = false;
-            foreach($xmlLayouts as $xmlFile) {
-
+            foreach ($xmlLayouts as $xmlFile) {
                 $extensionLayout = @simplexml_load_file($xmlFile);
-                if(!$extensionLayout){
+                if (!$extensionLayout) {
                     continue;
                 }
-                foreach($extensionLayout->layout as $l ){
-                        if(!in_array((string)$l->name,$currentTemplatePages)){
-                            $abs[] = (string)$l->name;
-                            $absent = true;
-                            break;
-                        }
+                foreach ($extensionLayout->layout as $l) {
+                    if (!in_array((string)$l->name, $currentTemplatePages)) {
+                        $absent = true;
+                        break;
+                    }
                 }
             }
-            //skip extension if it's layout already in the current template's layout list
-            if(!$absent){
+            //skip extension if it's a layout already in the current template's layout list
+            if (!$absent) {
                 continue;
             }
         }
 
-        $output[$ext['key']] = array_map('basename',$xmlLayouts);
+        $output[$ext['key']] = array_map('basename', $xmlLayouts);
     }
     return $output;
 }

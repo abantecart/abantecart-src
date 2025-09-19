@@ -117,20 +117,17 @@
 	</div>
 	</form>
 </div>
-
-
 <script type="text/javascript">
 	$(document).ready(function(){
-		task_fail_text = '<div class="alert alert-warning" role="alert"><?php echo $text_fail_note; ?></div>';
+		task_fail_text = <?php js_echo('<div class="alert alert-warning" role="alert">'.$text_fail_note.'</div>');?>
 	});
 
-	function selectAll() {
-		$('input[name*=\'table_list\[\]\']').attr('checked', 'checked');
-		$('#tables').find('.afield').addClass('checked');
-	}
-	function unselectAll() {
-		$('input[name*=\'table_list\[\]\']').removeAttr('checked');
-		$('#tables').find('.afield').removeClass('checked');
-	}
-
+    function selectAll() {
+        $('input[name*=\'table_list\[\]\']').attr('checked', 'checked').change();
+        $('#tables').find('.afield').addClass('checked');
+    }
+    function unselectAll() {
+        $('input[name*=\'table_list\[\]\']').removeAttr('checked');
+        $('#tables').find('.afield').removeClass('checked');
+    }
 </script>

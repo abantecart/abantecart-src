@@ -8,7 +8,7 @@
 foreach ($listItems as $si => $subitem) {
                 $schActive = $subitem['current'] ? 'active' : '';
                 $resource = $subitem['resources'][0];
-                if ($resource['resource_path'] && is_file(DIR_RESOURCE.'image/'.$resource['resource_path'])) {
+                if ($resource['resource_path'] && is_file(DIR_RESOURCE.'image'.DS.str_replace('/',DS,$resource['resource_path']))) {
                     $img = '<img class="image-fluid " src="resources/image/'.$resource['resource_path'].'" />';
                 } elseif ($resource['resource_code']) {
                     $img = $resource['resource_code'];

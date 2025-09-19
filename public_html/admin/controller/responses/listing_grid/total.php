@@ -32,7 +32,7 @@ class ControllerResponsesListingGridTotal extends AController
         $this->loadLanguage('extension/total');
 
         $page = $this->request->post['page']; // get the requested page
-        if ((int) $page < 0) {
+        if ((int)$page < 0) {
             $page = 0;
         }
         $limit = $this->request->post['rows']; // get how many rows we want to have into the grid
@@ -46,8 +46,8 @@ class ControllerResponsesListingGridTotal extends AController
             foreach ($ext->rows as $row) {
                 $language_rt = $config_controller = '';
                 // for total-extensions inside engine
-                if (is_file(DIR_APP_SECTION.'controller/pages/total/'.$row['key'].'.php')) {
-                    $config_controller = $language_rt = 'total/'.$row['key'];
+                if (is_file(DIR_APP_SECTION . 'controller' . DS . 'pages' . DS . 'total' . DS . $row['key'] . '.php')) {
+                    $config_controller = $language_rt = 'total/' . $row['key'];
                 } else {
                     // looking for config controller into parent extension.
                     //That Controller must to have filename equal child extension text id
@@ -57,9 +57,16 @@ class ControllerResponsesListingGridTotal extends AController
                             if (!$parent['status']) {
                                 continue;
                             }
-                            if (is_file(DIR_EXT.$parent['key'].'/admin/controller/pages/total/'.$row['key'].'.php')) {
-                                $config_controller = 'total/'.$row['key'];
-                                $language_rt = $parent['key'].'/'.$parent['key'];
+                            if (is_file(
+                                DIR_EXT . $parent['key'] . DS
+                                . 'admin' . DS
+                                . 'controller' . DS
+                                . 'pages' . DS
+                                . 'total' . DS
+                                . $row['key'] . '.php')
+                            ) {
+                                $config_controller = 'total/' . $row['key'];
+                                $language_rt = $parent['key'] . '/' . $parent['key'];
                                 break;
                             }
                         }
@@ -76,15 +83,15 @@ class ControllerResponsesListingGridTotal extends AController
         }
 
         //looking for uninstalled engine's total-extensions
-        $files = glob(DIR_APP_SECTION.'controller/pages/total/*.php');
+        $files = glob(DIR_APP_SECTION . 'controller' . DS . 'pages' . DS . 'total' . DS . '*.php');
         if ($files) {
             foreach ($files as $file) {
                 $id = basename($file, '.php');
                 if (!array_key_exists($id, $extensions)) {
                     $extensions[$id] = [
                         'extension_txt_id'  => $id,
-                        'config_controller' => 'total/'.$id,
-                        'language_rt'       => 'total/'.$id,
+                        'config_controller' => 'total/' . $id,
+                        'language_rt'       => 'total/' . $id,
                     ];
                 }
             }
@@ -94,33 +101,33 @@ class ControllerResponsesListingGridTotal extends AController
         if ($extensions) {
             $readOnly = [
                 'balance' => 999,
-                'total' => 1000
+                'total'   => 1000
             ];
             foreach ($extensions as $extension) {
                 $this->loadLanguage($extension['language_rt']);
-                if( in_array($extension['extension_txt_id'], array_keys($readOnly))){
+                if (in_array($extension['extension_txt_id'], array_keys($readOnly))) {
                     $sort_order = $calc_order = $readOnly[$extension['extension_txt_id']];
                     $readonly = true;
-                    if((int) $this->config->get($extension['extension_txt_id'].'_sort_order') != $sort_order){
+                    if ((int)$this->config->get($extension['extension_txt_id'] . '_sort_order') != $sort_order) {
                         $this->loadModel('setting/setting');
                         $this->model_setting_setting->editSetting(
                             $extension['extension_txt_id'],
                             [
-                                $extension['extension_txt_id'].'_sort_order' => $sort_order,
-                                $extension['extension_txt_id'].'_calculation_order' => $sort_order
+                                $extension['extension_txt_id'] . '_sort_order'        => $sort_order,
+                                $extension['extension_txt_id'] . '_calculation_order' => $sort_order
                             ]
                         );
                     }
                 } else {
-                    $sort_order = (int) $this->config->get($extension['extension_txt_id'].'_sort_order');
-                    $calc_order = (int) $this->config->get($extension['extension_txt_id'].'_calculation_order');
+                    $sort_order = (int)$this->config->get($extension['extension_txt_id'] . '_sort_order');
+                    $calc_order = (int)$this->config->get($extension['extension_txt_id'] . '_calculation_order');
                     $readonly = false;
                 }
 
                 $items[] = [
                     'id'                => $extension['extension_txt_id'],
                     'name'              => $this->language->get('total_name'),
-                    'status'            => $this->config->get($extension['extension_txt_id'].'_status'),
+                    'status'            => $this->config->get($extension['extension_txt_id'] . '_status'),
                     'sort_order'        => $sort_order,
                     'calculation_order' => $calc_order,
                     'action'            => $this->html->getSecureURL($extension['config_controller']),
@@ -138,7 +145,7 @@ class ControllerResponsesListingGridTotal extends AController
         ];
 
         $allowedDirection = [
-            SORT_ASC => 'asc',
+            SORT_ASC  => 'asc',
             SORT_DESC => 'desc'
         ];
 
@@ -180,12 +187,12 @@ class ControllerResponsesListingGridTotal extends AController
         foreach ($results as $result) {
             $id = $result['id'];
             $response->userdata->rt[$id] = $result['action'];
-            if(in_array($id,['sub_total', 'total'])){
+            if (in_array($id, ['sub_total', 'total'])) {
                 $status = '';
-            }else {
+            } else {
                 $status = $this->html->buildCheckbox(
                     [
-                        'name' => $id.'['.$id.'_status]',
+                        'name'  => $id . '[' . $id . '_status]',
                         'value' => $result['status'],
                         'style' => 'btn_switch',
                     ]
@@ -193,7 +200,7 @@ class ControllerResponsesListingGridTotal extends AController
             }
             $sort = $this->html->buildInput(
                 [
-                    'name'  => $id.'['.$id.'_sort_order]',
+                    'name'  => $id . '[' . $id . '_sort_order]',
                     'value' => $result['sort_order'],
                     'attr'  => $result['readonly'] ? 'readonly' : '',
                 ]
@@ -201,7 +208,7 @@ class ControllerResponsesListingGridTotal extends AController
 
             $calc = $this->html->buildInput(
                 [
-                    'name'  => $id.'['.$id.'_calculation_order]',
+                    'name'  => $id . '[' . $id . '_calculation_order]',
                     'value' => $result['calculation_order'],
                     'attr'  => $result['readonly'] ? 'readonly' : '',
                 ]
@@ -255,12 +262,12 @@ class ControllerResponsesListingGridTotal extends AController
             return;
         }
         foreach ($ids as $id) {
-            if (!$this->user->canModify('total/'.$id)) {
+            if (!$this->user->canModify('total/' . $id)) {
                 $error = new AError('');
                 $error->toJSONResponse(
                     'NO_PERMISSIONS_402',
                     [
-                        'error_text'  => sprintf($this->language->get('error_permission_modify'), 'total/'.$id),
+                        'error_text'  => sprintf($this->language->get('error_permission_modify'), 'total/' . $id),
                         'reset_value' => true,
                     ]
                 );

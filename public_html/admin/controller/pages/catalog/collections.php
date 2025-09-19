@@ -84,7 +84,6 @@ class ControllerPagesCatalogCollections extends AController
 
         $grid = $this->dispatch('common/listing_grid', [$grid_settings]);
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
-
         $this->view->assign('insert', $this->html->getSecureURL('catalog/collections/insert'));
         $this->view->assign('help_url', $this->gen_help_url('data_collections'));
 
@@ -647,7 +646,7 @@ class ControllerPagesCatalogCollections extends AController
 
         // get templates
         $this->data['templates'] = [];
-        $directories = glob(DIR_STOREFRONT . 'view/*', GLOB_ONLYDIR);
+        $directories = glob(DIR_STOREFRONT . 'view'.DS.'*', GLOB_ONLYDIR);
         foreach ($directories as $directory) {
             $this->data['templates'][] = basename($directory);
         }
@@ -749,6 +748,7 @@ class ControllerPagesCatalogCollections extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $post = $this->request->post;
+        $post['tmpl_id'] = preformatTextID($post['tmpl_id']);
         $pageData = [
             'controller' => 'pages/product/collection',
             'key_param'  => 'collection_id',

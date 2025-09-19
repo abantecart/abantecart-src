@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -44,7 +44,7 @@ class ControllerPagesExtensionExtensionSummary extends AController
 
         $iconFileName = 'icon.png';
         $icon_ext_img_url = HTTPS_EXT . $extension . '/image/';
-        $icon_ext_dir = DIR_EXT . $extension . '/image/';
+        $icon_ext_dir = DIR_EXT . $extension . DS. 'image'.DS;
         //if icon.png not found - looking for other "icon" images
         if (!is_file($icon_ext_dir . $iconFileName)) {
             $files = glob($icon_ext_dir . 'icon.{png,webp,jpg,jpeg,avif}', GLOB_BRACE);
@@ -121,7 +121,7 @@ class ControllerPagesExtensionExtensionSummary extends AController
         }
 
         if ($expires) {
-            //do not allow to expire date as Integer be a zero
+            //do not allow expiring date as Integer be a zero
             $expiresInt = $expires == '1970-01-01 00:00:00' ? 1 : dateISO2Int($expires);
             $this->data['extension_info']['support_expiration_int'] = $expiresInt;
             $this->data['extension_info']['support_expiration'] =

@@ -22,12 +22,12 @@ create table `ac_field_groups`
     `group_txt_id` varchar(40) null
 )
     collate = utf8mb4_unicode_ci;
-
-create index `field_id`
-    on `ac_field_groups` (`group_id`);
-
 alter table `ac_field_groups`
     modify `group_id` int auto_increment;
+
+alter table `ac_field_groups`
+    add constraint `ac_field_groups_pk`
+        primary key (`group_id`);
 
 create table ac_field_group_descriptions
 (

@@ -1,4 +1,4 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
 /*
  *   $Id$
  *
@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 /**
@@ -1152,7 +1152,7 @@ class ModelToolImportProcess extends Model
             //check if image is absolute path or remote URL
             $host = parse_url($srcUrl, PHP_URL_HOST);
             $imageBasename = basename(parse_url($srcUrl, PHP_URL_PATH));
-            $dstFileName = DIR_RESOURCE . $rm->getTypeDir() . $imageBasename;
+            $dstFileName = DIR_RESOURCE . $rm->getTypeDir() . str_replace('/', DS, $imageBasename);
             if (!is_dir(DIR_RESOURCE . $rm->getTypeDir())) {
                 @mkdir(DIR_RESOURCE . $rm->getTypeDir(), 0777);
             }
@@ -1502,7 +1502,7 @@ class ModelToolImportProcess extends Model
             $arr = [];
             $field_val = $record[$import_col[$index]] ?? null;
             //if no data present - skip
-            if(!isset($field_val)){
+            if (!isset($field_val)) {
                 continue;
             }
 

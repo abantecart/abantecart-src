@@ -154,9 +154,9 @@ class ControllerPagesContentContact extends AController
                 $mail->setReplyTo($post['email']);
                 $mail->setSender($post['first_name']);
                 $mail->setTemplate('storefront_contact_us_mail', $this->data['mail_template_data']);
-                if (is_file(DIR_RESOURCE . $mailLogo)) {
+                if (is_file(DIR_RESOURCE . str_replace('/', DS, $mailLogo))) {
                     $attachment = [
-                        'file' => DIR_RESOURCE . $mailLogo,
+                        'file' => DIR_RESOURCE . str_replace('/', DS, $mailLogo),
                         'name' => md5(pathinfo($mailLogo, PATHINFO_FILENAME))
                             . '.'
                             . pathinfo($mailLogo, PATHINFO_EXTENSION),
@@ -172,10 +172,9 @@ class ControllerPagesContentContact extends AController
             $this->loadLanguage('common/im');
             $messageArr = [
                 1 => [
-                    'message' => sprintf(
-                        $this->language->get('im_customer_contact_admin_text'),
-                        $post['email'],
-                        $post['first_name']
+                    'message' => $this->language->getAndReplace(
+                        'im_customer_contact_admin_text',
+                        replaces: [$post['email'], $post['first_name']]
                     ),
                 ],
             ];

@@ -672,9 +672,9 @@ class AForm
                 $resource = new AResource('image');
                 $iconData = $resource->getResource($field['resource_id']);
                 $img_sub_path = $iconData['type_name'] . '/' . $iconData['resource_path'];
-                if (is_file(DIR_RESOURCE . $img_sub_path)) {
-                    $logo_path = DIR_RESOURCE . $img_sub_path;
-                    $info = get_image_size($logo_path);
+                $logoFileName = DIR_RESOURCE . str_replace('/',DS,$img_sub_path);
+                if (is_file($logoFileName)) {
+                    $info = get_image_size($logoFileName);
                     $data['icon'] = HtmlElementFactory::create(
                         [
                             'type'   => 'resourceImage',

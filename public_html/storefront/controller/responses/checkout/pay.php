@@ -1156,7 +1156,9 @@ class ControllerResponsesCheckoutPay extends AController
                 $rl = new AResource('download');
                 $resource = $rl->getResource($downloadInfo['filename']);
                 if ($resource && $resource['resource_path']) {
-                    $size = filesize(DIR_RESOURCE . $rl->getTypeDir() . str_replace('/', DS, $resource['resource_path']));
+                    $size = filesize(
+                        DIR_RESOURCE . $rl->getTypeDir() . str_replace('/', DS, $resource['resource_path'])
+                    );
                 }
             } else {
                 $size = filesize(DIR_RESOURCE . str_replace('/', DS, $downloadInfo['filename']));
@@ -1473,7 +1475,7 @@ class ControllerResponsesCheckoutPay extends AController
         $addressForm->loadFromDb(static::$formTxtId);
 
         $formElements = $addressForm->getFormElements(static::$formTxtId);
-        foreach ($formElements as $elements) {
+        foreach ($formElements as $group => $elements) {
             foreach ($elements as $name => $element) {
                 //error messages
                 $this->data['errors'][$name] = $this->error[$name];

@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -24,8 +24,8 @@ if (!defined('DIR_CORE')) {
 /**
  * Class ALoader
  *
- * @property AConfig       $config
- * @property ALanguage     $language
+ * @property AConfig $config
+ * @property ALanguage $language
  * @property ExtensionsAPI $extensions
  */
 final class ALoader
@@ -60,19 +60,19 @@ final class ALoader
      */
     public function library($library)
     {
-        $file = DIR_CORE.'lib/'.$library.'.php';
+        $file = DIR_CORE . 'lib' . DS . $library . '.php';
 
         if (file_exists($file)) {
             /** @noinspection PhpIncludeInspection */
             include_once($file);
         } else {
-            throw new AException(AC_ERR_LOAD, 'Error: Could not load library '.$library.'!');
+            throw new AException(AC_ERR_LOAD, 'Error: Could not load library ' . $library . '!');
         }
     }
 
     /**
      * @param string $model - rt to model class
-     * @param string $mode  - can be 'storefront','force'
+     * @param string $mode - can be 'storefront','force'
      *
      * @return bool | object
      * @throws AException
@@ -80,7 +80,7 @@ final class ALoader
     public function model($model, $mode = '')
     {
 
-        //force mode allows to load models for ALL extensions to bypass extension enabled only status
+        //force mode allows loading models for ALL extensions to bypass extension enabled only status
         //This might be helpful in storefront. In admin all installed extensions are available
         $force = '';
         if ($mode == 'force') {
@@ -88,16 +88,16 @@ final class ALoader
         }
 
         //mode to force load storefront model
-        $section = defined('INSTALL') && $model!='install'
-            ? dirname(DIR_ROOT).DS.'admin'.DS
+        $section = defined('INSTALL') && $model != 'install'
+            ? dirname(DIR_ROOT) . DS . 'admin' . DS
             : DIR_APP_SECTION;
         if ($mode == 'storefront') {
             $section = defined('INSTALL')
-                ? dirname(DIR_ROOT).DS.'storefront'.DS
-                : DIR_ROOT.DS.'storefront'.DS;
+                ? dirname(DIR_ROOT) . DS . 'storefront' . DS
+                : DIR_ROOT . DS . 'storefront' . DS;
         }
 
-        $file = $section.'model'.DS.$model.'.php';
+        $file = $section . 'model' . DS . $model . '.php';
         if ($this->registry->has('extensions') && $result = $this->extensions->isExtensionResource('M', $model, $force, $mode)) {
             if (is_file($file)) {
                 $warning = new AWarning("Extension <b>{$result['extension']}</b> override model <b>$model</b>");
@@ -106,8 +106,8 @@ final class ALoader
             $file = $result['file'];
         }
 
-        $class = 'Model'.preg_replace('/[^a-zA-Z0-9]/', '', $model);
-        $obj_name = 'model_'.str_replace('/', '_', $model);
+        $class = 'Model' . preg_replace('/[^a-zA-Z0-9]/', '', $model);
+        $obj_name = 'model_' . str_replace('/', '_', $model);
 
         //if model is loaded return it back
         if (is_object($this->registry->get($obj_name))) {
@@ -120,10 +120,10 @@ final class ALoader
             } else if ($mode != 'silent') {
                 $backtrace = debug_backtrace();
                 $trace = '';
-                foreach ($backtrace as $k=>$dbg){
-                    $trace .= '#'.$k.' '.$dbg['file'].":".$dbg['line']."\n";
+                foreach ($backtrace as $k => $dbg) {
+                    $trace .= '#' . $k . ' ' . $dbg['file'] . ":" . $dbg['line'] . "\n";
                 }
-                throw new AException(AC_ERR_LOAD, 'Error: Could not load model '.$model."\nTrace: \n".$trace);
+                throw new AException(AC_ERR_LOAD, 'Error: Could not load model ' . $model . "\nTrace: \n" . $trace);
             } else {
                 return false;
             }
@@ -137,12 +137,12 @@ final class ALoader
      */
     public function helper($helper)
     {
-        $file = DIR_CORE.'helper/'.$helper.'.php';
+        $file = DIR_CORE . 'helper' . DS . $helper . '.php';
 
         if (file_exists($file)) {
             include_once($file);
         } else {
-            throw new AException(AC_ERR_LOAD, 'Error: Could not load helper '.$helper.'!');
+            throw new AException(AC_ERR_LOAD, 'Error: Could not load helper ' . $helper . '!');
         }
     }
 

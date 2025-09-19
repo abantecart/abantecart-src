@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -51,7 +51,7 @@ class AFile
     }
 
     /**
-     * @param  $key - key to load data from registry
+     * @param  $key - key to load data from a registry
      *
      * @return object|null  - data from registry
      */
@@ -61,8 +61,8 @@ class AFile
     }
 
     /**
-     * @param string $key - key to save data in registry
-     * @param mixed $value - key to save data in registry
+     * @param string $key - key to save data in a registry
+     * @param mixed $value - key to save data in a registry
      *
      */
     public function __set($key, $value)
@@ -91,10 +91,7 @@ class AFile
             $allowed_extensions = array_map('strtolower', $allowed_extensions);
             $extension = strtolower(pathinfo($data['name'], PATHINFO_EXTENSION));
             if (!in_array($extension, $allowed_extensions)) {
-                $errors[] = sprintf(
-                        $this->language->get('error_file_extension'),
-                        $settings['extensions']
-                    )
+                $errors[] = $this->language->getAndReplace('error_file_extension', replaces: $settings['extensions'])
                     . ' (' . $data['name'] . ')';
             }
         }
@@ -102,7 +99,8 @@ class AFile
         if ((int)$settings['min_size'] > 0) {
             $min_size_kb = $settings['min_size'];
             if ((int)$data['size'] / 1024 < $min_size_kb) {
-                $errors[] = sprintf($this->language->get('error_min_file_size'), $min_size_kb) . ' (' . $data['name'] . ')';
+                $errors[] = $this->language->getAndReplace('error_min_file_size', replaces: $min_size_kb)
+                    . ' (' . $data['name'] . ')';
             }
         }
 
@@ -117,7 +115,8 @@ class AFile
         }
 
         if ($max_size_kb < (int)$data['size'] / 1024) {
-            $errors[] = sprintf($this->language->get('error_max_file_size'), $max_size_kb) . ' (' . $data['name'] . ')';
+            $errors[] = $this->language->getAndReplace('error_max_file_size', replaces: $max_size_kb)
+                . ' (' . $data['name'] . ')';
         }
 
         return $errors;
@@ -134,9 +133,9 @@ class AFile
         if (!$file_name) {
             return [];
         }
-        $uploadsDir = DIR_ROOT . '/admin/system/uploads';
+        $uploadsDir = DIR_ROOT . DS . 'admin' . DS . 'system' . DS . 'uploads';
         make_writable_dir($uploadsDir);
-        $file_path = $uploadsDir . '/' . $upload_sub_dir . '/';
+        $file_path = $uploadsDir . DS . $upload_sub_dir . DS;
         make_writable_dir($file_path);
 
         $ext = strrchr($file_name, '.');
@@ -177,7 +176,7 @@ class AFile
     }
 
     /**
-     * Write Downloaded file
+     * Write a Downloaded file
      *
      * @param object $download
      * @param string $target

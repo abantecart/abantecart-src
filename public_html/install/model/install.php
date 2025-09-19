@@ -209,32 +209,32 @@ class ModelInstall extends Model
             define('DB_PREFIX', $data['db_prefix']);
         }
 
-        $content = "<?php\n";
-        $content .= "/**\n";
-        $content .= "   AbanteCart, Ideal OpenSource Ecommerce Solution\n";
-        $content .= "   https://www.AbanteCart.com\n";
-        $content .= "   Copyright © 2011-" . date('Y') . " Belavier Commerce LLC\n\n";
-        $content .= "   Released under the Open Software License (OSL 3.0)\n";
-        $content .= "*/\n\n";
-        $content .= "const SERVER_NAME = '" . getenv('SERVER_NAME') . "';\n";
-        $content .= "// Admin Section Configuration. You can change this value to any name. Will use ?s=name to access the admin\n";
-        $content .= "const ADMIN_PATH = '" . $data['admin_path'] . "';\n\n";
-        $content .= "// Database Configuration\n";
-        $content .= "const DB_DRIVER = '" . $data['db_driver'] . "';\n";
-        $content .= "const DB_HOSTNAME = '" . $data['db_host'] . "';\n";
+        $content = "<?php" . PHP_EOL;
+        $content .= "/**" . PHP_EOL;
+        $content .= "   AbanteCart, Ideal OpenSource Ecommerce Solution" . PHP_EOL;
+        $content .= "   https://www.AbanteCart.com" . PHP_EOL;
+        $content .= "   Copyright © 2011-" . date('Y') . " Belavier Commerce LLC" . PHP_EOL . PHP_EOL;
+        $content .= "   Released under the Open Software License (OSL 3.0)" . PHP_EOL;
+        $content .= "*/" . PHP_EOL . PHP_EOL;
+        $content .= "const SERVER_NAME = '" . getenv('SERVER_NAME') . "';" . PHP_EOL;
+        $content .= "// Admin Section Configuration. You can change this value to any name. Will use ?s=name to access the admin" . PHP_EOL;
+        $content .= "const ADMIN_PATH = '" . $data['admin_path'] . "';" . PHP_EOL . PHP_EOL;
+        $content .= "// Database Configuration" . PHP_EOL;
+        $content .= "const DB_DRIVER = '" . $data['db_driver'] . "';" . PHP_EOL;
+        $content .= "const DB_HOSTNAME = '" . $data['db_host'] . "';" . PHP_EOL;
         if ($data['db_port']) {
-            $content .= "const DB_PORT = " . (int)$data['db_port'] . ";\n";
+            $content .= "const DB_PORT = " . (int)$data['db_port'] . ";" . PHP_EOL;
         }
-        $content .= "const DB_USERNAME = '" . $data['db_user'] . "';\n";
-        $content .= "const DB_PASSWORD = '" . $data['db_password'] . "';\n";
-        $content .= "const DB_DATABASE = '" . $data['db_name'] . "';\n";
-        $content .= "const DB_PREFIX = '" . DB_PREFIX . "';\n";
-        $content .= "\n";
-        $content .= "const CACHE_DRIVER = 'file';\n";
-        $content .= "// Unique AbanteCart store ID\n";
-        $content .= "const UNIQUE_ID = '" . md5(time()) . "';\n";
-        $content .= "// Encryption key for protecting sensitive information. NOTE: Change of this key will cause a loss of all existing encrypted information!\n";
-        $content .= "const ENCRYPTION_KEY = '" . randomWord(6) . "';\n";
+        $content .= "const DB_USERNAME = '" . $data['db_user'] . "';" . PHP_EOL;
+        $content .= "const DB_PASSWORD = '" . $data['db_password'] . "';" . PHP_EOL;
+        $content .= "const DB_DATABASE = '" . $data['db_name'] . "';" . PHP_EOL;
+        $content .= "const DB_PREFIX = '" . DB_PREFIX . "';" . PHP_EOL;
+        $content .= "" . PHP_EOL;
+        $content .= "const CACHE_DRIVER = 'file';" . PHP_EOL;
+        $content .= "// Unique AbanteCart store ID" . PHP_EOL;
+        $content .= "const UNIQUE_ID = '" . md5(time()) . "';" . PHP_EOL;
+        $content .= "// Encryption key for protecting sensitive information. NOTE: Change of this key will cause a loss of all existing encrypted information!" . PHP_EOL;
+        $content .= "const ENCRYPTION_KEY = '" . randomWord(6) . "';" . PHP_EOL;
         $content .= "
 // details about allowed DSN settings  https://symfony.com/doc/6.0/mailer.html#transport-setup
 /*
@@ -247,7 +247,7 @@ const MAILER = [
     'password' => '****super-secret-password****',
     'host'     => 'your-hostname',
     'port'     => 465 //or 587 etc
-];\n*/";
+];".PHP_EOL."*/";
 
         $file = fopen(DIR_ABANTECART . 'system/config.php', 'w');
         fwrite($file, $content);
