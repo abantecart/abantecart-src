@@ -47,7 +47,13 @@ class ExtensionPaypalCommerce extends Extension
 
             //update webhooks after onboarding
             if ($that->request->get['onboarded']) {
-                $mdl->updateWebHooks();
+                try {
+                    $mdl->updateWebHooks();
+                }catch(Exception|Error $e){
+                    $that->log->write(
+                        'Paypal Commerce Error: Cannot to update webhooks. ' . $e->getMessage(),
+                    );
+                }
             } else if ($that->request->get['disconnect']) {
                 //delete webhooks before disconnect
                 $mdl->deleteWebHooks();
@@ -160,7 +166,7 @@ class ExtensionPaypalCommerce extends Extension
             if ($secretKey) {
                 try {
                     $mdl->updateWebHooks();
-                } catch (Exception $e) {
+                } catch (Exception|Error $e) {
                     $that->error['webhooks_status'] = 'Updating Paypal Webhooks EndPoints: '
                         . $e->getMessage() . '(' . $e->getCode() . ')';
                 }
