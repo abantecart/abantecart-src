@@ -125,7 +125,9 @@
 					<?php } elseif ($name == 'ext_fields' && $field){ ?>
                         <table class="table table-striped">
                     <?php
-                        foreach ($field as $item) { ?>
+                        foreach ($field as $item) {
+                            $item['value'] = is_array($item['value']) ? implode(", ",$item['value']) : (string)$item['value'];
+                            ?>
                                 <tr>
                                     <td style="width: 30%"><?php echo $item['name']; ?></td>
                                     <td><?php echo nl2br($item['value']); ?></td>
