@@ -11938,37 +11938,7 @@ VALUES  (18,1,1),
         (18,1,6),
         (18,1,14),
         (18,1,15);
--- spanish
--- ITEM_ID
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (16,'home',7),
-        (16,'login',8),
-        (16,'logout',9),
-        (16,'account',10),
-        (16,'cart',11),
-        (16,'checkout',12),
-        (16,'specials',13),
-        (16,'order',16);
--- ITEM_TEXT
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (17,'Casa',7),
-        (17,'Iniciar Sesión',8),
-        (17,'Cerrar sesión',9),
-        (17,'Cuenta',10),
-        (17,'Carro',11),
-        (17,'Caja',12),
-        (17,'Especiales',13),
-        (17,'Comprobar el Orden',16);
--- LANGUAGE_ID
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
-VALUES  (18,9,7),
-        (18,9,8),
-        (18,9,9),
-        (18,9,10),
-        (18,9,11),
-        (18,9,12),
-        (18,9,13),
-        (18,9,16);
+
 
 
 -- ## ADD INSTALL/UPGRADE HISTORY DATASET
