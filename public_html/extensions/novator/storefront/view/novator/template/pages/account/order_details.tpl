@@ -58,7 +58,9 @@
                     </li>
                 <?php echo $this->getHookVar('after_payment_method');?>
                 <?php
-                foreach($ext_fields as $entry => $value){ ?>
+                foreach($ext_fields as $entry => $value){
+                    $value = is_array($value) ? implode(", ",$value) : (string)$value;
+                    ?>
                     <li class="list-group-item list-group-item-secondary">
                         <b class="me-3"><?php echo $entry; ?></b><?php echo nl2br($value); ?>
                     </li>

@@ -2,20 +2,21 @@
 echo $summary_form;
 echo $order_tabs;
 ?>
-
 <div id="content" class="panel panel-default">
-
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
 			<div class="btn-group">
 				<a class="btn btn-white tooltips back-to-grid hidden" data-table-id="order_grid"
-                   href="<?php echo $list_url; ?>" data-toggle="tooltip" data-original-title="<?php echo $text_back_to_list; ?>">
+                   href="<?php echo $list_url; ?>" data-toggle="tooltip"
+                   data-original-title="<?php echo_html2view($text_back_to_list); ?>">
 					<i class="fa fa-arrow-left fa-lg"></i>
 				</a>
 			</div>
 			<div class="btn-group mr10 toolbar">
-			<a class="btn btn-white tooltips" target="_invoice" href="<?php echo $invoice_url; ?>" data-toggle="tooltip"
-			   title="<?php echo $text_invoice; ?>" data-original-title="<?php echo $text_invoice; ?>">
+			<a class="btn btn-white tooltips" target="_invoice"
+               href="<?php echo $invoice_url; ?>" data-toggle="tooltip"
+			   title="<?php echo_html2view($text_invoice); ?>"
+               data-original-title="<?php echo_html2view($text_invoice); ?>">
 				<i class="fa fa-file-text"></i>
 			</a>
 			</div>
@@ -92,7 +93,9 @@ echo $order_tabs;
 			</div>
 		<?php }
         if ($ext_fields){
-            foreach ($ext_fields as $item) { ?>
+            foreach ($ext_fields as $item) {
+                $item['value'] = is_array($item['value']) ? implode(", ",$item['value']) : (string)$item['value'];
+                ?>
                 <div class="form-group">
                     <label class="control-label col-sm-5"><?php echo $item['name']; ?></label>
                     <div class="input-group afield col-sm-7"><p style="text-align:left !important;" class="input-group-addon "><?php echo nl2br($item['value']); ?></p></div>
@@ -211,7 +214,7 @@ echo $order_tabs;
 			<tr <?php if (!$order_product['product_status']) { ?>class="alert alert-warning"<?php } ?>>
 				<td>
 					<a class="remove btn btn-xs btn-danger-alt tooltips"
-					   data-original-title="<?php echo $button_delete; ?>"
+					   data-original-title="<?php echo_html2view($button_delete); ?>"
 					   data-order-product-row="<?php echo $order_product_row; ?>">
 						<i class="fa fa-minus-circle"></i>
 					</a>
@@ -232,10 +235,10 @@ echo $order_tabs;
 					<?php
 					foreach ($order_product['option'] as $option) { ?>
 						<dt>
-                            <small title="<?php echo $option['title']?>">- <?php echo $option['name']; ?></small>
+                            <small title="<?php echo_html2view($option['title'])?>">- <?php echo $option['name']; ?></small>
                         </dt>
                         <dd>
-                            <small class="product_option_value" title="<?php echo $option['title']?>">
+                            <small class="product_option_value" title="<?php echo_html2view($option['title'])?>">
                                 <?php echo $option['value'].($option['sku'] ? ' (SKU: '.$option['sku'].')' : ''); ?>
                             </small>
                         </dd>
@@ -309,14 +312,14 @@ echo $order_tabs;
 					<?php if (!in_array($total_row['type'] , ['subtotal', 'total'])) { ?>
 						<?php if (!$total_row['unavailable']) { ?>
 						<a class="reculc_total btn btn-xs btn-info-alt tooltips"
-						   	data-original-title="<?php echo $text_recalc; ?>"
+						   	data-original-title="<?php echo_html2view($text_recalc); ?>"
 					   		data-order-total-id="<?php echo $total_row['order_total_id']; ?>">
 					    	<i class="fa fa-refresh"></i>
 						</a>
 						<?php } ?>
 						<?php if ($total_key_count[$total_row['key']] == 1 ) { // do not alloe delete of duplicate keys?>
 						<a class="remove btn btn-xs btn-danger-alt tooltips"
-						   data-original-title="<?php echo $button_delete; ?>"
+						   data-original-title="<?php echo_html2view($button_delete); ?>"
 						   data-confirmation="delete" onclick="deleteTotal('<?php echo $total_row['order_total_id']; ?>');">
 							<i class="fa fa-minus-circle"></i>
 						</a>
@@ -347,7 +350,7 @@ echo $order_tabs;
 				<td>
 					<b rel="totals[<?php echo $total_row['order_total_id']; ?>]">
 					<a class="add_totals btn btn-xs btn-info-alt tooltips"
-					   data-original-title="<?php echo $text_add; ?>"
+					   data-original-title="<?php echo_html2view($text_add); ?>"
 					   data-order-id="<?php echo $order_id; ?>">
 					    <i class="fa fa-plus-circle"></i>
 
@@ -389,13 +392,12 @@ echo $order_tabs;
         </div>
         <div class="list-inline input-group afield col-sm-offset-0 col-sm-3 col-xs-1">
             <a class="add btn btn-success tooltips"
-               data-original-title="<?php echo $text_add; ?>">
+               data-original-title="<?php echo_html2view($text_add); ?>">
                 <i class="fa fa-plus-circle fa-lg"></i></a>
         </div>
     </div>
 	<?php } ?>
 	</div>
-
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
 			<button class="btn btn-primary lock-on-click">
@@ -411,11 +413,8 @@ echo $order_tabs;
 			</a>
 		</div>
 	</div>
-
 </form>
-
-</div><!-- <div class="tab-content"> -->
-
+</div>
 <?php echo $this->html->buildElement(
     [
         'type'        => 'modal',
@@ -432,48 +431,36 @@ echo $order_tabs;
         'id'         => 'add_order_total',
         'modal_type' => 'md',
         'title'      => $text_order_total_add,
-        'content'    => '
-            <form class="aform form-horizontal" enctype="multipart/form-data" method="post" class="add_order_total" action="'.$edit_order_total.'">
-            <div class="mb20">' . $new_total . '
-            </div>
-            <div class="content container-fluid mb20">
-            </div>
-            <div class="text-center mb20">
-                <button class="btn btn-primary lock-on-click">
-                <i class="fa fa-save fa-fw"></i>'. $button_save . '
-                </button>
-                <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true">
-                <i class="fa fa-arrow-left fa-fw"></i> '. $button_cancel . '
-                </button>
-            </div>
-            </form>'
+        'content'    => '<form class="aform form-horizontal" enctype="multipart/form-data" method="post" class="add_order_total" action="'.$edit_order_total.'">'
+                .'<div class="mb20">' . $new_total . '</div>'
+                .'<div class="content container-fluid mb20"></div>'.
+                '<div class="text-center mb20"><button class="btn btn-primary lock-on-click">
+                <i class="fa fa-save fa-fw"></i>'. $button_save . '</button>'
+                .'<button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true">'
+                .'<i class="fa fa-arrow-left fa-fw"></i> '. $button_cancel . '</button></div></form>'
     ]
 );
 ?>
 
 <script type="text/javascript">
-
-	var decimal_point = '<?php echo $decimal_point; ?>';
+	var decimal_point = <?php js_echo($decimal_point); ?>;
 	var decimal_place = '<?php echo (int)$currency['decimal_place']; ?>';
-	var thousand_point = '<?php echo $thousand_point; ?>';
+	var thousand_point = <?php js_echo($thousand_point); ?>;
 	<?php if ($currency['symbol_left']) { ?>
-	var currency_symbol = '<?php echo $currency['symbol_left']; ?>';
+	var currency_symbol = <?php js_echo($currency['symbol_left']); ?>;
 	var currency_location = 'left';
 	<?php } else { ?>
-	var currency_symbol = '<?php echo $currency['symbol_right']; ?>';
+	var currency_symbol = <?php js_echo($currency['symbol_right']); ?>;
 	var currency_location = 'right';
 	<?php }?>
 
 	$(function () {
-
 		$('#add_product').chosen({'width': '100%', 'white-space': 'nowrap'});
 		$('#add_product').on('change', addProduct);
-
 		$("#products input").aform({        triggerChanged: false        });
 		$('#products input[type*="text"]').each(function () {
 			$.aform.styleGridForm(this);
 		});
-
 
 		$(document).on('click', '#products a.remove', function () {
 			var id = $(this).attr('data-order-product-row');
@@ -487,7 +474,6 @@ echo $order_tabs;
 			return false;
 		});
 
-
 		$('a.edit_product').click(function () {
 			addProduct($(this).attr('data-order-product-id'));
 			return false;
@@ -496,8 +482,6 @@ echo $order_tabs;
 		$(document).on('keyup', '#products input', function () {
 			recalculate();
 		});
-
-
 	});
 
 	function formatMoney(num, c, d, t) {
@@ -531,10 +515,8 @@ echo $order_tabs;
 	}
 
 	function recalculate() {
-
 		var qty, price, total, total_str;
 		var subtotal = 0;
-
 		//update products
 		$('#products tbody[id^="product"]').each(function (i, v) {
 			if($('input[name*="stock_quantity"]', v).length>0){
@@ -598,7 +580,7 @@ echo $order_tabs;
 	});
 
 
-	var order_product_row = <?php echo $order_product_row; ?>;
+	var order_product_row = <?php echo (int)$order_product_row; ?>;
 
 	function addProduct(order_product_id) {
 		var id = '';
@@ -606,7 +588,7 @@ echo $order_tabs;
 			id = '&order_product_id='+order_product_id;
 		}else{
 			var vals = $("#add_product").chosen().val();
-			$("#add_product").val('').trigger("chosen:updated");;
+			$("#add_product").val('').trigger("chosen:updated");
 			if(vals){
 				id = '&product_id='+vals[0];
 			}

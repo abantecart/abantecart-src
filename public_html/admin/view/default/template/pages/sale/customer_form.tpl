@@ -11,7 +11,6 @@
 	<?php }
     echo $this->getHookVar('extension_tabs'); ?>
 </ul>
-
 <div id="content" class="panel panel-default">
 	<?php if ($customer_id) { ?>
 	<div class="panel-heading col-xs-12">
@@ -89,33 +88,20 @@
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
 </div>
-<?php }	?>
+<?php }
 
-<?php echo $form['form_open'];
+echo $form['form_open'];
 	foreach($form['fields'] as $section => $fields){ ?>
         <div class="panel-body panel-body-nopadding tab-content col-xs-12">
             <label class="h4 heading"><?php echo ${'tab_customer_' . $section}; ?></label>
 			<?php foreach ($fields as $name => $field) {
 			//Logic to calculate fields width
-			$widthcasses = "col-sm-7";
-			if (is_int(stripos($field->style, 'large-field'))) {
-				$widthcasses = "col-sm-7";
-			} else if (is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date'))) {
-                $widthcasses = "col-sm-5";
-			} else if (is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch'))) {
-                $widthcasses = "col-sm-3";
-			} else if (is_int(stripos($field->style, 'tiny-field'))) {
-				$widthcasses = "col-sm-2";
-			}
-			$widthcasses .= " col-xs-12";
-			?>
-			<div class="form-group <?php if (!empty($error[$name])) {
-				echo "has-error";
-			} ?>">
-				<label class="control-label col-sm-3 col-xs-12"
-					   for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
-
-				<div class="input-group afield <?php echo $widthcasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '') ?>">
+            $widthCssClasses = adminFormFieldBS3CssClasses($field->style); ?>
+			<div class="form-group <?php echo $error[$name] ? "has-error" : ''; ?>">
+				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>">
+                    <?php echo ${'entry_' . $name}; ?>
+                </label>
+				<div class="input-group afield <?php echo $widthCssClasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '') ?>">
 					<?php if($name == 'email') { ?>
 					<span class="input-group-btn">
 						<a type="button" title="mailto" class="btn btn-info" href="mailto:<?php echo $field->value; ?>">
@@ -126,7 +112,9 @@
                         <table class="table table-striped">
                     <?php
                         foreach ($field as $item) {
-                            $item['value'] = is_array($item['value']) ? implode(", ",$item['value']) : (string)$item['value'];
+                            $item['value'] = is_array($item['value'])
+                                    ? implode(", ",$item['value'])
+                                    : (string)$item['value'];
                             ?>
                                 <tr>
                                     <td style="width: 30%"><?php echo $item['name']; ?></td>
@@ -137,7 +125,6 @@
                     <?php
                     unset($field);
                     }
-
                     echo $field; ?>
 				</div>
 				<?php if (!empty($error[$name])) { ?>
@@ -147,7 +134,6 @@
 			<?php } ?>
 			</div>
     <?php } ?>
-
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
 			<button class="btn btn-primary lock-on-click">
@@ -165,5 +151,4 @@
 		</div>
 	</div>	
 	</form>
-
 </div>
