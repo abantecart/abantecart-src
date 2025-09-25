@@ -190,21 +190,4 @@ class ExtensionCardconnect extends Extension
             }
         }
     }
-
-    public function onControllerPagesCheckoutConfirm_InitData()
-    {
-        if (!$this->_is_enabled()) {
-            return null;
-        }
-        $that = $this->baseObject;
-        if ($that->session->data['payment_method']['id'] == 'cardconnect') {
-            $that->document->addStyle(
-                [
-                    'href'  => $that->view->templateResource('/stylesheet/cardconnect.css'),
-                    'rel'   => 'stylesheet',
-                    'media' => 'screen',
-                ]
-            );
-        }
-    }
 }
