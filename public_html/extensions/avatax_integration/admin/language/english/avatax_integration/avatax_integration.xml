@@ -17,16 +17,8 @@
 		<value><![CDATA[License Key:<br /><span class="help">License key provided by Avalara</span>]]></value>
 	</definition>
 	<definition>
-		<key>avatax_integration_service_url</key>
-		<value><![CDATA[Service URL:<br /><span class="help">Avalara service URL (live or development)</span>]]></value>
-	</definition>
-	<definition>
-		<key>avatax_integration_service_url_https://avatax.avalara.net</key>
-		<value><![CDATA[https://avatax.avalara.net]]></value>
-	</definition>
-	<definition>
-		<key>avatax_integration_service_url_https://development.avalara.net</key>
-		<value><![CDATA[https://development.avalara.net]]></value>
+		<key>avatax_integration_test_mode</key>
+		<value><![CDATA[Test mode:]]></value>
 	</definition>
 	<definition>
 		<key>avatax_integration_tax_name</key>
@@ -42,7 +34,7 @@
 	</definition>
 	<definition>
 		<key>error_turn_extension_on</key>
-		<value><![CDATA[Error! Please check if extension is turned ON.]]></value>
+		<value><![CDATA[Error! Please check if the extension is turned ON.]]></value>
 	</definition>
 	<definition>
 		<key>avatax_integration_default_taxcode</key>
@@ -122,11 +114,11 @@
 	</definition>
 	<definition>
 		<key>avatax_integration_subject</key>
-		<value><![CDATA[Your tax exempt number has been declined]]></value>
+		<value><![CDATA[Your tax-exempt number has been declined]]></value>
 	</definition>
 	<definition>
 		<key>avatax_integration_mail_text</key>
-		<value><![CDATA[Your tax exempt number has been declined. To check validity please visit your account details page %s]]></value>
+		<value><![CDATA[Your tax-exempt number has been declined. To check validity, please visit your account details page %s]]></value>
 	</definition>
 	<definition>
 		<key>exemption_number_name</key>

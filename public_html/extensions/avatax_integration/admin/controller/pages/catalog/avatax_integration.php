@@ -103,7 +103,7 @@ class ControllerPagesCatalogAvataxIntegration extends AController
         unset($tabs_obj);
 
         $this->data['avatax_integration'] = $this->model_extension_avatax_integration->getProductTaxCode(
-            $this->request->get['product_id']
+            (int)$this->request->get['product_id']
         );
 
         $form = new AForm('HT');

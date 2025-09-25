@@ -9,10 +9,7 @@
 			</div>
         <?php }
         foreach ($form['fields'] as $field_name => $field) { ?>
-			<div class="form-group <?php
-			if (${'error_'.$field_name}) {
-                echo 'has-error';
-            } ?>">
+			<div class="form-group <?php echo ${'error_'.$field_name} ? 'has-error' : ''; ?>">
 				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
 				<div class="input-group col-md-4">
                     <?php echo $field; ?>

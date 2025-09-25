@@ -1,0 +1,8 @@
+include:
+  - project: "prodsec/security-ci-cd"
+    ref: release-0.1.9
+    file: "templates/security-ci-cd.yml"
+
+sast:tests:
+  extends: .sast:tests
+  stage: testing:development
