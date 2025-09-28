@@ -35,7 +35,7 @@ class ControllerResponsesExtensionAvataxIntegration extends AController
 
         $json = [
             'message' => "Connection to Avatax server can not be established.\n"
-                ."\nCheck your server configuration or contact your hosting provider.",
+                . "\nCheck your server configuration or contact your hosting provider.",
             'error'   => true,
         ];
 
@@ -50,7 +50,7 @@ class ControllerResponsesExtensionAvataxIntegration extends AController
                     $warning = new AWarning('PingTest Result: ' . $pingResult->status . '.');
                     $warning->toLog()->toDebug();
 
-                    $json['message'] = "Connection to Avatax server cannot be established.<br>Response: " .
+                    $json['message'] = "Connection to the Avatax server cannot be established.<br>Response: " .
                         var_export($pingResult, true) .
                         "<br>Check your server configuration or contact your hosting provider.";
                     $json['error'] = true;
@@ -58,8 +58,47 @@ class ControllerResponsesExtensionAvataxIntegration extends AController
                     $json['message'] = $this->language->get('text_connection_success');
                     $json['error'] = false;
                 }
-            } catch (\Exception $e) {
-                $this->log->write('Avatax Error: '.$e->getMessage().PHP_EOL.$e->getTraceAsString());
+                if (!$json['error']) {
+                    //check merchant address
+                    /** @var ModelLocalisationCountry $mdl */
+                    $mdl = $this->load->model('localisation/country', 'force');
+                    $temp = $mdl->getCountry($this->config->get('config_country_id'));
+                    $originCountry = $temp['iso_code_2'];
+
+                    /** @var ModelLocalisationZone $mdl */
+                    $mdl = $this->load->model('localisation/zone', 'force');
+                    $temp = $mdl->getZone($this->config->get('config_zone_id'));
+                    $originZone = $temp['code'];
+
+                    $addressLines = array_map('trim', explode(',', $this->config->get('config_address')));
+                    $line1 = $addressLines[0];
+                    $line2 = $addressLines[1];
+                    $line3 = $addressLines[2];
+                    unset($addressLines[0], $addressLines[1], $addressLines[2]);
+                    if ($addressLines) {
+                        $line3 .= implode(', ', $addressLines);
+                    }
+                    $addressData = [
+                        'address_1'  => $line1,
+                        'address_2'  => $line2,
+                        'address_3'  => $line3,
+                        'city'       => $this->config->get('config_city'),
+                        'code'       => $originZone,
+                        'postcode'   => $this->config->get('config_postcode'),
+                        'iso_code_2' => $originCountry
+                    ];
+                    $hook = new ExtensionAvataxIntegration();
+                    $hook->loadBaseObject($this, __FUNCTION__);
+                    $json = $hook->validate_address($addressData);
+                    if (!$json['error']) {
+                        $json['message'] = $this->language->get('text_connection_success');
+                    } else {
+                        $json['message'] = 'Store address validation:<br>' . $json['message'];
+                    }
+
+                }
+            } catch (Exception $e) {
+                $this->log->write('Avatax Error: ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString());
                 $json['message'] = "An error occurred while connecting to the Avalara service: " . $e->getMessage();
                 $json['error'] = true;
             }

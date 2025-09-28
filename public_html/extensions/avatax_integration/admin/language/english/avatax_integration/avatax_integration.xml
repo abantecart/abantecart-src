@@ -29,10 +29,6 @@
 		<value><![CDATA[Company Code:<br /><span class="help">Company code to be used with Avalara</span>]]></value>
 	</definition>
 	<definition>
-		<key>avatax_integration_postal_code</key>
-		<value><![CDATA[Store ZIP/Postal code:]]></value>
-	</definition>
-	<definition>
 		<key>error_turn_extension_on</key>
 		<value><![CDATA[Error! Please check if the extension is turned ON.]]></value>
 	</definition>
@@ -61,7 +57,7 @@
 		<value><![CDATA[Connection is successful and API Credentials are configured correctly.]]></value>
 	</definition>
 	<definition>
-		<key>text_test_connection</key>
+		<key>avatax_integration_test_connection</key>
 		<value><![CDATA[Test connection:]]></value>
 	</definition>
 	<definition>

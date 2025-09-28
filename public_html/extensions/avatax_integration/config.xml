@@ -21,7 +21,7 @@
 			<type required="true">input</type>
 		</item>
 		<item id="avatax_integration_test_mode">
-			<type required="true">checkbox</type>
+			<type>checkbox</type>
 			<default_value>0</default_value>
 		</item>
 		<item id="avatax_integration_tax_name">
@@ -31,9 +31,10 @@
 		<item id="avatax_integration_company_code">
 			<type>input</type>
 		</item>
-		<item id="avatax_integration_postal_code">
-			<type required="true">input</type>
-		</item>
+        <item id="avatax_integration_test_connection">
+            <type>html_template</type>
+            <template>pages/extension/avatax_integration_settings.tpl</template>
+        </item>
 		<item id="avatax_integration_address_validation">
 			<type>checkbox</type>
 			<default_value>false</default_value>
@@ -110,7 +111,6 @@
 			<default_value>false</default_value>
 		</item>
 	</settings>
-	<custom_settings_template>pages/extension/avatax_integration_settings.tpl</custom_settings_template>
 	<install>
 		<sql>install.sql</sql>
 		<trigger>install.php</trigger>
