@@ -311,7 +311,7 @@ class ModelAccountAddress extends Model
         $output['format'] = $countryInfo['address_format'] ?? DEFAULT_ADDRESS_FORMAT;
         $output['iso_code_2'] = $countryInfo['iso_code_2'] ?? '';
         $output['iso_code_3'] = $countryInfo['iso_code_3'] ?? '';
-        $output = array_merge($output['ext_fields'], $output);
+        $output = array_merge((array)$output['ext_fields'], $output);
 
         //backward compatibility. Todo: remove in 1.5.*
         $output['address_format'] = $output['format'];
