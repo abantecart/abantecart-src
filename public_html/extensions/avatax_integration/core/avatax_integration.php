@@ -74,10 +74,10 @@ class ExtensionAvataxIntegration extends Extension
     {
         /** @var ControllerCommonListingGrid $that */
         $that =& $this->baseObject;
-        if (in_array($that->data['table_id'],['customer_grid','product_grid'])) {
-            if($that->data['table_id'] == 'customer_grid') {
+        if (in_array($that->data['table_id'], ['customer_grid', 'product_grid'])) {
+            if ($that->data['table_id'] == 'customer_grid') {
                 $url = $that->html->getSecureURL('sale/avatax_customer_data', '&customer_id=%ID%');
-            }else{
+            } else {
                 $url = $that->html->getSecureURL('catalog/avatax_integration', '&product_id=%ID%');
             }
             $that->loadLanguage('avatax_integration/avatax_integration');
@@ -310,19 +310,16 @@ class ExtensionAvataxIntegration extends Extension
     {
         $load = $this->registry->get('load');
         $config = $this->registry->get('config');
-        if($this->registry->get('session')->data['fc']){
-            $session =& $this->registry->get('session')->data['fc'];
-        }else{
-            $session =& $this->registry->get('session')->data;
-        }
-        $order_id = 0;
+        $session =& $this->registry->get('session')->data;
 
         if (IS_ADMIN === true) {
-            $order_id = $customerData['order_id'];
+            $order_id = (int)$customerData['order_id'];
         } elseif ($session['avatax_order_id']) {
-            $order_id = $session['avatax_order_id'];
+            $order_id = (int)$session['avatax_order_id'];
         } elseif (isset($session['order_id'])) {
-            $order_id = $session['order_id'];
+            $order_id = (int)$session['order_id'];
+        } else {
+            $order_id = 0;
         }
 
         if (IS_ADMIN === true) {
@@ -438,8 +435,8 @@ class ExtensionAvataxIntegration extends Extension
             $line1 = $addressLines[0];
             $line2 = $addressLines[1];
             $line3 = $addressLines[2];
-            unset($addressLines[0],$addressLines[1],$addressLines[2]);
-            if($addressLines) {
+            unset($addressLines[0], $addressLines[1], $addressLines[2]);
+            if ($addressLines) {
                 $line3 .= implode(', ', $addressLines);
             }
 
@@ -475,7 +472,7 @@ class ExtensionAvataxIntegration extends Extension
                 /** @var ModelCatalogProduct $mdl */
                 $mdl = $load->model('catalog/product');
                 $productData = $mdl->getProduct($product['product_id']);
-                $sku = $productData['sku'] ?: 'PRODUCT-ID-'.$product['product_id'];
+                $sku = $productData['sku'] ?: 'PRODUCT-ID-' . $product['product_id'];
 
                 $amount = $return ? -1 * $product['total'] : $product['total'];
                 $taxCode = $avataxModel->getProductTaxCode((int)$product['product_id']);
@@ -484,20 +481,45 @@ class ExtensionAvataxIntegration extends Extension
                 $ln++;
             }
 
-            // Add shipping line if applicable
-            if ($order_id && isset($order_data['shipping_method'])) {
-                $shippingTaxCode = $config->get("avatax_integration_shipping_taxcode_{$order_data['shipping_method']}") ?: 'FR';
+            //add freight item
+            //see https://developer.avalara.com/avatax/calculating-tax/
+            if (IS_ADMIN === true) {
+                list($shp_method,) = explode('.', $order_data['shipping_method_key']);
+                /** @var ModelSaleOrder $mdl */
+                $mdl = $that->model_sale_order;
+                $all_totals = $mdl->getOrderTotals($order_id);
+                $shippingCost = 0.0;
+                foreach ($all_totals as $t) {
+                    if ($t['key'] == 'shipping') {
+                        $shippingCost = $t['value'];
+                        break;
+                    }
+                }
+            } else {
+                list($shp_method,) = explode('.', $session['fc']['shipping_method']['id']);
+                $shippingCost = $session['fc']['shipping_method']['cost'];
+            }
+
+            // Add a shipping line if applicable
+            if ($order_id && $shp_method) {
+                $shippingTaxCode = '';
+                if ($config->get('avatax_integration_shipping_taxcode_' . $shp_method)) {
+                    $shippingTaxCode = $config->get('avatax_integration_shipping_taxcode_' . $shp_method);
+                }
+
+                //default tax_code
+                $shippingTaxCode = $shippingTaxCode ?: 'FR';
                 $tb->withLine(
-                    $order_data['shipping_cost'],
+                    $shippingCost,
                     1,
-                    $order_data['shipping_method'],
+                    $shp_method,
                     $shippingTaxCode,
                     $ln
                 );
                 $ln++;
             }
 
-            $customerAvataxSettings = $avataxModel->getCustomerSettings( (int)$customer_id );
+            $customerAvataxSettings = $avataxModel->getCustomerSettings((int)$customer_id);
             if (is_array($customerAvataxSettings)
                 && $customerAvataxSettings['exemption_number']
                 && $customerAvataxSettings['status']
@@ -513,7 +535,7 @@ class ExtensionAvataxIntegration extends Extension
                 ||
                 ($config->get('avatax_integration_commit_documents')
                     && $order_data['order_status_id'] == $config->get('avatax_integration_status_success_settled')
-                    && ( !$customerAvataxSettings['exemption_number']
+                    && (!$customerAvataxSettings['exemption_number']
                         || ($customerAvataxSettings['status'] == 1 && $customerAvataxSettings['exemption_number']))
                 );
             if ($shouldCommit) {
@@ -540,8 +562,8 @@ class ExtensionAvataxIntegration extends Extension
                 }
                 return $response->totalTax;
             } else {
-                if(is_string($response)){
-                    $that->log->write('AvaTax response error: '.$response);
+                if (is_string($response)) {
+                    $that->log->write('AvaTax response error: ' . $response);
                 }
                 return -1;
             }
@@ -724,7 +746,7 @@ class ExtensionAvataxIntegration extends Extension
             $request->city = $addressData['city'] ?? '';
             $request->region = $addressData['code'] ?: $addressData['region'] ?: ''; // State/Province code
             $request->country = $addressData['iso_code_2'] ?: $addressData['country'] ?: ''; // Country code (e.g., US, CA)
-            $request->postalCode = $addressData['postcode'] ?: $addressData['postalCode'] ?:'';
+            $request->postalCode = $addressData['postcode'] ?: $addressData['postalCode'] ?: '';
             $request->textCase = 'Mixed'; // Optional; keeps formatting (can be 'Upper', 'Mixed', or null)
 
             // Make the API call for address validation
@@ -742,11 +764,11 @@ class ExtensionAvataxIntegration extends Extension
             if ($response->validatedAddresses && !$response->messages) {
                 $output['error'] = false;
             } else {
-                if($response->messages){
-                    $messages = array_column($response->messages,'summary');
-                }elseif($response->error){
-                    $messages = array_column($response->error->details,'message');
-                }else{
+                if ($response->messages) {
+                    $messages = array_column($response->messages, 'summary');
+                } elseif ($response->error) {
+                    $messages = array_column($response->error->details, 'message');
+                } else {
                     $messages = [];
                 }
                 $output['message'] = implode("\n", $messages);
