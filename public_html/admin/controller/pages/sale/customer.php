@@ -1084,9 +1084,10 @@ class ControllerPagesSaleCustomer extends AController
             // and then to storefront because cross-domain restriction for session cookie
             /** @var ModelSettingStore $mdl */
             $mdl = $this->loadModel('setting/store');
-            $store_settings = $mdl->getStore($this->session->data['current_store_id']);
+            $store_id = $this->getStoreId();
+            $store_settings = $mdl->getStore($store_id);
             $customerID = (int)$this->request->get['customer_id'];
-            if ($this->config->get('config_url') != $mdl->getStoreURL($this->session->data['current_store_id'])
+            if ($this->config->get('config_url') != $mdl->getStoreURL($store_id)
             ) {
                 if ($store_settings) {
                     if ($store_settings['config_ssl']) {
@@ -1305,5 +1306,20 @@ class ControllerPagesSaleCustomer extends AController
             $this->error['warning'] = implode('<br>', $this->error);
             return false;
         }
+    }
+
+    /**
+     * @return int
+     */
+    public function getStoreId() {
+        $store_id = (int)$this->config->get('config_store_id');
+        if (has_value($this->request->get_or_post('store_id'))) {
+            $store_id = (int)$this->request->get_or_post('store_id');
+        } else {
+            if ($this->session->data['current_store_id']) {
+                $store_id = (int)$this->session->data['current_store_id'];
+            }
+        }
+        return $store_id;
     }
 }
