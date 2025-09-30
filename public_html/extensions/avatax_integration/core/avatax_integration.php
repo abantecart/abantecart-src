@@ -93,7 +93,7 @@ class ExtensionAvataxIntegration extends Extension
         $this->data['tabs'][] = [
             'href'   => $that->html->getSecureURL(
                 'catalog/avatax_integration',
-                '&product_id=' . $that->request->get['product_id']
+                '&product_id=' . (int)$that->request->get['product_id']
             ),
             'text'   => $that->language->get('avatax_integration_name'),
             'active' => ($that->data['active'] == 'avatax_integration'),
@@ -305,17 +305,19 @@ class ExtensionAvataxIntegration extends Extension
     {
         $load = $this->registry->get('load');
         $config = $this->registry->get('config');
-        $session = $this->registry->get('session')->data['fc'] && $config->get('fast_checkout_status')
-            ? $this->registry->get('session')->data['fc']
-            : $this->registry->get('session')->data;
+        if($this->registry->get('session')->data['fc'] && $config->get('fast_checkout_status')){
+            $session =& $this->registry->get('session')->data['fc'];
+        }else{
+            $session =& $this->registry->get('session')->data;
+        }
         $order_id = 0;
 
         if (IS_ADMIN === true) {
             $order_id = $customerData['order_id'];
-        } else {
-            if (isset($session['avatax_order_id'])) {
-                $order_id = $session['avatax_order_id'];
-            }
+        } elseif ($session['avatax_order_id']) {
+            $order_id = $session['avatax_order_id'];
+        } elseif (isset($session['order_id'])) {
+            $order_id = $session['order_id'];
         }
 
         if (IS_ADMIN === true) {
@@ -370,6 +372,28 @@ class ExtensionAvataxIntegration extends Extension
             $order_data = $order->loadOrderData($order_id, 'any');
         }
 
+        if ($order_id) {
+            if ($order_data['date_added'] && !$return) {
+                $date = (new DateTime($order_data['date_added']))->format('Y-m-d');
+            } else {
+                $date = date('Y-m-d');
+            }
+
+            $docCode = $order_id . '-' . date("dmy", strtotime($date));
+            $products = $customerData['cart'];
+            $docHash = md5(
+                $docCode
+                . $customerData['cart_key']
+                . var_export($products, true)
+                . $session['payment_address_id']
+                . $session['shipping_address_id']
+                . $session['guest']
+            );
+
+            if (isset($session['avatax']['getTax'][$docHash])) {
+                return $session['avatax']['getTax'][$docHash];
+            }
+        }
 
         $accountNumber = $config->get('avatax_integration_account_number');
         $licenseKey = $config->get('avatax_integration_license_key');
@@ -437,7 +461,9 @@ class ExtensionAvataxIntegration extends Extension
             );
 
             // Add product lines
-            $products = $order_id ? $load->model('sale/order')->getOrderProducts($order_id) : $that->cart->getProducts();
+            $products = IS_ADMIN
+                ? $load->model('sale/order')->getOrderProducts($order_id)
+                : $that->cart->getProducts();
 
             $ln = 1;
             foreach ($products as $product) {
@@ -466,12 +492,27 @@ class ExtensionAvataxIntegration extends Extension
                 $ln++;
             }
 
-            // Set commit flag
-            $shouldCommit = $commit || ($config->get('avatax_integration_commit_documents')
-                    && $order_data['order_status_id'] == $config->get('avatax_integration_status_success_settled'));
+            $customerAvataxSettings = $avataxModel->getCustomerSettings( (int)$customer_id );
+            if (is_array($customerAvataxSettings)
+                && $customerAvataxSettings['exemption_number']
+                && $customerAvataxSettings['status']
+            ) {
+                $tb->withExemptionNo($customerAvataxSettings['exemption_number']);
+                if (!empty($customerAvataxSettings['entity_use_code'])) {
+                    $tb->withEntityUseCode($customerAvataxSettings['entity_use_code']);
+                }
+            }
 
+            // Set commit flag
+            $shouldCommit = $commit
+                ||
+                ($config->get('avatax_integration_commit_documents')
+                    && $order_data['order_status_id'] == $config->get('avatax_integration_status_success_settled')
+                    && ( !$customerAvataxSettings['exemption_number']
+                        || ($customerAvataxSettings['status'] == 1 && $customerAvataxSettings['exemption_number']))
+                );
             if ($shouldCommit) {
-                $tb->withCommit(true);
+                $tb->withCommit();
             }
 
             // Write log if applicable
@@ -487,7 +528,7 @@ class ExtensionAvataxIntegration extends Extension
             }
 
             if (isset($response->totalTax)) {
-                $session['avatax']['getTax'] = $response->totalTax;
+                $session['avatax']['getTax'][$docHash] = $response->totalTax;
                 foreach ($response->lines as $line) {
                     $lineNumber = $line->lineNumber;
                     $session['avatax']['getTaxLines'][$lineNumber]['tax_amount'] = $line->tax;
