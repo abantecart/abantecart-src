@@ -22,6 +22,7 @@ if ($this->cart->hasShipping()) {  ?>
                     <option disabled></option>
                     <?php
                     if ($all_addresses) {
+                        $addressId = null;
                         foreach ($all_addresses as $addr) {
                             $current = ($addr['address_id'] == $csession['shipping_address_id']) ? ' selected ' : '';
                             $address = $this->customer->getFormattedAddress($addr, $addr['format']);
@@ -30,6 +31,7 @@ if ($this->cart->hasShipping()) {  ?>
                             }
                             if($current == ' selected '){
                                 $formattedShippingAddress = $address;
+                                $addressId = $addr['address_id'];
                             }
                             $lines = explode("<br />", $address);
                             echo '<option value="'.$addr['address_id'].'" '.$current.'>'
@@ -49,6 +51,13 @@ if ($this->cart->hasShipping()) {  ?>
                         <?php echo $formattedShippingAddress; ?>
                     </div>
                 </div>
+                <?php if($addressId){?>
+                    <a href="<?php echo $this->html->getSecureUrl('account/address/update','&address_id='.$addressId); ?>"
+                       title="<?php echo_html2view($this->language->get('text_edit_address','account/address')); ?>"
+                       class="position-relative top-0 end-0 mt-3 me-3">
+                        <i class="fa fa-2x fa-pencil-square"></i>
+                    </a>
+                <?php } ?>
             </div>
         </div>
 <?php } //eof if product has shipping
@@ -70,6 +79,7 @@ if ($show_payment == true) {
                 <option disabled></option>
                 <?php
                 if ($all_addresses) {
+                    $addressId = null;
                     foreach ($all_addresses as $addr) {
                         $current = ($addr['address_id'] == $csession['payment_address_id']) ? ' selected ' : '';
                         $address = $this->customer->getFormattedAddress($addr, $addr['format']);
@@ -78,6 +88,7 @@ if ($show_payment == true) {
                         }
                         if($current == ' selected '){
                             $formattedPaymentAddress = $address;
+                            $addressId = $addr['address_id'];
                         }
                         $lines = explode("<br />", $address);
                         echo '<option value="'.$addr['address_id'].'" '.$current.'>
@@ -98,6 +109,13 @@ if ($show_payment == true) {
                     <?php echo $formattedPaymentAddress; ?>
                 </div>
             </div>
+            <?php if($addressId){?>
+                <a href="<?php echo $this->html->getSecureUrl('account/address/update','&address_id='.$addressId); ?>"
+                   title="<?php echo_html2view($this->language->get('text_edit_address','account/address')); ?>"
+                   class="position-relative top-0 end-0 mt-3 me-3">
+                    <i class="fa fa-2x fa-pencil-square"></i>
+                </a>
+            <?php } ?>
         </div>
     </div>
 <?php } ?>

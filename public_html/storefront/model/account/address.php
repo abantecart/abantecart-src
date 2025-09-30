@@ -272,59 +272,17 @@ class ModelAccountAddress extends Model
 
     /**
      * @param array $data
-     *
+     * @param string $formTxtId
      * @return array
      * @throws AException
-     * @deprecated since 1.4.3
      */
-    public function validateAddressData($data)
+    public function validateAddressData(array $data, string $formTxtId = 'AddressFrm')
     {
         $this->error = [];
-        if (mb_strlen($data['firstname']) < 1 || mb_strlen($data['firstname']) > 32) {
-            $this->error['firstname'] = $this->language->get('error_firstname', 'account/address');
-        }
-
-        if (mb_strlen($data['lastname']) < 1 || mb_strlen($data['lastname']) > 32) {
-            $this->error['lastname'] = $this->language->get('error_lastname', 'account/address');
-        }
-
-        if (mb_strlen($data['address_1']) < 3 || mb_strlen($data['address_1']) > 128) {
-            $this->error['address_1'] = $this->language->get('error_address_1', 'account/address');
-        }
-
-        if (mb_strlen($data['city']) < 3 || mb_strlen($data['city']) > 128) {
-            $this->error['city'] = $this->language->get('error_city', 'account/address');
-        }
-
-        if (mb_strlen($data['postcode']) < 3 || mb_strlen($data['postcode']) > 10) {
-            $this->error['postcode'] = $this->language->get('error_postcode', 'account/address');
-        }
-
-        if ($data['country_id'] == 'FALSE' || $data['country_id'] == '') {
-            $this->error['country'] = $this->language->get('error_country', 'account/address');
-        }
-
-        if ($data['zone_id'] == 'FALSE' || $data['zone_id'] == '') {
-            $this->error['zone'] = $this->language->get('error_zone', 'account/address');
-        }
-
-        if (!$this->error && (int)$data['zone_id'] !== 0) {
-            $sql = "SELECT * 
-                    FROM " . $this->db->table("zones") . "
-                    WHERE country_id = '" . (int)$data['country_id'] . "'
-                        AND zone_id = '" . (int)$data['zone_id'] . "';";
-            $result = $this->db->query($sql);
-            if (!$result->num_rows) {
-                $this->error['zone'] = $this->language->get('error_zone', 'account/address');
-            }
-        }
-
-        if (count($this->error)) {
-            $this->error['warning'] = $this->language->get('gen_data_entry_error');
-        }
-
+        $form = new AForm();
+        $form->loadFromDb($formTxtId);
+        $this->error = $form->validateFormData($data);
         $this->extensions->hk_ValidateData($this, ['address' => $data]);
-
         return $this->error;
     }
 
@@ -351,11 +309,13 @@ class ModelAccountAddress extends Model
         $output['zone'] = $zoneInfo['name'] ?? '';
         $output['code'] = $zoneInfo['code'] ?? '';
         $output['format'] = $countryInfo['address_format'] ?? DEFAULT_ADDRESS_FORMAT;
+        $output['iso_code_2'] = $countryInfo['iso_code_2'] ?? '';
+        $output['iso_code_3'] = $countryInfo['iso_code_3'] ?? '';
+        $output = array_merge((array)$output['ext_fields'], $output);
+
         //backward compatibility. Todo: remove in 1.5.*
         $output['address_format'] = $output['format'];
 
-        $output['iso_code_2'] = $countryInfo['iso_code_2'] ?? '';
-        $output['iso_code_3'] = $countryInfo['iso_code_3'] ?? '';
         return $output;
     }
 }
