@@ -522,7 +522,7 @@ class ExtensionAvataxIntegration extends Extension
             $customerAvataxSettings = $avataxModel->getCustomerSettings((int)$customer_id);
             if (is_array($customerAvataxSettings)
                 && $customerAvataxSettings['exemption_number']
-                && $customerAvataxSettings['status']
+                && $customerAvataxSettings['status'] == 1 //approved
             ) {
                 $tb->withExemptionNo($customerAvataxSettings['exemption_number']);
                 if (!empty($customerAvataxSettings['entity_use_code'])) {
