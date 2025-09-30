@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /*
  *   $Id$
  *
@@ -128,7 +129,7 @@ class AForm
         }
 
         $this->_loadFields();
-        // if no fields no need to get groups
+        // if no fields, no need to get groups
         if (empty($this->fields)) {
             return;
         }
@@ -335,6 +336,7 @@ class AForm
      * get form fields array
      *
      * @return array of fields => value
+     * @throws AException
      */
     public function getFields()
     {
@@ -379,15 +381,7 @@ class AForm
     {
         foreach ($this->fields as $field) {
             if ($field['field_name'] == $fieldName) {
-                return [
-                    'field_name'   => $field['field_name'],
-                    'element_type' => $field['element_type'],
-                    'required'     => $field['required'] == 'Y',
-                    'name'         => $field['name'],
-                    'value'        => $field['value'],
-                    'settings'     => $field['settings'],
-                    'description'  => $field['description'],
-                ];
+                return $field;
             }
         }
 
@@ -397,7 +391,7 @@ class AForm
     }
 
     /**
-     * assign value(s) to given field name
+     * assign value(s) to the given field name
      *
      * @param string $fieldName
      * @param string $value
@@ -447,7 +441,7 @@ class AForm
     }
 
     /**
-     * return field html
+     * return field HTML
      *
      * @param array $data - array with field data
      *
@@ -477,7 +471,7 @@ class AForm
     }
 
     /**
-     * add javascript to implement form behaviour based on form_edit_action parameter
+     * add JavaScript to implement form behavior based on the form_edit_action parameter
      *
      * @return string
      * @throws AException
@@ -497,7 +491,7 @@ class AForm
                 );
                 $output = $view->fetch('form/form_js_st.tpl');
                 break;
-            case 'HS': //highlight on change and show save button
+            case 'HS': //highlight on change and show the save button
                 $view->batchAssign(
                     [
                         'id'              => $this->form['form_name'] ?: $this->form['id'],
@@ -672,7 +666,7 @@ class AForm
                 $resource = new AResource('image');
                 $iconData = $resource->getResource($field['resource_id']);
                 $img_sub_path = $iconData['type_name'] . '/' . $iconData['resource_path'];
-                $logoFileName = DIR_RESOURCE . str_replace('/',DS,$img_sub_path);
+                $logoFileName = DIR_RESOURCE . str_replace('/', DS, $img_sub_path);
                 if (is_file($logoFileName)) {
                     $info = get_image_size($logoFileName);
                     $data['icon'] = HtmlElementFactory::create(
@@ -708,7 +702,7 @@ class AForm
                 $data['zone_only'] = true;
             }
 
-            //populate customer entered values from session (if present)
+            //populate customer-entered values from session (if present)
             if (is_array($this->session->data['custom_form_' . $formAlias])) {
                 $data['value'] = $this->session->data['custom_form_' . $formAlias][$field['field_name']];
             }
@@ -743,7 +737,7 @@ class AForm
      *
      * @param array $data - usually it's a $_POST
      *
-     * @return array - array with error text for each of invalid field data
+     * @return array - array with error text for each of the invalid field data
      * @throws AException
      */
     public function validateFormData($data = [])
@@ -844,7 +838,7 @@ class AForm
     }
 
     /**
-     * process uploads of files from form file element
+     * process uploads of files from a form file element
      *
      * @param array $files - usually it's a $_FILES array
      *

@@ -1692,10 +1692,10 @@ function isUrlAlive(string $url): bool
 /**
  * Processes a given regular expression to extract and clean the core HTML pattern.
  *
- * @param string $regex The input regular expression, typically enclosed in delimiters and may include anchors (^ and $).
+ * @param string|null $regex The input regular expression, typically enclosed in delimiters and may include anchors (^ and $).
  * @return string The cleaned regular expression pattern without delimiters and anchors.
  */
-function regexForHtmlPattern(string $regex)
+function regexForHtmlPattern(?string $regex)
 {
     // remove separators /.../
     $regex = trim($regex);
