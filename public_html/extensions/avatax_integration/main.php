@@ -60,4 +60,3 @@ $languages = [
     'storefront' => ['english/avatax_integration/avatax_integration'],
     'admin'      => ['english/avatax_integration/avatax_integration'],
 ];
-

@@ -74,11 +74,16 @@ class ExtensionAvataxIntegration extends Extension
     {
         /** @var ControllerCommonListingGrid $that */
         $that =& $this->baseObject;
-        if ($that->data['table_id'] == 'customer_grid') {
+        if (in_array($that->data['table_id'],['customer_grid','product_grid'])) {
+            if($that->data['table_id'] == 'customer_grid') {
+                $url = $that->html->getSecureURL('sale/avatax_customer_data', '&customer_id=%ID%');
+            }else{
+                $url = $that->html->getSecureURL('catalog/avatax_integration', '&product_id=%ID%');
+            }
             $that->loadLanguage('avatax_integration/avatax_integration');
             $that->data['actions']['dropdown']['children']['avatax_integration'] = [
                 'text' => $that->language->get('avatax_integration_name'),
-                'href' => $that->html->getSecureURL('sale/avatax_customer_data', '&customer_id=%ID%'),
+                'href' => $url
             ];
         }
     }
@@ -305,7 +310,7 @@ class ExtensionAvataxIntegration extends Extension
     {
         $load = $this->registry->get('load');
         $config = $this->registry->get('config');
-        if($this->registry->get('session')->data['fc'] && $config->get('fast_checkout_status')){
+        if($this->registry->get('session')->data['fc']){
             $session =& $this->registry->get('session')->data['fc'];
         }else{
             $session =& $this->registry->get('session')->data;

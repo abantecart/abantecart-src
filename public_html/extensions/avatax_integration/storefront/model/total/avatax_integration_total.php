@@ -29,7 +29,7 @@ class ModelTotalAvataxIntegrationTotal extends Model
         }
 
         if ($this->request->get_or_post('order_id')) {
-            $customerData['order_id'] = $this->request->get_or_post('order_id');
+            $customerData['order_id'] = (int)$this->request->get_or_post('order_id');
         }
 
         $avataxExtension = new ExtensionAvataxIntegration();
@@ -49,9 +49,7 @@ class ModelTotalAvataxIntegrationTotal extends Model
     }
 
     public function getTaxLines(){
-        $session = $this->session->data['fc'] && $this->config->get('fast_checkout_status')
-                    ? $this->session->data['fc']
-                    : $this->session->data;
+        $session = $this->session->data['fc'] ?: $this->session->data;
         return $session['avatax']['getTaxLines'] ?? [];
     }
 }
