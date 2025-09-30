@@ -228,7 +228,7 @@ class ControllerPagesAccountEdit extends AController
             if ($fList) {
                 foreach ($fList as $fName => $f) {
                     //if the field is checkbox and not present in the post-data - set it null
-                    if ($f['element_type'] == 'C' && !isset($data[$fName])) {
+                    if (in_array($f['element_type'],['C','G']) && !isset($data[$fName])) {
                         $data[$fName] = null;
                     }
                 }
