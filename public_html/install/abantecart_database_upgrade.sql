@@ -82,3 +82,6 @@ alter table `ac_form_descriptions`
     add constraint `ac_form_descriptions_fk`
         foreign key (`form_id`) references `ac_forms` (`form_id`)
             on update cascade on delete cascade;
+
+alter table `ac_global_attributes` modify attribute_parent_id int null;
+

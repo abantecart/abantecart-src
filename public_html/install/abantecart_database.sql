@@ -12277,7 +12277,7 @@ VALUES
 DROP TABLE IF EXISTS `ac_global_attributes`;
 CREATE TABLE `ac_global_attributes` (
   `attribute_id` 		int(11) NOT NULL AUTO_INCREMENT,
-  `attribute_parent_id`	int(11) NOT NULL DEFAULT '0',
+  `attribute_parent_id`	int(11) NULL,
   `attribute_group_id` 	int(11),
   `attribute_type_id` 	int(11) NOT NULL,
   `element_type` 		char(1) NOT NULL DEFAULT 'I',
