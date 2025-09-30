@@ -1,5 +1,5 @@
 <?php
-/** @var AView $this */
+/** @var AView|AController $this */
 $readonly = count($all_addresses) == 1 ? ' readonly ' : '';
 
 $addAddress = '
@@ -22,6 +22,7 @@ if ($this->cart->hasShipping()) {  ?>
                     <option disabled></option>
                     <?php
                     if ($all_addresses) {
+                        $addressId = null;
                         foreach ($all_addresses as $addr) {
                             $current = ($addr['address_id'] == $csession['shipping_address_id']) ? ' selected ' : '';
                             $address = $this->customer->getFormattedAddress($addr, $addr['format']);
@@ -30,6 +31,7 @@ if ($this->cart->hasShipping()) {  ?>
                             }
                             if($current == ' selected '){
                                 $formattedShippingAddress = $address;
+                                $addressId = $addr['address_id'];
                             }
                             $lines = explode("<br />", $address);
                             echo '<option value="'.$addr['address_id'].'" '.$current.'>'
@@ -49,6 +51,13 @@ if ($this->cart->hasShipping()) {  ?>
                         <?php echo $formattedShippingAddress; ?>
                     </div>
                 </div>
+                <?php if($addressId){?>
+                <a href="<?php echo $this->html->getSecureUrl('account/address/update','&address_id='.$addressId); ?>"
+                   title="<?php echo_html2view($this->language->get('text_edit_address','account/address')); ?>"
+                   class="position-relative top-0 end-0 mt-3 me-3">
+                    <i class="bi bi-pencil-fill"></i>
+                </a>
+                <?php } ?>
             </div>
         </div>
 <?php } //eof if product has shipping
@@ -57,7 +66,7 @@ if ($show_payment) {
     $readonly = count((array)$csession['shipping_methods']) == 1 ? ' readonly ' : '' ;
 ?>
     <div class="flex-item flex-fill ps-0 pt-0 pb-1">
-        <h4 class="shipping_address_label"><?php echo $fast_checkout_text_payment_address; ?></h4>
+        <h4 class="shipping_address_label mt-2"><?php echo $fast_checkout_text_payment_address; ?></h4>
         <div class="input-group">
             <div class="input-group-text">
                 <i class="fa fa-bank" id="delivery_icon"></i>
@@ -68,6 +77,7 @@ if ($show_payment) {
                 <option disabled></option>
                 <?php
                 if ($all_addresses) {
+                    $addressId = null;
                     foreach ($all_addresses as $addr) {
                         $current = ($addr['address_id'] == $csession['payment_address_id']) ? ' selected ' : '';
                         $address = $this->customer->getFormattedAddress($addr, $addr['format']);
@@ -76,6 +86,7 @@ if ($show_payment) {
                         }
                         if($current == ' selected '){
                             $formattedPaymentAddress = $address;
+                            $addressId = $addr['address_id'];
                         }
                         $lines = explode("<br />", $address);
                         echo '<option value="'.$addr['address_id'].'" '.$current.'>
@@ -96,6 +107,13 @@ if ($show_payment) {
                     <?php echo $formattedPaymentAddress; ?>
                 </div>
             </div>
+            <?php if($addressId){?>
+                <a href="<?php echo $this->html->getSecureUrl('account/address/update','&address_id='.$addressId); ?>"
+                   title="<?php echo_html2view($this->language->get('text_edit_address','account/address')); ?>"
+                   class="position-relative top-0 end-0 mt-3 me-3">
+                    <i class="bi bi-pencil-fill"></i>
+                </a>
+            <?php } ?>
         </div>
     </div>
 <?php } ?>

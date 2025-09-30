@@ -210,6 +210,7 @@ class ControllerResponsesCheckoutPay extends AController
                 $address_id = $this->fc_session['payment_address_id'] = $adr['address_id'];
             }
             $this->data['payment_address'] = $this->model_account_address->getAddress($address_id);
+
             if (!$this->request->get['shipping_address_id']) {
                 //validate payment address. See hook calls inside. Some extensions can affect on it
                 $this->error = $this->model_account_address->validateAddressData($this->data['payment_address']);
@@ -275,15 +276,9 @@ class ControllerResponsesCheckoutPay extends AController
                     return;
                 }
                 //was address changed?
-                if ($this->request->get['shipping_address_id']) {
-                    $address_id = $this->request->get['shipping_address_id'];
-                } else {
-                    if ($this->fc_session['shipping_address_id']) {
-                        $address_id = $this->fc_session['shipping_address_id'];
-                    } else {
-                        $address_id = $this->customer->getAddressId();
-                    }
-                }
+                $address_id = (int)$this->request->get['shipping_address_id']
+                    ?: $this->fc_session['shipping_address_id']
+                        ?: $this->customer->getAddressId();
 
                 foreach ($this->data['all_addresses'] as $adr) {
                     if ($adr['address_id'] == $address_id) {
@@ -1345,9 +1340,9 @@ class ControllerResponsesCheckoutPay extends AController
         //Validate address entries
         $post = $this->request->post;
         if ($this->request->is_POST() && $this->action != 'login') {
-            $form = new AForm();
-            $form->loadFromDb(static::$formTxtId);
-            $this->error = $form->validateFormData($post);
+            /** @var ModelAccountAddress $mdl */
+            $mdl = $this->loadModel('account/address');
+            $this->error = $mdl->validateAddressData($post, static::$formTxtId);
             if ($this->error) {
                 $this->_addressForm($this->request->get['type'], $post);
                 return;
@@ -1464,12 +1459,12 @@ class ControllerResponsesCheckoutPay extends AController
             ]
         );
 
-        $countryId = $this->request->post['country_id']
-            ?? $data['country_id']
-            ?? $this->config->get('config_country_id');
-        $zoneId = $this->request->post['zone_id']
-            ?? $data['zone_id']
-            ?? $this->config->get('config_zone_id');
+        $countryId = (int)$this->request->post['country_id']
+            ?: (int)$data['country_id']
+                ?: (int)$this->config->get('config_country_id');
+        $zoneId = (int)$this->request->post['zone_id']
+            ?: (int)$data['zone_id']
+                ?: (int)$this->config->get('config_zone_id');
 
         $addressForm = new AForm();
         $addressForm->loadFromDb(static::$formTxtId);
@@ -1522,8 +1517,8 @@ class ControllerResponsesCheckoutPay extends AController
         $this->data['type'] = $type;
         $this->data['error'] = '';
 
-        if (isset($this->error['message'])) {
-            $this->data['error'] = $this->error['message'];
+        if (isset($this->error['message']) || isset($this->error['warning'])) {
+            $this->data['error'] = $this->error['message'] . $this->error['warning'];
             $this->data['errors'] = $this->error;
         }
 

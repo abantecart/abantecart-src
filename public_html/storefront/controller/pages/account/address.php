@@ -361,15 +361,18 @@ class ControllerPagesAccountAddress extends AController
             $this->error['warning'] = $this->language->get('error_unknown');
         }
 
-        $form = new AForm();
-        $form->loadFromDb('AddressFrm');
-        $this->error = $form->validateFormData($data);
+        /** @var ModelAccountAddress $mdl */
+        $mdl = $this->loadModel('account/address');
+        $data['address_id'] = (int)$this->request->get['address_id'];
+        $this->error = $mdl->validateAddressData($data);
         if (!$this->error) {
+            $form = new AForm();
+            $form->loadFromDb('AddressFrm');
             $fList = $form->getFields();
             if ($fList) {
                 foreach ($fList as $fName => $f) {
                     //if the field is checkbox and not present in the post-data - set it null
-                    if (in_array($f['element_type'],['C','G']) && !isset($data[$fName])) {
+                    if (in_array($f['element_type'], ['C', 'G']) && !isset($data[$fName])) {
                         $data[$fName] = null;
                     }
                 }

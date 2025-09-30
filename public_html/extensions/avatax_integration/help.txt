@@ -1,16 +1,82 @@
-<center><b>AvaTax AbanteCart Quick Setup Manual</b></center>
-<br />
-<p>Before you can start using AvaTax in AbanteCart, you need to have account with Avalara and company setup <a href="https://www.avalara.com/integrations/abantecart/" target="_avalara">https://www.avalara.com/integrations/abantecart/</a>
-<br/>
-Once your account activated please set up in AvaTax Admin Console your <a href="https://help.avalara.com/000_Avalara_AvaTax/Add_Nexus_Jurisdictions" target="_blank">nexus jurisdictions</a> to tell AvaTax when and where to calculate and report taxes for your company. You initially add nexus jurisdictions when you <a href="https://help.avalara.com/000_Avalara_AvaTax/Set_up_Your_Avalara_AvaTax_Account" target="_blank">configure your company tax profile</a>.<br />
-<br/></p>
-<br/>
-Our manual page  <a href="https://abantecartextensions.com/docs/avatax" target="_manual">https://abantecartextensions.com/docs/avatax</a>
-<br/><br/>
-Get support for registered users via our support system <a target="_support" href="https://wehearyou2.com/clientarea/client/login/" >https://wehearyou2.com/clientarea/client/login/</a>
-<br/><br/>
-Forgot to register when you installed your extension? <a target="_support" href="https://wehearyou2.com/clientarea/reg/?type=extension"> Click here.</a>
+<h2>Avalara AvaTax for AbanteCart — Quick Start</h2>
 
+<p>
+This extension connects your AbanteCart store to <a href="https://www.avalara.com/integrations/abantecart/">Avalara AvaTax</a> for automated sales tax calculation, address validation, document posting, and exemptions handling.
+</p>
 
+<h3>1) Prevent double taxation</h3>
+<p>
+Before using AvaTax, disable AbanteCart’s built-in tax rates OR avoid assigning tax classes to products:
+</p>
+<ol>
+  <li><strong>Recommended:</strong> Go to <em>System &gt; Localization &gt; Tax Classes</em> and disable/remove existing tax rates so AbanteCart does not add its own tax on top of AvaTax.</li>
+  <li><strong>Alternative:</strong> Do not set a Tax Class on products. With no Tax Class, AbanteCart won’t apply its rates and AvaTax will handle tax.</li>
+</ol>
 
+<h3>2) Required AvaTax credentials</h3>
+<p>
+In extension settings, enter:
+</p>
+<ul>
+  <li><strong>Account Number</strong></li>
+  <li><strong>License Key</strong></li>
+  <li><strong>Company Code:</strong> This is the code you created when setting up your company nexus in the Avalara AvaTax site. It identifies your company within AvaTax for all tax calculations. Do not confuse this with your Company Name — it must be the exact code defined in AvaTax.</li>
+</ul>
+<p>
+Choose <strong>Test Mode</strong> for sandbox or turn it OFF for live. Click <strong>Test connection</strong> to verify.
+</p>
 
+<h3>3) Address validation</h3>
+<p>
+Enable <strong>Address Validation</strong>. Both your store (origin) address and the customer’s shipping address must be valid in order to get a correct tax rate. Registered customers will see a warning during checkout if their address is not valid.
+</p>
+
+<h3>4) Product &amp; freight tax codes</h3>
+<p>
+A default product tax code is provided in settings (<code>P0000000</code>). This code is used for all products unless you assign a specific code per item.
+</p>
+<ul>
+  <li><strong>Per product:</strong> Each product has a new AvaTax tab in the admin where you can enter a specific tax code.</li>
+  <li><strong>Shipping/freight:</strong> Tax codes can also be assigned to Delivery Methods in the extension under “Shipping Methods Default TaxCodes.” If no code is set for a shipping method, delivery charges will not be taxed.</li>
+</ul>
+<p>
+Browse the full catalog of AvaTax tax codes here: <a href="https://taxcode.avatax.avalara.com/">https://taxcode.avatax.avalara.com/</a>
+</p>
+
+<h3>5) Nexus jurisdictions</h3>
+<p>
+When your business has “nexus” in a tax jurisdiction, it means you have a physical presence or economic connection there and are obligated to collect and remit taxes to that jurisdiction. 
+</p>
+<p>
+You must configure nexus jurisdictions in your Avalara AvaTax account to tell Avalara where to calculate and report taxes. Country, regional, and local jurisdictions can be added in the AvaTax Admin Console. 
+</p>
+<p>
+See Avalara’s guide here: <a href="https://knowledge.avalara.com/bundle/dqa1657870670369_dqa1657870670369/page/Verify_your_jurisdictions_and_activate_your_company.html">Verify your jurisdictions and activate your company</a>.
+</p>
+
+<h3>6) Exempt customers</h3>
+<p>
+Customers can enter their <strong>Tax Exemption Certificate Number</strong> and <strong>Customer Usage Type</strong> during registration or from their account page. Submissions are held for admin moderation (approve or decline).
+</p>
+
+<h3>7) Settings overview</h3>
+<ul>
+  <li><strong>Test mode:</strong> ON for sandbox, OFF for live.</li>
+  <li><strong>Tax Name:</strong> The label that customers will see for Avalara tax in the storefront (checkout and order summary). Default: avTax.</li>
+  <li><strong>Address Validation:</strong> Validates store and customer addresses before tax calculation. Customers will be warned at checkout if their address is not valid.</li>
+  <li><strong>Commit documents on AvaTax Service:</strong> When enabled, completed orders are sent and committed to AvaTax.</li>
+  <li><strong>Commit on Order status:</strong> Choose the status (e.g., Completed) that will trigger commit to AvaTax. Uncommitted transactions won’t show in AvaTax reports. Commit only after the order is final and no further changes are expected.</li>
+  <li><strong>Cancel on Order status:</strong> Orders moved to this status (e.g., Canceled) will cancel the document in AvaTax.</li>
+  <li><strong>Return documents on AvaTax Service:</strong> If enabled, refunds/returns will be sent to AvaTax.</li>
+  <li><strong>Return on Order status:</strong> Select status (e.g., Reversed) that triggers return documents.</li>
+  <li><strong>Enable transaction logging:</strong> Logs AvaTax requests and responses for debugging. Better to keep OFF unless troubleshooting.</li>
+</ul>
+
+<h3>8) Tips</h3>
+<ul>
+  <li>Keep store origin address accurate (System &gt; Settings &gt; Store details).</li>
+</ul>
+
+<p>
+Need AvaTax? Start here: <a href="https://www.avalara.com/integrations/abantecart/">https://www.avalara.com/integrations/abantecart/</a>
+</p>
