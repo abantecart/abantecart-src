@@ -901,7 +901,7 @@ class ExtensionAvataxIntegration extends Extension
 
         $view = new AView($this->registry, 0);
         $view->batchAssign($data);
-        $that->view->addHookVar('customer_attributes', $view->fetch('pages/account/tax_exempt_edit.tpl'));
+        $that->view->addHookVar('customer_attributes', $view->fetch('pages/account/tax_exempt_create.tpl'));
     }
 
     /** @see  ModelAccountAddress::validateAddressData() */

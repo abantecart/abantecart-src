@@ -37,8 +37,8 @@ if ($error_warning) { ?>
             foreach ($fields as $fieldKey => $field) {?>
                 <div class="row mb-3">
                     <label for="<?php echo $field->element_id ?>"
-                           class="text-nowrap col-sm-2 col-form-label me-2"><?php echo $field->display_name; ?></label>
-                    <div class="col-sm-9 h-100">
+                           class="col-sm-4 col-form-label me-2"><?php echo $field->display_name; ?></label>
+                    <div class="col-sm-7 h-100">
                         <?php
                         if(in_array($fieldKey,['password','password_confirm'])){
                             $field->attr .= ' role="password" ';

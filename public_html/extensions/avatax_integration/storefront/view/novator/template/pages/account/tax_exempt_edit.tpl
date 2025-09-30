@@ -15,11 +15,11 @@
                 echo $field;
                 continue;
             }?>
-                <div class="mb-3 row">
-                    <label for="<?php echo $field->element_id?>" class="col-sm-12 col-md-5 col-form-label me-2 text-md-end">
+                <div class="mb-3 row justify-content-md-center align-items-center">
+                    <label for="<?php echo $field->element_id?>" class="col-sm-12 col-md-5 col-form-label me-2">
                         <?php echo ${'entry_'.$field_name}; ?>
                     </label>
-                    <div class="col-sm-12 col-md-6 h-100">
+                    <div class="col-sm-12 col-md-6">
                         <?php echo $field; ?>
                         <span class="help-block text-danger"><?php echo ${'error_'.$field_name}; ?></span>
                     </div>

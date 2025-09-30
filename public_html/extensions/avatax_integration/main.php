@@ -43,7 +43,10 @@ $models = [
 ];
 
 $templates = [
-    'storefront' => ['pages/account/tax_exempt_edit.tpl'],
+    'storefront' => [
+        'pages/account/tax_exempt_create.tpl',
+        'pages/account/tax_exempt_edit.tpl',
+    ],
     'admin'      => [
         'pages/extension/avatax_integration_settings.tpl',
         'pages/extension/avatax_integration_shipping_taxcodes.tpl',
