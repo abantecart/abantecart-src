@@ -83,5 +83,10 @@ alter table `ac_form_descriptions`
         foreign key (`form_id`) references `ac_forms` (`form_id`)
             on update cascade on delete cascade;
 
-alter table `ac_global_attributes` modify attribute_parent_id int null;
+alter table `ac_global_attributes`
+    modify attribute_parent_id int null,
+    modify attribute_group_id int null;
+
+UPDATE `ac_global_attributes` SET attribute_parent_id=NULL WHERE attribute_parent_id='0';
+UPDATE `ac_global_attributes` SET attribute_group_id=NULL WHERE attribute_group_id='0';
 

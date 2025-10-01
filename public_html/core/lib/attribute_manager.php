@@ -46,8 +46,7 @@ class AAttribute_Manager extends AAttribute
 
     public function clearCache()
     {
-        $this->cache->remove('attribute');
-        $this->cache->remove('attributes');
+        $this->cache->remove(['attribute', 'attributes']);
     }
 
     /**
@@ -160,10 +159,10 @@ class AAttribute_Manager extends AAttribute
         //check if we change the element type and clean options if it does not require it
         if (isset($data['element_type']) && $data['element_type'] != $attribute['element_type']) {
             if (!in_array($data['element_type'], $elements_with_options)) {
-                $sql = "DELETE FROM " . $this->db->table("global_attributes_values") . "
+                $sql = "DELETE FROM " . $this->db->table("global_attributes_value_descriptions") . "
                         WHERE attribute_id = '" . (int)$attribute_id . "'";
                 $this->db->query($sql);
-                $sql = "DELETE FROM " . $this->db->table("global_attributes_value_descriptions") . "
+                $sql = "DELETE FROM " . $this->db->table("global_attributes_values") . "
                         WHERE attribute_id = '" . (int)$attribute_id . "'";
                 $this->db->query($sql);
             }
@@ -726,12 +725,9 @@ class AAttribute_Manager extends AAttribute
      * @return array|int
      * @throws AException
      */
-    public function getAttributes($data = [], $language_id = 0, $attribute_parent_id = null, $mode = 'default')
+    public function getAttributes($data = [], $language_id = 0, ?int $attribute_parent_id = null, string $mode = 'default')
     {
-
-        if (!$language_id) {
-            $language_id = $this->session->data['content_language_id'];
-        }
+        $language_id = (int)$language_id ?: $this->language->getContentLanguageID();
 
         //Prepare filter config
         $filter_params = ['attribute_parent_id', 'status'];
@@ -771,8 +767,11 @@ class AAttribute_Manager extends AAttribute
         if (!empty($data['subsql_filter'])) {
             $sql .= " AND " . $data['subsql_filter'];
         }
-        if (empty($data['search']) && !is_null($attribute_parent_id)) {
-            $sql .= " AND ga.attribute_parent_id = '" . (int)$attribute_parent_id . "' ";
+
+        if (!$attribute_parent_id && is_int($attribute_parent_id)) {
+            $sql .= " AND ga.attribute_parent_id IS NULL ";
+        } elseif ($attribute_parent_id) {
+            $sql .= " AND ga.attribute_parent_id = " . (int)$attribute_parent_id;
         }
 
         if (!empty($data['attribute_type_id'])) {

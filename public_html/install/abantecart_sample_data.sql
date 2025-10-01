@@ -333,12 +333,12 @@ INSERT INTO `ac_global_attributes`
 `status`,
 `regexp_pattern`)
 VALUES
-(1,0,0,1,'S',1,1,'',1,NULL),
-(2,0,0,1,'C',0,0,'',1,NULL),
-(5,0,0,1,'G',1,1,'',1,NULL),
-(6,0,0,1,'S',0,0,'a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}',1,''),
-(7,6,0,1,'S',0,0,'a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}',1,''),
-(8,6,0,1,'S',0,0,'a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}',1,'');
+(1,NULL,NULL,1,'S',1,1,'',1,NULL),
+(2,NULL,NULL,1,'C',0,0,'',1,NULL),
+(5,NULL,NULL,1,'G',1,1,'',1,NULL),
+(6,NULL,NULL,1,'S',0,0,'a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}',1,''),
+(7,6,NULL,1,'S',0,0,'a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}',1,''),
+(8,6,NULL,1,'S',0,0,'a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}',1,'');
 
 --
 -- Dumping data for table `global_attributes_descriptions`
