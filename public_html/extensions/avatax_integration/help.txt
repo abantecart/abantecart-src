@@ -1,7 +1,7 @@
 <h2>Avalara AvaTax for AbanteCart — Quick Start</h2>
 
 <p>
-This extension connects your AbanteCart store to <a href="https://www.avalara.com/integrations/abantecart/">Avalara AvaTax</a> for automated sales tax calculation, address validation, document posting, and exemptions handling.
+This extension connects your AbanteCart store to <a href="https://www.avalara.com/integrations/abantecart/"  target="_blank">Avalara AvaTax</a> for automated sales tax calculation, address validation, document posting, and exemptions handling.
 </p>
 
 <h3>1) Prevent double taxation</h3>
@@ -40,7 +40,7 @@ A default product tax code is provided in settings (<code>P0000000</code>). This
   <li><strong>Shipping/freight:</strong> Tax codes can also be assigned to Delivery Methods in the extension under “Shipping Methods Default TaxCodes.” If no code is set for a shipping method, delivery charges will not be taxed.</li>
 </ul>
 <p>
-Browse the full catalog of AvaTax tax codes here: <a href="https://taxcode.avatax.avalara.com/">https://taxcode.avatax.avalara.com/</a>
+Browse the full catalog of AvaTax tax codes here: <a href="https://taxcode.avatax.avalara.com/" target="_blank">https://taxcode.avatax.avalara.com/</a>
 </p>
 
 <h3>5) Nexus jurisdictions</h3>
@@ -51,7 +51,7 @@ When your business has “nexus” in a tax jurisdiction, it means you have a ph
 You must configure nexus jurisdictions in your Avalara AvaTax account to tell Avalara where to calculate and report taxes. Country, regional, and local jurisdictions can be added in the AvaTax Admin Console. 
 </p>
 <p>
-See Avalara’s guide here: <a href="https://knowledge.avalara.com/bundle/dqa1657870670369_dqa1657870670369/page/Verify_your_jurisdictions_and_activate_your_company.html">Verify your jurisdictions and activate your company</a>.
+See Avalara’s guide here: <a target="_blank"  href="https://knowledge.avalara.com/bundle/dqa1657870670369_dqa1657870670369/page/Verify_your_jurisdictions_and_activate_your_company.html">Verify your jurisdictions and activate your company</a>.
 </p>
 
 <h3>6) Exempt customers</h3>
@@ -78,5 +78,5 @@ Customers can enter their <strong>Tax Exemption Certificate Number</strong> and 
 </ul>
 
 <p>
-Need AvaTax? Start here: <a href="https://www.avalara.com/integrations/abantecart/">https://www.avalara.com/integrations/abantecart/</a>
+Need AvaTax? Start here: <a href="https://www.avalara.com/integrations/abantecart/" target="_blank">https://www.avalara.com/integrations/abantecart/</a>
 </p>
