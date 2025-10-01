@@ -419,8 +419,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $ppData['purchase_units'][0]['shipping'] = $shipping;
         }
 
-        //allow breakdown only for store currency to avoid conversion problems
-        if ($this->config->get('config_currency') == $currencyCode) {
+        //allow breakdown only for store currency without enabled setting "display prices with tax"
+        // to avoid conversion problems
+        if ($this->config->get('config_currency') == $currencyCode && !$this->config->get('config_tax')) {
             $ppData['purchase_units'][0]['amount']['breakdown'] = $amountBreakdown;
             $ppData['purchase_units'][0]['items'] = $items;
         }
