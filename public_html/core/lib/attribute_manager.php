@@ -175,7 +175,11 @@ class AAttribute_Manager extends AAttribute
         $update = [];
         foreach ($fields as $f) {
             if (isset($data[$f])) {
-                $update[] = $f . " = '" . $this->db->escape($data[$f]) . "'";
+                if(in_array($f,['attribute_parent_id','attribute_group_id'])){
+                    $update[] = $f . " = " . $this->db->intOrNull($data[$f]);
+                }else {
+                    $update[] = $f . " = '" . $this->db->escape($data[$f]) . "'";
+                }
             }
         }
         if (!empty($update)) {
