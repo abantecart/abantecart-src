@@ -1,80 +1,72 @@
 <?php foreach ($form['fields'] as $name => $field) {
 	//Logic to calculate fields width
-	$widthcasses = "col-sm-7";
-	if (is_int(stripos($field->style, 'large-field'))) {
-		$widthcasses = "col-sm-7";
-	} else if (is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date'))) {
-		$widthcasses = "col-sm-5";
-	} else if (is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch'))) {
-		$widthcasses = "col-sm-3";
-	} else if (is_int(stripos($field->style, 'tiny-field'))) {
-		$widthcasses = "col-sm-2";
-	}
-	$widthcasses .= " col-xs-12";
-	?>
-	<div class="form-group <?php echo !empty($error[$name]) ? "has-error" :''; ?>">
+    $widthCssClasses = adminFormFieldBS3CssClasses($field->style); ?>
+	<div class="form-group <?php echo $error[$name] ? "has-error" :''; ?>">
 		<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
-		<div class="input-group afield <?php echo $widthcasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '') ?>"><?php echo $field; ?></div>
-		<?php if (!empty($error[$name])) { ?>
+		<div class="input-group afield <?php echo $widthCssClasses .' '.($name == 'description' ? 'ml_ckeditor' : ''); ?>">
+            <?php echo $field; ?>
+        </div>
+		<?php if($error[$name]){ ?>
 			<span class="help-block field_err"><?php echo $error[$name]; ?></span>
 		<?php } ?>
 	</div>
-
 	<?php if ($name == 'element_type') {
 		if ($child_count == 0) { ?>
 			<div id="values" style="display: none;">
 				<label class="control-label col-sm-3 col-xs-12"></label>
 				<div class="input-group afield col-sm-7">
-				<table class="table table-narrow">
-					<thead>
-						<tr>
-							<th><?php echo $entry_element_values; ?></th>
-                            <th><?php echo $entry_price_prefix;?></th>
-                            <th><?php echo $entry_price_modifier; ?></th>
-							<th><?php echo $column_sort_order; ?></th>
-							<th><?php echo $column_txt_id; ?></th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-					<?php foreach ($form['attribute_values'] as $atr_val_id => $atr_field) { ?>
-						<tr id="<?php echo $atr_val_id;?>" class="value">
-							<td><?php echo $atr_field['attribute_value_ids']; ?><?php echo $atr_field['values']; ?></td>
-							<td class="center">
-                                <?php echo $atr_field['price_modifier']; ?>
-                            </td>
-                            <td class="center">
-                                <?php echo $atr_field['price_prefix']; ?>
-                            </td>
-							<td><?php $atr_field['sort_order']->style = 'col-sm-2';
-								echo $atr_field['sort_order']; ?>
-                            </td>
-							<td><?php $atr_field['txt_id']->style = 'col-sm-2';
-								echo $atr_field['txt_id']; ?>
-                            </td>
-							<td>
-                                <?php echo $this->getHookVar('attribute_value_extra_buttons_'.$atr_val_id); ?>
-                                <a class="remove btn btn-danger-alt" title="<?php echo $button_remove; ?>">
-                                    <i class="fa fa-minus-circle"></i>
+                    <table class="table table-narrow">
+                        <thead>
+                            <tr>
+                                <th><?php echo $entry_element_values; ?></th>
+                                <th><?php echo $entry_price_prefix;?></th>
+                                <th><?php echo $entry_price_modifier; ?></th>
+                                <th><?php echo $column_sort_order; ?></th>
+                                <th><?php echo $column_txt_id; ?></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($form['attribute_values'] as $attrValueId => $attrField) { ?>
+                            <tr id="<?php echo $attrValueId;?>" class="value">
+                                <td><?php echo $attrField['attribute_value_ids']; ?><?php echo $attrField['values']; ?></td>
+                                <td class="center">
+                                    <?php echo $attrField['price_modifier']; ?>
+                                </td>
+                                <td class="center">
+                                    <?php echo $attrField['price_prefix']; ?>
+                                </td>
+                                <td><?php
+                                    $attrField['sort_order']->style = 'col-sm-2';
+                                    echo $attrField['sort_order']; ?>
+                                </td>
+                                <td><?php
+                                    $attrField['txt_id']->style = 'col-sm-2';
+                                    echo $attrField['txt_id']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $this->getHookVar('attribute_value_extra_buttons_'.$attrValueId); ?>
+                                    <a class="remove btn btn-danger-alt" title="<?php echo_html2view($button_remove); ?>">
+                                        <i class="fa fa-minus-circle"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <?php echo $this->getHookVar('attribute_value_extra_'.$attrValueId); ?>
+                        <?php } ?>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <a href="#" title="<?php echo_html2view($button_add); ?>" id="add_option_value" class="btn btn-success">
+                                    <i class="fa fa-plus-circle fa-lg"></i>
                                 </a>
                             </td>
-						</tr>
-                        <?php echo $this->getHookVar('attribute_value_extra_'.$atr_val_id); ?>
-					<?php } ?>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>
-							<a href="#" title="<?php echo $button_add ?>" id="add_option_value" class="btn btn-success">
-                                <i class="fa fa-plus-circle fa-lg"></i>
-                            </a>
-						</td>
-					</tr>
-					</tbody>
-				</table>
+                        </tr>
+                        </tbody>
+                    </table>
 				</div>
 			</div>
 		<?php } else { ?>
@@ -89,7 +81,6 @@
 				</div>
 			</div>
 		<?php } ?>
-
 		<div id="file_settings" class="form-group" style="display: none;">
 			<div class="form-group">
 				<label class="control-label col-sm-3 col-xs-12"></label>
@@ -105,30 +96,25 @@
 				</div>
 			</div>
 			<?php
-			$arr = array(
-					'entry_allowed_extensions' => 'extensions',
-					'entry_min_size'=>'min_size',
-					'entry_max_size'=>'max_size',
-					'entry_upload_dir'=>'directory');
+			$arr = [
+                'entry_allowed_extensions' => 'extensions',
+                'entry_min_size'=>'min_size',
+                'entry_max_size'=>'max_size',
+                'entry_upload_dir'=>'directory'
+            ];
 			foreach($arr as $entry=>$name){
-				$fld = $form['settings_fields'][$name];
-				?>
+				$fld = $form['settings_fields'][$name]; ?>
 			<div class="form-group ">
 				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $fld->name;?>"><?php echo $$entry; ?></label>
 				<div class="input-group afield col-sm-7"><?php echo $form['settings_fields'][$name]; ?></div>
 			</div>
-			<?php }?>
-
+			<?php } ?>
 		</div>
-
-	<?php } ?>
-
-	<?php if ($name == 'attribute_parent') { ?>
+	<?php }
+    if ($name == 'attribute_parent') { ?>
 		<div class="input-group afield col-sm-7"><?php echo $text_parent_note; ?></div>
-	<?php } ?>
-
-<?php } //foreach ?>
-
+	<?php }
+    } //foreach ?>
 <script type="text/javascript">
 
 		let elements_with_options = [];
@@ -161,16 +147,16 @@
             let so = Number($('#values').find('input[name*=sort_order]').last().val());
             so++;
             let tr = $('#values tr.value');
-			let row = tr.last().clone();
-			tr.last().after(row);
+            let last = tr.last();
+			let row = last.clone();
+			$(this).parents('tr').before(row);
 
-			let last = tr.last();
-			last.find('input[name^=attribute_value_ids').attr("name", "attribute_value_ids[new"+key+"]").removeAttr('id').val('new'+key);
-			last.find('input[name*="[value]"]').attr("name", "values[new"+key+"][value]").removeAttr('id');
-			last.find('input[name*=price_modifier]').attr("name", "values[new"+key+"][price_modifier]").removeAttr('id');
-			last.find('input[name*=price_prefix]').attr("name", "values[new"+key+"][price_prefix]").removeAttr('id');
-			last.find('input[name*=txt_id]').attr("name", "values[new"+key+"][txt_id]").removeAttr('id');
-			last.find('input[name*=sort_order]')
+			row.find('input[name^=attribute_value_ids').attr("name", "attribute_value_ids[new"+key+"]").removeAttr('id').val('new'+key);
+			row.find('input[name*="[value]"]').attr("name", "values[new"+key+"][value]").removeAttr('id');
+			row.find('input[name*=price_modifier]').attr("name", "values[new"+key+"][price_modifier]").removeAttr('id');
+			row.find('input[name*=price_prefix]').attr("name", "values[new"+key+"][price_prefix]").removeAttr('id');
+			row.find('input[name*=txt_id]').attr("name", "values[new"+key+"][txt_id]").removeAttr('id');
+			row.find('input[name*=sort_order]')
                 .attr("name", "values[new"+key+"][sort_order]")
                 .removeAttr('id')
                 .val( so );
