@@ -71,7 +71,9 @@ if (file_exists(DIR_SYSTEM . 'config.php')) {
 require_once('init.php');
 
 if (isset($session->data['finish']) && $session->data['finish'] == 'true') {
-    $request->get['rt'] = 'finish';
+    if($request->get['rt'] != 'credentials') {
+        $request->get['rt'] = 'finish';
+    }
 }
 
 try {

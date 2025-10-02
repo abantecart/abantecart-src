@@ -197,3 +197,7 @@ footer a {
 	border: none;
 	margin-bottom: 10px;
 }
+
+.credentials-btn{
+    color: #fff !important;
+}

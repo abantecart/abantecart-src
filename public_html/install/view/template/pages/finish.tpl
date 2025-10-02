@@ -37,6 +37,7 @@
 		</div>
 	    <div class="snapshots col-md-6">
 		    <a href="../<?php echo $admin_path ?>"><img src="<?php echo $template_dir; ?>image/admin.png" alt="admin side" style="width: 250px; border: none;" /></a><br />
+            <a target="_blank" class="btn btn-success credentials-btn" href="index.php?rt=credentials">Save file with credentials <i class="fa fa-download"></i></a><br><br>
 		    <a href="../<?php echo $admin_path ?>">Login to your Control Panel</a>
 		</div>
 		</div>
