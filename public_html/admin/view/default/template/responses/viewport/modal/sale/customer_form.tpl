@@ -1,6 +1,6 @@
 <div class="modal-header">
     <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
-    <a aria-hidden="true" class="btn btn-default" type="button" href="" target="_new"><i
+    <a aria-hidden="true" class="btn btn-default" type="button" href="" target="_blank"><i
                 class="fa fa-arrow-right fa-fw"></i><?php echo $text_more_new; ?></a>
     <a aria-hidden="true" class="btn btn-default" type="button" href=""><i
                 class="fa fa-arrow-down fa-fw"></i><?php echo $text_more_current; ?></a>

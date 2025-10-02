@@ -337,7 +337,7 @@
 	<definition>
 		<key>paypal_commerce_webhook_howto_text</key>
 		<value><![CDATA[Note: To complete setup you should to create webhooks on Paypal Account Side.
-<br> Go to Your <a href="https://dashboard.paypal.com/webhooks" target="_new">Paypal Dashboard Developer Section</a>
+<br> Go to Your <a href="https://dashboard.paypal.com/webhooks" target="_blank">Paypal Dashboard Developer Section</a>
 and Add Endpoints receiving events from your account. After Endpoint has been created copy Signing Secret and save into Paypal Subscription Extension settings belong.
 ]]></value>
 	</definition>

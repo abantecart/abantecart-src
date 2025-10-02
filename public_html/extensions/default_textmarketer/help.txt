@@ -1,4 +1,4 @@
-<b><a target="_new" href="https://www.textmarketer.co.uk/abantecart">Text Marketer</a> SMS Configuration</b>
+<b><a target="_blank" href="https://www.textmarketer.co.uk/abantecart">Text Marketer</a> SMS Configuration</b>
 <br/><br/>
 
 With Text Marketer SMS service you can enable AbanteCart to send SMS notifications to administrators and customers.
@@ -16,4 +16,4 @@ If you do not have Text Marketer account, please follow <a href="https://www.tex
 Now Text Marketer can be used in admin and storefront to send notifications.  
 <br/><br/>
 
-<a target="_new" href="https://www.textmarketer.co.uk/abantecart">Access Text Marketer</a>
+<a target="_blank" href="https://www.textmarketer.co.uk/abantecart">Access Text Marketer</a>

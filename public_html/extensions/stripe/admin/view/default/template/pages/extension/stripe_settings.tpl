@@ -16,12 +16,12 @@ echo $tabs; ?>
                 <div class="btn-group mr10 toolbar">
                     <?php
                     if ($test_mode) { ?>
-                        <a href="<?php echo $connect_url; ?>" class="stripe-connect" target="_new">
+                        <a href="<?php echo $connect_url; ?>" class="stripe-connect" target="_blank">
                             <span><?php echo $text_connect; ?> (live) </span>
                         </a>
                     <?php
                     } else { ?>
-                        <a href="<?php echo $connect_url; ?>&mode=test" class="stripe-connect light-blue" target="_new">
+                        <a href="<?php echo $connect_url; ?>&mode=test" class="stripe-connect light-blue" target="_blank">
                             <span><?php echo $text_connect; ?> (test) </span>
                         </a>
                     <?php
@@ -30,12 +30,12 @@ echo $tabs; ?>
             <?php
             } else { ?>
                 <div class="btn-group mr10 toolbar">
-                    <a href="<?php echo $connect_url; ?>" class="stripe-connect" target="_new">
+                    <a href="<?php echo $connect_url; ?>" class="stripe-connect" target="_blank">
                         <span><?php echo $text_connect; ?> (live) </span>
                     </a>
                 </div>
                 <div class="btn-group mr10 toolbar">
-                    <a href="<?php echo $connect_url; ?>&mode=test" class="stripe-connect light-blue" target="_new">
+                    <a href="<?php echo $connect_url; ?>&mode=test" class="stripe-connect light-blue" target="_blank">
                         <span><?php echo $text_connect; ?> (test) </span>
                     </a>
                 </div>

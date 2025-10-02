@@ -43,7 +43,7 @@
                     <?php if ($product['orders'] > 0){ ?>
                         &nbsp;&nbsp;<a href="<?php echo $product['orders_url']; ?>"
                              class="btn btn-small btn-default"
-                             target="_new">
+                             target="_blank">
                             <i class="fa fa-external-link"></i> <?php echo $text_view; ?></a>
                     <?php } ?>
                 </td>

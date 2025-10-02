@@ -11,7 +11,7 @@ $blockName = $customBlockId ? $customName . ' <span>(' . $name . ')</span>' : $n
     <div class="block-title"><?php echo $blockName; ?></div>
     <div class="block-options">
 <?php if ($editUrl && $customBlockId) { ?>    
-      <a class="button" href="<?php echo $editUrl; ?>" target="_new" data-toggle="tooltip" data-placement="right" title="<?php echo $text_edit; ?>"><i class="fa fa-cog"></i></a>
+      <a class="button" href="<?php echo $editUrl; ?>" target="_blank" data-toggle="tooltip" data-placement="right" title="<?php echo $text_edit; ?>"><i class="fa fa-cog"></i></a>
 <?php } ?>      
 <?php if (has_value($blockId) || has_value($customBlockId)) { ?>        
       <a class="button blk-switch" data-toggle="tooltip" data-placement="right" title="<?php echo $text_enable; ?>"><i class="fa fa-power-off"></i></a>
