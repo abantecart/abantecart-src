@@ -29,7 +29,7 @@ function isFunctionAvailable($func_name)
  */
 function preformatFloat($value, $decimal_point = '.')
 {
-    if ($decimal_point != '.' && strpos($value, $decimal_point)) {
+    if ($decimal_point != '.' && str_contains($value, $decimal_point)) {
         $value = str_replace('.', '~', $value);
         $value = str_replace($decimal_point, '.', $value);
     }
