@@ -907,6 +907,10 @@ class AAttribute_Manager extends AAttribute
         $this->load->language('catalog/attribute');
 
         $txtIds = array_combine(array_keys($data), array_column($data, 'txt_id'));
+        $filteredTxtIds = array_filter($txtIds);
+        if (count($filteredTxtIds) != count(array_unique($filteredTxtIds))) {
+            $this->error['txt_id'] = $this->language->get('error_not_unique');
+        }
 
         if (!$this->error && $txtIds) {
             $sql = "SELECT gv.*, gad.name 
