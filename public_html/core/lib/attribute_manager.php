@@ -907,9 +907,6 @@ class AAttribute_Manager extends AAttribute
         $this->load->language('catalog/attribute');
 
         $txtIds = array_combine(array_keys($data), array_column($data, 'txt_id'));
-        if (count($txtIds) != count(array_unique($txtIds))) {
-            $this->error['txt_id'] = $this->language->get('error_not_unique');
-        }
 
         if (!$this->error && $txtIds) {
             $sql = "SELECT gv.*, gad.name 
@@ -942,6 +939,9 @@ class AAttribute_Manager extends AAttribute
                 $saved = array_column($exists->rows, 'txt_id', 'attribute_value_id');
                 foreach ($saved as $attrValueId => $txt_id) {
                     foreach ($txtIds as $key => $value) {
+                        if (!$value) {
+                            continue;
+                        }
                         if ($txt_id === $value && $key != $attrValueId) {
                             $this->error['txt_id'] = $this->language->get('error_not_unique');
                             break 2;
