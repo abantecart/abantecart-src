@@ -74,9 +74,9 @@ class AOrder
 
         //if nothing is passed use session array. Customer session, can function on storefront only
         if (!has_value($order_id)) {
-            $this->order_id = (int) $this->session->data['order_id'];
+            $this->order_id = (int)$this->session->data['order_id'];
         } else {
-            $this->order_id = (int) $order_id;
+            $this->order_id = (int)$order_id;
         }
 
         if (is_object($this->registry->get('customer'))) {
@@ -113,7 +113,7 @@ class AOrder
         //get order details for specific status. NOTE: Customer ID need to be set in customer class
         $this->order_data = $this->model_account_order->getOrder($this->order_id, $order_status_id);
         $this->extensions->hk_ProcessData($this, 'load_order_data');
-        return (array) $this->data + (array) $this->order_data;
+        return (array)$this->data + (array)$this->order_data;
     }
 
     /**
@@ -126,13 +126,12 @@ class AOrder
     public function buildOrderData(array $inData = [])
     {
         $order_info = [];
-        if (empty($inData)) {
+        if (!$inData) {
             return [];
         }
 
         $hasShipping = $this->cart->hasShipping();
-        $total_data = [];
-        $total = 0;
+
         $taxes = $this->cart->getTaxes();
 
         $this->load->model('checkout/extension');
@@ -140,27 +139,30 @@ class AOrder
         $results = $this->model_checkout_extension->getExtensions('total');
         $calculation_order = [];
         foreach ($results as $key => $value) {
-            $calculation_order[$key] = $this->config->get($value['key'].'_calculation_order');
+            $calculation_order[$key] = $this->config->get($value['key'] . '_calculation_order');
         }
 
         array_multisort($calculation_order, SORT_ASC, $results);
 
+        $total_data = [];
+        $totalAmount = 0;
         foreach ($results as $result) {
-            $this->load->model('total/'.$result['key']);
-            $this->{'model_total_'.$result['key']}->getTotal($total_data, $total, $taxes, $inData);
+            /** @var ModelTotalTotal|ModelTotalSubTotal|ModelTotalShipping $mdl */
+            $mdl = $this->load->model('total/' . $result['key']);
+            $mdl->getTotal($total_data, $totalAmount, $taxes, $inData);
 
-            //allow to change total data on-the-fly for extensions, for example rounding of amount etc
+            //allow changing total data on-the-fly for extensions, for example rounding of amount etc
             $this->data = [
                 'total_key'  => $result['key'],
                 'total_data' => $total_data,
-                'total'      => $total,
+                'total'      => $totalAmount,
                 'taxes'      => $taxes,
             ];
 
             $this->extensions->hk_ProcessData($this, __FUNCTION__);
 
             $total_data = $this->data['total_data'];
-            $total = $this->data['total'];
+            $totalAmount = $this->data['total'];
             $taxes = $this->data['taxes'];
             unset(
                 $this->data['total_key'],
@@ -171,8 +173,11 @@ class AOrder
         }
 
         $sort_order = [];
-
+        $orderTotalAmount = $totalAmount;
         foreach ($total_data as $key => $value) {
+            if ($value['id'] == 'total') {
+                $orderTotalAmount = $value['value'];
+            }
             $sort_order[$key] = $value['sort_order'];
         }
 
@@ -180,7 +185,7 @@ class AOrder
 
         $order_info['store_id'] = $this->config->get('current_store_id') ?? $this->config->get('config_store_id');
         $order_info['store_name'] = $this->config->get('store_name');
-        $order_info['store_url'] = $this->config->get('config_url').$this->config->get('seo_prefix');
+        $order_info['store_url'] = $this->config->get('config_url') . $this->config->get('seo_prefix');
         //prepare data with customer details.
         if ($this->customer->getId()) {
             $order_info['customer_id'] = $this->customer->getId();
@@ -190,37 +195,37 @@ class AOrder
             $order_info['email'] = $this->customer->getEmail();
             $order_info['telephone'] = $inData['telephone'] ?: $this->customer->getTelephone();
             $order_info['fax'] = $this->customer->getFax();
-
-            $this->load->model('account/address');
+            /** @var ModelAccountAddress $addrMdl */
+            $addrMdl = $this->load->model('account/address');
 
             if ($hasShipping) {
                 $shippingAddressId = (int)$inData['shipping_address_id'];
-                $shippingAddress = $this->model_account_address->getAddress($shippingAddressId);
-                foreach($shippingAddress as $key => $value){
-                    if($key == 'ext_fields'){
-                        foreach($value as $k => $v){
+                $shippingAddress = $addrMdl->getAddress($shippingAddressId);
+                foreach ($shippingAddress as $key => $value) {
+                    if ($key == 'ext_fields') {
+                        foreach ($value as $k => $v) {
                             $order_info['shipping_' . $k] = $v;
                         }
-                    }else {
+                    } else {
                         $order_info['shipping_' . $key] = $value;
                     }
                 }
             } else {
-                foreach($order_info as $key => &$value){
-                    if(str_starts_with($key, 'shipping_')) {
+                foreach ($order_info as $key => &$value) {
+                    if (str_starts_with($key, 'shipping_')) {
                         $value = '';
                     }
                 }
             }
 
             $paymentAddressId = (int)$inData['payment_address_id'];
-            $paymentAddress = $this->model_account_address->getAddress($paymentAddressId);
-            foreach($paymentAddress as $key => $value){
-                if($key == 'ext_fields'){
-                    foreach($value as $k => $v){
+            $paymentAddress = $addrMdl->getAddress($paymentAddressId);
+            foreach ($paymentAddress as $key => $value) {
+                if ($key == 'ext_fields') {
+                    foreach ($value as $k => $v) {
                         $order_info['payment_' . $k] = $v;
                     }
-                }else {
+                } else {
                     $order_info['payment_' . $key] = $value;
                 }
             }
@@ -241,13 +246,13 @@ class AOrder
 
                 $shippingDataSet = (array)($inData['guest']['shipping'] ?? $inData['guest']);
                 foreach ($shippingDataSet as $key => $value) {
-                    $order_info['shipping_'.$key] = $hasShipping ? $value : '';
+                    $order_info['shipping_' . $key] = $hasShipping ? $value : '';
                 }
 
                 $paymentDataSet = (array)$inData['guest'];
                 unset($paymentDataSet['shipping']);
                 foreach ($paymentDataSet as $key => $value) {
-                    if(!is_array($value)) {
+                    if (!is_array($value)) {
                         $order_info['payment_' . $key] = $value;
                     }
                 }
@@ -276,36 +281,29 @@ class AOrder
         $product_data = [];
 
         foreach ($this->cart->getProducts() + $this->cart->getVirtualProducts() as $key => $product) {
-            $product_data[] = [
-                'key'             => $product['key'],
-                'product_id'      => $product['product_id'],
-                'name'            => $product['name'],
-                'model'           => $product['model'],
-                'sku'             => $product['sku'],
-                'option'          => $product['option'],
-                'download'        => $product['download'],
-                'quantity'        => $product['quantity'],
-                'weight'          => (float) $product['weight'],
-                'weight_iso_code' => $product['weight_class'],
-                'width'           => (float) $product['width'],
-                'height'          => (float) $product['height'],
-                'length'          => (float) $product['length'],
-                'length_iso_code' => $product['length_class'],
-
-                //ternary for virtual products
-                'price'           => $product['amount'] ? : $product['price'],
-                'cost'            => $product['cost'],
-                'total'           => $product['amount']
-                                        ? ($product['amount'] * $product['quantity'])
-                                        : $product['total'],
-                'tax'             => $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']),
-                'stock'           => $product['stock'],
-            ];
+            $product_data[] = array_merge(
+                $product,
+                [
+                    'weight'          => (float)$product['weight'],
+                    'weight_iso_code' => $product['weight_class'],
+                    'width'           => (float)$product['width'],
+                    'height'          => (float)$product['height'],
+                    'length'          => (float)$product['length'],
+                    'length_iso_code' => $product['length_class'],
+                    //ternary for virtual products
+                    'price'           => $product['amount'] ?: $product['price'],
+                    'total'           => $product['amount']
+                        ? ($product['amount'] * $product['quantity'])
+                        : $product['total'],
+                    'tax'             => $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']),
+                ]
+            );
         }
         $order_info['products'] = $product_data;
         $order_info['totals'] = $total_data;
         $order_info['comment'] = $inData['comment'];
-        $order_info['total'] = $total;
+        //this amount in order currency taken from order total model result
+        $order_info['total'] = $orderTotalAmount;
         $order_info['language_id'] = $this->config->get('storefront_language_id');
         $order_info['currency_id'] = $this->currency->getId();
         $order_info['currency'] = $this->currency->getCode();
@@ -314,17 +312,12 @@ class AOrder
         if (isset($inData['coupon'])) {
             $promotion = new APromotion();
             $coupon = $promotion->getCouponData($inData['coupon']);
-            if ($coupon) {
-                $order_info['coupon_id'] = $coupon['coupon_id'];
-            } else {
-                $order_info['coupon_id'] = 0;
-            }
+            $order_info['coupon_id'] = (int)$coupon['coupon_id'];
         } else {
             $order_info['coupon_id'] = 0;
         }
 
         $order_info['ip'] = $this->request->getRemoteIP();
-
         $this->order_data = $order_info;
 
         $this->extensions->hk_ProcessData($this, 'build_order_data', $order_info);
@@ -361,7 +354,7 @@ class AOrder
 
     public static function getGoogleAnalyticsOrderData(array $orderData)
     {
-        if(!$orderData){
+        if (!$orderData) {
             return [];
         }
 
@@ -402,7 +395,7 @@ class AOrder
             [
                 'transaction_id' => (int)$orderData['order_id'],
                 'store_name'     => $registry->get('config')->get('store_name'),
-                'currency_code'  => $orderData['currency']?: $registry->get('currency')->getCode(),
+                'currency_code'  => $orderData['currency'] ?: $registry->get('currency')->getCode(),
                 'total'          => (float)$currency->format_number($order_total),
                 'tax'            => (float)$currency->format_number($order_tax),
                 'shipping'       => (float)$currency->format_number($order_shipping),
