@@ -1199,7 +1199,7 @@ DROP TABLE IF EXISTS `ac_order_data_types`;
 CREATE TABLE `ac_order_data_types` (
   `type_id` int(11) NOT NULL AUTO_INCREMENT,
   `language_id` int(11) NOT NULL,
-  `name` varchar(64) NOT NULL DEFAULT '' COMMENT 'translatable',
+  `name` varchar(64) NOT NULL DEFAULT '',
   `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`type_id`)

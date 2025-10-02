@@ -90,3 +90,4 @@ alter table `ac_global_attributes`
 UPDATE `ac_global_attributes` SET attribute_parent_id=NULL WHERE attribute_parent_id='0';
 UPDATE `ac_global_attributes` SET attribute_group_id=NULL WHERE attribute_group_id='0';
 
+alter table `ac_order_data_types` modify name varchar(64) default '' not null;

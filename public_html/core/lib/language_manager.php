@@ -1288,9 +1288,13 @@ class ALanguageManager extends Alanguage
             $load_data = $this->cache->pull($cache_key);
         }
         if (!$load_data) {
-            $sql = "SELECT DISTINCT table_name as `table_name` 
-                    FROM information_schema.columns 
-                    WHERE column_name = 'language_id' AND table_schema='" . DB_DATABASE . "'";
+            $sql = "SELECT DISTINCT c1.table_name as `table_name`
+                    FROM information_schema.columns c1
+                    INNER JOIN information_schema.columns c2
+                            ON (c2.table_name = c1.table_name 
+                                    AND c2.table_schema = c1.table_schema 
+                                    AND c2.column_comment='translatable')
+                    WHERE c1.column_name = 'language_id' AND c1.table_schema='" . DB_DATABASE . "'";
             $load_sql = $this->db->query($sql);
             $load_data = $load_sql->rows;
             if ($this->cache) {
