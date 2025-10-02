@@ -55,7 +55,9 @@
                     <?php echo $entry; ?>
                 </label>
 				<div class="input-group input-group-sm afield <?php echo $widthCssClasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '')?>">
-					<?php echo $field;?>
+					<?php
+                    $field->attr .= ' autocomplete="off" ';
+                    echo $field;?>
 				</div>
 				<?php if ($error[$name]) { ?>
 				    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
