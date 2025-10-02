@@ -96,6 +96,7 @@ a.abantecart-widget-cart {
 
 .abantecart_quantity_field {
     min-width: 2rem;
+    max-width: 4rem;
     height: 2rem;
     text-align: center;
 }
