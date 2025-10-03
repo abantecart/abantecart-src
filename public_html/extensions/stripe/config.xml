@@ -54,7 +54,7 @@
 				<item>wechat_pay</item>
 				<item>zip</item>
 			</variants>
-			<default_value>2</default_value>
+			<default_value>card</default_value>
 		</item>
 		<item id="stripe_settlement">
 			<type>hidden</type>
