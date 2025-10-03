@@ -958,7 +958,12 @@ class ACart
         }
 
         $this->total_data = $total_data;
-        $this->final_total = $total;
+        //final total need to take from an order "total" model because of the currency conversion issue
+        foreach($total_data as $arr){
+            if($arr['id'] == 'total'){
+                $this->final_total = $arr['value'];
+            }
+        }
         //if balance become less or 0 reapply partial
         if ($this->cust_data['used_balance'] && $this->final_total) {
             $this->cust_data['used_balance_full'] = false;
@@ -967,7 +972,7 @@ class ACart
     }
 
     /**
-     * Get Total Data for current built cart with all totals, taxes and applied promotions
+     * Get Total Data for the current built cart with all totals, taxes and applied promotions
      * To force recalculate pass argument as TRUE
      *
      * @param bool $recalculate
