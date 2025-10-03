@@ -34,6 +34,7 @@ class ControllerPagesCredentials extends AController
             $content .= 'Database Username: ' . DB_USERNAME . PHP_EOL;
             $content .= 'Database Password: ' . DB_PASSWORD . PHP_EOL . PHP_EOL;
             $content .= 'Admin URL: ' . HTTP_ABANTECART . 'index.php?s=' . ADMIN_PATH . PHP_EOL;
+            $content .= 'Admin Username: ' . $this->session->data['username'] . PHP_EOL;
 
             header('Content-Type: text/plain');
             header('Content-Disposition: attachment; filename="' . SERVER_NAME . '_credentials.txt"');

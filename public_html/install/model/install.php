@@ -228,26 +228,26 @@ class ModelInstall extends Model
         $content .= "const DB_USERNAME = '" . $data['db_user'] . "';" . PHP_EOL;
         $content .= "const DB_PASSWORD = '" . $data['db_password'] . "';" . PHP_EOL;
         $content .= "const DB_DATABASE = '" . $data['db_name'] . "';" . PHP_EOL;
-        $content .= "const DB_PREFIX = '" . DB_PREFIX . "';" . PHP_EOL;
-        $content .= "" . PHP_EOL;
+        $content .= "const DB_PREFIX = '" . DB_PREFIX . "';" . PHP_EOL . PHP_EOL;
         $content .= "const CACHE_DRIVER = 'file';" . PHP_EOL;
         $content .= "// Unique AbanteCart store ID" . PHP_EOL;
         $content .= "const UNIQUE_ID = '" . md5(time()) . "';" . PHP_EOL;
         $content .= "// Encryption key for protecting sensitive information. NOTE: Change of this key will cause a loss of all existing encrypted information!" . PHP_EOL;
         $content .= "const ENCRYPTION_KEY = '" . randomWord(6) . "';" . PHP_EOL;
-        $content .= "
-// details about allowed DSN settings  https://symfony.com/doc/6.0/mailer.html#transport-setup
-/*
-const MAILER = [
-    //'dsn' => null,
-    // OR
-    'protocol' => 'smtp', // or ses+smtp, gmail+smtp, mandrill+smtp, mailgun+smtp, mailjet+smtp, postmark+smtp, sendgrid+smtp, sendinblue+smtp, ohmysmtp+smtp
-    //we use \"username\" also as ID, KEY, API_TOKEN, ACCESS_KEY
-    'username' => 'merchant@yourdomain.com',
-    'password' => '****super-secret-password****',
-    'host'     => 'your-hostname',
-    'port'     => 465 //or 587 etc
-];".PHP_EOL."*/";
+        $content .= PHP_EOL;
+        $content .= "// details about allowed DSN settings  https://symfony.com/doc/6.0/mailer.html#transport-setup" . PHP_EOL;
+        $content .= "/*" . PHP_EOL;
+        $content .= "const MAILER = [" . PHP_EOL;
+        $content .= "    //'dsn' => null," . PHP_EOL;
+        $content .= "    // OR" . PHP_EOL;
+        $content .= "    'protocol' => 'smtp', // or ses+smtp, gmail+smtp, mandrill+smtp, mailgun+smtp, mailjet+smtp, postmark+smtp, sendgrid+smtp, sendinblue+smtp, ohmysmtp+smtp" . PHP_EOL;
+        $content .= "    //we use \"username\" also as ID, KEY, API_TOKEN, ACCESS_KEY" . PHP_EOL;
+        $content .= "    'username' => 'merchant@yourdomain.com'," . PHP_EOL;
+        $content .= "    'password' => '****super-secret-password****'," . PHP_EOL;
+        $content .= "    'host'     => 'your-hostname'," . PHP_EOL;
+        $content .= "    'port'     => 465 //or 587 etc" . PHP_EOL;
+        $content .= "];" . PHP_EOL;
+        $content .= "*/" . PHP_EOL;
 
         $file = fopen(DIR_ABANTECART . 'system/config.php', 'w');
         fwrite($file, $content);
@@ -308,6 +308,8 @@ const MAILER = [
                         status = '1',
                         date_added = NOW();"
                 );
+
+                $this->session->data['username'] = $data['username'];
 
                 $db->query(
                     "UPDATE `" . $data['db_prefix'] . "settings` 
