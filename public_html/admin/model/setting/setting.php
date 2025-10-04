@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -32,7 +32,7 @@ class ModelSettingSetting extends Model
      */
     public function getGroups()
     {
-        $result = $this->db->query( "SELECT DISTINCT `group` FROM " . $this->db->table("settings") );
+        $result = $this->db->query("SELECT DISTINCT `group` FROM " . $this->db->table("settings"));
         return array_column($result->rows, 'group');
     }
 
@@ -43,7 +43,7 @@ class ModelSettingSetting extends Model
      * @return array
      * @throws AException
      */
-    public function getSettingGroup(string $setting_key, ?int $store_id = 0)
+    public function getSettingGroup(string $setting_key, int $store_id = 0)
     {
         $result = $this->db->query(
             "SELECT DISTINCT `group` 
@@ -65,19 +65,21 @@ class ModelSettingSetting extends Model
     {
 
         if ($mode == 'total_only') {
-            $total_sql = 'count(*) as total';
+            $total_sql = "COUNT(*) as total";
         } else {
-            $total_sql = 's.*, COALESCE(st.alias, \'' . $this->language->get('text_default') . '\' ) as alias';
+            $total_sql = $this->db->getSqlCalcTotalRows() . " s.*, COALESCE(st.alias, '" . $this->db->escape($this->language->get('text_default')) . "' ) as alias";
         }
 
         $sql = "SELECT $total_sql
                 FROM " . $this->db->table("settings") . " s
                 LEFT JOIN  " . $this->db->table("stores") . " st 
                     ON st.store_id = s.store_id
-                WHERE s.group IN ('" . implode("', '", $this->config->groups) . "') ";
+                WHERE s.group IN ('" . implode("', '", array_map(function ($value) {
+                return $this->db->escape($value);
+            }, $this->config->groups)) . "') ";
 
         if (isset($data['store_id'])) {
-            $sql .= " AND s.store_id = '" . $data['store_id'] . "'";
+            $sql .= " AND s.store_id = '" . (int)$data['store_id'] . "'";
         }
 
         if (!empty($data['subsql_filter'])) {
@@ -111,6 +113,7 @@ class ModelSettingSetting extends Model
         }
 
         $query = $this->db->query($sql);
+        $query->row['total_num_rows'] = $this->db->getTotalNumRows();
         return $query->rows;
     }
 
@@ -132,7 +135,7 @@ class ModelSettingSetting extends Model
      * @return array
      * @throws AException
      */
-    public function getSetting(string $group, ?int $store_id = 0)
+    public function getSetting(string $group, int $store_id = 0)
     {
         $data = [];
         $query = $this->db->query(
@@ -156,7 +159,7 @@ class ModelSettingSetting extends Model
      * @return string|array
      * @throws AException
      */
-    public function getSettingByKey(string $key, ?int $store_id = 0)
+    public function getSettingByKey(string $key, int $store_id = 0)
     {
         $result = $this->db->query(
             "SELECT value
@@ -174,9 +177,9 @@ class ModelSettingSetting extends Model
      *
      * @throws AException
      */
-    public function editSetting($group, $data, $store_id = null)
+    public function editSetting($group, $data, ?int $store_id = 0)
     {
-        $store_id = (int)$store_id ?: ($this->config->get('current_store_id'));
+        $store_id = $store_id ?? (int)$this->config->get('current_store_id');
         $translate_override_existing = $this->config->get('translate_override_existing');
         //do not override when content language is not a source!
         if ($translate_override_existing
@@ -187,7 +190,7 @@ class ModelSettingSetting extends Model
         }
 
         $languages = $this->language->getAvailableLanguages();
-        // check what is it - update or insert of setting
+        // check what it is - update or insert of setting
 
         $edit_type = 'insert';
         foreach ($languages as $language) {
@@ -198,8 +201,8 @@ class ModelSettingSetting extends Model
                 break;
             }
         }
-        $src_lang_id = $this->language->getLanguageIdByCode($this->config->get('translate_src_lang_code'));
-        // if override - edit type is insert
+        $src_lang_id = $this->language->getLanguageIdByCode((string)$this->config->get('translate_src_lang_code'));
+        // if override - the edit type is insert
         if ($translate_override_existing
             && (isset($data['config_description_' . $src_lang_id])
                 || isset($data['config_title_' . $src_lang_id])
@@ -215,7 +218,7 @@ class ModelSettingSetting extends Model
             if (!$translate_override_existing && $edit_type == 'update') {
                 continue;
             }
-            $locale = $this->language->getLanguageCodeByLocale($language['locale']);
+            $locale = $this->language->getLanguageCodeByLocale((string)$language['locale']);
             if ($locale != $this->config->get('translate_src_lang_code')
                 && $edit_type == 'insert'
             ) {
@@ -223,7 +226,7 @@ class ModelSettingSetting extends Model
             }
         }
 
-        // need translate
+        // need translation
         if ($locales) {
             if ($src_lang_id) {
                 $arr = [
@@ -276,7 +279,7 @@ class ModelSettingSetting extends Model
             }
         }
 
-        //remove session parameter if maintenance mode is off. Effect on message on sf-side
+        //remove session parameter if maintenance mode is off. Effect on a message on sf-side
         if (isset($data['config_maintenance']) && !$data['config_maintenance']) {
             unset($this->session->data['merchant']);
         }
@@ -296,10 +299,10 @@ class ModelSettingSetting extends Model
                 continue;
             } //is a sign for displaying one setting for quick edit form. ignore it!
 
-            //check if setting is multi-value (array) and save serialized value.
+            //check if the setting is multi-value (array) and save the serialized value.
             if (is_array($value)) {
-                //validate values in array. If setting is array of all members = 0 save only single value of 0
-                //This is to match standard post format in regular form submit
+                //validate values in an array. If the setting is array of all members = 0, save only a single value of 0
+                //This is to match a standard post-format in regular form submit
                 $concat = implode('', $value);
                 if (preg_match('/[^0]/', $concat)) {
                     $value = serialize($value);
@@ -311,12 +314,12 @@ class ModelSettingSetting extends Model
             $sql = "DELETE FROM " . $this->db->table("settings") . " 
                     WHERE `group` = '" . $this->db->escape($group) . "'
                             AND `key` = '" . $this->db->escape($key) . "'
-                        AND `store_id` = '" . $store_id . "'";
+                        AND `store_id` = '" . (int)$store_id . "'";
             $this->db->query($sql);
 
             $sql = "INSERT INTO " . $this->db->table("settings") . " 
                         ( `store_id`, `group`, `key`, `value`, `date_added`)
-                    VALUES (  '" . $store_id . "',
+                    VALUES (  '" . (int)$store_id . "',
                               '" . $this->db->escape($group) . "',
                               '" . $this->db->escape($key) . "',
                               '" . $this->db->escape($value) . "',
@@ -326,13 +329,9 @@ class ModelSettingSetting extends Model
         // if change cache status - flush cache
         if (isset($data['config_cache_enable'])) {
             $this->cache->remove('*');
+        } else {
+            $this->cache->remove(['settings', 'extensions', 'stores', 'admin_menu', 'storefront_menu']);
         }
-
-        $this->cache->remove('settings');
-        $this->cache->remove('extensions');
-        $this->cache->remove('stores');
-        $this->cache->remove('admin_menu');
-        $this->cache->remove('storefront_menu');
     }
 
     /**
@@ -340,7 +339,7 @@ class ModelSettingSetting extends Model
      * @param int $store_id
      * @throws AException
      */
-    public function deleteSetting($group, $store_id = 0)
+    public function deleteSetting(string $group, int $store_id = 0)
     {
         $store_id = (int)$store_id;
         $this->db->query(
@@ -348,11 +347,6 @@ class ModelSettingSetting extends Model
             WHERE `group` = '" . $this->db->escape($group) . "'
                 AND `store_id` = '" . $store_id . "'"
         );
-
-        $this->cache->remove('settings');
-        $this->cache->remove('extensions');
-        $this->cache->remove('stores');
-        $this->cache->remove('admin_menu');
-        $this->cache->remove('storefront_menu');
+        $this->cache->remove(['settings', 'extensions', 'stores', 'admin_menu', 'storefront_menu']);
     }
 }

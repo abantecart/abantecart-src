@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 /*
  *   $Id$
  *
@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -95,7 +95,7 @@ class ControllerResponsesCommonDoEmbed extends AController
         /** @var ModelSettingStore $stStoreMdl */
         $stStoreMdl = $this->loadModel('setting/store');
 
-        $storeId = $this->request->get['store_id'] ?? $this->session->data['current_store_id'];
+        $storeId = (int)($this->request->get['store_id'] ?? $this->session->data['current_store_id']);
         $this->data['store_id'] = $storeId;
 
         $currentStoreSettings = $stStoreMdl->getStore($storeId);
@@ -298,7 +298,7 @@ class ControllerResponsesCommonDoEmbed extends AController
             $options = $this->model_catalog_collection->getCollections(
                 [
                     'status_id' => 1,
-                    'store_id'  => $this->request->get['store_id'] ?? (int)$this->session->data['current_store_id']
+                    'store_id'  => (int)($this->request->get['store_id'] ?? $this->session->data['current_store_id'])
                 ]
             );
 
@@ -319,7 +319,7 @@ class ControllerResponsesCommonDoEmbed extends AController
         $results = $this->language->getAvailableLanguages();
         $language_codes = [];
         foreach ($results as $v) {
-            $lng_code = $this->language->getLanguageCodeByLocale($v['locale']);
+            $lng_code = $this->language->getLanguageCodeByLocale((string)$v['locale']);
             $language_codes[$lng_code] = $v['name'];
         }
         $this->data['fields'][] = $form->getFieldHtml(
@@ -367,14 +367,20 @@ class ControllerResponsesCommonDoEmbed extends AController
         $template_name = $currentStoreSettings['config_storefront_template'];
         //look into extensions
         foreach (['stylesheet', 'css'] as $cssDir) {
-            $cssRelPath = 'extensions' . DS . $template_name . DS . 'storefront' . DS . 'view' . DS . $template_name . DS . $cssDir . DS . 'embed.css';
+            $cssRelPath = 'extensions' . DS
+                . $template_name . DS
+                . 'storefront' . DS
+                . 'view' . DS
+                . $template_name . DS
+                . $cssDir . DS
+                . 'embed.css';
             $css_file = DIR_ROOT . DS . $cssRelPath;
             if (is_file($css_file)) {
                 $this->data['sf_css_embed_url'] = $remoteStoreUrl . $cssRelPath;
                 break;
             }
         }
-        //look into core
+        //look into the core
         if (!$this->data['sf_css_embed_url']) {
             foreach (['stylesheet', 'css'] as $cssDir) {
                 $cssRelPath = 'storefront' . DS . 'view' . DS . $template_name . DS . $cssDir . DS . 'embed.css';

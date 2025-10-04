@@ -338,7 +338,8 @@ class ControllerPagesLocalisationLanguage extends AController
                 'type'     => 'checkbox',
                 'name'     => 'status',
                 'style'    => 'btn_switch',
-                'value'    => $this->data['status']
+                'value'    => $this->data['status'],
+                'attr'     => ' reload_on_save="true"'
             ]
         );
         $this->data['form']['fields']['name'] = $form->getFieldHtml([
