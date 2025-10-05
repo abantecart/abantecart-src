@@ -1,23 +1,21 @@
 <?php
 /*
- * ------------------------------------------------------------------------------
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
- * ------------------------------------------------------------------------------
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 /**
@@ -36,7 +34,7 @@ class AbanteCartTest extends PHPUnit\Framework\TestCase
         $dirname = dirname(__FILE__);
         $dirname = dirname($dirname);
 
-        $dirname = dirname($dirname).'/public_html';
+        $dirname = dirname($dirname).DIRECTORY_SEPARATOR.'public_html';
         define('ABC_TEST_ROOT_PATH', $dirname);
         define('ABC_TEST_HTTP_HOST', 'travis-ci.org');
         define('ABC_TEST_PHP_SELF', 'abantecart/abantecart-src/public_html/index.php');
@@ -56,9 +54,9 @@ class AbanteCartTest extends PHPUnit\Framework\TestCase
             $root_path = str_replace('\\', '/', $root_path);
         }
         define('DIR_ROOT', $root_path);
-        define('DIR_CORE', DIR_ROOT.'/core/');
+        define('DIR_CORE', DIR_ROOT.DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR);
 
-        $this->loadConfiguration(DIR_ROOT.'/system/config.php');
+        $this->loadConfiguration(DIR_ROOT.DIRECTORY_SEPARATOR.'system'.DIRECTORY_SEPARATOR.'config.php');
 
         //set server name for correct email sending
         if (defined('SERVER_NAME') && SERVER_NAME != '') {
@@ -66,7 +64,7 @@ class AbanteCartTest extends PHPUnit\Framework\TestCase
         }
 
         //purge _GET
-        $get = ['mode' => isset($_GET['mode']) ? $_GET['mode'] : ''];
+        $get = ['mode' => $_GET['mode'] ?? ''];
         if (!in_array($get['mode'], ['run', 'query'])) { // can be 'query' or 'run'
             $get['mode'] = 'run';
         }
@@ -79,7 +77,7 @@ class AbanteCartTest extends PHPUnit\Framework\TestCase
 
         $_GET['s'] = ADMIN_PATH; // sign of admin side for controllers run from dispatcher
         // Load all initial set up
-        require_once(DIR_ROOT.'/core/init.php');
+        require_once(DIR_ROOT.DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR.'init.php');
         unset($_GET['s']);// not needed anymore
 
         // Registry
