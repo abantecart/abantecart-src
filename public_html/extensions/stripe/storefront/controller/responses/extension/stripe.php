@@ -139,16 +139,12 @@ class ControllerResponsesExtensionStripe extends AController
                 $customer_stripe_id = $this->model_extension_stripe->createStripeCustomer($this->customer);
             }
         }
-
-        $this->data['total_amount'] = round(
-                $this->currency->convert(
-                    $this->cart->getFinalTotal(),
-                    $this->config->get('config_currency'),
-                    $currency
-                ),
-                2
-            )
-            * 100;
+        foreach($this->cart->getFinalTotalData() as $totalData){
+            if($totalData['id'] == 'total'){
+                $this->data['total_amount'] = $totalData['converted']* 100;
+                break;
+            }
+        }
 
         $piDetails = [
             'capture_method' => $this->config->get('stripe_settlement'),
