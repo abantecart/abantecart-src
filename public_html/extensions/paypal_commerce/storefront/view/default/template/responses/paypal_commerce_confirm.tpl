@@ -92,6 +92,7 @@ if ($error) { ?>
                 }
             );
 
+            <?php if(in_array('card-fields',$enabled_components)) { ?>
             function initCardFields() {
                 if (paypal === undefined || !paypal.CardFields) {
                     console.error("PayPal CardFields component failed to load.");
@@ -236,7 +237,8 @@ if ($error) { ?>
                 $('#paypalFrm').find('.action-buttons').show();
                 $('#div-preloader').hide();
             }
-
+            <?php }
+            if(in_array('buttons',$enabled_components)){ ?>
             function initButtons() {
 
                 if (paypal === undefined) {
@@ -324,7 +326,7 @@ if ($error) { ?>
                 $('#paypalFrm').find('.action-buttons').show();
                 $('#div-preloader').hide();
             }
-
+            <?php } ?>
             function showPPError(text) {
                 $('#paypalFrm').before(
                     '<div class="alert alert-danger"><i class="fa fa-exclamation fa-fw"></i> ' + text + '</div>'
@@ -380,8 +382,6 @@ if ($error) { ?>
                     return { error: 'Failed to parse PayPal error JSON', rawMessage: errMessage };
                 }
             }
-
-
         });
     </script>
     <?php
