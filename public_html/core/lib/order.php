@@ -173,10 +173,11 @@ class AOrder
         }
 
         $sort_order = [];
-        $orderTotalAmount = $totalAmount;
+        $orderTotalAmountConverted = $orderTotalAmount = $totalAmount;
         foreach ($total_data as $key => $value) {
             if ($value['id'] == 'total') {
                 $orderTotalAmount = $value['value'];
+                $orderTotalAmountConverted = $value['converted'];
             }
             $sort_order[$key] = $value['sort_order'];
         }
@@ -307,7 +308,7 @@ class AOrder
         $order_info['language_id'] = $this->config->get('storefront_language_id');
         $order_info['currency_id'] = $this->currency->getId();
         $order_info['currency'] = $this->currency->getCode();
-        $order_info['value'] = $this->currency->getValue($this->currency->getCode());
+        $order_info['value'] = $orderTotalAmountConverted/$orderTotalAmount;
 
         if (isset($inData['coupon'])) {
             $promotion = new APromotion();

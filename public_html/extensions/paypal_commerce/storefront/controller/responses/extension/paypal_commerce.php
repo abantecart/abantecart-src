@@ -211,15 +211,13 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $data['intent'] = $this->config->get('paypal_commerce_transaction_type');
         //need an order details
         $data['order_info'] = $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-        $orderTotal = "" . round($this->currency->convert(
-                (float)$order_info['total'],
-                $this->config->get('config_currency'),
-                $currencyCode
-            ),
-                $decPlace);
 
-        $taxes = $discount = $handling_fee = 0.0;
+        $orderTotal = $taxes = $discount = $handling_fee = 0.0;
         foreach ($this->cart->getFinalTotalData() as $total) {
+            if($total['id'] == 'total'){
+                $orderTotal = $total['converted'];
+            }
+
             $data['order_' . $total['id']] = $this->currency->convert(
                 (float)$total['value'],
                 $this->config->get('config_currency'),
@@ -529,11 +527,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $this->response->setOutput(AJson::encode($output));
         }
 
-        $orderTotalAmt = $this->currency->convert(
-            $order_info['total'],
-            $this->config->get('config_currency'),
-            $order_info['currency']
-        );
+        $orderTotalAmt = "".round($order_info['total']*$order_info['value'],2);
         /** @var ModelExtensionPaypalCommerce $mdl */
         $mdl = $this->loadModel('extension/paypal_commerce');
         $transactionDetails = json_decode(
