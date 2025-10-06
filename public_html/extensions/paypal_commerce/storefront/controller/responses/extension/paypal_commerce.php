@@ -215,7 +215,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $orderTotal = $taxes = $discount = $handling_fee = 0.0;
         foreach ($this->cart->getFinalTotalData() as $total) {
             if($total['id'] == 'total'){
-                $orderTotal = $total['converted'];
+                $orderTotal = "".round($total['converted'],2);
             }
 
             $data['order_' . $total['id']] = $this->currency->convert(
