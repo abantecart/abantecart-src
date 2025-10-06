@@ -820,7 +820,9 @@ class AAttribute_Manager extends AAttribute
 
         $query = $this->db->query($sql);
         $output = $query->rows;
-        $output[0]['total_num_rows'] = $this->db->getTotalNumRows();
+        if($output) {
+            $output[0]['total_num_rows'] = $this->db->getTotalNumRows();
+        }
         return $output;
     }
 

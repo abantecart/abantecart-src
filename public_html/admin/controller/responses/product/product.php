@@ -1,6 +1,4 @@
 <?php
-/** @noinspection PhpMultipleClassDeclarationsInspection */
-
 /*
  *   $Id$
  *
@@ -10,15 +8,17 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
+
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 class ControllerResponsesProductProduct extends AController
 {
@@ -38,14 +38,16 @@ class ControllerResponsesProductProduct extends AController
         }
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->loadModel('catalog/product');
+        /** @var ModelCatalogProduct $mdl */
+        $mdl = $this->loadModel('catalog/product');
         if (isset($post['coupon_products'])) {
             $products = (array)$post['coupon_products'];
             foreach ($products as $productId) {
-                $productInfo = $this->model_catalog_product->getProduct((int)$productId);
+                $productId = (int)$productId;
+                $productInfo = $mdl->getProduct($productId);
                 if ($productInfo) {
                     $output[] = [
-                        'id'         => $productInfo['product_id'],
+                        'id'         => $productId,
                         'name'       => $productInfo['name'],
                         'meta'       => $productInfo['model'],
                         'sort_order' => (int)$productInfo['sort_order'],
@@ -68,7 +70,7 @@ class ControllerResponsesProductProduct extends AController
                 $filter['filter']['status'] = 1;
                 $filter['subsql_filter'] = 'date_available<=NOW()';
             }
-            $products = $this->model_catalog_product->getProducts($filter);
+            $products = $mdl->getProducts($filter);
 
             $productIds = filterIntegerIdList(array_column($products, 'product_id'));
             $resource = new AResource('image');
@@ -83,7 +85,6 @@ class ControllerResponsesProductProduct extends AController
 
             foreach ($products as $productData) {
                 $thumbnail = $thumbnails[$productData['product_id']];
-
                 if ($get['currency_code']) {
                     $price = round(
                         $this->currency->convert(
@@ -104,7 +105,7 @@ class ControllerResponsesProductProduct extends AController
 
                 $output[] = [
                     'image'      => $thumbnail['thumb_html'],
-                    'id'         => $productData['product_id'],
+                    'id'         => (int)$productData['product_id'],
                     'name'       => $productData['name'] . ' - ' . $formatted_price,
                     'price'      => $price,
                     'meta'       => $productData['model'],
@@ -147,15 +148,12 @@ class ControllerResponsesProductProduct extends AController
         }
 
         $this->loadLanguage('catalog/product');
-        $this->loadModel('catalog/product');
-
+        /** @var ModelCatalogProduct $mdl */
+        $mdl = $this->loadModel('catalog/product');
         $result = '';
 
         if ($this->request->is_POST()) {
-            $this->model_catalog_product->updateProduct(
-                (int)$this->request->get['product_id'],
-                $this->request->post
-            );
+            $mdl->updateProduct((int)$this->request->get['product_id'], $this->request->post);
             $result = 'Saved!';
         }
 
@@ -169,20 +167,20 @@ class ControllerResponsesProductProduct extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadModel('catalog/product');
-        $promotion = new APromotion($this->request->get['customer_group_id']);
-
+        /** @var ModelCatalogProduct $mdl */
+        $mdl = $this->loadModel('catalog/product');
+        $promotion = new APromotion((int)$this->request->get['customer_group_id']);
         $categoryId = (int)$this->request->get['category_id'];
-
         $product_data = [];
-        $results = $this->model_catalog_product->getProductsByCategoryId($categoryId);
+        $results = $mdl->getProductsByCategoryId($categoryId);
         foreach ($results as $result) {
-            $discount = $promotion->getProductDiscount((int)$result['product_id']);
+            $productId = (int)$result['product_id'];
+            $discount = $promotion->getProductDiscount($productId);
             if ($discount) {
                 $price = $discount;
             } else {
                 $price = $result['price'];
-                $special = $promotion->getProductSpecial((int)$result['product_id']);
+                $special = $promotion->getProductSpecial($productId);
                 if ($special) {
                     $price = $special;
                 }
@@ -199,7 +197,7 @@ class ControllerResponsesProductProduct extends AController
             }
 
             $product_data[] = [
-                'product_id' => $result['product_id'],
+                'product_id' => $productId,
                 'name'       => $result['name'],
                 'model'      => $result['model'],
                 'price'      => $price,
@@ -249,20 +247,20 @@ class ControllerResponsesProductProduct extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadModel('catalog/product');
+        /** @var ModelCatalogProduct $mdl */
+        $mdl = $this->loadModel('catalog/product');
 
         if (isset($this->request->post['product_related'])) {
             $products = (array)$this->request->post['product_related'];
         } elseif (isset($this->request->post['id'])) { // variant for popup listing
-            $products = $this->request->post['id'];
+            $products = (array)$this->request->post['id'];
         } else {
             $products = [];
         }
         $product_data = [];
 
         foreach ($products as $product_id) {
-            $product_info = $this->model_catalog_product->getProduct($product_id);
-
+            $product_info = $mdl->getProduct($product_id);
             if ($product_info) {
                 $product_data[] = [
                     'id'         => $product_info['product_id'],
@@ -762,7 +760,7 @@ class ControllerResponsesProductProduct extends AController
                 if (in_array($attribute['element_type'], $this->data['elements_with_options'])) {
                     $this->data['option_attribute']['group'][$attrId]['type'] = 'selectbox';
                     $values = $this->attribute_manager->getAttributeValues(
-                        $attribute['attribute_id'],
+                        $attrId,
                         $this->language->getContentLanguageID()
                     );
 
@@ -2051,22 +2049,17 @@ class ControllerResponsesProductProduct extends AController
         $this->processTemplate('responses/product/product_form.tpl');
     }
 
-    public function stockLocations($product_id = 0, $product_option_value_id = null)
+    public function stockLocations($product_id = 0, $optionValueId = null)
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $product_id = $product_id
-            ? (int)$product_id
-            : $this->request->get['product_id'];
+        $product_id = (int)($product_id ?: $this->request->get['product_id']);
+        $optionValueId = (int)($optionValueId ?: $this->request->get['product_option_value_id']);
 
-        $product_option_value_id = $product_option_value_id
-            ? (int)$product_option_value_id
-            : $this->request->get['product_option_value_id'];
+        $this->data['product_option_value_id'] = $optionValueId;
 
-        $this->data['product_option_value_id'] = $product_option_value_id;
-
-        if (!$product_option_value_id) {
+        if (!$optionValueId) {
             $this->data['save_url'] = $this->html->getSecureURL(
                 'listing_grid/product/update_field',
                 '&id=' . $product_id
@@ -2075,15 +2068,12 @@ class ControllerResponsesProductProduct extends AController
 
         $this->loadLanguage('catalog/product');
         $this->loadModel('catalog/product');
-        $locations = $this->model_catalog_product->getProductStockLocations(
-            $product_id,
-            $product_option_value_id
-        );
+        $locations = $this->model_catalog_product->getProductStockLocations($product_id, $optionValueId);
 
         $this->data['zero_location'] = $this->html->buildElement(
             [
                 'type' => 'hidden',
-                'name' => 'stock_location' . ($product_option_value_id ? "[" . $product_option_value_id . "]" : "") . '[0][]',
+                'name' => 'stock_location' . ($optionValueId ? "[" . $optionValueId . "]" : "") . '[0][]',
             ]
         );
         foreach ($locations as $row) {
@@ -2096,7 +2086,7 @@ class ControllerResponsesProductProduct extends AController
                             [
                                 'type' => 'input',
                                 'name' => 'stock_location'
-                                    . ($product_option_value_id ? "[" . $product_option_value_id . "]" : "")
+                                    . ($optionValueId ? "[" . $optionValueId . "]" : "")
                                     . '[' . $location_id . '][quantity]',
 
                                 'value' => $row['quantity'],
@@ -2107,7 +2097,7 @@ class ControllerResponsesProductProduct extends AController
                             [
                                 'type'  => 'input',
                                 'name'  => 'stock_location'
-                                    . ($product_option_value_id ? "[" . $product_option_value_id . "]" : "")
+                                    . ($optionValueId ? "[" . $optionValueId . "]" : "")
                                     . '[' . $location_id . '][sort_order]',
                                 'value' => $row['sort_order'],
                             ]
@@ -2123,44 +2113,42 @@ class ControllerResponsesProductProduct extends AController
             $options[$row['location_id']] = $row['name'] . ' ' . $row['description'];
         }
 
-        $this->data['all_locations'] =
-            [
-                'location_list' => $this->html->buildElement(
-                    [
-                        'type'             => 'selectbox',
-                        'id'               => 'location_list'
-                            . ($product_option_value_id ?: ""),
-                        'name'             => 'location_list',
-                        'value'            => [],
-                        'options'          => $options,
-                        'style'            => 'chosen static_field',
-                        'placeholder'      => $this->language->get('text_select'),
-                        'disabled_options' => array_keys((array)$this->data['locations']),
-                    ]
-                ),
-                'quantity'      => $this->html->buildElement(
-                    [
-                        'type'  => 'input',
-                        'name'  => 'stock_location'
-                            . ($product_option_value_id ? "[" . $product_option_value_id . "]" : "")
-                            . '[0][quantity]',
-                        'value' => '',
-                        'style' => 'stock_location_quantity static_field hidden',
-                        'attr'  => 'disabled',
-                    ]
-                ),
-                'sort_order'    => $this->html->buildElement(
-                    [
-                        'type'  => 'input',
-                        'name'  => 'stock_location'
-                            . ($product_option_value_id ? "[" . $product_option_value_id . "]" : "")
-                            . '[0][sort_order]',
-                        'value' => '',
-                        'style' => 'stock_location_sort_order static_field hidden',
-                        'attr'  => 'disabled',
-                    ]
-                ),
-            ];
+        $this->data['all_locations'] = [
+            'location_list' => $this->html->buildElement(
+                [
+                    'type'             => 'selectbox',
+                    'id'               => 'location_list' . ($optionValueId ?: ""),
+                    'name'             => 'location_list',
+                    'value'            => [],
+                    'options'          => $options,
+                    'style'            => 'chosen static_field',
+                    'placeholder'      => $this->language->get('text_select'),
+                    'disabled_options' => array_keys((array)$this->data['locations']),
+                ]
+            ),
+            'quantity'      => $this->html->buildElement(
+                [
+                    'type'  => 'input',
+                    'name'  => 'stock_location'
+                        . ($optionValueId ? "[" . $optionValueId . "]" : "")
+                        . '[0][quantity]',
+                    'value' => '',
+                    'style' => 'stock_location_quantity static_field hidden',
+                    'attr'  => 'disabled',
+                ]
+            ),
+            'sort_order'    => $this->html->buildElement(
+                [
+                    'type'  => 'input',
+                    'name'  => 'stock_location'
+                        . ($optionValueId ? "[" . $optionValueId . "]" : "")
+                        . '[0][sort_order]',
+                    'value' => '',
+                    'style' => 'stock_location_sort_order static_field hidden',
+                    'attr'  => 'disabled',
+                ]
+            ),
+        ];
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -2185,9 +2173,9 @@ class ControllerResponsesProductProduct extends AController
             $cData = [];
             $tax = new ATax($this->registry, $cData);
             if (isset($price)) {
-                $output = $tax->calculate($price, $taxClassId);
+                $output = $tax->calculate((float)$price, $taxClassId);
             } elseif (isset($priceWithTax)) {
-                $output = $tax->calculate($priceWithTax, $taxClassId, true, true);
+                $output = $tax->calculate((float)$priceWithTax, $taxClassId, true, true);
             }
         }
         //update controller data
