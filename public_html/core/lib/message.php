@@ -288,10 +288,14 @@ class AMessage
         if (!$no_delete || !is_array($no_delete)) {
             return false;
         }
-        $ids = filterIntegerIdList($no_delete);
+        $ids = [];
+        foreach ($no_delete as $msg_id) {
+            $ids[] =  $this->db->escape($msg_id);
+        }
+
         $sql = "DELETE FROM " . $this->db->table("ant_messages");
         if($ids){
-            $sql .= " WHERE id NOT IN (" . implode(", ", $ids) . ")";
+            $sql .= " WHERE id NOT IN ('" . implode("', '", $ids) . "')";
         }
         $this->db->query($sql);
         return true;

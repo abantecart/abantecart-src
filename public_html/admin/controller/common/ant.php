@@ -94,7 +94,7 @@ class ControllerCommonANT extends AController
                 'published',
                 'language_code',
             ];
-            $banners = [];
+            $antIds = $banners = [];
             foreach ($result as $notify) {
                 $tmp = [];
                 foreach ($notify as $key => $value) {
@@ -102,6 +102,7 @@ class ControllerCommonANT extends AController
                         continue;
                     }
                     $tmp [$key] = $value;
+                    $antIds[] = $tmp['message_id'];
                 }
 
                 // lets insert
@@ -110,19 +111,18 @@ class ControllerCommonANT extends AController
                         $this->messages->saveWarning($tmp ['title'], $tmp ['description']);
                         break;
                     case 'E' :
-                        $this->messages->saveError($tmp ['title'], $tmp ['description']);
+                        $this->messages->saveError($tmp['title'], $tmp['description']);
                         break;
                     case 'B' :
-                        $banners[] = $tmp['message_id'];
                         $this->messages->saveANTMessage($tmp);
                         break;
                     default :
-                        $this->messages->saveNotice($tmp ['title'], $tmp ['description']);
+                        $this->messages->saveNotice($tmp['title'], $tmp['description']);
                         break;
                 }
             }
             // purge messages except just saved
-            $this->messages->purgeANTMessages($banners);
+            $this->messages->purgeANTMessages($antIds);
         }
         // in case when answer from server is empty
         $this->session->data['ant_messages']['date_modified'] = time();
