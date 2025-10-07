@@ -491,6 +491,7 @@ class ModelCatalogProduct extends Model
         }
 
         if (isset($data['product_store'])) {
+            $data['product_store'] = array_unique(array_map('intval',$data['product_store']));
             $this->db->query(
                 "DELETE FROM " . $this->db->table("products_to_stores") . " 
                 WHERE product_id = '" . $product_id . "'"

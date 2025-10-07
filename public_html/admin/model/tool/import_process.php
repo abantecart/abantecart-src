@@ -578,7 +578,7 @@ class ModelToolImportProcess extends Model
      * @return bool|null
      * @throws AException
      */
-    protected function addUpdateProduct(array $record, array $settings, int $language_id, int $store_id)
+    protected function addUpdateProduct(array $record, array $settings, int $language_id, int $store_id = 0)
     {
         $prodMdl = $this->model_catalog_product;
         $status = false;
