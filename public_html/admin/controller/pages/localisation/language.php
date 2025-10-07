@@ -88,23 +88,24 @@ class ControllerPagesLocalisationLanguage extends AController
             ]
         );
 
-        $grid_search_form = [];
-        $grid_search_form['id'] = 'languages_grid_search';
-        $grid_search_form['form_open'] = $form->getFieldHtml(
-            [
-                'type'   => 'form',
-                'name'   => 'languages_grid_search',
-                'action' => '',
-            ]
-        );
-        $grid_search_form['submit'] = $form->getFieldHtml(
-            [
-                'type'  => 'button',
-                'name'  => 'submit',
-                'text'  => $this->language->get('button_go'),
-                'style' => 'button1',
-            ]
-        );
+        $grid_search_form = [
+            'id'        => 'languages_grid_search',
+            'form_open' => $form->getFieldHtml(
+                [
+                    'type'   => 'form',
+                    'name'   => 'languages_grid_search',
+                    'action' => '',
+                ]
+            ),
+            'submit'    => $form->getFieldHtml(
+                [
+                    'type'  => 'button',
+                    'name'  => 'submit',
+                    'text'  => $this->language->get('button_go'),
+                    'style' => 'button1',
+                ]
+            )
+        ];
         $grid_search_form['reset'] = $form->getFieldHtml(
             [
                 'type'  => 'button',
@@ -188,7 +189,7 @@ class ControllerPagesLocalisationLanguage extends AController
                 ]
             )
         );
-
+        $this->view->assign('add_language_button', $this->html->installLanguageModal());
         $this->processTemplate('pages/localisation/language_list.tpl');
 
         //update controller data
@@ -335,11 +336,11 @@ class ControllerPagesLocalisationLanguage extends AController
 
         $this->data['form']['fields']['status'] = $form->getFieldHtml(
             [
-                'type'     => 'checkbox',
-                'name'     => 'status',
-                'style'    => 'btn_switch',
-                'value'    => $this->data['status'],
-                'attr'     => ' reload_on_save="true"'
+                'type'  => 'checkbox',
+                'name'  => 'status',
+                'style' => 'btn_switch',
+                'value' => $this->data['status'],
+                'attr'  => ' reload_on_save="true"'
             ]
         );
         $this->data['form']['fields']['name'] = $form->getFieldHtml([
@@ -356,7 +357,7 @@ class ControllerPagesLocalisationLanguage extends AController
                 'name'     => 'code',
                 'value'    => $this->data['code'],
                 'required' => true,
-                'attr'     => $this->data['code']=='en' ? ' readonly="readonly"' : '',
+                'attr'     => $this->data['code'] == 'en' ? ' readonly="readonly"' : '',
                 'help_url' => $this->gen_help_url('code'),
             ]
         );
@@ -367,7 +368,7 @@ class ControllerPagesLocalisationLanguage extends AController
                 'name'     => 'locale',
                 'value'    => $this->data['locale'],
                 'required' => true,
-                'attr'     => $this->data['code']=='en' ? ' readonly="readonly"' : '',
+                'attr'     => $this->data['code'] == 'en' ? ' readonly="readonly"' : '',
                 'help_url' => $this->gen_help_url('locale'),
             ]
         );
@@ -378,7 +379,7 @@ class ControllerPagesLocalisationLanguage extends AController
                 'name'     => 'directory',
                 'value'    => $this->data['directory'],
                 'required' => true,
-                'attr'     => $this->data['code']=='en' ? ' readonly="readonly"' : '',
+                'attr'     => $this->data['code'] == 'en' ? ' readonly="readonly"' : '',
                 'help_url' => $this->gen_help_url('directory'),
             ]
         );
