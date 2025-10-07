@@ -138,7 +138,7 @@ class ControllerPagesToolFiles extends AController
 
             if ($this->request->get['attribute_type'] == 'field') {
                 $this->loadModel('tool/file_uploads');
-                $attribute_data = $this->model_tool_file_uploads->getField($this->request->get['attribute_id']);
+                $attribute_data = $this->model_tool_file_uploads->getField((int)$this->request->get['attribute_id']);
             } elseif (strpos($this->request->get['attribute_type'], 'AForm:') === 0) {
                 // for aform fields
                 $form_info = explode(':', $this->request->get['attribute_type']);
@@ -148,15 +148,15 @@ class ControllerPagesToolFiles extends AController
             } // if request file from order details page, file is product option value
             elseif ($this->request->get['order_option_id']) {
                 $this->loadModel('sale/order');
-                $attribute_data = $this->model_sale_order->getOrderOption($this->request->get['order_option_id']);
+                $attribute_data = $this->model_sale_order->getOrderOption((int)$this->request->get['order_option_id']);
                 $attribute_data['settings'] = unserialize($attribute_data['settings']);
             } else {
                 $am = new AAttribute($this->request->get['attribute_type']);
-                $attribute_data = $am->getAttribute($this->request->get['attribute_id']);
+                $attribute_data = $am->getAttribute((int)$this->request->get['attribute_id']);
             }
 
             if (has_value($attribute_data['settings']['directory'])) {
-                $file = DIR_APP_SECTION . 'system' . DS . 'uploads' . DS . $attribute_data['settings']['directory'] . DS . $filename;
+                $file = DIR_APP_SECTION . 'system' . DS . 'uploads' . DS . str_replace('/', DS, $attribute_data['settings']['directory']) . DS . $filename;
             } else {
                 $file = DIR_APP_SECTION . 'system' . DS . 'uploads' . DS . $filename;
             }

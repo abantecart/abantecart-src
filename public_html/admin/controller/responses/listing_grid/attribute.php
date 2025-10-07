@@ -126,12 +126,7 @@ class ControllerResponsesListingGridAttribute extends AController
             return;
         }
 
-        $ids = array_unique(
-            array_map(
-                'intval',
-                explode(',', $this->request->post['id'])
-            )
-        );
+        $ids = filterIntegerIdList( explode(',', $this->request->post['id']) );
         if ($ids) {
             switch ($this->request->post['oper']) {
                 case 'del':
@@ -294,5 +289,4 @@ class ControllerResponsesListingGridAttribute extends AController
         $this->extensions->hk_ValidateData($this, [__FUNCTION__, $id]);
         return $this->data['error'];
     }
-
 }

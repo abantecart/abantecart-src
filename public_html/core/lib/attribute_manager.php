@@ -96,7 +96,7 @@ class AAttribute_Manager extends AAttribute
                     attribute_group_id = " . $this->db->intOrNull($data['attribute_group_id']) . ",
                     attribute_parent_id = " . $this->db->intOrNull($data['attribute_parent_id']) . ",
                     element_type = '" . $this->db->escape($data['element_type']) . "',
-                    sort_order = '" . (int)$data['sort_order'] . "',
+                    sort_order = " . (int)$data['sort_order'] . ",
                     required = " . (int)$data['required'] . ",
                     settings = '" . $this->db->escape(serialize($data['settings'])) . "',
                     status = " . (int)$data['status'] . ",
@@ -154,7 +154,7 @@ class AAttribute_Manager extends AAttribute
             'regexp_pattern',
         ];
         $elements_with_options = HtmlElementFactory::getElementsWithOptions();
-        $attribute = $this->getAttribute($attribute_id, $language_id);
+        $attribute = $this->getAttribute((int)$attribute_id, $language_id);
 
         //check if we change the element type and clean options if it does not require it
         if (isset($data['element_type']) && $data['element_type'] != $attribute['element_type']) {
@@ -635,22 +635,29 @@ class AAttribute_Manager extends AAttribute
      */
     public function getAttribute($attribute_id, $language_id = 0)
     {
-
-        if (!$language_id) {
-            $language_id = $this->session->data['content_language_id'];
+        $attribute_id = (int)$attribute_id;
+        if (!$attribute_id) {
+            return [];
         }
+        $language_id = (int)$language_id ?: $this->language->getContentLanguageID();
 
         $query = $this->db->query(
             "SELECT ga.*, gad.name, gad.error_text, gad.placeholder
-             FROM " . $this->db->table("global_attributes") . " ga
-                LEFT JOIN " . $this->db->table("global_attributes_descriptions") . " gad
-                    ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '" . (int)$language_id . "' )
-             WHERE ga.attribute_id = '" . (int)$attribute_id . "'");
-        if ($query->num_rows) {
-            return $query->row;
-        } else {
-            return [];
+            FROM " . $this->db->table("global_attributes") . " ga
+            LEFT JOIN " . $this->db->table("global_attributes_descriptions") . " gad
+                ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = " . $language_id . " )
+            WHERE ga.attribute_id = " . $attribute_id);
+        $output = $query->row;
+        //calculate children count by separate SQL because of the extendability of ga table in the future.
+        if ($output) {
+            $query = $this->db->query(
+                "SELECT COUNT(ga.attribute_id) AS children_count
+                FROM " . $this->db->table("global_attributes") . " ga
+                WHERE ga.attribute_parent_id = " . $attribute_id
+            );
+            $output['children_count'] = (int)$query->row['children_count'];
         }
+        return $output;
     }
 
     /**
@@ -694,7 +701,7 @@ class AAttribute_Manager extends AAttribute
             FROM " . $this->db->table("global_attributes_values") . " ga
             LEFT JOIN " . $this->db->table("global_attributes_value_descriptions") . " gad
                ON ( ga.attribute_value_id = gad.attribute_value_id AND gad.language_id = '" . (int)$language_id . "' )
-            WHERE ga.attribute_id = '" . $this->db->escape($attribute_id) . "'
+            WHERE ga.attribute_id = " . (int)$attribute_id . "
             ORDER BY sort_order"
         );
         return $query->rows;
@@ -820,7 +827,7 @@ class AAttribute_Manager extends AAttribute
 
         $query = $this->db->query($sql);
         $output = $query->rows;
-        if($output) {
+        if ($output) {
             $output[0]['total_num_rows'] = $this->db->getTotalNumRows();
         }
         return $output;
