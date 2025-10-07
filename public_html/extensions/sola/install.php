@@ -22,25 +22,27 @@ if (! defined ( 'DIR_CORE' )) {
  header ( 'Location: static_pages/' );
 }
 
-
 $language_list = $this->model_localisation_language->getLanguages();
 
 $rm = new AResourceManager();
 $rm->setType('image');
 
-$result = copy(DIR_EXT.'sola'.DS.'image'.DS.'sola_logo.png', DIR_RESOURCE.'image'.DS.'sola_logo.png');
+$result = copy(
+    DIR_EXT.'sola'.DS.'image'.DS.'sola_logo.webp',
+    DIR_RESOURCE.'image'.DS.'sola_logo.webp'
+);
 
 $resource = [
     'language_id'   => $this->config->get('storefront_language_id'),
     'name'          => [],
     'title'         => [],
     'description'   => [],
-    'resource_path' => 'sola_logo.png',
+    'resource_path' => 'sola_logo.webp',
     'resource_code' => '',
 ];
 
 foreach ($language_list as $lang) {
-    $resource['name'][$lang['language_id']] = 'sola_logo.png';
+    $resource['name'][$lang['language_id']] = 'sola_logo.webp';
     $resource['title'][$lang['language_id']] = 'sola_payment_storefront_icon';
     $resource['description'][$lang['language_id']] = 'Sola Storefront Icon';
 }
@@ -54,6 +56,3 @@ if ($resource_id) {
 }
 
 $settings['sola_custom_logo'] = $this->config->get('config_logo');
-
-
-

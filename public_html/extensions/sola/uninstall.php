@@ -21,16 +21,3 @@
 if (! defined ( 'DIR_CORE' )) {
  header ( 'Location: static_pages/' );
 }
-
-
-$rm = new AResourceManager();
-$rm->setType('image');
-
-$resources = $rm->getResources('extensions', 'sola');
-if (is_array($resources)) {
-    foreach ($resources as $resource) {
-        $rm->deleteResource($resource['resource_id']);
-    }
-}
-
-
