@@ -145,7 +145,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
                 <br><br>
                 <div>
                     <b>
-                        <a href="http://www.abantecart.com/contact-us" target="_abantecart">Need help? Contact for support</a>
+                        <a href="https://www.abantecart.com/contact-us" target="_abantecart">Need help? Contact for support</a>
                     </b>
                 </div>
 
@@ -158,7 +158,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
         <div id="content_bottom"></div>
     </div>
     <div id="footer">
-        <a onclick="window.open('http://www.abantecart.com');">Project Homepage
+        <a onclick="window.open('https://www.abantecart.com');">Project Homepage
         </a>|<a onclick="window.open('http://docs.abantecart.com');">Documentation
         </a>|<a onclick="window.open('http://forum.abantecart.com');">Support Forums
         </a>|<a onclick="window.open('http://marketplace.abantecart.com');">Marketplace</a></div>

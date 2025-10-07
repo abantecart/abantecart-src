@@ -74,7 +74,7 @@ $message = 'This feature or page is not available in the demo mode. We apologize
         </div>
         <div id="content_bottom"></div>
     </div>
-    <div id="footer"><a onclick="window.open('http://www.abantecart.com');">Project Homepage</a>|<a onclick="window.open('http://docs.abantecart.com');">Documentation</a>|<a onclick="window.open('http://forum.abantecart.com');">Support Forums</a>|<a
+    <div id="footer"><a onclick="window.open('https://www.abantecart.com');">Project Homepage</a>|<a onclick="window.open('http://docs.abantecart.com');">Documentation</a>|<a onclick="window.open('http://forum.abantecart.com');">Support Forums</a>|<a
             onclick="window.open('http://marketplace.abantecart.com');">Marketplace</a></div>
 </div>
 </body>
