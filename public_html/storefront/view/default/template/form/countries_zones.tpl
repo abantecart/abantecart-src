@@ -5,7 +5,7 @@
 if($icon){?>
     <div class="input-group-text"><?php echo $icon; ?></div>
 <?php }?>
-        <select name="<?php echo $name ?>[]"
+        <select name="<?php echo $name ?>"
                 id="<?php echo $id ?>"
                 class="form-select <?php echo $style; ?>"
                 data-placeholder="<?php echo $placeholder ?>"
@@ -33,13 +33,12 @@ if($icon){?>
 <?php }
 
     if(!$zone_only){
-        $name .= '_zones[]';
-        $zoneElmId = $id.'_zones';
+        $zoneElmId = preg_replace('/[\[+\]+]/', '_', $zone_field_name);
     }else{
         $zoneElmId = $id;
     }
 ?>
-	<select name="<?php echo $name ?>"
+	<select name="<?php echo $zone_field_name ?>"
             id="<?php echo $zoneElmId ?>"
             class="form-select <?php echo $style; ?>"
             data-placeholder="<?php echo $placeholder ?>">
@@ -62,12 +61,12 @@ if(!$no_wrapper){ ?>
     $(document).ready(function() {
         var countryElm = <?php
                 if ($zone_only) {
-                    echo '$("#' . $zoneElmId . '").parents("form").find("[name*=country]");' . PHP_EOL;
+                    echo '$("#'.$zoneElmId.'").parents("form").find("[name*=country]").not("#'.$zoneElmId.'");'.PHP_EOL;
                 } else {
-                    echo '$("#' . $zoneElmId . '");' . PHP_EOL;
-                }?>
+                    echo '$("#' . $id .'");'.PHP_EOL;
+                }?>;
             countryElm.off('change').on('change', function () {
-                $('#<?php echo $id ?>').load(
+            $('#<?php echo $zoneElmId ?>').load(
                     '<?php echo $url . $qry ?>'
                     + encodeURIComponent($(this).val())
                     + '&' + encodeURIComponent('zone_name=<?php echo $zone_name; ?>')
