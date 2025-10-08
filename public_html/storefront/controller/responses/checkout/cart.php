@@ -103,7 +103,7 @@ class ControllerResponsesCheckoutCart extends AController
             'country_id'        => $this->request->post['country_id'],
             'country_iso_code2' => $country_info['iso_code_2'],
             'iso_code_2'        => $country_info['iso_code_2'],
-            'zone_id'           => $this->request->post['zone_id'],
+            'zone_id'           => (int)$this->request->post['zone_id']?: null,
             'zone_code'         => $zone_info['code'],
         ];
 

@@ -502,12 +502,13 @@ class ControllerPagesCheckoutCart extends AController
 
             $this->data['form_estimate']['country_zones'] = $form->getFieldHtml(
                 [
-                    'type'        => 'zones',
-                    'name'        => 'country',
-                    'submit_mode' => 'id',
-                    'value'       => $country_id,
-                    'zone_name'   => $zone_data['name'],
-                    'zone_value'  => $zone_id,
+                    'type'            => 'zones',
+                    'name'            => 'country',
+                    'submit_mode'     => 'id',
+                    'value'           => $country_id,
+                    'zone_field_name' => 'estimate_zone',
+                    'zone_name'       => $zone_data['name'],
+                    'zone_value'      => $zone_id,
                 ]
             );
 
