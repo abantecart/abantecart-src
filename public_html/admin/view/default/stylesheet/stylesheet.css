@@ -793,6 +793,19 @@ h1 a:hover, h2 a:hover, h3 a:hover {
 .side_summary {
 	margin: 30px 0;
 }
+.side_summary>a.sidebartitle {
+    color: white !important;
+    font-weight: bold !important;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: transparent url(../image/minus-white.png) no-repeat 96% center;
+}
+.side_summary>a.sidebartitle:hover {
+    color: #064770 !important;
+    background: white url(../image/minus.png) no-repeat 96% center;
+}
 
 .side_summary .text-muted {
 	color: #ccc;
@@ -832,7 +845,6 @@ h1 a:hover, h2 a:hover, h3 a:hover {
 	font-size: 11px;
 	line-height: normal;
 	text-transform: uppercase;
-	font-size: 10px;
 	opacity: 0.6;
 }
 

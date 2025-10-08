@@ -1,5 +1,7 @@
-<h5 class="sidebartitle"><?php echo $text_short_stats; ?></h5>    
-<ul>
+<a class="sidebartitle w-100" data-toggle="collapse" href="#short_stats_collapse" aria-expanded="true" aria-controls="short_stats_collapse">
+    <?php echo $text_short_stats; ?>
+</a>
+<ul class="collapse in" id="short_stats_collapse">
     <?php if ($viewcustomer) { ?>
     <li>
         <div class="icon"><i class="fa fa-users fa-2x fa-fw"></i></div>   
@@ -12,9 +14,8 @@
             </h4>
         </div>
     </li>
-    <?php } ?>
-
-    <?php if ($vieworder) { ?>
+    <?php }
+    if ($vieworder) { ?>
     <li>
 		<div class="icon"><i class="fa fa-credit-card fa-2x fa-fw"></i></div>   
         <div class="stats_info">
@@ -30,9 +31,8 @@
             <h4><?php echo $today_sales_amount; ?></h4>
         </div>
     </li>
-    <?php } ?>
-
-    <?php if ($viewcustomer) { ?>
+    <?php }
+    if ($viewcustomer) { ?>
     <li>
     	<div class="icon"><i class="fa fa-user fa-2x fa-fw"></i></div> 
         <div class="stats_info">
@@ -40,9 +40,8 @@
             <h4><?php echo $today_customer_count; ?></h4>
         </div>
     </li>
-    <?php } ?>
-
-    <?php if ($viewreview) { ?>
+    <?php }
+    if ($viewreview) { ?>
     <li>
     	<div class="icon"><i class="fa fa-comment fa-2x fa-fw"></i></div> 
         <div class="stats_info">
@@ -51,7 +50,6 @@
         </div>
     </li>
     <?php } ?>
-
     <li>
     	<div class="icon"><i class="fa fa-clock-o fa-2x fa-fw"></i></div>
         <div class="stats_info">
