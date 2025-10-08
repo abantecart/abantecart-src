@@ -328,7 +328,7 @@ if (sizeof((array) $error_warning) > 0) {
 
         display_shippings();
 
-        $(document).on("change", '#estimate_country_zones', function () {
+        $(document).on("change", '#zone_id', function () {
             //zone is changed, need to reset postcode
             $("#estimate input[name=\'postcode\']").val('')
             display_shippings();
@@ -347,5 +347,4 @@ if (sizeof((array) $error_warning) > 0) {
     $('.cart-qnty-wrapper input').on('input', function() {
         $(this).val($(this).val().replace(/[^0-9]/gi, ''));
     });
-
 </script>

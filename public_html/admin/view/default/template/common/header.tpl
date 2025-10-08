@@ -85,9 +85,9 @@
                 <li>
                     <div class="btn-group ant_window">
                         <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
-                            <i class="fa fa-comments fa-lg"></i>
+                            <i class="fa fa-bell fa-lg"></i>
                             <?php if ($ant_viewed <= 0){ ?>
-                                <span class="badge"><i class="fa fa-bell"></i></span>
+                                <span class="badge"><i class="fa fa-dot-circle-o"></i></span>
                             <?php } ?>
                         </button>
                         <div id="ant_dropdown" class="dropdown-menu dropdown-menu-head ant-menu-head pull-right">
