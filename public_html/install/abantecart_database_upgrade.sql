@@ -1,3 +1,12 @@
+alter table `ac_email_templates`
+    modify subject varchar(255) collate utf8mb3_unicode_ci not null comment 'translatable';
+
+alter table `ac_email_templates`
+    modify html_body text collate utf8mb3_unicode_ci not null comment 'translatable';
+
+alter table `ac_email_templates`
+    modify text_body text collate utf8mb3_unicode_ci not null comment 'translatable';
+
 alter table `ac_product_option_values`
 add column IF NOT EXISTS require_shipping smallint default 0 not null comment 'depends on "shipping" column of table "products" ' after prefix;
 
