@@ -562,7 +562,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController
             //replace wysiwyg text editor to textarea inside modal-mode!
             if ($field->type == 'texteditor') {
                 $ext_url = $this->html->getSecureURL('setting/setting', '&active=' . $section) . '#' . $field->element_id;
-                $label_text = $this->language->getAndReplace('text_texteditor_extended_mode', $ext_url);
+                $label_text = $this->language->getAndReplace('text_texteditor_extended_mode', replaces: $ext_url);
                 $field = $form->getFieldHtml(
                     [
                         'type'        => 'textarea',
