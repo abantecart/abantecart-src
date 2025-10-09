@@ -62,7 +62,7 @@ if ($error_warning) { ?>
         <?php } ?>
         <button id="submit_button" type="submit"
                 role="button"
-                class="btn btn-primary ms-auto disabled"
+                class="btn btn-primary ms-auto disabled mt-3 mt-md-0"
                 title="<?php echo_html2view($form['continue']->name); ?>">
             <i class="fa fa-check"></i>
             <?php echo $form['continue']->name ?>
