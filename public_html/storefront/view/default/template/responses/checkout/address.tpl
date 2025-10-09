@@ -49,23 +49,22 @@ unset($afUsed,$isPairFields,$pairFields);?>
 <fieldset>
     <?php echo $this->getHookVar('address_form_top'); ?>
     <label class="visible-xs text-center text-uppercase"><?php echo $this->language->get('text_'.$type.'_address'); ?></label>
-    <?php foreach($addressFormFields as $fieldKey => $field){ ?>
-    <div class="row mb-3">
-        <?php if(is_array($field)){
-            foreach($field as $fKey => $fld){ ?>
+    <?php foreach($addressFormFields as $fieldKey => $field){
+            if(is_array($field)){ ?>
+        <div class="row mb-0 mb-sm-3">
+            <?php foreach($field as $fKey => $fld){ ?>
                 <div class="form-group col-12 col-sm-6 mb-3 mb-sm-0 ">
-                    <?php
-                    $fld->style .= ' form-control-lg form-select-lg  '.($errors[$fKey] ? 'is-invalid' : '');
+            <?php   $fld->style .= ' form-control-lg form-select-lg  '.($errors[$fKey] ? 'is-invalid' : '');
                     $fld->placeholder = html2view($fld->display_name);
                     if($errors[$fKey]){
                         $fld->error_text .= $errors[$fKey];
                     }
-                    echo $fld;
-                    ?>
+                    echo $fld; ?>
                     <div class="invalid-feedback"><?php echo $errors[$fKey]; ?></div>
                 </div>
             <?php }
         }else{ ?>
+        <div class="row mb-3">
             <div class="form-group col-12 ">
                 <?php
                 $field->style .= ' form-control-lg '.($errors[$fieldKey] ? 'is-invalid' : '');
