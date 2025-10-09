@@ -65,6 +65,7 @@ $templates = [
         'pages/tool/forms_manager_form.tpl',
         'pages/tool/forms_manager_block_form.tpl',
         'responses/forms_manager/field_values.tpl',
+        'responses/forms_manager/field_values_country_zone.tpl',
         'responses/forms_manager/field_value_row.tpl',
         'responses/forms_manager/file_upload_settings.tpl',
     ],

@@ -392,6 +392,17 @@ class ControllerResponsesFormsManagerFields extends AController
         //Load option values rows
         $this->data['field_values'] = [];
 
+        //for country and zone field types show only links to grid
+        if(in_array($elmType,['O','Z'])){
+            $editRt = $elmType == 'O' ? 'localisation/country' : 'localisation/zone';
+            $this->data['edit_url'] = $this->html->getSecureURL($editRt);
+            $this->data['text_edit_values'] = $this->language->get('text_edit_field_values');
+            $this->view->batchAssign($this->data);
+            /** @see  public_html/extensions/forms_manager/admin/view/default/template/responses/forms_manager/field_values_country_zone_row.tpl */
+            $this->processTemplate('responses/forms_manager/field_values_country_zone.tpl');
+            return;
+        }
+
         if (!in_array($elmType, ['U', 'K'])) {
             if (!empty($this->data['field_data']['values'])) {
                 usort($this->data['field_data']['values'], self::_sort_by_sort_order(...));
@@ -482,6 +493,7 @@ class ControllerResponsesFormsManagerFields extends AController
         }
 
         $this->view->batchAssign($this->data);
+        /** @see  public_html/extensions/forms_manager/admin/view/default/template/responses/forms_manager/field_value_row.tpl */
         return $this->view->fetch('responses/forms_manager/field_value_row.tpl');
     }
 

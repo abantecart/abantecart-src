@@ -332,6 +332,10 @@
     </definition>
     <definition>
         <key>error_group_has_fields</key>
-        <value><![CDATA[Cannot remove group. One or more fields are assigned to this group.]]></value>
+        <value><![CDATA[Cannot remove a group. One or more fields are assigned to this group.]]></value>
+    </definition>
+    <definition>
+        <key>text_edit_field_values</key>
+        <value><![CDATA[Edit Field Values]]></value>
     </definition>
 </definitions>
