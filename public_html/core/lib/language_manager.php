@@ -1167,7 +1167,7 @@ class ALanguageManager extends Alanguage
             FROM " . $this->db->escape($tableNameWithPrefix) . " 
             WHERE extra = 'auto_increment'"
         );
-        $autoIncrementColumn = $result->row['field'];
+        $autoIncrementColumn = $result->row['Field'];
 
         //get all fields that are translatable
         $translatableCols = $this->getTranslatableFields($tableNameWithPrefix);
@@ -1181,8 +1181,6 @@ class ALanguageManager extends Alanguage
             $langFiles = array_column($this->available_languages, 'filename', 'language_id');
             foreach ($tables_query->rows as $row) {
                 #Check if to be saved data exists for a new language
-
-
                 $whereDst = $whereSrc = '';
                 foreach ($priKeys as $priColumn) {
                     //Skip language_id and autoincrement from the key. autoincrement is unique by itself.
@@ -1200,24 +1198,26 @@ class ALanguageManager extends Alanguage
                 $sqlDst = "SELECT * 
                            FROM " . $this->db->escape($tableNameWithPrefix) . " 
                            WHERE language_id = " . $dstLanguageId . PHP_EOL
-                    . $whereDst;
+                            . $whereDst;
                 $res = $this->db->query($sqlDst);
                 $translatedRow = $res->row;
 
                 $sqlSrc = "SELECT * 
                            FROM " . $this->db->escape($tableNameWithPrefix) . " 
                            WHERE language_id = " . $srcLanguageId . PHP_EOL
-                    . $whereSrc;
+                            . $whereSrc;
                 $res = $this->db->query($sqlSrc);
                 $sourceRows = $res->rows;
 
                 foreach ($sourceRows as $srcRow) {
                     $insert_data = [];
                     foreach ($srcRow as $columnName => $srcValue) {
+                        //do not fill autoincrement column value
+                        if($columnName == $autoIncrementColumn){
+                            continue;
+                        }
                         if ($columnName == 'language_id') {
                             $translated = $dstLanguageId;
-                        } elseif ($columnName == $autoIncrementColumn) {
-                            $translated = null;
                         } else {
                             if ($columnName == 'block' && $srcValue == $langFiles[$srcLanguageId]) {
                                 //language-specific field for the main language block. use destination language
@@ -1243,7 +1243,6 @@ class ALanguageManager extends Alanguage
                                 $translated = $srcValue;
                             }
                         }
-
                         $insert_data[$columnName] = $this->db->escape($translated);
                     }
 
