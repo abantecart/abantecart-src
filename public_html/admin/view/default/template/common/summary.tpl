@@ -1,7 +1,7 @@
 <a class="sidebartitle w-100" data-toggle="collapse" href="#short_stats_collapse" aria-expanded="true" aria-controls="short_stats_collapse">
     <?php echo $text_short_stats; ?>
 </a>
-<ul class="collapse in" id="short_stats_collapse">
+<ul class="collapse" id="short_stats_collapse">
     <?php if ($viewcustomer) { ?>
     <li>
         <div class="icon"><i class="fa fa-users fa-2x fa-fw"></i></div>   

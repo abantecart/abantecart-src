@@ -2143,6 +2143,7 @@ a.resource_edit .img-responsive {
 	line-height: 15px;
 	color: #E4E7EA;
 	background: #064770;
+    min-height: 50px;
 }
 
 #footer a {
@@ -3781,7 +3782,14 @@ blockquote p::after {
 .menu_text:first-letter {
 	text-transform: uppercase;
 }
- .new_messages .dropdown-list.gen-list{
-     max-height: 500px;
-     overflow-y: auto;
- }
+
+.new_messages .dropdown-list.gen-list{
+ max-height: 500px;
+ overflow-y: auto;
+}
+
+.footer_ant_banner
+{
+    display: block;
+    margin-top: 20px;
+}

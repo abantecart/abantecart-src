@@ -1,3 +1,6 @@
+alter table `ac_ant_messages`
+    add `placeholder` varchar(128) null after `priority`;
+
 alter table `ac_email_templates`
     modify subject varchar(255) collate utf8mb3_unicode_ci not null comment 'translatable';
 

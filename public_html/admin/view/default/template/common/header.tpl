@@ -40,6 +40,11 @@
 			<div class="side_summary">
 				<?php include($tpl_common_dir . 'summary.tpl'); ?>
 			</div>
+            <?php if($left_ant){ ?>
+                <div class="side_left_ant_banner">
+                    <?php echo $left_ant; ?>
+                </div>
+            <?php }?>
 			<?php echo $this->getHookVar('leftpanel_bottom'); ?>
 		</div>
 	</div>

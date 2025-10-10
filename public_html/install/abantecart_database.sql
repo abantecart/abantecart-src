@@ -10741,6 +10741,7 @@ DROP TABLE IF EXISTS `ac_ant_messages`;
 CREATE TABLE `ac_ant_messages` (
   `id` varchar(60) NOT NULL,
   `priority` int(11) NOT NULL DEFAULT 0,
+  `placeholder` varchar(128) null,
   `start_date` timestamp NULL,
   `end_date` timestamp,
   `viewed_date` timestamp,

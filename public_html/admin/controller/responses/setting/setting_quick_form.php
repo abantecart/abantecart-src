@@ -18,10 +18,6 @@
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
-/**
- *
- * @property ModelToolMPAPI $model_tool_mp_api
- */
 class ControllerResponsesSettingSettingQuickForm extends AController
 {
     public $error = [];
@@ -360,19 +356,11 @@ class ControllerResponsesSettingSettingQuickForm extends AController
         //if offers - try to get data first
         $offer_response = [];
         if (in_array($section, ['offer1', 'offer2'])) {
-            $this->load->model('tool/mp_api');
-            $params = [
-                'language'  => $this->language->getLanguageCode(),
-                'countryId' => $this->config->get('config_country_id'),
-                'zoneId'    => $this->config->get('config_zone_id'),
-                'storeId'   => UNIQUE_ID,
-            ];
-            $url = $this->model_tool_mp_api->getMPURL() . '?rt=embed/mpjs/' . $section . '&' . http_build_query($params);
-            $connect = new AConnect();
-            $offer_response = $connect->getResponse($url);
-            $this->load->library('json');
-            $offer_response = AJson::decode($offer_response, true);
-            if (!empty($offer_response['html'])) {
+            $offer_response = $this->messages->getANTMessageByPlaceholder(
+                'quick_start',
+                'quick_start_'.$section
+            );
+            if ($offer_response['html']) {
                 $this->data['title'] = $offer_response['title'];
                 $this->data['html'] = $offer_response['html'];
             } else {

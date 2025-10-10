@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -43,8 +42,8 @@ class ControllerCommonFooter extends AController
         $this->view->assign('new_orders', $this->language->get('new_orders'));
         $this->view->assign('recent_customers', $this->language->get('recent_customers'));
 
-        $this->view->assign('text_footer_left', sprintf($this->language->get('text_footer_left'), date('Y')));
-        $this->view->assign('text_footer', sprintf($this->language->get('text_footer'), date('Y')).' '.VERSION);
+        $this->view->assign('text_footer_left', $this->language->getAndReplace('text_footer_left', replaces: date('Y')));
+        $this->view->assign('text_footer', $this->language->getAndReplace('text_footer', replaces: date('Y')) . ' ' . VERSION);
 
         if (!$this->user->isLogged()
             || !isset($this->request->get['token'])
@@ -54,20 +53,34 @@ class ControllerCommonFooter extends AController
             $this->view->assign('logged', '');
             $this->view->assign('home', $this->html->getSecureURL('index/login', '', true));
         } else {
-            $this->view->assign('logged', sprintf($this->language->get('text_logged'), $this->user->getUserName()));
+            $this->view->assign(
+                'logged',
+                $this->language->getAndReplace('text_logged', replaces: $this->user->getUserName())
+            );
             $this->view->assign('username', $this->user->getUserName());
             if ($this->user->getLastLogin()) {
                 $this->view->assign(
                     'last_login',
-                    sprintf($this->language->get('text_last_login'), $this->user->getLastLogin())
+                    $this->language->getAndReplace('text_last_login', replaces: $this->user->getLastLogin())
                 );
             } else {
                 $this->view->assign(
                     'last_login',
-                    sprintf($this->language->get('text_welcome'), $this->user->getUserName())
+                    $this->language->getAndReplace('text_welcome', replaces: $this->user->getUserName())
                 );
             }
             $this->view->assign('account_edit', $this->html->getSecureURL('index/edit_details', '', true));
+
+            $footerAntMessage = $this->messages->getANTMessageByPlaceholder('footer');
+            if ($footerAntMessage) {
+                $this->view->assign('footer_ant', $footerAntMessage['html']);
+                $this->messages->markViewedANT($footerAntMessage['id'], '*');
+            }
+            $rightAntMessage = $this->messages->getANTMessageByPlaceholder('right');
+            if ($rightAntMessage) {
+                $this->view->assign('right_ant', $rightAntMessage['html']);
+                $this->messages->markViewedANT($rightAntMessage['id'], '*');
+            }
         }
 
         $this->processTemplate('common/footer.tpl');

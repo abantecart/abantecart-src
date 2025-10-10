@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 /**
@@ -156,23 +156,36 @@ class ControllerCommonHeader extends AController
                 $resource = $rm->getResource($current_menu ['item_icon_rl_id']);
                 $current_menu['icon'] = $resource['resource_code'];
             }
-            if($current_menu) {
+            if ($current_menu) {
                 unset($current_menu['item_icon_rl_id']);
             }
             $this->data['current_menu'] = $current_menu;
         }
         if ($this->user->isLogged()) {
-            $ANTMessage = $this->messages->getANTMessage();
-            $this->data['last_ant'] = $ANTMessage['html'];
-            $this->data['mark_read_url'] = $this->html->getSecureURL(
-                'common/common/antMessageRead',
-                '&message_id=' . $ANTMessage['id']
-            );
-            $this->data['ant_viewed'] = $ANTMessage['viewed'];
-
-            $ANTMessage = $this->messages->getANTMessage(false);
-            $this->data['ant_banner'] = $ANTMessage['html'];
+            if ($this->data['home_page']) {
+                $unreadANTMessage = $this->messages->getANTMessageByPlaceholder(['exclude' => ['quick_start']]);
+                $this->data['ant_banner'] = $unreadANTMessage['html'];
+            } else {
+                $ANTMessage = $this->messages->getANTMessageByPlaceholder(['exclude' => ['quick_start']]);
+                $this->data['last_ant'] = $ANTMessage['html'];
+                $this->data['mark_read_url'] = $this->html->getSecureURL(
+                    'common/common/antMessageRead',
+                    '&message_id=' . $ANTMessage['id']
+                );
+                $this->data['ant_viewed'] = $ANTMessage['viewed'];
+            }
+            $leftAntMessage = $this->messages->getANTMessageByPlaceholder('left');
+            if ($leftAntMessage) {
+                $this->data['left_ant'] = $leftAntMessage['html'];
+                $this->messages->markViewedANT($leftAntMessage['id'], '*');
+            }
+            $rightAntMessage = $this->messages->getANTMessageByPlaceholder('right');
+            if ($rightAntMessage) {
+                $this->data['right_ant'] = $rightAntMessage['html'];
+                $this->messages->markViewedANT($rightAntMessage['id'], '*');
+            }
         }
+
         $this->data['config_voicecontrol'] = $this->config->get('config_voicecontrol');
         $this->data['voicecontrol_setting_url'] = $this->html->getSecureURL('setting/setting/system');
         $this->data['command_lookup_url'] = $this->html->getSecureURL('common/action_commands');

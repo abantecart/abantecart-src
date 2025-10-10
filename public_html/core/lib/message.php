@@ -290,11 +290,11 @@ class AMessage
         }
         $ids = [];
         foreach ($no_delete as $msg_id) {
-            $ids[] =  $this->db->escape($msg_id);
+            $ids[] = $this->db->escape($msg_id);
         }
 
         $sql = "DELETE FROM " . $this->db->table("ant_messages");
-        if($ids){
+        if ($ids) {
             $sql .= " WHERE id NOT IN ('" . implode("', '", $ids) . "')";
         }
         $this->db->query($sql);
@@ -313,7 +313,7 @@ class AMessage
             return false;
         }
 
-        // need to find the message with same id and language. If the language is not set - find for all
+        // need to find the message with the same ID and language. If the language is not set - find for all,
         // if language_code is empty, it means that the banner shows for all interface languages
         $sql = "SELECT *
                  FROM " . $this->db->table("ant_messages") . " 
@@ -347,6 +347,7 @@ class AMessage
         $sql = "INSERT INTO " . $this->db->table("ant_messages") . " 
                 (`id`,
                 `priority`,
+                `placeholder`,
                 `start_date`,
                 `end_date`,
                 `viewed_date`,
@@ -358,6 +359,7 @@ class AMessage
                 `language_code`)
                 VALUES ('" . $this->db->escape($data['message_id']) . "',
                         '" . $this->db->escape($data['priority']) . "',
+                        '" . $this->db->escape($data['placeholder']) . "',
                         '" . $this->db->escape($data['start_date']) . "',
                         '" . $this->db->escape($data['end_date']) . "',
                         '" . $this->db->escape($last_view) . "',
@@ -398,6 +400,50 @@ class AMessage
                 'id'     => $result->row['id'] ?? null,
                 'viewed' => $result->row['viewed'] ?? 0,
                 'html'   => $output ?? '',
+            ];
+        }
+        return [];
+    }
+
+    /**
+     * @param string|array $placeholder
+     * @param string $messageId
+     * @param bool $unread
+     * @return array
+     * @throws AException
+     */
+    public function getANTMessageByPlaceholder(string|array $placeholder, string $messageId = '', bool $unread = false)
+    {
+        if (is_string($placeholder)) {
+            $placeholder = ['include' => [$placeholder]];
+        }
+        foreach (['include', 'exclude'] as $key) {
+            $placeholder[$key] ??= [];
+            foreach ($placeholder[$key] as &$pl) {
+                $pl = $this->db->escape($pl);
+            }
+        }
+
+        $sql = "SELECT *
+                 FROM " . $this->db->table("ant_messages") . " 
+                 WHERE ( language_code = '" . $this->registry->get('config')->get('admin_language') . "' 
+                        OR COALESCE(language_code,'*') = '*') 
+                 " . ($placeholder['include'] ? " AND placeholder IN ('" . implode("', '", $placeholder['include']) . "') " : '')
+            . ($placeholder['exclude'] ? " AND placeholder NOT IN ('" . implode("', '", $placeholder['exclude']) . "') " : '')
+            . ($unread ? ' AND viewed < 1 ' : '');
+        if (!$messageId) {
+            $sql .= "ORDER BY viewed ASC, priority DESC, COALESCE(language_code,'') DESC, COALESCE(url,'') DESC ";
+        } else {
+            $sql .= " AND id LIKE '" . $this->db->escape($messageId) . "' ";
+        }
+        $sql .= " LIMIT 1";
+        $result = $this->db->query($sql);
+        if ($result->num_rows) {
+            $output = $result->row['html'] ?: $result->row['description'];
+            return [
+                'id'     => $result->row['id'] ?? null,
+                'viewed' => $result->row['viewed'] ?? 0,
+                'html'   => $this->html->convertLinks($output ?? ''),
             ];
         }
         return [];
