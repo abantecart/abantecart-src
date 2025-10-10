@@ -1,21 +1,21 @@
 <?php
 /*
- * $Id$
+ *   $Id$
  *
- * AbanteCart, Ideal OpenSource Ecommerce Solution
- * http://www.AbanteCart.com
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
  *
- * Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
- * This source file is subject to Open Software License (OSL 3.0)
- * License details is bundled with this package in the file LICENSE.txt.
- * It is also available at this URL:
- * <http://www.opensource.org/licenses/OSL-3.0>
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
  *
- * UPGRADE NOTE:
- * Do not edit or add to this file if you wish to upgrade AbanteCart to newer
- * versions in the future. If you wish to customize AbanteCart for your
- * needs please refer to http://www.AbanteCart.com for more information.
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 if (!defined('DIR_CORE')) {
@@ -25,6 +25,7 @@ if (!defined('DIR_CORE')) {
 class ControllerPagesAccountOrderDetails extends AController
 {
     public $error = [];
+
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
@@ -35,9 +36,8 @@ class ControllerPagesAccountOrderDetails extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $order_token = '';
+        $orderToken = '';
         $this->data['guest'] = $guest = false;
-
 
         /** @var ModelAccountOrder $mdlOrder */
         $mdlOrder = $this->loadModel('account/order');
@@ -47,21 +47,21 @@ class ControllerPagesAccountOrderDetails extends AController
         //validate input and re-route
         if ($this->customer->isLogged()) {
             //logged in customer, missing order ID?
-            $order_id = (int)$this->request->get['order_id'];
-            if (!$order_id) {
+            $orderId = (int)$this->request->get['order_id'];
+            if (!$orderId) {
                 redirect($this->html->getSecureURL('account/history'));
                 return;
             }
-            $order_info = $mdlOrder->getOrder($order_id);
+            $orderInfo = $mdlOrder->getOrder($orderId);
         } else {
             if (isset($this->request->get['ot']) && $this->config->get('config_guest_checkout')) {
                 //try to decrypt order token
-                $order_token = $this->request->get['ot'];
-                list($order_id, $email) = $mdl->parseOrderToken($order_token);
-                if ($order_id && $email) {
-                    $this->data['order_token'] = $order_token;
+                $orderToken = $this->request->get['ot'];
+                list($orderId, $email) = $mdl->parseOrderToken($orderToken);
+                if ($orderId && $email) {
+                    $this->data['order_token'] = $orderToken;
                     $this->data['guest'] = $guest = true;
-                    $order_info = $mdlOrder->getOrder($order_id, '', 'view');
+                    $orderInfo = $mdlOrder->getOrder($orderId, '', 'view');
                 } else {
                     redirect($this->html->getSecureURL('account/history'));
                     return;
@@ -71,16 +71,16 @@ class ControllerPagesAccountOrderDetails extends AController
                     $this->data['guest'] = true;
                     $enc = new AEncryption($this->config->get('encryption_key'));
 
-                    $order_id = $this->request->post['order_id'];
+                    $orderId = $this->request->post['order_id'];
                     $email = $this->request->post['email'];
-                    $order_token = $enc->encrypt($order_id.'::'.$email);
-                    $order_info = $this->model_account_order->getOrder($order_id, '', 'view');
+                    $orderToken = $enc->encrypt($orderId . '::' . $email);
+                    $orderInfo = $mdlOrder->getOrder($orderId, '', 'view');
 
                     //compare emails
-                    if ($order_info['email'] != $email) {
+                    if ($orderInfo['email'] != $email) {
                         redirect($this->html->getSecureURL('account/order_details'));
                     }
-                }else {
+                } else {
                     $this->getForm();
                     return;
                 }
@@ -93,7 +93,7 @@ class ControllerPagesAccountOrderDetails extends AController
 
         $this->view->assign('error', $this->error);
 
-        $this->document->setTitle($this->language->get('heading_title','account/order_details'));
+        $this->document->setTitle($this->language->get('heading_title', 'account/order_details'));
 
         $this->document->resetBreadcrumbs();
 
@@ -124,7 +124,7 @@ class ControllerPagesAccountOrderDetails extends AController
 
         $this->document->addBreadcrumb(
             [
-                'href'      => $this->html->getSecureURL($this->data['order_details_rt'], '&order_id=' . $order_id),
+                'href'      => $this->html->getSecureURL($this->data['order_details_rt'], '&order_id=' . $orderId),
                 'text'      => $this->language->get('text_invoice'),
                 'separator' => $this->language->get('text_separator'),
             ]
@@ -136,75 +136,53 @@ class ControllerPagesAccountOrderDetails extends AController
             unset($this->session->data['success']);
         }
 
-        if ($order_info) {
-            $this->data['order_id'] = $order_id;
-            $this->data['order_info'] = $order_info;
-            $this->data['invoice_id'] = $order_info['invoice_id']
-                ? $order_info['invoice_prefix'] . $order_info['invoice_id']
+        if ($orderInfo) {
+            $this->data['order_id'] = $orderId;
+            $this->data['order_info'] = $orderInfo;
+            $this->data['invoice_id'] = $orderInfo['invoice_id']
+                ? $orderInfo['invoice_prefix'] . $orderInfo['invoice_id']
                 : '';
 
-            $this->data['email'] = $order_info['email'];
-            $this->data['telephone'] = $order_info['telephone'];
-            $this->data['mobile_phone'] = $this->im->getCustomerURI('sms', (int)$order_info['customer_id'], $order_id);
-            $this->data['fax'] = $order_info['fax'];
-            $this->data['status'] = $this->model_account_order->getOrderStatus($order_id);
+            $this->data['email'] = $orderInfo['email'];
+            $this->data['telephone'] = $orderInfo['telephone'];
+            $this->data['mobile_phone'] = $this->im->getCustomerURI('sms', (int)$orderInfo['customer_id'], $orderId);
+            $this->data['fax'] = $orderInfo['fax'];
+            //textual order status
+            $this->data['status'] = $mdlOrder->getOrderStatus($orderId);
 
-            $shipping_data = [
-                'firstname' => $order_info['shipping_firstname'],
-                'lastname'  => $order_info['shipping_lastname'],
-                'company'   => $order_info['shipping_company'],
-                'address_1' => $order_info['shipping_address_1'],
-                'address_2' => $order_info['shipping_address_2'],
-                'city'      => $order_info['shipping_city'],
-                'postcode'  => $order_info['shipping_postcode'],
-                'zone'      => $order_info['shipping_zone'],
-                'zone_code' => $order_info['shipping_zone_code'],
-                'country'   => $order_info['shipping_country'],
-            ];
+            //extended fields
+            $this->data['ext_fields'] = $mdlOrder->prepareExtendedFields((array)$orderInfo['ext_fields']);
 
             $this->data['shipping_address'] = $this->customer->getFormattedAddress(
-                $shipping_data,
-                $order_info['shipping_address_format']
+                $this->extractAddressData($orderInfo, 'shipping'),
+                $orderInfo['shipping_address_format']
             );
-            $this->data['shipping_method'] = $order_info['shipping_method'];
-
-            $payment_data = [
-                'firstname' => $order_info['payment_firstname'],
-                'lastname'  => $order_info['payment_lastname'],
-                'company'   => $order_info['payment_company'],
-                'address_1' => $order_info['payment_address_1'],
-                'address_2' => $order_info['payment_address_2'],
-                'city'      => $order_info['payment_city'],
-                'postcode'  => $order_info['payment_postcode'],
-                'zone'      => $order_info['payment_zone'],
-                'zone_code' => $order_info['payment_zone_code'],
-                'country'   => $order_info['payment_country'],
-            ];
+            $this->data['shipping_method'] = $orderInfo['shipping_method'];
 
             $this->data['payment_address'] = $this->customer->getFormattedAddress(
-                $payment_data,
-                $order_info['payment_address_format']
+                $this->extractAddressData($orderInfo, 'payment'),
+                $orderInfo['payment_address_format']
             );
-            $this->data['payment_method'] = $order_info['payment_method'];
+            $this->data['payment_method'] = $orderInfo['payment_method'];
 
             $products = [];
-            $order_products = $mdlOrder->getOrderProducts($order_id);
-            $product_ids = array_column($order_products, 'product_id');
+            $orderProducts = $mdlOrder->getOrderProducts($orderId);
+            $productIds = array_column($orderProducts, 'product_id');
 
             //get thumbnails by one pass
             $resource = new AResource('image');
-            $thumbnails = $product_ids
+            $thumbnails = $productIds
                 ? $resource->getMainThumbList(
                     'products',
-                    $product_ids,
+                    $productIds,
                     $this->config->get('config_image_cart_width'),
                     $this->config->get('config_image_cart_width'),
                     false
                 )
                 : [];
 
-            foreach ($order_products as $product) {
-                $options = $mdlOrder->getOrderOptions($order_id, $product['order_product_id']);
+            foreach ($orderProducts as $product) {
+                $options = $mdlOrder->getOrderOptions($orderId, $product['order_product_id']);
                 $thumbnail = $thumbnails[$product['product_id']];
 
                 $option_data = [];
@@ -222,9 +200,9 @@ class ControllerPagesAccountOrderDetails extends AController
                     // strip long textarea value
                     if ($option['element_type'] == 'T') {
                         $title = strip_tags($value);
-                        $title = str_replace('\r\n', "\n", $title);
+                        $title = str_replace('\r\n', PHP_EOL, $title);
 
-                        $value = str_replace('\r\n', "\n", $value);
+                        $value = str_replace('\r\n', PHP_EOL, $value);
                         if (mb_strlen($value) > 64) {
                             $value = mb_substr($value, 0, 64) . '...';
                         }
@@ -265,34 +243,32 @@ class ControllerPagesAccountOrderDetails extends AController
                     $thumbnail['thumb_url'] = $main_image['thumb_url'];
                     $thumbnail['main_url'] = $main_image['main_url'];
                 }
-               $products[] = [
-                    'id'               => (int)$product['product_id'],
-                    'order_product_id' => (int)$product['order_product_id'],
-                    'thumbnail'        => $thumbnail,
-                    'name'             => $product['name'],
-                    'model'            => $product['model'],
-                    'sku'              => $product['sku'],
-                    'option'           => $option_data,
-                    'quantity'         => $product['quantity'],
-                    'price'            => $this->currency->format(
-                        $product['price'],
-                        $order_info['currency'],
-                        $order_info['value']
-                    ),
-                    'total'            => $this->currency->format(
-                        $product['total'],
-                        $order_info['currency'],
-                        $order_info['value']
-                    ),
-                    'url'              => $this->html->getSEOURL('product/product', '&product_id=' . $product['product_id'])
-                ];
+                $products[] = array_merge(
+                    $product,
+                    [
+                        'id'        => (int)$product['product_id'],
+                        'thumbnail' => $thumbnail,
+                        'option'    => $option_data,
+                        'price'     => $this->currency->format(
+                            $product['price'],
+                            $orderInfo['currency'],
+                            $orderInfo['value']
+                        ),
+                        'total'     => $this->currency->format(
+                            $product['total'],
+                            $orderInfo['currency'],
+                            $orderInfo['value']
+                        ),
+                        'url'       => $this->html->getSEOURL('product/product', '&product_id=' . $product['product_id'])
+                    ]
+                );
             }
             $this->data['products'] = $products;
-            $this->data['totals'] = $mdlOrder->getOrderTotals($order_id);
-            $this->data['comment'] = $order_info['comment'];
+            $this->data['totals'] = $mdlOrder->getOrderTotals($orderId);
+            $this->data['comment'] = $orderInfo['comment'];
 
             $histories = [];
-            $results = $mdlOrder->getOrderHistories($order_id);
+            $results = $mdlOrder->getOrderHistories($orderId);
             foreach ($results as $result) {
                 $histories[] = [
                     'date_added' => dateISO2Display(
@@ -321,7 +297,7 @@ class ControllerPagesAccountOrderDetails extends AController
             //button for order cancellation
             if ($this->config->get('config_customer_cancelation_order_status_id')) {
                 $order_cancel_ids = unserialize($this->config->get('config_customer_cancelation_order_status_id'));
-                if (in_array($order_info['order_status_id'], $order_cancel_ids)) {
+                if (in_array($orderInfo['order_status_id'], $order_cancel_ids)) {
                     $this->data['button_order_cancel'] = $this->html->buildElement(
                         [
                             'type'  => 'button',
@@ -334,19 +310,19 @@ class ControllerPagesAccountOrderDetails extends AController
                     if (!$guest) {
                         $this->data['order_cancelation_url'] = $this->html->getSecureURL(
                             'account/order_details/CancelOrder',
-                            '&order_id=' . $order_id
+                            '&order_id=' . $orderId
                         );
                     } else {
                         $this->data['order_cancelation_url'] = $this->html->getSecureURL(
                             'account/order_details/CancelOrder',
-                            '&ot=' . $order_token
+                            '&ot=' . $orderToken
                         );
                     }
                 }
             }
 
             //get downloads if we have them?
-            $this->_build_download_list($order_id);
+            $this->_build_download_list($orderId);
 
             if ($this->config->get('embed_mode')) {
                 //load special headers
@@ -376,6 +352,28 @@ class ControllerPagesAccountOrderDetails extends AController
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
+
+    /**
+     * @param array $orderInfo
+     * @param string $prefix - can be "payment" or "shipping"
+     * @return array
+     */
+    protected function extractAddressData(array $orderInfo, string $prefix = 'shipping')
+    {
+        //add extended fields array into address data
+        $output = (array)$orderInfo['ext_fields'];
+        foreach ($orderInfo as $key => $value) {
+            if (str_starts_with($key, $prefix . '_')) {
+                $output[str_replace($prefix . '_', '', $key)] = $value;
+            }
+        }
+        foreach ($output as $key => $value) {
+            if (str_starts_with($key, $prefix . '_')) {
+                $output[str_replace($prefix . '_', '', $key)] = $value;
+            }
+        }
+        return $output;
     }
 
     /**
@@ -425,7 +423,7 @@ class ControllerPagesAccountOrderDetails extends AController
             if (is_numeric($download_info['filename'])) {
                 $rl = new AResource('download');
                 $resource = $rl->getResource($download_info['filename']);
-                $download_info['filename'] = $rl->getTypeDir() . $resource['resource_path'];
+                $download_info['filename'] = $rl->getTypeDir() . str_replace('/', DS, $resource['resource_path']);
             }
             $size = filesize(DIR_RESOURCE . $download_info['filename']);
             $i = 0;
@@ -447,7 +445,7 @@ class ControllerPagesAccountOrderDetails extends AController
                         'style' => 'button',
                         'href'  => $this->html->getSecureURL(
                             'account/order_details/startdownload',
-                            '&order_download_id=' . $download_info['order_download_id']
+                            '&order_download_id=' . (int)$download_info['order_download_id']
                             . ($this->data['guest'] ? '&ot=' . $this->data['order_token'] : '')
                         ),
                         'icon'  => 'fa fa-download-alt',
@@ -691,7 +689,7 @@ class ControllerPagesAccountOrderDetails extends AController
             ]
         );
 
-        $order_id = (int) $this->request->post_or_get('order_id') ? (int) $this->request->post_or_get('order_id') : '';
+        $order_id = (int)$this->request->post_or_get('order_id') ? (int)$this->request->post_or_get('order_id') : '';
         $this->data['form']['order_id'] = $form->getFieldHtml(
             [
                 'type'     => 'input',
@@ -736,12 +734,13 @@ class ControllerPagesAccountOrderDetails extends AController
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/account/order.tpl');
     }
+
     protected function _validate()
     {
         if (!$this->csrftoken->isTokenValid()) {
             $this->error['warning'] = $this->language->get('error_unknown');
         } else {
-            if (!(int) $this->request->post['order_id']) {
+            if (!(int)$this->request->post['order_id']) {
                 $this->error['order_id'] = $this->language->get('error_order_id');
             }
 

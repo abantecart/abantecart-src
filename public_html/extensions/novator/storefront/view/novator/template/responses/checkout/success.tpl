@@ -28,7 +28,7 @@
                 <?php
                 //if we have download
                 if ($download_url) { ?>
-                    <a href="<?php echo $download_url; ?>" class="btn btn-primary btn-xl" target="_new">
+                    <a href="<?php echo $download_url; ?>" class="btn btn-primary btn-xl" target="_blank">
                         <i class="fa fa-download fa-fw"></i>
                         <?php echo $fast_checkout_button_start_download; ?>
                     </a>

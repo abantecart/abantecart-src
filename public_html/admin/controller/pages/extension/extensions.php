@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -48,7 +48,7 @@ class ControllerPagesExtensionExtensions extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        //connection to marketplace
+        //connection to the marketplace
         /** @var ModelToolMPAPI $mdlMp */
         $mdlMp = $this->loadModel('tool/mp_api');
         $mp_token = $this->config->get('mp_token');
@@ -343,7 +343,7 @@ class ControllerPagesExtensionExtensions extends AController
         $settings = $ext->getSettings();
 
         $this->data['extension_info'] = $this->extensions->getExtensionInfo($extension);
-        // if extension is not installed yet - redirect to list
+        // if the extension is not installed yet - redirect to list
         if (!$this->data['extension_info']) {
             redirect($this->html->getSecureURL('extension/extensions'));
         }
@@ -458,7 +458,7 @@ class ControllerPagesExtensionExtensions extends AController
                     // if options need to extract from db
                     $data['options'] = $item['options'];
                     if ($item['model_rt'] != '') {
-                        //force loading of models even before extension is enabled
+                        //force loading of models even before the extension is enabled
                         $this->loadModel($item['model_rt'], 'force');
                         $model = $this->{'model_' . str_replace("/", "_", $item['model_rt'])};
                         $method_name = $item['method'];
@@ -491,7 +491,7 @@ class ControllerPagesExtensionExtensions extends AController
                     $data['options'] = $item['options'];
                     if (is_array($item['data_source']) && $item['data_source']) {
                         foreach ($item['data_source']['model_rt'] as $k => $model_rt) {
-                            //force loading of models even before extension is enabled
+                            //force loading of models even before the extension is enabled
                             $this->loadModel($model_rt, 'force');
                             $model = $this->{'model_' . str_replace("/", "_", $model_rt)};
                             $method_name = $item['data_source']['method'][$k];
@@ -502,7 +502,7 @@ class ControllerPagesExtensionExtensions extends AController
                     } else {
                         //TODO: remove it in 2.0
                         if ($item['model_rt'] != '') {
-                            //force loading of models even before extension is enabled
+                            //force loading of models even before the extension is enabled
                             $this->loadModel($item['model_rt'], 'force');
                             $model = $this->{'model_' . str_replace("/", "_", $item['model_rt'])};
                             $method_name = $item['method'];
@@ -551,23 +551,22 @@ class ControllerPagesExtensionExtensions extends AController
                 default:
             }
             $html = '';
-            //if template process differently
+            //if template processes differently
             if (has_value((string)$data['template'])) {
-                //build path to template directory.
+                //build path to the template directory.
                 $dir_template = DIR_EXT
                     . $extension
                     . DIR_EXT_ADMIN
                     . DIR_EXT_TEMPLATE
                     . $this->config->get('admin_template')
-                    . "/template/"
+                    . DS . "template" . DS
                     . $data['template'];
                 //validate template and report issue
                 if (!file_exists($dir_template)) {
                     $warning = new AWarning(
-                        sprintf(
-                            $this->language->get('error_could_not_load_override'),
-                            $dir_template,
-                            $extension
+                        $this->language->getAndReplace(
+                            'error_could_not_load_override',
+                            replaces: [$dir_template, $extension]
                         )
                     );
                     $warning->toLog()->toDebug();
@@ -586,7 +585,6 @@ class ControllerPagesExtensionExtensions extends AController
 
         // end building aform
         $this->data['settings'] = $result['html'];
-
         $this->data['resources_scripts'] = $result['rl_scripts'];
         $this->data['target_url'] = $this->html->getSecureURL(
             'extension/extensions/edit',
@@ -721,9 +719,9 @@ class ControllerPagesExtensionExtensions extends AController
                         . $key . ' (' . implode(', ', $files) . ')</a>';
                 }
 
-                $this->error['warning'] .= sprintf(
-                    $this->language->get('warning_extensions_with_layouts'),
-                    implode('<br>', $list)
+                $this->error['warning'] .= $this->language->getAndReplace(
+                    'warning_extensions_with_layouts',
+                    replaces: implode('<br>', $list)
                 );
             }
         }
@@ -741,10 +739,10 @@ class ControllerPagesExtensionExtensions extends AController
             $checks = isExtensionSupportsCart($allSupportedCartVersions);
             if (!$checks['minor_check']) {
                 $this->data['info'] .= "\n"
-                    . sprintf(
-                        $this->language->get('confirm_version_incompatibility', 'tool/package_installer'),
-                        (VERSION),
-                        implode(', ', $allSupportedCartVersions)
+                    . $this->language->getAndReplace(
+                        'confirm_version_incompatibility',
+                        'tool/package_installer',
+                        [VERSION, implode(', ', $allSupportedCartVersions)]
                     );
             }
         }
@@ -770,21 +768,23 @@ class ControllerPagesExtensionExtensions extends AController
                 $this->data['extension_info']['version'] .= '.0';
             }
             if (version_compare($upd[$extension]['version'], $this->data['extension_info']['version'], '>')) {
-                $this->data['info'] = sprintf(
-                    $this->language->get('text_update_available'),
-                    $upd[$extension]['version'],
-                    $this->html->getSecureURL(
-                        'tool/package_installer',
-                        '&extension_key=' . $upd[$extension]['installation_key']
-                    )
+                $this->data['info'] = $this->language->getAndReplace(
+                    'text_update_available',
+                    replaces: [
+                        $upd[$extension]['version'],
+                        $this->html->getSecureURL(
+                            'tool/package_installer',
+                            '&extension_key=' . $upd[$extension]['installation_key']
+                        )
+                    ]
                 );
             }
         }
 
         $missing_extensions = $this->extensions->getMissingExtensions();
-        //if extension is missing - do redirect on extensions list with alert!
+        //if the extension is missing - do redirect on the extension list with an alert!
         if (in_array($extension, $missing_extensions)) {
-            $this->session->data['error'] = sprintf($this->language->get('text_missing_extension'), $extension);
+            $this->session->data['error'] = $this->language->getAndReplace('text_missing_extension',replaces:  $extension);
             redirect($this->html->getSecureURL('extension/extensions'));
         }
 
@@ -806,7 +806,7 @@ class ControllerPagesExtensionExtensions extends AController
                 }
                 $this->data['extension_info']['preview'][] = HTTPS_EXT . $extension . DIR_EXT_IMAGE . $item;
             }
-            //image gallery scripts and css for previews
+            //image gallery scripts and CSS for previews
             $this->document->addStyle(
                 [
                     'href' => RDIR_TEMPLATE . 'javascript/lightbox/css/lightbox.css',
@@ -854,7 +854,7 @@ class ControllerPagesExtensionExtensions extends AController
                 if (in_array($id, $db_extensions)) {
                     if (in_array($id, $missing_extensions)) {
                         $class = 'warning';
-                        $status = sprintf($this->language->get('text_missing_extension'), $id);
+                        $status = $this->language->getAndReplace('text_missing_extension', replaces: $id);
                         $actions['delete'] = $this->html->buildElement(
                             [
                                 'type'   => 'button',
@@ -977,24 +977,23 @@ class ControllerPagesExtensionExtensions extends AController
         $this->view->assign('help_url', $this->gen_help_url('extension_edit'));
 
         $template = 'pages/extension/extensions_edit.tpl';
-        //#PR set custom templates for extension settings page.
+        //set custom templates for the extension settings page
         if (has_value((string)$config->custom_settings_template)) {
-            //build path to template directory.
+            //build path to the template directory.
             $dir_template =
                 DIR_EXT
                 . $extension
                 . DIR_EXT_ADMIN
                 . DIR_EXT_TEMPLATE
                 . $this->config->get('admin_template')
-                . "/template/";
+                . DS . "template" . DS;
             $dir_template .= $config->custom_settings_template;
             //validate template and report issue
             if (!file_exists($dir_template)) {
                 $warning = new AWarning(
-                    sprintf(
-                        $this->language->get('error_could_not_load_override'),
-                        $dir_template,
-                        $extension
+                    $this->language->getAndReplace(
+                        'error_could_not_load_override',
+                        replaces: [$dir_template, $extension]
                     )
                 );
                 $warning->toLog()->toDebug();
@@ -1083,11 +1082,10 @@ class ControllerPagesExtensionExtensions extends AController
 
             $config = getExtensionConfigXml($this->request->get['extension']);
             if ($config === false) {
-                $filename = DIR_EXT . str_replace('../', '', $this->request->get['extension']) . '/config.xml';
-                $err = sprintf(
-                    $this->language->get('error_could_not_load_config'),
-                    $this->request->get['extension'],
-                    $filename
+                $filename = DIR_EXT . str_replace('..' . DS, '', str_replace('/', DS, $this->request->get['extension'])) . DS . 'config.xml';
+                $err = $this->language->getAndReplace(
+                    'error_could_not_load_config',
+                    replaces: [$this->request->get['extension'], $filename]
                 );
                 $this->session->data['error'] = $err;
             } else {

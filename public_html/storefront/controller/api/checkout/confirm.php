@@ -1,30 +1,29 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
 class ControllerApiCheckoutConfirm extends AControllerAPI
 {
-    public $error = array();
-    public $data = array();
+    public $error = [];
 
     public function post()
     {
@@ -33,32 +32,32 @@ class ControllerApiCheckoutConfirm extends AControllerAPI
         $request = $this->rest->getRequestParams();
 
         if (!$this->customer->isLoggedWithToken($request['token'])) {
-            $this->rest->sendResponse(401, array('error' => 'Not logged in or Login attempt failed!'));
-            return null;
+            $this->rest->sendResponse(401, ['error' => 'Not logged in or Login attempt failed!']);
+            return;
         }
 
         if (!$this->cart->hasProducts()) {
             //No products in the cart.
-            $this->rest->sendResponse(200, array('status' => 2, 'error' => 'Nothing in the cart!'));
-            return null;
+            $this->rest->sendResponse(200, ['status' => 2, 'error' => 'Nothing in the cart!']);
+            return;
         }
         if (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout')) {
             //No stock for products in the cart if tracked.
-            $this->rest->sendResponse(200, array('status' => 3, 'error' => 'No stock for product!'));
-            return null;
+            $this->rest->sendResponse(200, ['status' => 3, 'error' => 'No stock for product!']);
+            return;
         }
 
         if ($this->cart->hasShipping()) {
             if (!isset($this->session->data['shipping_address_id']) || !$this->session->data['shipping_address_id']) {
                 //Problem. Missing shipping address
-                $this->rest->sendResponse(200, array('status' => 4, 'error' => 'Missing shipping address!'));
-                return null;
+                $this->rest->sendResponse(200, ['status' => 4, 'error' => 'Missing shipping address!']);
+                return;
             }
 
             if (!isset($this->session->data['shipping_method'])) {
                 //Problem. Missing shipping address
-                $this->rest->sendResponse(200, array('status' => 5, 'error' => 'Missing shipping method!'));
-                return null;
+                $this->rest->sendResponse(200, ['status' => 5, 'error' => 'Missing shipping method!']);
+                return;
             }
         } else {
             unset($this->session->data['shipping_address_id']);
@@ -69,12 +68,12 @@ class ControllerApiCheckoutConfirm extends AControllerAPI
         }
 
         if (!isset($this->session->data['payment_address_id']) || !$this->session->data['payment_address_id']) {
-            $this->rest->sendResponse(200, array('status' => 6, 'error' => 'Missing payment (billing) address!'));
+            $this->rest->sendResponse(200, ['status' => 6, 'error' => 'Missing payment (billing) address!']);
             return null;
         }
 
         if (!isset($this->session->data['payment_method'])) {
-            $this->rest->sendResponse(200, array('status' => 5, 'error' => 'Missing payment (billing) method!'));
+            $this->rest->sendResponse(200, ['status' => 5, 'error' => 'Missing payment (billing) method!']);
             return null;
         }
 
@@ -87,7 +86,7 @@ class ControllerApiCheckoutConfirm extends AControllerAPI
         $this->loadModel('account/address');
         $shipping_address = $this->model_account_address->getAddress($this->session->data['shipping_address_id']);
         if ($this->cart->hasShipping()) {
-            $this->data['shipping_address'] = $this->customer->getFormattedAddress($shipping_address, $shipping_address['address_format']);
+            $this->data['shipping_address'] = $this->customer->getFormattedAddress($shipping_address, $shipping_address['format']);
         } else {
             $this->data['shipping_address'] = '';
         }
@@ -96,7 +95,7 @@ class ControllerApiCheckoutConfirm extends AControllerAPI
 
         $payment_address = $this->model_account_address->getAddress($this->session->data['payment_address_id']);
         if ($payment_address) {
-            $this->data['payment_address'] = $this->customer->getFormattedAddress($payment_address, $payment_address['address_format']);
+            $this->data['payment_address'] = $this->customer->getFormattedAddress($payment_address, $payment_address['format']);
         } else {
             $this->data['payment_address'] = '';
         }
@@ -132,12 +131,12 @@ class ControllerApiCheckoutConfirm extends AControllerAPI
             $quantity = $this->data['products'][$i]['quantity'];
             $this->data['products'][$i] = array_merge(
                 $this->data['products'][$i],
-                array(
+                [
                     'thumb' => $thumbnail['thumb_url'],
                     'tax'   => $this->currency->format($tax),
                     'price' => $this->currency->format($price),
                     'total' => $this->currency->format_total($price, $quantity),
-                ));
+                ]);
         }
 
         if ($this->config->get('config_checkout_id')) {
@@ -152,16 +151,16 @@ class ControllerApiCheckoutConfirm extends AControllerAPI
             $this->data['text_accept_agree'] = '';
         }
 
-        // Load selected paymnet required data from payment extension
+        // Load selected payment required data from payment extension
         if ($this->session->data['payment_method']['id'] != 'no_payment_required') {
-            $payment_controller = $this->dispatch('responses/extension/'.$this->session->data['payment_method']['id'].'/api');
+            $payment_controller = $this->dispatch('responses/extension/' . $this->session->data['payment_method']['id'] . '/api');
         } else {
             $payment_controller = $this->dispatch('responses/checkout/no_payment/api');
         }
 
         $this->load->library('json');
         $this->data['payment'] = AJson::decode($payment_controller->dispatchGetOutput(), true);
-        //set process_rt for process step to run the payment 	
+        //set process_rt for a process step to run the payment
         $this->session->data['process_rt'] = $this->data['payment']['process_rt'];
         //mark confirmation viewed
         $this->session->data['confirmed'] = true;
@@ -171,5 +170,4 @@ class ControllerApiCheckoutConfirm extends AControllerAPI
         $this->rest->setResponseData($this->data);
         $this->rest->sendResponse(200);
     }
-
 }

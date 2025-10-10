@@ -210,7 +210,7 @@
 	</definition>
 	<definition>
 		<key>text_see_log</key>
-		<value><![CDATA[For more details see <a href="%s" target="_new">log file %s</a>]]></value>
+		<value><![CDATA[For more details see <a href="%s" target="_blank">log file %s</a>]]></value>
 	</definition>
 	<definition>
 		<key>text_success_abort</key>

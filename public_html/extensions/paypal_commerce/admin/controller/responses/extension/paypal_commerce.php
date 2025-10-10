@@ -230,7 +230,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $json['error'] = false;
             $this->extensions->hk_UpdateData($this, __FUNCTION__);
             $this->response->setOutput(AJson::encode($json));
-        } catch (Exception $e) {
+        } catch (Exception|Error $e) {
             $error = new AError('');
             $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $e->getMessage()]);
         }
@@ -327,13 +327,13 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $this->load->library('json');
 
         $json = [];
-
-        if (has_value($this->request->post['order_id'])) {
-            $order_id = $this->request->post['order_id'];
+        $orderId = null;
+        if ($this->request->post['order_id']) {
+            $orderId = (int)$this->request->post['order_id'];
             $amount = preformatFloat($this->request->post['amount']);
             /** @var ModelExtensionPaypalCommerce $mdl */
             $mdl = $this->loadModel('extension/paypal_commerce');
-            $paypalOrder = $mdl->getPaypalOrder($order_id);
+            $paypalOrder = $mdl->getPaypalOrder($orderId);
             $amt = 0;
             try {
                 //get current order
@@ -368,7 +368,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                         $json['msg'] = $this->language->get('text_refund_order');
                         // update main order status
                         $this->loadModel('sale/order');
-                        $this->model_sale_order->addOrderHistory($order_id, [
+                        $this->model_sale_order->addOrderHistory($orderId, [
                             'order_status_id' => $this->config->get('paypal_commerce_status_refund'),
                             'notify'          => 0,
                             'append'          => 1,
@@ -398,11 +398,11 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 $json['msg'] = $this->language->get('error_system');
             }
         }
-        if (!$json['error']) {
+        if (!$json['error'] && $orderId) {
             /** @var ModelSaleOrder $mdl */
             $mdl = $this->loadModel('sale/order');
             $mdl->addOrderHistory(
-                $order_id,
+                $orderId,
                 [
                     'order_status_id' => $this->order_status->getStatusByTextId('refunded')
                 ]
@@ -421,12 +421,13 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->load->library('json');
         $json = [];
+        $orderId = null;
         if (has_value($this->request->post['order_id'])) {
-            $order_id = $this->request->post['order_id'];
+            $orderId = (int)$this->request->post['order_id'];
             /** @var ModelExtensionPaypalCommerce $mdl */
             $mdl = $this->loadModel('extension/paypal_commerce');
 
-            $paypalOrder = $mdl->getPaypalOrder($order_id);
+            $paypalOrder = $mdl->getPaypalOrder($orderId);
             try {
                 //get current order
                 $chargeData = $mdl->getPaypalCharge($paypalOrder['charge_id']);
@@ -437,7 +438,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                         $json['msg'] = $this->language->get('text_voided');
                         // update main order status
                         $this->loadModel('sale/order');
-                        $this->model_sale_order->addOrderHistory($order_id, [
+                        $this->model_sale_order->addOrderHistory($orderId, [
                             'order_status_id' => $this->config->get('paypal_commerce_status_void'),
                             'notify'          => 0,
                             'append'          => 1,
@@ -466,11 +467,11 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $json['msg'] = $this->language->get('error_system');
         }
 
-        if (!$json['error']) {
+        if (!$json['error'] && $orderId) {
             /** @var ModelSaleOrder $mdl */
             $mdl = $this->loadModel('sale/order');
             $mdl->addOrderHistory(
-                $order_id,
+                $orderId,
                 [
                     'order_status_id' => $this->order_status->getStatusByTextId('canceled')
                 ]

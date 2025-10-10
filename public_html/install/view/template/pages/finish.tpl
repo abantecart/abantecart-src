@@ -37,6 +37,7 @@
 		</div>
 	    <div class="snapshots col-md-6">
 		    <a href="../<?php echo $admin_path ?>"><img src="<?php echo $template_dir; ?>image/admin.png" alt="admin side" style="width: 250px; border: none;" /></a><br />
+            <a target="_blank" class="btn btn-success credentials-btn" href="index.php?rt=credentials">Save file with credentials <i class="fa fa-download"></i></a><br><br>
 		    <a href="../<?php echo $admin_path ?>">Login to your Control Panel</a>
 		</div>
 		</div>
@@ -105,34 +106,34 @@
 		<div class="panel panel-default">
 			<div class="panel-body text-center">
 				<div class="social_icon">
-				<a href="https://www.facebook.com/AbanteCart" target="_new"><i class="fa fa-thumbs-up fa-4x"></i></a>
+				<a href="https://www.facebook.com/AbanteCart" target="_blank"><i class="fa fa-thumbs-up fa-4x"></i></a>
 				</div>
-				<h4><a href="https://www.facebook.com/AbanteCart" target="_new">Like AbanteCart</a></h4>
+				<h4><a href="https://www.facebook.com/AbanteCart" target="_blank">Like AbanteCart</a></h4>
 
 				<div class="social_icon">
-				<a href="https://x.com/abantecart" target="_new"><i class="fa-brands fa-x-twitter fa-4x"></i></a>
+				<a href="https://x.com/abantecart" target="_blank"><i class="fa-brands fa-x-twitter fa-4x"></i></a>
 				</div>
-				<h4><a href="https://x.com/abantecart" target="_new">Follow us on X(Twitter)</a></h4>
+				<h4><a href="https://x.com/abantecart" target="_blank">Follow us on X(Twitter)</a></h4>
 
 				<div class="social_icon">
-				<a href="https://marketplace.abantecart.com/index.php?rt=account%2Fsubscriber" target="_new"><i class="fa fa-newspaper fa-4x"></i></a>
+				<a href="https://marketplace.abantecart.com/index.php?rt=account%2Fsubscriber" target="_blank"><i class="fa fa-newspaper fa-4x"></i></a>
 				</div>
-				<h4><a href="https://twitter.com/abantecart" target="_new">News & Updates</a></h4>
+				<h4><a href="https://twitter.com/abantecart" target="_blank">News & Updates</a></h4>
 
 				<div class="social_icon">
-				<a href="https://forum.abantecart.com" target="_new"><i class="fa fa-comments fa-4x"></i></a>
+				<a href="https://forum.abantecart.com" target="_blank"><i class="fa fa-comments fa-4x"></i></a>
 				</div>
-				<h4><a href="https://forum.abantecart.com" target="_new">Community forum</a></h4>
+				<h4><a href="https://forum.abantecart.com" target="_blank">Community forum</a></h4>
 
 				<div class="social_icon">
-				<a href="https://www.abantecart.com/contact-us" target="_new"><i class="fa fa-users fa-4x"></i></a>
+				<a href="https://www.abantecart.com/contact-us" target="_blank"><i class="fa fa-users fa-4x"></i></a>
 				</div>
-				<h4><a href="https://www.abantecart.com/contact-us" target="_new">Commercial Support</a></h4>
+				<h4><a href="https://www.abantecart.com/contact-us" target="_blank">Commercial Support</a></h4>
 
 				<div class="social_icon">
-				<a href="https://github.com/abantecart/abantecart-src" target="_new"><i class="fa-brands fa-github fa-4x"></i></a>
+				<a href="https://github.com/abantecart/abantecart-src" target="_blank"><i class="fa-brands fa-github fa-4x"></i></a>
 				</div>
-				<h4><a href="https://github.com/abantecart/abantecart-src" target="_new">Code with us</a></h4>
+				<h4><a href="https://github.com/abantecart/abantecart-src" target="_blank">Code with us</a></h4>
 				
 			</div>
 		</div>

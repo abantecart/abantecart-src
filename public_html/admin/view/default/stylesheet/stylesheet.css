@@ -793,6 +793,19 @@ h1 a:hover, h2 a:hover, h3 a:hover {
 .side_summary {
 	margin: 30px 0;
 }
+.side_summary>a.sidebartitle {
+    color: white !important;
+    font-weight: bold !important;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: transparent url(../image/minus-white.png) no-repeat 96% center;
+}
+.side_summary>a.sidebartitle:hover {
+    color: #064770 !important;
+    background: white url(../image/minus.png) no-repeat 96% center;
+}
 
 .side_summary .text-muted {
 	color: #ccc;
@@ -832,7 +845,6 @@ h1 a:hover, h2 a:hover, h3 a:hover {
 	font-size: 11px;
 	line-height: normal;
 	text-transform: uppercase;
-	font-size: 10px;
 	opacity: 0.6;
 }
 
@@ -2131,6 +2143,7 @@ a.resource_edit .img-responsive {
 	line-height: 15px;
 	color: #E4E7EA;
 	background: #064770;
+    min-height: 50px;
 }
 
 #footer a {
@@ -3768,4 +3781,15 @@ blockquote p::after {
 }
 .menu_text:first-letter {
 	text-transform: uppercase;
+}
+
+.new_messages .dropdown-list.gen-list{
+ max-height: 500px;
+ overflow-y: auto;
+}
+
+.footer_ant_banner
+{
+    display: block;
+    margin-top: 20px;
 }

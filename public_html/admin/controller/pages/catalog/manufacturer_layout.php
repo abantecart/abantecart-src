@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 class ControllerPagesCatalogManufacturerLayout extends AController
@@ -33,8 +33,6 @@ class ControllerPagesCatalogManufacturerLayout extends AController
         /** @see public_html/admin/language/english/catalog/manufacturer.xml */
         $this->loadLanguage('catalog/manufacturer');
         $this->loadLanguage('design/layout');
-
-
         $this->loadModel('catalog/manufacturer');
         $manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($manufacturer_id);
 
@@ -110,7 +108,7 @@ class ControllerPagesCatalogManufacturerLayout extends AController
 
         // get templates
         $this->data['templates'] = [];
-        $directories = glob(DIR_STOREFRONT . 'view/*', GLOB_ONLYDIR);
+        $directories = glob(DIR_STOREFRONT . 'view'.DS.'*', GLOB_ONLYDIR);
         if ($directories) {
             $this->data['templates'] = array_map('basename', $directories);
         }
@@ -155,7 +153,7 @@ class ControllerPagesCatalogManufacturerLayout extends AController
         $this->data['page_url'] = $page_url;
         $this->data['current_url'] = $this->html->getSecureURL('catalog/manufacturer_layout', $url);
 
-        // insert external form of layout
+        // insert an external form of layout
         $layout = new ALayoutManager($templateTxtId, $pageId, $layoutId);
 
         $layoutForm = $this->dispatch('common/page_layout', [$layout]);

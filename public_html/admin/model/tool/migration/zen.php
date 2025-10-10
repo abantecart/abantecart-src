@@ -20,7 +20,7 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
-require_once DIR_ROOT.'/admin/model/tool/migration/interface_migration.php';
+require_once DIR_ROOT. DS .'admin'. DS .'model'. DS .'tool'. DS .'migration'. DS .'interface_migration.php';
 
 class Migration_Zen implements Migration
 {

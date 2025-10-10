@@ -226,20 +226,15 @@ final class ARouter
             } else {
                 if ($this->request_type == 'api') {
                     $api_controller = new AAPI($this->registry);
-                    if (!defined('IS_ADMIN') || !IS_ADMIN) {
-                        //CORS preflight request
-                        $api_controller->addPreDispatch('api/common/preflight');
-                        //validate access
-                        $api_controller->addPreDispatch('api/common/access');
-                    } else {
-                        //CORS preflight request
-                        $api_controller->addPreDispatch('api/common/preflight');
-                        //Validate Admin access, login and permissions
-                        $api_controller->addPreDispatch('api/common/access');
+                    //CORS preflight request
+                    $api_controller->addPreDispatch('api/common/preflight');
+                    //Validate Admin access, login and permissions
+                    $api_controller->addPreDispatch('api/common/access');
+                    if (defined('IS_ADMIN') && IS_ADMIN) {
                         $api_controller->addPreDispatch('api/common/access/login');
                         $api_controller->addPreDispatch('api/common/access/permission');
                     }
-                    //Validate controller only. If does not exist process not found
+                    //Validate controller only. If it does not exist - process not found
                     if ($this->detectController("api")) {
                         // Build the response
                         $api_controller->build($this->rt);
@@ -249,17 +244,16 @@ final class ARouter
                 } else {
                     if ($this->request_type == 'task') {
                         $task_controller = new ATypeTask($this->registry);
-                        // do not allow to call task controllers from SF-side
+                        // do not allow calling task controllers from SF-side
+                        $resp_controller = new ATypeResponse($this->registry);
                         if (!defined('IS_ADMIN') || !IS_ADMIN) {
-                            $resp_controller = new ATypeResponse($this->registry);
                             $resp_controller->build('error/ajaxerror/not_found');
                         } else {
-                            //Load required controller for admin and check authorization
-                            $resp_controller = new ATypeResponse($this->registry);
+                            //Load the required controller for admin and check authorization
                             $resp_controller->addPreDispatch('responses/common/access/login');
                             $resp_controller->addPreDispatch('responses/common/access/permission');
                         }
-                        //Validate controller only. If does not exist process not found
+                        //Validate controller only. If it does not exist - process not found
                         if ($this->detectController("task")) {
                             // Build the response
                             $task_controller->build($this->rt);
@@ -268,7 +262,7 @@ final class ARouter
                             $resp_controller->build('error/ajaxerror/not_found');
                         }
                     } else {
-                        //Security: this is not main controller. Do not allow to run it.
+                        //Security: this is not the main controller. Do not allow running it.
                         $this->request_type = 'page';
                         $this->controller = 'error/not_found';
                         $this->method = '';
@@ -288,33 +282,33 @@ final class ARouter
     public function detectController($type)
     {
         //looking for controller in admin/storefront section
-        $dir_app = DIR_APP_SECTION.'controller/'.$type.'/';
+        $dir_app = DIR_APP_SECTION . 'controller' . DS . $type . DS;
         $path_nodes = explode('/', $this->rt);
         $path_build = '';
 
-        // looking for controller in extensions section
-        $result = $this->registry->get('extensions')->isExtensionController($type.'/'.$this->rt);
+        // looking for a controller in an extensions section
+        $result = $this->registry->get('extensions')->isExtensionController($type . '/' . $this->rt);
         if ($result) {
             $extension_id = $result['extension'];
             // set new path if controller was found in admin/storefront section && in extensions section
             $current_section = IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE;
-            $dir_app = DIR_EXT.$extension_id.$current_section.'controller/'.$type.'/';
+            $dir_app = DIR_EXT . $extension_id . $current_section . 'controller' . DS . $type . DS;
         }
         //process path and try to locate the controller
         foreach ($path_nodes as $path_node) {
             $path_node = trim($path_node);
             $path_build .= $path_node;
-            if (is_dir($dir_app.$path_build)) {
+            if (is_dir($dir_app . str_replace('/', DS, $path_build))) {
                 $path_build .= '/';
                 array_shift($path_nodes);
                 continue;
             }
 
-            if (is_file($dir_app.$path_build.'.php')) {
+            if (is_file($dir_app . $path_build . '.php')) {
                 //Controller found. Save information and return TRUE
                 //Set controller and method for future use
-                $this->controller = $type.'/'.$path_build;
-                //Last part is the method of function to call
+                $this->controller = $type . '/' . $path_build;
+                //The last part is the method of function to call
                 array_shift($path_nodes);
                 $lastKey = array_key_last($path_nodes);
                 $method_to_call = $path_nodes[$lastKey];

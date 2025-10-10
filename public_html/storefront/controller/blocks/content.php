@@ -98,11 +98,7 @@ class ControllerBlocksContent extends AController
                     'id'       => $content['content_id'],
                     'title'    => str_repeat('&nbsp;&nbsp;', $level) . $content['title'],
                     'text'     => $content['title'],
-                    'href'     => $this->html->getSEOURL(
-                        'content/content',
-                        '&' . http_build_query($httpQuery),
-                        'true'
-                    ),
+                    'href'     => $this->html->getSEOURL( 'content/content', '&' . http_build_query($httpQuery) ),
                     'level'    => $level,
                     'children' => $this->_buildTree($all_contents, $content['content_id'], $level + 1)
                 ];

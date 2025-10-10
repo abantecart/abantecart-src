@@ -122,8 +122,10 @@ jQuery(document).ready(function() {
 	$('.menutoggle').click(function () {
 		if (Cookies.get('leftpanel-collapsed')) {
 			Cookies.remove("leftpanel-collapsed");
+            $('.side_left_ant_banner').show();
 		} else {
 			Cookies.set('leftpanel-collapsed', 1);
+            $('.side_left_ant_banner').hide();
 		}
 		var body = $('body');
 		var bodypos = body.css('position');

@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE: 
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -80,6 +79,7 @@ class ControllerCommonANT extends AController
             $check_array = [
                 'message_id',
                 'type',
+                'placeholder',
                 'date_added',
                 'date_modified',
                 'start_date',
@@ -94,7 +94,7 @@ class ControllerCommonANT extends AController
                 'published',
                 'language_code',
             ];
-            $banners = [];
+            $antIds = [];
             foreach ($result as $notify) {
                 $tmp = [];
                 foreach ($notify as $key => $value) {
@@ -102,6 +102,7 @@ class ControllerCommonANT extends AController
                         continue;
                     }
                     $tmp [$key] = $value;
+                    $antIds[] = $tmp['message_id'];
                 }
 
                 // lets insert
@@ -110,19 +111,18 @@ class ControllerCommonANT extends AController
                         $this->messages->saveWarning($tmp ['title'], $tmp ['description']);
                         break;
                     case 'E' :
-                        $this->messages->saveError($tmp ['title'], $tmp ['description']);
+                        $this->messages->saveError($tmp['title'], $tmp['description']);
                         break;
                     case 'B' :
-                        $banners[] = $tmp['message_id'];
                         $this->messages->saveANTMessage($tmp);
                         break;
                     default :
-                        $this->messages->saveNotice($tmp ['title'], $tmp ['description']);
+                        $this->messages->saveNotice($tmp['title'], $tmp['description']);
                         break;
                 }
             }
             // purge messages except just saved
-            $this->messages->purgeANTMessages($banners);
+            $this->messages->purgeANTMessages($antIds);
         }
         // in case when answer from server is empty
         $this->session->data['ant_messages']['date_modified'] = time();

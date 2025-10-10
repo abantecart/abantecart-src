@@ -31,8 +31,8 @@ class ControllerResponsesExtensionDefaultTwilio extends AController
         $this->registry->set('force_skip_errors', true);
         $this->loadLanguage('default_twilio/default_twilio');
         $this->loadModel('setting/setting');
-        require_once(DIR_EXT.'default_twilio/core/lib/Services/Twilio.php');
-        require_once(DIR_EXT.'default_twilio/core/lib/Twilio/autoload.php');
+        require_once(DIR_EXT.'default_twilio'.DS.'core'.DS.'lib'.DS.'Services'.DS.'Twilio.php');
+        require_once(DIR_EXT.'default_twilio'.DS.'core'.DS.'lib'.DS.'Twilio'.DS.'autoload.php');
 
         $cfg = $this->model_setting_setting->getSetting('default_twilio', (int)$this->session->data['current_store_id']);
         $AccountSid = $cfg['default_twilio_username'];

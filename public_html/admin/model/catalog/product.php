@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 /*
  *   $Id$
  *
@@ -8,19 +8,18 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 /**
  * @property ModelCatalogDownload $model_catalog_download
- * @property ALanguageManager $language
  */
 class ModelCatalogProduct extends Model
 {
@@ -37,36 +36,36 @@ class ModelCatalogProduct extends Model
 
         $this->db->query(
             "INSERT INTO " . $this->db->table("products") . " 
-                SET model = '" . $this->db->escape($data['model']) . "',
-                    sku = '" . $this->db->escape($data['sku']) . "',
-                    location = '" . $this->db->escape($data['location']) . "',
-                    quantity = '" . preformatInteger($data['quantity']) . "',
-                    minimum = '" . preformatInteger($data['minimum']) . "',
-                    maximum = '" . preformatInteger($data['maximum']) . "',
-                    subtract = '" . (int)$data['subtract'] . "',
-                    stock_checkout = '" . $this->db->escape($data['stock_checkout']) . "',
-                    stock_status_id = '" . (int)$data['stock_status_id'] . "',
-                    date_available = '" . $this->db->escape($data['date_available']) . "',
-                    manufacturer_id = '" . (int)$data['manufacturer_id'] . "',
-                    shipping = '" . (int)$data['shipping'] . "',
-                    ship_individually = '" . (int)$data['ship_individually'] . "',
-                    free_shipping = '" . (int)$data['free_shipping'] . "',
-                    shipping_price = '" . preformatFloat($data['shipping_price'], $this->language->get('decimal_point')) . "',
-                    price = '" . preformatFloat($data['price'], $this->language->get('decimal_point')) . "',
-                    cost = '" . preformatFloat($data['cost'], $this->language->get('decimal_point')) . "',
-                    weight = '" . preformatFloat($data['weight'], $this->language->get('decimal_point')) . "',
-                    weight_class_id = '" . (int)$data['weight_class_id'] . "',
-                    length = '" . preformatFloat($data['length'], $this->language->get('decimal_point')) . "',
-                    width = '" . preformatFloat($data['width'], $this->language->get('decimal_point')) . "',
-                    height = '" . preformatFloat($data['height'], $this->language->get('decimal_point')) . "',
-                    length_class_id = '" . (int)$data['length_class_id'] . "',
-                    status = '" . (int)$data['status'] . "',
-                    tax_class_id = '" . (int)$data['tax_class_id'] . "',
-                    sort_order = '" . (int)$data['sort_order'] . "',                    
-                    settings = '" . $this->db->escape(serialize($data['settings'])) . "',
-                    supplier_code = " . $this->db->stringOrNull($data['supplier_code']) . ",
-                    supplier_id = " . $this->db->stringOrNull($data['supplier_id']) . ",
-                    date_added = NOW()"
+            SET model = '" . $this->db->escape($data['model']) . "',
+                sku = '" . $this->db->escape($data['sku']) . "',
+                location = '" . $this->db->escape($data['location']) . "',
+                quantity = '" . preformatInteger($data['quantity']) . "',
+                minimum = '" . preformatInteger($data['minimum']) . "',
+                maximum = '" . preformatInteger($data['maximum']) . "',
+                subtract = '" . (int)$data['subtract'] . "',
+                stock_checkout = '" . $this->db->escape($data['stock_checkout']) . "',
+                stock_status_id = '" . (int)$data['stock_status_id'] . "',
+                date_available = '" . $this->db->escape($data['date_available']) . "',
+                manufacturer_id = '" . (int)$data['manufacturer_id'] . "',
+                shipping = '" . (int)$data['shipping'] . "',
+                ship_individually = '" . (int)$data['ship_individually'] . "',
+                free_shipping = '" . (int)$data['free_shipping'] . "',
+                shipping_price = '" . preformatFloat($data['shipping_price'], $this->language->get('decimal_point')) . "',
+                price = '" . preformatFloat($data['price'], $this->language->get('decimal_point')) . "',
+                cost = '" . preformatFloat($data['cost'], $this->language->get('decimal_point')) . "',
+                weight = '" . preformatFloat($data['weight'], $this->language->get('decimal_point')) . "',
+                weight_class_id = '" . (int)$data['weight_class_id'] . "',
+                length = '" . preformatFloat($data['length'], $this->language->get('decimal_point')) . "',
+                width = '" . preformatFloat($data['width'], $this->language->get('decimal_point')) . "',
+                height = '" . preformatFloat($data['height'], $this->language->get('decimal_point')) . "',
+                length_class_id = '" . (int)$data['length_class_id'] . "',
+                status = '" . (int)$data['status'] . "',
+                tax_class_id = '" . (int)$data['tax_class_id'] . "',
+                sort_order = '" . (int)$data['sort_order'] . "',                    
+                settings = '" . $this->db->escape(serialize($data['settings'])) . "',
+                supplier_code = " . $this->db->stringOrNull($data['supplier_code']) . ",
+                supplier_id = " . $this->db->stringOrNull($data['supplier_id']) . ",
+                date_added = NOW()"
         );
 
         $product_id = $this->db->getLastId();
@@ -399,7 +398,7 @@ class ModelCatalogProduct extends Model
                 //get ALL option values of all options
                 $optionValues = $this->getProductOptionValues($product_id, 0);
                 foreach ($optionValues as $ov) {
-                    //if weight unit of based product has been changed
+                    //if the weight unit of based product has been changed
                     if ($ov['weight_type']
                         && $ov['weight_type'] != '%'
                         && $ov['weight_type'] != $unit
@@ -492,6 +491,7 @@ class ModelCatalogProduct extends Model
         }
 
         if (isset($data['product_store'])) {
+            $data['product_store'] = array_unique(array_map('intval',$data['product_store']));
             $this->db->query(
                 "DELETE FROM " . $this->db->table("products_to_stores") . " 
                 WHERE product_id = '" . $product_id . "'"
@@ -604,7 +604,7 @@ class ModelCatalogProduct extends Model
         $data['with_values'] = $data['with_values'] ?? true;
         $am = new AAttribute_Manager();
 
-        $attributeInfo = $data['attribute_id'] && $data['with_values'] ? $am->getAttribute($data['attribute_id']) : [];
+        $attributeInfo = $data['attribute_id'] && $data['with_values'] ? $am->getAttribute((int)$data['attribute_id']) : [];
 
         if ($attributeInfo) {
             $data['element_type'] = $attributeInfo['element_type'];
@@ -674,8 +674,8 @@ class ModelCatalogProduct extends Model
         $elements_with_options = HtmlElementFactory::getElementsWithOptions();
         if (!in_array($data['element_type'], $elements_with_options)) {
             $this->insertProductOptionValue($product_id, $product_option_id, '', '', []);
-        } elseif ($attributeInfo) {
-            //add all values into product option
+        } elseif ($attributeInfo && !$attributeInfo['children_count']) {
+            //add all values into a product option
             $values = $am->getAttributeValues($data['attribute_id']);
             foreach ($values as $gaValue) {
                 $gaValue['price'] = $gaValue['price_modifier'];
@@ -808,7 +808,7 @@ class ModelCatalogProduct extends Model
             }
         } else {
             if (!$data['attribute_value_id']) {
-                //We save custom option value for current language
+                //We save custom option value for the current language
                 $valueDescriptions = [
                     $this->language->getContentLanguageID() => $data['name']
                 ];
@@ -1006,7 +1006,7 @@ class ModelCatalogProduct extends Model
             return null;
         }
         $data['attribute_value_id'] = $data['attribute_value_id'] ?: $attribute_value_id;
-        //If se have grouped (parent/child) options save no main attribute id
+        //If se have grouped (parent/child) options, save no main attribute id
         if (is_array($attribute_value_id)) {
             $data['attribute_value_id'] = '';
         }
@@ -1138,7 +1138,7 @@ class ModelCatalogProduct extends Model
                 $valueDescriptions = $am->getAttributeValueDescriptions((int)$data['attribute_value_id']);
                 foreach ($valueDescriptions as $lang_id => $name) {
                     if ($language_id == $lang_id) {
-                        //Update only language that we currently work with
+                        //Update only the language that we currently work with
                         $this->updateProductOptionValueDescriptions($product_id, $pd_opt_val_id, $name, $language_id);
                     }
                 }
@@ -1274,7 +1274,7 @@ class ModelCatalogProduct extends Model
         $data = array_merge($data, ['product_tags' => $this->getProductTags($product_id)]);
         $data = array_merge($data, ['keyword' => $this->getProductSEOKeywords($product_id)]);
 
-        //set status to off for cloned product
+        //set status to off for a cloned product
         $data['status'] = 0;
 
         //get product resources
@@ -1477,9 +1477,9 @@ class ModelCatalogProduct extends Model
             $tmpl_id = $this->config->get('config_storefront_template');
             $src_layout_id = $pages[0]['layout_id'];
             $src_page_id = $pages[0]['page_id'];
-            //create instance for source layout
+            //create an instance for source layout
             $lm = new ALayoutManager($tmpl_id, $src_page_id, $src_layout_id);
-            //create new page
+            //create a new page
             $page_info = [
                 'controller' => 'pages/product/product',
                 'key_param'  => 'product_id',
@@ -1495,7 +1495,7 @@ class ModelCatalogProduct extends Model
                     $page_info['page_descriptions'][$language_id] = $description;
                 }
             }
-            //save new page
+            //save a new page
             $new_page_id = $lm->savePage($page_info);
 
             $default_language_id = $this->language->getDefaultLanguageID();
@@ -1539,7 +1539,7 @@ class ModelCatalogProduct extends Model
                 $product_id,
                 $r['resource_id']
             );
-            //if resource become orphan - delete it
+            //if resource becomes orphan - delete it
             if (!$rm->isMapped($r['resource_id'])) {
                 $rm->deleteResource($r['resource_id']);
             }
@@ -1839,7 +1839,7 @@ class ModelCatalogProduct extends Model
 
     /**
      * check attribute before add to product options
-     * can't add attribute that is already in group attribute that assigned to product
+     * can't add the attribute that is already in group attribute that assigned to product
      *
      * @param $product_id
      * @param $attribute_id
@@ -1973,7 +1973,7 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * Main method to get complete options data for product
+     * Main method to get complete options data for the product
      *
      * @param int $product_id
      * @param int $group_id
@@ -2051,7 +2051,7 @@ class ModelCatalogProduct extends Model
                 $this->deleteProductOptionValue($product_id, $opt_val_id);
             } else {
                 if ($status == 'new') {
-                    // Need to create new option value
+                    // Need to create a new option value
                     $this->addProductOptionValueAndDescription(
                         $product_id,
                         $option_id,
@@ -2211,7 +2211,7 @@ class ModelCatalogProduct extends Model
      */
     public function getProductStores($product_id)
     {
-        return filterIntegerIdList(array_column($this->getProductStoresInfo($product_id), 'store_id'));
+        return array_map('intval', array_column($this->getProductStoresInfo($product_id), 'store_id'));
     }
 
     /**
@@ -2509,7 +2509,7 @@ class ModelCatalogProduct extends Model
             if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
                 $sql .= " ORDER BY " . $sort_data[$data['sort']];
             } else {
-                //for faster SQL set default to ID based order
+                //for faster SQL set default to ID-based order
                 $sql .= " ORDER BY p.product_id";
             }
 
@@ -2675,7 +2675,7 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * function checks if product will be displayed on storefront and returns array with messages about causes
+     * function checks if a product is displayed on the storefront and returns an array with messages about causes
      *
      * @param $product_id
      *
@@ -2709,7 +2709,7 @@ class ModelCatalogProduct extends Model
 
         $result = $this->db->query($sql);
 
-        // id product disabled do not run other checks
+        // id product disabled does not run other checks
         if (!$result->row['status']) {
             return [$this->language->get('text_product_disabled')];
         }
@@ -2879,7 +2879,7 @@ class ModelCatalogProduct extends Model
 
     /**
      *
-     * Check if product or any option has any stock available
+     * Check if a product or any option has any stock available
      *
      * @param int $product_id
      *
@@ -2910,7 +2910,7 @@ class ModelCatalogProduct extends Model
                 }
                 $total_quantity += max($row['quantity'], 0);
             }
-            //if any of options value have "subtract" NO - think product is available
+            //if any of the option value have "subtract" NO - think product is available
             if ($total_quantity == 0 && $notrack_qnt) {
                 $total_quantity = true;
             }
@@ -3095,8 +3095,8 @@ class ModelCatalogProduct extends Model
                 $sql .= " AND pov.product_option_id <> " . (int)$optionId;
             }
             $gaValueIds = filterIntegerIdList((array)$data['attribute_value_id']);
-            if($gaValueIds){
-                $sql .= " AND pov.attribute_value_id NOT IN (" . implode(',',$gaValueIds).") ";
+            if ($gaValueIds) {
+                $sql .= " AND pov.attribute_value_id NOT IN (" . implode(',', $gaValueIds) . ") ";
             }
 
             $exists = $this->db->query($sql);

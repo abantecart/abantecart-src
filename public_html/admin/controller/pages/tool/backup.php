@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -36,7 +36,8 @@ class ControllerPagesToolBackup extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('tool/backup');
-        $this->loadModel('tool/backup');
+        /** @var ModelToolBackup $mdl */
+        $mdl = $this->loadModel('tool/backup');
 
         $this->document->setTitle($this->language->get('heading_title'));
         //schedule task for backup
@@ -58,28 +59,27 @@ class ControllerPagesToolBackup extends AController
                 }
             } else {
                 $content = false;
-                //create schedule task for backup
-                $task_details = $this->model_tool_backup->createBackupTask('scheduled_backup', $this->request->post);
+                //create a schedule task for backup
+                $task_details = $mdl->createBackupTask('scheduled_backup', $this->request->post);
                 if (!$task_details) {
-                    $this->error['warning'] = array_merge($this->error, $this->model_tool_backup->errors);
+                    $this->error['warning'] = array_merge($this->error, $mdl->errors);
                 } else {
-                    $this->session->data['success'] = sprintf(
-                        $this->language->get('text_success_scheduled'),
-                        $this->html->getSecureURL('tool/task')
+                    $this->session->data['success'] = $this->language->getAndReplace(
+                        'text_success_scheduled',
+                        replaces: $this->html->getSecureURL('tool/task')
                     );
                     redirect($this->html->getSecureURL('tool/backup'));
                 }
-
             }
 
             if ($content) {
                 $this->cache->remove('*');
                 if ($file_type == 'sql') {
-                    $this->model_tool_backup->restore($content);
+                    $mdl->restore($content);
                     $this->session->data['success'] = $this->language->get('text_success');
                     redirect($this->html->getSecureURL('tool/backup'));
                 } else {
-                    if ($this->model_tool_backup->load($content)) {
+                    if ($mdl->load($content)) {
                         $this->session->data['success'] = $this->language->get('text_success_xml');
                         redirect($this->html->getSecureURL('tool/backup'));
                     } else {
@@ -143,22 +143,17 @@ class ControllerPagesToolBackup extends AController
             ]
         );
 
-        $this->loadModel('tool/backup');
+        //if we cannot, to get a table list from database -show error
+        $this->data['tables'] = $mdl->getTables() ?: [];
 
-        $this->data['tables'] = $this->model_tool_backup->getTables();
-        //if we cannot to get table list from database -show error
-        if ($this->data['tables'] === false) {
-            $this->data['tables'] = [];
-        }
-
-        $table_sizes = $this->model_tool_backup->getTableSizes($this->data['tables']);
+        $table_sizes = $mdl->getTableSizes($this->data['tables']);
         $tables = [];
         $db_size = 0;
         foreach ($this->data['tables'] as $table) {
             $tables[$table] = $table . ' (' . $table_sizes[$table]['text'] . ')';
             $db_size += $table_sizes[$table]['bytes'];
         }
-        //size of data of database (sql-file will be greater)
+        //size of a database (sql-file will be greater)
         if ($db_size > 1048576) {
             $this->data['entry_tables_size'] = round(($db_size / 1048576), 1) . 'Mb';
         } else {
@@ -198,13 +193,13 @@ class ControllerPagesToolBackup extends AController
             ]
         );
 
-        $c_size = $this->model_tool_backup->getCodeSize();
+        $c_size = $mdl->getCodeSize();
         if ($c_size > 1048576) {
             $code_size = round(($c_size / 1048576), 1) . 'Mb';
         } else {
             $code_size = round(($c_size / 1024), 1) . 'Kb';
         }
-        $this->data['entry_backup_code'] = sprintf($this->language->get('entry_backup_code'), $code_size);
+        $this->data['entry_backup_code'] = $this->language->getAndReplace('entry_backup_code', replaces: $code_size);
 
         $this->data['form']['fields']['backup_code'] = $form->getFieldHtml(
             [
@@ -215,13 +210,16 @@ class ControllerPagesToolBackup extends AController
             ]
         );
 
-        $c_size = $this->model_tool_backup->getContentSize();
+        $c_size = $mdl->getContentSize();
         if ($c_size > 1048576) {
             $content_size = round(($c_size / 1048576), 1) . 'Mb';
         } else {
             $content_size = round(($c_size / 1024), 1) . 'Kb';
         }
-        $this->data['entry_backup_content'] = sprintf($this->language->get('entry_backup_content'), $content_size);
+        $this->data['entry_backup_content'] = $this->language->getAndReplace(
+            'entry_backup_content',
+            replaces: $content_size
+        );
 
         $this->data['form']['fields']['backup_content'] = $form->getFieldHtml(
             [
@@ -240,10 +238,9 @@ class ControllerPagesToolBackup extends AController
             ]
         );
 
-        $this->data['entry_compress_backup'] = sprintf(
-            $this->language->get('entry_compress_backup'),
-            str_replace(DIR_ROOT, '', DIR_BACKUP),
-            str_replace(DIR_ROOT . '/', '', DIR_BACKUP)
+        $this->data['entry_compress_backup'] = $this->language->getAndReplace(
+            'entry_compress_backup',
+            replaces: [str_replace(DIR_ROOT, '', DIR_BACKUP), str_replace(DIR_ROOT . DS, '', DIR_BACKUP)]
         );
 
         $this->data['form']['build_task_url'] = $this->html->getSecureURL('r/tool/backup/buildTask');
@@ -321,7 +318,10 @@ class ControllerPagesToolBackup extends AController
             ]
         );
 
-        $this->data['text_fail_note'] = sprintf($this->language->get('text_fail_note'), DIR_APP_SECTION . 'system/backup');
+        $this->data['text_fail_note'] = $this->language->getAndReplace(
+            'text_fail_note',
+            replaces: DIR_APP_SECTION . 'system' . DS . 'backup'
+        );
 
         $this->view->batchAssign($this->data);
         $this->view->assign('help_url', $this->gen_help_url());
@@ -350,7 +350,7 @@ class ControllerPagesToolBackup extends AController
             $this->error['warning'] = $this->language->get('error_nothing_to_do');
         }
 
-        if (has_value($this->request->post['do_backup'])) { // sign of backup form
+        if (has_value($this->request->post['do_backup'])) { // sign of a backup form
             $this->request->post['backup_code'] = (bool)$this->request->post['backup_code'];
             $this->request->post['backup_content'] = (bool)$this->request->post['backup_content'];
 
@@ -370,7 +370,7 @@ class ControllerPagesToolBackup extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         if ($this->user->canAccess('tool/backup')) {
-            $filename = str_replace(['../', '..\\', '\\', '/'], '', $this->request->get['filename']);
+            $filename = str_replace(['../', '..\\', '\\', '/', DS], '', $this->request->get['filename']);
             $file = DIR_BACKUP . $filename;
             if (file_exists($file)) {
                 header('Content-Description: File Transfer');

@@ -1,184 +1,83 @@
 <?php
-$form['form_open']->style .= ' needs-validation';
+$address_form['form_open']->style .= ' needs-validation';
 //block native browser validation messages
-$form['form_open']->attr .= ' novalidate ';
-echo $form['form_open']; ?>
+$address_form['form_open']->attr .= ' novalidate ';
+echo $address_form['form_open'];
+$afUsed = $pairFields = $addressFormFields = [];
+//build field pairs based on html-attribute data-pair-with
+foreach($address_form['fields'] as $fieldKey => $field){
+    if(in_array($fieldKey, $afUsed)){ continue; }
+    if (preg_match('/data-pair-with="([^"]+)"/', $field->attr, $matches)) {
+        $pairFields[$fieldKey.'~'.$matches[1]] = [
+                $fieldKey,
+                $matches[1]
+        ];
+        $afUsed[] = $fieldKey;
+        $afUsed[] = $matches[1];
+    }
+}
+
+$afUsed = [];
+//convert field array based on pair fields.
+// If array value is array - a "pair" fields, otherwise  - one field per line
+foreach($address_form['fields'] as $fieldKey => $field){
+    if(in_array($fieldKey, $afUsed)){ continue; }
+    $isPairFields = [];
+    foreach($pairFields as $pair){
+        if(in_array($fieldKey, $pair)){
+            $isPairFields = $pair;
+            break;
+        }
+    }
+    if($isPairFields) {
+        foreach ($isPairFields as $fKey) {
+            $addressFormFields[$fieldKey][$fKey] = $address_form['fields'][$fKey];
+            $afUsed[] = $fKey;
+        }
+    }else{
+        $addressFormFields[$fieldKey] = $field;
+        $afUsed[] = $fieldKey;
+    }
+}
+unset($afUsed,$isPairFields,$pairFields);?>
 <div id="pay_error_container">
     <?php
+    /** @see public_html/storefront/view/default/template/responses/checkout/alerts.tpl */
     include($this->templateResource('/template/responses/checkout/alerts.tpl'));
     ?>
 </div>
 <fieldset>
     <?php echo $this->getHookVar('address_form_top'); ?>
-    <label class="visible-xs text-center text-uppercase"><?php echo $type.' '.$fast_checkout_text_address; ?></label>
-    <div class="row mb-3">
-        <div class="form-group col-12 col-sm-6 mb-3 mb-sm-0">
-            <div class="input-group">
-                <div class="input-group-text">
-                    <i class="fa fa-user"></i>
+    <label class="visible-xs text-center text-uppercase"><?php echo $this->language->get('text_'.$type.'_address'); ?></label>
+    <?php foreach($addressFormFields as $fieldKey => $field){
+            if(is_array($field)){ ?>
+        <div class="row mb-0 mb-sm-3">
+            <?php foreach($field as $fKey => $fld){ ?>
+                <div class="form-group col-12 col-sm-6 mb-3 mb-sm-0 ">
+            <?php   $fld->style .= ' form-control-lg form-select-lg  '.($errors[$fKey] ? 'is-invalid' : '');
+                    $fld->placeholder = html2view($fld->display_name);
+                    if($errors[$fKey]){
+                        $fld->error_text .= $errors[$fKey];
+                    }
+                    echo $fld; ?>
+                    <div class="invalid-feedback"><?php echo $errors[$fKey]; ?></div>
                 </div>
-                <input aria-label="firstname"
-                       class="form-control form-control-lg <?php if (isset($errors['firstname'])) { echo 'is-invalid'; } ?>"
-                       placeholder="<?php echo_html2view($entry_firstname); ?>"
-                       name="firstname"
-                       type="text"
-                       <?php echo $form['firstname']->attr; ?>
-                       <?php echo $form['firstname']->required ? 'required' : ''; ?>
-                       value="<?php echo $form['firstname']->value; ?>">
-            </div>
-        </div>
-        <div class="form-group col-12 col-sm-6">
-            <div class="input-group">
-                <div class="input-group-text">
-                    <i class="fa fa-user"></i>
-                </div>
-                <input aria-label="lastname"
-                       class="form-control form-control-lg <?php if (isset($errors['lastname'])) { echo 'is-invalid'; } ?>"
-                       placeholder="<?php echo_html2view($entry_lastname); ?>"
-                       name="lastname"
-                       type="text"
-                       <?php echo $form['lastname']->attr; ?>
-                       <?php echo $form['lastname']->required ? 'required' : ''; ?>
-                       value="<?php echo $form['lastname']->value; ?>">
-            </div>
-        </div>
-    </div>
-
-    <div class="form-group col-12 mb-3">
-        <div class="input-group">
-            <div class="input-group-text">
-                <i class="fa fa-building"></i>
-            </div>
-            <input id="cc_address_1"
-                   aria-label="cc_address_1"
-                   class="form-control form-control-lg <?php if (isset($errors['address_1'])) { echo 'is-invalid'; } ?>"
-                   placeholder="<?php echo_html2view($entry_address_1); ?>"
-                   name="address_1"
-                   type="text"
-                   <?php echo $form['address_1']->attr; ?>
-                   <?php echo $form['address_1']->required ? 'required' : ''; ?>
-                   value="<?php echo $form['address_1']->value; ?>">
-        </div>
-    </div>
-
-    <div class="form-group col-12 mb-3">
-        <div class="input-group">
-            <div class="input-group-text">
-                <i class="fa fa-hotel"></i>
-            </div>
-            <input id="cc_address_2"
-                   aria-label="cc_address_2"
-                   class="form-control form-control-lg <?php if (isset($errors['address_2'])) { echo 'is-invalid'; } ?>"
-                   placeholder="<?php echo_html2view($entry_address_2); ?>"
-                   name="address_2"
-                   type="text"
-                   <?php echo $form['address_2']->attr; ?>
-                   <?php echo $form['address_2']->required ? 'required' : ''; ?>
-                   value="<?php echo $form['address_2']->value; ?>">
-        </div>
-    </div>
-
-    <div class="row mb-3 ">
-        <div class="form-group col-12 col-sm-6 mb-3 mb-sm-0">
-            <div class="input-group">
-                <div class="input-group-text">
-                <i class="fa fa-city"></i>
-                </div>
-                <input aria-label="city"
-                       class="form-control form-control-lg <?php if (isset($errors['city'])) { echo 'is-invalid'; } ?>"
-                       placeholder="<?php echo_html2view($entry_city); ?>"
-                       name="city"
-                       type="text"
-                       <?php echo $form['city']->attr; ?>
-                       <?php echo $form['city']->required ? 'required' : ''; ?>
-                       value="<?php echo $form['city']->value; ?>">
-            </div>
-        </div>
-        <div class="form-group col-12 col-sm-6">
-            <div class="input-group">
-                <div class="input-group-text">
-                    <i class="fa fa-bars"></i>
-                </div>
-                <input aria-label="postcode"
-                       class="form-control form-control-lg <?php if (isset($errors['postcode'])) { echo 'is-invalid'; } ?>"
-                       placeholder="<?php echo_html2view($entry_postcode); ?>"
-                       name="postcode"
-                       type="text"
-                       <?php echo $form['postcode']->attr; ?>
-                       <?php echo $form['postcode']->required ? 'required' : ''; ?>
-                       value="<?php echo $form['postcode']->value; ?>">
-            </div>
-        </div>
-    </div>
-
-    <div class="row mb-3">
-        <div class="form-group col-12 col-sm-6 mb-3 mb-sm-0">
-            <div class="input-group">
-                <div class="input-group-text">
-                    <i class="fa fa-bars"></i>
-                </div>
-                <select aria-label="zone" required class="form-select form-select-lg <?php if (isset($errors['zone'])) { echo 'is-invalid'; } ?>"
-                        id="zone_id" name="zone_id"></select>
-            </div>
-        </div>
-        <div class="form-group col-12 col-sm-6">
-            <div class="input-group">
-                <div class="input-group-text">
-                    <i class="fa fa-map"></i>
-                </div>
-                <select required aria-label="country" class="form-select form-select-lg  <?php if (isset($errors['country'])) { echo 'is-invalid';} ?>"
-                        id="country_id" name="country_id">
+            <?php }
+        }else{ ?>
+        <div class="row mb-3">
+            <div class="form-group col-12 ">
                 <?php
-                    if ($form['country_id']->options) {
-                        foreach ($form['country_id']->options as $id => $name) {
-                            $current = '';
-                            if ($id == $form['country_id']->value) {
-                                $current = ' selected ';
-                            }
-                            echo '<option value="'.$id.'" '.$current.'>'.$name.'</options>';
-                        }
-                    } ?>
-                </select>
+                $field->style .= ' form-control-lg '.($errors[$fieldKey] ? 'is-invalid' : '');
+                $field->placeholder = html2view($field->display_name);
+                if($errors[$fieldKey]){
+                    $field->error_text .= $errors[$fieldKey];
+                }
+                echo $field;
+                ?>
             </div>
-        </div>
+        <?php }?>
     </div>
-
-    <div class="form-group col-12 mb-3">
-        <div class="input-group has-validation">
-            <div class="input-group-text">
-                <i class="fa fa-envelope"></i>
-            </div>
-            <input aria-label="email"
-                   class="form-control form-control-lg"
-                   placeholder="<?php echo_html2view($this->language->get('fast_checkout_email_placeholder')); ?>"
-                   id="email"
-                   name="email"
-                   type="email"
-                   maxlength="96"
-                   value="<?php echo $customer_email; ?>"
-                   required>
-        </div>
-    </div>
-
-    <div class="form-group col-12 mb-3">
-        <div class="input-group">
-            <div class="input-group-text">
-                <i class="fa fa-phone"></i>
-            </div>
-            <input aria-label="phone"
-                   class="form-control form-control-lg"
-                   placeholder="<?php echo_html2view($this->language->get('fast_checkout_telephone_placeholder')); ?>"
-                   id="telephone"
-                   name="telephone"
-                   type="text"
-                   <?php
-                        echo $this->config->get('config_phone_validation_pattern')
-                            ? 'pattern="'.trim($this->config->get('config_phone_validation_pattern'),'/').'"'
-                            : 'maxlength="32"'; ?>
-                   <?php echo $require_telephone ? 'required' : ''; ?>
-                   value="<?php echo $customer_telephone; ?>" <?php echo $loggedin ? 'readonly' : ''; ?>>
-        </div>
-    </div>
+    <?php } ?>
 
     <?php echo $this->getHookVar('address_attributes');
     if ($type == 'payment' && $this->cart->hasShipping()
@@ -198,20 +97,4 @@ echo $form['form_open']; ?>
     </button>
     <?php echo $this->getHookVar('address_form_bottom'); ?>
 </fieldset>
-
 </form>
-<script type="text/javascript">
-    <?php $cz_url = $this->html->getSecureURL('common/zone', '&zone_id='.$zone_id); ?>
-    var cntry = $('#country_id');
-    cntry.change(function () {
-        $('select[name=\'zone_id\']').load(
-            '<?php echo $cz_url;?>&country_id=' + $(this).val(),
-            function(){
-                let opts = $('select[name=\'zone_id\']>option[value]');
-                if(opts.length === 1 ){
-                    $(this).val(opts.first().attr('value'));
-                }
-            });
-    });
-    cntry.change();
-</script>

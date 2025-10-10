@@ -104,7 +104,7 @@ class ControllerPagesDesignPageBuilder extends AController
         }
 
         // get templates
-        $directories = glob(DIR_STOREFRONT . 'view/*', GLOB_ONLYDIR);
+        $directories = glob(DIR_STOREFRONT . 'view'.DS.'*', GLOB_ONLYDIR);
         $this->data['templates'] = array_map('basename', $directories);
 
         $enabled_templates = $this->extensions->getExtensionsList(

@@ -42,13 +42,13 @@
 								<td><?php echo $extension['category'] ?></td>
 								<td><?php echo $extension['status'] ?></td>
 								<td><?php echo $extension['installed_version'] ?></td>
-								<td><a href="<?php echo $extension['install_url']; ?>" target="_new"
+								<td><a href="<?php echo $extension['install_url']; ?>" target="_blank"
 								       title="<?php echo $text_view_details; ?>"><i
 												class="fa fa-info-circle"></i> <?php echo $extension['new_version'] ?>
 									</a>
 								</td>
 								<td><?php if ($extension['install_url']){ ?>
-										<a href="<?php echo $extension['install_url']; ?>" target="_new"
+										<a href="<?php echo $extension['install_url']; ?>" target="_blank"
 										   title="<?php echo $text_upgrade_now; ?>"><i class="fa fa-cloud-download"></i></a>
 									<?php } elseif (!$mp_connected){ ?>
 										<a class="btn btn-orange mp-connect tooltips"

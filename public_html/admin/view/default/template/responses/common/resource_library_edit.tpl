@@ -163,7 +163,7 @@
 										foreach ($items as $item) {
 											$total_cnt++; ?>
 											<li>
-												<a href="<?php echo $item['url']; ?>" target="_new"
+												<a href="<?php echo $item['url']; ?>" target="_blank"
 												   data-object-id="<?php echo $item['object_id']; ?>" class="ellipsis">
 													<?php echo $item['name']; ?>
 												</a>

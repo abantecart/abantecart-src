@@ -122,7 +122,7 @@ $categories = prepareNVCatItems($categories);
 												//list 2nd level categories
                                                 $schActive = $subitem['current'] ? 'active' : '';
 												$resource = $subitem['resources'][0];
-                                                if ($resource['resource_path'] && is_file(DIR_RESOURCE.'image/'.$resource['resource_path'])) {
+                                                if ($resource['resource_path'] && is_file(DIR_RESOURCE.'image'.DS.str_replace('/',DS,$resource['resource_path']))) {
                                                     $img = '<img alt="images" class="img-fluid" width="235" height="240" src="resources/image/'.$resource['resource_path'].'" />';
                                                 } elseif ($resource['resource_code']) {
                                                     $img = $resource['resource_code'];
@@ -164,7 +164,7 @@ $categories = prepareNVCatItems($categories);
                     $ar = new AResource('image');
                     if ($rl_id) {
                         $resource = $ar->getResource($rl_id);
-                        if ($resource['resource_path'] && is_file(DIR_RESOURCE.'image/'.$resource['resource_path'])) {
+                        if ($resource['resource_path'] && is_file(DIR_RESOURCE.'image'.DS.str_replace('/',DS,$resource['resource_path']))) {
                             $icon = '<img class="bottom-header-menu-icon img-fluid" src="resources/image/'.$resource['resource_path'].'" />';
                         } elseif ($resource['resource_code']) {
                             $icon = $resource['resource_code'];

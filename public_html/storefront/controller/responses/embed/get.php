@@ -110,7 +110,7 @@ class ControllerResponsesEmbedGet extends AController
             "version"          => "1.0",
             "title"            => "Embedded Abantecart Widget",
             "provider_name"    => "AbanteCart",
-            "provider_url"     => "http://www.abantecart.com/",
+            "provider_url"     => "https://www.abantecart.com/",
             "provider_version" => VERSION,
             'height'           => $h,
             'width'            => '100%',

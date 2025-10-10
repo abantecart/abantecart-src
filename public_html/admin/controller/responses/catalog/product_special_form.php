@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2022 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -46,19 +45,18 @@ class ControllerResponsesCatalogProductSpecialForm extends AController
 
         $this->loadLanguage('catalog/product');
         $this->document->setTitle($this->language->get('heading_title'));
-        $this->loadModel('catalog/product');
-
         $this->_getForm();
-
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
     private function _getForm()
     {
+        /** @var ModelCatalogProduct $mdl */
+        $mdl = $this->loadModel('catalog/product');
         $view = new AView($this->registry, 0);
-        $productId = (int) $this->request->get['product_id'];
-        $specialId = (int) $this->request->get['product_special_id'];
+        $productId = (int)$this->request->get['product_id'];
+        $specialId = (int)$this->request->get['product_special_id'];
 
         $view->batchAssign($this->language->getASet('catalog/product'));
 
@@ -71,23 +69,21 @@ class ControllerResponsesCatalogProductSpecialForm extends AController
         $this->data['error'] = $this->error;
         $this->data['cancel'] = $this->html->getSecureURL(
             'catalog/product_promotions',
-            '&product_id='.$productId
+            '&product_id=' . $productId
         );
 
         $this->data['active'] = 'promotions';
 
-        $this->data['product_description'] = $this->model_catalog_product->getProductDescriptions(
-            $productId
-        );
+        $this->data['product_description'] = $mdl->getProductDescriptions($productId);
         $this->data['heading_title'] =
             $this->language->get('text_edit')
-            .'&nbsp;'
-            .$this->language->get('text_product')
-            .' - '
-            .$this->data['product_description'][$this->language->getContentLanguageID()]['name'];
+            . '&nbsp;'
+            . $this->language->get('text_product')
+            . ' - '
+            . $this->data['product_description'][$this->language->getContentLanguageID()]['name'];
 
         if ($specialId) {
-            $special_info = $this->model_catalog_product->getProductSpecial($specialId);
+            $special_info = $mdl->getProductSpecial($specialId);
             if ($special_info['date_start'] == '0000-00-00') {
                 $special_info['date_start'] = '';
             }
@@ -98,47 +94,41 @@ class ControllerResponsesCatalogProductSpecialForm extends AController
 
         $this->loadModel('sale/customer_group');
         $results = $this->model_sale_customer_group->getCustomerGroups();
-        $this->data['customer_groups'] = array_column($results,'name', 'customer_group_id');
+        $this->data['customer_groups'] = array_column($results, 'name', 'customer_group_id');
 
         $fields = ['customer_group_id', 'quantity', 'priority', 'price_prefix', 'price', 'date_start', 'date_end'];
         foreach ($fields as $f) {
             if (isset ($this->request->post [$f])) {
                 $this->data [$f] = $this->request->post [$f];
                 if (in_array($f, ['date_start', 'date_end'])) {
-                    $this->data [$f] = dateDisplay2ISO(
-                        $this->data [$f],
-                        $this->language->get('date_format_short')
-                    );
+                    $this->data[$f] = dateDisplay2ISO($this->data [$f], $this->language->get('date_format_short'));
                 }
-            } elseif (isset($special_info)) {
-                $this->data[$f] = $special_info[$f];
             } else {
-                $this->data[$f] = '';
+                $this->data[$f] = $special_info[$f] ?? '';
             }
         }
 
         if (!$specialId) {
             $this->data['action'] = $this->html->getSecureURL(
                 'catalog/product_promotions',
-                '&product_id='.$productId
+                '&product_id=' . $productId
             );
             $this->data['form_title'] = $this->language->get('text_insert')
-                .'&nbsp;'
-                .$this->language->get('entry_special');
+                . '&nbsp;'
+                . $this->language->get('entry_special');
             $this->data['update'] = '';
             $form = new AForm('ST');
         } else {
             $this->data['action'] = $this->html->getSecureURL(
                 'catalog/product_promotions',
-                '&product_id='.$productId
-                .'&product_special_id='.$specialId
+                '&product_id=' . $productId . '&product_special_id=' . $specialId
             );
             $this->data['form_title'] = $this->language->get('text_edit')
-                .'&nbsp;'
-                .$this->language->get('entry_special');
+                . '&nbsp;'
+                . $this->language->get('entry_special');
             $this->data['update'] = $this->html->getSecureURL(
                 'listing_grid/product/update_special_field',
-                '&id='.$specialId
+                '&id=' . $specialId
             );
             $form = new AForm('HS');
         }
@@ -169,18 +159,16 @@ class ControllerResponsesCatalogProductSpecialForm extends AController
         );
         $this->data['form']['submit'] = $form->getFieldHtml(
             [
-                'type'  => 'button',
-                'name'  => 'submit',
-                'text'  => $this->language->get('button_save'),
-                'style' => 'button1',
+                'type' => 'button',
+                'name' => 'submit',
+                'text' => $this->language->get('button_save'),
             ]
         );
         $this->data['form']['cancel'] = $form->getFieldHtml(
             [
-                'type'  => 'button',
-                'name'  => 'cancel',
-                'text'  => $this->language->get('button_cancel'),
-                'style' => 'button2',
+                'type' => 'button',
+                'name' => 'cancel',
+                'text' => $this->language->get('button_cancel'),
             ]
         );
 
@@ -208,14 +196,14 @@ class ControllerResponsesCatalogProductSpecialForm extends AController
                 'style' => 'small-field',
             ]
         );
-
+        $currencyInfo = $this->currency->getCurrency($this->config->get('config_currency'));
         $this->data['form']['fields']['price_prefix'] = $form->getFieldHtml(
             [
-                'type'  => 'selectbox',
-                'name'  => 'price_prefix',
-                'value' => $this->data['price_prefix'],
+                'type'    => 'selectbox',
+                'name'    => 'price_prefix',
+                'value'   => $this->data['price_prefix'],
                 'options' => [
-                    '$' => '$',
+                    '$' => $currencyInfo['symbol_left'] . $currencyInfo['symbol_right'],
                     '%' => '%'
                 ]
             ]

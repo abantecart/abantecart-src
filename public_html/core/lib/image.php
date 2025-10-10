@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2024 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -51,7 +51,7 @@ class AImage
     {
         ini_set("gd.jpeg_ignore_warning", 1);
         if (!file_exists($filename)) {
-            $error = new AWarning('Error: Cannot load image '.$filename.' . File does not exist.');
+            $error = new AWarning('Error: Cannot load image ' . $filename . ' . File does not exist.');
             $error->toLog();
             return false;
         }
@@ -69,14 +69,15 @@ class AImage
             $this->registry = Registry::getInstance();
             $this->image = $this->get_gd_resource($filename);
         } catch (AException $e) {
-            $error = new AWarning('Error: Cannot load image '.$filename.'. '.$e->getMessage());
+            $error = new AWarning('Error: Cannot load image ' . $filename . '. ' . $e->getMessage());
             $error->toLog();
             return false;
         }
         return true;
     }
 
-    private function isGDResource($obj){
+    private function isGDResource($obj)
+    {
         return (is_resource($obj) || $obj instanceof GdImage);
     }
 
@@ -109,15 +110,15 @@ class AImage
             ) * 1.7
         );
         if (function_exists('memory_get_usage')) {
-            if (memory_get_usage() + $mem_estimate > (integer) ini_get('memory_limit') * pow(1024, 2)) {
-                $new_mem = (integer) ini_get('memory_limit')
+            if (memory_get_usage() + $mem_estimate > (integer)ini_get('memory_limit') * pow(1024, 2)) {
+                $new_mem = (integer)ini_get('memory_limit')
                     + ceil(
                         ((memory_get_usage()
-                                + $mem_estimate) - (integer) ini_get('memory_limit') * pow(
+                                + $mem_estimate) - (integer)ini_get('memory_limit') * pow(
                                 1024,
                                 2
                             )) / pow(1024, 2)
-                    ).'M';
+                    ) . 'M';
                 //TODO. Validate if memory change was in fact changed or report an error
                 ini_set('memory_limit', $new_mem);
             }
@@ -138,12 +139,12 @@ class AImage
             }
         }
 
-        if(!$result){
+        if (!$result) {
             throw new AException(
                 AC_ERR_LOAD,
-                'Unable to create internal image from file '.$filename.'. Try to decrease original image size '
-                .$this->info['width'].'x'.$this->info['height']
-                .'px or reduce file size or increase memory limit for PHP.'
+                'Unable to create internal image from file ' . $filename . '. Try to decrease original image size '
+                . $this->info['width'] . 'x' . $this->info['height']
+                . 'px or reduce file size or increase memory limit for PHP.'
             );
         }
         return $result;
@@ -163,12 +164,12 @@ class AImage
         if (!$filename) {
             return false;
         }
-        $width = (int) $width;
-        $height = (int) $height;
-        $options = (array) $options;
+        $width = (int)$width;
+        $height = (int)$height;
+        $options = (array)$options;
 
-        $quality = !isset($options['quality']) ? 90 : (int) $options['quality'];
-        $nofill = !isset($options['nofill']) ? false : $options['nofill'];
+        $quality = (int)$options['quality'] ?: 90;
+        $nofill = $options['nofill'] ?? false;
 
         //if size will change - resize it and save with GD2, otherwise - just copy file
         if ($this->info['width'] != $width || $this->info['height'] != $height) {
@@ -180,8 +181,8 @@ class AImage
             }
         } else {
             $result = copy($this->file, $filename);
-            if(!$result && !is_writable_dir(dirname($filename))) {
-                Registry::getInstance()?->get('log')?->write( 'Directory '.dirname($filename).' is not writable.');
+            if (!$result && !is_writable_dir(dirname($filename))) {
+                Registry::getInstance()?->get('log')?->write('Directory ' . dirname($filename) . ' is not writable.');
             }
         }
 
@@ -218,13 +219,13 @@ class AImage
             return false;
         }
 
-        $quality = (int) $quality;
+        $quality = (int)$quality;
         $quality = min($quality, 100);
         $quality = max($quality, 1);
 
         $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
         if ($this->_is_memory_enough($this->info['width'], $this->info['height'])) {
-            if (in_array($extension,['jpeg','jpg'])) {
+            if (in_array($extension, ['jpeg', 'jpg'])) {
                 imagejpeg($this->image, $filename, $quality);
             } elseif ($extension == 'png') {
                 //use maximum compression for PNG
@@ -239,14 +240,14 @@ class AImage
             if (is_file($filename)) {
                 $result = chmod($filename, 0777);
                 if (!$result) {
-                    $error_text = "AImage: cannot to change permissions for ".$filename;
+                    $error_text = "AImage: cannot to change permissions for " . $filename;
                     $warning = new AWarning($error_text);
                     $warning->toLog();
                 }
             }
             imagedestroy($this->image);
         } else {
-            $warning = new AWarning('Image file '.$this->file.' cannot be saved as '.$filename.'. ');
+            $warning = new AWarning('Image file ' . $this->file . ' cannot be saved as ' . $filename . '. ');
             $warning->toLog()->toDebug();
             return false;
         }
@@ -277,10 +278,10 @@ class AImage
             return true;
         }
 
-        $new_width = (int) round($this->info['width'] * $scale, 0);
-        $new_height = (int) round($this->info['height'] * $scale, 0);
-        $xpos = (int) (($width - $new_width) / 2);
-        $ypos = (int) (($height - $new_height) / 2);
+        $new_width = (int)round($this->info['width'] * $scale, 0);
+        $new_height = (int)round($this->info['height'] * $scale, 0);
+        $xpos = (int)(($width - $new_width) / 2);
+        $ypos = (int)(($height - $new_height) / 2);
 
         $image_old = $this->image;
         if ($this->_is_memory_enough($this->info['width'], $this->info['height'])) {
@@ -289,7 +290,7 @@ class AImage
             $fillColor = $this->registry->get('config')->get('config_image_resize_fill_color');
             $fillColor = $fillColor ?: '#ffffff';
             list($r, $g, $b) = sscanf($fillColor, "#%02x%02x%02x");
-            if (isset($this->info['mime']) && in_array($this->info['mime'], ['image/png', 'image/webp','image/avif'])) {
+            if (isset($this->info['mime']) && in_array($this->info['mime'], ['image/png', 'image/webp', 'image/avif'])) {
                 imagealphablending($this->image, false);
                 imagesavealpha($this->image, true);
                 $background = imagecolorallocatealpha($this->image, $r, $g, $b, 127);
@@ -320,15 +321,14 @@ class AImage
                 imagedestroy($image_old);
             }
         } else {
-            $message = 'Image file '.$this->file
-                .' cannot be resized. Try to decrease original image size '
-                .$this->info['width'].'x'.$this->info['height'].'px or reduce file size.';
+            $message = 'Image file ' . $this->file . ' cannot be resized. Try to decrease original image size '
+                . $this->info['width'] . 'x' . $this->info['height'] . 'px or reduce file size.';
             $res = new AResource('image');
-            $resource_id = $res->getIdFromHexPath(str_replace(DIR_RESOURCE.'image/', '', $this->file));
+            $resource_id = $res->getIdFromHexPath(str_replace(DIR_RESOURCE . 'image' . DS, '', $this->file));
             if ($resource_id) {
-                $message .= ' View details please visit #admin#rt=tool/rl_manager&resource_id='.$resource_id;
+                $message .= ' View details please visit #admin#rt=tool/rl_manager&resource_id=' . $resource_id;
             }
-            $GLOBALS['error_descriptions']['img'] = 'Image Resize error '.$resource_id;
+            $GLOBALS['error_descriptions']['img'] = 'Image Resize error ' . $resource_id;
             $warning = new AWarning($message, 'img');
             $warning->code = 'img';
             $warning->toLog()->toDebug();
@@ -342,7 +342,7 @@ class AImage
     }
 
     /**
-     * @param        $filename
+     * @param string $filename
      * @param string $position
      *
      * @return bool
@@ -380,7 +380,7 @@ class AImage
             imagecopy($this->image, $watermark, $watermark_pos_x, $watermark_pos_y, 0, 0, 120, 40);
             imagedestroy($watermark);
         } catch (Exception $e) {
-            $warning = new AWarning('Cannot to apply watermark to the image file '.$this->file.'. '.$e->getMessage());
+            $warning = new AWarning('Cannot to apply watermark to the image file ' . $this->file . '. ' . $e->getMessage());
             $warning->toLog()->toDebug();
             return false;
         }
@@ -411,7 +411,7 @@ class AImage
             $this->info['width'] = $bottom_x - $top_x;
             $this->info['height'] = $bottom_y - $top_y;
         } else {
-            $warning = new AWarning('Cannot to crop image file '.$this->file);
+            $warning = new AWarning('Cannot to crop image file ' . $this->file);
             $warning->toLog()->toDebug();
             return false;
         }
@@ -440,7 +440,7 @@ class AImage
             $this->info['width'] = imagesx($this->image);
             $this->info['height'] = imagesy($this->image);
         } catch (Exception $e) {
-            $warning = new AWarning('Cannot to rotate image file '.$this->file.'. '.$e->getMessage());
+            $warning = new AWarning('Cannot to rotate image file ' . $this->file . '. ' . $e->getMessage());
             $warning->toLog()->toDebug();
             return false;
         }
@@ -461,7 +461,7 @@ class AImage
         try {
             imagefilter($this->image, $filter);
         } catch (Exception $e) {
-            $warning = new AWarning('Cannot to apply filter to the image file '.$this->file.'. '.$e->getMessage());
+            $warning = new AWarning('Cannot to apply filter to the image file ' . $this->file . '. ' . $e->getMessage());
             $warning->toLog()->toDebug();
             return false;
         }
@@ -490,7 +490,7 @@ class AImage
                 imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2])
             );
         } catch (Exception $e) {
-            $warning = new AWarning('Cannot to add text into image file '.$this->file.'. '.$e->getMessage());
+            $warning = new AWarning('Cannot to add text into image file ' . $this->file . '. ' . $e->getMessage());
             $warning->toLog()->toDebug();
             return false;
         }
@@ -518,7 +518,7 @@ class AImage
             $merge_height = imagesy($merge);
             imagecopymerge($this->image, $merge, $x, $y, 0, 0, $merge_width, $merge_height, $opacity);
         } catch (Exception $e) {
-            $warning = new AWarning('Cannot to merge image files '.$this->file.' and '.$filename.'. '.$e->getMessage());
+            $warning = new AWarning('Cannot to merge image files ' . $this->file . ' and ' . $filename . '. ' . $e->getMessage());
             $warning->toLog()->toDebug();
             return false;
         }
@@ -537,9 +537,9 @@ class AImage
         }
 
         if (strlen($color) == 6) {
-            list($r, $g, $b) = [$color[0].$color[1], $color[2].$color[3], $color[4].$color[5]];
+            list($r, $g, $b) = [$color[0] . $color[1], $color[2] . $color[3], $color[4] . $color[5]];
         } elseif (strlen($color) == 3) {
-            list($r, $g, $b) = [$color[0].$color[0], $color[1].$color[1], $color[2].$color[2]];
+            list($r, $g, $b) = [$color[0] . $color[0], $color[1] . $color[1], $color[2] . $color[2]];
         } else {
             return false;
         }
@@ -557,13 +557,13 @@ class AImage
         $last = strtolower($memory_limit[strlen($memory_limit) - 1]);
         switch ($last) {
             case 'g':
-                $memory_limit = (int) $memory_limit * (1024 * 1024 * 1024);
+                $memory_limit = (int)$memory_limit * (1024 * 1024 * 1024);
                 break;
             case 'm':
-                $memory_limit = (int) $memory_limit * (1024 * 1024);
+                $memory_limit = (int)$memory_limit * (1024 * 1024);
                 break;
             case 'k':
-                $memory_limit = (int) $memory_limit * 1024;
+                $memory_limit = (int)$memory_limit * 1024;
                 break;
         }
         return ($x * $y * $rgb * 1.7 < $memory_limit - memory_get_usage());

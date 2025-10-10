@@ -66,9 +66,11 @@ foreach (array_keys($_COOKIE) as $key) {
 }
 define('SESSION_ID', $session_id);
 
-//try to start session. 
-require_once(DIR_CORE.'lib/session.php');
+//try to start session.
+require_once(DIR_CORE.'helper/system_check.php');
+require_once(DIR_CORE . 'lib/session.php');
 $session = new ASession(SESSION_ID);
+
 
 $error = 'Please check AbanteCart and webserver error logs for more details. You can check error log in the control panel if it is functional. Otherwise, refer to error log located on your web server';
 if ($session && isset($session->data['exception_msg']) && $session->data['exception_msg']) {
@@ -143,7 +145,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
                 <br><br>
                 <div>
                     <b>
-                        <a href="http://www.abantecart.com/contact-us" target="_abantecart">Need help? Contact for support</a>
+                        <a href="https://www.abantecart.com/contact-us" target="_abantecart">Need help? Contact for support</a>
                     </b>
                 </div>
 
@@ -156,7 +158,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
         <div id="content_bottom"></div>
     </div>
     <div id="footer">
-        <a onclick="window.open('http://www.abantecart.com');">Project Homepage
+        <a onclick="window.open('https://www.abantecart.com');">Project Homepage
         </a>|<a onclick="window.open('http://docs.abantecart.com');">Documentation
         </a>|<a onclick="window.open('http://forum.abantecart.com');">Support Forums
         </a>|<a onclick="window.open('http://marketplace.abantecart.com');">Marketplace</a></div>

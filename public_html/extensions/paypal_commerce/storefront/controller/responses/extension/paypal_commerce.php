@@ -211,15 +211,13 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $data['intent'] = $this->config->get('paypal_commerce_transaction_type');
         //need an order details
         $data['order_info'] = $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-        $orderTotal = "" . round($this->currency->convert(
-                (float)$order_info['total'],
-                $this->config->get('config_currency'),
-                $currencyCode
-            ),
-                $decPlace);
 
-        $taxes = $discount = $handling_fee = 0.0;
+        $orderTotal = $taxes = $discount = $handling_fee = 0.0;
         foreach ($this->cart->getFinalTotalData() as $total) {
+            if($total['id'] == 'total'){
+                $orderTotal = "".round($total['converted'],2);
+            }
+
             $data['order_' . $total['id']] = $this->currency->convert(
                 (float)$total['value'],
                 $this->config->get('config_currency'),
@@ -260,6 +258,14 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $cartProducts = $this->cart->getProducts() + $this->cart->getVirtualProducts();
 
         $ppData['intent'] = strtoupper($this->config->get('paypal_commerce_transaction_type'));
+
+        $ppData['payer'] = [
+            'name' => [
+                'given_name' => $order_info['shipping_firstname'],
+                'surname' => $order_info['shipping_lastname'],
+            ],
+            'email_address' => $order_info['email'],
+        ];
         $this->load->model('localisation/country');
         $this->load->model('localisation/zone');
 
@@ -349,9 +355,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             }
 
             $orderDescription[] = [
-                'title'    => $product['name'] . ' ' . $description,
+                'title'    => html_entity_decode($product['name'] . ' ' . $description),
                 'quantity' => $product['quantity'],
-                'sku'      => $sku
+                'sku'      => html_entity_decode($sku)
             ];
 
 
@@ -411,8 +417,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $ppData['purchase_units'][0]['shipping'] = $shipping;
         }
 
-        //allow breakdown only for store currency to avoid conversion problems
-        if ($this->config->get('config_currency') == $currencyCode) {
+        //allow breakdown only for store currency without enabled setting "display prices with tax"
+        // to avoid conversion problems
+        if ($this->config->get('config_currency') == $currencyCode && !$this->config->get('config_tax')) {
             $ppData['purchase_units'][0]['amount']['breakdown'] = $amountBreakdown;
             $ppData['purchase_units'][0]['items'] = $items;
         }
@@ -461,21 +468,31 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
+        $this->loadLanguage('paypal_commerce/paypal_commerce');
         /** @var ModelExtensionPaypalCommerce $mdl */
         $mdl = $this->loadModel('extension/paypal_commerce');
         try {
             if ($this->config->get('paypal_commerce_transaction_type') == 'capture') {
-                $output = $mdl->capturePPOrder($ppOrderId);
+                $result = $mdl->capturePPOrder($ppOrderId);
+                if ($result->purchase_units[0]->payments->captures[0]->status == 'DECLINED') {
+                    throw new Exception(
+                        $this->language->get('paypal_commerce_error_declined').'. '
+                        . $result->purchase_units[0]->payments->captures[0]->seller_protection->status
+                    );
+                }
             } else {
-                $output = $mdl->authorizePPOrder($ppOrderId);
+                $result = $mdl->authorizePPOrder($ppOrderId);
+                if ($result->purchase_units[0]->payments->authorizations[0]->status == 'DENIED') {
+                    throw new Exception(
+                        $this->language->get('paypal_commerce_error_denied').'. '
+                        . $result->purchase_units[0]->payments->authorizations[0]->seller_protection->status
+                    );
+                }
             }
-            $output = ['id' => $output->id];
+
+            $output = ['id' => $result->id];
         } catch (Exception|Error $e) {
             $output['error'] = $e->getMessage();
-        }
-
-        if (!$output['id']) {
-            $output['error'] = 'Cannot to obtain transaction Id during capture processing';
         }
 
         if (isset($output['error'])) {
@@ -510,11 +527,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $this->response->setOutput(AJson::encode($output));
         }
 
-        $orderTotalAmt = $this->currency->convert(
-            $order_info['total'],
-            $this->config->get('config_currency'),
-            $order_info['currency']
-        );
+        $orderTotalAmt = "".round($order_info['total']*$order_info['value'],2);
         /** @var ModelExtensionPaypalCommerce $mdl */
         $mdl = $this->loadModel('extension/paypal_commerce');
         $transactionDetails = json_decode(
@@ -577,7 +590,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                     $output['error'] = 'Oops, Unexpected Application Error';
                 }
             } else {
-                $output['error'] = 'Oops, Unexpected Application Error';
+                $output['error'] = "Oops, Unexpected Application Error\n(" . $response->status . ' ' . $response->status_detail->reason . ")";
                 $this->log->write(var_export($response, true));
             }
         }

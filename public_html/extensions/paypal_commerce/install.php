@@ -68,8 +68,8 @@ $rm = new AResourceManager();
 $rm->setType('image');
 
 $result = copy(
-    DIR_EXT.'paypal_commerce/image/AM_mc_vs_dc_ae.jpg',
-    DIR_RESOURCE.'image/AM_mc_vs_dc_ae.jpg'
+    DIR_EXT.'paypal_commerce'.DS.'image'.DS.'AM_mc_vs_dc_ae.jpg',
+    DIR_RESOURCE.'image'.DS.'AM_mc_vs_dc_ae.jpg'
 );
 
 $resource = [

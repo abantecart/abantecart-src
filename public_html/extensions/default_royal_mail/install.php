@@ -25,8 +25,8 @@ $rm = new AResourceManager();
 $rm->setType('image');
 
 $result = copy(
-    DIR_EXT.'default_royal_mail/image/logo.png',
-    DIR_RESOURCE.'image/logo.png'
+    DIR_EXT.'default_royal_mail'.DS.'image'.DS.'logo.png',
+    DIR_RESOURCE.'image'.DS.'logo.png'
 );
 
 $resource = [

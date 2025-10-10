@@ -1,28 +1,22 @@
-<?php
+<?php /** @noinspection PhpUndefinedClassInspection */
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
-
-/** @noinspection SqlDialectInspection */
-
-/** @noinspection PhpUndefinedClassInspection */
-
-/** @noinspection DuplicatedCode */
 
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -50,7 +44,7 @@ class ALanguageManager extends Alanguage
     public function __construct($registry, $code = '', $section = '')
     {
         parent::__construct($registry, $code, $section);
-        if (!IS_ADMIN) { // forbid for non admin calls
+        if (!IS_ADMIN) { // forbid for non-admin calls
             throw new AException (
                 AC_ERR_LOAD,
                 'Error: permission denied to access class ALanguageManager'
@@ -64,7 +58,7 @@ class ALanguageManager extends Alanguage
      * Insert new definitions and translate if configured
      *
      * @param string $table_name - database table name with no prefix
-     * @param array $index - unique index to perform select (associative array with column name as key)
+     * @param array $index - unique index to perform select (associative array with column name as a key)
      * @param array $txt_data - text data array. Format: [language id][key] => [value]
      * @param bool $do_auto_translation - to skip autotranslation pass false. Translate by default
      *
@@ -75,7 +69,7 @@ class ALanguageManager extends Alanguage
         if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) {
             return;
         }
-        //when txt data does not contain default language
+        //when txt data does not contain the default language
         $default_lang_id = $this->getDefaultLanguageID();
         if (!in_array($default_lang_id, array_keys($txt_data))) {
             $txt_data[$default_lang_id] = current($txt_data);
@@ -92,7 +86,7 @@ class ALanguageManager extends Alanguage
      * Insert new definitions and translate if configured of serialized data by given keys
      *
      * @param string $table_name - database table name with no prefix
-     * @param array $index - unique index to perform select (associative array with column name as key)
+     * @param array $index - unique index to perform select (associative array with column name as a key)
      * @param array $txt_data - text data array. Format: [language id][key] => [value]
      * @param array $ser_keys - array with key's list of serialized array one of txt_data value
      *                           Format: $txt_data[language id][key] = array(key1,key2,key3)
@@ -104,7 +98,7 @@ class ALanguageManager extends Alanguage
         if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) {
             return;
         }
-        //when txt data does not contain default language
+        //when txt data does not contain the default language
         $default_lang_id = $this->getDefaultLanguageID();
         if (!in_array($default_lang_id, array_keys($txt_data))) {
             $txt_data[$default_lang_id] = current($txt_data);
@@ -119,7 +113,7 @@ class ALanguageManager extends Alanguage
      * Update definitions and translate if configured
      *
      * @param string $table_name - database table name with no prefix
-     * @param array $index - unique index to perform select (associative array with column name as key)
+     * @param array $index - unique index to perform select (associative array with column name as a key)
      * @param array $txt_data - text data array. Format: [language id][key] => [value]
      * @param bool $do_auto_translation - to skip autotranslation pass false. Translate by default
      *
@@ -142,7 +136,7 @@ class ALanguageManager extends Alanguage
      * Update definitions and translate if configured of serialized data by given keys
      *
      * @param string $table_name - database table name with no prefix
-     * @param array $index - unique index to perform select (associative array with column name as key)
+     * @param array $index - unique index to perform select (associative array with column name as a key)
      * @param array $txt_data - text data array. Format: [language id][key] => [value]
      * @param array $ser_keys - array with key's list of serialized array one of txt_data value
      *                           Format: $txt_data[language id][key] = array(key1,key2,key3)
@@ -163,10 +157,11 @@ class ALanguageManager extends Alanguage
 
     /**
      * Insert or Update definitions and translate if configured
-     * More stable approach, but add extra select. If sure that you do update use updateDescriptions
+     * More stable approach, but add extra select.
+     * If sure that you do update, use updateDescriptions
      *
      * @param string $table_name - database table name with no prefix
-     * @param array $index - unique index to perform select (associative array with column name as key)
+     * @param array $index - unique index to perform select (associative array with column name as a key)
      * @param array $txt_data - text data array. Format: [language id][key] => [value]
      * @param bool $do_auto_translation - to skip autotranslation pass false. Translate by default
      *
@@ -178,15 +173,15 @@ class ALanguageManager extends Alanguage
             return;
         }
 
-        // check is definition with default language presents in table
-        // we need to know it for case when content language id is not default language id
+        // check is definition with default language presents in the table
+        // we need to know it for a case when content language id is not the default language id
         $is_default_definition_exists = 1;
         $default_lang_id = $this->getDefaultLanguageID();
         $content_lang_id = $this->getContentLanguageID();
         if ($content_lang_id != $default_lang_id) {
             $is_default_definition_exists = $this->getDescriptions($table_name, $index, $default_lang_id);
         }
-        // just use data for default language too
+        // just use data for the default language too
         // special case for non-translation
         if (!$is_default_definition_exists && $do_auto_translation) {
             if (!in_array($default_lang_id, array_keys($txt_data))) {
@@ -212,10 +207,10 @@ class ALanguageManager extends Alanguage
 
     /**
      * Insert or Update definitions and translate if configured of serialized data by given keys
-     * More stable approach, but add extra select. If sure that you do update use updateDescriptionsSerialized
+     * More stable approach, but add extra select. If sure that you do update, use updateDescriptionsSerialized
      *
      * @param string $table_name - database table name with no prefix
-     * @param array $index - unique index to perform select (associative array with column name as key)
+     * @param array $index - unique index to perform select (associative array with column name as a key)
      * @param array $txt_data - text data array. Format: [language id][key] => [value]
      * @param array $ser_keys - array with key's list of serialized array one of txt_data value
      *                           Format: $txt_data[language id][key] = array(key1,key2,key3)
@@ -245,9 +240,9 @@ class ALanguageManager extends Alanguage
     /**
      * method to replace and save tags for objects
      *
-     * @param string       $table  table name
-     * @param array        $IDHash Ex: ['product_id' => 10],
-     * @param int          $languageID
+     * @param string $table table name
+     * @param array $IDHash Ex: ['product_id' => 10],
+     * @param int $languageID
      * @param string|array $tagsSrc
      *
      * @return void
@@ -275,13 +270,13 @@ class ALanguageManager extends Alanguage
         );
     }
 
-        /**
-     * Insert or Update definitions and translate if configured based on array of values
-     * This is the case when unique index represents multiple [key] => [value] combinations
+    /**
+     * Insert or Update definitions and translate if configured based on an array of values
+     * This is the case when a unique index represents multiple [key] => [value] combinations
      * Example: product_tags table
      *
      * @param string $table_name - database table name with no prefix
-     * @param array $index - unique index to perform select (associative array with column name as key)
+     * @param array $index - unique index to perform select (associative array with column name as a key)
      * @param array $txt_data - text data array. Format: [language id][key] => [value]
      *
      * @throws AException
@@ -322,17 +317,17 @@ class ALanguageManager extends Alanguage
                 $src_lang_code = $config->get('translate_src_lang_code');
                 $src_lang_id = $this->_get_language_id($src_lang_code);
                 if (empty($txt_data[$src_lang_id])) {
-                    //this is not source language. exit
+                    //this is not a source language. exit
                     return;
                 }
                 //translate all active languages
                 foreach ($this->getActiveLanguages() as $lang) {
                     $language_id = $lang['language_id'];
-                    //skip source language and just added languages (updated before)
+                    //skip the source language and just added languages (updated before)
                     if ($lang['code'] == $src_lang_code || !empty($txt_data[$language_id])) {
                         continue;
                     }
-                    $dest_lang_code = $this->getLanguageCodeByLocale($lang['locale']);
+                    $dest_lang_code = $this->getLanguageCodeByLocale((string)$lang['locale']);
                     //get existing data and check if we create or update
                     $new_index = array_merge($index, ['language_id' => $language_id]);
                     $descriptions = $this->getDescriptions($table_name, $new_index);
@@ -366,7 +361,7 @@ class ALanguageManager extends Alanguage
      * Delete definitions
      *
      * @param string $table_name - database table name with no prefix
-     * @param array $index - unique index to perform select (associative array with column name as key)
+     * @param array $index - unique index to perform select (associative array with column name as a key)
      *
      * @throws AException
      */
@@ -379,11 +374,11 @@ class ALanguageManager extends Alanguage
         $del_index = [];
         foreach ($index as $i => $v) {
             if (has_value($v)) {
-                $del_index[] = $i." = '".$this->db->escape($v)."'";
+                $del_index[] = $i . " = '" . $this->db->escape($v) . "'";
             }
         }
-        $sql = "DELETE FROM ".DB_PREFIX.$table_name." ";
-        $sql .= "WHERE ".implode(" AND ", $del_index);
+        $sql = "DELETE FROM " . DB_PREFIX . $table_name . " ";
+        $sql .= "WHERE " . implode(" AND ", $del_index);
         $this->db->query($sql);
     }
 
@@ -391,7 +386,7 @@ class ALanguageManager extends Alanguage
      * Select definitions
      *
      * @param string $table_name - database table name with no prefix
-     * @param array $index - unique index to perform select (associative array with column name as key)
+     * @param array $index - unique index to perform select (associative array with column name as a key)
      * @param null|int $language_id
      *
      * @return array
@@ -407,14 +402,14 @@ class ALanguageManager extends Alanguage
         $sel_index = [];
         foreach ($index as $i => $v) {
             if (has_value($v)) {
-                $sel_index[] = $i." = '".$this->db->escape($v)."'";
+                $sel_index[] = $i . " = '" . $this->db->escape($v) . "'";
             }
         }
         $sql = "SELECT * 
-                FROM ".$this->db->table($table_name)."
-                WHERE ".implode(" AND ", $sel_index);
+                FROM " . $this->db->table($table_name) . "
+                WHERE " . implode(" AND ", $sel_index);
         if ($language_id) {
-            $sql .= " AND language_id=".(int) $language_id;
+            $sql .= " AND language_id=" . (int)$language_id;
         }
         $query_result = $this->db->query($sql);
 
@@ -429,7 +424,7 @@ class ALanguageManager extends Alanguage
      * Perform SQL update
      *
      * @param string $table_name - database table name with no prefix
-     * @param array $index - unique index to perform select (associative array with column name as key)
+     * @param array $index - unique index to perform select (associative array with column name as a key)
      * @param array $txt_data - text data array. Format: [language id][key] => [value]
      *
      * @throws AException
@@ -449,20 +444,20 @@ class ALanguageManager extends Alanguage
             $update_index = [];
             foreach ($index as $i => $v) {
                 if (has_value($v)) {
-                    $update_index[] = $i." = '".$this->db->escape($v)."'";
+                    $update_index[] = $i . " = '" . $this->db->escape($v) . "'";
                 }
             }
-            $update_index[] = "language_id = '".$this->db->escape($lang_id)."'";
+            $update_index[] = "language_id = '" . $this->db->escape($lang_id) . "'";
 
             $this->save_history($table_name, $index, $lang_id, $lang_data, $update_index);
 
             $update_data = [];
             foreach ($lang_data as $i => $v) {
-                $update_data[] = $i." = '".$this->db->escape($v)."'";
+                $update_data[] = $i . " = '" . $this->db->escape($v) . "'";
             }
 
-            $sql = "UPDATE ".$this->db->table($table_name)." ";
-            $sql .= "SET ".implode(", ", $update_data)." WHERE ".implode(" AND ", $update_index);
+            $sql = "UPDATE " . $this->db->table($table_name) . " ";
+            $sql .= "SET " . implode(", ", $update_data) . " WHERE " . implode(" AND ", $update_index);
             $this->db->query($sql);
         }
     }
@@ -470,7 +465,7 @@ class ALanguageManager extends Alanguage
     /** Perform SQL insert
      *
      * @param string $table_name - database table name with no prefix
-     * @param array $index - unique index to perform select (associative array with column name as key)
+     * @param array $index - unique index to perform select (associative array with column name as a key)
      * @param array $txt_data - text data array. Format: [language id][key] => [value]
      *
      * @throws AException
@@ -487,8 +482,8 @@ class ALanguageManager extends Alanguage
                 $lang_data[$key] = $this->db->escape($value);
             }
             $load_data = array_merge($lang_data, $index, ['language_id' => $lang_id]);
-            $sql = "INSERT INTO ".$this->db->table($table_name)." ";
-            $sql .= "(`".implode("`, `", array_keys($load_data))."`) VALUES ('".implode("', '", $load_data)."') ";
+            $sql = "INSERT INTO " . $this->db->table($table_name) . " ";
+            $sql .= "(`" . implode("`, `", array_keys($load_data)) . "`) VALUES ('" . implode("', '", $load_data) . "') ";
             $this->db->query($sql);
         }
     }
@@ -497,7 +492,7 @@ class ALanguageManager extends Alanguage
      * translate descriptions
      *
      * @param string $table_name - database table name with no prefix
-     * @param array $index - unique index to perform select (associative array with column name as key)
+     * @param array $index - unique index to perform select (associative array with column name as a key)
      * @param array $txt_data - text data array. Format: [language id][key] => [value]
      * @param array $serialized_roadmap
      *
@@ -526,11 +521,11 @@ class ALanguageManager extends Alanguage
             $language_id = $lang['language_id'];
             $new_txt_data = [];
             $update_txt_data = [];
-            //skip source language and just added languages (updated before)
+            //skip the source language and just added languages (updated before)
             if ($lang['code'] == $src_lang_code || !empty($txt_data[$language_id])) {
                 continue;
             }
-            $dest_lang_code = $this->getLanguageCodeByLocale($lang['locale']);
+            $dest_lang_code = $this->getLanguageCodeByLocale((string)$lang['locale']);
             //get existing data and check if we create or update
             $new_index = array_merge($index, ['language_id' => $language_id]);
             $descriptions = $this->getDescriptions($table_name, $new_index);
@@ -538,7 +533,7 @@ class ALanguageManager extends Alanguage
                 //updates expect only 1 row per this index
                 foreach ($descriptions[0] as $key => $value) {
                     $txt_to_translate = $txt_data[$src_lang_id][$key] ?? '';
-                    //check if force override settings is enabled and skip if translation exists
+                    //check if force override settings are enabled and skip if translation exists
                     if (($config->get('translate_override_existing') && !empty($txt_to_translate))
                         || (empty($value) && !empty($txt_to_translate))
                     ) {
@@ -562,7 +557,7 @@ class ALanguageManager extends Alanguage
                 }
             } else {
                 //insert only
-                //translate source text
+                //translates source text
                 foreach ($txt_data[$src_lang_id] as $key => $value) {
                     if (has_value($value)) {
                         if (in_array($key, array_keys($serialized_roadmap))) {
@@ -596,10 +591,10 @@ class ALanguageManager extends Alanguage
     }
 
     /**
-     * save descriptions history
+     * save description history
      *
      * @param string $tableName - database table name with no prefix
-     * @param array $index - unique index to perform select (associative array with column name as key)
+     * @param array $index - unique index to perform select (associative array with column name as a key)
      * @param int $langId
      * @param array $langData
      * @param array $updateIndex
@@ -620,8 +615,8 @@ class ALanguageManager extends Alanguage
         //select current values for compare
         $result = $this->db->query(
             "SELECT * 
-             FROM ".$this->db->table($tableName)." 
-             WHERE ".implode(" AND ", $updateIndex)
+             FROM " . $this->db->table($tableName) . " 
+             WHERE " . implode(" AND ", $updateIndex)
         );
         $currentData = $result->row;
         foreach ($langData as $field => $value) {
@@ -630,16 +625,16 @@ class ALanguageManager extends Alanguage
                 continue;
             }
             $load_data = [
-                'table_name' => $tableName,
-                'record_id' => $recId,
+                'table_name'  => $tableName,
+                'record_id'   => $recId,
                 'language_id' => $langId,
-                'version' => 1
+                'version'     => 1
             ];
             //select latest version
             $sql = "SELECT version as version 
-                    FROM ".$this->db->table('fields_history')." 
-                    WHERE `table_name` = '".$this->db->escape($tableName)."' AND `record_id` = '".$recId."' 
-                        AND `field` = '".$this->db->escape($field)."' AND `language_id` = '".$langId."' ";
+                    FROM " . $this->db->table('fields_history') . " 
+                    WHERE `table_name` = '" . $this->db->escape($tableName) . "' AND `record_id` = '" . $recId . "' 
+                        AND `field` = '" . $this->db->escape($field) . "' AND `language_id` = '" . $langId . "' ";
             $sql .= "ORDER BY `version` DESC LIMIT 1";
             $result = $this->db->query($sql);
             if ($result->row) {
@@ -665,7 +660,7 @@ class ALanguageManager extends Alanguage
     public function getDescriptionHistory($table_name, $record_id, $field, $language_id)
     {
         $language_id = (int)$language_id ?? $this->getContentLanguageID();
-        $sql = "SELECT * FROM ".$this->db->table('fields_history')." ";
+        $sql = "SELECT * FROM " . $this->db->table('fields_history') . " ";
         $sql .= "WHERE `table_name` = '$table_name' AND `record_id` = '$record_id' AND `language_id` = '$language_id' AND `field` = '$field' ";
         $sql .= "ORDER BY `version` DESC, `date_added` DESC";
         $result = $this->db->query($sql);
@@ -673,15 +668,12 @@ class ALanguageManager extends Alanguage
     }
 
     /**
-     * @param void
-     *
-     * @return void
+     * @throws AException
      */
     public function clearDescriptionHistory()
     {
-        $sql = "DELETE FROM ".$this->db->table('fields_history')." ";
+        $sql = "DELETE FROM " . $this->db->table('fields_history') . " ";
         $this->db->query($sql);
-        return;
     }
 
     #### END Language Descriptions admin API Section #####
@@ -699,13 +691,15 @@ class ALanguageManager extends Alanguage
             return;
         }
 
-        $tables = $this->getLanguageBasedTables();
-        foreach ($tables as $table_name) {
-            //Skip history based tables
-            if (strstr($table_name['table_name'], 'orders')) {
+        $tables = $this->getLanguageBasedTables(true);
+        foreach ($tables as $table_name => $rowCount) {
+            //Skip history-based tables
+            if (strstr($table_name, 'orders')) {
                 continue;
             }
-            $this->db->query("DELETE FROM ".$table_name['table_name']." WHERE language_id = '".(int) $language_id."'");
+            $this->db->query(
+                "DELETE FROM " . $this->db->escape($table_name) . " 
+                WHERE language_id = '" . (int)$language_id . "'");
         }
     }
 
@@ -721,7 +715,7 @@ class ALanguageManager extends Alanguage
      */
     public function cloneToAllLanguages($table, $source_language)
     {
-        $source_language = (int) $source_language;
+        $source_language = (int)$source_language;
         $ret_str = '';
         // for each language call cloneLanguageRows
         foreach ($this->available_languages as $lng) {
@@ -729,8 +723,8 @@ class ALanguageManager extends Alanguage
             if ($language_id == $source_language) {
                 continue;
             }
-            $pkeys = $this->getPrimaryKeys($table);
-            $ret_str .= $this->cloneLanguageRows($table, $pkeys, $language_id, $source_language);
+            $pKeys = $this->getPrimaryKeys((string)$table);
+            $ret_str .= $this->cloneLanguageRows((string)$table, $pKeys, $language_id, $source_language);
         }
         return $ret_str;
     }
@@ -751,8 +745,8 @@ class ALanguageManager extends Alanguage
         for ($i = 1; $i < count($parts); $i++) {
             $total_arr = count($test_array);
             for ($j = 0; $j < $total_arr; $j++) {
-                array_push($test_array, $test_array[$j].'_'.$parts[$i]);
-                $test_array[$j] .= '/'.$parts[$i];
+                $test_array[] = $test_array[$j] . '_' . $parts[$i];
+                $test_array[$j] .= '/' . $parts[$i];
             }
         }
         //check what path is valid
@@ -766,7 +760,8 @@ class ALanguageManager extends Alanguage
     }
 
     /**
-     * Function to populate all tables that have language linked data with new language data. Copy from default if source language is not provided
+     * Function to populate all tables that have language-linked data with new language data.
+     * Copy from default if the source language is not provided
      *
      * @param int $language_id
      * @param int $source_language_id
@@ -778,37 +773,37 @@ class ALanguageManager extends Alanguage
      */
     public function fillMissingLanguageEntries($language_id, $source_language_id = 1, $translate_method = '')
     {
-        $language_id = (int) $language_id;
-        $source_language_id = (int) $source_language_id;
+        $language_id = (int)$language_id;
+        $source_language_id = (int)$source_language_id;
         if (empty($language_id)) {
             return null;
         }
 
-        //First make sure source language definition XML files are all loaded to database
+        //First, make sure source language definition XML files are all loaded to a database
         $this->definitionAutoLoad($source_language_id, 'all', 'all');
-        //Now make sure destination language definition XML files are all loaded to database
-        $this->definitionAutoLoad((int) $language_id, 'all', 'all');
+        //Now make sure destination language definition XML files are all loaded to a database
+        $this->definitionAutoLoad((int)$language_id, 'all', 'all');
 
         $ret_str = '';
         $tables = $this->getLanguageBasedTables();
-        foreach ($tables as $table_name) {
-            $pkeys = [];
-            //Set special case table
-            if (strstr($table_name['table_name'], 'language_definitions')) {
-                array_push($pkeys, 'language_definition_id', 'language_id', 'section', 'block', 'language_key');
+        foreach ($tables as $table_name => $rowCount) {
+            $pKeys = [];
+            //Set a special case table
+            if (strstr($table_name, 'language_definitions')) {
+                array_push($pKeys, 'language_definition_id', 'language_id', 'section', 'block', 'language_key');
             } else {
-                if (strstr($table_name['table_name'], 'orders') || strstr($table_name['table_name'], 'languages')) {
+                if (strstr($table_name, 'orders') || strstr($table_name, 'languages')) {
                     //skip these tables
                     continue;
                 } else {
                     #get primary keys
-                    $pkeys = $this->getPrimaryKeys($table_name['table_name']);
+                    $pKeys = $this->getPrimaryKeys((string)$table_name);
                 }
             }
 
             $ret_str .= $this->cloneLanguageRows(
-                $table_name['table_name'],
-                $pkeys,
+                $table_name,
+                $pKeys,
                 $language_id,
                 $source_language_id,
                 '',
@@ -819,7 +814,7 @@ class ALanguageManager extends Alanguage
     }
 
     /**
-     * Method for reloading definitions from xml-file to database
+     * Method for reloading definitions from xml-file to a database
      *
      * @param int $language_id
      * @param string $section - 1 or 0 - admin or storefront
@@ -830,8 +825,8 @@ class ALanguageManager extends Alanguage
      */
     public function definitionAutoLoad($language_id, $section, $specific_block)
     {
-        if ((int) $language_id === 0 && !is_integer($language_id)) {
-            $this->error = 'Cannot reload definitions when language id is unknown ("'.$language_id.'").';
+        if ((int)$language_id === 0 && !is_integer($language_id)) {
+            $this->error = 'Cannot reload definitions when language id is unknown ("' . $language_id . '").';
             return false;
         }
         if (!in_array($section, [1, 0, 'all', 'admin', 'storefront'], true)) {
@@ -860,12 +855,12 @@ class ALanguageManager extends Alanguage
             $this->cache->remove('storefront_menu');
         }
 
-        //get list of lang blocks for every language
+        //get a list of lang blocks for every language
         $language_blocks = [];
         if ($specific_block == 'all') {
             $language_blocks = $this->getAllLanguageBlocks($language_name);
         } else {
-            // create list of language blocks when $block is set
+            // create a list of language blocks when $block is set
             $blocks = $this->getAllLanguageBlocks($language_name);
             foreach ($sections as $sect) {
                 foreach ($blocks[$sect] as $rt) {
@@ -888,21 +883,21 @@ class ALanguageManager extends Alanguage
         }
 
         foreach ($sections as $sect) {
-            $alang = new ALanguage($this->registry, $language_code, ($sect == 'admin' ? 1 : 0));
+            $aLang = new ALanguage($this->registry, $language_code, ($sect == 'admin' ? 1 : 0));
             // load into db extensions definitions
             if ($language_blocks['extensions'][$sect]) {
                 foreach ($language_blocks['extensions'][$sect] as $rt) {
                     if ($specific_block != 'all' && $rt != $specific_block) {
                         continue;
                     }
-                    $alang->load($rt, 'silent');
+                    $aLang->load($rt, 'silent');
                 }
             }
 
             // load into db core admin & storefront
             if ($language_blocks[$sect]) {
                 foreach ($language_blocks[$sect] as $rt) {
-                    $alang->load($rt, 'silent');
+                    $aLang->load($rt, 'silent');
                 }
             }
         }
@@ -930,38 +925,36 @@ class ALanguageManager extends Alanguage
             ],
         ];
         // admin
-        $lang_dir = DIR_LANGUAGE.$language_name;
+        $lang_dir = DIR_LANGUAGE . $language_name;
 
         $xml_files = getFilesInDir($lang_dir, 'xml');
         foreach ($xml_files as $file) {
-            $result['admin'][] = str_replace('.xml', '', str_replace($lang_dir.'/', '', $file));
+            $result['admin'][] = str_replace('.xml', '', str_replace($lang_dir . DS, '', $file));
         }
         //storefront
-        $lang_dir = DIR_STOREFRONT.'language/'.$language_name;
+        $lang_dir = DIR_STOREFRONT . 'language' . DS . $language_name;
         $xml_files = getFilesInDir($lang_dir, 'xml');
         foreach ($xml_files as $file) {
-            $result['storefront'][] = str_replace('.xml', '', str_replace($lang_dir.'/', '', $file));
+            $result['storefront'][] = str_replace('.xml', '', str_replace($lang_dir . DS, '', $file));
         }
 
         // extensions
-        $extensions_dirs = glob(DIR_EXT.'*', GLOB_ONLYDIR);
+        $extensions_dirs = glob(DIR_EXT . '*', GLOB_ONLYDIR);
 
         foreach ($extensions_dirs as $extension_dir) {
-            //$extension_name = pathinfo($extension_dir,PATHINFO_BASENAME);
-            $lang_dir = $extension_dir.'/admin/language/'.$language_name;
+            $lang_dir = $extension_dir . DS . 'admin' . DS . 'language' . DS . $language_name;
             if (is_dir($lang_dir)) {
                 $xml_files = getFilesInDir($lang_dir, 'xml');
                 foreach ($xml_files as $file) {
-                    $result['extensions']['admin'][] = str_replace('.xml', '', str_replace($lang_dir.'/', '', $file));
+                    $result['extensions']['admin'][] = str_replace('.xml', '', str_replace($lang_dir . DS, '', $file));
                 }
             }
 
-            $lang_dir = $extension_dir.'/storefront/language/'.$language_name;
+            $lang_dir = $extension_dir . DS . 'storefront' . DS . 'language' . DS . $language_name;
             if (is_dir($lang_dir)) {
                 $xml_files = getFilesInDir($lang_dir, 'xml');
                 foreach ($xml_files as $file) {
-                    $result['extensions']['storefront'][] =
-                        str_replace('.xml', '', str_replace($lang_dir.'/', '', $file));
+                    $result['extensions']['storefront'][] = str_replace('.xml', '', str_replace($lang_dir . DS, '', $file));
                 }
             }
         }
@@ -969,7 +962,7 @@ class ALanguageManager extends Alanguage
     }
 
     /**
-     * Translate provided text to requested language
+     * Translate provided a text to the requested language
      * Configured method is used (default translation is a COPY)
      *
      * @param string $source_lang_code - two-letters language code (ISO 639-1)
@@ -988,7 +981,7 @@ class ALanguageManager extends Alanguage
         if (!$source_lang_code || !$dest_lang_code) {
             return false;
         }
-        if(!$src_text){
+        if (!$src_text) {
             return $src_text;
         }
 
@@ -999,14 +992,14 @@ class ALanguageManager extends Alanguage
         $result_txt = '';
         $extensions = $this->registry->get('extensions')->getEnabledExtensions();
         if (in_array($translate_method, $extensions)) {
-            $ex_class = DIR_EXT.$translate_method.'/core/translator.php';
+            $ex_class = DIR_EXT . $translate_method . DS . 'core' . DS . 'translator.php';
             if (file_exists($ex_class)) {
                 /** @noinspection PhpIncludeInspection */
                 require_once($ex_class);
                 $translate_driver = new translator($this->registry->get('config'));
                 $result_txt = $translate_driver->translate($source_lang_code, $src_text, $dest_lang_code);
             } else {
-                throw new AException(AC_ERR_LOAD, 'Error: Could not load translations class '.$ex_class.'!');
+                throw new AException(AC_ERR_LOAD, 'Error: Could not load translations class ' . $ex_class . '!');
             }
 
             //fail over to default 'copy_source_text' method
@@ -1014,12 +1007,12 @@ class ALanguageManager extends Alanguage
                 $result_txt = $src_text;
             }
             ADebug::checkpoint(
-                "ALanguageManager: Translated text:".$src_text." from ".$source_lang_code." to ".$dest_lang_code
+                "ALanguageManager: Translated text:" . $src_text . " from " . $source_lang_code . " to " . $dest_lang_code
             );
         } else {
             //fail over to default 'copy_source_text' method
             if ($mode == 'safe' || $translate_method == 'copy_source_text') {
-                $result_txt = (string) $src_text;
+                $result_txt = (string)$src_text;
             }
         }
         $this->registry->get('extensions')->hk_UpdateData($this, __FUNCTION__);
@@ -1042,7 +1035,8 @@ class ALanguageManager extends Alanguage
         $source_lang_code,
         $dest_lang_code,
         $translate_method = ''
-    ) {
+    )
+    {
         if (empty($source_lang_code) || empty($unserialized) || empty($dest_lang_code)) {
             return null;
         }
@@ -1080,7 +1074,8 @@ class ALanguageManager extends Alanguage
         $source_lang_code,
         $dest_lang_code,
         $translate_method
-    ) {
+    )
+    {
         if (!is_array($array)) {
             return $array;
         }
@@ -1126,18 +1121,18 @@ class ALanguageManager extends Alanguage
     {
         $translators = $this->registry->get('extensions')->getExtensionsList(
             [
-                'category' => 'Translators',
-                'status'   => 1,
+                'category'   => 'Translators',
+                'status'     => 1,
                 'sort_order' => ['name'],
             ]
         );
 
-        return [ 'copy_source_text' => $this->get('text_copy_source_text','localisation/language') ]
-            + array_column($translators->rows, 'name','key');
+        return ['copy_source_text' => $this->get('text_copy_source_text', 'localisation/language')]
+            + array_column($translators->rows, 'name', 'key');
     }
 
     /**
-     * PR: Duplicate row from default language to new and translate if needed
+     * PR: Duplicate row from the default language to new and translate if needed
      *
      * @param string $tableNameWithPrefix
      * @param array $priKeys
@@ -1150,70 +1145,82 @@ class ALanguageManager extends Alanguage
      * @throws AException
      */
     public function cloneLanguageRows(
-        string $tableNameWithPrefix,
-        array $priKeys,
-        int $dstLanguageId,
-        int $srcLanguageId = 1,
+        string  $tableNameWithPrefix,
+        array   $priKeys,
+        int     $dstLanguageId,
+        int     $srcLanguageId = 1,
         ?string $specificSql = '',
         ?string $translateMethod = ''
-    ) {
+    )
+    {
 
-        if (!$tableNameWithPrefix || !$priKeys || !$dstLanguageId  || !$srcLanguageId ) {
+        if (!$tableNameWithPrefix || !$priKeys || !$dstLanguageId || !$srcLanguageId) {
             return null;
         }
+        $srcLanguageCode = $this->_get_language_code($srcLanguageId);
+        $dstLanguageCode = $this->_get_language_code($dstLanguageId);
         $priKeys = array_combine($priKeys, $priKeys);
 
         // Locate autoincrement column
-        $result = $this->db->query("SHOW COLUMNS FROM ".$tableNameWithPrefix." WHERE Extra = 'auto_increment'");
+        $result = $this->db->query(
+            "SHOW COLUMNS 
+            FROM " . $this->db->escape($tableNameWithPrefix) . " 
+            WHERE extra = 'auto_increment'"
+        );
         $autoIncrementColumn = $result->row['Field'];
 
         //get all fields that are translatable
         $translatableCols = $this->getTranslatableFields($tableNameWithPrefix);
-        $tcount = 0;
-        $sql = "SELECT ".implode(', ', $priKeys)."
-                FROM ".$tableNameWithPrefix."
-                WHERE language_id = ".$srcLanguageId.' '.$specificSql;
+        $tCount = 0;
+        $sql = "SELECT " . implode(', ', $priKeys) . "
+                FROM " . $tableNameWithPrefix . "
+                WHERE language_id = " . $srcLanguageId . ' ' . $specificSql;
 
         $tables_query = $this->db->query($sql);
         if ($tables_query->num_rows) {
-            $langFiles = array_column($this->available_languages,'filename','language_id');
+            $langFiles = array_column($this->available_languages, 'filename', 'language_id');
             foreach ($tables_query->rows as $row) {
-                #Check if to be saved data exists for new language
-                $sqlDst = "SELECT * FROM ".$tableNameWithPrefix." WHERE language_id = ".$dstLanguageId;
-                $sqlSrc = "SELECT * FROM ".$tableNameWithPrefix." WHERE language_id = ".$srcLanguageId;
+                #Check if to be saved data exists for a new language
                 $whereDst = $whereSrc = '';
                 foreach ($priKeys as $priColumn) {
                     //Skip language_id and autoincrement from the key. autoincrement is unique by itself.
-                    if ($priColumn != 'language_id' && $priColumn != $autoIncrementColumn) {
+                    if (!in_array($priColumn, ['language_id', $autoIncrementColumn])) {
                         if (in_array($row[$priColumn], $langFiles)) {
-                            $whereDst .= " AND ".$priColumn." = '".$this->db->escape($langFiles[$dstLanguageId])."'";
-                            $whereSrc .= " AND ".$priColumn." = '".$this->db->escape($langFiles[$srcLanguageId])."'";
+                            $whereDst .= " AND " . $this->db->escape($priColumn) . " = '" . $this->db->escape($langFiles[$dstLanguageId]) . "'";
+                            $whereSrc .= " AND " . $this->db->escape($priColumn) . " = '" . $this->db->escape($langFiles[$srcLanguageId]) . "'";
                         } else {
-                            $whereDst .= " AND ".$priColumn." = '".$this->db->escape($row[$priColumn])."'";
-                            $whereSrc .= " AND ".$priColumn." = '".$this->db->escape($row[$priColumn])."'";
+                            $whereDst .= " AND " . $this->db->escape($priColumn) . " = '" . $this->db->escape($row[$priColumn]) . "'";
+                            $whereSrc .= " AND " . $this->db->escape($priColumn) . " = '" . $this->db->escape($row[$priColumn]) . "'";
                         }
                     }
                 }
 
-                $sqlDst .= $whereDst;
-                $sqlSrc .= $whereSrc;
-
+                $sqlDst = "SELECT * 
+                           FROM " . $this->db->escape($tableNameWithPrefix) . " 
+                           WHERE language_id = " . $dstLanguageId . PHP_EOL
+                            . $whereDst;
                 $res = $this->db->query($sqlDst);
                 $translatedRow = $res->row;
 
+                $sqlSrc = "SELECT * 
+                           FROM " . $this->db->escape($tableNameWithPrefix) . " 
+                           WHERE language_id = " . $srcLanguageId . PHP_EOL
+                            . $whereSrc;
                 $res = $this->db->query($sqlSrc);
                 $sourceRows = $res->rows;
-                foreach ($sourceRows as $srcRow) {
 
+                foreach ($sourceRows as $srcRow) {
                     $insert_data = [];
                     foreach ($srcRow as $columnName => $srcValue) {
+                        //do not fill autoincrement column value
+                        if($columnName == $autoIncrementColumn){
+                            continue;
+                        }
                         if ($columnName == 'language_id') {
                             $translated = $dstLanguageId;
-                        } elseif ($columnName == $autoIncrementColumn) {
-                            $translated = null;
                         } else {
                             if ($columnName == 'block' && $srcValue == $langFiles[$srcLanguageId]) {
-                                //language specific field for main language block. use destination language
+                                //language-specific field for the main language block. use destination language
                                 $translated = $langFiles[$dstLanguageId];
                             } elseif (
                                 ($srcValue || ($srcValue == $translatedRow[$columnName]))
@@ -1222,28 +1229,27 @@ class ALanguageManager extends Alanguage
                             ) {
                                 //we need to translate
                                 $translated = $this->translate(
-                                    $this->_get_language_code($srcLanguageId),
+                                    $srcLanguageCode,
                                     $srcValue,
-                                    $this->_get_language_code($dstLanguageId),
+                                    $dstLanguageCode,
                                     $translateMethod
                                 );
-                                //if one of translation is null - means that translation failed
+                                //if one of the translations is null - means that translation failed
                                 // interrupt translation
                                 if ($translated === false && $translateMethod != 'copy_source_text') {
-                                    return "Translation skipped for table ".$tableNameWithPrefix;
+                                    return "Translation skipped for table " . $tableNameWithPrefix;
                                 }
-                            }else{
+                            } else {
                                 $translated = $srcValue;
                             }
                         }
-
                         $insert_data[$columnName] = $this->db->escape($translated);
                     }
 
-                    if (!empty($insert_data)) {
-                        $insert_sql = "REPLACE INTO ".$tableNameWithPrefix."
-                                            (".implode(',', array_keys($insert_data)).")
-                                        VALUES ('".implode("','", $insert_data)."')";
+                    if ($insert_data) {
+                        $insert_sql = "REPLACE INTO " . $this->db->escape($tableNameWithPrefix) . PHP_EOL . "
+                                            (" . implode(',', array_keys($insert_data)) . ")" . PHP_EOL . "
+                                        VALUES ('" . implode("','", $insert_data) . "')";
                         ADebug::variable('class ALanguage cloning data: ', $insert_sql);
                         if ($tableNameWithPrefix == $this->db->table('language_definitions')) {
                             //#PR There are some key condition in definitions that can be
@@ -1268,125 +1274,115 @@ class ALanguageManager extends Alanguage
                                 $this->db->query($insert_sql);
                             }
                         }
-                        $tcount++;
+                        $tCount++;
                     }
                 }
 
             }
-            if ($tcount > 0) {
-                $this->cache->remove('localization');
+            if ($tCount > 0) {
+                $this->cache?->remove('localization');
             }
         }
-        return "Total: ".$tcount." language entries cloned for table ".$tableNameWithPrefix;
+        return "Total: " . $tCount . " language entries cloned for table " . $tableNameWithPrefix;
     }
 
     /**
-     * #PR select all tables that use language_id field and related to language
+     * select all tables that can be translated
+     *
+     * @param bool $withDataOnly
+     * @return array
+     * @throws AException
+     */
+    public function getLanguageBasedTables(bool $withDataOnly = false)
+    {
+        $cacheKey = 'tables.language_based_tables.' . $withDataOnly;
+        $loadData = $this->cache?->pull($cacheKey);
+        if (!$loadData) {
+            $sql = "SELECT DISTINCT c1.table_name as `table_name`, t.table_rows as `row_count`
+                    FROM information_schema.columns c1
+                    INNER JOIN information_schema.columns c2
+                            ON (c2.table_name = c1.table_name
+                                AND c2.table_schema = c1.table_schema
+                                AND c2.column_comment='translatable')   
+                    INNER JOIN information_schema.tables t
+                        ON (t.table_name = c1.table_name AND t.table_schema = c1.table_schema)
+                    WHERE c1.column_name = 'language_id'
+                        AND c1.table_schema='" . $this->db->escape(DB_DATABASE) . "'" . PHP_EOL;
+            if ($withDataOnly) {
+                $sql .= "AND t.table_rows > 0".PHP_EOL;
+            }
+
+            $sql .= "ORDER BY c1.table_name";
+
+            $result = $this->db->query($sql);
+            $loadData = array_column($result->rows, 'row_count', 'table_name');
+            $this->cache?->push($cacheKey, $loadData);
+        }
+        return $loadData;
+    }
+
+    /**
+     * select all column's list for the table that can be translated
+     *
+     * @param string $tableName
      *
      * @return array
      * @throws AException
      */
-    public function getLanguageBasedTables()
+    public function getTranslatableFields(string $tableName)
     {
-        $cache_key = 'tables.language_based_tables';
-        $load_data = [];
-        if ($this->cache) {
-            $load_data = $this->cache->pull($cache_key);
-        }
-        if (!$load_data) {
-            $sql = "SELECT DISTINCT table_name as `table_name` 
-                    FROM information_schema.columns 
-                    WHERE column_name = 'language_id' AND table_schema='".DB_DATABASE."'";
-            $load_sql = $this->db->query($sql);
-            $load_data = $load_sql->rows;
-            if ($this->cache) {
-                $this->cache->push($cache_key, $load_data);
-            }
-        }
-        return $load_data;
-    }
-
-    /**
-     * #PR select all fields for the table that can be translated
-     *
-     * @param string $table_name
-     *
-     * @return array
-     * @throws AException
-     */
-    public function getTranslatableFields($table_name)
-    {
-        if (empty($table_name)) {
+        if (!$tableName) {
             return [];
         }
 
-        $cache_key = "tables.translatable.".$table_name;
-        $load_data = [];
+        $cacheKey = "tables.translatable." . $tableName;
         // check memory first and cache next
-        if ($this->translatable_fields[$table_name]) {
-            return $this->translatable_fields[$table_name];
+        if ($this->translatable_fields[$tableName]) {
+            return $this->translatable_fields[$tableName] ?: [];
         } else {
-            if ($this->cache) {
-                $load_data = $this->cache->pull($cache_key);
-            }
+            $output = $this->cache?->pull($cacheKey) ?: [];
         }
-        if ($load_data) {
-            //save to memory
-            $this->translatable_fields[$table_name] = $load_data;
-            return $load_data;
-        } else {
-            $result = [];
+        if (!$output) {
             $sql = "SELECT `column_name` as `COLUMN_NAME` 
                     FROM information_schema.columns 
-                    WHERE table_name='".$this->db->escape($table_name)."' 
+                    WHERE table_name='" . $this->db->escape($tableName) . "' 
                         AND column_comment='translatable'
                     GROUP BY column_name";
             $load_sql = $this->db->query($sql);
-            $load_data = $load_sql->rows;
-            //transform to single dimension
-            foreach ($load_data as $row) {
-                $result[] = $row['COLUMN_NAME'];
-            }
-            //save cache
-            if ($this->cache) {
-                $this->cache->push($cache_key, $result);
-            }
-            //save to memory
-            $this->translatable_fields[$table_name] = $result;
-            return $result;
+            $output = array_column($load_sql->rows, 'COLUMN_NAME');
+            $this->cache?->push($cacheKey, $output);
         }
+        //save to memory
+        $this->translatable_fields[$tableName] = $output;
+        return $output;
     }
 
     /**
-     * #PR select al primary keys for the table
+     * select all primary keys column names for the table
      *
-     * @param $table_name
+     * @param string $tableName
      *
      * @return array
      * @throws AException
      */
-    public function getPrimaryKeys($table_name)
+    public function getPrimaryKeys(string $tableName)
     {
-        $pkeys = [];
-        if (!trim($table_name)) {
-            return $pkeys;
+        if (!trim($tableName)) {
+            return [];
         }
-        #get primary keys
-        $sql = "SHOW INDEX FROM ".$table_name."
-                WHERE Key_name = 'PRIMARY'";
-        $primary_query = $this->db->query($sql);
-        foreach ($primary_query->rows as $value) {
-            $pkeys[] = $value['Column_name'];
-        }
-        return $pkeys;
+        //get primary keys
+        $sql = "SHOW INDEX FROM " . $this->db->escape($tableName) . "
+                WHERE key_name = 'PRIMARY'";
+        $result = $this->db->query($sql);
+        return array_column($result->rows, 'Column_name');
     }
 
     /**
-     * @param $locale
+     * @param string $locale
      *
      * @return null|string
      */
-    public function getLanguageCodeByLocale($locale)
+    public function getLanguageCodeByLocale(string $locale)
     {
         if (empty($locale)) {
             return null;
@@ -1406,14 +1402,13 @@ class ALanguageManager extends Alanguage
      *
      * @return null|int
      */
-    public function getLanguageIdByCode($code)
+    public function getLanguageIdByCode(string $code): ?int
     {
         foreach ($this->available_languages as $lang) {
-            if (is_int(stripos($lang['locale'], $code))) {
-                return $lang['language_id'];
+            if (str_contains($lang['locale'], $code)) {
+                return (int)$lang['language_id'];
             }
         }
         return null;
     }
-
 }

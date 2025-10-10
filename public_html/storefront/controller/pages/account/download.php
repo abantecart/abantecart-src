@@ -123,10 +123,10 @@ class ControllerPagesAccountDownload extends AController
                     $rl = new AResource('download');
                     $resource = $rl->getResource($download_info['filename']);
                     if ($resource && $resource['resource_path']) {
-                        $size = filesize(DIR_RESOURCE . $rl->getTypeDir() . $resource['resource_path']);
+                        $size = filesize(DIR_RESOURCE . $rl->getTypeDir() . str_replace('/', DS, $resource['resource_path']));
                     }
                 } else {
-                    $size = filesize(DIR_RESOURCE . $download_info['filename']);
+                    $size = filesize(DIR_RESOURCE . str_replace('/', DS, $download_info['filename']));
                 }
                 $i = 0;
                 while (($size / 1024) > 1) {

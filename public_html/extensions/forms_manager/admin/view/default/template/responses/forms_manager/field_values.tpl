@@ -1,5 +1,4 @@
 <div class="row">
-
 	<div class="col-md-6 panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title"><?php echo $field_data['field_name']; ?></h3>
@@ -8,29 +7,31 @@
 			<div class="form-group">
 				<label class="heading col-sm-10"><?php echo $text_field_type; ?>: <?php echo $field_type; ?></label>
 				<div class="input-group col-sm-2">
-				<a class=" pull-right btn btn-default tooltips"
-				   href="<?php echo $button_remove_field->href; ?>"
-				   data-original-title="<?php echo $button_remove_field->text; ?>" data-confirmation="delete">
-				    <i class="fa fa-trash-o"></i>
-				</a>
+                    <?php if(!$field_data['locked']){ ?>
+                    <a class=" pull-right btn btn-default tooltips"
+                       href="<?php echo $button_remove_field->href; ?>"
+                       data-original-title="<?php echo $button_remove_field->text; ?>" data-confirmation="delete">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                <?php } ?>
 				</div>
 			</div>
 
 			<?php
-			$fields = array(
+			$fields = [
 					'entry_status' => 'status',
 					'entry_field_name' => 'field_name',
 					'entry_field_description' => 'field_description',
 					'entry_field_note' => 'field_note',
+                    'entry_field_group' => 'field_group',
 					'entry_sort_order' => 'field_sort_order',
 					'entry_required' => 'required',
+					'entry_icon' => 'icon',
+					'entry_html_attributes' => 'field_attributes',
 					'entry_regexp_pattern' => 'field_regexp_pattern',
 					'entry_error_text' => 'field_error_text'
-			);
-
-
-			foreach ($fields as $e=>$name) { ?>
-			<?php
+            ];
+        foreach ($fields as $e=>$name) {
 			$entry = $$e;
 			$field = $$name;
 			if(!$field){ continue;}
@@ -39,35 +40,33 @@
 				continue;
 			}
 			//Logic to calculate fields width
-			$widthcasses = "col-sm-6";
-			if (is_int(stripos($field->style, 'large-field'))) {
-				$widthcasses = "col-sm-6";
-			} else if (is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date'))) {
-				$widthcasses = "col-sm-6";
-			} else if (is_int(stripos($field->style, 'small-field')) ) {
-				$widthcasses = "col-sm-3";
-			} else if (is_int(stripos($field->style, 'tiny-field'))) {
-				$widthcasses = "col-sm-2";
+			$widthCssClasses = "col-sm-6";
+            if ( str_contains($field->style, 'small-field') ) {
+				$widthCssClasses = "col-sm-3";
+			} else if ( str_contains($field->style, 'tiny-field') ) {
+				$widthCssClasses = "col-sm-2";
 			}
-			$widthcasses .= " col-xs-12";
-			?>
+			$widthCssClasses .= " col-xs-12";
+?>
 			<div class="form-group <?php if (!empty($error[$name])) {
 				echo "has-error";
 			} ?>">
-				<label class="control-label col-md-6"
-					   for="<?php echo $field->element_id; ?>"><?php echo $entry; ?></label>
-
-				<div class="input-group input-group-sm afield <?php echo $widthcasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '')?>">
-					<?php echo $field;?>
+				<label class="control-label col-md-6" for="<?php echo $field->element_id; ?>">
+                    <?php echo $entry; ?>
+                </label>
+				<div class="input-group input-group-sm afield <?php echo $widthCssClasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '')?>">
+					<?php
+                    $field->attr .= ' autocomplete="off" ';
+                    echo $field;?>
 				</div>
-				<?php if (!empty($error[$name])) { ?>
-				<span class="help-block field_err"><?php echo $error[$name]; ?></span>
+				<?php if ($error[$name]) { ?>
+				    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
 				<?php } ?>
 			</div>
-			<?php } ?>
-			<?php echo $field_settings; ?>
-
+			<?php }
+            echo $field_settings; ?>
 		</div>
+        <?php echo $resources_scripts; ?>
 		<div class="panel-footer">
 			<div class="center">
 				<button id="update_field" class="btn btn-primary">

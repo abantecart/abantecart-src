@@ -1,23 +1,24 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
-
+<?php
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
+
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
@@ -185,7 +186,7 @@ class ModelSaleOrder extends Model
      */
     public function deleteOrderTotal($order_id, $order_total_id)
     {
-        if (!has_value($order_id) && !has_value($order_total_id)) {
+        if (!$order_id && !$order_total_id) {
             return false;
         }
 
@@ -1238,11 +1239,11 @@ class ModelSaleOrder extends Model
 
         if ($order_query->num_rows) {
             //Decrypt order data
-            $order_row = $this->dcrypt->decrypt_data($order_query->row, 'orders');
+            $orderRow = $this->dcrypt->decrypt_data($order_query->row, 'orders');
 
             $this->load->model('localisation/country');
             $this->load->model('localisation/zone');
-            $country_row = $this->model_localisation_country->getCountry($order_row['shipping_country_id']);
+            $country_row = $this->model_localisation_country->getCountry($orderRow['shipping_country_id']);
             if ($country_row) {
                 $shipping_iso_code_2 = $country_row['iso_code_2'];
                 $shipping_iso_code_3 = $country_row['iso_code_3'];
@@ -1251,14 +1252,14 @@ class ModelSaleOrder extends Model
                 $shipping_iso_code_3 = '';
             }
 
-            $zone_row = $this->model_localisation_zone->getZone($order_row['shipping_zone_id']);
+            $zone_row = $this->model_localisation_zone->getZone($orderRow['shipping_zone_id']);
             if ($zone_row) {
                 $shipping_zone_code = $zone_row['code'];
             } else {
                 $shipping_zone_code = '';
             }
 
-            $country_row = $this->model_localisation_country->getCountry($order_row['payment_country_id']);
+            $country_row = $this->model_localisation_country->getCountry($orderRow['payment_country_id']);
             if ($country_row) {
                 $payment_iso_code_2 = $country_row['iso_code_2'];
                 $payment_iso_code_3 = $country_row['iso_code_3'];
@@ -1267,81 +1268,32 @@ class ModelSaleOrder extends Model
                 $payment_iso_code_3 = '';
             }
 
-            $zone_row = $this->model_localisation_zone->getZone($order_row['payment_zone_id']);
+            $zone_row = $this->model_localisation_zone->getZone($orderRow['payment_zone_id']);
             if ($zone_row) {
                 $payment_zone_code = $zone_row['code'];
             } else {
                 $payment_zone_code = '';
             }
 
-            $order_data = [
-                'order_id'                => $order_row['order_id'],
-                'invoice_id'              => $order_row['invoice_id'],
-                'invoice_prefix'          => $order_row['invoice_prefix'],
-                'store_id'                => $order_row['store_id'],
-                'store_name'              => $order_row['store_name'],
-                'store_url'               => $order_row['store_url'],
-                'customer_id'             => $order_row['customer_id'],
-                'customer_group_id'       => $order_row['customer_group_id'],
-                'firstname'               => $order_row['firstname'],
-                'lastname'                => $order_row['lastname'],
-                'telephone'               => $order_row['telephone'],
-                'fax'                     => $order_row['fax'],
-                'email'                   => $order_row['email'],
-                'shipping_firstname'      => $order_row['shipping_firstname'],
-                'shipping_lastname'       => $order_row['shipping_lastname'],
-                'shipping_company'        => $order_row['shipping_company'],
-                'shipping_address_1'      => $order_row['shipping_address_1'],
-                'shipping_address_2'      => $order_row['shipping_address_2'],
-                'shipping_postcode'       => $order_row['shipping_postcode'],
-                'shipping_city'           => $order_row['shipping_city'],
-                'shipping_zone_id'        => $order_row['shipping_zone_id'],
-                'shipping_zone'           => $order_row['shipping_zone'],
-                'shipping_zone_code'      => $shipping_zone_code,
-                'shipping_country_id'     => $order_row['shipping_country_id'],
-                'shipping_country'        => $order_row['shipping_country'],
-                'shipping_iso_code_2'     => $shipping_iso_code_2,
-                'shipping_iso_code_3'     => $shipping_iso_code_3,
-                'shipping_address_format' => $order_row['shipping_address_format'],
-                'shipping_method'         => $order_row['shipping_method'],
-                'shipping_method_key'     => $order_row['shipping_method_key'],
-                'payment_firstname'       => $order_row['payment_firstname'],
-                'payment_lastname'        => $order_row['payment_lastname'],
-                'payment_company'         => $order_row['payment_company'],
-                'payment_address_1'       => $order_row['payment_address_1'],
-                'payment_address_2'       => $order_row['payment_address_2'],
-                'payment_postcode'        => $order_row['payment_postcode'],
-                'payment_city'            => $order_row['payment_city'],
-                'payment_zone_id'         => $order_row['payment_zone_id'],
-                'payment_zone'            => $order_row['payment_zone'],
-                'payment_zone_code'       => $payment_zone_code,
-                'payment_country_id'      => $order_row['payment_country_id'],
-                'payment_country'         => $order_row['payment_country'],
-                'payment_iso_code_2'      => $payment_iso_code_2,
-                'payment_iso_code_3'      => $payment_iso_code_3,
-                'payment_address_format'  => $order_row['payment_address_format'],
-                'payment_method'          => $order_row['payment_method'],
-                'payment_method_key'      => $order_row['payment_method_key'],
-                'comment'                 => $order_row['comment'],
-                'total'                   => $order_row['total'],
-                'order_status_id'         => $order_row['order_status_id'],
-                'language_id'             => $order_row['language_id'],
-                'currency_id'             => $order_row['currency_id'],
-                'currency'                => $order_row['currency'],
-                'value'                   => $order_row['value'],
-                'coupon_id'               => $order_row['coupon_id'],
-                'date_modified'           => $order_row['date_modified'],
-                'date_added'              => $order_row['date_added'],
-                'ip'                      => $order_row['ip'],
-            ];
+            $output = array_merge(
+                $orderRow,
+                [
+                    'shipping_zone_code'  => $shipping_zone_code,
+                    'shipping_iso_code_2' => $shipping_iso_code_2,
+                    'shipping_iso_code_3' => $shipping_iso_code_3,
+                    'payment_zone_code'   => $payment_zone_code,
+                    'payment_iso_code_2'  => $payment_iso_code_2,
+                    'payment_iso_code_3'  => $payment_iso_code_3,
+                    'ext_fields'          => $orderRow['ext_fields'] ? json_decode($orderRow['ext_fields'], true) : [],
+                ]
+            );
 
-            if (has_value($order_row['payment_method_data'])) {
-                $order_data['payment_method_data'] = $order_row['payment_method_data'];
+            if (has_value($orderRow['payment_method_data'])) {
+                $output['payment_method_data'] = $orderRow['payment_method_data'];
             }
 
-            $order_data['im'] = $this->getImFromOrderData((int)$order_id, (int)$order_data['customer_id']);
-
-            return $order_data;
+            $output['im'] = $this->getImFromOrderData((int)$order_id, (int)$output['customer_id']);
+            return $output;
         } else {
             return false;
         }

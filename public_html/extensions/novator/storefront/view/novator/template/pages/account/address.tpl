@@ -16,61 +16,57 @@ if ($error_warning) { ?>
         <?php echo $error_warning; ?>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-<?php } ?>
+<?php }
 
-
-	<?php
-    $form['form_open']->style .= ' needs-validation';
+    //$form['form_open']->style .= ' needs-validation';
     $form['form_open']->attr .= ' novalidate';
-    echo $form['form_open']; ?>
-	<h4 class="mb-4 mt-3 pb-3 border-bottom"><?php echo $text_edit_address; ?></h4>
+    echo $form['form_open'];
+    foreach($form['fields'] as $group => $fields){ ?>
+        <?php $groupName = current($fields)->field_group_name ?: $text_edit_address;
+        if($groupName){ ?>
+            <h4><?php echo $groupName; ?></h4>
+            <?php
+        } ?>
+
 	<div class="card mb-4">
         <div class="card-body">
             <?php
-                foreach ($form['fields'] as $field_name => $field) { ?>
+                foreach ($fields as $fieldKey => $field) {
+                    if($field->type == 'hidden') {
+                        echo $field;
+                        continue;
+                    }?>
                 <div class="mb-3 row justify-content-md-center">
-                    <label for="<?php echo $field->element_id?>" class="text-nowrap col-sm-3 col-form-label me-2">
-                        <?php echo ${'entry_'.$field_name}; ?>
+                    <label for="<?php echo $field->element_id?>" class="col-sm-12 col-md-5 col-form-label me-2">
+                        <?php echo ${'entry_'.$fieldKey}; ?>
                     </label>
-                    <div class="col-sm-5">
-                        <?php echo $field; ?>
-                        <span class="help-block text-danger"><?php echo ${'error_'.$field_name}; ?></span>
+                    <div class="col-sm-12 col-md-6">
+                        <?php
+                        if(${'error_' . $fieldKey}){
+                            $field->style .= 'is-invalid';
+                        }
+                        echo $field; ?>
+                        <span class="help-block text-danger"><?php echo ${'error_'.$fieldKey}; ?></span>
                     </div>
                 </div>
             <?php } ?>
-                <div class="mb-3 row justify-content-md-center">
-                    <label for="<?php echo $field->element_id?>" class="text-nowrap col-sm-3 col-form-label me-2">
-                        <?php echo $entry_default; ?>
-                    </label>
-                    <div class="col-sm-5">
-                        <?php echo $form['default']; ?>
-                    </div>
-                </div>
                 <?php echo $this->getHookVar('address_edit_sections'); ?>
         </div>
     </div>
-        <div class="py-3 col-12 d-flex flex-wrap">
-            <a href="<?php echo $back; ?>" class="btn btn-secondary" title="<?php echo $form['back']->text ?>">
-                <i class="<?php echo $form['back']->{'icon'}; ?>"></i>
-                <?php echo $form['back']->text ?>
-            </a>
-            <button id="submit_button" type="submit"
-                    role="button"
-                    class="btn btn-primary ms-auto lock-on-click"
-                    title="<?php echo_html2view($form['submit']->name); ?>">
-                <i class="fa <?php echo $form['submit']->icon; ?>"></i>
-                <?php echo $form['submit']->name ?>
-            </button>
-        </div>
-    </form>
+    <?php } ?>
+    <div class="py-3 col-12 d-flex flex-wrap">
+        <?php
+        $form['back']->style .= 'btn-secondary';
+        $form['back']->icon = 'bi bi-arrow-left';
+        echo $form['back'];
 
-
+        $form['submit']->style .= ' btn-primary ms-auto lock-on-click';
+        $form['submit']->icon = 'fa fa-check';
+        echo $form['submit'];
+        ?>
+    </div>
+</form>
 <script type="text/javascript">
-
-<?php $cz_url = $this->html->getURL('common/zone', '&zone_id='. $zone_id); ?>
-$('#AddressFrm_country_id').change(function() {
-    $('select[name=\'zone_id\']').load('<?php echo $cz_url;?>&country_id=' + $(this).val());
-});
-$('select[name=\'zone_id\']').load('<?php echo $cz_url;?>&country_id=' + $('#AddressFrm_country_id').val());
-
+    <?php $cz_url = $this->html->getSecureURL('common/zone', '&zone_id='. $zone_id); ?>
+    $('select[name=\'zone_id\']').load('<?php echo $cz_url;?>&country_id=' + $('#AddressFrm_country_id').val());
 </script>

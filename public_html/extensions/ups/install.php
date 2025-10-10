@@ -25,8 +25,8 @@ $rm = new AResourceManager();
 $rm->setType('image');
 
 $result = copy(
-    DIR_EXT.'ups/image/logo.png',
-    DIR_RESOURCE.'image/logo.png'
+    DIR_EXT.'ups'.DS.'image'.DS.'logo.png',
+    DIR_RESOURCE.'image'.DS.'logo.png'
 );
 
 $resource = [

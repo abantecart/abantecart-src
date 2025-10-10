@@ -1,4 +1,23 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
+
 /** @noinspection PhpUndefinedClassInspection */
 
 if (!defined('DIR_CORE') || !IS_ADMIN) {
@@ -18,26 +37,26 @@ class ControllerResponsesExtensionCardConnect extends AController
         $test_mode = $this->config->get('cardconnect_test_mode') ? 'ON' : 'OFF';
         $api_endpoint = getCardConnectEndPoint();
         $merchid = $this->config->get('cardconnect_merchant_id');
-        require_once DIR_EXT.'cardconnect/core/lib/pest/PestJSON.php';
+        require_once DIR_EXT . 'cardconnect' . DS . 'core' . DS . 'lib' . DS . 'pest' . DS . 'PestJSON.php';
         $pest = new PestJSON($api_endpoint);
         $pest->throw_exceptions = false;
         try {
             $pest->setupAuth($this->config->get('cardconnect_username'), $this->config->get('cardconnect_password'));
-            $response = $pest->put($api_endpoint."auth", ['merchid' => $merchid]);
+            $response = $pest->put($api_endpoint . "auth", ['merchid' => $merchid]);
         } catch (Exception $e) {
             $response = null;
         }
 
         if (empty($response)) {
             $json['message'] = "Connection to CardConnect server can not be established. "
-                ."Check your server configuration or contact your hosting provider.";
+                . "Check your server configuration or contact your hosting provider.";
             $json['error'] = true;
         } elseif (is_array($response)) {
             $json['message'] = $this->language->get('cardconnect_connection_success');
             $json['success'] = false;
         } else {
-            $json['message'] = 'CardConnect Error: Please check your API Credentials and try again.'."\n"
-                .'Also please note that Test mode is '.$test_mode.'!';
+            $json['message'] = 'CardConnect Error: Please check your API Credentials and try again.' . "\n"
+                . 'Also please note that Test mode is ' . $test_mode . '!';
             $json['error'] = true;
         }
 
@@ -67,14 +86,15 @@ class ControllerResponsesExtensionCardConnect extends AController
                     // update main order status
                     $this->loadModel('sale/order');
                     $this->model_sale_order->addOrderHistory(
-                        $order_id, [
-                                     'order_status_id' => $this->config->get('cardconnect_status_success_settled'),
-                                     'notify'          => 0,
-                                     'append'          => 1,
-                                     'comment'         => $capture['amount'].' '.$this->language->get(
-                                             'text_captured_ok'
-                                         ),
-                                 ]
+                        $order_id,
+                        [
+                            'order_status_id' => $this->config->get('cardconnect_status_success_settled'),
+                            'notify'          => 0,
+                            'append'          => 1,
+                            'comment'         => $capture['amount'] . ' ' . $this->language->get(
+                                    'text_captured_ok'
+                                ),
+                        ]
                     );
                     $mdl->addTransaction(
                         $cardconnect_order['cardconnect_order_id'],
@@ -136,10 +156,10 @@ class ControllerResponsesExtensionCardConnect extends AController
                     $this->model_sale_order->addOrderHistory(
                         $order_id,
                         [
-                             'order_status_id' => $this->config->get('cardconnect_status_refund'),
-                             'notify'          => 0,
-                             'append'          => 1,
-                             'comment'         => $amount.' '.$this->language->get('text_refunded_ok'),
+                            'order_status_id' => $this->config->get('cardconnect_status_refund'),
+                            'notify'          => 0,
+                            'append'          => 1,
+                            'comment'         => $amount . ' ' . $this->language->get('text_refunded_ok'),
                         ]
                     );
                     $mdl->addTransaction(
@@ -158,11 +178,10 @@ class ControllerResponsesExtensionCardConnect extends AController
                 $json['msg'] = $this->language->get('error_unable_to_refund');
             }
         } else {
+            $json['error'] = true;
             if ($this->request->post['amount'] <= 0 || !$amount) {
-                $json['error'] = true;
                 $json['msg'] = $this->language->get('error_missing_amount');
             } else {
-                $json['error'] = true;
                 $json['msg'] = $this->language->get('error_system');
             }
         }

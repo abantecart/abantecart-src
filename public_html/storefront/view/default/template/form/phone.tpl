@@ -1,6 +1,9 @@
 <?php if(!$no_wrapper){?>
     <div class="input-group h-100">
-<?php } ?>
+<?php }
+if($icon){?>
+    <div class="input-group-text" title="<?php echo_html2view($display_name);?>"><?php echo $icon; ?></div>
+<?php }?>
 <input type="tel"
        name="<?php echo $name ?>"
        id="<?php echo $id ?>"

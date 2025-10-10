@@ -36,12 +36,12 @@
 
     <div class="panel-heading col-xs-12">
         <div class="primary_content_actions pull-left">
-            <a class="btn btn-default lock-on-click tooltips" href="<?php echo $reset_url; ?>" title="<?php echo $button_reset; ?>">
+            <a class="btn btn-default lock-on-click tooltips" href="<?php echo $reset_url; ?>" title="<?php echo_html2view($button_reset); ?>">
                 <i class="fa fa-refresh fa-fw"></i>
             </a>
             <?php if ( !$import_ready ) { ?>
             &nbsp;
-            <a href="#" class="btn btn-default export_map tooltips" data-toggle="modal" data-target="#load_map_modal" title="<?php echo $text_load_map; ?>">
+            <a href="#" class="btn btn-default export_map tooltips" data-toggle="modal" data-target="#load_map_modal" title="<?php echo_html2view($text_load_map); ?>">
                 <i class="fa fa-code fa-fw"></i>
             </a>
             <?php } ?>
@@ -161,7 +161,7 @@
                     data-run-task-url="<?php echo $form['build_task_url'] ?>"
                     data-complete-task-url="<?php echo $form['complete_task_url'] ?>"
                     data-abort-task-url="<?php echo $form['abort_task_url'] ?>"
-                    data-task-title="<?php echo $text_import_task_title ?>">
+                    data-task-title="<?php echo_html2view($text_import_task_title) ?>">
                 <i class="fa fa-paper-plane-o fa-fw"></i> <?php echo $text_load; ?>
             </button>
             <a href="<?php echo $form['schedule_url']; ?>" class="btn btn-primary">
@@ -170,7 +170,7 @@
             <a href="#" class="btn btn-default export_map" data-toggle="modal" data-target="#export_map_modal">
                 <i class="fa fa-code fa-fw"></i> <?php echo $text_export_map; ?>
             </a>
-            <a href="<?php echo $back_url; ?>" class="btn btn-default" title="<?php echo $button_back; ?>">
+            <a href="<?php echo $back_url; ?>" class="btn btn-default" title="<?php echo_html2view($button_back); ?>">
                 <i class="fa fa-arrow-left fa-fw"></i>
                 <?php echo $button_back ?>
             </a>

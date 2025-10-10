@@ -265,13 +265,13 @@ if (sizeof((array) $error_warning) > 0) {
     let display_shippings = function () {
         let postcode = encodeURIComponent($("#estimate input[name=\'postcode\']").val());
         let country_id = encodeURIComponent($('#estimate_country').val());
-        let zone_id = $('#estimate_country_zones').val();
+        let zone_id = $('#estimate_zone').val();
 
         let replace_obj = $('.shippings-offered .shipments');
         replace_obj;
         $.ajax({
             type: 'POST',
-            url: '<?php echo $this->html->getURL('r/checkout/cart/change_zone_get_shipping_methods'); ?>',
+            url: '<?php echo $this->html->getSecureURL('r/checkout/cart/change_zone_get_shipping_methods'); ?>',
             dataType: 'json',
             data: 'country_id=' + country_id + '&zone_id=' + zone_id + '&postcode=' + postcode,
             beforeSend: function () {
@@ -295,7 +295,13 @@ if (sizeof((array) $error_warning) > 0) {
                         $(replace_obj).html(data.selectbox);
                     }
                 }
-                display_totals();
+                if(zone_id) {
+                    $('#totals_table').removeClass('opacity-25');
+                    display_totals();
+                }else{
+                    $('#totals_table').addClass('opacity-25');
+                    $('#estimate_zone').focus();
+                }
             }
         });
 
@@ -351,15 +357,18 @@ if (sizeof((array) $error_warning) > 0) {
 
         display_shippings();
 
-        $(document).on("change", '#estimate_country_zones', function () {
-            //zone is changed, need to reset postcode
-            $("#estimate input[name=\'postcode\']").val('')
+        $(document).on("change", '#estimate_zone, #estimate_country', function () {
+            //zone is changed, need to reset postal code
+            $("#estimate input[name=postcode]").val('');
+            if($(this).attr('id') === 'estimate_country') {
+                $("#estimate_zone").val('');
+            }
             display_shippings();
-        })
+        });
 
         $(document).on("change", '#shippings', function () {
             display_totals();
-        })
+        });
 
         $('#estimate').submit(function () {
             display_shippings();

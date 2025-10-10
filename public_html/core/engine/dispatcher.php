@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 
 /**
  * Class ADispatcher
@@ -50,22 +50,22 @@ final class ADispatcher
     public function __construct($rt, $args = [])
     {
         $this->registry = Registry::getInstance();
-        $rt = str_replace('../', '', $rt);
+        $rt = str_replace(['../', '..' . DS], '', $rt);
         if (!empty($args)) {
             $this->args = $args;
         }
 
-        ADebug::checkpoint('ADispatch: '.$rt.' construct start');
+        ADebug::checkpoint('ADispatch: ' . $rt . ' construct start');
         // We always get full RT (route) to dispatcher. Needs to have pages/ or responses/
         if (!$this->processPath($rt)) {
-            $warning_txt = 'ADispatch: '.$rt.' construct FAILED.'
-                .' Missing or incorrect controller route path. '
-                .'Possibly, layout block is enabled for disabled or missing extension! '
-                .genExecTrace('full');
+            $warning_txt = 'ADispatch: ' . $rt . ' construct FAILED.'
+                . ' Missing or incorrect controller route path. '
+                . 'Possibly, layout block is enabled for disabled or missing extension! '
+                . genExecTrace('full');
             $warning = new AWarning($warning_txt);
             $warning->toDebug();
         }
-        ADebug::checkpoint('ADispatch: '.$rt.' construct end. file: class: '.$this->class.'; method: '.$this->method);
+        ADebug::checkpoint('ADispatch: ' . $rt . ' construct end. file: class: ' . $this->class . '; method: ' . $this->method);
     }
 
     public function __destruct()
@@ -97,23 +97,23 @@ final class ADispatcher
         $this->controller_type = $path_nodes[0];
 
         //looking for controller in admin/storefront section
-        $dir_app = DIR_APP_SECTION.'controller/';
+        $dir_app = DIR_APP_SECTION . 'controller' . DS;
         foreach ($path_nodes as $path_node) {
             $path_build .= $path_node;
 
-            if (is_dir($dir_app.$path_build)) {
+            if (is_dir($dir_app . $path_build)) {
                 $path_build .= '/';
                 array_shift($path_nodes);
                 continue;
             }
-
-            if (is_file($dir_app.$path_build.'.php')) {
+            $testFileName = str_replace('/', DS, $dir_app . $path_build . '.php');
+            if (is_file($testFileName)) {
                 //Set pure controller route
                 $this->controller = $path_build;
                 //Set full file path to controller
-                $this->file = $dir_app.$path_build.'.php';
+                $this->file = $testFileName;
                 //Build Controller class name
-                $this->class = 'Controller'.preg_replace('/[^a-zA-Z0-9]/', '', $path_build);
+                $this->class = 'Controller' . preg_replace('/[^a-zA-Z0-9]/', '', $path_build);
                 array_shift($path_nodes);
                 $pathfound = true;
                 break;
@@ -130,31 +130,29 @@ final class ADispatcher
         }
 
         // Already found the path, so return.
-        // This will optimize performance, and will not allow override core controllers.
+        // This will optimize performance and will not allow overriding core controllers.
         if ($pathfound) {
-            return $pathfound;
+            return true;
         }
 
-        // looking for controller in extensions section
+        // looking for a controller in an extensions section
         $result = $this->registry->get('extensions')->isExtensionController($rt);
         if ($result) {
             $this->controller = $result['route'];
             $this->file = $result['file'];
             $this->class = $result['class'];
             $this->method = $result['method'];
-            // if controller was found in admin/storefront section && in extensions section
-            // warning will be added to log about controller override
-            if ($pathfound) {
-                $warning = new AWarning("Extension <b>{$result['extension']}</b> override controller <b>$rt</b>");
-                $warning->toDebug();
-            }
+            // if a controller was found in admin/storefront section && in extensions section
+            // warning will be added to the log about controller override
+            $warning = new AWarning("Extension <b>" . $result['extension'] . "</b> override controller <b>" . $rt . "</b>");
+            $warning->toDebug();
             $pathfound = true;
         }
 
         return $pathfound;
     }
 
-    // Clear function is public in case controller needs to be cleaned explicitly
+    // Clear function is public in case the controller needs to be cleaned explicitly
     public function clear()
     {
         $vars = get_object_vars($this);
@@ -216,7 +214,7 @@ final class ADispatcher
      */
     public function dispatch($parent_controller = '')
     {
-        ADebug::checkpoint($this->class.'/'.$this->method.' dispatch START');
+        ADebug::checkpoint($this->class . '/' . $this->method . ' dispatch START');
 
         //Process the controller, layout and children
 
@@ -226,17 +224,17 @@ final class ADispatcher
             $backtrace = debug_backtrace();
             $function_stack = '';
             if (is_object($parent_controller) && strlen($parent_controller->rt()) > 1) {
-                $function_stack = 'Parent Controller: '.$parent_controller->rt().' | ';
+                $function_stack = 'Parent Controller: ' . $parent_controller->rt() . ' | ';
             }
 
             for ($i = 1; $i < sizeof($backtrace); $i++) {
-                $function_stack .= ' < '.$backtrace[$i]['function'];
+                $function_stack .= ' < ' . $backtrace[$i]['function'];
             }
             $url = $this->request->server['REQUEST_URI'];
             $error = new AError(
-                'Error: URL: '.$url
-                .' Could not load controller '.$this->controller.'! Call stack: '
-                .$function_stack,
+                'Error: URL: ' . $url
+                . ' Could not load controller ' . $this->controller . '! Call stack: '
+                . $function_stack,
                 AC_ERR_CLASS_CLASS_NOT_EXIST
             );
             $error->toLog()->toDebug();
@@ -253,7 +251,7 @@ final class ADispatcher
         }
 
         //check for controller.pre
-        $output_pre = $this->dispatchPrePost($this->controller.POSTFIX_PRE);
+        $output_pre = $this->dispatchPrePost($this->controller . POSTFIX_PRE);
 
         /** @noinspection PhpIncludeInspection */
         require_once($this->file);
@@ -270,7 +268,7 @@ final class ADispatcher
             );
             $controller->dispatcher = $this;
         } else {
-            $error = new AError('Error: controller class not exist '.$this->class.'!', AC_ERR_CLASS_CLASS_NOT_EXIST);
+            $error = new AError('Error: controller class not exist ' . $this->class . '!', AC_ERR_CLASS_CLASS_NOT_EXIST);
             $error->toLog()->toDebug();
         }
         try {
@@ -288,18 +286,18 @@ final class ADispatcher
 
                 $rfl = new ReflectionClass($controller);
                 $method = $rfl->getMethod($this->method);
-                if($method) {
+                if ($method) {
                     $allParameters = $method->getParameters();
-                    if($allParameters) {
+                    if ($allParameters) {
                         $methodParams = [];
                         foreach ($allParameters as $p) {
                             if (isset($args[$p->name])) {
                                 $methodParams[$p->name] = $args[$p->name];
                             }
                         }
-                        if($methodParams && isAssocArray($args)) {
+                        if ($methodParams && isAssocArray($args)) {
                             $args = $methodParams;
-                        }elseif(!$methodParams && isAssocArray($args)){
+                        } elseif (!$methodParams && isAssocArray($args)) {
                             $args = [];
                         }
                     }
@@ -310,7 +308,7 @@ final class ADispatcher
                 if ($dispatch && is_object($dispatch)) {
                     if ($this->args["instance_id"] == 0) {
                         //If main controller come back for new dispatch
-                        return $dispatch->getController().'/'.$dispatch->getMethod();
+                        return $dispatch->getController() . '/' . $dispatch->getMethod();
                     } else {
                         // Call new dispatch for new controller and exit
                         $dispatch->dispatch();
@@ -329,14 +327,14 @@ final class ADispatcher
                  */
                 $children = $controller->getChildren();
 
-                ADebug::variable('Processing children of '.$this->controller, $children);
+                ADebug::variable('Processing children of ' . $this->controller, $children);
 
                 //Process each child controller
                 foreach ($children as $child) {
                     //Add highest Debug level here with backtrace to review this
                     ADebug::checkpoint(
-                        $child['controller'].' ( child of '.$this->controller
-                        .', instance_id: '.$child['instance_id'].' ) dispatch START'
+                        $child['controller'] . ' ( child of ' . $this->controller
+                        . ', instance_id: ' . $child['instance_id'] . ' ) dispatch START'
                     );
                     //Process each child and create dispatch to call recursive
                     $dispatch = new ADispatcher($child['controller'], ["instance_id" => $child['instance_id']]);
@@ -345,7 +343,7 @@ final class ADispatcher
                     if (isset($child['position'])
                         && $child['position']) { // made for recognizing few custom_blocks in the same placeholder
                         $controller->view->assign(
-                            $child['block_txt_id'].'_'.$child['instance_id'],
+                            $child['block_txt_id'] . '_' . $child['instance_id'],
                             $this->response->getOutput()
                         );
                     } else {
@@ -353,21 +351,22 @@ final class ADispatcher
                     }
                     //clean up and remove output
                     $this->response->setOutput('');
-                    ADebug::checkpoint($child['controller'].' ( child of '.$this->controller.' ) dispatch END');
+                    ADebug::checkpoint($child['controller'] . ' ( child of ' . $this->controller . ' ) dispatch END');
                 }
                 //Request controller to generate output
                 $controller->finalize();
 
                 //check for controller.pre
-                $output_post = $this->dispatchPrePost($this->controller.POSTFIX_POST);
+                $output_post = $this->dispatchPrePost($this->controller . POSTFIX_POST);
                 //add "pre" and "post" controllers output
-                $this->response->setOutput($output_pre.$this->response->getOutput().$output_post);
+                $this->response->setOutput($output_pre . $this->response->getOutput() . $output_post);
 
                 //clean up and destroy the object
                 unset($controller, $dispatch);
             } else {
                 $err = new AError(
-                    'Error: controller method not exist '.$this->class.'::'.$this->method.'!'.PHP_EOL.'GET: '.var_export($_GET, true),
+                    'Error: controller method not exist ' . $this->class . '::'
+                    . $this->method . '!' . PHP_EOL . 'GET: ' . var_export($_GET, true),
                     AC_ERR_CLASS_METHOD_NOT_EXIST
                 );
                 $err->toLog()->toDebug();
@@ -375,8 +374,8 @@ final class ADispatcher
                     $dd = new ADispatcher('responses/error/ajaxerror/not_found');
                     $dd->dispatch();
                 }
-                if($this->controller_type == 'pages') {
-                    redirect( $this?->registry->get('html')?->getSecureURL('index/home') );
+                if ($this->controller_type == 'pages') {
+                    redirect($this?->registry->get('html')?->getSecureURL('index/home'));
                 }
             }
         } //catching output of around hook (it can be only one)
@@ -385,7 +384,7 @@ final class ADispatcher
                 throw $e;
             }
         }
-        ADebug::checkpoint($this->class.'/'.$this->method.' dispatch END');
+        ADebug::checkpoint($this->class . '/' . $this->method . ' dispatch END');
         return null;
     }
 

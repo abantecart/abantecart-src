@@ -139,23 +139,18 @@ class ControllerResponsesExtensionStripe extends AController
                 $customer_stripe_id = $this->model_extension_stripe->createStripeCustomer($this->customer);
             }
         }
-
-        $this->data['total_amount'] = round(
-                $this->currency->convert(
-                    $this->cart->getFinalTotal(),
-                    $this->config->get('config_currency'),
-                    $currency
-                ),
-                2
-            )
-            * 100;
+        foreach($this->cart->getFinalTotalData() as $totalData){
+            if($totalData['id'] == 'total'){
+                $this->data['total_amount'] = $totalData['converted']* 100;
+                break;
+            }
+        }
 
         $piDetails = [
             'capture_method' => $this->config->get('stripe_settlement'),
             'amount'         => $this->data['total_amount'],
             'currency'       => $currency,
-            'customer'       => $customer_stripe_id,
-            'receipt_email'  => $this->customer->getEmail(),
+            'receipt_email'  => $this->customer->getEmail() ?: $order_info['email'],
             'shipping'       => [
                 'address' =>
                     [
@@ -174,6 +169,9 @@ class ControllerResponsesExtensionStripe extends AController
                 "order_id" => $order_info['order_id'],
             ],
         ];
+        if($customer_stripe_id){
+            $piDetails['customer'] = $customer_stripe_id;
+        }
 
         $paymentMethods = unserialize($this->config->get('stripe_payment_method_list'));
         if ($paymentMethods) {

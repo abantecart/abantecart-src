@@ -148,7 +148,7 @@ class ModelToolBackup extends Model
             $bkp->backupDirectory(DIR_RESOURCE, false);
         }
         if ($config) {
-            $bkp->backupFile(DIR_ROOT . '/system/config.php', false);
+            $bkp->backupFile(DIR_ROOT . DS. 'system' . DS . 'config.php', false);
         }
         $result = $bkp->archive(DIR_BACKUP . $bkp->getBackupName() . '.tar.gz', DIR_BACKUP, $bkp->getBackupName());
         if (!$result) {
@@ -432,7 +432,7 @@ class ModelToolBackup extends Model
             if (in_array($d, $content_dirs)) {
                 continue;
             }
-            $item = DIR_ROOT . '/' . $d;
+            $item = DIR_ROOT . DS . $d;
             if (is_dir($item)) {
                 $dirs_size += $this->_get_directory_size($item);
             } elseif (is_file($item)) {
@@ -451,7 +451,7 @@ class ModelToolBackup extends Model
         $content_dirs = ['resources', 'image', 'download'];
         $dirs_size = 0;
         foreach ($content_dirs as $d) {
-            $dirs_size += $this->_get_directory_size(DIR_ROOT . '/' . $d);
+            $dirs_size += $this->_get_directory_size(DIR_ROOT . DS . $d);
         }
         return $dirs_size;
     }
@@ -467,20 +467,20 @@ class ModelToolBackup extends Model
         $dir_array = scandir($dir);
         foreach ($dir_array as $filename) {
             //skip backup, cache and logs
-            if (str_contains($dir . "/" . $filename, '/backup')
-                || str_contains($dir . "/" . $filename, '/cache')
-                || str_contains($dir . "/" . $filename, '/logs')
+            if (str_contains($dir . DS . $filename, DS.'backup')
+                || str_contains($dir . DS . $filename, DS.'cache')
+                || str_contains($dir . DS . $filename, DS.'logs')
             ) {
                 continue;
             }
 
             if ($filename != ".." && $filename != ".") {
-                if (is_dir($dir . "/" . $filename)) {
-                    $new_dir_size = $this->_get_directory_size($dir . "/" . $filename);
+                if (is_dir($dir . DS . $filename)) {
+                    $new_dir_size = $this->_get_directory_size($dir . DS . $filename);
                     $count_size = $count_size + $new_dir_size;
                 } else {
-                    if (is_file($dir . "/" . $filename)) {
-                        $count_size = $count_size + filesize($dir . "/" . $filename);
+                    if (is_file($dir . DS . $filename)) {
+                        $count_size = $count_size + filesize($dir . DS . $filename);
                     }
                 }
             }

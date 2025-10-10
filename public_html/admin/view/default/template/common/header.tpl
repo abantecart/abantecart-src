@@ -40,6 +40,11 @@
 			<div class="side_summary">
 				<?php include($tpl_common_dir . 'summary.tpl'); ?>
 			</div>
+            <?php if($left_ant){ ?>
+                <div class="side_left_ant_banner">
+                    <?php echo $left_ant; ?>
+                </div>
+            <?php }?>
 			<?php echo $this->getHookVar('leftpanel_bottom'); ?>
 		</div>
 	</div>
@@ -77,7 +82,7 @@
 				<li class="hidden-xs">
 					<div class="btn-group">
 						<a href="<?php echo $rl_manager_url; ?>" class="btn btn-default tp-icon">
-                            <i class="fa fa-photo"></i>
+                            <i class="fa fa-photo fa-lg"></i>
                         </a>
 					</div>
 				</li>
@@ -85,9 +90,9 @@
                 <li>
                     <div class="btn-group ant_window">
                         <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
-                            <i class="fa fa-comments fa-lg"></i>
+                            <i class="fa fa-bell fa-lg"></i>
                             <?php if ($ant_viewed <= 0){ ?>
-                                <span class="badge"><i class="fa fa-bell"></i></span>
+                                <span class="badge"><i class="fa fa-dot-circle-o"></i></span>
                             <?php } ?>
                         </button>
                         <div id="ant_dropdown" class="dropdown-menu dropdown-menu-head ant-menu-head pull-right">

@@ -40,7 +40,7 @@ class ControllerPagesSettings extends AController
         $template_data['errors'] = $this->errors;
 
         $template_data['action'] = HTTP_SERVER.'index.php?rt=settings';
-        $template_data['config_catalog'] = DIR_ABANTECART.'system/config.php';
+        $template_data['config_catalog'] = DIR_ABANTECART.'system'.DS.'config.php';
         //try to open config file or create it
         $f = fopen($template_data['config_catalog'],'a');
         fclose($f);
@@ -48,11 +48,11 @@ class ControllerPagesSettings extends AController
         $template_data['cache'] = DIR_SYSTEM.'cache';
         $template_data['logs'] = DIR_SYSTEM.'logs';
         $template_data['image'] = DIR_ABANTECART.'image';
-        $template_data['image_thumbnails'] = DIR_ABANTECART.'image/thumbnails';
+        $template_data['image_thumbnails'] = DIR_ABANTECART.'image'.DS.'thumbnails';
         $template_data['download'] = DIR_ABANTECART.'download';
         $template_data['extensions'] = DIR_ABANTECART.'extensions';
         $template_data['resources'] = DIR_ABANTECART.'resources';
-        $template_data['admin_system'] = DIR_ABANTECART.'admin/system';
+        $template_data['admin_system'] = DIR_ABANTECART.'admin'.DS.'system';
 
         $this->addChild('common/header', 'header', 'common/header.tpl');
         $this->addChild('common/footer', 'footer', 'common/footer.tpl');

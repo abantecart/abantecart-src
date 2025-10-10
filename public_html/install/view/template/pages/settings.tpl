@@ -1,4 +1,23 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
+
 function ynIcon($val){
     return $val ? '<i class="fa text-success fa-check-circle"></i>' : '<i class="fa text-danger fa-circle-minus"></i>';
 }
@@ -155,8 +174,8 @@ echo $header; ?>
 								</tr>
 								<?php if (!is_writable($config_catalog)){ ?>
 									<tr>
-										<td colspan="2"><span
-													class="text-danger">Change file permission to 777 or rwx-rwx-rwx:<br/> chmod 777 <?php echo $config_catalog; ?></span>
+										<td colspan="2">
+                                            <span class="text-danger">Change file permission to 777 or rwx-rwx-rwx:<br/> chmod 777 <?php echo $config_catalog; ?></span>
 										</td>
 									</tr>
 								<?php } ?>
@@ -187,78 +206,78 @@ echo $header; ?>
 								<?php } else{ ?>
 									<?php if (!is_writable($cache)){ ?>
 										<tr>
-											<td colspan="2"><span class="text-danger">Change directory permission to 777 or rwx-rwx-rwx:<br/> chmod 777 <?php echo $cache . '/'; ?></span>
+											<td colspan="2"><span class="text-danger">Change directory permission to 777 or rwx-rwx-rwx:<br/> chmod 777 <?php echo $cache . DS; ?></span>
 											</td>
 										</tr>
 									<?php } ?>
 									<?php if (!is_writable($logs)){ ?>
 										<tr>
-											<td colspan="2"><span class="text-danger">Change directory permission to 777 or rwx-rwx-rwx:<br/> chmod 777 <?php echo $logs . '/'; ?></span>
+											<td colspan="2"><span class="text-danger">Change directory permission to 777 or rwx-rwx-rwx:<br/> chmod 777 <?php echo $logs . DS; ?></span>
 											</td>
 										</tr>
 									<?php }
 								} ?>
 								<tr>
-									<td><?php echo $image . '/'; ?></td>
+									<td><?php echo $image . DS; ?></td>
 									<?php $_writable = is_writable($image) ?>
 									<td><?php echo $_writable ? '<span class="text-success">Writable</span>' : '<span class="text-danger">Unwritable</span>'; ?></td>
 								</tr>
 								<?php if (!$_writable){ ?>
 									<tr>
 										<td colspan="2">
-											<span class="text-danger">Change directory and all children directories permissions to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $image . '/'; ?></span>
+											<span class="text-danger">Change directory and all children directories permissions to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $image . DS; ?></span>
 										</td>
 									</tr>
 								<?php } else{ ?>
 									<?php if (!is_writable($image_thumbnails)){ ?>
 										<tr>
 											<td colspan="2">
-												<span class="text-danger">Change directory permission to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $image_thumbnails . '/'; ?></span>
+												<span class="text-danger">Change directory permission to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $image_thumbnails . DS; ?></span>
 											</td>
 										</tr>
 									<?php }
 								} ?>
 								<tr>
-									<td><?php echo $download . '/'; ?></td>
+									<td><?php echo $download . DS; ?></td>
 									<td><?php echo is_writable($download) ? '<span class="text-success">Writable</span>' : '<span class="text-danger">Unwritable</span>'; ?></td>
 								</tr>
 								<?php if (!is_writable($download)){ ?>
 									<tr>
 										<td colspan="2">
-											<span class="text-danger">Change directory permission to 777 or rwx-rwx-rwx:<br/> chmod 777 <?php echo $download . '/'; ?></span>
+											<span class="text-danger">Change directory permission to 777 or rwx-rwx-rwx:<br/> chmod 777 <?php echo $download . DS; ?></span>
 										</td>
 									</tr>
 								<?php } ?>
 								<tr>
-									<td><?php echo $extensions . '/'; ?></td>
+									<td><?php echo $extensions . DS; ?></td>
 									<td><?php echo is_writable($extensions) ? '<span class="text-success">Writable</span>' : '<span class="text-danger">Unwritable</span>'; ?></td>
 								</tr>
 								<?php if (!is_writable($extensions)){ ?>
 									<tr>
 										<td colspan="2">
-											<span class="text-danger">Change directory and all children directories permission to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $extensions . '/'; ?></span>
+											<span class="text-danger">Change directory and all children directories permission to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $extensions . DS; ?></span>
 										</td>
 									</tr>
 								<?php } ?>
 								<tr>
-									<td><?php echo $resources . '/'; ?></td>
+									<td><?php echo $resources . DS; ?></td>
 									<td><?php echo is_writable($resources) ? '<span class="text-success">Writable</span>' : '<span class="text-danger">Unwritable</span>'; ?></td>
 								</tr>
 								<?php if (!is_writable($resources)){ ?>
 									<tr>
 										<td colspan="2">
-											<span class="text-danger">Change directory and all children directories permission to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $resources . '/'; ?></span>
+											<span class="text-danger">Change directory and all children directories permission to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $resources . DS; ?></span>
 										</td>
 									</tr>
 								<?php } ?>
 								<tr>
-									<td><?php echo $admin_system . '/'; ?></td>
+									<td><?php echo $admin_system . DS; ?></td>
 									<td><?php echo is_writable($admin_system) ? '<span class="text-success">Writable</span>' : '<span class="text-danger">Unwritable</span>'; ?></td>
 								</tr>
 								<?php if (!is_writable($admin_system)){ ?>
 									<tr>
 										<td colspan="2">
-											<span class="text-danger">Change directory and all children directories permission to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $admin_system . '/'; ?></span>
+											<span class="text-danger">Change directory and all children directories permission to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $admin_system . DS; ?></span>
 										</td>
 									</tr>
 								<?php } ?>
@@ -266,13 +285,11 @@ echo $header; ?>
 							</table>
 						</div>
 					</div>
-
 					<div class="panel-footer">
 						<a class="btn btn-default" href="<?php echo $back; ?>"><i class="fa fa-arrow-left"></i> Back</a>
 						<a class="btn btn-primary pull-right" onclick="document.getElementById('form').submit()">Continue
 							<i class="fa fa-arrow-right"></i></a>
 					</div>
-
 			</div>
 			</form>
 		</div>
