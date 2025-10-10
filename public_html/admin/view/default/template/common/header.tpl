@@ -82,7 +82,7 @@
 				<li class="hidden-xs">
 					<div class="btn-group">
 						<a href="<?php echo $rl_manager_url; ?>" class="btn btn-default tp-icon">
-                            <i class="fa fa-photo"></i>
+                            <i class="fa fa-photo fa-lg"></i>
                         </a>
 					</div>
 				</li>
