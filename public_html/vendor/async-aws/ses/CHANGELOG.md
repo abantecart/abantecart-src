@@ -2,6 +2,26 @@
 
 ## NOT RELEASED
 
+## 1.13.0
+
+### Added
+
+- AWS api-change: This release introduces support for Multi-tenant management
+
+### Changed
+
+- AWS enhancement: Documentation updates.
+
+## 1.12.0
+
+### Added
+
+- AWS api-change: This release enables customers to provide attachments in the SESv2 SendEmail and SendBulkEmail APIs.
+
+### Changed
+
+- Sort exception alphabetically.
+
 ## 1.11.0
 
 ### Added
