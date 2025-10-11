@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 /** @var AController $this */
@@ -107,8 +107,8 @@ foreach($frms as $frmKey => $frmName) {
     $forms[$frmKey] = (int)$this->db->getLastId();
     foreach ($languages as $lang) {
         $langId = (int)$lang['language_id'];
-        $sql = "INSERT INTO ".$this->db->table('field_group_descriptions')." (`form_id`, `language_id`, `description`)
-                VALUES ('".$forms[$frmKey]."','".$langId."',".$this->db->escape($frmName).")";
+        $sql = "INSERT INTO ".$this->db->table('form_descriptions')." (`form_id`, `language_id`, `description`)
+                VALUES ('".$forms[$frmKey]."','".$langId."','".$this->db->escape($frmName)."')";
         $this->db->query($sql);
     }
 }
@@ -260,4 +260,3 @@ foreach ($fieldArray as $r) {
         $this->db->query($sql);
     }
 }
-
