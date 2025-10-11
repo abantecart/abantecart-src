@@ -101,7 +101,7 @@ $frms=[
     'RegisterCustomerFrm' => 'Customer Registration Form'
 ];
 foreach($frms as $frmKey => $frmName) {
-    $sql = "INSERT INTO `ac_forms` (`form_name`, `controller`, `success_page`, `status`, `locked`)
+    $sql = "INSERT INTO ".$this->db->table('forms')." (`form_name`, `controller`, `success_page`, `status`, `locked`)
             VALUES ('".$frmKey."','','',1,1)";
     $this->db->query($sql);
     $forms[$frmKey] = (int)$this->db->getLastId();
