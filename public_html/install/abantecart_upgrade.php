@@ -234,7 +234,7 @@ foreach ($fieldArray as $r) {
         VALUES (
             " . $r['form_id'] . ",
             " . $this->db->intOrNull($r['group_id']) . ",
-            '" . $fieldName . "'            
+            '" . $fieldName . "',            
             '" . $elementType . "',
             " . $sortOrder . ",
             '" . $attributes . "',
