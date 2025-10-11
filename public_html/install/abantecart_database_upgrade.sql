@@ -28,41 +28,35 @@ alter table `ac_addresses`
 alter table `ac_customers`
     add `ext_fields` json null after data;
 #forms
-create table `ac_field_groups`
+DROP TABLE IF EXISTS `ac_field_groups`;
+CREATE TABLE `ac_field_groups`
 (
-    `group_id`     int,
-    `group_txt_id` varchar(40) null
-)
-    collate = utf8mb4_unicode_ci;
-alter table `ac_field_groups`
-    modify `group_id` int auto_increment;
+    `group_id` int(11) NOT NULL AUTO_INCREMENT,
+    `group_txt_id` varchar(40) DEFAULT NULL,
+    PRIMARY KEY (`group_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-alter table `ac_field_groups`
-    add constraint `ac_field_groups_pk`
-        primary key (`group_id`);
-
-create table ac_field_group_descriptions
+DROP TABLE IF EXISTS `ac_field_group_descriptions`;
+CREATE TABLE `ac_field_group_descriptions`
 (
-    group_id    int          default 0  not null,
-    name        varchar(255)            not null comment 'translatable',
-    description varchar(255) default '' not null comment 'translatable',
-    language_id int                     not null,
-    primary key (group_id, language_id)
-)
-    collate = utf8mb4_unicode_ci;
+    `group_id` int(11) NOT NULL DEFAULT 0,
+    `name` varchar(255) NOT NULL COMMENT 'translatable',
+    `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
+    `language_id` int(11) NOT NULL,
+    PRIMARY KEY (`group_id`,`language_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-create table `ac_field_group_to_form`
+DROP TABLE IF EXISTS `ac_field_group_to_form`;
+CREATE TABLE `ac_field_group_to_form`
 (
-    `group_id`   int    null,
-    `form_id`    int    null,
-    `sort_order` int(3) null,
-    constraint `ac_field_group_to_form_fk`
-        foreign key (`form_id`) references `ac_forms` (`form_id`)
-            on update cascade on delete cascade,
-    constraint `ac_field_group_to_group_fk`
-        foreign key (`group_id`) references `ac_field_groups` (`group_id`)
-            on update cascade on delete cascade
-);
+  `group_id` int(11) DEFAULT NULL,
+  `form_id` int(11) DEFAULT NULL,
+  `sort_order` int(3) DEFAULT NULL,
+  KEY `ac_field_group_to_form_fk` (`form_id`),
+  KEY `ac_field_group_to_group_fk` (`group_id`),
+  CONSTRAINT `ac_field_group_to_form_fk` FOREIGN KEY (`form_id`) REFERENCES `ac_forms` (`form_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `ac_field_group_to_group_fk` FOREIGN KEY (`group_id`) REFERENCES `ac_field_groups` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 alter table `ac_fields`
     add `group_id` int null after `form_id`,
