@@ -1,9 +1,0 @@
-# QUANTUMVIEWRequestWrapper
-
-## Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**quantum_view_request** | [**\UPS\QuantumView\QuantumView\QuantumViewRequest**](QuantumViewRequest.md) |  | 
-
-[[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
-

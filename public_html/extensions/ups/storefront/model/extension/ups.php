@@ -369,7 +369,7 @@ class ModelExtensionUps extends Model
 
         $this->session->data['ups_data']['toAddress'] = [
             'name'                => $address['firstname'] . ' ' . $address['firstname'] . ' ' . $address['company'],
-            'address_line'        => $address['address_1'] . ' ' . $address['address_2'],
+            'address_line'        => explode(",", $address['address_1'] . ' ' . $address['address_2']),
             'city'                => $address['city'],
             'state_province_code' => $address['zone_code'],
             'postal_code'         => $address['postcode'],
