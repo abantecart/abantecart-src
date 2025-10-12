@@ -236,6 +236,7 @@ class APackageManager
     public function replaceCoreFiles()
     {
         $coreFiles = $this->session->data['package_info']['package_content']['core'];
+        $error = new AError('');
         if ($this->session->data['package_info']['ftp']) {
             $ftp_user = $this->session->data['package_info']['ftp_user'];
             $ftp_password = $this->session->data['package_info']['ftp_password'];
@@ -264,8 +265,8 @@ class APackageManager
 
                 $result = $this->ftp_move($fconnect, $src_dir, $remote_file, $remote_dir);
                 if ($result) {
-                    $install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
-                    $install_upgrade_history->addRows(
+                    $historyDataset = new ADataset('install_upgrade_history', 'admin');
+                    $historyDataset->addRows(
                         [
                             'date_added'  => date("Y-m-d H:i:s", time()),
                             'name'        => 'Upgrade core file: ' . $remote_file,
@@ -278,65 +279,67 @@ class APackageManager
                     );
                 } else {
                     $this->error .= " Error: Cannot upgrade file : '" . $core_filename . PHP_EOL;
-                    $error = new AError ($this->error);
+                    $error->msg = $this->error;
                     $error->toLog()->toDebug();
                 }
             }// end of loop
             ftp_close($fconnect);
         } else {
+            $historyDataset = new ADataset('install_upgrade_history', 'admin');
+            $actor = $this->user->getUsername();
+            $historyRows = [];
+
+            $srcDir = $this->session->data['package_info']['tmp_dir']
+                . $this->session->data['package_info']['package_dir'] . DS
+                . 'code' . DS;
+
             foreach ($coreFiles as $coreFileName) {
-                $coreFileName = str_replace('/', DS, $coreFileName);
-                if (is_file(DIR_ROOT . DS . $coreFileName)) {
-                    unlink(DIR_ROOT . DS . $coreFileName);
-                }
+                $coreFileName = str_replace('/', DS, trim($coreFileName));
+
                 //check is target directory exists before copying
-                $dir = pathinfo(DIR_ROOT . DS . $coreFileName, PATHINFO_DIRNAME);
-                if (!is_dir($dir)) {
-                    mkdir($dir, 0777, true);
+                $dstDir = pathinfo(DIR_ROOT . DS . $coreFileName, PATHINFO_DIRNAME);
+                if (!is_dir($dstDir)) {
+                    mkdir($dstDir, 0777, true);
                 }
 
-                if (!is_dir($dir) || !is_writable($dir)) {
+                if (!is_dir($dstDir) || !is_writable($dstDir)) {
                     $this->error .= " Error: Cannot upgrade file : '" . $coreFileName . PHP_EOL
-                        . " Destination folder " . $dir . " is not writable or does not exists";
+                        . " Destination folder " . $dstDir . " is not writable or does not exists";
                     $this->messages->saveNotice('Error', $this->error);
-                    $error = new AError ($this->error);
+                    $error->msg = $this->error;
                     $error->toLog()->toDebug();
                     continue;
                 }
-
-                $result = rename(
-                    $this->session->data['package_info']['tmp_dir']
-                    . $this->session->data['package_info']['package_dir'] . DS
-                    . 'code' . DS
-                    . $coreFileName,
-                    DIR_ROOT . DS . $coreFileName
-                );
+                $dstFileName = DIR_ROOT . DS . $coreFileName;
+                if (is_file($dstFileName)) {
+                    unlink($dstFileName);
+                }
+                $result = rename($srcDir . $coreFileName, $dstFileName);
                 if ($result) {
                     // for index.php do not set 777 permissions because hosting providers will ban it
                     if (pathinfo($coreFileName, PATHINFO_BASENAME) == 'index.php') {
-                        chmod(DIR_ROOT . DS . $coreFileName, 0755);
+                        $perms = 0755;
                     } else {
-                        chmod(DIR_ROOT . DS . $coreFileName, 0777);
+                        $perms = 0775;
                     }
+                    chmod($dstFileName, $perms);
 
-                    $install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
-                    $install_upgrade_history->addRows(
-                        [
-                            'date_added'  => date("Y-m-d H:i:s", time()),
-                            'name'        => 'Upgrade core file: ' . $coreFileName,
-                            'version'     => $this->session->data['package_info']['package_version'],
-                            'backup_file' => '',
-                            'backup_date' => '',
-                            'type'        => 'upgrade',
-                            'user'        => $this->user->getUsername(),
-                        ]
-                    );
+                    $historyRows[] = [
+                        'date_added'  => date("Y-m-d H:i:s", time()),
+                        'name'        => 'Upgrade core file: ' . $coreFileName,
+                        'version'     => $this->session->data['package_info']['package_version'],
+                        'backup_file' => '',
+                        'backup_date' => '',
+                        'type'        => 'upgrade',
+                        'user'        => $actor,
+                    ];
                 } else {
                     $this->error .= " Error: Cannot upgrade file : '" . $coreFileName . PHP_EOL;
-                    $error = new AError ($this->error);
+                    $error->msg = $this->error;
                     $error->toLog()->toDebug();
                 }
             }
+            $historyDataset->addRows($historyRows);
         }
     }
 
