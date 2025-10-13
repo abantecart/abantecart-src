@@ -206,7 +206,6 @@ $descriptionsData = [
 foreach ($fieldArray as &$field) {
     $field['descriptions'] = $descriptionsData;
 }
-unset($field);
 
 
 // Insert via loop using $forms and $groups
