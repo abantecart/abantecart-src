@@ -19,7 +19,7 @@
 		<form class="form-horizontal" action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
 
 		<?php if ($error['warning']) { ?>
-		<div class="warning alert alert-error alert-danger"><?php echo $error['warning']; ?></div>
+		<div class="warning alert alert-error alert-danger"><?php echo nl2br($error['warning']); ?></div>
 		<?php } ?>
 
 		<label class="h5 heading">1 . Please enter your database connection details.</label>
