@@ -34,19 +34,19 @@ if (!$result->num_rows) {
 }
 
 // Update menu icons from fa-money to fa-money-bill
-$menu = new AMenu_Storefront();
-$menu_items = $menu->getMenuItems();
+$dataset = new ADataset('menu','storefront');
+$menu_items = $dataset->getRows();
 
 foreach ($menu_items as $item) {
-    if (!empty($item['item_icon_rl_id'])) {
+    if ($item['item_icon_rl_id']) {
         $sql = "SELECT resource_id, resource_code 
                 FROM " . $this->db->table('resource_descriptions') . " 
-                WHERE resource_id = '" . (int)$item['resource_id'] . "'
-                AND resource_code LIKE '%fa fa-money%'";
+                WHERE resource_id = '" . (int)$item['item_icon_rl_id'] . "'
+                AND resource_code LIKE '%fa fa-money\"%'";
         $result = $this->db->query($sql);
         if ($result->num_rows) {
             foreach ($result->rows as $r) {
-                $newCode = str_replace('fa fa-money', 'fa fa-money-bill', $r['resource_code']);
+                $newCode = str_replace('fa fa-money"', 'fa fa-money-bill"', $r['resource_code']);
                 $sql = "UPDATE " . $this->db->table('resource_descriptions') . "
                         SET resource_code = '" . $this->db->escape($newCode) . "'
                         WHERE resource_id = '" . (int)$r['resource_id'] . "'";
