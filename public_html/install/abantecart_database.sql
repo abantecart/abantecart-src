@@ -599,7 +599,7 @@ VALUES
 DROP TABLE IF EXISTS `ac_coupons`;
 CREATE TABLE `ac_coupons` (
   `coupon_id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(10) NOT NULL,
+  `code` varchar(255) NOT NULL,
   `type` char(1) NOT NULL,
   `discount` decimal(15,4) NOT NULL,
   `logged` int(1) NOT NULL,
