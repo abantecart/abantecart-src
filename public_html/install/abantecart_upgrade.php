@@ -32,8 +32,29 @@ if (!$result->num_rows) {
     VALUES (1,'settings','text',8)";
     $this->db->query($sqlAlter, true);
 }
-//todo:upgrade icon with class fa-money to fa-money-bill inside RL !!!!!
-//todo: update menu item icon rl_id if template is novator/default and current icon contains fa-money class
+
+// Update menu icons from fa-money to fa-money-bill
+$menu = new AMenu_Storefront();
+$menu_items = $menu->getMenuItems();
+
+foreach ($menu_items as $item) {
+    if (!empty($item['item_icon_rl_id'])) {
+        $sql = "SELECT resource_id, resource_code 
+                FROM " . $this->db->table('resource_descriptions') . " 
+                WHERE resource_id = '" . (int)$item['resource_id'] . "'
+                AND resource_code LIKE '%fa fa-money%'";
+        $result = $this->db->query($sql);
+        if ($result->num_rows) {
+            foreach ($result->rows as $r) {
+                $newCode = str_replace('fa fa-money', 'fa fa-money-bill', $r['resource_code']);
+                $sql = "UPDATE " . $this->db->table('resource_descriptions') . "
+                        SET resource_code = '" . $this->db->escape($newCode) . "'
+                        WHERE resource_id = '" . (int)$r['resource_id'] . "'";
+                $this->db->query($sql);
+            }
+        }
+    }
+}
 
 $resourceManager = new AResourceManager();
 $resourceManager->setType('image');
