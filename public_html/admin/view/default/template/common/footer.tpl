@@ -26,11 +26,6 @@
 
 <?php if ($logged) { ?>
     <div class="rightpanel">
-        <?php if ($right_ant) { ?>
-            <div class="right_ant_banner">
-                <?php echo $right_ant; ?>
-            </div>
-        <?php } ?>
         <!-- Nav tabs -->
         <ul class="nav nav-tabs nav-justified">
             <li class="active"><a href="#rp-alluser" data-toggle="tab"><i class="fa fa-users"></i></a></li>
@@ -40,6 +35,12 @@
 
         <!-- Tab panes -->
         <div class="tab-content">
+            <?php if ($right_ant) { ?>
+                <div class="right_ant_banner">
+                    <?php echo $right_ant; ?>
+                </div>
+            <?php } ?>
+
             <div class="tab-pane active" id="rp-alluser">
                 <h5 class="sidebartitle"><?php echo $recent_customers; ?></h5>
             </div>

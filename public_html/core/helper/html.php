@@ -149,14 +149,18 @@ function renderAdminMenu(array $menu, ?int $level = 0, ?string $currentRt = '')
     }
     foreach ($menu as $item) {
         $id = $item['id'] ? ' id="menu_' . $item['id'] . '" ' : '';
-        $class = $level != 0 ? !$item['children'] ? '' : ' class="parent" ' : ' class="top" ';
+        $class = $level != 0 ? !$item['children'] ? '' : 'parent' : 'top';
         $href = $item['href'] ? ' href="' . $item['href'] . '" ' : '';
         $onclick = $item['onclick'] ? ' onclick="' . $item['onclick'] . '" ' : '';
 
         $childCssClass = "level" . $level;
         if (!empty($item['children'])) {
             $childCssClass .= ' nav-parent ';
+        } else {
+            $class .= ' no-children ';
         }
+        $class = ' class="' . trim($class) . '" ';
+
         if ($item['rt'] && $currentRt == $item['rt']) {
             $childCssClass .= ' active ';
         }
