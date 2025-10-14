@@ -726,6 +726,11 @@ h1 a:hover, h2 a:hover, h3 a:hover {
 	box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
 }
 
+.nav-bracket > li.active > a.no-children {
+	background: none;
+	background-color: #F19013;
+}
+
 .nav-bracket > li.nav-parent.active > a {
 	background-image: url(../image/plus.png);
 	background-repeat: no-repeat;
@@ -793,18 +798,25 @@ h1 a:hover, h2 a:hover, h3 a:hover {
 .side_summary {
 	margin: 30px 0;
 }
-.side_summary>a.sidebartitle {
+.side_summary > a.sidebartitle {
     color: white !important;
     font-weight: bold !important;
     text-decoration: none;
     display: block;
     width: 100%;
     padding: 10px;
-    background: transparent url(../image/minus-white.png) no-repeat 96% center;
+    background: transparent url(../image/plus-white.png) no-repeat 96% center;
 }
-.side_summary>a.sidebartitle:hover {
-    color: #064770 !important;
-    background: white url(../image/minus.png) no-repeat 96% center;
+.side_summary:has(> ul.collapse.in) a.sidebartitle {
+	color: #064770 !important;
+    background: white url(../image/minus.png) no-repeat 96% center !important;
+}
+.side_summary i.fa {
+	font-size: 16px;
+	vertical-align: middle;
+	margin-right: 10px;
+	width: 16px;
+	text-align: center;
 }
 
 .side_summary .text-muted {
