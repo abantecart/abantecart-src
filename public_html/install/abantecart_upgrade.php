@@ -34,7 +34,7 @@ if (!$result->num_rows) {
 }
 
 // Update menu icons from fa-money to fa-money-bill
-$dataset = new ADataset('menu','storefront');
+$dataset = new ADataset('menu', 'storefront');
 $menu_items = $dataset->getRows();
 
 foreach ($menu_items as $item) {
@@ -78,7 +78,7 @@ $iconMap = [];
 foreach ($icons as $fieldKey => $icon) {
     $names = $titles = $descriptions = [];
     foreach ($languages as $lang) {
-        $langId = (int) $lang['language_id'];
+        $langId = (int)$lang['language_id'];
         $names[$langId] = $icon['name'];
         $titles[$langId] = '';
         $descriptions[$langId] = '';
@@ -95,634 +95,642 @@ foreach ($icons as $fieldKey => $icon) {
 }
 
 $grp = [
-    'details' => 'Your Personal Details',
-    'address' => 'Your Address',
-    'login' => 'Login Details',
+    'details'    => 'Your Personal Details',
+    'address'    => 'Your Address',
+    'login'      => 'Login Details',
     'newsletter' => 'Newsletter'
 ];
 
-foreach($grp as $grpKey => $grpName) {
-    $sql = "INSERT INTO " . $this->db->table('field_groups') . " (`group_txt_id`) VALUES ('".$grpKey."')";
+foreach ($grp as $grpKey => $grpName) {
+    $sql = "INSERT INTO " . $this->db->table('field_groups') . " (`group_txt_id`) VALUES ('" . $grpKey . "')";
     $this->db->query($sql);
     $groups[$grpKey] = (int)$this->db->getLastId();
+    $allGroupDescriptions = [];
     foreach ($languages as $lang) {
-        $langId = (int)$lang['language_id'];
-        $sql = "INSERT INTO ".$this->db->table('field_group_descriptions')."
-                (`group_id`, `name`, `description`, `language_id`)
-                VALUES (".$groups[$grpKey].", '".$this->db->escape($grpName)."','',".$langId.")";
-        $this->db->query($sql);
+        $allGroupDescriptions[$lang['language_id']] = [
+            'name'        => $grpName,
+            'description' => ''
+        ];
     }
+    $this->language->replaceDescriptions(
+        'field_group_descriptions',
+        ['group_id' => $groups[$grpKey]],
+        $allGroupDescriptions
+    );
 }
-$frms=[
-    'AddressFrm' => 'Customer Address Form',
-    'GuestCheckoutFrm' => 'Guest Address and Details Form',
-    'CustomerFrm' => 'Customer Details Form',
+
+$frms = [
+    'AddressFrm'          => 'Customer Address Form',
+    'GuestCheckoutFrm'    => 'Guest Address and Details Form',
+    'CustomerFrm'         => 'Customer Details Form',
     'RegisterCustomerFrm' => 'Customer Registration Form'
 ];
-foreach($frms as $frmKey => $frmName) {
-    $sql = "INSERT INTO ".$this->db->table('forms')." (`form_name`, `controller`, `success_page`, `status`, `locked`)
-            VALUES ('".$frmKey."','','',1,1)";
+foreach ($frms as $frmKey => $frmName) {
+    $sql = "INSERT INTO " . $this->db->table('forms') . " (`form_name`, `controller`, `success_page`, `status`, `locked`)
+            VALUES ('" . $frmKey . "','','',1,1)";
     $this->db->query($sql);
     $forms[$frmKey] = (int)$this->db->getLastId();
+    $allFormDescriptions = [];
     foreach ($languages as $lang) {
-        $langId = (int)$lang['language_id'];
-        $sql = "INSERT INTO ".$this->db->table('form_descriptions')." (`form_id`, `language_id`, `description`)
-                VALUES ('".$forms[$frmKey]."','".$langId."','".$this->db->escape($frmName)."')";
-        $this->db->query($sql);
+        $allFormDescriptions[$lang['language_id']] = ['description' => $frmName];
     }
+    $this->language->replaceDescriptions(
+        'form_descriptions',
+        ['form_id' => $forms[$frmKey]],
+        $allFormDescriptions
+    );
 }
 
 $fieldArray = [
     [
-        'form_id' => $forms['AddressFrm'],
-        'group_id' => null,
-        'field_name' => 'country_id',
-        'element_type' => 'O',
-        'sort_order' => 1,
-        'attributes' => 'autocomplete="country"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['AddressFrm'],
+        'group_id'       => null,
+        'field_name'     => 'country_id',
+        'element_type'   => 'O',
+        'sort_order'     => 1,
+        'attributes'     => 'autocomplete="country"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^[1-9]\d*$/',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Country', 'description' => '', 'error_text' => 'Please select a country!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Country', 'description' => '', 'error_text' => 'Please select a country!']
     ],
     [
-        'form_id' => $forms['AddressFrm'],
-        'group_id' => null,
-        'field_name' => 'zone_id',
-        'element_type' => 'Z',
-        'sort_order' => 2,
-        'attributes' => 'autocomplete="address-level1"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['AddressFrm'],
+        'group_id'       => null,
+        'field_name'     => 'zone_id',
+        'element_type'   => 'Z',
+        'sort_order'     => 2,
+        'attributes'     => 'autocomplete="address-level1"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^[1-9]\d*$/',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Zone', 'description' => '', 'error_text' => 'Please select a region/state!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Zone', 'description' => '', 'error_text' => 'Please select a region/state!']
     ],
     [
-        'form_id' => $forms['AddressFrm'],
-        'group_id' => null,
-        'field_name' => 'company',
-        'element_type' => 'I',
-        'sort_order' => 3,
-        'attributes' => 'autocomplete="organization"',
-        'settings' => '',
-        'required' => 0,
-        'status' => 1,
+        'form_id'        => $forms['AddressFrm'],
+        'group_id'       => null,
+        'field_name'     => 'company',
+        'element_type'   => 'I',
+        'sort_order'     => 3,
+        'attributes'     => 'autocomplete="organization"',
+        'settings'       => '',
+        'required'       => 0,
+        'status'         => 1,
         'regexp_pattern' => '/^.{0,32}$/u',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Company', 'description' => '', 'error_text' => 'Company Name must be less than 32 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Company', 'description' => '', 'error_text' => 'Company Name must be less than 32 characters!']
     ],
     [
-        'form_id' => $forms['AddressFrm'],
-        'group_id' => null,
-        'field_name' => 'address_1',
-        'element_type' => 'I',
-        'sort_order' => 4,
-        'attributes' => 'minlength="3" maxlength="128" autocomplete="address-line1"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['AddressFrm'],
+        'group_id'       => null,
+        'field_name'     => 'address_1',
+        'element_type'   => 'I',
+        'sort_order'     => 4,
+        'attributes'     => 'minlength="3" maxlength="128" autocomplete="address-line1"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^.{3,128}$/u',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Address Line 1', 'description' => '', 'error_text' => 'Address Line 1 must be between 3 and 128 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Address Line 1', 'description' => '', 'error_text' => 'Address Line 1 must be between 3 and 128 characters!']
     ],
     [
-        'form_id' => $forms['AddressFrm'],
-        'group_id' => null,
-        'field_name' => 'address_2',
-        'element_type' => 'I',
-        'sort_order' => 5,
-        'attributes' => 'minlength="0" maxlength="128" autocomplete="address-line2"',
-        'settings' => '',
-        'required' => 0,
-        'status' => 1,
+        'form_id'        => $forms['AddressFrm'],
+        'group_id'       => null,
+        'field_name'     => 'address_2',
+        'element_type'   => 'I',
+        'sort_order'     => 5,
+        'attributes'     => 'minlength="0" maxlength="128" autocomplete="address-line2"',
+        'settings'       => '',
+        'required'       => 0,
+        'status'         => 1,
         'regexp_pattern' => '/^.{0,128}$/u',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Address Line 2', 'description' => '', 'error_text' => 'Address Line 2 must be less than 128 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Address Line 2', 'description' => '', 'error_text' => 'Address Line 2 must be less than 128 characters!']
     ],
     [
-        'form_id' => $forms['AddressFrm'],
-        'group_id' => null,
-        'field_name' => 'city',
-        'element_type' => 'I',
-        'sort_order' => 6,
-        'attributes' => 'maxlength="128" autocomplete="address-level2"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['AddressFrm'],
+        'group_id'       => null,
+        'field_name'     => 'city',
+        'element_type'   => 'I',
+        'sort_order'     => 6,
+        'attributes'     => 'maxlength="128" autocomplete="address-level2"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^.{1,128}$/u',
-        'locked' => 1,
-        'descriptions' => ['name' => 'City', 'description' => '', 'error_text' => 'City must be between 3 and 128 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'City', 'description' => '', 'error_text' => 'City must be between 3 and 128 characters!']
     ],
     [
-        'form_id' => $forms['AddressFrm'],
-        'group_id' => null,
-        'field_name' => 'postcode',
-        'element_type' => 'I',
-        'sort_order' => 7,
-        'attributes' => 'autocomplete="postal-code"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['AddressFrm'],
+        'group_id'       => null,
+        'field_name'     => 'postcode',
+        'element_type'   => 'I',
+        'sort_order'     => 7,
+        'attributes'     => 'autocomplete="postal-code"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^[A-Za-z0-9\- ]+$/',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Zip/Post Code', 'description' => '', 'error_text' => 'Zip/Post Code must be less than 11 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Zip/Post Code', 'description' => '', 'error_text' => 'Zip/Post Code must be less than 11 characters!']
     ],
     [
-        'form_id' => $forms['AddressFrm'],
-        'group_id' => null,
-        'field_name' => 'firstname',
-        'element_type' => 'I',
-        'sort_order' => 8,
-        'attributes' => 'minlength="1" maxlength="32" autocomplete="given-name"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['AddressFrm'],
+        'group_id'       => null,
+        'field_name'     => 'firstname',
+        'element_type'   => 'I',
+        'sort_order'     => 8,
+        'attributes'     => 'minlength="1" maxlength="32" autocomplete="given-name"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^.{1,32}$/u',
-        'locked' => 1,
-        'descriptions' => ['name' => 'First Name', 'description' => '', 'error_text' => 'First Name must be between 1 and 32 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'First Name', 'description' => '', 'error_text' => 'First Name must be between 1 and 32 characters!']
     ],
     [
-        'form_id' => $forms['AddressFrm'],
-        'group_id' => null,
-        'field_name' => 'lastname',
-        'element_type' => 'I',
-        'sort_order' => 9,
-        'attributes' => 'minlength="1" maxlength="32" autocomplete="family-name"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['AddressFrm'],
+        'group_id'       => null,
+        'field_name'     => 'lastname',
+        'element_type'   => 'I',
+        'sort_order'     => 9,
+        'attributes'     => 'minlength="1" maxlength="32" autocomplete="family-name"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^.{1,32}$/u',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Last Name', 'description' => '', 'error_text' => 'Last Name must be between 1 and 32 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Last Name', 'description' => '', 'error_text' => 'Last Name must be between 1 and 32 characters!']
     ],
     [
-        'form_id' => $forms['AddressFrm'],
-        'group_id' => null,
-        'field_name' => 'default',
-        'element_type' => 'C',
-        'sort_order' => 11,
-        'attributes' => '',
-        'settings' => '',
-        'required' => 0,
-        'status' => 1,
+        'form_id'        => $forms['AddressFrm'],
+        'group_id'       => null,
+        'field_name'     => 'default',
+        'element_type'   => 'C',
+        'sort_order'     => 11,
+        'attributes'     => '',
+        'settings'       => '',
+        'required'       => 0,
+        'status'         => 1,
         'regexp_pattern' => '',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Default Address', 'description' => '', 'error_text' => '']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Default Address', 'description' => '', 'error_text' => '']
     ],
     [
-        'form_id' => $forms['AddressFrm'],
-        'group_id' => null,
-        'field_name' => 'vat_id',
-        'element_type' => 'I',
-        'sort_order' => 10,
-        'attributes' => 'autocomplete="off"',
-        'settings' => '',
-        'required' => 0,
-        'status' => 0,
+        'form_id'        => $forms['AddressFrm'],
+        'group_id'       => null,
+        'field_name'     => 'vat_id',
+        'element_type'   => 'I',
+        'sort_order'     => 10,
+        'attributes'     => 'autocomplete="off"',
+        'settings'       => '',
+        'required'       => 0,
+        'status'         => 0,
         'regexp_pattern' => '/^.{8,14}$/u',
-        'locked' => 0,
-        'descriptions' => ['name' => 'VAT ID', 'description' => '', 'error_text' => 'VAT ID Code must be between 8 and 14 characters!']
+        'locked'         => 0,
+        'descriptions'   => ['name' => 'VAT ID', 'description' => '', 'error_text' => 'VAT ID Code must be between 8 and 14 characters!']
     ],
     [
-        'form_id' => $forms['GuestCheckoutFrm'],
-        'group_id' => null,
-        'field_name' => 'country_id',
-        'element_type' => 'O',
-        'sort_order' => 1,
-        'attributes' => 'data-pair-with="zone_id" autocomplete="country"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['GuestCheckoutFrm'],
+        'group_id'       => null,
+        'field_name'     => 'country_id',
+        'element_type'   => 'O',
+        'sort_order'     => 1,
+        'attributes'     => 'data-pair-with="zone_id" autocomplete="country"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^[1-9]\d*$/',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Country', 'description' => '', 'error_text' => 'Please select a country!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Country', 'description' => '', 'error_text' => 'Please select a country!']
     ],
     [
-        'form_id' => $forms['GuestCheckoutFrm'],
-        'group_id' => null,
-        'field_name' => 'zone_id',
-        'element_type' => 'Z',
-        'sort_order' => 2,
-        'attributes' => 'data-pair-with="country_id" autocomplete="address-level1"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['GuestCheckoutFrm'],
+        'group_id'       => null,
+        'field_name'     => 'zone_id',
+        'element_type'   => 'Z',
+        'sort_order'     => 2,
+        'attributes'     => 'data-pair-with="country_id" autocomplete="address-level1"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^[1-9]\d*$/',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Region/State', 'description' => '', 'error_text' => 'Please select a region/state!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Region/State', 'description' => '', 'error_text' => 'Please select a region/state!']
     ],
     [
-        'form_id' => $forms['GuestCheckoutFrm'],
-        'group_id' => null,
-        'field_name' => 'company',
-        'element_type' => 'I',
-        'sort_order' => 3,
-        'attributes' => 'autocomplete="organization"',
-        'settings' => '',
-        'required' => 0,
-        'status' => 1,
+        'form_id'        => $forms['GuestCheckoutFrm'],
+        'group_id'       => null,
+        'field_name'     => 'company',
+        'element_type'   => 'I',
+        'sort_order'     => 3,
+        'attributes'     => 'autocomplete="organization"',
+        'settings'       => '',
+        'required'       => 0,
+        'status'         => 1,
         'regexp_pattern' => '/^.{0,32}$/u',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Company', 'description' => '', 'error_text' => 'Company Name must be less than 32 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Company', 'description' => '', 'error_text' => 'Company Name must be less than 32 characters!']
     ],
     [
-        'form_id' => $forms['GuestCheckoutFrm'],
-        'group_id' => null,
-        'field_name' => 'address_1',
-        'element_type' => 'I',
-        'sort_order' => 4,
-        'attributes' => 'minlength="3" maxlength="128" autocomplete="address-line1"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['GuestCheckoutFrm'],
+        'group_id'       => null,
+        'field_name'     => 'address_1',
+        'element_type'   => 'I',
+        'sort_order'     => 4,
+        'attributes'     => 'minlength="3" maxlength="128" autocomplete="address-line1"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^.{3,128}$/u',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Address Line 1', 'description' => '', 'error_text' => 'Address Line 1 must be between 3 and 128 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Address Line 1', 'description' => '', 'error_text' => 'Address Line 1 must be between 3 and 128 characters!']
     ],
     [
-        'form_id' => $forms['GuestCheckoutFrm'],
-        'group_id' => null,
-        'field_name' => 'address_2',
-        'element_type' => 'I',
-        'sort_order' => 5,
-        'attributes' => 'minlength="0" maxlength="128" autocomplete="address-line2"',
-        'settings' => '',
-        'required' => 0,
-        'status' => 1,
+        'form_id'        => $forms['GuestCheckoutFrm'],
+        'group_id'       => null,
+        'field_name'     => 'address_2',
+        'element_type'   => 'I',
+        'sort_order'     => 5,
+        'attributes'     => 'minlength="0" maxlength="128" autocomplete="address-line2"',
+        'settings'       => '',
+        'required'       => 0,
+        'status'         => 1,
         'regexp_pattern' => '/^.{0,128}$/u',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Address Line 2', 'description' => '', 'error_text' => 'Address Line 2 must be less than 128 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Address Line 2', 'description' => '', 'error_text' => 'Address Line 2 must be less than 128 characters!']
     ],
     [
-        'form_id' => $forms['GuestCheckoutFrm'],
-        'group_id' => null,
-        'field_name' => 'city',
-        'element_type' => 'I',
-        'sort_order' => 6,
-        'attributes' => 'maxlength="128" data-pair-with="postcode" autocomplete="address-level2"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['GuestCheckoutFrm'],
+        'group_id'       => null,
+        'field_name'     => 'city',
+        'element_type'   => 'I',
+        'sort_order'     => 6,
+        'attributes'     => 'maxlength="128" data-pair-with="postcode" autocomplete="address-level2"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^.{1,128}$/u',
-        'locked' => 1,
-        'descriptions' => ['name' => 'City', 'description' => '', 'error_text' => 'City must be between 3 and 128 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'City', 'description' => '', 'error_text' => 'City must be between 3 and 128 characters!']
     ],
     [
-        'form_id' => $forms['GuestCheckoutFrm'],
-        'group_id' => null,
-        'field_name' => 'postcode',
-        'element_type' => 'I',
-        'sort_order' => 7,
-        'attributes' => 'data-pair-with="city" autocomplete="postal-code"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['GuestCheckoutFrm'],
+        'group_id'       => null,
+        'field_name'     => 'postcode',
+        'element_type'   => 'I',
+        'sort_order'     => 7,
+        'attributes'     => 'data-pair-with="city" autocomplete="postal-code"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^[A-Za-z0-9\- ]+$/',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Zip/Post Code', 'description' => '', 'error_text' => 'Zip/Post Code must be less than 11 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Zip/Post Code', 'description' => '', 'error_text' => 'Zip/Post Code must be less than 11 characters!']
     ],
     [
-        'form_id' => $forms['GuestCheckoutFrm'],
-        'group_id' => null,
-        'field_name' => 'firstname',
-        'element_type' => 'I',
-        'sort_order' => 8,
-        'attributes' => 'minlength="1" maxlength="32" data-pair-with="lastname" autocomplete="given-name"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['GuestCheckoutFrm'],
+        'group_id'       => null,
+        'field_name'     => 'firstname',
+        'element_type'   => 'I',
+        'sort_order'     => 8,
+        'attributes'     => 'minlength="1" maxlength="32" data-pair-with="lastname" autocomplete="given-name"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^.{1,32}$/u',
-        'locked' => 1,
-        'descriptions' => ['name' => 'First Name', 'description' => '', 'error_text' => 'First Name must be between 1 and 32 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'First Name', 'description' => '', 'error_text' => 'First Name must be between 1 and 32 characters!']
     ],
     [
-        'form_id' => $forms['GuestCheckoutFrm'],
-        'group_id' => null,
-        'field_name' => 'lastname',
-        'element_type' => 'I',
-        'sort_order' => 9,
-        'attributes' => 'minlength="1" maxlength="32" data-pair-with="firstname" autocomplete="family-name"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['GuestCheckoutFrm'],
+        'group_id'       => null,
+        'field_name'     => 'lastname',
+        'element_type'   => 'I',
+        'sort_order'     => 9,
+        'attributes'     => 'minlength="1" maxlength="32" data-pair-with="firstname" autocomplete="family-name"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^.{1,32}$/u',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Last Name', 'description' => '', 'error_text' => 'Last Name must be between 1 and 32 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Last Name', 'description' => '', 'error_text' => 'Last Name must be between 1 and 32 characters!']
     ],
     [
-        'form_id' => $forms['GuestCheckoutFrm'],
-        'group_id' => null,
-        'field_name' => 'vat_id',
-        'element_type' => 'I',
-        'sort_order' => 10,
-        'attributes' => 'autocomplete="off"',
-        'settings' => '',
-        'required' => 0,
-        'status' => 0,
+        'form_id'        => $forms['GuestCheckoutFrm'],
+        'group_id'       => null,
+        'field_name'     => 'vat_id',
+        'element_type'   => 'I',
+        'sort_order'     => 10,
+        'attributes'     => 'autocomplete="off"',
+        'settings'       => '',
+        'required'       => 0,
+        'status'         => 0,
         'regexp_pattern' => '/^.{8,14}$/u',
-        'locked' => 0,
-        'descriptions' => ['name' => 'VAT ID', 'description' => '', 'error_text' => 'VAT ID Code must be between 8 and 14 characters!']
+        'locked'         => 0,
+        'descriptions'   => ['name' => 'VAT ID', 'description' => '', 'error_text' => 'VAT ID Code must be between 8 and 14 characters!']
     ],
     [
-        'form_id' => $forms['GuestCheckoutFrm'],
-        'group_id' => null,
-        'field_name' => 'email',
-        'element_type' => 'E',
-        'sort_order' => 15,
-        'attributes' => 'minlength="1" maxlength="96" autocomplete="email"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['GuestCheckoutFrm'],
+        'group_id'       => null,
+        'field_name'     => 'email',
+        'element_type'   => 'E',
+        'sort_order'     => 15,
+        'attributes'     => 'minlength="1" maxlength="96" autocomplete="email"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Email', 'description' => '', 'error_text' => 'Your email is not provided or invalid!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Email', 'description' => '', 'error_text' => 'Your email is not provided or invalid!']
     ],
     [
-        'form_id' => $forms['GuestCheckoutFrm'],
-        'group_id' => null,
-        'field_name' => 'telephone',
-        'element_type' => 'F',
-        'sort_order' => 16,
-        'attributes' => 'maxlength="32" autocomplete="tel"',
-        'settings' => '',
-        'required' => 0,
-        'status' => 1,
+        'form_id'        => $forms['GuestCheckoutFrm'],
+        'group_id'       => null,
+        'field_name'     => 'telephone',
+        'element_type'   => 'F',
+        'sort_order'     => 16,
+        'attributes'     => 'maxlength="32" autocomplete="tel"',
+        'settings'       => '',
+        'required'       => 0,
+        'status'         => 1,
         'regexp_pattern' => '/^[+\- 0-9\(\)]+$/',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Phone Number', 'description' => '', 'error_text' => 'Your contact phone number is not provided or invalid.']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Phone Number', 'description' => '', 'error_text' => 'Your contact phone number is not provided or invalid.']
     ],
     [
-        'form_id' => $forms['CustomerFrm'],
-        'group_id' => null,
-        'field_name' => 'loginname',
-        'element_type' => 'I',
-        'sort_order' => 1,
-        'attributes' => 'minlength="5" maxlength="64" autocomplete="username"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['CustomerFrm'],
+        'group_id'       => null,
+        'field_name'     => 'loginname',
+        'element_type'   => 'I',
+        'sort_order'     => 1,
+        'attributes'     => 'minlength="5" maxlength="64" autocomplete="username"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^[A-Za-z0-9._]{5,64}$/i',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Login Name', 'description' => '', 'error_text' => 'Login Name must be between 5 and 65 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Login Name', 'description' => '', 'error_text' => 'Login Name must be between 5 and 65 characters!']
     ],
     [
-        'form_id' => $forms['CustomerFrm'],
-        'group_id' => null,
-        'field_name' => 'firstname',
-        'element_type' => 'I',
-        'sort_order' => 2,
-        'attributes' => 'minlength="1" maxlength="32" data-pair-with="lastname" autocomplete="given-name"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['CustomerFrm'],
+        'group_id'       => null,
+        'field_name'     => 'firstname',
+        'element_type'   => 'I',
+        'sort_order'     => 2,
+        'attributes'     => 'minlength="1" maxlength="32" data-pair-with="lastname" autocomplete="given-name"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^.{1,32}$/u',
-        'locked' => 1,
-        'descriptions' => ['name' => 'First Name', 'description' => '', 'error_text' => 'First Name must be between 1 and 32 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'First Name', 'description' => '', 'error_text' => 'First Name must be between 1 and 32 characters!']
     ],
     [
-        'form_id' => $forms['CustomerFrm'],
-        'group_id' => null,
-        'field_name' => 'lastname',
-        'element_type' => 'I',
-        'sort_order' => 3,
-        'attributes' => 'minlength="1" maxlength="32" data-pair-with="firstname" autocomplete="family-name"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['CustomerFrm'],
+        'group_id'       => null,
+        'field_name'     => 'lastname',
+        'element_type'   => 'I',
+        'sort_order'     => 3,
+        'attributes'     => 'minlength="1" maxlength="32" data-pair-with="firstname" autocomplete="family-name"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^.{1,32}$/u',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Last Name', 'description' => '', 'error_text' => 'Last Name must be between 1 and 32 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Last Name', 'description' => '', 'error_text' => 'Last Name must be between 1 and 32 characters!']
     ],
     [
-        'form_id' => $forms['CustomerFrm'],
-        'group_id' => null,
-        'field_name' => 'email',
-        'element_type' => 'E',
-        'sort_order' => 4,
-        'attributes' => 'minlength="1" maxlength="96" autocomplete="email"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['CustomerFrm'],
+        'group_id'       => null,
+        'field_name'     => 'email',
+        'element_type'   => 'E',
+        'sort_order'     => 4,
+        'attributes'     => 'minlength="1" maxlength="96" autocomplete="email"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Email', 'description' => '', 'error_text' => 'Your email is not provided or invalid!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Email', 'description' => '', 'error_text' => 'Your email is not provided or invalid!']
     ],
     [
-        'form_id' => $forms['CustomerFrm'],
-        'group_id' => null,
-        'field_name' => 'telephone',
-        'element_type' => 'F',
-        'sort_order' => 5,
-        'attributes' => 'maxlength="32" autocomplete="tel"',
-        'settings' => '',
-        'required' => 0,
-        'status' => 1,
+        'form_id'        => $forms['CustomerFrm'],
+        'group_id'       => null,
+        'field_name'     => 'telephone',
+        'element_type'   => 'F',
+        'sort_order'     => 5,
+        'attributes'     => 'maxlength="32" autocomplete="tel"',
+        'settings'       => '',
+        'required'       => 0,
+        'status'         => 1,
         'regexp_pattern' => '/^[+\- 0-9\(\)]+$/',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Phone Number', 'description' => '', 'error_text' => 'Your contact phone number is not provided or invalid.']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Phone Number', 'description' => '', 'error_text' => 'Your contact phone number is not provided or invalid.']
     ],
     [
-        'form_id' => $forms['RegisterCustomerFrm'],
-        'group_id' => $groups['details'],
-        'field_name' => 'firstname',
-        'element_type' => 'I',
-        'sort_order' => 1,
-        'attributes' => 'minlength="1" maxlength="32" data-pair-with="lastname" autocomplete="given-name"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['RegisterCustomerFrm'],
+        'group_id'       => $groups['details'],
+        'field_name'     => 'firstname',
+        'element_type'   => 'I',
+        'sort_order'     => 1,
+        'attributes'     => 'minlength="1" maxlength="32" data-pair-with="lastname" autocomplete="given-name"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^.{1,32}$/u',
-        'locked' => 1,
-        'descriptions' => ['name' => 'First Name', 'description' => '', 'error_text' => 'First Name must be between 1 and 32 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'First Name', 'description' => '', 'error_text' => 'First Name must be between 1 and 32 characters!']
     ],
     [
-        'form_id' => $forms['RegisterCustomerFrm'],
-        'group_id' => $groups['details'],
-        'field_name' => 'lastname',
-        'element_type' => 'I',
-        'sort_order' => 2,
-        'attributes' => 'minlength="1" maxlength="32" data-pair-with="firstname" autocomplete="family-name"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['RegisterCustomerFrm'],
+        'group_id'       => $groups['details'],
+        'field_name'     => 'lastname',
+        'element_type'   => 'I',
+        'sort_order'     => 2,
+        'attributes'     => 'minlength="1" maxlength="32" data-pair-with="firstname" autocomplete="family-name"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^.{1,32}$/u',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Last Name', 'description' => '', 'error_text' => 'Last Name must be between 1 and 32 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Last Name', 'description' => '', 'error_text' => 'Last Name must be between 1 and 32 characters!']
     ],
     [
-        'form_id' => $forms['RegisterCustomerFrm'],
-        'group_id' => $groups['details'],
-        'field_name' => 'email',
-        'element_type' => 'E',
-        'sort_order' => 3,
-        'attributes' => 'minlength="1" maxlength="96" autocomplete="email"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['RegisterCustomerFrm'],
+        'group_id'       => $groups['details'],
+        'field_name'     => 'email',
+        'element_type'   => 'E',
+        'sort_order'     => 3,
+        'attributes'     => 'minlength="1" maxlength="96" autocomplete="email"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Email', 'description' => '', 'error_text' => 'Your email is not provided or invalid!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Email', 'description' => '', 'error_text' => 'Your email is not provided or invalid!']
     ],
     [
-        'form_id' => $forms['RegisterCustomerFrm'],
-        'group_id' => $groups['details'],
-        'field_name' => 'telephone',
-        'element_type' => 'F',
-        'sort_order' => 4,
-        'attributes' => 'maxlength="32" autocomplete="tel"',
-        'settings' => '',
-        'required' => 0,
-        'status' => 1,
+        'form_id'        => $forms['RegisterCustomerFrm'],
+        'group_id'       => $groups['details'],
+        'field_name'     => 'telephone',
+        'element_type'   => 'F',
+        'sort_order'     => 4,
+        'attributes'     => 'maxlength="32" autocomplete="tel"',
+        'settings'       => '',
+        'required'       => 0,
+        'status'         => 1,
         'regexp_pattern' => '/^[+\- 0-9\(\)]+$/',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Phone Number', 'description' => '', 'error_text' => 'Your contact phone number is not provided or invalid.']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Phone Number', 'description' => '', 'error_text' => 'Your contact phone number is not provided or invalid.']
     ],
     [
-        'form_id' => $forms['RegisterCustomerFrm'],
-        'group_id' => $groups['address'],
-        'field_name' => 'country_id',
-        'element_type' => 'O',
-        'sort_order' => 10,
-        'attributes' => 'autocomplete="country"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['RegisterCustomerFrm'],
+        'group_id'       => $groups['address'],
+        'field_name'     => 'country_id',
+        'element_type'   => 'O',
+        'sort_order'     => 10,
+        'attributes'     => 'autocomplete="country"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^[1-9]\d*$/',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Country', 'description' => '', 'error_text' => 'Please select a country!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Country', 'description' => '', 'error_text' => 'Please select a country!']
     ],
     [
-        'form_id' => $forms['RegisterCustomerFrm'],
-        'group_id' => $groups['address'],
-        'field_name' => 'zone_id',
-        'element_type' => 'Z',
-        'sort_order' => 11,
-        'attributes' => 'autocomplete="address-level1"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['RegisterCustomerFrm'],
+        'group_id'       => $groups['address'],
+        'field_name'     => 'zone_id',
+        'element_type'   => 'Z',
+        'sort_order'     => 11,
+        'attributes'     => 'autocomplete="address-level1"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^[1-9]\d*$/',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Region/State', 'description' => '', 'error_text' => 'Please select a region/state!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Region/State', 'description' => '', 'error_text' => 'Please select a region/state!']
     ],
     [
-        'form_id' => $forms['RegisterCustomerFrm'],
-        'group_id' => $groups['address'],
-        'field_name' => 'address_1',
-        'element_type' => 'I',
-        'sort_order' => 13,
-        'attributes' => 'minlength="3" maxlength="128" autocomplete="address-line1"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['RegisterCustomerFrm'],
+        'group_id'       => $groups['address'],
+        'field_name'     => 'address_1',
+        'element_type'   => 'I',
+        'sort_order'     => 13,
+        'attributes'     => 'minlength="3" maxlength="128" autocomplete="address-line1"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^.{3,128}$/u',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Address Line 1', 'description' => '', 'error_text' => 'Address Line 1 must be between 3 and 128 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Address Line 1', 'description' => '', 'error_text' => 'Address Line 1 must be between 3 and 128 characters!']
     ],
     [
-        'form_id' => $forms['RegisterCustomerFrm'],
-        'group_id' => $groups['address'],
-        'field_name' => 'address_2',
-        'element_type' => 'I',
-        'sort_order' => 14,
-        'attributes' => 'minlength="0" maxlength="128" autocomplete="address-line2"',
-        'settings' => '',
-        'required' => 0,
-        'status' => 1,
+        'form_id'        => $forms['RegisterCustomerFrm'],
+        'group_id'       => $groups['address'],
+        'field_name'     => 'address_2',
+        'element_type'   => 'I',
+        'sort_order'     => 14,
+        'attributes'     => 'minlength="0" maxlength="128" autocomplete="address-line2"',
+        'settings'       => '',
+        'required'       => 0,
+        'status'         => 1,
         'regexp_pattern' => '/^.{0,128}$/u',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Address Line 2', 'description' => '', 'error_text' => 'Address Line 2 must be less than 128 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Address Line 2', 'description' => '', 'error_text' => 'Address Line 2 must be less than 128 characters!']
     ],
     [
-        'form_id' => $forms['RegisterCustomerFrm'],
-        'group_id' => $groups['address'],
-        'field_name' => 'city',
-        'element_type' => 'I',
-        'sort_order' => 15,
-        'attributes' => 'maxlength="128" autocomplete="address-level2"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['RegisterCustomerFrm'],
+        'group_id'       => $groups['address'],
+        'field_name'     => 'city',
+        'element_type'   => 'I',
+        'sort_order'     => 15,
+        'attributes'     => 'maxlength="128" autocomplete="address-level2"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^.{1,128}$/u',
-        'locked' => 1,
-        'descriptions' => ['name' => 'City', 'description' => '', 'error_text' => 'City must be between 3 and 128 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'City', 'description' => '', 'error_text' => 'City must be between 3 and 128 characters!']
     ],
     [
-        'form_id' => $forms['RegisterCustomerFrm'],
-        'group_id' => $groups['address'],
-        'field_name' => 'postcode',
-        'element_type' => 'I',
-        'sort_order' => 16,
-        'attributes' => 'autocomplete="postal-code"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['RegisterCustomerFrm'],
+        'group_id'       => $groups['address'],
+        'field_name'     => 'postcode',
+        'element_type'   => 'I',
+        'sort_order'     => 16,
+        'attributes'     => 'autocomplete="postal-code"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^[A-Za-z0-9\- ]+$/',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Zip/Post Code', 'description' => '', 'error_text' => 'Zip/Post Code must be less than 11 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Zip/Post Code', 'description' => '', 'error_text' => 'Zip/Post Code must be less than 11 characters!']
     ],
     [
-        'form_id' => $forms['RegisterCustomerFrm'],
-        'group_id' => $groups['address'],
-        'field_name' => 'company',
-        'element_type' => 'I',
-        'sort_order' => 12,
-        'attributes' => 'autocomplete="organization"',
-        'settings' => '',
-        'required' => 0,
-        'status' => 1,
+        'form_id'        => $forms['RegisterCustomerFrm'],
+        'group_id'       => $groups['address'],
+        'field_name'     => 'company',
+        'element_type'   => 'I',
+        'sort_order'     => 12,
+        'attributes'     => 'autocomplete="organization"',
+        'settings'       => '',
+        'required'       => 0,
+        'status'         => 1,
         'regexp_pattern' => '/^.{0,32}$/u',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Company', 'description' => '', 'error_text' => 'Company Name must be less than 32 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Company', 'description' => '', 'error_text' => 'Company Name must be less than 32 characters!']
     ],
     [
-        'form_id' => $forms['RegisterCustomerFrm'],
-        'group_id' => $groups['login'],
-        'field_name' => 'loginname',
-        'element_type' => 'I',
-        'sort_order' => 20,
-        'attributes' => 'minlength="5" maxlength="64" autocomplete="username"',
-        'settings' => '',
-        'required' => 1,
-        'status' => 1,
+        'form_id'        => $forms['RegisterCustomerFrm'],
+        'group_id'       => $groups['login'],
+        'field_name'     => 'loginname',
+        'element_type'   => 'I',
+        'sort_order'     => 20,
+        'attributes'     => 'minlength="5" maxlength="64" autocomplete="username"',
+        'settings'       => '',
+        'required'       => 1,
+        'status'         => 1,
         'regexp_pattern' => '/^[A-Za-z0-9._]{5,64}$/i',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Login Name', 'description' => '', 'error_text' => 'Login Name must be alphanumeric only and between 5 and 64 characters!']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Login Name', 'description' => '', 'error_text' => 'Login Name must be alphanumeric only and between 5 and 64 characters!']
     ],
     [
-        'form_id' => $forms['RegisterCustomerFrm'],
-        'group_id' => $groups['newsletter'],
-        'field_name' => 'newsletter',
-        'element_type' => 'C',
-        'sort_order' => 30,
-        'attributes' => '',
-        'settings' => '',
-        'required' => 0,
-        'status' => 1,
+        'form_id'        => $forms['RegisterCustomerFrm'],
+        'group_id'       => $groups['newsletter'],
+        'field_name'     => 'newsletter',
+        'element_type'   => 'C',
+        'sort_order'     => 30,
+        'attributes'     => '',
+        'settings'       => '',
+        'required'       => 0,
+        'status'         => 1,
         'regexp_pattern' => '',
-        'locked' => 1,
-        'descriptions' => ['name' => 'Subscribe', 'description' => '', 'error_text' => '']
+        'locked'         => 1,
+        'descriptions'   => ['name' => 'Subscribe', 'description' => '', 'error_text' => '']
     ],
     [
-        'form_id' => $forms['RegisterCustomerFrm'],
-        'group_id' => $groups['address'],
-        'field_name' => 'vat_id',
-        'element_type' => 'I',
-        'sort_order' => 28,
-        'attributes' => 'autocomplete="off"',
-        'settings' => '',
-        'required' => 0,
-        'status' => 0,
+        'form_id'        => $forms['RegisterCustomerFrm'],
+        'group_id'       => $groups['address'],
+        'field_name'     => 'vat_id',
+        'element_type'   => 'I',
+        'sort_order'     => 28,
+        'attributes'     => 'autocomplete="off"',
+        'settings'       => '',
+        'required'       => 0,
+        'status'         => 0,
         'regexp_pattern' => '/^.{8,14}$/u',
-        'locked' => 0,
-        'descriptions' => ['name' => 'VAT ID', 'description' => '', 'error_text' => 'VAT ID Code must be between 8 and 14 characters!']
+        'locked'         => 0,
+        'descriptions'   => ['name' => 'VAT ID', 'description' => '', 'error_text' => 'VAT ID Code must be between 8 and 14 characters!']
     ],
 ];
-
 
 // Insert via loop using $forms and $groups
 foreach ($fieldArray as $r) {
@@ -730,22 +738,35 @@ foreach ($fieldArray as $r) {
     $resourceId = null;
     if (isset($iconMap[$r['field_name']])) {
         $resourceId = (int)$iconMap[$r['field_name']];
-    }elseif (isset($iconMap[ str_replace("_","",$r['field_name'])])) {
-        $resourceId = (int)$iconMap[str_replace("_","",$r['field_name'])];
+    } elseif (isset($iconMap[str_replace("_", "", $r['field_name'])])) {
+        $resourceId = (int)$iconMap[str_replace("_", "", $r['field_name'])];
     }
 
-    $fieldName      = $this->db->escape($r['field_name']);
-    $elementType    = $this->db->escape($r['element_type']);
-    $sortOrder      = (int)$r['sort_order'];
-    $attributes     = $this->db->escape($r['attributes']);
-    $settings       = $this->db->escape($r['settings']);
-    $required       = (int)$r['required'];
-    $status         = (int)$r['status'];
-    $regexpPattern  = $r['regexp_pattern'] === '' ? '' : $this->db->escape($r['regexp_pattern']);
-    $locked         = (int)$r['locked'];
+    $fieldName = $this->db->escape($r['field_name']);
+    $elementType = $this->db->escape($r['element_type']);
+    $sortOrder = (int)$r['sort_order'];
+    $attributes = $this->db->escape($r['attributes']);
+    $settings = $this->db->escape($r['settings']);
+    $required = (int)$r['required'];
+    $status = (int)$r['status'];
+    $regexpPattern = $r['regexp_pattern'] === '' ? '' : $this->db->escape($r['regexp_pattern']);
+    $locked = (int)$r['locked'];
 
     $sql = "INSERT INTO " . $this->db->table('fields') . "
-        (`form_id`, `group_id`, `field_name`, `element_type`, `sort_order`, `attributes`, `settings`, `required`, `status`, `regexp_pattern`, `resource_id`, `locked`)
+        (
+        `form_id`, 
+        `group_id`, 
+        `field_name`, 
+        `element_type`, 
+        `sort_order`, 
+        `attributes`, 
+        `settings`, 
+        `required`, 
+        `status`, 
+        `regexp_pattern`, 
+        `resource_id`, 
+        `locked`
+        )
         VALUES (
             " . $r['form_id'] . ",
             " . $this->db->intOrNull($r['group_id']) . ",
@@ -756,22 +777,19 @@ foreach ($fieldArray as $r) {
             '" . $settings . "',
             " . $required . ",
             " . $status . ",
-            " . ($regexpPattern === '' ? "''" : "'".$regexpPattern."'") . ",
+            " . ($regexpPattern === '' ? "''" : "'" . $regexpPattern . "'") . ",
             " . $this->db->intOrNull($resourceId) . ",
-            ".$locked.")";
+            " . $locked . ")";
     $this->db->query($sql);
     $fieldId = (int)$this->db->getLastId();
+    $allFieldDescriptions = [];
     foreach ($languages as $lang) {
         $langId = (int)$lang['language_id'];
-        $sql = "INSERT INTO ".$this->db->table('field_descriptions')." 
-                (`field_id`, `name`, `description`, `language_id`, `error_text`)
-                VALUES (
-                '".$fieldId."', 
-                '".$this->db->escape($r['descriptions']['name'])."', 
-                '".$this->db->escape($r['descriptions']['description'])."', 
-                '".$langId."',
-                '".$this->db->escape($r['descriptions']['error_text'])."'
-                )";
-        $this->db->query($sql);
+        $allFieldDescriptions[$langId] = $r['descriptions'];
     }
+    $this->language->replaceDescriptions(
+        'field_descriptions',
+        ['field_id' => $fieldId],
+        $allFieldDescriptions
+    );
 }

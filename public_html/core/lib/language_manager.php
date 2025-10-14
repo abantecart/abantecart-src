@@ -374,10 +374,10 @@ class ALanguageManager extends Alanguage
         $del_index = [];
         foreach ($index as $i => $v) {
             if (has_value($v)) {
-                $del_index[] = $i . " = '" . $this->db->escape($v) . "'";
+                $del_index[] = $this->db->escape($i) . " = '" . $this->db->escape($v) . "'";
             }
         }
-        $sql = "DELETE FROM " . DB_PREFIX . $table_name . " ";
+        $sql = "DELETE FROM " . $this->db->table($table_name) . " ";
         $sql .= "WHERE " . implode(" AND ", $del_index);
         $this->db->query($sql);
     }
@@ -402,7 +402,7 @@ class ALanguageManager extends Alanguage
         $sel_index = [];
         foreach ($index as $i => $v) {
             if (has_value($v)) {
-                $sel_index[] = $i . " = '" . $this->db->escape($v) . "'";
+                $sel_index[] = $this->db->escape($i) . " = '" . $this->db->escape($v) . "'";
             }
         }
         $sql = "SELECT * 
@@ -444,7 +444,7 @@ class ALanguageManager extends Alanguage
             $update_index = [];
             foreach ($index as $i => $v) {
                 if (has_value($v)) {
-                    $update_index[] = $i . " = '" . $this->db->escape($v) . "'";
+                    $update_index[] = $this->db->escape($i) . " = '" . $this->db->escape($v) . "'";
                 }
             }
             $update_index[] = "language_id = '" . $this->db->escape($lang_id) . "'";
@@ -453,7 +453,7 @@ class ALanguageManager extends Alanguage
 
             $update_data = [];
             foreach ($lang_data as $i => $v) {
-                $update_data[] = $i . " = '" . $this->db->escape($v) . "'";
+                $update_data[] = $this->db->escape($i) . " = '" . $this->db->escape($v) . "'";
             }
 
             $sql = "UPDATE " . $this->db->table($table_name) . " ";
@@ -633,17 +633,21 @@ class ALanguageManager extends Alanguage
             //select latest version
             $sql = "SELECT version as version 
                     FROM " . $this->db->table('fields_history') . " 
-                    WHERE `table_name` = '" . $this->db->escape($tableName) . "' AND `record_id` = '" . $recId . "' 
-                        AND `field` = '" . $this->db->escape($field) . "' AND `language_id` = '" . $langId . "' ";
-            $sql .= "ORDER BY `version` DESC LIMIT 1";
+                    WHERE `table_name` = '" . $this->db->escape($tableName) . "' 
+                        AND `record_id` = '" . $recId . "' 
+                        AND `field` = '" . $this->db->escape($field) . "' 
+                        AND `language_id` = '" . $langId . "' 
+                    ORDER BY `version` DESC 
+                    LIMIT 1";
             $result = $this->db->query($sql);
             if ($result->row) {
                 $load_data['version'] = $result->row['version'] + 1;
             }
             $load_data['field'] = $this->db->escape($field);
             $load_data['text'] = $this->db->escape($currentData[$field]);
-            $sql = "INSERT INTO " . $this->db->table('fields_history') . " ";
-            $sql .= "(`" . implode("`, `", array_keys($load_data)) . "`) VALUES ('" . implode("', '", $load_data) . "') ";
+            $sql = "INSERT INTO " . $this->db->table('fields_history') . "
+                        (`" . implode("`, `", array_keys($load_data)) . "`) 
+                    VALUES ('" . implode("', '", $load_data) . "') ";
             $this->db->query($sql);
         }
     }
@@ -660,9 +664,13 @@ class ALanguageManager extends Alanguage
     public function getDescriptionHistory($table_name, $record_id, $field, $language_id)
     {
         $language_id = (int)$language_id ?? $this->getContentLanguageID();
-        $sql = "SELECT * FROM " . $this->db->table('fields_history') . " ";
-        $sql .= "WHERE `table_name` = '$table_name' AND `record_id` = '$record_id' AND `language_id` = '$language_id' AND `field` = '$field' ";
-        $sql .= "ORDER BY `version` DESC, `date_added` DESC";
+        $sql = "SELECT * 
+            FROM " . $this->db->table('fields_history') . "
+            WHERE `table_name` = '" . $this->db->escape($table_name) . "' 
+                AND `record_id` = '" . $this->db->table($record_id) . "' 
+                AND `language_id` = " . (int)$language_id . " 
+                AND `field` = '" . $this->db->escape($field) . "'
+            ORDER BY `version` DESC, `date_added` DESC";
         $result = $this->db->query($sql);
         return $result->rows;
     }
@@ -672,7 +680,7 @@ class ALanguageManager extends Alanguage
      */
     public function clearDescriptionHistory()
     {
-        $sql = "DELETE FROM " . $this->db->table('fields_history') . " ";
+        $sql = "DELETE FROM " . $this->db->table('fields_history');
         $this->db->query($sql);
     }
 
@@ -1007,7 +1015,8 @@ class ALanguageManager extends Alanguage
                 $result_txt = $src_text;
             }
             ADebug::checkpoint(
-                "ALanguageManager: Translated text:" . $src_text . " from " . $source_lang_code . " to " . $dest_lang_code
+                "ALanguageManager: Translated text:" . $src_text .
+                " from " . $source_lang_code . " to " . $dest_lang_code
             );
         } else {
             //fail over to default 'copy_source_text' method
@@ -1042,7 +1051,7 @@ class ALanguageManager extends Alanguage
         }
         //check what method is selected for translation
         if (empty($translate_method)) {
-            $translate_method = $this->registry->get('config')->get('translate_method');
+            $translate_method = $this->registry?->get('config')->get('translate_method');
         }
 
         foreach ($roadmap as $key) {
@@ -1173,7 +1182,7 @@ class ALanguageManager extends Alanguage
         $translatableCols = $this->getTranslatableFields($tableNameWithPrefix);
         $tCount = 0;
         $sql = "SELECT " . implode(', ', $priKeys) . "
-                FROM " . $tableNameWithPrefix . "
+                FROM " . $this->db->escape($tableNameWithPrefix) . "
                 WHERE language_id = " . $srcLanguageId . ' ' . $specificSql;
 
         $tables_query = $this->db->query($sql);
@@ -1198,14 +1207,14 @@ class ALanguageManager extends Alanguage
                 $sqlDst = "SELECT * 
                            FROM " . $this->db->escape($tableNameWithPrefix) . " 
                            WHERE language_id = " . $dstLanguageId . PHP_EOL
-                            . $whereDst;
+                    . $whereDst;
                 $res = $this->db->query($sqlDst);
                 $translatedRow = $res->row;
 
                 $sqlSrc = "SELECT * 
                            FROM " . $this->db->escape($tableNameWithPrefix) . " 
                            WHERE language_id = " . $srcLanguageId . PHP_EOL
-                            . $whereSrc;
+                    . $whereSrc;
                 $res = $this->db->query($sqlSrc);
                 $sourceRows = $res->rows;
 
@@ -1213,7 +1222,7 @@ class ALanguageManager extends Alanguage
                     $insert_data = [];
                     foreach ($srcRow as $columnName => $srcValue) {
                         //do not fill autoincrement column value
-                        if($columnName == $autoIncrementColumn){
+                        if ($columnName == $autoIncrementColumn) {
                             continue;
                         }
                         if ($columnName == 'language_id') {
@@ -1309,7 +1318,7 @@ class ALanguageManager extends Alanguage
                     WHERE c1.column_name = 'language_id'
                         AND c1.table_schema='" . $this->db->escape(DB_DATABASE) . "'" . PHP_EOL;
             if ($withDataOnly) {
-                $sql .= "AND t.table_rows > 0".PHP_EOL;
+                $sql .= "AND t.table_rows > 0" . PHP_EOL;
             }
 
             $sql .= "ORDER BY c1.table_name";
