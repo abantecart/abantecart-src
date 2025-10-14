@@ -3819,7 +3819,11 @@ blockquote p::after {
     overflow-y: auto;
 }
 
+.right_ant_banner {
+    padding: 0 5px 10px 5px;
+}
 .footer_ant_banner {
     display: block;
-    margin-top: 20px;
+    padding: 20px;
+    background: #064770;
 }
