@@ -161,12 +161,14 @@ jQuery(document).ready(function() {
 				body.addClass('leftpanel-collapsed stats-view');
 				$('.nav-bracket ul').attr('style', '');
 				$('#right_side_view').addClass('dropdown-toggle');
+                $('.side_left_ant_banner').hide();
 			} else {
 				body.removeClass('stats-view');
 				if (!$('.menutoggle').hasClass('menu-collapsed')) {
 					$('body').removeClass('leftpanel-collapsed');
 					$('.nav-bracket li.active > ul').css({display: 'block'});
 					$('#right_side_view').removeClass('dropdown-toggle');
+                    $('.side_left_ant_banner').show();
 				}
 			}
 		} else {
