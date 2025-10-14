@@ -10744,7 +10744,7 @@ CREATE TABLE `ac_ant_messages` (
   `placeholder` varchar(128) null,
   `start_date` timestamp NULL,
   `end_date` timestamp,
-  `viewed_date` timestamp,
+  `viewed_date` timestamp NULL,
   `viewed` int(11) NOT NULL default '0',
   `title` varchar(255) DEFAULT NULL,
   `description` text,
@@ -10756,6 +10756,95 @@ CREATE TABLE `ac_ant_messages` (
   KEY `daterange_idx` (`start_date`,`end_date`)
 ) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+INSERT INTO `ac_ant_messages`
+    (id, priority, placeholder, start_date, end_date, viewed_date, viewed, title, description, html, url, language_code)
+VALUES (
+        'quick_start_offer1',
+        1,
+        'quick_start',
+        NOW(),
+        '2030-01-01 02:00:00',
+        NULL,
+        0,
+        'Quick Start Wizzard modal content, Offer 1',
+        '',
+        '<div class="col-md-12">
+	<div class="text-center">
+		<a href="https://buy.avalara.com/signup?partner=abantecart&CampaignID=7010b0000013ZLp&" target="_ext_help">
+			<img width="900px" src="https://marketplace.abantecart.com/extensions/marketplace/storefront/view/default/images/avatax-trial-750x400.jpg" /></a>
+	</div>
+
+	<div class="text-center">
+		<div class="btn-group">
+			<a class="btn btn-white" href="https://buy.avalara.com/signup?partner=abantecart&CampaignID=7010b0000013ZLp&" target="_ext_help">
+				<i class="fa fa-arrow-right"></i> Learn More
+			</a>
+		</div>
+	</div>
+</div>',
+        '',
+        '*');
+INSERT INTO `ac_ant_messages`
+    (id, priority, placeholder, start_date, end_date, viewed_date, viewed, title, description, html, url, language_code)
+VALUES (
+        'quick_start_offer2',
+        1,
+        'quick_start',
+        NOW(),
+        '2030-01-01 02:00:00',
+        NULL,
+        0,
+        'Quick Start Wizzard modal content, Offer 2',
+        '',
+        '<div class="col-md-12">
+	<div class="text-center">
+        <h1>Accept Payments from <br/>customers with Stripe.</h1>
+		<p>
+            <img alt="Stripe + AbanteCart" src="https://www.abantecart.com/resources/image/18/7f/9.webp"
+                 class="mcnImage"
+                 style="max-width:600px; padding-bottom: 0; display: inline !important; vertical-align: bottom; width:570px; align:middle;">
+		</p>
+	</div>
+
+	<div style="padding: 10px 60px 30px 60px">
+        <h1>Some Stripe benefits:</h1>
+		<p>
+            <label><b>Stripe supports a wide range of payment methods</b></label>
+			<br />
+            including cards, bank debits, bank redirects, Affirm, Klarna, ACH, MobilePay and more.
+		</p>
+
+		<p>
+			<label><b>Powerful Fraud Protection and Easy PCI Compliance</b></label>
+			<br />
+			Our robust tokenization technology simplifies PCI compliance requirements and our built-in fraud screening tool stops fraud in its tracks.
+		</p>
+
+		<p>
+			<label><b>White-Glove Customer Support</b></label>
+			<br />
+            Get one-on-one support every step of the way. Stripe\'s Customer Support teams are always on hand to ensure
+            that you\'re getting the most out of your integration, without any processing disruptions.
+		</p>
+
+		<p>
+			<label><b>Competitive Processing Rates</b></label>
+			<br />
+			Our extensive industry expertise and rate optimization technology allow us to offer you the lowest rates.
+		</p>
+	</div>
+
+	<div class="text-center">
+		<div class="btn-group">
+            <a class="btn btn-white" href="#admin#rt=extension/extensions/edit&extension=stripe" target="_blank">
+				<i class="fa fa-arrow-right"></i> Learn More
+			</a>
+		</div>
+	</div>
+</div>',
+        '',
+        '*'
+);
 
 --
 -- DDL for table `ac_datasets`
