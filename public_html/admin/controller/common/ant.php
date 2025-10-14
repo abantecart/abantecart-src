@@ -98,6 +98,14 @@ class ControllerCommonANT extends AController
             $antIds = [];
             foreach ($result as $notify) {
                 $tmp = [];
+                if( (!in_array($notify['start_date'], ['0000-00-00 00:00:00','', null]) &&
+                        dateISO2Int($notify['start_date'])>time())
+                    ||
+                    (!in_array($notify['end_date'], ['0000-00-00 00:00:00','', null]) &&
+                        dateISO2Int($notify['end_date'])<time())
+                ) {
+                    continue;
+                }
                 foreach ($notify as $key => $value) {
                     if (!in_array($key, $check_array)) {
                         continue;
