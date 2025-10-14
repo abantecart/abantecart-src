@@ -289,6 +289,7 @@ jQuery(document).ready(function() {
 	if(Cookies.get('leftpanel-collapsed')) {
 		$('body').addClass('leftpanel-collapsed');
 		$('.menutoggle').addClass('menu-collapsed');
+        $('.side_left_ant_banner').hide();
 	}
 	if($('body').hasClass('leftpanel-collapsed')) {
 		$('.nav-bracket .children').css({display: ''});
