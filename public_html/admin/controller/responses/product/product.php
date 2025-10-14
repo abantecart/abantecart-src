@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnreachableStatementInspection */
 /*
  *   $Id$
  *
@@ -673,7 +673,7 @@ class ControllerResponsesProductProduct extends AController
 
         $option_info = $this->model_catalog_product->getProductOption($productId, $optionId);
 
-        //remove html-code from textarea product option
+        //remove html-code from a textarea product option
         if (in_array($option_info['element_type'], ['T', 'B'])) {
             foreach ((array)$this->request->post['name'] as &$v) {
                 $v = strip_tags(html_entity_decode($v, ENT_QUOTES, 'UTF-8'));
@@ -2177,6 +2177,8 @@ class ControllerResponsesProductProduct extends AController
             } elseif (isset($priceWithTax)) {
                 $output = $tax->calculate((float)$priceWithTax, $taxClassId, true, true);
             }
+        }else{
+            $output = max($price,$priceWithTax);
         }
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
