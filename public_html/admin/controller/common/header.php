@@ -18,20 +18,14 @@
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
-/**
- * Class ControllerCommonHeader
- *
- * @property ModelToolOnlineNow $model_tool_online_now
- * @property ModelToolMPAPI $model_tool_mp_api
- *
- */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 class ControllerCommonHeader extends AController
 {
     const TOP_ADMIN_GROUP = 1;
 
     public function main()
     {
-
         //use to init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -40,13 +34,8 @@ class ControllerCommonHeader extends AController
 
         if ($this->request->is_POST() && isset($this->request->post['language_code'])) {
             unset($this->session->data['content_language']);
-            $this->session->data['language'] = $this->request->post['language_code'];
-
-            if (!empty($this->request->post['redirect'])) {
-                redirect($this->request->post['redirect']);
-            } else {
-                redirect($this->html->getURL('index/home'));
-            }
+            $this->session->data['language'] = (string)$this->request->post['language_code'];
+            redirect($this->request->post['redirect'] ?: $this->html->getSecureURL('index/home'));
         }
 
         $this->data['language_code'] = $this->session->data['language'];
@@ -93,26 +82,29 @@ class ControllerCommonHeader extends AController
             || ($this->request->get['token'] != $this->session->data['token'])
         ) {
             $this->data['logged'] = '';
-            $this->data['home'] = $this->html->getSecureURL('index/login', '', true);
+            $this->data['home'] = $this->html->getSecureURL('index/login', encode: true);
         } else {
-            $this->data['home'] = $this->html->getSecureURL('index/home', '', true);
-            $this->data['logged'] = sprintf($this->language->get('text_logged'), $this->user->getUserName());
+            $this->data['home'] = $this->html->getSecureURL('index/home', encode: true);
             $this->data['username'] = $this->user->getUserName();
+            $this->data['logged'] = $this->language->getAndReplace('text_logged', replaces: $this->data['username']);
+
             if ($this->user->getLastLogin()) {
-                $this->data['last_login'] = sprintf(
-                    $this->language->get('text_last_login'),
-                    $this->user->getLastLogin()
+                $this->data['last_login'] = $this->language->getAndReplace(
+                    'text_last_login',
+                    replaces: $this->user->getLastLogin()
                 );
             } else {
-                $this->data['last_login'] = sprintf(
-                    $this->language->get('text_welcome'),
-                    $this->user->getUserName()
+                $this->data['last_login'] = $this->language->getAndReplace(
+                    'text_welcome',
+                    replaces: $this->data['username']
                 );
             }
-            $this->data['account_edit'] = $this->html->getSecureURL('index/edit_details', '', true);
+            $this->data['account_edit'] = $this->html->getSecureURL('index/edit_details', encode: true);
             $this->data['im_settings_edit'] = $this->html->getSecureURL(
                 'user/user/im',
-                '&user_id=' . $this->user->getId(), true);
+                '&user_id=' . $this->user->getId(),
+                true
+            );
             $this->data['text_edit_notifications'] = $this->language->get('text_edit_notifications');
 
             $stores = [];
@@ -127,7 +119,7 @@ class ControllerCommonHeader extends AController
 
             $this->data['logout'] = $this->html->getSecureURL('index/logout');
             $this->data['store'] = $this->config->get('config_url');
-            // add dynamic menu based on dataset scheme
+            // add a dynamic menu based on a dataset scheme
             $this->addChild('common/menu', 'menu', 'common/menu.tpl');
 
             //Get current menu item
@@ -170,19 +162,17 @@ class ControllerCommonHeader extends AController
                 $this->data['last_ant'] = $ANTMessage['html'];
                 $this->data['mark_read_url'] = $this->html->getSecureURL(
                     'common/common/antMessageRead',
-                    '&message_id=' . $ANTMessage['id']
+                    '&' . http_build_query(['message_id' => $ANTMessage['id']])
                 );
                 $this->data['ant_viewed'] = $ANTMessage['viewed'];
             }
             $leftAntMessage = $this->messages->getANTMessageByPlaceholder('left');
             if ($leftAntMessage) {
-                $this->data['left_ant'] = $leftAntMessage['html'];
+                $this->view->addHookVar(
+                    'leftpanel_bottom',
+                    '<div class="side_left_ant_banner">' . $leftAntMessage['html'] . '</div>'
+                );
                 $this->messages->markViewedANT($leftAntMessage['id'], '*');
-            }
-            $rightAntMessage = $this->messages->getANTMessageByPlaceholder('right');
-            if ($rightAntMessage) {
-                $this->data['right_ant'] = $rightAntMessage['html'];
-                $this->messages->markViewedANT($rightAntMessage['id'], '*');
             }
         }
 
@@ -193,69 +183,59 @@ class ControllerCommonHeader extends AController
         $this->data['latest_customers_url'] = $this->html->getSecureURL('common/tabs/latest_customers');
         $this->data['latest_orders_url'] = $this->html->getSecureURL('common/tabs/latest_orders');
         $this->data['rl_manager_url'] = $this->html->getSecureURL('tool/rl_manager');
-
         $this->data['server_date'] = date($this->language->get('date_format_short'));
         $this->data['server_time'] = date($this->language->get('time_format'));
-
         $this->data['search_everywhere'] = $this->language->get('search_everywhere');
         $this->data['text_all_matches'] = $this->language->get('text_all_matches');
         $this->data['dialog_title'] = $this->language->get('text_quick_edit_form');
-        $this->data['button_go'] = $this->html->buildButton(
-            [
-                'name'  => 'searchform_go',
-                'text'  => $this->language->get('button_go'),
-                'style' => 'button5',
-            ]
-        );
 
         $permissions = [];
-        $this->loadModel('user/user_group');
         $groupID = (int)$this->user->getUserGroupId();
         if ($groupID !== self::TOP_ADMIN_GROUP) {
-            $user_group = $this->model_user_user_group->getUserGroup($groupID);
+            $user_group = $this->loadModel('user/user_group')->getUserGroup($groupID);
             $permissions = $user_group['permission'];
         }
 
         //prepare quick stats
         if ($groupID == self::TOP_ADMIN_GROUP || $permissions['access']['sale/customer']) {
-            $this->loadModel('tool/online_now');
+            /** @var ModelToolOnlineNow $mto */
+            $mto = $this->loadModel('tool/online_now');
+            $this->data['online_new'] = $mto->getTotalTodayOnline('new');
+            $this->data['online_registered'] = $mto->getTotalTodayOnline('registered');
+            $this->data['today_customer_count'] = $this->loadModel('sale/customer')->getTotalCustomers(
+                [
+                    'filter' => ['date_added' => date('Y-m-d', time())]
+                ]
+            );
             $this->data['viewcustomer'] = true;
-            $this->data['online_new'] = $this->model_tool_online_now->getTotalTodayOnline('new');
-            $this->data['online_registered'] = $this->model_tool_online_now->getTotalTodayOnline('registered');
-
-            $this->loadModel('sale/customer');
-            $filter = ['date_added' => date('Y-m-d', time())];
-            $this->data['today_customer_count'] = $this->model_sale_customer->getTotalCustomers(['filter' => $filter]);
         } else {
             $this->data['viewcustomer'] = false;
         }
 
         if ($groupID == self::TOP_ADMIN_GROUP || $permissions['access']['sale/order']) {
-            $this->loadModel('report/sale');
-            $this->data['vieworder'] = true;
-
+            $now = dateISO2Display(date('Y-m-d', time()), $this->language->get('date_format_short'));
             $data = [
                 'filter' => [
                     'order_status' => 'confirmed',
-                    'date_start'   => dateISO2Display(date('Y-m-d', time()), $this->language->get('date_format_short')),
-                    'date_end'     => dateISO2Display(date('Y-m-d', time()), $this->language->get('date_format_short')),
+                    'date_start'   => $now,
+                    'date_end'     => $now,
                 ],
             ];
 
-            $today_orders = $this->model_report_sale->getSaleReportSummary($data);
+            $today_orders = $this->loadModel('report/sale')->getSaleReportSummary($data);
             $this->data['today_order_count'] = $today_orders['orders'];
             $this->data['today_sales_amount'] = $this->currency->format(
                 $today_orders['total_amount'],
                 $this->config->get('config_currency')
             );
+            $this->data['vieworder'] = true;
         } else {
             $this->data['vieworder'] = false;
         }
 
         if ($groupID == self::TOP_ADMIN_GROUP || $permissions['access']['catalog/review']) {
-            $this->loadModel('catalog/review');
+            $this->data['today_review_count'] = $this->loadModel('catalog/review')->getTotalToday();
             $this->data['viewreview'] = true;
-            $this->data['today_review_count'] = $this->model_catalog_review->getTotalToday();
         } else {
             $this->data['viewreview'] = false;
         }

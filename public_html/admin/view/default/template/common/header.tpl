@@ -19,7 +19,8 @@
 					<img class="logo_image"
                          src="<?php echo $template_dir; ?>image/logo.png"
                          style="max-width:190px; max-height: 40px;"
-						 title="<?php echo $heading_title; ?>"/>
+						 alt="<?php echo_html2view($heading_title); ?>"
+						 title="<?php echo_html2view($heading_title); ?>"/>
 					<?php
 				}
 				?>
@@ -40,11 +41,6 @@
 			<div class="side_summary">
 				<?php include($tpl_common_dir . 'summary.tpl'); ?>
 			</div>
-            <?php if($left_ant){ ?>
-                <div class="side_left_ant_banner">
-                    <?php echo $left_ant; ?>
-                </div>
-            <?php }?>
 			<?php echo $this->getHookVar('leftpanel_bottom'); ?>
 		</div>
 	</div>
@@ -53,7 +49,7 @@
 	<div class="headerbar">
 		<a class="menutoggle"><i class="fa fa-arrows-h"></i></a>
 		<select id="global_search" name="search" class="chosen-select form-control aselect"
-                data-placeholder="<?php echo $search_everywhere; ?>">
+                data-placeholder="<?php echo_html2view($search_everywhere); ?>">
 			<option></option>
 		</select>
 		<div id="suggest_popup_dialog"></div>
@@ -147,21 +143,22 @@
                                     <i class="fa fa-gears"></i>
                                 </a>
 							</h5>
-							<form action="<?php echo str_replace('&', '&amp;', $action); ?>"
-                                  method="post"
-								  enctype="multipart/form-data" id="language_form">
+							<form id="language_form"
+                                  action="<?php echo str_replace('&', '&amp;', $action); ?>"
+                                  method="post" enctype="application/x-www-form-urlencoded" >
 								<ul class="dropdown-list gen-list">
 									<?php foreach ($languages as $language){ ?>
 										<li>
-											<a onClick="$('input[name=\'language_code\']').attr('value', '<?php echo $language['code']; ?>'); $('#language_form').submit();">
+											<a onClick="$('input[name=language_code]').attr('value', '<?php echo $language['code']; ?>'); $('#language_form').submit();">
                                         <?php
-												if ($language['image']){ ?>
-													<img src="<?php echo_html2view($language['image']); ?>"
-                                                         title="<?php echo_html2view($language['name']); ?>"
-                                                         alt="<?php echo_html2view($language['name']); ?>"/>
-                                        <?php } else{ ?>
-													<div class="pull-left" style="width: 19px;">&nbsp;</div>
-												<?php } ?>
+                                            if ($language['image']){ ?>
+                                            <img src="<?php echo_html2view($language['image']); ?>"
+                                                 title="<?php echo_html2view($language['name']); ?>"
+                                                 alt="<?php echo_html2view($language['name']); ?>"/>
+                                            <?php
+                                            } else { ?>
+                                                <div class="pull-left" style="width: 19px;">&nbsp;</div>
+                                            <?php } ?>
 												<span class="ml10"><?php echo $language['name']; ?></span>
 											</a>
 										</li>
@@ -240,9 +237,7 @@ echo $this->html->buildElement(
         'modal_type'  => 'lg',
         'data_source' => 'ajax'
     ]
-);
-?>
-
+); ?>
 	<div class="pageheader">
 	<?php
 		$current = []; ?>

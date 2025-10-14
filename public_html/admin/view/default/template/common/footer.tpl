@@ -15,14 +15,8 @@
     </div>
     <div class="col-md-3 version"><?php echo $text_footer; ?></div>
 </div>
-<?php if ($footer_ant) { ?>
-    <div class="footer_ant_banner">
-        <?php echo $footer_ant; ?>
-    </div>
-<?php } ?>
 <?php echo $this->getHookVar('footer_bottom'); ?>
-
-</div><!-- mainpanel -->
+</div>
 
 <?php if ($logged) { ?>
     <div class="rightpanel">
@@ -35,21 +29,15 @@
 
         <!-- Tab panes -->
         <div class="tab-content">
-            <?php if ($right_ant) { ?>
-                <div class="right_ant_banner">
-                    <?php echo $right_ant; ?>
-                </div>
-            <?php } ?>
-
+            <?php echo $this->getHookVar('rightpanel_tabpanes_before'); ?>
             <div class="tab-pane active" id="rp-alluser">
                 <h5 class="sidebartitle"><?php echo $recent_customers; ?></h5>
             </div>
             <div class="tab-pane" id="rp-orders">
                 <h5 class="sidebartitle"><?php echo $new_orders; ?></h5>
             </div>
+            <?php echo $this->getHookVar('rightpanel_tabpanes_after'); ?>
 
-            <?php echo $this->getHookVar('rightpanel_tabpanes'); ?>
-
-        </div><!-- tab-content -->
+        </div>
     </div><!-- rightpanel -->
-<?php } // END of logged in ?>   
+<?php } ?>

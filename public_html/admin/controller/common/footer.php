@@ -17,6 +17,8 @@
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -73,12 +75,18 @@ class ControllerCommonFooter extends AController
 
             $footerAntMessage = $this->messages->getANTMessageByPlaceholder('footer');
             if ($footerAntMessage) {
-                $this->view->assign('footer_ant', $footerAntMessage['html']);
+                $this->view->addHookVar(
+                    'footer_bottom',
+                    '<div class="footer_ant_banner">' . $footerAntMessage['html'] . '</div>'
+                );
                 $this->messages->markViewedANT($footerAntMessage['id'], '*');
             }
             $rightAntMessage = $this->messages->getANTMessageByPlaceholder('right');
             if ($rightAntMessage) {
-                $this->view->assign('right_ant', $rightAntMessage['html']);
+                $this->view->addHookVar(
+                    'rightpanel_tabpanes_before',
+                    '<div class="right_ant_banner">' . $rightAntMessage['html'] . '</div>'
+                );
                 $this->messages->markViewedANT($rightAntMessage['id'], '*');
             }
         }

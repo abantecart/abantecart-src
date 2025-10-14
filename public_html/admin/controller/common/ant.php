@@ -23,10 +23,11 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 /**
  * ANT
- * class for retrieving messages from remote ANT-server and insert it into database of abantecart
+ * class for retrieving messages from remote ANT-server and insert it into a database of abantecart
  */
 class ControllerCommonANT extends AController
 {
+    const EXPIRE_TIME = 86400;
 
     public function main()
     {
@@ -42,19 +43,19 @@ class ControllerCommonANT extends AController
 
         // prevent repeats of requests or if last update older then 24hours
         if (has_value($this->session->data['ant_messages'])
-            && (time() - $this->session->data['ant_messages']['date_modified'] < 86400)) {
+            && (time() - $this->session->data['ant_messages']['date_modified'] < self::EXPIRE_TIME)) {
             return null;
         }
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
+        $httpQuery = (array)$this->data['ant_http_query'];
         $httpQuery['software_name'] = 'AbanteCart';
         $httpQuery['store_id'] = UNIQUE_ID;
         $httpQuery['store_ip'] = $_SERVER ['SERVER_ADDR'];
         $httpQuery['store_url'] = HTTP_SERVER;
         $httpQuery['store_version'] = VERSION;
-        $httpQuery['language_code'] = $this->request->cookie ['language'];
+        $httpQuery['language_code'] = $this->request->cookie['language'];
 
         //check if user login first time
         if (!$this->user->getLastLogin()) {
@@ -65,7 +66,7 @@ class ControllerCommonANT extends AController
         $extensions_list = $this->extensions->getExtensionsList();
         if ($extensions_list) {
             foreach ($extensions_list->rows as $ext) {
-                $httpQuery['extension'][] = $ext ['key'] . "~" . $ext ['version'];
+                $httpQuery['extension'][] = $ext['key'] . "~" . $ext['version'];
             }
         }
 
@@ -73,7 +74,7 @@ class ControllerCommonANT extends AController
         $connect = new AConnect (true);
         $result = $connect->getResponseSecure("/get_ant_messages/?".http_build_query($httpQuery));
         $this->session->data ['ant_messages'] = []; // prevent requests in future at this session
-        // insert new messages in database
+        // insert new messages in the database
         if ($result && is_array($result)) {
             //set array for check response
             $check_array = [
@@ -101,14 +102,14 @@ class ControllerCommonANT extends AController
                     if (!in_array($key, $check_array)) {
                         continue;
                     }
-                    $tmp [$key] = $value;
+                    $tmp[$key] = $value;
                     $antIds[] = $tmp['message_id'];
                 }
 
                 // lets insert
                 switch ($tmp ['type']) {
                     case 'W' :
-                        $this->messages->saveWarning($tmp ['title'], $tmp ['description']);
+                        $this->messages->saveWarning($tmp['title'], $tmp['description']);
                         break;
                     case 'E' :
                         $this->messages->saveError($tmp['title'], $tmp['description']);
@@ -127,7 +128,7 @@ class ControllerCommonANT extends AController
         // in case when answer from server is empty
         $this->session->data['ant_messages']['date_modified'] = time();
 
-        // check for extensions updates
+        // check for extension updates
         $this->loadModel('tool/updater');
         $this->model_tool_updater->check4updates(true);
     }
