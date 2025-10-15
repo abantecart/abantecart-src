@@ -19,10 +19,13 @@ alter table `ac_coupons`
 INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('checkout','config_unauth_customer',1);
 
 alter table `ac_orders`
+    modify `shipping_company` varchar(255) NULL,
+    modify `payment_company` varchar(255) NULL,
     add `ext_fields` json null after `ip`,
     modify `payment_method_data` text NOT NULL DEFAULT '' after `payment_method_key`;
 
 alter table `ac_addresses`
+    modify `company` varchar(255) NULL,
     add `ext_fields` json null,
     add `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
     add `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;

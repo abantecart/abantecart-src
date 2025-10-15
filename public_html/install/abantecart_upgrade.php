@@ -180,9 +180,9 @@ $fieldArray = [
         'settings'       => '',
         'required'       => 0,
         'status'         => 1,
-        'regexp_pattern' => '/^.{0,32}$/u',
+        'regexp_pattern' => '/^.{0,255}$/u',
         'locked'         => 1,
-        'descriptions'   => ['name' => 'Company', 'description' => '', 'error_text' => 'Company Name must be less than 32 characters!']
+        'descriptions'   => ['name' => 'Company', 'description' => '', 'error_text' => 'Company Name must be less than 255 characters!']
     ],
     [
         'form_id'        => $forms['AddressFrm'],
@@ -334,9 +334,9 @@ $fieldArray = [
         'settings'       => '',
         'required'       => 0,
         'status'         => 1,
-        'regexp_pattern' => '/^.{0,32}$/u',
+        'regexp_pattern' => '/^.{0,255}$/u',
         'locked'         => 1,
-        'descriptions'   => ['name' => 'Company', 'description' => '', 'error_text' => 'Company Name must be less than 32 characters!']
+        'descriptions'   => ['name' => 'Company', 'description' => '', 'error_text' => 'Company Name must be less than 255 characters!']
     ],
     [
         'form_id'        => $forms['GuestCheckoutFrm'],
@@ -684,9 +684,9 @@ $fieldArray = [
         'settings'       => '',
         'required'       => 0,
         'status'         => 1,
-        'regexp_pattern' => '/^.{0,32}$/u',
+        'regexp_pattern' => '/^.{0,255}$/u',
         'locked'         => 1,
-        'descriptions'   => ['name' => 'Company', 'description' => '', 'error_text' => 'Company Name must be less than 32 characters!']
+        'descriptions'   => ['name' => 'Company', 'description' => '', 'error_text' => 'Company Name must be less than 255 characters!']
     ],
     [
         'form_id'        => $forms['RegisterCustomerFrm'],
