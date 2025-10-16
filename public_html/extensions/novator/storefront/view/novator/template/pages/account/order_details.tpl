@@ -246,7 +246,7 @@
             <i class="<?php echo $button_print->icon; ?>"></i>
             <?php echo $button_print->text ?>
         </a>
-
+        <?php echo $this->getHookVar('pre_button_order_cancel'); ?>
         <?php if ($button_order_cancel) { ?>
             <a href="#" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelationModal"
                title="<?php echo_html2view($button_order_cancel->text) ?>">
