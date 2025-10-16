@@ -42,6 +42,13 @@
 					<?php echo $entry_sku; ?></label>
 				<div class="input-group input-group-sm afield"><?php echo $form['fields']['sku']; ?></div>
 			</div>
+            <?php if(!$product_data['shipping']){ ?>
+            <div class="pull-left col-md-3 col-xs-6">
+                <label class="control-label" for="<?php echo $form['fields']['require_shipping']->element_id; ?>">
+                    <?php echo $entry_shipping; ?></label>
+                <div class="input-group input-group-sm afield"><?php echo $form['fields']['require_shipping']; ?></div>
+            </div>
+            <?php } ?>
 			<div class="pull-left col-md-3 col-xs-6">
 				<label class="control-label" for="<?php echo $form['fields']['weight']->element_id; ?>">
 					<?php echo $entry_weight; ?></label>

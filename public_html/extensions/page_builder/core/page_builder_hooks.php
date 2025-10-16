@@ -142,7 +142,7 @@ class ExtensionPageBuilder extends Extension
             if(str_starts_with($pageRoute,'pages/account')
                 && !str_contains($pageRoute,'account/login')
                 && !$that->customer->isLogged()){
-                $that->session->data['redirect'] = $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+                $that->session->data['redirect'] = $_SERVER['REQUEST_URI'].'://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
                 redirect($that->html->getSecureURL('account/login'));
             }
 

@@ -1,27 +1,18 @@
-<style>
-	.btn.btn-primary.tooltips.add_media {
-		display: none;
-	}
-	.conditions-subform .quicksave {
-		display: none;
-	}
-</style>
-<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
-
-<?php echo $collection_tabs ?>
-
+<?php
+include($tpl_common_dir . 'action_confirm.tpl');
+echo $collection_tabs ?>
 <div id="content" class="panel panel-default">
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
 			<div class="btn-group">
 				<a class="btn btn-white tooltips back-to-grid hidden" data-table-id="collections_grid" href="<?php echo $list_url; ?>"
-                   data-toggle="tooltip" data-original-title="<?php echo $text_back_to_list; ?>"><i class="fa fa-arrow-left fa-lg"></i>
+                   data-toggle="tooltip" data-original-title="<?php echo_html2view($text_back_to_list); ?>"><i class="fa fa-arrow-left fa-lg"></i>
 				</a>
 			</div>
 			<?php if ($insert){ ?>
 				<div class="btn-group mr10 toolbar">
 					<a class="actionitem btn btn-primary lock-on-click tooltips" href="<?php echo $insert; ?>"
-					   title="<?php echo $button_add; ?>">
+					   title="<?php echo_html2view($button_add); ?>">
 						<i class="fa fa-plus fa-fw"></i>
 					</a>
 				</div>
@@ -35,17 +26,7 @@
 		<label class="h4 heading"><?php echo $form_title; ?></label>
 		<?php foreach ((array)$form['fields']['general'] as $name => $field) {
 		//Logic to calculate fields width
-		$widthcasses = "col-sm-7";
-		if (is_int(stripos($field->style, 'large-field'))){
-			$widthcasses = "col-sm-7";
-		} else if (is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date'))){
-			$widthcasses = "col-sm-5";
-		} else if (is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch'))){
-			$widthcasses = "col-sm-3";
-		} else if (is_int(stripos($field->style, 'tiny-field'))){
-			$widthcasses = "col-sm-2";
-		}
-		$widthcasses .= " col-xs-12";
+		$widthCssClasses = adminFormFieldBS3CssClasses($field->style);
 		?>
 		<div class="form-group row align-items-start <?php if (!empty($error[$name])){
 			echo "has-error";
@@ -53,7 +34,7 @@
 			<label class="control-label offset-sm-1 col-sm-3 col-xs-12"
 			       for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 			<div id="field_<?php echo $name; ?>"
-			     class="input-group afield <?php echo $widthcasses; ?> <?php echo($name == 'content' ? 'ml_ckeditor' : '') ?>">
+			     class="input-group afield <?php echo $widthCssClasses; ?> <?php echo($name == 'content' ? 'ml_ckeditor' : '') ?>">
                 <?php if($name == 'keyword') { ?>
 					<span class="input-group-btn">
 					<?php echo $keyword_button; ?>
@@ -115,16 +96,14 @@
 					&nbsp;<a class="btn btn-danger remove_cond" data-confirmation="delete" onclick="removeCondition(this);"><i class="fa fa-minus"></i></a>
 				</div>
 			</div>
-            <?php } ?><!-- <div class="fieldset"> -->
+            <?php } ?>
 		</div>
 	</div>
 
 	<div class="panel-body panel-body-nopadding tab-content col-xs-12 conditions-subform">
 		<label class="h4 heading"><?php echo $condition_object['text']; ?></label>
-
 		<div class="form-group form-inline">
 			<label class="control-label col-sm-3 col-xs-12"></label>
-
 			<div class="input-group afield col-sm-3 col-xs-12">
                 <?php echo $condition_object['field']; ?>
 			</div>
@@ -133,7 +112,6 @@
 			</div>
 		</div>
 	</div>
-
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
 			<button class="btn btn-primary lock-on-click">
@@ -151,11 +129,9 @@
 		</div>
 	</div>
 	</form>
-
 </div>
 
 <script type="text/javascript">
-
     $(document).ready(function () {
         $('.chosen-container-multi, .chosen-container-single').css('width', '30%');
     });
@@ -166,7 +142,6 @@
             $('#' + $('#collectionsFrm_condition_object').val()).length > 0) {
             return null;
         }
-
         $.ajax({
             url: '<?php echo $condition_url; ?>',
             type: 'POST',
@@ -186,7 +161,7 @@
 
                 $('#collectionsFrm_condition_object').val(0).change();
 
-                $('.chosen-container-multi, .chosen-container-single').css('width', '30%');
+                setTimeout(()=> { $('.chosen-container-multi, .chosen-container-single').css('width', '40%');}, 300);
             }
         });
     });

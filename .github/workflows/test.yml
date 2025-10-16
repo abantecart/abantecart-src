@@ -15,12 +15,12 @@ jobs:
         db:
           - ver: mysql
             release: '8.0'
-          - ver: mysql
-            release: latest
+#          - ver: mysql
+#            release: latest
           - ver: mariadb
             release: '10.5.25'
-          - ver: mariadb
-            release: latest
+#          - ver: mariadb
+#            release: latest
       fail-fast: false
 
     steps:

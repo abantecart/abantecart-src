@@ -35,14 +35,14 @@ OXXO: <a href="https://stripe.com/docs/payments/oxxo" target="_blank">https://st
 
 8. Note: Some payment methods involve delayed processing and may return a pending status. Such orders may need manual status updates in the AbanteCart Order section after reviewing payment details in the Stripe Dashboard.<br/><br/>
 
-For more information about Stripe services and transaction details, access your Stripe Dashboard.<br/><a target="_new" href="https://www.stripe.com/?id=abantecart">Access Stripe</a>
+For more information about Stripe services and transaction details, access your Stripe Dashboard.<br/><a target="_blank" href="https://www.stripe.com/?id=abantecart">Access Stripe</a>
 <br/>
 <br/>
 
 9. <i class="fa fa-warning"></i> <b>Important:</b> Some Stripe payment methods require setting up webhooks in your Stripe account.<br/>
 Follow these steps to complete the webhook setup:
 <ul>
-    <li>Go to your <a href="https://dashboard.stripe.com/webhooks" target="_new">Stripe Dashboard Developer Section</a>.</li>
+    <li>Go to your <a href="https://dashboard.stripe.com/webhooks" target="_blank">Stripe Dashboard Developer Section</a>.</li>
     <li>Click <b>Add Endpoint</b>.</li>
     <li>Enter your webhook endpoint’s HTTPS URL in the Endpoint URL field.</li>
     <li>Select <b>Select events to listen to</b>.</li>

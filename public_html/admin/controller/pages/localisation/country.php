@@ -1,29 +1,27 @@
 <?php
-
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 class ControllerPagesLocalisationCountry extends AController
 {
-    public $data = array();
-    public $error = array();
-    private $fields = array('status', 'iso_code_2', 'iso_code_3', 'address_format');
+    public $error = [];
+    public $fields = ['status', 'iso_code_2', 'iso_code_3', 'address_format'];
 
     public function main()
     {
@@ -39,74 +37,78 @@ class ControllerPagesLocalisationCountry extends AController
             unset($this->session->data['success']);
         }
 
-        $this->document->initBreadcrumb(array(
+        $this->document->initBreadcrumb(
+            [
             'href'      => $this->html->getSecureURL('index/home'),
             'text'      => $this->language->get('text_home'),
             'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
+        ]
+        );
+        $this->document->addBreadcrumb(
+            [
             'href'      => $this->html->getSecureURL('localisation/country'),
             'text'      => $this->language->get('heading_title'),
             'separator' => ' :: ',
             'current'   => true,
-        ));
+        ]
+        );
 
-        $grid_settings = array(
+        $grid_settings = [
             'table_id'     => 'country_grid',
             'url'          => $this->html->getSecureURL('listing_grid/country'),
             'editurl'      => $this->html->getSecureURL('listing_grid/country/update'),
             'update_field' => $this->html->getSecureURL('listing_grid/country/update_field'),
             'sortname'     => 'name',
             'sortorder'    => 'asc',
-            'actions'      => array(
-                'edit'   => array(
+            'actions'      => [
+                'edit'   => [
                     'text' => $this->language->get('text_edit'),
                     'href' => $this->html->getSecureURL('localisation/country/update', '&country_id=%ID%'),
-                ),
-                'save'   => array(
+                ],
+                'save'   => [
                     'text' => $this->language->get('button_save'),
-                ),
-                'delete' => array(
+                ],
+                'delete' => [
                     'text' => $this->language->get('button_delete'),
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
-        $grid_settings['colNames'] = array(
+        $grid_settings['colNames'] = [
             $this->language->get('column_name'),
             $this->language->get('column_iso_code_2'),
             $this->language->get('column_iso_code_3'),
             $this->language->get('column_status'),
-        );
-        $grid_settings['colModel'] = array(
-            array(
+        ];
+        $grid_settings['colModel'] = [
+            [
                 'name'  => 'name',
                 'index' => 'name',
                 'width' => 250,
                 'align' => 'left',
-            ),
-            array(
+            ],
+            [
                 'name'  => 'iso_code_2',
                 'index' => 'iso_code_2',
                 'width' => 120,
                 'align' => 'center',
-            ),
-            array(
+            ],
+            [
                 'name'  => 'iso_code_3',
                 'index' => 'iso_code_3',
                 'width' => 120,
                 'align' => 'center',
-            ),
-            array(
+            ],
+            [
                 'name'   => 'status',
                 'index'  => 'status',
                 'width'  => 130,
                 'align'  => 'center',
                 'search' => false,
-            ),
-        );
+            ],
+        ];
 
-        $grid = $this->dispatch('common/listing_grid', array($grid_settings));
+        $grid = $this->dispatch('common/listing_grid', [$grid_settings]);
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
 
         $this->view->assign('insert', $this->html->getSecureURL('localisation/country/insert'));
@@ -161,20 +163,20 @@ class ControllerPagesLocalisationCountry extends AController
 
     private function _getForm()
     {
-        $this->data = array();
+        $this->data = [];
         $this->data['error'] = $this->error;
         $this->data['cancel'] = $this->html->getSecureURL('localisation/country');
 
-        $this->document->initBreadcrumb(array(
+        $this->document->initBreadcrumb([
             'href'      => $this->html->getSecureURL('index/home'),
             'text'      => $this->language->get('text_home'),
             'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
+        ]);
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getSecureURL('localisation/country'),
             'text'      => $this->language->get('heading_title'),
             'separator' => ' :: ',
-        ));
+        ]);
 
         if (isset($this->request->get['country_id']) && $this->request->is_GET()) {
             $country_info = $this->model_localisation_country->getCountry($this->request->get['country_id']);
@@ -191,7 +193,7 @@ class ControllerPagesLocalisationCountry extends AController
         }
 
         //set multilingual fields
-        $this->data['country_name'] = array();
+        $this->data['country_name'] = [];
         if ($country_info['country_name']) {
             $this->data['country_name'] = $country_info['country_name'];
         }
@@ -210,68 +212,68 @@ class ControllerPagesLocalisationCountry extends AController
             $form = new AForm('HS');
         }
 
-        $this->document->addBreadcrumb(array(
+        $this->document->addBreadcrumb([
             'href'      => $this->data['action'],
             'text'      => $this->data['heading_title'],
             'separator' => ' :: ',
             'current'   => true,
-        ));
+        ]);
 
-        $form->setForm(array(
+        $form->setForm([
             'form_name' => 'cgFrm',
             'update'    => $this->data['update'],
-        ));
+        ]);
 
         $this->data['form']['id'] = 'cgFrm';
-        $this->data['form']['form_open'] = $form->getFieldHtml(array(
+        $this->data['form']['form_open'] = $form->getFieldHtml([
             'type'   => 'form',
             'name'   => 'cgFrm',
             'action' => $this->data['action'],
             'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
-        ));
-        $this->data['form']['submit'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['submit'] = $form->getFieldHtml([
             'type'  => 'button',
             'name'  => 'submit',
             'text'  => $this->language->get('button_save'),
             'style' => 'button1',
-        ));
-        $this->data['form']['cancel'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['cancel'] = $form->getFieldHtml([
             'type'  => 'button',
             'name'  => 'cancel',
             'text'  => $this->language->get('button_cancel'),
             'style' => 'button2',
-        ));
+        ]);
 
-        $this->data['form']['fields']['status'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['status'] = $form->getFieldHtml([
             'type'  => 'checkbox',
             'name'  => 'status',
             'value' => $this->data['status'],
             'style' => 'btn_switch',
-        ));
+        ]);
 
-        $this->data['form']['fields']['name'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['name'] = $form->getFieldHtml([
             'type'         => 'input',
             'name'         => 'country_name['.$this->session->data['content_language_id'].'][name]',
             'value'        => $country_name,
             'required'     => true,
             'multilingual' => true,
-        ));
-        $this->data['form']['fields']['iso_code_2'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['fields']['iso_code_2'] = $form->getFieldHtml([
             'type'  => 'input',
             'name'  => 'iso_code_2',
             'value' => $this->data['iso_code_2'],
-        ));
-        $this->data['form']['fields']['iso_code_3'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['fields']['iso_code_3'] = $form->getFieldHtml([
             'type'  => 'input',
             'name'  => 'iso_code_3',
             'value' => $this->data['iso_code_3'],
-        ));
-        $this->data['form']['fields']['address_format'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['fields']['address_format'] = $form->getFieldHtml([
             'type'  => 'textarea',
             'name'  => 'address_format',
-            'value' => $this->data['address_format'],
+            'value' => $this->data['address_format'] ?: DEFAULT_ADDRESS_FORMAT,
             'style' => 'large-field',
-        ));
+        ]);
         $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->assign('language_id', $this->session->data['content_language_id']);
         $this->view->assign('help_url', $this->gen_help_url('country_edit'));

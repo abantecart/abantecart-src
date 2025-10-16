@@ -96,4 +96,44 @@
         <key>ups_packaging_02</key>
         <value><![CDATA[Box]]></value>
     </definition>
+    <definition>
+        <key>ups_manifest_order_status_id</key>
+        <value><![CDATA[Create Shipment when Order Status becomes]]></value>
+    </definition>
+    <definition>
+        <key>ups_text_print_label</key>
+        <value><![CDATA[Print UPS Label (Original Order)]]></value>
+    </definition>
+    <definition>
+        <key>ups_text_print_label_title</key>
+        <value><![CDATA[Prints the UPS label using the original weight and dimensions submitted by the customer at checkout. Any changes made to the order by the admin will not affect the label.]]></value>
+    </definition>
+    <definition>
+        <key>ups_text_print_label_suggestion</key>
+        <value><![CDATA[Change order status to "%s" to create shipment via UPS API and get parcel labels]]></value>
+    </definition>
+    <definition>
+        <key>ups_entry_weight</key>
+        <value><![CDATA[Weight:]]></value>
+    </definition>
+    <definition>
+        <key>ups_entry_height</key>
+        <value><![CDATA[Height:]]></value>
+    </definition>
+    <definition>
+        <key>ups_entry_width</key>
+        <value><![CDATA[Width:]]></value>
+    </definition>
+    <definition>
+        <key>ups_entry_depth</key>
+        <value><![CDATA[Depth:]]></value>
+    </definition>
+    <definition>
+        <key>ups_entry_parcel_info</key>
+        <value><![CDATA[Parcel Info:]]></value>
+    </definition>
+    <definition>
+        <key>ups_shipment_created_success_message</key>
+        <value><![CDATA[UPS Shipment has been successfully created. See more info <a href="%s">here</a>]]></value>
+    </definition>
 </definitions>

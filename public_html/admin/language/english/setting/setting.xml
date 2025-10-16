@@ -1130,4 +1130,8 @@
 		<key>entry_fast_checkout_show_order_comment_field</key>
 		<value><![CDATA[Show order comment field<br/><span class="help">Comment textarea will be shown during checkout process</span>]]></value>
 	</definition>
+	<definition>
+		<key>entry_unauth_customer</key>
+		<value><![CDATA[Allow returning customers to browse:<br /><span class="help">Unauthenticated customers returning to the site will be able to browse products, add to cart, and wishlist.</span>]]></value>
+	</definition>
 </definitions>

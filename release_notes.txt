@@ -1,14 +1,169 @@
-AbanteCart version 1.4.2.1
 
-This release addresses a security vulnerability in Page Builder (CVE-2025-50972).
-Impacted Versions
-	All 1.4.x versions
-Is the Upgrade Required?
-	If Page Builder is enabled and actively used, upgrading is strongly recommended.
+# AbanteCart v1.4.3 — Release Notes
 
-Bug Fixes
-----------
--- Fix of critical vulnerability CVE-2025-50972
+> Broad Windows compatibility and a major move to Form Manager, enabling merchants to edit forms, add new fields, group fields, customize field icons, apply restrictions, and control validation messages. Customer registration, customer details, address, and guest checkout forms now load from the database (AForm).
+
+---
+
+## 🚨 Security
+
+* **XSS hardening** in the PageBuilder storefront preview page.
+* Safer email validation and form regex handling in AForm/AHtml.
+* Added `passwordHash()` to standardize hashing in PHP code.
+* Storefront access — new setting **“Allow returning customers to browse.”** When enabled, unauthenticated returning visitors can browse products, add items to the cart, and use the wishlist without signing in.
+
+---
+
+## 🌟 Highlights
+
+* **Form Manager everywhere (merchant-editable).** Most customer, account, and checkout forms now come from the database and are managed via the AbanteCart Form Manager—edit/add fields, group them, customize field icons/tooltips, set restrictions, and tailor validation/error messages.
+* **Windows compatibility.** Large refactor and many targeted fixes across the core, controllers, extensions, and the installer.
+* **Large cart performance update.** Faster cart updates and improved robustness for very large carts.
+* **Payment restrictions by customer group.** You can now restrict which payment methods are available per customer group—applies to all payment extensions. Sponsored by Mikko.
+* **Tax.** AvaTax SDK updated with full PHP 8 support; shipping taxation behavior fixed.
+* **Option value: `require_shipping`.** (Sponsored by Mikko.) New `require_shipping` toggle on product option values so options can explicitly force shipping when selected.
+* **Libraries upgraded:** Font Awesome **7.0.0**; Bootstrap **5.3.7**.
+* **Internationalization:** Languages moved to a dedicated repo: `abantecart/abantecart-languages`. The admin can load 20+ languages directly from that Git repository.
+* **UPS** extension updated to the latest PHP SDK; adds **shipment & label creation**.
+* **PayPal Commerce:** New **card fields** UI with **billing address for AVS**, clearer validation/errors, webhook update fixes, and totals alignment.
+* **Installer/Upgrader:** Download credentials on finish; CLI pre-install of extensions; sample data improvements.
+* **Database changes:** Default MySQL character set/collation switched to `utf8mb4` for full-Unicode support.
+
+---
+
+## Core
+
+* 3rd-party packages updated.
+* **Windows-related** fixes across core/admin/controllers/extensions and the package manager.
+* **SQL fix** for `order_data_types` and translations.
+* **Address format per country:** Checkout and invoices now respect each country’s address layout (name order, region/postcode placement, etc.) for properly localized addresses.
+* **Deprecated:** “phone regex pattern” setting removed (use the `customerFrm` telephone pattern).
+
+* **AForm/AHtml**
+  * Resource element preselection fix.
+  * Added icon HTML for form fields; `form/*tpl + AHtml`.
+  * Date template improvements; helper/utils improvements.
+
+* **Routing:** Redirect added when a route is not found.
+
+* **Security/Infrastructure**
+  * Added `passwordHash()` utility; ACache fix.
+  * Apache 2.4+ compatibility fix.
+  * DB driver timezone fix.
+
+* **Cart**
+  * `ACart` update method usage fix for very large carts (≈100 products).
+
+* **Controller & Index**
+  * `AController`: type-casting for the `page` parameter.
+  * Static index page fix.
+
+---
+
+## Control Panel (Admin)
+
+* **Act-on-behalf** controller reformatted; now works in multi-store setups.
+* Sidebar/quick stats **collapse** behavior and CSS tweaks.
+* Language loader placed under the language grid.
+* **Import:** product-to-store relation fix; log message fix; typed parameters refactor.
+* **Global attributes:** multiple fixes; option value weight cannot be negative.
+* **Product promotion/cloning** fixes.
+* **SQL restore** & **backup history** fixes; ABackup improvement to avoid unexpected dumps.
+
+* **Protections and validations:**
+  * Prevent deleting the English language.
+  * Validate deadlocks in the category tree (`catId` ↔ `parentId`).
+  * Product model validation when removing option values tied to global attributes with unique text IDs.
+
+* **UI/UX:**
+  * Source layout selector for cloning updated.
+  * Page Builder: create-page modal parity with Design/Layout.
+
+* **Language management:** Ability to load languages from the Git repo; definitions translation fix.
+
+* **Misc:** quickstart changes; import model fix; catalog/product model improvement; product options minor changes; language definitions fix; other import fixes.
+
+---
+
+## Storefront
+
+* CSS & mobile polish: registration page; phone screens; footer link fixes; embedded CSS for the default template.
+* Country/zone form element fixes.
+* **SEO/search:** minor `seo_url` controller fix; **search URL** fix.
+* **Checkout file download URL** fix.
+
+* **Checkout**
+  * FastCheckout: payment method reset after page reload fixed; address selection/format fixes.
+  * Zone pre-selection & validation.
+  * JSON encoding fix.
+  * Added an extended field to addresses and to the order details page; order data saving fix.
+
+* **Contact/Forms:** Contact Us page improvements; field title/label fixes; hidden/dynamic fields fix.
+
+* **Customer account**
+  * Details form now supports **field groups**.
+  * Address form/book templating fixes; form now DB-backed via AForm.
+  * Visible submit button on account/create.
+  * Added `autocomplete` attributes for registration & password fields.
+
+* **Orders/Emails**
+  * Order model/data format fixes.
+  * Confirmation email now includes **`thumbnail_url`** for products.
+  * Invoice order product list includes the **`thumbnail`** array key.
+
+* **Product/Category**
+  * Product controller: option set now includes settings data.
+  * Category filter block fix.
+
+---
+
+## Extensions
+
+* **PayPal Commerce**
+  * Added **credit card form** support to check out without a PayPal account.
+  * Added **billing address** for Card Fields (AVS filtering).
+  * Clearer validation/messages; preloader fix; webhook update fixes; currency conversion totals mismatch fixes.
+
+* **UPS**
+  * Migrated to the new PHP SDK; fixes and **shipment & label creation** when order status is **Shipped**.
+
+* **Forms Manager**
+  * Country/zone links; checkbox/empty-value fixes; sorting, grouping, titles, text, and redirect fixes; locked forms/fields cannot be removed; split into tabs; admin UX improvements; new group selector; VAT_ID SQL changes.
+
+* **PageBuilder:** Custom `ListingBlock` template.
+* **Pickup from Store:** address fixes.
+* **Cardknox → Sola** gateway rename.
+* **AvaTax** now uses the store address as the origin.
+
+---
+
+## Install / Upgrade
+
+* **New:** Option to **download a credentials file** on the final installer step.
+* **CLI installer:** pre-install extensions via a comma-separated list.
+* **Session `save_path`** check.
+* Added sample data: **pre-saved cart** with many products (Elmer West).
+* `http` → `https` link updates; `target="_new"` → `"_blank"`.
+* Upgrade scripts for Forms Manager & related schema updates.
+
+---
+
+## Developer Notes
+
+* New/updated hooks: `product_before_tabs`; added hooks in `order_details.tpl`.
+* **Deprecated setting:** phone number regex pattern (use the `customerFrm` telephone pattern).
+* DB-driven forms for customer/guest flows—check customizations against **AForm** changes.
+* `AController` `page` parameter now **type-cast**.
+* Import APIs refactored to **typed parameters**.
+* Added `AHtml` property `zone_only` for `zones` element; `AForm::getFormElements()` to enumerate form elements.
+* New Git language workflow: fetch/update language packs from `abantecart/abantecart-languages`.
+
+---
+
+Special Thanks
+---------------
+Community contributions, including `require_shipping` on option values and payment method restrictions per customer group — thank you!
+
 
 
 AbanteCart version 1.4.2

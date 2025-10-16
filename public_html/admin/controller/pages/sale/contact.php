@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -40,7 +39,7 @@ class ControllerPagesSaleContact extends AController
     {
         $driver = $this->config->get('config_sms_driver');
         //if sms driver not set or disabled - redirect
-        if (!$driver || !$this->config->get($driver.'_status')) {
+        if (!$driver || !$this->config->get($driver . '_status')) {
             redirect($this->html->getSecureURL('sale/contact/email'));
         }
 
@@ -57,7 +56,7 @@ class ControllerPagesSaleContact extends AController
             $this->data['protocol'] = 'email';
         }
 
-        $this->document->setTitle($this->language->get('text_send_'.$this->data['protocol']));
+        $this->document->setTitle($this->language->get('text_send_' . $this->data['protocol']));
         $this->loadModel('sale/customer');
         $this->loadLanguage('sale/contact');
 
@@ -66,7 +65,7 @@ class ControllerPagesSaleContact extends AController
         if (isset($this->error)) {
             $this->data['error_warning'] = '';
             foreach ($this->error as $message) {
-                $this->data['error_warning'] .= $message.'<br/>';
+                $this->data['error_warning'] .= $message . '<br/>';
             }
         } else {
             $this->data['error_warning'] = '';
@@ -87,7 +86,7 @@ class ControllerPagesSaleContact extends AController
         $this->document->addBreadcrumb(
             [
                 'href'      => $this->html->getSecureURL('sale/contact'),
-                'text'      => $this->language->get('text_send_'.$this->data['protocol']),
+                'text'      => $this->language->get('text_send_' . $this->data['protocol']),
                 'separator' => ' :: ',
                 'current'   => true,
             ]
@@ -103,27 +102,26 @@ class ControllerPagesSaleContact extends AController
         $this->data['action'] = $this->data['cancel'] = $this->html->getSecureURL('sale/contact');
 
         //get store from main switcher and current config
-        $this->data['store_id'] = $this->session->data['current_store_id'] ?? 0;
+        $this->data['store_id'] = (int)$this->session->data['current_store_id'];
         $this->data['customers'] = $this->data['products'] = [];
 
         $this->loadModel('catalog/product');
-        $customer_ids = $this->request->get_or_post('to');
+        $customer_ids = (array)$this->request->get_or_post('to');
         if (!$customer_ids && isset($this->session->data['sale_contact_presave']['to'])) {
             $customer_ids = (array)$this->session->data['sale_contact_presave']['to'];
         }
-        $product_ids = $this->request->get_or_post('products');
+        $product_ids = (array)$this->request->get_or_post('products');
         if (!$product_ids && isset($this->session->data['sale_contact_presave']['products'])) {
             $product_ids = (array)$this->session->data['sale_contact_presave']['products'];
         }
 
         //process list of customer or product IDs to be notified
-        if (isset($customer_ids) && is_array($customer_ids)) {
+        if ($customer_ids) {
             foreach ($customer_ids as $customer_id) {
-                $customer_info = $this->model_sale_customer->getCustomer($customer_id);
+                $customer_info = $this->model_sale_customer->getCustomer((int)$customer_id);
                 if ($customer_info) {
                     $this->data['customers'][$customer_info['customer_id']] = $customer_info['firstname']
-                        . ' ' .$customer_info['lastname']
-                        . ' ('.$customer_info['email'].')';
+                        . ' ' . $customer_info['lastname'] . ' (' . $customer_info['email'] . ')';
                 }
             }
         }
@@ -138,7 +136,7 @@ class ControllerPagesSaleContact extends AController
             );
 
             foreach ($product_ids as $product_id) {
-                $product_info = $this->model_catalog_product->getProduct($product_id);
+                $product_info = $this->model_catalog_product->getProduct((int)$product_id);
                 if ($product_info) {
                     $thumbnail = $thumbnails[$product_id];
                     $this->data['products'][$product_id] = [
@@ -211,7 +209,7 @@ class ControllerPagesSaleContact extends AController
         ];
 
         $db_filter = [
-            'status' => 1,
+            'status'   => 1,
             'approved' => 1
         ];
 
@@ -225,8 +223,8 @@ class ControllerPagesSaleContact extends AController
         $all_subscribers_count = $this->model_sale_customer->getTotalAllSubscribers($newsletterDbFilter);
         if ($all_subscribers_count) {
             $options['all_subscribers'] = $this->language->get('text_all_subscribers')
-                .' '
-                .sprintf(
+                . ' '
+                . sprintf(
                     $this->language->get('text_total_to_be_sent'),
                     $all_subscribers_count
                 );
@@ -235,8 +233,8 @@ class ControllerPagesSaleContact extends AController
         $only_subscribers_count = $this->model_sale_customer->getTotalOnlyNewsletterSubscribers($newsletterDbFilter);
         if ($only_subscribers_count) {
             $options['only_subscribers'] = $this->language->get('text_subscribers_only')
-                .' '
-                .sprintf(
+                . ' '
+                . sprintf(
                     $this->language->get('text_total_to_be_sent'),
                     $only_subscribers_count
                 );
@@ -245,15 +243,15 @@ class ControllerPagesSaleContact extends AController
         $only_customers_count = $this->model_sale_customer->getTotalOnlyCustomers($db_filter);
         if ($only_customers_count) {
             $options['only_customers'] = $this->language->get('text_customers_only')
-                .' '
-                .sprintf(
+                . ' '
+                . sprintf(
                     $this->language->get('text_total_to_be_sent'),
                     $only_customers_count
                 );
         }
 
         if (sizeof($options) == 1) {
-            $this->data['error_warning'] = $this->language->get('error_'.$this->data['protocol'].'_no_recipients');
+            $this->data['error_warning'] = $this->language->get('error_' . $this->data['protocol'] . '_no_recipients');
         }
 
         $options['ordered'] = $this->language->get('text_customers_who_ordered');
@@ -304,9 +302,9 @@ class ControllerPagesSaleContact extends AController
                 ]
             );
         }
-        if($this->data['protocol'] == 'email') {
+        if ($this->data['protocol'] == 'email') {
             $this->load->model('setting/setting');
-            $storeSettings = $this->model_setting_setting->getSetting('details',$this->data['store_id']);
+            $storeSettings = $this->model_setting_setting->getSetting('details', $this->data['store_id']);
             $this->data['form']['fields']['message'] = $form->getFieldHtml(
                 [
                     'type'        => 'texteditor',
@@ -319,20 +317,20 @@ class ControllerPagesSaleContact extends AController
                     'preview_url' => $this->html->getSecureURL('r/design/email_template_preview')
                 ]
             );
-        }else{
+        } else {
             $this->data['form']['fields']['message'] = $form->getFieldHtml(
                 [
-                    'type'        => 'textarea',
-                    'name'        => 'message',
-                    'value'       => $this->data['message'],
-                    'style'       => 'ml_ckeditor',
+                    'type'  => 'textarea',
+                    'name'  => 'message',
+                    'value' => $this->data['message'],
+                    'style' => 'ml_ckeditor',
                 ]
             );
         }
 
         //if email address given
         if (has_value($this->request->get['email'])) {
-            $this->data['emails'] = (array) $this->request->get['email'];
+            $this->data['emails'] = (array)$this->request->get['email'];
         }
 
         $this->data['category_products'] = $this->html->getSecureURL('product/product/category');
@@ -374,7 +372,7 @@ class ControllerPagesSaleContact extends AController
 
         $driver = $this->config->get('config_sms_driver');
         //if sms driver not set or disabled - redirect
-        if ($driver && $this->config->get($driver.'_status')) {
+        if ($driver && $this->config->get($driver . '_status')) {
             $this->data['protocols']['sms'] = [
                 'title' => $this->language->get('text_sms'),
                 'href'  => $this->html->getSecureURL('sale/contact/sms'),
@@ -391,29 +389,31 @@ class ControllerPagesSaleContact extends AController
             ]
         );
 
-        foreach ($incomplete as $incm_task) {
+        foreach ($incomplete as $incmTask) {
             //show all incomplete tasks for Top Administrator user group
             if ($this->user->getUserGroupId() != 1) {
-                if ($incm_task['starter'] != $this->user->getId()) {
+                if ($incmTask['starter'] != $this->user->getId()) {
                     continue;
                 }
                 //rename task to prevent collision with new
-                if ($incm_task['name'] == 'send_now') {
+                if ($incmTask['name'] == 'send_now') {
                     $tm->updateTask(
-                        $incm_task['task_id'],
+                        (int)$incmTask['task_id'],
                         [
-                            'name' => 'send_now_'.date('YmdHis')
+                            'name' => 'send_now_' . date('YmdHis')
                         ]
                     );
                 }
             }
             //define incomplete tasks by last time run
-            $max_exec_time = (int) $incm_task['max_execution_time'];
+            $max_exec_time = (int)$incmTask['max_execution_time'];
             if (!$max_exec_time) {
                 //if no limitations for execution time for task - think it's 2 hours
                 $max_exec_time = 7200;
             }
-            if (time() - dateISO2Int($incm_task['last_time_run']) > $max_exec_time) {
+            if ($incmTask['last_time_run']
+                && time() - dateISO2Int($incmTask['last_time_run']) > $max_exec_time
+            ) {
                 $this->data['incomplete_tasks_url'] = $this->html->getSecureURL('r/sale/contact/incomplete');
                 break;
             }

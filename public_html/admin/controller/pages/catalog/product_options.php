@@ -31,6 +31,9 @@ class ControllerPagesCatalogProductOptions extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
+        $contentLanguageId = $this->language->getContentLanguageID();
+        $defaultLanguageId = $this->language->getDefaultLanguageID();
+
         $this->loadLanguage('catalog/product');
         $this->loadModel('catalog/product');
         $this->attribute_manager = new AAttribute_Manager();
@@ -56,39 +59,33 @@ class ControllerPagesCatalogProductOptions extends AController
             redirect($this->html->getSecureURL('catalog/product'));
         }
 
-        $this->data['attributes'] = [
-            'new' => $this->language->get('text_add_new_option'),
-        ];
         $results = $this->attribute_manager->getAttributes(
             [
                 'search' => " ga.attribute_type_id = '" . $this->attribute_manager->getAttributeTypeID('product_option') . "'
                             AND ga.status = 1
-                            AND ga.attribute_parent_id = 0 ",
+                            AND ga.attribute_parent_id IS NULL",
                 'sort'   => 'sort_order',
                 'order'  => 'ASC',
-                // !we can not have unlimited, so set 1000 for now
+                // we cannot have unlimited, so set 1000 for now
                 'limit'  => 1000
             ],
-            $this->session->data['content_language_id']
+            $contentLanguageId
         );
-        foreach ($results as $type) {
-            $this->data['attributes'][$type['attribute_id']] = $type['name'];
-        }
+        $this->data['attributes'] = [ 'new' => $this->language->get('text_add_new_option')]
+            + array_column($results, 'name', 'attribute_id');
 
-        $content_language_id = $this->language->getContentLanguageID();
-        $default_language_id = $this->language->getDefaultLanguageID();
         $this->data['product_description'] = $this->model_catalog_product->getProductDescriptions(
             $productId,
-            $content_language_id
+            $contentLanguageId
         );
         $product_options = $this->model_catalog_product->getProductOptions($productId);
 
 
         foreach ($product_options as &$option) {
-            $option_name = trim($option['language'][$content_language_id]['name']);
-            $option['language'][$content_language_id]['name'] = $option_name ?: 'n/a';
-            $option_name = trim($option['language'][$default_language_id]['name']);
-            $option['language'][$default_language_id]['name'] = $option_name ?: 'n/a';
+            $option_name = trim($option['language'][$contentLanguageId]['name']);
+            $option['language'][$contentLanguageId]['name'] = $option_name ?: 'n/a';
+            $option_name = trim($option['language'][$defaultLanguageId]['name']);
+            $option['language'][$defaultLanguageId]['name'] = $option_name ?: 'n/a';
         }
         unset($option);
 
@@ -199,7 +196,7 @@ class ControllerPagesCatalogProductOptions extends AController
 
         $product_opt = [];
         foreach ($product_options as $option) {
-            $product_opt[$option['product_option_id']] = $option['language'][$content_language_id]['name'];
+            $product_opt[$option['product_option_id']] = $option['language'][$contentLanguageId]['name'];
         }
         $product_option_id = $this->request->get['product_option_id'] ?: $this->data['product_option_id'];
         $this->data['options'] = $form->getFieldHtml(

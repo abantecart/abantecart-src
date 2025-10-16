@@ -72,4 +72,8 @@
     <key>text_resend_activation_email</key>
     <value><![CDATA[Error: Your email address was not yet confirmed. To resend new confirmation email please click this <a href=" %s ">link</a>]]></value>
   </definition>
+  <definition>
+    <key>welcome_unauth_customer</key>
+    <value><![CDATA[Welcome %s, please login to your account or <a href="%s">continue browsing as a guest</a>]]></value>
+  </definition>
 </definitions>

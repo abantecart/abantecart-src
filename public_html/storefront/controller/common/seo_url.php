@@ -141,7 +141,7 @@ class ControllerCommonSeoUrl extends AController
                     $httpQuery = [$key => $get[$key]];
                     //double seo keyword for content pages
                     if ($mode == 'seo' && $key == 'content_id') {
-                        $httpQuery['parent_id'] = $this->getContentParentId($get[$key]);
+                        $httpQuery['parent_id'] = $this->getContentParentId((int)$get[$key]);
                     }
                     $url = $this->html->{$method}($impactRt, '&' . http_build_query($httpQuery));
                     break;

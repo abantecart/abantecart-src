@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -39,7 +38,7 @@ class ControllerResponsesListingGridAttribute extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $limit = $this->request->post['rows'];
+        $limit = (int)$this->request->post['rows'];
 
         //get all leave attributes 
         $new_level = 0;
@@ -48,28 +47,22 @@ class ControllerResponsesListingGridAttribute extends AController
         $to_show_tree = $this->config->get('config_show_tree_data');
         if ($to_show_tree) {
             if ($this->request->post['nodeid']) {
-                $attr_parent_id = (int) $this->request->post['nodeid'];
-                $new_level = (int) $this->request->post["n_level"] + 1;
+                $attr_parent_id = (int)$this->request->post['nodeid'];
+                $new_level = (int)$this->request->post["n_level"] + 1;
             } else {
                 //if filter presents - seek by all list. Otherwise, show only parent
                 $attr_parent_id = $this->request->post['_search'] == 'true' ? null : 0;
             }
         }
 
-
-        $total = $this->attribute_manager->getTotalAttributes([], '', $attr_parent_id);
-        if ($total > 0) {
-            $total_pages = ceil($total / $limit);
-        } else {
-            $total_pages = 0;
-        }
-
+        $results = $this->attribute_manager->getAttributes([], '', $attr_parent_id);
+        $total = (int)$results[0]['total_num_rows'];
         $response = new stdClass();
-        $response->page = $this->request->post['page'];
-        $response->total = $total_pages;
+        $response->page = (int)$this->request->post['page'];
+        $response->total = $total ? ceil($total / $limit) : 0;
         $response->records = $total;
 
-        $results = $this->attribute_manager->getAttributes([], '', $attr_parent_id);
+
         $i = 0;
         foreach ($results as $result) {
             //tree grid structure
@@ -83,19 +76,23 @@ class ControllerResponsesListingGridAttribute extends AController
             $response->rows[$i]['cell'] = [
                 $result['name'],
                 $result['type_name'],
-                $this->html->buildInput([
-                                            'name'  => 'sort_order['.$result['attribute_id'].']',
-                                            'value' => $result['sort_order'],
-                                            'style' => 'small-field',
-                                        ]),
-                $this->html->buildCheckbox([
-                                               'name'  => 'status['.$result['attribute_id'].']',
-                                               'value' => $result['status'],
-                                               'style' => 'btn_switch',
-                                           ]),
+                $this->html->buildInput(
+                    [
+                        'name'  => 'sort_order[' . $result['attribute_id'] . ']',
+                        'value' => $result['sort_order'],
+                        'style' => 'small-field',
+                    ]
+                ),
+                $this->html->buildCheckbox(
+                    [
+                        'name'  => 'status[' . $result['attribute_id'] . ']',
+                        'value' => $result['status'],
+                        'style' => 'btn_switch',
+                    ]
+                ),
                 'action',
                 $new_level,
-                ($attr_parent_id ? : null),
+                ($attr_parent_id ?: null),
                 $last_leaf,
                 false,
             ];
@@ -119,9 +116,9 @@ class ControllerResponsesListingGridAttribute extends AController
             $error->toJSONResponse(
                 'NO_PERMISSIONS_402',
                 [
-                    'error_text'  => sprintf(
-                        $this->language->get('error_permission_modify'),
-                        'listing_grid/attribute'
+                    'error_text'  => $this->language->getAndReplace(
+                        'error_permission_modify',
+                        replaces: 'listing_grid/attribute'
                     ),
                     'reset_value' => true,
                 ]
@@ -129,13 +126,8 @@ class ControllerResponsesListingGridAttribute extends AController
             return;
         }
 
-        $ids = array_unique(
-            array_map(
-                'intval',
-                explode(',', $this->request->post['id'])
-            )
-        );
-        if($ids) {
+        $ids = filterIntegerIdList( explode(',', $this->request->post['id']) );
+        if ($ids) {
             switch ($this->request->post['oper']) {
                 case 'del':
                     foreach ($ids as $id) {
@@ -217,9 +209,9 @@ class ControllerResponsesListingGridAttribute extends AController
             $error->toJSONResponse(
                 'NO_PERMISSIONS_402',
                 [
-                    'error_text'  => sprintf(
-                        $this->language->get('error_permission_modify'),
-                        'listing_grid/attribute'
+                    'error_text'  => $this->language->getAndReplace(
+                        'error_permission_modify',
+                        replaces: 'listing_grid/attribute'
                     ),
                     'reset_value' => true,
                 ]
@@ -242,12 +234,12 @@ class ControllerResponsesListingGridAttribute extends AController
                     return;
                 }
                 $data = [$key => $value];
-                $this->attribute_manager->updateAttribute($this->request->get['id'], $data);
+                $this->attribute_manager->updateAttribute((int)$this->request->get['id'], $data);
             }
             return null;
         }
 
-        //request sent from jGrid. ID is key of array
+        //request sent from jGrid. ID is a key of an array
         $fields = ['sort_order', 'status'];
         foreach ($fields as $f) {
             if (isset($this->request->post[$f])) {
@@ -263,7 +255,7 @@ class ControllerResponsesListingGridAttribute extends AController
                         );
                         return;
                     }
-                    $this->attribute_manager->updateAttribute($k, [$f => $v]);
+                    $this->attribute_manager->updateAttribute((int)$k, [$f => $v]);
                 }
             }
         }
@@ -277,12 +269,12 @@ class ControllerResponsesListingGridAttribute extends AController
         $err = '';
         switch ($field) {
             case 'name' :
-                if (((mb_strlen($value)) < 2) || ((mb_strlen($value)) > 32)) {
+                if (mb_strlen($value) < 2 || mb_strlen($value) > 32) {
                     $err = $this->language->get('error_name');
                 }
                 break;
             case 'attribute_type_id' :
-                if (empty($value)) {
+                if (!$value) {
                     $err = $this->language->get('error_required');
                 }
                 break;
@@ -297,5 +289,4 @@ class ControllerResponsesListingGridAttribute extends AController
         $this->extensions->hk_ValidateData($this, [__FUNCTION__, $id]);
         return $this->data['error'];
     }
-
 }

@@ -40,4 +40,12 @@ class ControllerPagesFinish extends AController
         $this->response->addHeader('Clear-Site-Data: "cache", "storage"');
         $this->processTemplate('pages/finish.tpl');
     }
+
+    public function credentials()
+    {
+        if($this->session->data['finish']){
+
+
+        }
+    }
 }

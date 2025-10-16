@@ -119,5 +119,9 @@
     <definition>
         <key>tab_image</key>
         <value><![CDATA[Images]]></value>
-    </definition>	
+    </definition>
+	<definition>
+		<key>error_deadlock</key>
+		<value><![CDATA[Cannot assign to parent category, because it's a child!]]></value>
+	</definition>
 </definitions>

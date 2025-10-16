@@ -1,6 +1,7 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET CHARSET "utf8mb4";
 START TRANSACTION;
+SET FOREIGN_KEY_CHECKS = 0;
 --
 -- DDL for table `address`
 --
@@ -10,7 +11,7 @@ DROP TABLE IF EXISTS `ac_addresses`;
 CREATE TABLE `ac_addresses` (
   `address_id` int(11) NOT NULL AUTO_INCREMENT,
   `customer_id` int(11) NOT NULL,
-  `company` varchar(32) NOT NULL,
+  `company` varchar(255) NULL,
   `firstname` varchar(32) NOT NULL DEFAULT '',
   `lastname` varchar(32) NOT NULL DEFAULT '',
   `address_1` varchar(128) NOT NULL,
@@ -19,6 +20,9 @@ CREATE TABLE `ac_addresses` (
   `city` varchar(128) NOT NULL,
   `country_id` int(11) NOT NULL DEFAULT '0',
   `zone_id` int(11) NOT NULL DEFAULT '0',
+  `ext_fields` json null,
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`address_id`)
 ) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
 CREATE INDEX `ac_addresses_idx` ON `ac_addresses` ( `customer_id`, `country_id`, `zone_id`  );
@@ -595,7 +599,7 @@ VALUES
 DROP TABLE IF EXISTS `ac_coupons`;
 CREATE TABLE `ac_coupons` (
   `coupon_id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(10) NOT NULL,
+  `code` varchar(255) NOT NULL,
   `type` char(1) NOT NULL,
   `discount` decimal(15,4) NOT NULL,
   `logged` int(1) NOT NULL,
@@ -706,6 +710,7 @@ CREATE TABLE `ac_customers` (
   `customer_group_id` int(11) NOT NULL,
   `ip` varchar(50) NOT NULL DEFAULT '0',
   `data` text DEFAULT null,
+  `ext_fields` json null,
   `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `last_login` timestamp NULL,
@@ -1074,7 +1079,7 @@ CREATE TABLE `ac_orders` (
   `email` varchar(96) NOT NULL DEFAULT '',
   `shipping_firstname` varchar(32) NOT NULL,
   `shipping_lastname` varchar(32) NOT NULL DEFAULT '',
-  `shipping_company` varchar(32) NOT NULL,
+  `shipping_company` varchar(255) NULL,
   `shipping_address_1` varchar(128) NOT NULL,
   `shipping_address_2` varchar(128) NOT NULL,
   `shipping_city` varchar(128) NOT NULL,
@@ -1088,7 +1093,7 @@ CREATE TABLE `ac_orders` (
   `shipping_method_key` varchar(128) NOT NULL DEFAULT '',
   `payment_firstname` varchar(32) NOT NULL DEFAULT '',
   `payment_lastname` varchar(32) NOT NULL DEFAULT '',
-  `payment_company` varchar(32) NOT NULL,
+  `payment_company` varchar(255) NULL,
   `payment_address_1` varchar(128) NOT NULL,
   `payment_address_2` varchar(128) NOT NULL,
   `payment_city` varchar(128) NOT NULL,
@@ -1100,6 +1105,7 @@ CREATE TABLE `ac_orders` (
   `payment_address_format` text NOT NULL,
   `payment_method` varchar(128) NOT NULL DEFAULT '',
   `payment_method_key` varchar(128) NOT NULL DEFAULT '',
+  `payment_method_data` text NOT NULL DEFAULT '',
   `comment` text NOT NULL,
   `total` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `order_status_id` int(11) NOT NULL DEFAULT '0',
@@ -1111,22 +1117,23 @@ CREATE TABLE `ac_orders` (
   `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `ip` varchar(50) NOT NULL DEFAULT '',
-  `payment_method_data` text NOT NULL DEFAULT '',
+  `ext_fields` json null,
   PRIMARY KEY (`order_id`, `customer_id`, `order_status_id`)
 
 ) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
 
 CREATE INDEX `ac_orders_idx`
-ON `ac_orders` (`invoice_id`,
-								`store_id`,
-								`customer_group_id`,
-								`shipping_zone_id`,
-								`shipping_country_id`,
-								`payment_zone_id`,
-								`payment_country_id`,
-								`language_id`,
-								`currency_id`,
-								`coupon_id`);
+ON `ac_orders` (
+    `invoice_id`,
+    `store_id`,
+    `customer_group_id`,
+    `shipping_zone_id`,
+    `shipping_country_id`,
+    `payment_zone_id`,
+    `payment_country_id`,
+    `language_id`,
+    `currency_id`,
+    `coupon_id`);
 --
 -- DDL for table `order_downloads`
 --
@@ -1192,7 +1199,7 @@ DROP TABLE IF EXISTS `ac_order_data_types`;
 CREATE TABLE `ac_order_data_types` (
   `type_id` int(11) NOT NULL AUTO_INCREMENT,
   `language_id` int(11) NOT NULL,
-  `name` varchar(64) NOT NULL DEFAULT '' COMMENT 'translatable',
+  `name` varchar(64) NOT NULL DEFAULT '',
   `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`type_id`)
@@ -1497,6 +1504,7 @@ CREATE TABLE `ac_product_option_values` (
   `price` decimal(15,4) NOT NULL,
   `cost` decimal(15,4) NOT NULL,
   `prefix` char(1) NOT NULL, -- % or $
+  `require_shipping` smallint default 0 not null comment 'depends on "shipping" column of table "products" ',
   `weight` decimal(15,8) NOT NULL,
   `weight_type` varchar(3) NOT NULL, -- lbs or %
   `attribute_value_id` int(11),
@@ -1655,7 +1663,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('details','config_ssl',0),
 ('details','config_ssl_url',''),
 ('details','config_owner','Your Name'),
-('details','config_address','Address 1'),
+('details','config_address','725 River Road, Suite 32-128'),
 ('details','store_main_email','admin@abantecart.com'),
 ('details','config_telephone',123456789),
 ('details','config_fax',''),
@@ -1664,7 +1672,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('details','config_meta_keywords_1','keyword1,keyword2,keyword3'),
 ('details','config_description_1','Welcome to web store!'),
 ('details','config_country_id',223),
-('details','config_zone_id',3655),
+('details','config_zone_id',3653),
 ('details','config_storefront_language','en'),
 ('details','admin_language','en'),
 ('details','config_currency','USD'),
@@ -1690,10 +1698,10 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('details','config_opening_friday_closes','16:00'),
 ('details','config_opening_saturday_opens',''),
 ('details','config_opening_saturday_closes',''),
-('details','config_postcode','07601'),
+('details','config_postcode','07020'),
 ('details','protocol_url','https'),
 ('details','protocol_ssl_url','https'),
-('details','config_city','New Jersey'),
+('details','config_city','Edgewater'),
 ('details','config_latitude','40.887187'),
 ('details','config_longitude','-74.037592'),
 ('details','translate_method','copy_source_text'),
@@ -1731,6 +1739,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','config_customer_email_activation',0),
 ('checkout','prevent_email_as_login',1),
 ('checkout','config_guest_checkout',1),
+('checkout','config_unauth_customer',1),
 ('checkout','config_account_id',2),
 ('checkout','config_checkout_id',3),
 ('checkout','config_stock_checkout',0),
@@ -1744,7 +1753,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','config_expire_order_days',30),
 ('checkout','config_customer_cancelation_order_status_id',''),
 ('checkout','config_zero_customer_balance','0'),
-('checkout','config_phone_validation_pattern','/^[0-9\\+\\(\\)\\.\\s\\-,]+$/'),
 ('checkout','config_start_order_id',''),
 ('checkout','fast_checkout_allow_coupon',1),
 ('checkout','fast_checkout_show_order_comment_field',1),
@@ -10711,137 +10719,6 @@ CREATE TABLE `ac_pages_forms` (
 
 
 --
--- DDL for table `forms`
---
-DROP TABLE IF EXISTS `ac_forms`;
-CREATE TABLE `ac_forms` (
-  `form_id` int(11) NOT NULL auto_increment,
-  `form_name` varchar(40) NOT NULL default '',
-  -- used to create css ID and name for form tag
-  `controller` varchar(100) NOT NULL default '',
-  `success_page` varchar(100) NOT NULL default '',
-  `status` smallint(1) NOT NULL default '0',
-  PRIMARY KEY  (`form_id`),
-  UNIQUE KEY `form_name` (`form_name`)
-) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
-
-INSERT INTO `ac_forms` VALUES (2,'ContactUsFrm','content/contact','content/contact/success',1);
-
---
--- DDL for table `form_descriptions`
---
-DROP TABLE IF EXISTS `ac_form_descriptions`;
-CREATE TABLE `ac_form_descriptions` (
-  `form_id` int(11) NOT NULL DEFAULT '0',
-  `language_id` int(11) NOT NULL,
-  `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
-  PRIMARY KEY (`form_id`,`language_id`)
-) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-INSERT INTO `ac_form_descriptions` VALUES (2,1,'Contact Us Form');
-
---
--- DDL for table `fields`
---
-DROP TABLE IF EXISTS `ac_fields`;
-CREATE TABLE `ac_fields` (
-  `field_id` int(11) NOT NULL auto_increment,
-  `form_id` int(11) NOT NULL DEFAULT '0',
-  `field_name` varchar(40) NOT NULL,
-  -- used to create css ID (form_name + field_name) and name for input tag tag
-  `element_type` char(1) NOT NULL DEFAULT 'I',
-  -- I - text input, T - Text area, S - Select, M - multivalue select, C - Checkbox, R - radio buttons, U - File upload, H - Hidden, G -Checkbox Group, D - Date, E - time, K - Captcha
-  `sort_order` int(3) NOT NULL,
-  `attributes` varchar(255) NOT NULL,
-  `settings` text NOT NULL DEFAULT '',
-  `required` char(1) NOT NULL DEFAULT 'N',
-  -- N - Not required, Y - required
-  `status` smallint(1) NOT NULL default '0',
-  `regexp_pattern` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`field_id`),
-  KEY `field_id` (`field_id`, `form_id`, `status`)
-) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-INSERT INTO `ac_fields`
-(field_id, form_id, field_name, element_type, sort_order, attributes,settings, required, regexp_pattern, status)
-VALUES
-(11,2,'first_name','I',1,'','','Y','/^.{3,100}$/u',1),
-(12,2,'email','I',2,'','','Y','/^[A-Z0-9._%-]+@[A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i',1),
-(13,2,'enquiry','T',3,'cols="50" rows="8"','','Y','/^.{3,1000}$/su',1),
-(14,2,'captcha','K',4,'','','Y','',1);
-
---
--- DDL for table `field_descriptions`
---
-DROP TABLE IF EXISTS `ac_field_descriptions`;
-CREATE TABLE `ac_field_descriptions` (
-  `field_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(255) NOT NULL COMMENT 'translatable',
-  `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
-  `language_id` int(11) NOT NULL,
-  `error_text` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
-  PRIMARY KEY (`field_id`,`language_id`)
-) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-INSERT INTO `ac_field_descriptions` (`field_id`, `name`, `error_text`, `language_id`)
-VALUES
-(11,'First name:','Name must be between 3 and 32 characters!',1),
-(12,'Email:','E-Mail Address does not appear to be valid!',1),
-(13,'Enquiry:','Enquiry must be between 10 and 3000 characters!',1),
-(14,'Enter the code in the box below:','Human verification has failed! Please try agan.',1);
-
---
--- DDL for table `ac_field_values`
---
-DROP TABLE IF EXISTS `ac_field_values`;
-CREATE TABLE `ac_field_values` (
-  `value_id` int(11) NOT NULL auto_increment,
-  `field_id` int(11) NOT NULL DEFAULT '0',
-  `value` text NOT NULL DEFAULT '' COMMENT 'translatable',
-  `language_id` int(11) NOT NULL,
-  PRIMARY KEY (`value_id`)
-) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- DDL for table `fields_groups`
---
-DROP TABLE IF EXISTS `ac_form_groups`;
-CREATE TABLE `ac_form_groups` (
-  `group_id` int(11) NOT NULL AUTO_INCREMENT,
-  `group_name` varchar(40) NOT NULL default '',
-  `form_id` int(11) NOT NULL DEFAULT '0',
-  `sort_order` int(3) NOT NULL,
-  `status` smallint(1) NOT NULL default '0',
-  PRIMARY KEY (`group_id`),
-  KEY `group_id` (`group_id`, `form_id`)
-) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- DDL for table `fields_groups`
---
-DROP TABLE IF EXISTS `ac_fields_groups`;
-CREATE TABLE `ac_fields_groups` (
-  `field_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`field_id`),
-  KEY `field_id` (`field_id`, `group_id`)
-) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- DDL for table `fields_group_descriptions`
---
-DROP TABLE IF EXISTS `ac_fields_group_descriptions`;
-CREATE TABLE `ac_fields_group_descriptions` (
-  `group_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(255) NOT NULL COMMENT 'translatable',
-  `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
-  `language_id` int(11) NOT NULL,
-  PRIMARY KEY (`group_id`,`language_id`)
-) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
---
 -- DDL for table `ac_messages`
 --
 DROP TABLE IF EXISTS `ac_messages`;
@@ -10864,9 +10741,10 @@ DROP TABLE IF EXISTS `ac_ant_messages`;
 CREATE TABLE `ac_ant_messages` (
   `id` varchar(60) NOT NULL,
   `priority` int(11) NOT NULL DEFAULT 0,
+  `placeholder` varchar(128) null,
   `start_date` timestamp NULL,
   `end_date` timestamp,
-  `viewed_date` timestamp,
+  `viewed_date` timestamp NULL,
   `viewed` int(11) NOT NULL default '0',
   `title` varchar(255) DEFAULT NULL,
   `description` text,
@@ -10878,6 +10756,95 @@ CREATE TABLE `ac_ant_messages` (
   KEY `daterange_idx` (`start_date`,`end_date`)
 ) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+INSERT INTO `ac_ant_messages`
+    (id, priority, placeholder, start_date, end_date, viewed_date, viewed, title, description, html, url, language_code)
+VALUES (
+        'quick_start_offer1',
+        1,
+        'quick_start',
+        NOW(),
+        '2030-01-01 02:00:00',
+        NULL,
+        0,
+        'Quick Start Wizzard modal content, Offer 1',
+        '',
+        '<div class="col-md-12">
+	<div class="text-center">
+		<a href="https://buy.avalara.com/signup?partner=abantecart&CampaignID=7010b0000013ZLp&" target="_ext_help">
+			<img width="900px" src="https://marketplace.abantecart.com/extensions/marketplace/storefront/view/default/images/avatax-trial-750x400.jpg" /></a>
+	</div>
+
+	<div class="text-center">
+		<div class="btn-group">
+			<a class="btn btn-white" href="https://buy.avalara.com/signup?partner=abantecart&CampaignID=7010b0000013ZLp&" target="_ext_help">
+				<i class="fa fa-arrow-right"></i> Learn More
+			</a>
+		</div>
+	</div>
+</div>',
+        '',
+        '*');
+INSERT INTO `ac_ant_messages`
+    (id, priority, placeholder, start_date, end_date, viewed_date, viewed, title, description, html, url, language_code)
+VALUES (
+        'quick_start_offer2',
+        1,
+        'quick_start',
+        NOW(),
+        '2030-01-01 02:00:00',
+        NULL,
+        0,
+        'Quick Start Wizzard modal content, Offer 2',
+        '',
+        '<div class="col-md-12">
+	<div class="text-center">
+        <h1>Accept Payments from <br/>customers with Stripe.</h1>
+		<p>
+            <img alt="Stripe + AbanteCart" src="https://www.abantecart.com/resources/image/18/7f/9.webp"
+                 class="mcnImage"
+                 style="max-width:600px; padding-bottom: 0; display: inline !important; vertical-align: bottom; width:570px; align:middle;">
+		</p>
+	</div>
+
+	<div style="padding: 10px 60px 30px 60px">
+        <h1>Some Stripe benefits:</h1>
+		<p>
+            <label><b>Stripe supports a wide range of payment methods</b></label>
+			<br />
+            including cards, bank debits, bank redirects, Affirm, Klarna, ACH, MobilePay and more.
+		</p>
+
+		<p>
+			<label><b>Powerful Fraud Protection and Easy PCI Compliance</b></label>
+			<br />
+			Our robust tokenization technology simplifies PCI compliance requirements and our built-in fraud screening tool stops fraud in its tracks.
+		</p>
+
+		<p>
+			<label><b>White-Glove Customer Support</b></label>
+			<br />
+            Get one-on-one support every step of the way. Stripe\'s Customer Support teams are always on hand to ensure
+            that you\'re getting the most out of your integration, without any processing disruptions.
+		</p>
+
+		<p>
+			<label><b>Competitive Processing Rates</b></label>
+			<br />
+			Our extensive industry expertise and rate optimization technology allow us to offer you the lowest rates.
+		</p>
+	</div>
+
+	<div class="text-center">
+		<div class="btn-group">
+            <a class="btn btn-white" href="#admin#rt=extension/extensions/edit&extension=stripe" target="_blank">
+				<i class="fa fa-arrow-right"></i> Learn More
+			</a>
+		</div>
+	</div>
+</div>',
+        '',
+        '*'
+);
 
 --
 -- DDL for table `ac_datasets`
@@ -11032,7 +10999,7 @@ VALUES  (7,'2',1),
         (7,'3',3),
         (7,'4',4),
         (7,'250',5),
-       	(7,'260',6),
+       	(7,'282',6),
        	(7,'244',7),
        	(7,'266',8);
 -- settings
@@ -12060,37 +12027,7 @@ VALUES  (18,1,1),
         (18,1,6),
         (18,1,14),
         (18,1,15);
--- spanish
--- ITEM_ID
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (16,'home',7),
-        (16,'login',8),
-        (16,'logout',9),
-        (16,'account',10),
-        (16,'cart',11),
-        (16,'checkout',12),
-        (16,'specials',13),
-        (16,'order',16);
--- ITEM_TEXT
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (17,'Casa',7),
-        (17,'Iniciar Sesión',8),
-        (17,'Cerrar sesión',9),
-        (17,'Cuenta',10),
-        (17,'Carro',11),
-        (17,'Caja',12),
-        (17,'Especiales',13),
-        (17,'Comprobar el Orden',16);
--- LANGUAGE_ID
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
-VALUES  (18,9,7),
-        (18,9,8),
-        (18,9,9),
-        (18,9,10),
-        (18,9,11),
-        (18,9,12),
-        (18,9,13),
-        (18,9,16);
+
 
 
 -- ## ADD INSTALL/UPGRADE HISTORY DATASET
@@ -12113,7 +12050,7 @@ VALUES  (20, NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (21,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (22,'1.4.2','1');
+VALUES  (22,'1.4.3','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (23,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
@@ -12283,6 +12220,7 @@ VALUES
   ( 280, 1, NOW() ),
   ( 281, 1, NOW() );
 
+
 INSERT INTO `ac_resource_descriptions`
 (`resource_id`, `language_id`, `name`, `title`, `description`, `resource_path`, `resource_code`, `date_added`)
 VALUES
@@ -12367,7 +12305,9 @@ VALUES
   ( 278,1,'Icon Analytics & Insights', '', '', '', '<i class="fa fa-signal"></i>&nbsp;', NOW() ),
   ( 279,1,'Icon Collections', '', '', '', '<i class="fa fa-paste"></i>&nbsp;', NOW() ),
   ( 280,1,'Icon Email Templates', '', '', '', '<i class="fa fa-envelope-open-o"></i>&nbsp;', NOW() ),
-  ( 281,1,'abc-logo-white','abc-logo-white','abc-logo-white.png','18/7a/logo.png','', NOW() );
+  ( 281,1,'abc-logo-white','abc-logo-white','abc-logo-white.png','18/7a/logo.png','', NOW() ),
+  ( 282,1,'Icon Menu Checkout', '', '', '', '<i class="fa fa-money-bill"></i>&nbsp;', NOW() )
+  ;
 
 --
 -- DDL for table `ac_resource_types`
@@ -12419,6 +12359,7 @@ VALUES
 (6,'storefront_menu_item',0,0,0, now());
 
 
+
 --
 -- DDL For Global Attributes
 --
@@ -12426,8 +12367,8 @@ VALUES
 DROP TABLE IF EXISTS `ac_global_attributes`;
 CREATE TABLE `ac_global_attributes` (
   `attribute_id` 		int(11) NOT NULL AUTO_INCREMENT,
-  `attribute_parent_id`	int(11) NOT NULL DEFAULT '0',
-  `attribute_group_id` 	int(11),
+  `attribute_parent_id`	int(11) NULL,
+  `attribute_group_id` 	int(11) NULL,
   `attribute_type_id` 	int(11) NOT NULL,
   `element_type` 		char(1) NOT NULL DEFAULT 'I',
   -- I - text input, T - Text area, S - Select, M - multivalue select, C - Checkbox, R - radio buttons, U - File upload, H - Hidden, G -Checkbox Group, D - Date, E - time, K - Captcha
@@ -12670,9 +12611,9 @@ CREATE TABLE `ac_email_templates` (
   `text_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `language_id` int(11) NOT NULL,
   `headers` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `subject` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `html_body` text COLLATE utf8_unicode_ci NOT NULL,
-  `text_body` text COLLATE utf8_unicode_ci NOT NULL,
+  `subject` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'translatable',
+  `html_body` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'translatable',
+  `text_body` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'translatable',
   `allowed_placeholders` text COLLATE utf8_unicode_ci NOT NULL,
   `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -12757,5 +12698,345 @@ CREATE TABLE `ac_fields_history`
 
 CREATE INDEX `ac_fields_history_idx`
     ON `ac_fields_history` (`table_name`, `record_id`, `field`, `language_id`);
+
+
+--
+-- Table structure for table `ac_field_groups`
+--
+DROP TABLE IF EXISTS `ac_field_groups`;
+CREATE TABLE `ac_field_groups`
+(
+    `group_id` int(11) NOT NULL AUTO_INCREMENT,
+    `group_txt_id` varchar(40) DEFAULT NULL,
+    PRIMARY KEY (`group_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `ac_field_groups`
+--
+INSERT INTO `ac_field_groups` (`group_id`, `group_txt_id`)
+VALUES
+    (1,'details'),
+    (2,'address'),
+    (3,'login'),
+    (4,'newsletter');
+
+--
+-- Table structure for table `ac_field_group_descriptions`
+--
+DROP TABLE IF EXISTS `ac_field_group_descriptions`;
+CREATE TABLE `ac_field_group_descriptions`
+(
+    `group_id` int(11) NOT NULL DEFAULT 0,
+    `name` varchar(255) NOT NULL COMMENT 'translatable',
+    `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
+    `language_id` int(11) NOT NULL,
+    PRIMARY KEY (`group_id`,`language_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `ac_field_group_descriptions` (`group_id`, `name`, `description`, `language_id`)
+VALUES
+    (1,'Your Personal Details','',1),
+    (2,'Your Address','',1),
+    (3,'Login Details','',1),
+    (4,'Newsletter','',1);
+
+--
+-- Table structure for table `ac_forms`
+--
+
+DROP TABLE IF EXISTS `ac_forms`;
+CREATE TABLE `ac_forms` (
+                            `form_id` int(11) NOT NULL AUTO_INCREMENT,
+                            `form_name` varchar(40) NOT NULL DEFAULT '',
+                            `controller` varchar(100) NOT NULL DEFAULT '',
+                            `success_page` varchar(100) NOT NULL DEFAULT '',
+                            `status` smallint(1) NOT NULL DEFAULT 0,
+                            `locked` int(1) NOT NULL DEFAULT 0,
+                            `date_added` timestamp NULL DEFAULT current_timestamp(),
+                            `date_modified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+                            PRIMARY KEY (`form_id`),
+                            UNIQUE KEY `form_name` (`form_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `ac_forms`
+--
+
+INSERT INTO `ac_forms`
+(`form_id`, `form_name`, `controller`, `success_page`, `status`, `locked`)
+VALUES
+    (2,'ContactUsFrm','content/contact','content/contact/success',1,1),
+    (4,'AddressFrm','','',1,1),
+    (5,'GuestCheckoutFrm','','',1,1),
+    (6,'CustomerFrm','','',1,1),
+    (7,'RegisterCustomerFrm','account/create','account/create',1,1);
+
+--
+-- Table structure for table `ac_form_descriptions`
+--
+DROP TABLE IF EXISTS `ac_form_descriptions`;
+CREATE TABLE `ac_form_descriptions`
+(
+    `form_id` int(11) NOT NULL DEFAULT 0,
+    `language_id` int(11) NOT NULL,
+    `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
+    PRIMARY KEY (`form_id`,`language_id`),
+    CONSTRAINT `ac_form_descriptions_fk` FOREIGN KEY (`form_id`) REFERENCES `ac_forms` (`form_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `ac_form_descriptions`
+--
+INSERT INTO `ac_form_descriptions` (`form_id`, `language_id`, `description`)
+VALUES
+    (2,1,'Contact Us Form'),
+    (4,1,'Customer Address Form'),
+    (5,1,'Guest Address and Details Form'),
+    (6,1,'Customer Details Form'),
+    (7,1,'Customer Registration Form');
+
+-- resources
+INSERT INTO `ac_resource_map`
+(`resource_id`, `object_name`, `object_id`, `default`, `sort_order`)
+VALUES
+    (10, 'field', 4, 0, 1),
+    (11, 'field', 4, 0, 2),
+    (12, 'field', 4, 0, 3),
+    (13, 'field', 4, 0, 4),
+    (14, 'field', 4, 0, 5),
+    (15, 'field', 4, 0, 6),
+    (16, 'field', 4, 0, 7),
+    (17, 'field', 4, 0, 8),
+    (18, 'field', 4, 0, 9),
+    (19, 'field', 5, 0, 1),
+    (20, 'field', 5, 0, 2),
+    (21, 'field', 6, 0, 1);
+
+INSERT INTO `ac_resource_library`
+(`resource_id`, `type_id`)
+VALUES
+    (10, 1),
+    (11, 1),
+    (12, 1),
+    (13, 1),
+    (14, 1),
+    (15, 1),
+    (16, 1),
+    (17, 1),
+    (18, 1),
+    (19, 1),
+    (20, 1),
+    (21, 1);
+
+INSERT INTO `ac_resource_descriptions`
+(`resource_id`, `language_id`, `name`, `title`, `description`, `resource_path`, `resource_code`)
+VALUES
+    (10, 1, 'Field Icon Country', '', '', '', '<i class="fa fa-globe"></i>'),
+    (11, 1, 'Field Icon Zone', '', '', '', '<i class="fa fa-map"></i>'),
+    (12, 1, 'Field Icon Postcode', '', '', '', '<i class="fa fa-signs-post"></i>'),
+    (13, 1, 'Field Icon Company', '', '', '', '<i class="fa-solid fa-handshake"></i>'),
+    (14, 1, 'Field Icon Address Line 1', '', '', '', '<i class="fa-solid fa-location-pin"></i>'),
+    (15, 1, 'Field Icon Address Line 2', '', '', '', '<i class="fa-solid fa-location-dot"></i>'),
+    (16, 1, 'Field Icon City', '', '', '', '<i class="fa-solid fa-city"></i>'),
+    (17, 1, 'Field Icon First Name', '', '', '', '<i class="fa fa-solid fa-user"></i>'),
+    (18, 1, 'Field Icon Last Name', '', '', '', '<i class="fa fa-solid fa-user-tag"></i>'),
+    (19, 1, 'Field Icon Email', '', '', '', '<i class="fa-solid fa-at"></i>'),
+    (20, 1, 'Field Icon Phone', '', '', '', '<i class="fa-solid fa-phone"></i>'),
+    (21, 1, 'Field Icon Login Name', '', '', '', '<i class="fa-solid fa-fingerprint"></i>');
+
+
+
+--
+-- Table structure for table `ac_fields`
+--
+DROP TABLE IF EXISTS `ac_fields`;
+CREATE TABLE `ac_fields`
+(
+    `field_id` int(11) NOT NULL AUTO_INCREMENT,
+    `form_id` int(11) NOT NULL DEFAULT 0,
+    `group_id` int(11) DEFAULT NULL,
+    `field_name` varchar(40) NOT NULL,
+    `element_type` char(1) NOT NULL DEFAULT 'I',
+    `sort_order` int(3) NOT NULL,
+    `attributes` varchar(255) NOT NULL,
+    `settings` text NOT NULL DEFAULT '',
+    `required` char(1) NOT NULL DEFAULT 'N',
+    `status` smallint(1) NOT NULL DEFAULT 0,
+    `regexp_pattern` varchar(255) NOT NULL DEFAULT '',
+    `resource_id` int(11) DEFAULT NULL,
+    `locked` int(1) NOT NULL DEFAULT 0,
+    `date_added` timestamp NULL DEFAULT current_timestamp(),
+    `date_modified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    PRIMARY KEY (`field_id`),
+    KEY `field_id` (`field_id`,`form_id`,`status`),
+    KEY `ac_field_group_fk` (`group_id`),
+    CONSTRAINT `ac_field_group_fk` FOREIGN KEY (`group_id`) REFERENCES `ac_field_groups` (`group_id`) ON DELETE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `ac_fields`
+--
+INSERT INTO `ac_fields`
+(`field_id`, `form_id`, `group_id`, `field_name`, `element_type`, `sort_order`, `attributes`, `settings`, `required`, `status`, `regexp_pattern`, `resource_id`, `locked`)
+VALUES
+    (11,2,NULL,'first_name','I',1,'autocomplete="given-name"','',1,1,'/^.{3,100}$/u',17,1),
+    (12,2,NULL,'email','E',2,'minlength="1" maxlength="96" autocomplete="email"','',1,1,'',19,1),
+    (13,2,NULL,'enquiry','T',3,'cols="50" rows="8" autocomplete="off"','',1,1,'/^.{3,1000}$/su',NULL,1),
+    (14,2,NULL,'captcha','K',4,'autocomplete="off"','',1,1,'',NULL,0),
+    (19,4,NULL,'country_id','O',1,'autocomplete="country"','','1',1,'/^[1-9]\\d*$/',10,1),
+    (20,4,NULL,'zone_id','Z',2,'autocomplete="address-level1"','','1',1,'/^[1-9]\\d*$/',11,1),
+    (21,4,NULL,'company','I',3,'autocomplete="organization"','','0',1,'/^.{0,255}$/u',13,1),
+    (22,4,NULL,'address_1','I',4,'minlength="3" maxlength="128" autocomplete="address-line1"','','1',1,'/^.{3,128}$/u',14,1),
+    (23,4,NULL,'address_2','I',5,'minlength="0" maxlength="128" autocomplete="address-line2"','','0',1,'/^.{0,128}$/u',15,1),
+    (24,4,NULL,'city','I',6,'maxlength="128" autocomplete="address-level2"','','1',1,'/^.{1,128}$/u',16,1),
+    (25,4,NULL,'postcode','I',7,'autocomplete="postal-code"','','1',1,'/^[A-Za-z0-9\\- ]+$/',12,1),
+    (26,4,NULL,'firstname','I',8,'minlength="1" maxlength="32" autocomplete="given-name"','','1',1,'/^.{1,32}$/u',17,1),
+    (27,4,NULL,'lastname','I',9,'minlength="1" maxlength="32" autocomplete="family-name"','','1',1,'/^.{1,32}$/u',18,1),
+    (29,4,NULL,'default','C',11,'','','0',1,'',0,1),
+    (30,4,NULL,'vat_id','I',10,'autocomplete="off"','','0',0,'/^.{8,14}$/u',0,0),
+    (31,5,NULL,'country_id','O',1,'data-pair-with="zone_id" autocomplete="country"','','1',1,'/^[1-9]\\d*$/',10,1),
+    (32,5,NULL,'zone_id','Z',2,'data-pair-with="country_id" autocomplete="address-level1"','','1',1,'/^[1-9]\\d*$/',11,1),
+    (33,5,NULL,'company','I',3,'autocomplete="organization"','','0',1,'/^.{0,255}$/u',13,1),
+    (34,5,NULL,'address_1','I',4,'minlength="3" maxlength="128" autocomplete="address-line1"','','1',1,'/^.{3,128}$/u',14,1),
+    (35,5,NULL,'address_2','I',5,'minlength="0" maxlength="128" autocomplete="address-line2"','','0',1,'/^.{0,128}$/u',15,1),
+    (36,5,NULL,'city','I',6,'maxlength="128" data-pair-with="postcode" autocomplete="address-level2"','','1',1,'/^.{1,128}$/u',16,1),
+    (37,5,NULL,'postcode','I',7,'data-pair-with="city" autocomplete="postal-code"','','1',1,'/^[A-Za-z0-9\\- ]+$/',12,1),
+    (38,5,NULL,'firstname','I',8,'minlength="1" maxlength="32" data-pair-with="lastname" autocomplete="given-name"','','1',1,'/^.{1,32}$/u',17,1),
+    (39,5,NULL,'lastname','I',9,'minlength="1" maxlength="32" data-pair-with="firstname" autocomplete="family-name"','','1',1,'/^.{1,32}$/u',18,1),
+    (40,5,NULL,'vat_id','I',10,'autocomplete="off"','','0',0,'/^.{8,14}$/u',0,0),
+    (41,5,NULL,'email','E',15,'minlength="1" maxlength="96" autocomplete="email"','','1',1,'',19,1),
+    (42,5,NULL,'telephone','F',16,'maxlength="32" autocomplete="tel"','','0',1,'/^[+\\- 0-9\\(\\)]+$/',20,1),
+    (43,6,NULL,'loginname','I',1,'minlength="5" maxlength="64" autocomplete="username"','','1',1,'/^[A-Za-z0-9._]{5,64}$/i',21,1),
+    (44,6,NULL,'firstname','I',2,'minlength="1" maxlength="32" data-pair-with="lastname" autocomplete="given-name"','','1',1,'/^.{1,32}$/u',17,1),
+    (45,6,NULL,'lastname','I',3,'minlength="1" maxlength="32" data-pair-with="firstname" autocomplete="family-name"','','1',1,'/^.{1,32}$/u',18,1),
+    (46,6,NULL,'email','E',4,'minlength="1" maxlength="96" autocomplete="email"','','1',1,'',19,1),
+    (47,6,NULL,'telephone','F',5,'maxlength="32" autocomplete="tel"','','0',1,'/^[+\\- 0-9\\(\\)]+$/',20,1),
+    (49,7,1,'firstname','I',1,'minlength="1" maxlength="32" data-pair-with="lastname" autocomplete="given-name"','','1',1,'/^.{1,32}$/u',17,1),
+    (50,7,1,'lastname','I',2,'minlength="1" maxlength="32" data-pair-with="firstname" autocomplete="family-name"','','1',1,'/^.{1,32}$/u',18,1),
+    (51,7,1,'email','E',3,'minlength="1" maxlength="96" autocomplete="email"','','1',1,'',19,1),
+    (52,7,1,'telephone','F',4,'maxlength="32" autocomplete="tel"','','0',1,'/^[+\\- 0-9\\(\\)]+$/',20,1),
+    (53,7,2,'country_id','O',10,'autocomplete="country"','','1',1,'/^[1-9]\\d*$/',10,1),
+    (54,7,2,'zone_id','Z',11,'autocomplete="address-level1"','','1',1,'/^[1-9]\\d*$/',11,1),
+    (55,7,2,'address_1','I',13,'minlength="3" maxlength="128" autocomplete="address-line1"','','1',1,'/^.{3,128}$/u',14,1),
+    (56,7,2,'address_2','I',14,'minlength="0" maxlength="128" autocomplete="address-line2"','','0',1,'/^.{0,128}$/u',15,1),
+    (57,7,2,'city','I',15,'maxlength="128" autocomplete="address-level2"','','1',1,'/^.{1,128}$/u',16,1),
+    (58, 7, 2, 'postcode', 'I', 16, 'autocomplete="postal-code"', '', '1', 1, '/^[A-Za-z0-9\\- ]+$/', 12, 1),
+    (59,7,2,'company','I',12,'autocomplete="organization"','','0',1,'/^.{0,255}$/u',13,1),
+    (60,7,3,'loginname','I',20,'minlength="5" maxlength="64" autocomplete="username"','','1',1,'/^[A-Za-z0-9._]{5,64}$/i',21,1),
+    (61,7,4,'newsletter','C',30,'','','0',1,'',0,1),
+    (62,7,2,'vat_id','I',28,'autocomplete="off"','','0',0,'/^.{8,14}$/u',0,0);
+
+
+DROP TABLE IF EXISTS `ac_field_descriptions`;
+CREATE TABLE `ac_field_descriptions`
+(
+     `field_id` int(11) NOT NULL DEFAULT 0,
+     `name` varchar(255) NOT NULL COMMENT 'translatable',
+     `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
+     `language_id` int(11) NOT NULL,
+     `error_text` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
+     PRIMARY KEY (`field_id`,`language_id`),
+     CONSTRAINT `ac_fields_fk` FOREIGN KEY (`field_id`) REFERENCES `ac_fields` (`field_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `ac_field_descriptions`
+--
+INSERT INTO `ac_field_descriptions`
+(`field_id`, `name`, `description`, `language_id`, `error_text`)
+VALUES
+    (11,'First name:','',1,'Name must be between 3 and 32 characters!'),
+    (12,'Email:','',1,'E-Mail Address does not appear to be valid!'),
+    (13,'Enquiry:','',1,'Enquiry must be between 10 and 3000 characters!'),
+    (14,'Enter the code in the box below:','',1,'Human verification has failed! Please try agan.'),
+    (19,'Country','',1,'Please select a country!'),
+    (20,'Zone','',1,'Please select a region/state!'),
+    (21,'Company','',1,'Company Name must be less than 255 characters!'),
+    (22,'Address Line 1','',1,'Address Line 1 must be between 3 and 128 characters!'),
+    (23,'Address Line 2','',1,'Address Line 2 must be less than 128 characters!'),
+    (24,'City','',1,'City must be between 3 and 128 characters!'),
+    (25,'Zip/Post Code','',1,'Zip/Post Code must be less than 11 characters!'),
+    (26,'First Name','',1,'First Name must be between 1 and 32 characters!'),
+    (27,'Last Name','',1,'Last Name must be between 1 and 32 characters!'),
+    (29,'Default Address','',1,''),
+    (30,'VAT ID','',1,'VAT ID Code must be between 8 and 14 characters!'),
+    (31,'Country','',1,'Please select a country!'),
+    (32,'Region/State','',1,'Please select a region/state!'),
+    (33,'Company','',1,'Company Name must be less than 255 characters!'),
+    (34,'Address Line 1','',1,'Address Line 1 must be between 3 and 128 characters!'),
+    (35,'Address Line 2','',1,'Address Line 2 must be less than 128 characters!'),
+    (36,'City','',1,'City must be between 3 and 128 characters!'),
+    (37,'Zip/Post Code','',1,'Zip/Post Code must be less than 11 characters!'),
+    (38,'First Name','',1,'First Name must be between 1 and 32 characters!'),
+    (39,'Last Name','',1,'Last Name must be between 1 and 32 characters!'),
+    (40,'VAT ID','',1,'VAT ID Code must be between 8 and 14 characters!'),
+    (41,'Email','',1,'Your email is not provided or invalid!'),
+    (42,'Phone Number','',1,'Your contact phone number is not provided or invalid.'),
+    (43,'Login Name','',1,'Login Name must be between 5 and 65 characters!'),
+    (44,'First Name','',1,'First Name must be between 1 and 32 characters!'),
+    (45,'Last Name','',1,'Last Name must be between 1 and 32 characters!'),
+    (46,'Email','',1,'Your email is not provided or invalid!'),
+    (47,'Phone Number','',1,'Your contact phone number is not provided or invalid.'),
+    (49,'First Name','',1,'First Name must be between 1 and 32 characters!'),
+    (50,'Last Name','',1,'Last Name must be between 1 and 32 characters!'),
+    (51,'Email','',1,'Your email is not provided or invalid!'),
+    (52,'Phone Number','',1,'Your contact phone number is not provided or invalid.'),
+    (53,'Country','',1,'Please select a country!'),
+    (54,'Region/State','',1,'Please select a region/state!'),
+    (55,'Address Line 1','',1,'Address Line 1 must be between 3 and 128 characters!'),
+    (56,'Address Line 2','',1,'Address Line 2 must be less than 128 characters!'),
+    (57,'City','',1,'City must be between 3 and 128 characters!'),
+    (58,'Zip/Post Code','',1,'Zip/Post Code must be less than 11 characters!'),
+    (59,'Company','',1,'Company Name must be less than 255 characters!'),
+    (60,'Login Name','',1,'Login Name must be alphanumeric only and between 5 and 64 characters!'),
+    (61,'Subscribe','',1,''),
+    (62,'VAT ID','',1,'VAT ID Code must be between 8 and 14 characters!');
+
+--
+-- Table structure for table `ac_field_values`
+--
+DROP TABLE IF EXISTS `ac_field_values`;
+CREATE TABLE `ac_field_values`
+(
+    `value_id` int(11) NOT NULL AUTO_INCREMENT,
+    `field_id` int(11) NOT NULL DEFAULT 0,
+    `value` text NOT NULL DEFAULT '' COMMENT 'translatable',
+    `language_id` int(11) NOT NULL,
+    PRIMARY KEY (`value_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `ac_field_values`
+--
+INSERT INTO `ac_field_values` (`value_id`, `field_id`, `value`, `language_id`)
+VALUES
+    (4, 29, 'a:1:{i:0;a:2:{s:4:"name";s:1:"1";s:10:"sort_order";N;}}', 1),
+    (6, 61, 'a:1:{i:0;a:2:{s:4:"name";s:1:"1";s:10:"sort_order";N;}}', 1),
+    (7, 30, 'a:1:{i:0;a:2:{s:4:"name";s:0:"";s:10:"sort_order";N;}}', 1);
+
+--
+-- Table structure for table `ac_field_group_to_form`
+--
+DROP TABLE IF EXISTS `ac_field_group_to_form`;
+CREATE TABLE `ac_field_group_to_form` (
+          `group_id` int(11) DEFAULT NULL,
+          `form_id` int(11) DEFAULT NULL,
+          `sort_order` int(3) DEFAULT NULL,
+          KEY `ac_field_group_to_form_fk` (`form_id`),
+          KEY `ac_field_group_to_group_fk` (`group_id`),
+          CONSTRAINT `ac_field_group_to_form_fk` FOREIGN KEY (`form_id`) REFERENCES `ac_forms` (`form_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+          CONSTRAINT `ac_field_group_to_group_fk` FOREIGN KEY (`group_id`) REFERENCES `ac_field_groups` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ac_field_group_to_form`
+--
+INSERT INTO `ac_field_group_to_form` (`group_id`, `form_id`, `sort_order`)
+VALUES
+    (1,7,1),
+    (2,7,2),
+    (3,7,3),
+    (4,7,4);
 
 COMMIT;

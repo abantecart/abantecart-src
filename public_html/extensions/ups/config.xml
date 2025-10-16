@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension>
     <id>ups</id>
-    <version>1.1.0</version>
+    <version>1.4.3</version>
     <type>shipping</type>
     <category>Payment &amp;amp; Shipping</category>
     <cartversions>
@@ -49,6 +49,20 @@
         <item id="ups_telephone">
             <type required="true">input</type>
             <default_value config_key="config_telephone"/>
+        </item>
+        <item id="ups_manifest_order_status_id">
+            <type>selectbox</type>
+            <variants>
+                <data_source>
+                    <model_rt>localisation/order_status</model_rt>
+                    <method>getOrderStatuses</method>
+                </data_source>
+                <fields>
+                    <field>order_status_id</field>
+                    <field>name</field>
+                </fields>
+            </variants>
+            <default_value>3</default_value>
         </item>
         <item id="ups_weight_code">
             <type required="true">selectbox</type>

@@ -52,9 +52,19 @@
                         <b class="me-3"><?php echo $text_shipping_method; ?></b><?php echo $shipping_method; ?>
                     </li>
                 <?php } ?>
+                <?php echo $this->getHookVar('after_shipping_method');?>
                     <li class="list-group-item list-group-item-secondary">
                         <b class="me-3"><?php echo $text_payment_method; ?></b><?php echo $payment_method; ?>
                     </li>
+                <?php echo $this->getHookVar('after_payment_method');?>
+                <?php
+                foreach($ext_fields as $entry => $value){
+                    $value = is_array($value) ? implode(", ",$value) : (string)$value;
+                    ?>
+                    <li class="list-group-item list-group-item-secondary">
+                        <b class="me-3"><?php echo $entry; ?></b><?php echo nl2br($value); ?>
+                    </li>
+                <?php } ?>
             </ul>
         </div>
         <?php if($shipping_address || $this->getHookVar('pre_shipping_address') || $this->getHookVar('post_shipping_address')){ ?>
@@ -236,7 +246,7 @@
             <i class="<?php echo $button_print->icon; ?>"></i>
             <?php echo $button_print->text ?>
         </a>
-
+        <?php echo $this->getHookVar('pre_button_order_cancel'); ?>
         <?php if ($button_order_cancel) { ?>
             <a href="#" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelationModal"
                title="<?php echo_html2view($button_order_cancel->text) ?>">

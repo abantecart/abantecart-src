@@ -1,4 +1,14 @@
-<Files *.php>
-order allow,deny
-deny from all
-</Files>
+<IfModule !mod_authz_core.c>
+    # Apache 2.2
+    <FilesMatch "\.php$">
+        Order deny,allow
+        Deny from all
+    </FilesMatch>
+</IfModule>
+
+<IfModule mod_authz_core.c>
+    # Apache 2.4+
+    <FilesMatch "\.php$">
+        Require all denied
+    </FilesMatch>
+</IfModule>

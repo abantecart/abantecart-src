@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 class ModelInstall extends Model
@@ -88,7 +88,7 @@ class ModelInstall extends Model
                     $data['db_user'],
                     $data['db_password'],
                     $data['db_name'],
-                    $data['db_port']?:NULL,
+                    (int)$data['db_port'] ?: NULL,
                     ['table_prefix' => $data['db_prefix']]
                 );
             } catch (Exception|Error $exception) {
@@ -209,45 +209,45 @@ class ModelInstall extends Model
             define('DB_PREFIX', $data['db_prefix']);
         }
 
-        $content = "<?php\n";
-        $content .= "/**\n";
-        $content .= "   AbanteCart, Ideal OpenSource Ecommerce Solution\n";
-        $content .= "   https://www.AbanteCart.com\n";
-        $content .= "   Copyright © 2011-" . date('Y') . " Belavier Commerce LLC\n\n";
-        $content .= "   Released under the Open Software License (OSL 3.0)\n";
-        $content .= "*/\n\n";
-        $content .= "const SERVER_NAME = '" . getenv('SERVER_NAME') . "';\n";
-        $content .= "// Admin Section Configuration. You can change this value to any name. Will use ?s=name to access the admin\n";
-        $content .= "const ADMIN_PATH = '" . $data['admin_path'] . "';\n\n";
-        $content .= "// Database Configuration\n";
-        $content .= "const DB_DRIVER = '" . $data['db_driver'] . "';\n";
-        $content .= "const DB_HOSTNAME = '" . $data['db_host'] . "';\n";
+        $content = "<?php" . PHP_EOL;
+        $content .= "/**" . PHP_EOL;
+        $content .= "   AbanteCart, Ideal OpenSource Ecommerce Solution" . PHP_EOL;
+        $content .= "   https://www.AbanteCart.com" . PHP_EOL;
+        $content .= "   Copyright © 2011-" . date('Y') . " Belavier Commerce LLC" . PHP_EOL . PHP_EOL;
+        $content .= "   Released under the Open Software License (OSL 3.0)" . PHP_EOL;
+        $content .= "*/" . PHP_EOL . PHP_EOL;
+        $content .= "const SERVER_NAME = '" . getenv('SERVER_NAME') . "';" . PHP_EOL;
+        $content .= "// Admin Section Configuration. You can change this value to any name. Will use ?s=name to access the admin" . PHP_EOL;
+        $content .= "const ADMIN_PATH = '" . $data['admin_path'] . "';" . PHP_EOL . PHP_EOL;
+        $content .= "// Database Configuration" . PHP_EOL;
+        $content .= "const DB_DRIVER = '" . $data['db_driver'] . "';" . PHP_EOL;
+        $content .= "const DB_HOSTNAME = '" . $data['db_host'] . "';" . PHP_EOL;
         if ($data['db_port']) {
-            $content .= "const DB_PORT = " . (int)$data['db_port'] . ";\n";
+            $content .= "const DB_PORT = " . (int)$data['db_port'] . ";" . PHP_EOL;
         }
-        $content .= "const DB_USERNAME = '" . $data['db_user'] . "';\n";
-        $content .= "const DB_PASSWORD = '" . $data['db_password'] . "';\n";
-        $content .= "const DB_DATABASE = '" . $data['db_name'] . "';\n";
-        $content .= "const DB_PREFIX = '" . DB_PREFIX . "';\n";
-        $content .= "\n";
-        $content .= "const CACHE_DRIVER = 'file';\n";
-        $content .= "// Unique AbanteCart store ID\n";
-        $content .= "const UNIQUE_ID = '" . md5(time()) . "';\n";
-        $content .= "// Encryption key for protecting sensitive information. NOTE: Change of this key will cause a loss of all existing encrypted information!\n";
-        $content .= "const ENCRYPTION_KEY = '" . randomWord(6) . "';\n";
-        $content .= "
-// details about allowed DSN settings  https://symfony.com/doc/6.0/mailer.html#transport-setup
-/*
-const MAILER = [
-    //'dsn' => null,
-    // OR
-    'protocol' => 'smtp', // or ses+smtp, gmail+smtp, mandrill+smtp, mailgun+smtp, mailjet+smtp, postmark+smtp, sendgrid+smtp, sendinblue+smtp, ohmysmtp+smtp
-    //we use \"username\" also as ID, KEY, API_TOKEN, ACCESS_KEY
-    'username' => 'merchant@yourdomain.com',
-    'password' => '****super-secret-password****',
-    'host'     => 'your-hostname',
-    'port'     => 465 //or 587 etc
-];\n*/";
+        $content .= "const DB_USERNAME = '" . $data['db_user'] . "';" . PHP_EOL;
+        $content .= "const DB_PASSWORD = '" . $data['db_password'] . "';" . PHP_EOL;
+        $content .= "const DB_DATABASE = '" . $data['db_name'] . "';" . PHP_EOL;
+        $content .= "const DB_PREFIX = '" . DB_PREFIX . "';" . PHP_EOL . PHP_EOL;
+        $content .= "const CACHE_DRIVER = 'file';" . PHP_EOL;
+        $content .= "// Unique AbanteCart store ID" . PHP_EOL;
+        $content .= "const UNIQUE_ID = '" . md5(time()) . "';" . PHP_EOL;
+        $content .= "// Encryption key for protecting sensitive information. NOTE: Change of this key will cause a loss of all existing encrypted information!" . PHP_EOL;
+        $content .= "const ENCRYPTION_KEY = '" . randomWord(6) . "';" . PHP_EOL;
+        $content .= PHP_EOL;
+        $content .= "// details about allowed DSN settings  https://symfony.com/doc/6.0/mailer.html#transport-setup" . PHP_EOL;
+        $content .= "/*" . PHP_EOL;
+        $content .= "const MAILER = [" . PHP_EOL;
+        $content .= "    //'dsn' => null," . PHP_EOL;
+        $content .= "    // OR" . PHP_EOL;
+        $content .= "    'protocol' => 'smtp', // or ses+smtp, gmail+smtp, mandrill+smtp, mailgun+smtp, mailjet+smtp, postmark+smtp, sendgrid+smtp, sendinblue+smtp, ohmysmtp+smtp" . PHP_EOL;
+        $content .= "    //we use \"username\" also as ID, KEY, API_TOKEN, ACCESS_KEY" . PHP_EOL;
+        $content .= "    'username' => 'merchant@yourdomain.com'," . PHP_EOL;
+        $content .= "    'password' => '****super-secret-password****'," . PHP_EOL;
+        $content .= "    'host'     => 'your-hostname'," . PHP_EOL;
+        $content .= "    'port'     => 465 //or 587 etc" . PHP_EOL;
+        $content .= "];" . PHP_EOL;
+        $content .= "*/" . PHP_EOL;
 
         $file = fopen(DIR_ABANTECART . 'system/config.php', 'w');
         fwrite($file, $content);
@@ -304,10 +304,12 @@ const MAILER = [
                         email = '" . $db->escape($data['email']) . "',
                         username = '" . $db->escape($data['username']) . "',
                         salt = '" . $db->escape($salt_key) . "', 
-                        password = '" . $db->escape(sha1($salt_key . sha1($salt_key . sha1($data['password'])))) . "',
+                        password = '" . $db->escape(passwordHash($data['password'], $salt_key)) . "',
                         status = '1',
                         date_added = NOW();"
                 );
+
+                $this->session->data['username'] = $data['username'];
 
                 $db->query(
                     "UPDATE `" . $data['db_prefix'] . "settings` 

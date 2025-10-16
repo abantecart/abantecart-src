@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details is bundled with this package in the file LICENSE.txt.
@@ -20,6 +20,17 @@
 
 class ControllerResponsesExtensionPageBuilder extends AController
 {
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
+    {
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        // prevalidate $_GET
+        $_GET['route'] = strtolower(preg_replace("/[^\/A-Za-z0-9_]/", '', (string)$_GET['route']));
+        $_GET['template'] = preformatTextID($_GET['template']);
+        $_GET['pageTemplate'] = preformatTextID($_GET['pageTemplate']);
+        $_GET['product_id'] = (int)$_GET['product_id'];
+        $_GET['format'] = preformatTextID($_GET['format']);
+    }
+
     public function getControllerOutput()
     {
         $this->load->library('json');
@@ -36,16 +47,16 @@ class ControllerResponsesExtensionPageBuilder extends AController
                 $this->dryRunMainContentController();
                 $this->registry->set('PBuilder_interception', true);
                 $this->registry->set('PBuilder_block_template', $this->request->get['template']);
-                if($this->request->get['pageTemplate']){
+                if ($this->request->get['pageTemplate']) {
                     $this->config->set('config_storefront_template', $this->request->get['pageTemplate']);
                 }
                 $args = [
-                    'instance_id' => 0,
+                    'instance_id'     => 0,
                     'custom_block_id' => (int)$this->request->get['custom_block_id'],
-                    'inData' => $this->data
+                    'inData'          => $this->data
                 ];
 
-                if( !$this->request->get['product_id'] && $route == 'pages/product/product') {
+                if (!$this->request->get['product_id'] && $route == 'pages/product/product') {
                     $this->setRandomProduct_id();
                     //erase random product id from session to show different product on every reload
                     unset($this->session->data['pbuilder_editor']['random_product_id']);
@@ -55,8 +66,8 @@ class ControllerResponsesExtensionPageBuilder extends AController
                 //run controller and intercept data
                 /** @see ExtensionPageBuilder::__call() */
                 $this->data['output'] = $dis->dispatchGetOutput()
-                        ? : ($this->registry->get('PBRunData')['data']['empty_render_text']
-                        ? : 'Empty Data');
+                    ?: ($this->registry->get('PBRunData')['data']['empty_render_text']
+                        ?: 'Empty Data');
                 if ($this->request->get['format'] == 'json') {
                     $this->load->library('json');
                     $this->data['output'] = AJson::encode($this->registry->get('PBRunData')['data']);
@@ -64,9 +75,9 @@ class ControllerResponsesExtensionPageBuilder extends AController
                 $this->registry->set('PBuilder_interception', false);
                 $this->registry->set('PBuilder_block_template', '');
                 unset($this->session->data['pbuilder']);
-            }catch(Exception $e){
-                if($e->getCode() != AC_HOOK_OVERRIDE) {
-                    $this->log->write('Page Builder Error: '.$e->getMessage()."\n".$e->getTraceAsString());
+            } catch (Exception $e) {
+                if ($e->getCode() != AC_HOOK_OVERRIDE) {
+                    $this->log->write('Page Builder Error: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
                     $this->data['output'] = 'PageBuilder unexpected error. See Error Log for details';
                 }
             }
@@ -84,22 +95,22 @@ class ControllerResponsesExtensionPageBuilder extends AController
      */
     protected function dryRunMainContentController()
     {
-        if($this->request->get['route'] == 'blocks/breadcrumbs'){
+        if ($this->request->get['route'] == 'blocks/breadcrumbs') {
             $page_id = $this->request->get['page_id'];
             $sql = "SELECT * 
-                    FROM ".$this->db->table('pages')." 
-                    WHERE page_id = ".(int)$page_id;
+                    FROM " . $this->db->table('pages') . " 
+                    WHERE page_id = " . (int)$page_id;
             $result = $this->db->query($sql);
-            if($result->row) {
-                if($result->row['key_param']){
+            if ($result->row) {
+                if ($result->row['key_param']) {
                     $this->request->get[$result->row['key_param']] = $result->row['key_value'];
-                }elseif($result->row['controller'] == 'pages/product/product') {
+                } elseif ($result->row['controller'] == 'pages/product/product') {
                     $this->setRandomProduct_id();
                 }
                 $this->registry->set('PBuilder_interception', true);
                 //set sign for dry-run of controller to know it inside hooks
                 $this->registry->set('PBuilder_dryrun', true);
-                $dis = new ADispatcher($result->row['controller'] );
+                $dis = new ADispatcher($result->row['controller']);
                 //run controller and intercept data
                 /** @see ExtensionPageBuilder::__call() */
                 $dis->dispatchGetOutput();
@@ -112,21 +123,22 @@ class ControllerResponsesExtensionPageBuilder extends AController
         }
     }
 
-    protected function setRandomProduct_id(){
-        if($this->session->data['pbuilder_editor']['random_product_id']
+    protected function setRandomProduct_id()
+    {
+        if ($this->session->data['pbuilder_editor']['random_product_id']
             && !$this->request->get['product_id']
-        ){
-            $this->request->get['product_id'] = $this->session->data['pbuilder_editor']['random_product_id'];
+        ) {
+            $this->request->get['product_id'] = (int)$this->session->data['pbuilder_editor']['random_product_id'];
             return;
         }
         //in case when layout is for default product page - take a random product id
         $sql = "SELECT product_id 
-                FROM ". $this->db->table('products')." 
+                FROM " . $this->db->table('products') . " 
                 WHERE COALESCE(date_available,NOW()) <= NOW() AND status=1
                 ORDER BY rand() 
                 LIMIT 1";
         $res = $this->db->query($sql);
         $this->session->data['pbuilder_editor']['random_product_id'] = $this->request->get['product_id']
-            = $res->row['product_id'];
+            = (int)$res->row['product_id'];
     }
 }

@@ -25,7 +25,7 @@
         "mustache/mustache": "v2.14.2"
     },
     "suggest": {
-        "mysql": ">=8.0",
+        "mysql": ">=8.0.19",
         "mariadb": ">=10.5",
         "ext-pdo": "*",
         "ext-mysql": "*"

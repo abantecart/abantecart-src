@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 class ControllerPagesCatalogManufacturerLayout extends AController
@@ -33,8 +33,6 @@ class ControllerPagesCatalogManufacturerLayout extends AController
         /** @see public_html/admin/language/english/catalog/manufacturer.xml */
         $this->loadLanguage('catalog/manufacturer');
         $this->loadLanguage('design/layout');
-
-
         $this->loadModel('catalog/manufacturer');
         $manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($manufacturer_id);
 
@@ -93,24 +91,24 @@ class ControllerPagesCatalogManufacturerLayout extends AController
 
         $this->data['active'] = 'layout';
 
-        $tmpl_id = $this->request->get['tmpl_id'] ?: $this->config->get('config_storefront_template');
-        $layout = new ALayoutManager($tmpl_id);
+        $templateTxtId = (string)$this->request->get['tmpl_id'] ?: $this->config->get('config_storefront_template');
+        $layout = new ALayoutManager($templateTxtId);
         //get existing page layout or generic
-        $page_layout = $layout->getPageLayoutIDs($page_controller, $page_key_param, $manufacturer_id);
-        $page_id = $page_layout['page_id'];
-        $layout_id = $page_layout['layout_id'];
+        $pageLayout = $layout->getPageLayoutIDs($page_controller, $page_key_param, $manufacturer_id);
+        $pageId = $pageLayout['page_id'];
+        $layoutId = $pageLayout['layout_id'];
 
         $params = [
             'manufacturer_id' => $manufacturer_id,
-            'page_id'         => $page_id,
-            'layout_id'       => $layout_id,
-            'tmpl_id'         => $tmpl_id,
+            'page_id'         => $pageId,
+            'layout_id'       => $layoutId,
+            'tmpl_id'         => $templateTxtId,
         ];
         $url = '&' . $this->html->buildURI($params);
 
         // get templates
         $this->data['templates'] = [];
-        $directories = glob(DIR_STOREFRONT . 'view/*', GLOB_ONLYDIR);
+        $directories = glob(DIR_STOREFRONT . 'view'.DS.'*', GLOB_ONLYDIR);
         if ($directories) {
             $this->data['templates'] = array_map('basename', $directories);
         }
@@ -155,17 +153,11 @@ class ControllerPagesCatalogManufacturerLayout extends AController
         $this->data['page_url'] = $page_url;
         $this->data['current_url'] = $this->html->getSecureURL('catalog/manufacturer_layout', $url);
 
-        // insert external form of layout
-        $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
+        // insert an external form of layout
+        $layout = new ALayoutManager($templateTxtId, $pageId, $layoutId);
 
         $layoutForm = $this->dispatch('common/page_layout', [$layout]);
         $this->data['block_layout_form'] = $layoutForm->dispatchGetOutput();
-
-        //build pages and available layouts for cloning
-        $this->data['pages'] = $layout->getAllPages();
-        $avLayouts = ["0" => $this->language->get('text_select_copy_layout')]
-            + array_column($this->data['pages'], 'layout_name','layout_id');
-        unset($avLayouts[$layout_id]);
 
         $form = new AForm('HT');
         $form->setForm(
@@ -174,12 +166,12 @@ class ControllerPagesCatalogManufacturerLayout extends AController
             ]
         );
 
-        $this->data['cp_layout_select'] = $form->getFieldHtml(
+        $this->data['pages'] = buildPageLayoutTree(
+            $layout,
+            $templateTxtId,
             [
-                'type'    => 'selectbox',
-                'name'    => 'source_layout_id',
-                'value'   => '',
-                'options' => $avLayouts,
+                'exclude_ids' => [$layoutId],
+                'page_groups' => (array)$this->data['page_groups']
             ]
         );
 
@@ -216,6 +208,7 @@ class ControllerPagesCatalogManufacturerLayout extends AController
         if ($this->request->is_GET() || !$this->request->post) {
             redirect($this->html->getSecureURL('catalog/manufacturer_layout'));
         }
+        $this->loadLanguage('catalog/manufacturer');
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -225,9 +218,6 @@ class ControllerPagesCatalogManufacturerLayout extends AController
             'key_param'  => 'manufacturer_id',
             'key_value'  => (int)$post['manufacturer_id'],
         ];
-
-
-        $this->loadLanguage('catalog/manufacturer');
 
         if (!$pageData['key_value']) {
             unset($this->session->data['success']);
@@ -245,7 +235,7 @@ class ControllerPagesCatalogManufacturerLayout extends AController
             }
         }
 
-        if (saveOrCreateLayout($post['tmpl_id'], $pageData, $post)) {
+        if (saveOrCreateLayout((string)$post['tmpl_id'], $pageData, $post)) {
             $this->session->data['success'] = $this->language->get('text_success_layout');
         }
 

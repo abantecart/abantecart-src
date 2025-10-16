@@ -1,4 +1,5 @@
-<form id="search_form" action="<?php echo HTTPS_SERVER.INDEX_FILE; ?>" class="form-search top-search d-flex w-100 justify-content-center">
+<?php /** @var AController|AView $this */?>
+<form id="search_form" action="<?php echo $this->html->getHomeURL(); ?>" class="form-search top-search d-flex w-100 justify-content-center">
     <input type="hidden" name="rt" value="product/search"/>
     <input type="hidden" name="category_id" id="filter_category_id" value=""/>
     <div class="d-none d-lg-flex input-group rounded-1 ms-auto">
@@ -92,7 +93,7 @@
             </div>
             <div class="input-group">
                 <input type="text" id="filter-keyword" name="keyword"
-                       autocomplete="off" class="form-control bg-transparent shadow-none border-0 m-0" data-dd = '2'
+                       autocomplete="off" class="form-control bg-transparent shadow-none border-0 m-0"
                        placeholder="<?php echo_html2view($text_keyword); ?>" value="" disabled/>
             </div>
             <div class="d-grid">

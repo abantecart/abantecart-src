@@ -1,5 +1,4 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
-/*
+<?php /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
@@ -8,15 +7,16 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -468,7 +468,7 @@ class AHtml extends AController
         $result = $db->query($sql);
         $kList = array_merge(
             array_column($result->rows, 'keyword'),
-            array_map('basename', glob(DIR_ROOT . '/*', GLOB_ONLYDIR))
+            array_map('basename', glob(DIR_ROOT . DS . '*', GLOB_ONLYDIR))
         );
         if (in_array($seo_key, $kList)) {
             $url = HTTP_CATALOG . $seo_key;
@@ -621,6 +621,70 @@ class AHtml extends AController
         $view->batchAssign($template);
         return $view->fetch('form/language_flags.tpl');
     }
+
+    /**
+     * @return string
+     * @throws AException
+     */
+    public function installLanguageModal(string $mode = 'render')
+    {
+        $packCartVersion = '';
+        $registry = $this->registry;
+        $view = new AView($this->registry, 0);
+        $languages = $registry->get('extensions')->getExtensionsList(['filter' => 'language']);
+        $loaded = array_column((array)$languages->rows, 'key');
+        $remote = [];
+        $fp = @fopen('https://github.com/abantecart/abantecart-languages/raw/refs/heads/master/list.txt', 'r');
+        if ($fp) {
+            while (($line = fgets($fp)) !== false) {
+                $remote[] = trim($line);
+            }
+            fclose($fp);
+        }
+
+        //detect last cart version
+        $url = 'https://github.com/abantecart/abantecart-languages/releases/tag/v' . VERSION;
+        if (isUrlAlive($url)) {
+            $packCartVersion = VERSION;
+        } elseif (VERSION_BUILT != 0) {
+            $versionBuilt = (int)VERSION_BUILT - 1;
+            while ($versionBuilt != 0) {
+                $url = 'https://github.com/abantecart/abantecart-languages/releases/tag/v' . MASTER_VERSION . '.' . MINOR_VERSION . '.' . $versionBuilt;
+                if (isUrlAlive($url)) {
+                    $packCartVersion = MASTER_VERSION . '.' . MINOR_VERSION . '.' . $versionBuilt;
+                    break;
+                }
+                $versionBuilt--;
+            }
+        }
+
+
+        //show only at least one language can be loaded
+        $uninstalled = array_diff($remote, $loaded);
+
+        if ($uninstalled && $packCartVersion) {
+            $template = [];
+            foreach ($uninstalled as $name) {
+                $langName = str_replace('default_', '', $name);
+                $template['packages'][$name] =
+                    [
+                        'name'        => $langName,
+                        'image_url'   => 'https://github.com/abantecart/abantecart-languages/raw/refs/heads/master/' . $name . '/image/icon%402x.png',
+                        'install_url' => 'https://github.com/abantecart/abantecart-languages/releases/download/v' . $packCartVersion . '/' . $name . '.tar.gz'
+                    ];
+            }
+            $template['text_load_languages'] = $this->language->get('button_load_more_languages', 'extension/extensions');
+            if ($mode == 'render') {
+                $view->batchAssign($template);
+                /** @see form/language_install.tpl */
+                return $view->fetch('form/language_install.tpl');
+            } else {
+                return $template['packages'];
+            }
+        }
+        return '';
+    }
+
 
     /**
      * @param string $html - text that might contain internal links #admin# or #storefront#
@@ -927,6 +991,7 @@ class HtmlElementFactory
  * @property AHtml $html
  * @property ADocument $document
  * @property CSRFToken $csrftoken
+ * @property string $icon
  */
 abstract class HtmlElement
 {
@@ -1243,7 +1308,6 @@ class MultiValueHtmlElement extends HtmlElement
  * @property string $value
  * @property string $attr
  * @property string $style
- * @property string $icon
  */
 class SubmitHtmlElement extends HtmlElement
 {
@@ -1782,6 +1846,7 @@ class CheckboxHtmlElement extends HtmlElement
     public function getHtml()
     {
         $checked = false;
+        $this->data['value'] = $this->value = $this->value ?? 1;
         if ($this->template) {
             $tpl = $this->template;
         } elseif (str_contains((string)$this->style, 'btn_switch')) { //for switch button NOTE: value is binary (1 or 0)!!!
@@ -1814,7 +1879,7 @@ class CheckboxHtmlElement extends HtmlElement
                 'value'      => $this->value,
                 'attr'       => $this->attr,
                 'required'   => $this->required,
-                'label_text' => $this->label_text,
+                'label_text' => $this->label_text ?: $this->display_name,
                 'checked'    => $checked,
                 'style'      => $this->style,
                 'text_on'    => $text_on,
@@ -1975,7 +2040,6 @@ class RadioHtmlElement extends HtmlElement
  * @property string $href
  * @property string $style
  * @property string $href_class
- * @property string $icon
  * @property string $target
  */
 class ButtonHtmlElement extends HtmlElement
@@ -2192,7 +2256,7 @@ class ResourceHtmlElement extends HtmlElement
             'wrapper_id'    => $this->element_id . '_wrapper',
             'name'          => $this->name,
             'resource_path' => $this->resource_path,
-            'resource_id'   => $this->resource_id,
+            'resource_id'   => $this->resource_id ?: null,
             'object_name'   => $this->object_name,
             'object_id'     => $this->object_id,
             'rl_type'       => $this->rl_type,
@@ -2521,6 +2585,7 @@ class IPAddressHtmlElement extends HtmlElement
  * @property bool $required
  * @property string $placeholder
  * @property string $help_url
+ * @property string $submit_mode
  */
 class CountriesHtmlElement extends HtmlElement
 {
@@ -2531,7 +2596,11 @@ class CountriesHtmlElement extends HtmlElement
         /** @var ModelLocalisationCountry $mdl */
         $mdl = $this->load->model('localisation/country');
         $results = $mdl->getCountries();
-        $this->options = array_column($results, 'name', 'name');
+        if ($this->submit_mode == 'id') {
+            $this->options = array_column($results, 'name', 'country_id');
+        } else {
+            $this->options = array_column($results, 'name', 'name');
+        }
     }
 
     public function getHtml()
@@ -2551,6 +2620,7 @@ class CountriesHtmlElement extends HtmlElement
                 'style'       => $this->style,
                 'placeholder' => $this->placeholder,
                 'help_url'    => $this->help_url,
+                'icon'        => $this->icon
             ]
         );
         return $this->view->fetch($this->template ?: 'form/selectbox.tpl');
@@ -2578,12 +2648,16 @@ class CountriesHtmlElement extends HtmlElement
  * @property bool $required
  * @property string $placeholder
  * @property string $help_url
+ * @property string $zone_only
  */
 class ZonesHtmlElement extends HtmlElement
 {
     public function __construct($data)
     {
         parent::__construct($data);
+        if ($this->zone_only) {
+            return;
+        }
         /** @var ModelLocalisationCountry $mdl */
         $mdl = $this->load?->model('localisation/country');
         $results = $mdl->getCountries();
@@ -2616,7 +2690,7 @@ class ZonesHtmlElement extends HtmlElement
             }
         }
 
-        $this->zone_name = !$this->zone_name ? '' : urlencode($this->zone_name);
+        $this->zone_name = $this->zone_name ? urlencode($this->zone_name) : '';
         $this->default_zone_value = [];
         $this->options = !$this->options ? [] : $this->options;
         $this->element_id = preg_replace('/[\[+\]+]/', '_', $this->element_id);
@@ -2672,7 +2746,7 @@ class ZonesHtmlElement extends HtmlElement
 
         $this->extendAndBatchAssign(
             [
-                'name'            => $this->name,
+                'name'            => $this->name ?: 'country_id',
                 'id'              => $this->element_id,
                 'value'           => $this->value ?: $this->default_value,
                 'options'         => $this->options,
@@ -2680,13 +2754,15 @@ class ZonesHtmlElement extends HtmlElement
                 'required'        => $this->required,
                 'style'           => $this->style,
                 'url'             => $url,
-                'zone_field_name' => $this->zone_field_name ?: $this->default_zone_field_name,
+                'zone_field_name' => $this->zone_field_name ?: $this->default_zone_field_name ?: 'zone_id',
                 'zone_name'       => $this->zone_name ?: $this->default_zone_name,
                 'zone_value'      => (array)($this->zone_value ?: $this->default_zone_value),
-                'zone_options'    => $this->zone_options,
+                'zone_options'    => $this->zone_options ?: ['-1' => $this->language->get('text_none')],
                 'submit_mode'     => $this->submit_mode,
                 'placeholder'     => $this->placeholder,
                 'help_url'        => $this->help_url,
+                //sign to show only zone selector, without countries
+                'zone_only'       => $this->zone_only,
             ]
         );
         return $this->view->fetch($this->template ?: 'form/countries_zones.tpl');
@@ -2939,16 +3015,12 @@ class LabelHtmlElement extends HtmlElement
      */
     public function getHtml()
     {
-        if (IS_ADMIN === true) {
-            ADebug::error('labelHtmlElement', E_USER_ERROR, 'You cannot to build Label-field from Admin-side!');
-            return null;
-        }
 
         $this->extendAndBatchAssign(
             [
                 'name'     => $this->name,
                 'id'       => $this->element_id,
-                'text'     => str_replace('"', '&quot;', ($this->text ?: $this->value)),
+                'text'     => html_entity_decode(($this->text ?: $this->value)),
                 'attr'     => $this->attr,
                 'style'    => $this->style,
                 'help_url' => $this->help_url,

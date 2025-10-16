@@ -20,7 +20,7 @@
                 </div> 
             <div class="row mt-4 bottom-footer-block">
                 <div class="col-lg-12">
-                    <ul class="list-inline">
+                    <ul class="list-inline d-inline-block">
                         <li class="list-inline-item">
                             <?php
                             $i = 0;

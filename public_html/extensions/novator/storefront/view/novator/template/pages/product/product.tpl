@@ -139,20 +139,16 @@ if ($error){ ?>
                     </div>
                 </div>
                 <div class="col-3 col-md-6 d-flex justify-content-end align-items-center">
-                   <?php if ($display_price){ ?>
-                            
-                        <?php
+                   <?php if ($display_price){
                             $tax_message = '';
                             if($config_tax && !$tax_exempt && $tax_class_id){
                                 $tax_message = '&nbsp;&nbsp;<span class="productpricesmall">'.$price_with_tax.'</span>';
-                            }?>
-
-                        <?php }
-
+                            }
+                        }
                         if ((float)$average  && $display_reviews){ ?>
                             <div class="rounded-pill bg-light-warning badge fs-6"><i class="bi bi-star"></i> <?php echo $average;?></div>
-                        <?php }?>
-                    <?php if($tab_review && $display_reviews ){?>
+                        <?php }
+                        if($tab_review && $display_reviews ){?>
                         <div class="rounded-pill bg-light-secondary badge fs-6">
                             <i class="bi bi-chat-left-dots"></i>
                             <a class="bg-light-secondary fs-6" href="javascript:void(0);" onclick="scrollToTab('review')"><?php echo $tab_review;?></a>
@@ -175,7 +171,7 @@ if ($error){ ?>
                                                     echo $option['html'];
                                                     continue;
                                                 }?>
-                                            <div class="d-block">
+                                            <div class="d-block" data-label-for="<?php echo $option['html']->element_id?>">
                                                 <h5 class="text-muted control-label fw-bold mb-2">
                                                     <?php echo $option['name']; ?>
                                                 </h5>
@@ -188,7 +184,7 @@ if ($error){ ?>
                                                     <?php echo $option['html'];	?>
                                                 </div>
                                             </div>
-                                            <hr class="my-4">
+                                            <hr class="my-4" data-label-for="<?php echo $option['html']->element_id?>">
                                         <?php } ?>
                                     <?php } ?>
 
@@ -325,6 +321,7 @@ if ($error){ ?>
         </div>
     </div>
 </div>
+<?php echo $this->getHookVar('product_before_tabs'); ?>
 <!-- Product Description tab & comments-->
 <section class="prod-desc mt-3 mt-lg-0">
     <ul id="productTabs" class="nav nav-tabs profile-tabs mb-4 border-bottom" role="tablist">
@@ -361,8 +358,8 @@ if ($error){ ?>
         if( $hookVarArray ){
             foreach($hookVarArray as $key=>$hkVar){ ?>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="ecomtab-tab-4" data-bs-toggle="tab"
-                   href="#collapse<?php echo $key; ?>" role="tab" aria-controls="collapse<?php echo $key; ?>" aria-selected="false" tabindex="-1">
+                <a class="nav-link" id="<?php echo $key; ?>" data-bs-toggle="tab"
+                   href="#collapse<?php echo $key; ?>" role="tab" aria-controls="collapse<?php echo $key; ?>" aria-selected="false">
                     <?php echo $hkVar['title']; ?>
                 </a>
             </li>
@@ -543,13 +540,11 @@ if ($error){ ?>
         $hookVarArray = $this->getHookVar('product_description_array');
         if( $hookVarArray ){
             foreach($hookVarArray as $key=>$hkVar){ ?>
-                <div class="tab-content">
                     <div class="tab-pane" id="collapse<?php echo $key?>" role="tabpanel" aria-labelledby="<?php echo $key?>">
                         <div class="tab-pane-body">
                             <?php echo $hkVar['html']; ?>
                         </div>
                     </div>
-                </div>
         <?php }
         } ?>
     </div>
@@ -675,7 +670,7 @@ if ($error){ ?>
 
         function initZoom() {
             //disable for small screens
-            if(window.innerWidth<1024){
+            if(window.innerWidth < <?php echo (int)$this->getHookVar('drift_min_screen_width')?: 1024; ?>){
                 return;
             }
             try {

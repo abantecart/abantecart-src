@@ -8,13 +8,13 @@ $categories = prepareNVCatItems($categories);
             <div class="row align-items-center justify-content-center g-2">
                 <div class="col">
                     <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-start">
-                        <li class="dropdown mega-menu">
+                        <li class="category-dropdown dropdown mega-menu">
                             <a id="menu_all_categories" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                aria-expanded="true"
                                data-bs-auto-close="outside">
                                 <i class="bi bi-ui-checks-grid"></i> <?php echo $this->language->get('text_category');?>
                             </a>
-                            <div class="dropdown-menu dropdown-mega-menu mt-0">
+                            <div id="menu_all_categories_dropdown" class="dropdown-menu dropdown-mega-menu mt-0">
                                 <div class="container">
                                     <div class="row">
                                         <?php
@@ -35,7 +35,7 @@ $categories = prepareNVCatItems($categories);
             <?php }
             echo $this->getHookVar('categories_additional_info'); ?>
             <div class="collapse d-none d-lg-flex navbar-collapse">
-                <ul class="mega-sf-menu navbar-nav mx-auto mb-2 mb-lg-0 align-items-start flex-nowrap">
+                <ul class="mega-sf-menu d-flex mx-auto list-unstyled align-items-start mb-0">
                 <?php
                 //get last menu item
                 $last = array_pop($storefront_menu);
@@ -45,7 +45,7 @@ $categories = prepareNVCatItems($categories);
                     $hasChild = (bool) $item['children'];
                     $active = $item['current'] ? 'active' : '';
                     if (!$hasChild) { ?>
-                    <li class="nav-item ">
+                    <li class="d-block mx-2">
                         <a id="menu_<?php echo $item['item_id'];?>" class="nav-link <?php echo $active; ?>" href="<?php echo $item['href']; ?>"
                            target="<?php echo $item['settings']['target']; ?>">
                             <?php echo renderMenuItemIconNv($item, $rlId).$text; ?>
@@ -55,7 +55,7 @@ $categories = prepareNVCatItems($categories);
                     } else {
                         //non category nested menu
                         if (!$item['category']) { ?>
-                        <li class="nav-item dropdown mega-menu">
+                        <li class="d-block dropdown mega-menu mx-2">
                             <a id="menu_<?php echo $item['item_id'];?>"
                                class="dropdown-toggle nav-link <?php echo $active; ?>"
                                href="<?php echo $item['href']; ?>"
@@ -63,19 +63,16 @@ $categories = prepareNVCatItems($categories);
                                role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                                 <?php echo renderMenuItemIconNv($item, $rlId).$text; ?>
                             </a>
-                            <ul class="dropdown-menu list-unstyled">
                             <?php
                             //render and display recursive item tree
-                            $opt = [];
-                            $opt['top_level']['attr'] =  'dropdown-menu';
-                            echo renderSFMenuNv($item['children'], 0,$item['item_id'], $opt); ?>
-                            </ul>
+                            echo renderNVNestedMenu($item['children']); ?>
                         </li>
                         <?php }
                         // display category
                         else { ?>
-                            <li class="nav-item dropdown mega-menu">
+                            <li class="nav-item dropdown mega-menu  mx-2">
                                 <a id="menu_<?php echo $item['item_id'];?>"
+                                   data-dpd-type="category"
                                    class="nav-link <?php echo $active; ?>"
                                    href="<?php echo $item['href']; ?>"
                                    target="<?php echo $item['settings']['target']; ?>"

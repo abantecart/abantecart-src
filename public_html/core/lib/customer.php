@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 /*
  *   $Id$
  *
@@ -98,7 +98,7 @@ class ACustomer
                 INNER JOIN " . $this->db->table("customer_sessions") . " cs 
                     ON c.customer_id = cs.customer_id
                 WHERE c.customer_id = '" . (int)$this->session->data['customer_id'] . "' 
-                    AND cs.session_id = '".session_id()."' AND status = '1'"
+                    AND cs.session_id = '" . session_id() . "' AND status = '1'"
             );
 
             if ($customer_data->num_rows) {
@@ -116,17 +116,7 @@ class ACustomer
                 || !$this->isValidEnabledCustomer()
             ) {
                 //clean up
-                $this->unauth_customer = [];
-                //expire unauth cookie
-                unset($_COOKIE['customer']);
-                setCookieOrParams(
-                    'customer',
-                    '',
-                    [
-                        'lifetime' => time() - 3600,
-                        'path'     => dirname($this->request->server['PHP_SELF']),
-                    ]
-                );
+                $this->clearUnauthCustomer();
             }
             //check if unauthenticated customer cart content was found and merge with session
             $saved_cart = $this->getCustomerCart();
@@ -139,7 +129,10 @@ class ACustomer
         $ip = $this->request->getRemoteIP();
         $url = '';
         if (isset($this->request->server['HTTP_HOST']) && isset($this->request->server['REQUEST_URI'])) {
-            $url = 'http://' . $this->request->server['HTTP_HOST'] . $this->request->server['REQUEST_URI'];
+            $url = $this->request->server['REQUEST_SCHEME']
+                . '://'
+                . $this->request->server['HTTP_HOST']
+                . $this->request->server['REQUEST_URI'];
         }
         $referer = '';
         if (isset($this->request->server['HTTP_REFERER'])) {
@@ -148,16 +141,38 @@ class ACustomer
         $customer_id = '';
         if ($this->isLogged()) {
             $customer_id = $this->getId();
-        } else {
-            if ($this->isUnauthCustomer()) {
-                $customer_id = $this->isUnauthCustomer();
+        } else if ($this->isUnauthCustomer()) {
+            $route = $this->request->get['rt'] ?: $this->request->get['_route_'];
+            if (IS_ADMIN !== true
+                && !$this->config->get('config_unauth_customer')
+                && $route
+                && !str_contains($route, 'login')
+            ) {
+                redirect($registry->get('html')->getSecureUrl('account/login'));
             }
+            $customer_id = $this->isUnauthCustomer();
         }
+
         /** @var ModelToolOnlineNow $mdl */
         $mdl = $this->load->model('tool/online_now');
         $mdl->setOnline($ip, $customer_id, $url, $referer);
         //call hooks
         $this->extensions->hk_ProcessData($this, 'constructor', $customer_id);
+    }
+
+    public function clearUnauthCustomer()
+    {
+        $this->unauth_customer = [];
+        //expire unauth cookie
+        unset($_COOKIE['customer']);
+        setCookieOrParams(
+            'customer',
+            '',
+            [
+                'lifetime' => time() - 3600,
+                'path'     => dirname($this->request->server['PHP_SELF']),
+            ]
+        );
     }
 
     /**
@@ -292,23 +307,24 @@ class ACustomer
 
     /**
      * @param string $sessID
-     * @return string
+     * @void
+     * @throws AException
      */
     protected function setActiveSession($sessID)
     {
         //first clear all expired tokens
         $customerSesTbl = $this->db->table("customer_sessions");
         $session_ttl = $this->config->get('config_session_ttl');
-        $this->db->query("DELETE FROM ".$customerSesTbl." 
-            WHERE customer_id = '".$this->customer_id."' 
-            AND last_active < DATE_SUB(NOW(), INTERVAL ".$session_ttl." MINUTE)");
+        $this->db->query("DELETE FROM " . $customerSesTbl . " 
+            WHERE customer_id = '" . $this->customer_id . "' 
+            AND last_active < DATE_SUB(NOW(), INTERVAL " . $session_ttl . " MINUTE)");
 
         //set or update token
-        $this->db->query("INSERT INTO ".$customerSesTbl." 
+        $this->db->query("INSERT INTO " . $customerSesTbl . " 
              VALUES (
-                '".$this->customer_id."',
-                '".$this->db->escape($sessID)."',
-                '".$this->db->escape($this->request->getRemoteIP())."',
+                '" . $this->customer_id . "',
+                '" . $this->db->escape($sessID) . "',
+                '" . $this->db->escape($this->request->getRemoteIP()) . "',
                 NOW(),
                 NOW()
             )
@@ -316,16 +332,18 @@ class ACustomer
     }
 
     /**
-     * @param string $token
+     * @param string $sessionId
      * @return bool
+     * @throws AException
      */
-    public function isActiveSession($sessID)
+    public function isActiveSession(string $sessionId)
     {
         $customerSesTbl = $this->db->table("customer_sessions");
-        $user_query = $this->db->query("SELECT * 
-                FROM ".$customerSesTbl." 
-                WHERE customer_id = '".$this->customer_id."'  
-                AND session_id = '".$this->db->escape($sessID)."'"
+        $user_query = $this->db->query(
+            "SELECT * 
+            FROM " . $customerSesTbl . " 
+            WHERE customer_id = '" . $this->customer_id . "'  
+                AND session_id = '" . $this->db->escape($sessionId) . "'"
         );
         if ($user_query->num_rows) {
             return true;
@@ -337,31 +355,32 @@ class ACustomer
     /**
      * Delete all or specific active sessions for the customer
      *
-     * @param string $sessID
+     * @param string $sessionId
      * @return void
      * @throws AException
      */
-    public function deleteActiveSessions($sessID = '')
+    public function deleteActiveSessions(string $sessionId = '')
     {
-        $this->deleteActiveSessionsByID($this->customer_id, $sessID);
+        $this->deleteActiveSessionsByID((int)$this->customer_id, (string)$sessionId);
     }
 
     /**
      * Delete all or specific active sessions for the customer by customer ID
-     * @param int $customerID
-     * @param string $sessID
-     * @return void
+     * @param int $customerId
+     * @param string $sessionId
+     * @void
      * @throws AException
      */
-    public function deleteActiveSessionsByID($customerID, $sessID = '')
+    public function deleteActiveSessionsByID(int $customerId, string $sessionId = '')
     {
         $customerSesTbl = $this->db->table("customer_sessions");
-        $where = " WHERE customer_id = '".$customerID."'";
-        if ($sessID) {
-            $where .= " AND session_id = '".$this->db->escape($sessID)."'";
+        $where = " WHERE customer_id = '" . $customerId . "'";
+        if ($sessionId) {
+            $where .= " AND session_id = '" . $this->db->escape($sessionId) . "'";
         }
         $this->db->query("DELETE FROM " . $customerSesTbl . $where);
     }
+
     /**
      * @void
      */
@@ -415,11 +434,11 @@ class ACustomer
     }
 
     /**
-     * @return int
+     * @return int|false
      */
     public function isUnauthCustomer()
     {
-        return $this->unauth_customer['customer_id'] ?? null;
+        return $this->unauth_customer['customer_id'] ?? false;
     }
 
     /**
@@ -545,7 +564,7 @@ class ACustomer
     }
 
     /**
-     * @param array $data_array
+     * @param array $inData
      * @param string $format
      * @param array $locate
      *
@@ -553,42 +572,43 @@ class ACustomer
      * @since 1.2.7
      *
      */
-    public function getFormattedAddress($data_array, $format = '', $locate = [])
+    public function getFormattedAddress($inData, $format = '', $locate = [])
     {
-        $data_array = (array)$data_array;
+        $inData = (array)$inData;
+        $inData = (array)$inData['ext_fields'] + (array)$inData;
+        foreach ($inData as &$value) {
+            if (!is_string($value)) {
+                unset($value);
+            }
+        }
+
         // Set default format
         if ($format == '') {
-            $format = '{firstname} {lastname}'
-                . "\n" . '{company}'
-                . "\n" . '{address_1}'
-                . "\n" . '{address_2}'
-                . "\n" . '{city} {postcode}'
-                . "\n" . '{zone}'
-                . "\n" . '{country}';
+            $format = DEFAULT_ADDRESS_FORMAT;
         }
-        //when some data missing - remove it from address format
+        //when some data missing - remove it from the address format
         preg_match_all('/\{(.*?)}/', $format, $matches);
         if ($matches[1]) {
             $matches = $matches[1];
             foreach ($matches as $key) {
-                if (!isset($data_array[$key])) {
+                if (!isset($inData[$key])) {
                     $format = str_replace('{' . $key . '}', '', $format);
                 }
             }
             $format = trim($format);
         }
 
-        //Set default variable to be set for address based on the data
+        //Set the default variable to be set for the address based on the data
         if (count($locate) <= 0) {
             $locate = [];
-            foreach ($data_array as $key => $value) {
+            foreach ($inData as $key => $value) {
                 $locate[] = "{" . $key . "}";
             }
         }
         return nl2br(
             preg_replace(
                 ["/\s\s+/", "/\r\r+/", "/\n\n+/"], '<br />',
-                trim(str_replace($locate, $data_array, $format))
+                trim(str_replace($locate, $inData, $format))
             )
         );
     }

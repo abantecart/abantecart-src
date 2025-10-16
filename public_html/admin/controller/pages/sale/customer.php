@@ -1,21 +1,22 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -61,7 +62,7 @@ class ControllerPagesSaleCustomer extends AController
             'type'     => 'input',
             'required' => false,
         ],
-        //note! this field is pair of country_id and zone_id
+        //note! this field is a pair of country_id and zone_id
         'country_id' => [
             'type'     => 'zones',
             'required' => true,
@@ -92,21 +93,18 @@ class ControllerPagesSaleCustomer extends AController
         //add phone validation js for quick preview modal
         $this->document->addScript($this->view->templateResource('/javascript/intl-tel-input/js/intlTelInput.min.js'));
 
-        //set store selector
+        //set a store selector
         $this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 
         if (isset($this->session->data['error'])) {
             $this->data['error_warning'] = $this->session->data['error'];
             unset($this->session->data['error']);
-        } elseif (isset($this->error['warning'])) {
-            $this->data['error_warning'] = $this->error['warning'];
         } else {
-            $this->data['error_warning'] = '';
+            $this->data['error_warning'] = $this->error['warning'] ?? '';
         }
 
         if (isset($this->session->data['success'])) {
             $this->data['success'] = $this->session->data['success'];
-
             unset($this->session->data['success']);
         } else {
             $this->data['success'] = '';
@@ -157,7 +155,7 @@ class ControllerPagesSaleCustomer extends AController
                                 'text' => $this->language->get('tab_customer_details'),
                                 'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
                             ],
-                            'addresses'     => [
+                            'addresses'   => [
                                 'text' => $this->language->get('text_customer_addresses'),
                                 'href' => $this->html->getSecureURL('sale/customer/update_address', '&customer_id=%ID%'),
                             ],
@@ -431,34 +429,34 @@ class ControllerPagesSaleCustomer extends AController
         );
 
         $this->data['addresses'] = [];
-        $customer_info = [];
+        $customerInfo = [];
         if ($customer_id) {
-            $customer_info = $this->model_sale_customer->getCustomer($customer_id);
+            $customerInfo = $this->model_sale_customer->getCustomer($customer_id);
             $this->data['button_orders_count'] = $this->html->buildElement(
                 [
                     'type'  => 'button',
                     'name'  => 'view orders',
-                    'text'  => $this->language->get('text_total_order') . ' ' . $customer_info['orders_count'],
+                    'text'  => $this->language->get('text_total_order') . ' ' . $customerInfo['orders_count'],
                     'style' => 'button2',
                     'href'  => $this->html->getSecureURL('sale/order', '&customer_id=' . $customer_id),
                     'title' => $this->language->get('text_view') . ' ' . $this->language->get('tab_history'),
                 ]
             );
             $this->data['addresses'] = $this->model_sale_customer->getAddressesByCustomerId($customer_id);
-            if ($customer_info['last_login'] && !in_array($customer_info['last_login'], $this->zeroDates)) {
+            if ($customerInfo['last_login'] && !in_array($customerInfo['last_login'], $this->zeroDates)) {
                 $date = dateISO2Display(
-                    $customer_info['last_login'],
+                    $customerInfo['last_login'],
                     $this->language->get('date_format_short') . ' ' . $this->language->get('time_format')
                 );
             } else {
                 $date = $this->language->get('text_never');
             }
             $this->data['last_login'] = $this->language->get('text_last_login') . ' ' . $date;
-            if ($customer_info['date_added']
-                && !in_array($customer_info['date_added'], $this->zeroDates)
+            if ($customerInfo['date_added']
+                && !in_array($customerInfo['date_added'], $this->zeroDates)
             ) {
                 $date = dateISO2Display(
-                    $customer_info['date_added'],
+                    $customerInfo['date_added'],
                     $this->language->get('date_format_short') . ' ' . $this->language->get('time_format')
                 );
                 $this->data['register_date'] = $this->language->get('text_register_date') . ' ' . $date;
@@ -471,17 +469,17 @@ class ControllerPagesSaleCustomer extends AController
                 '&customer_id=' . $customer_id . '&address_id=' . $a['address_id']
             );
             $a['title'] = $a['address_1'] . ' ' . $a['address_2'];
-            //mark default address
-            if ($customer_info['address_id'] == $a['address_id']) {
+            //mark the default address
+            if ($customerInfo['address_id'] == $a['address_id']) {
                 $a['default'] = 1;
             }
         }
         $this->data['add_address_url'] = $this->html->getSecureURL(
-            'sale/customer/update_address',
+            'sale/customer/insert_address',
             '&customer_id=' . $customer_id
         );
 
-        //allow to change this list via hook
+        //allow changing this list via hook
         $this->data['fields'] = array_merge(
             [
                 'loginname'         => 'required',
@@ -501,7 +499,7 @@ class ControllerPagesSaleCustomer extends AController
 
         $fields = array_keys($this->data['fields']);
         foreach ($fields as $f) {
-            $this->data[$f] = $this->request->post [$f] ?? $customer_info[$f] ?? '';
+            $this->data[$f] = $this->request->post [$f] ?? $customerInfo[$f] ?? $customerInfo['ext_fields'][$f] ?? '';
         }
 
         $this->data['customer_group_id'] = $this->data['customer_group_id']
@@ -625,7 +623,7 @@ class ControllerPagesSaleCustomer extends AController
                 [
                     'type'    => 'selectbox',
                     'name'    => 'store_id',
-                    'value'   => (int)$customer_info['store_id'],
+                    'value'   => (int)$customerInfo['store_id'],
                     'options' => array_column($stores, 'name', 'store_id'),
                 ]
             );
@@ -701,6 +699,18 @@ class ControllerPagesSaleCustomer extends AController
                 'options' => $groups,
             ]
         );
+        //extended fields summary
+        /** @var ModelToolFormsManager $mdl */
+        $mdl = $this->loadModel('tool/forms_manager', 'silent');
+        $languageId = $this->language->getContentLanguageID();
+        foreach ($customerInfo['ext_fields'] as $fName => $fValue) {
+            $fData = $mdl?->getFieldDescriptionsByName($fName, $languageId) ?: ['name' => $fName];
+            if (!$fValue) {
+                continue;
+            }
+            $fData['value'] = $fValue;
+            $this->data['form']['fields']['details']['ext_fields'][$fName] = $fData;
+        }
 
         $this->data['section'] = 'details';
         $this->data['tabs']['general']['active'] = true;
@@ -732,7 +742,7 @@ class ControllerPagesSaleCustomer extends AController
                 '&customer_id=' . $customer_id . '&address_id=' . $address_id
             );
 
-            //do we need to update default address?
+            //do we need to update the default address?
             if ($this->request->post['default']) {
                 $this->model_sale_customer->setDefaultAddress($customer_id, $address_id);
             }
@@ -767,7 +777,7 @@ class ControllerPagesSaleCustomer extends AController
         $customer_id = (int)$this->request->get['customer_id'];
         $address_id = (int)$this->request->get['address_id'];
         if ($this->request->is_POST() && $this->_validateAddressForm($this->request->post)) {
-            //do we need to update default address?
+            //do we need to update the default address?
             if ($this->request->post['default']) {
                 $this->model_sale_customer->setDefaultAddress($customer_id, $address_id);
             }
@@ -782,15 +792,15 @@ class ControllerPagesSaleCustomer extends AController
             redirect($this->data['redirect_url']);
         }
 
-        if($this->request->is_GET() && !$address_id){
+        if ($this->request->is_GET() && !$address_id) {
             $customerInfo = $this->model_sale_customer->getCustomer($customer_id);
-            if($customerInfo['address_id']) {
+            if ($customerInfo['address_id']) {
                 $address_id = (int)$customerInfo['address_id'];
-            }else{
+            } else {
                 $allAddresses = $this->model_sale_customer->getAddresses($customer_id);
-                if($allAddresses){
+                if ($allAddresses) {
                     $address_id = (int)$allAddresses[0]['address_id'];
-                }else {
+                } else {
                     redirect(
                         $this->html->getSecureURL('sale/customer/insert_address', '&customer_id=' . $customer_id)
                     );
@@ -856,7 +866,7 @@ class ControllerPagesSaleCustomer extends AController
                     '&customer_id=' . $customer_id . '&address_id=' . $a['address_id']
                 );
                 $a['title'] = $a['address_1'] . ' ' . $a['address_2'];
-                //mark default address
+                //mark the default address
                 if ($customer_info['address_id'] == $a['address_id']) {
                     $a['default'] = 1;
                 }
@@ -875,7 +885,7 @@ class ControllerPagesSaleCustomer extends AController
         $this->data['customer_id'] = $customer_id;
 
         $this->data['add_address_url'] = $this->html->getSecureURL(
-            'sale/customer/update_address',
+            'sale/customer/insert_address',
             '&customer_id=' . $customer_id
         );
         $this->data['category_products'] = $this->html->getSecureURL('product/product/category');
@@ -966,7 +976,7 @@ class ControllerPagesSaleCustomer extends AController
 
         $this->data['section'] = 'address';
 
-        //note: Only allow to delete or change if not default
+        //note: Only allow deleting or change if not default
         if (!$current_address['default']) {
             if ($address_id) {
                 $this->data['form']['delete'] = $form->getFieldHtml(
@@ -1004,6 +1014,19 @@ class ControllerPagesSaleCustomer extends AController
                 $fld_array['zone_value'] = $this->data['address']['zone_id'];
             }
             $this->data['form']['fields']['address'][$name] = $form->getFieldHtml($fld_array);
+        }
+
+        //extended fields summary
+        /** @var ModelToolFormsManager $mdl */
+        $mdl = $this->loadModel('tool/forms_manager', 'silent');
+        $languageId = $this->language->getContentLanguageID();
+        foreach ($this->data['address']['ext_fields'] as $fName => $fValue) {
+            $fData = $mdl?->getFieldDescriptionsByName($fName, $languageId) ?: [];
+            if (!$fValue || !$fData) {
+                continue;
+            }
+            $fData['value'] = $fValue;
+            $this->data['form']['fields']['address']['ext_fields'][$fName] = $fData;
         }
 
         $this->view->batchAssign($this->data);
@@ -1079,14 +1102,16 @@ class ControllerPagesSaleCustomer extends AController
     public function actonbehalf()
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        if (isset($this->request->get['customer_id'])) {
-            //NOTE: if we need to act on additional store - redirect to it's admin side.
+        $customerID = (int)$this->request->get['customer_id'];
+        if ($customerID) {
+            //NOTE: if we need to act on an additional store-redirect to its admin side.
             // and then to storefront because cross-domain restriction for session cookie
             /** @var ModelSettingStore $mdl */
             $mdl = $this->loadModel('setting/store');
-            $store_settings = $mdl->getStore($this->session->data['current_store_id']);
-            $customerID = (int)$this->request->get['customer_id'];
-            if ($this->config->get('config_url') != $mdl->getStoreURL($this->session->data['current_store_id'])
+            $store_id = $this->getCurrentStoreId();
+            $store_settings = $mdl->getStore($store_id);
+
+            if ($this->config->get('config_url') != $mdl->getStoreURL($store_id)
             ) {
                 if ($store_settings) {
                     if ($store_settings['config_ssl']) {
@@ -1110,11 +1135,11 @@ class ControllerPagesSaleCustomer extends AController
                 );
                 //set or update token
                 $customerSesTbl = $this->db->table("customer_sessions");
-                $this->db->query("INSERT INTO ".$customerSesTbl." 
+                $this->db->query("INSERT INTO " . $customerSesTbl . " 
                  VALUES (
-                    '".$customerID."',
-                    '".$this->db->escape(session_id())."',
-                    '".$this->db->escape($this->request->getRemoteIP())."',
+                    '" . $customerID . "',
+                    '" . $this->db->escape(session_id()) . "',
+                    '" . $this->db->escape($this->request->getRemoteIP()) . "',
                     NOW(),
                     NOW()
                     )
@@ -1142,7 +1167,7 @@ class ControllerPagesSaleCustomer extends AController
         $customer_id = $this->request->get['customer_id'] ?? null;
         $address_id = $this->request->get['address_id'] ?? null;
         if (has_value($customer_id) && has_value($address_id)) {
-            //check if this is a default address. Do not allow to delete
+            //check if this is a default address. Do not allow deleting
             $customer_info = $this->model_sale_customer->getCustomer($customer_id);
             if ($customer_info['address_id'] == $address_id) {
                 $this->error['warning'] = $this->language->get('error_delete_default');
@@ -1275,7 +1300,7 @@ class ControllerPagesSaleCustomer extends AController
         if (!$data['country_id']) {
             $this->error['country_id'] = $this->language->get('error_country');
         }
-        //check zone. If country have no zone - do not show error
+        //check zone. If the country has no zone - do not show an error
         if (!$data['zone_id']) {
             if ($data['country_id']) {
                 /** @var ModelLocalisationZone $mdl */
@@ -1305,5 +1330,22 @@ class ControllerPagesSaleCustomer extends AController
             $this->error['warning'] = implode('<br>', $this->error);
             return false;
         }
+    }
+
+    /**
+     * @return int
+     * @throws AException
+     */
+    protected function getCurrentStoreId()
+    {
+        $store_id = (int)$this->config->get('config_store_id');
+        if (has_value($this->request->get_or_post('store_id'))) {
+            $store_id = (int)$this->request->get_or_post('store_id');
+        } else {
+            if ($this->session->data['current_store_id']) {
+                $store_id = (int)$this->session->data['current_store_id'];
+            }
+        }
+        return $store_id;
     }
 }

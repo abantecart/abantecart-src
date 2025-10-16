@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -124,7 +124,7 @@ class ControllerPagesCatalogProductLayout extends AController
 
         // get templates
         $this->data['templates'] = [];
-        $directories = glob(DIR_STOREFRONT . 'view/*', GLOB_ONLYDIR);
+        $directories = glob(DIR_STOREFRONT . 'view'.DS.'*', GLOB_ONLYDIR);
         foreach ($directories as $directory) {
             $this->data['templates'][] = basename($directory);
         }
@@ -177,12 +177,6 @@ class ControllerPagesCatalogProductLayout extends AController
         $layoutForm = $this->dispatch('common/page_layout', [$layout]);
         $this->data['block_layout_form'] = $layoutForm->dispatchGetOutput();
 
-        //build pages and available layouts for cloning
-        $this->data['pages'] = $layout->getAllPages();
-        $avLayouts = ["0" => $this->language->get('text_select_copy_layout')]
-            + array_column($this->data['pages'], 'layout_name','layout_id');
-        unset($avLayouts[$layoutId]);
-
         $form = new AForm('HT');
         $form->setForm(
             [
@@ -190,12 +184,12 @@ class ControllerPagesCatalogProductLayout extends AController
             ]
         );
 
-        $this->data['cp_layout_select'] = $form->getFieldHtml(
+        $this->data['pages'] = buildPageLayoutTree(
+            $layout,
+            $templateTxtId,
             [
-                'type'    => 'selectbox',
-                'name'    => 'source_layout_id',
-                'value'   => '',
-                'options' => $avLayouts,
+                'exclude_ids' => [$layoutId],
+                'page_groups' => (array)$this->data['page_groups']
             ]
         );
 

@@ -1,27 +1,28 @@
-<?php /** @noinspection SqlResolve */
+<?php /*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2023 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/** @noinspection SqlResolve */
 
 class ControllerResponsesDesignPageLayout extends AController
 {
     public $errors = [];
+
     public function main()
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -42,9 +43,9 @@ class ControllerResponsesDesignPageLayout extends AController
         );
         $this->data['form']['submit'] = $form->getFieldHtml(
             [
-                'type'  => 'button',
-                'name'  => 'submit',
-                'text'  => $this->language->get('button_insert'),
+                'type' => 'button',
+                'name' => 'submit',
+                'text' => $this->language->get('button_insert'),
             ]
         );
 
@@ -63,49 +64,49 @@ class ControllerResponsesDesignPageLayout extends AController
 
         $this->data['form']['fields']['page_name'] = $form->getFieldHtml(
             [
-                'type'    => 'input',
-                'name'    => 'page_name',
+                'type'     => 'input',
+                'name'     => 'page_name',
                 'required' => true
             ]
         );
         $this->data['form']['fields']['page_title'] = $form->getFieldHtml(
             [
-                'type'    => 'input',
-                'name'    => 'page_title',
+                'type' => 'input',
+                'name' => 'page_title',
             ]
         );
         $routes = $layout->getExtensionsPageRoutes();
         $options = $disabled_options = [];
-        foreach($routes as $extId=> $rts){
+        foreach ($routes as $extId => $rts) {
             $options[$extId] = mb_strtoupper($extId);
             $disabled_options[$extId] = $extId;
-            foreach($rts as $rt){
+            foreach ($rts as $rt) {
                 $options[$rt] = $rt;
             }
         }
         $this->data['form']['fields']['page_rt'] = $form->getFieldHtml(
             [
-                'type'    => 'selectbox',
-                'name'    => 'page_rt',
-                'options' => $options,
-                'required' => true,
+                'type'             => 'selectbox',
+                'name'             => 'page_rt',
+                'options'          => $options,
+                'required'         => true,
                 'disabled_options' => $disabled_options
             ]
         );
 
         $this->data['form']['fields']['key_parameter_name'] = $form->getFieldHtml(
             [
-                'type'    => 'input',
-                'name'    => 'key_parameter_name',
-                'value'   => '',
+                'type'        => 'input',
+                'name'        => 'key_parameter_name',
+                'value'       => '',
                 'placeholder' => 'keep blank to cover all requests to controller'
             ]
         );
         $this->data['form']['fields']['key_parameter_value'] = $form->getFieldHtml(
             [
-                'type'    => 'input',
-                'name'    => 'key_parameter_value',
-                'value'   => '',
+                'type'  => 'input',
+                'name'  => 'key_parameter_value',
+                'value' => '',
             ]
         );
 
@@ -123,10 +124,10 @@ class ControllerResponsesDesignPageLayout extends AController
         $this->data['generate_seo_url'] = $this->html->getSecureURL('common/common/getseokeyword');
         $this->data['form']['fields']['seo_keyword'] = $form->getFieldHtml(
             [
-                'type'         => 'input',
-                'name'         => 'seo_keyword',
-                'value'        => '',
-                'help_url'     => $this->gen_help_url('seo_keyword'),
+                'type'     => 'input',
+                'name'     => 'seo_keyword',
+                'value'    => '',
+                'help_url' => $this->gen_help_url('seo_keyword'),
             ]
         );
 
@@ -143,7 +144,9 @@ class ControllerResponsesDesignPageLayout extends AController
             ]
         );
 
-        $this->data['redirect_url'] = $this->html->getSecureURL('design/layout');
+        $this->data['redirect_url'] = $this->request->get['redirect_url']
+            ? html_entity_decode(urldecode($this->request->get['redirect_url']))
+            : $this->html->getSecureURL('design/layout');
         $this->data['modal_title'] = $this->language->get('text_create_new_layout');
         $this->view->batchAssign($this->data);
         $this->data['output'] = $this->view->fetch('responses/design/add_layout.tpl');
@@ -155,20 +158,19 @@ class ControllerResponsesDesignPageLayout extends AController
     {
         $this->loadLanguage('design/layout');
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $post = $this->request->post;
-        if(!$this->request->is_POST()){
+        if (!$this->request->is_POST()) {
             $err = new AError('Forbidden');
-            $err->toJSONResponse('VALIDATION_ERROR_406',['error_text' => 'Forbidden']);
+            $err->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => 'Forbidden']);
             return;
         }
 
-        if(!$this->validate($this->request->post)){
+        if (!$this->validate($this->request->post)) {
             $err = new AError('Data Validation');
             $err->toJSONResponse(
                 'VALIDATION_ERROR_406',
                 [
                     'error_text' => current($this->errors),
-                    'errors' => $this->errors
+                    'errors'     => $this->errors
                 ]
             );
             return;
@@ -179,12 +181,12 @@ class ControllerResponsesDesignPageLayout extends AController
         $post = $this->request->post;
 
         $pageData = [
-            'controller' => $post['page_rt'],
-            'key_param'  => $post['key_parameter_name'],
-            'key_value'  => $post['key_parameter_value'],
+            'controller'        => $post['page_rt'],
+            'key_param'         => $post['key_parameter_name'],
+            'key_value'         => $post['key_parameter_value'],
             'page_descriptions' => [
                 $languageId => [
-                    'name' => $post['page_name'],
+                    'name'  => $post['page_name'],
                     'title' => $post['page_title']
                 ]
             ]
@@ -192,17 +194,17 @@ class ControllerResponsesDesignPageLayout extends AController
         $post['layout_name'] = $post['page_name'];
 
         $result = saveOrCreateLayout($post['tmpl_id'], $pageData, $post);
-        if($result){
+        if ($result) {
             $sql = " SELECT p.page_id, l.layout_id
-                    FROM ".$this->db->table("pages")." p "."
-                    INNER JOIN ".$this->db->table("pages_layouts")." pl 
+                    FROM " . $this->db->table("pages") . " p " . "
+                    INNER JOIN " . $this->db->table("pages_layouts") . " pl 
                         ON pl.page_id = p.page_id
-                    INNER JOIN ".$this->db->table("layouts")." l 
-                        ON l.layout_id = pl.layout_id AND l.template_id = '".$post['tmpl_id']."'
-                    WHERE p.controller = '".$post['page_rt']."'";
-            if($post['key_parameter_value']){
-                $sql .= " AND p.key_param = '".$post['key_parameter_name']."'";
-                $sql .= " AND p.key_value = '".$post['key_parameter_value']."'";
+                    INNER JOIN " . $this->db->table("layouts") . " l 
+                        ON l.layout_id = pl.layout_id AND l.template_id = '" . $post['tmpl_id'] . "'
+                    WHERE p.controller = '" . $post['page_rt'] . "'";
+            if ($post['key_parameter_value']) {
+                $sql .= " AND p.key_param = '" . $post['key_parameter_name'] . "'";
+                $sql .= " AND p.key_value = '" . $post['key_parameter_value'] . "'";
             }
             $result = $this->db->query($sql);
             $this->data['output'] = [
@@ -210,19 +212,19 @@ class ControllerResponsesDesignPageLayout extends AController
                 'page_id'   => $result->row['page_id']
             ];
             //add seo-keyword
-            if($post['seo_keyword']){
+            if ($post['seo_keyword']) {
                 $this->language->replaceDescriptions(
                     'url_aliases',
                     [
-                        'query' => "rt=".$post['page_rt']
-                            .($post['key_parameter_value']
-                                ? '&'.$post['key_parameter_name'].'='.$post['key_parameter_value']
+                        'query' => "rt=" . $post['page_rt']
+                            . ($post['key_parameter_value']
+                                ? '&' . $post['key_parameter_name'] . '=' . $post['key_parameter_value']
                                 : '')
                     ],
-                    [(int) $languageId => ['keyword' => $post['seo_keyword']]]
+                    [(int)$languageId => ['keyword' => $post['seo_keyword']]]
                 );
             }
-        }else{
+        } else {
             $err = new AError(AC_ERR_LOAD);
             $err->toJSONResponse(
                 'VALIDATION_ERROR_406',
@@ -242,55 +244,54 @@ class ControllerResponsesDesignPageLayout extends AController
     protected function validate(array $inData)
     {
         $this->errors = [];
-        if(!$inData['tmpl_id']){
+        if (!$inData['tmpl_id']) {
             $this->errors['tmpl_id'] = $this->language->get('error_template');
         }
-        if(!$inData['page_name']){
+        if (!$inData['page_name']) {
             $this->errors['page_name'] = $this->language->get('error_page_name');
-        }else{
+        } else {
             $sql = "SELECT * 
-                    FROM ".$this->db->table('page_descriptions')." 
-                    WHERE name = '".$this->db->escape($inData['page_name'])."'";
+                    FROM " . $this->db->table('page_descriptions') . " 
+                    WHERE name = '" . $this->db->escape($inData['page_name']) . "'";
             $result = $this->db->query($sql);
-            if($result->num_rows){
+            if ($result->num_rows) {
                 $this->errors['page_name'] = sprintf($this->language->get('error_page_exists'), $inData['page_name']);
             }
         }
-        if(!$inData['page_rt']){
+        if (!$inData['page_rt']) {
             $this->errors['page_rt'] = $this->language->get('error_page_rt');
         }
-        if(
+        if (
             (!$inData['key_parameter_name'] && $inData['key_parameter_value'])
             ||
             ($inData['key_parameter_name'] && !$inData['key_parameter_value'])
-        ){
-            if(!$inData['key_parameter_name']) {
+        ) {
+            if (!$inData['key_parameter_name']) {
                 $this->errors['key_parameter_name'] = $this->language->get('error_key_parameter_name');
             }
-            if(!$inData['key_parameter_value']) {
+            if (!$inData['key_parameter_value']) {
                 $this->errors['key_parameter_value'] = $this->language->get('error_key_parameter_value');
             }
         }
 
-        if($inData['seo_keyword'] && $this->html->isSEOKeywordExists('',$inData['seo_keyword']))
-        {
+        if ($inData['seo_keyword'] && $this->html->isSEOKeywordExists('', $inData['seo_keyword'])) {
             $this->errors['seo_keyword'] = sprintf($this->language->get('error_seo_keyword'), $inData['seo_keyword']);
         }
 
         //check if page already exists
-        if(!$this->errors){
-            $sql = "SELECT * FROM ".$this->db->table('pages')." p
-                    INNER JOIN ".$this->db->table('pages_layouts')." pl
+        if (!$this->errors) {
+            $sql = "SELECT * FROM " . $this->db->table('pages') . " p
+                    INNER JOIN " . $this->db->table('pages_layouts') . " pl
                         ON p.page_id = pl.page_id
-                    INNER JOIN ".$this->db->table('layouts')." l
-                        ON (l.layout_id = pl.layout_id AND l.template_id = '".$inData['tmpl_id']."')
-                    WHERE p.controller = '".$this->db->escape($inData['page_rt'])."'";
-            if($inData['key_parameter_name'] && $inData['key_parameter_value']){
-                $sql .= " AND p.key_param='".$this->db->escape($inData['key_parameter_name'])."' "
-                     ." AND p.key_value='".$this->db->escape($inData['key_parameter_value'])."'";
+                    INNER JOIN " . $this->db->table('layouts') . " l
+                        ON (l.layout_id = pl.layout_id AND l.template_id = '" . $inData['tmpl_id'] . "')
+                    WHERE p.controller = '" . $this->db->escape($inData['page_rt']) . "'";
+            if ($inData['key_parameter_name'] && $inData['key_parameter_value']) {
+                $sql .= " AND p.key_param='" . $this->db->escape($inData['key_parameter_name']) . "' "
+                    . " AND p.key_value='" . $this->db->escape($inData['key_parameter_value']) . "'";
             }
             $result = $this->db->query($sql);
-            if($result->num_rows){
+            if ($result->num_rows) {
                 $this->errors['page_rt'] = $this->language->get('error_page_parameters');
             }
         }

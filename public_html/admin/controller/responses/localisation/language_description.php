@@ -1,36 +1,35 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
 class ControllerResponsesLocalisationLanguageDescription extends AController
 {
-    public $errors = array();
-    public $data = array();
+    public $errors = [];
 
     public function buildTask()
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->data['output'] = array();
+        $this->data['output'] = [];
         $this->loadLanguage('localisation/language');
 
         if ($this->_validate()) {
@@ -42,22 +41,24 @@ class ControllerResponsesLocalisationLanguageDescription extends AController
             if (!$task_details) {
                 $this->errors = array_merge($this->errors, $this->model_localisation_language->errors);
                 $error = new AError('translation task error');
-                return $error->toJSONResponse(
+                $error->toJSONResponse(
                     'APP_ERROR_402',
-                    array(
+                    [
                         'error_text'  => implode(' ', $this->errors),
                         'reset_value' => true,
-                    )
+                    ]
                 );
+                return;
             } elseif (!$task_api_key) {
                 $error = new AError('translation task error');
-                return $error->toJSONResponse(
+                $error->toJSONResponse(
                     'APP_ERROR_402',
-                    array(
+                    [
                         'error_text'  => 'Please set up Task API Key in the settings!',
                         'reset_value' => true,
-                    )
+                    ]
                 );
+                return;
             } else {
                 $task_details['task_api_key'] = $task_api_key;
                 $task_details['url'] = HTTPS_SERVER.'task.php';
@@ -66,13 +67,14 @@ class ControllerResponsesLocalisationLanguageDescription extends AController
 
         } else {
             $error = new AError('translation task error');
-            return $error->toJSONResponse(
+            $error->toJSONResponse(
                 'APP_ERROR_402',
-                array(
+                [
                     'error_text'  => implode(' ', $this->errors),
                     'reset_value' => true,
-                )
+                ]
             );
+            return;
         }
 
         //update controller data
@@ -96,11 +98,7 @@ class ControllerResponsesLocalisationLanguageDescription extends AController
 
         $this->extensions->hk_ValidateData($this);
 
-        if (!$this->errors) {
-            return true;
-        } else {
-            return false;
-        }
+        return !$this->errors;
     }
 
     /**
@@ -123,10 +121,10 @@ class ControllerResponsesLocalisationLanguageDescription extends AController
 
         $this->load->library('json');
         $this->response->addJSONHeader();
-        $this->response->setOutput(AJson::encode(array(
+        $this->response->setOutput(AJson::encode([
             'result'      => true,
             'result_text' => '',
-        ))
+        ])
         );
     }
 
@@ -139,48 +137,54 @@ class ControllerResponsesLocalisationLanguageDescription extends AController
         $this->data = $this->language->getASet('localisation/language');
 
         $tm = new ATaskManager();
-        $incomplete = $tm->getTasks(array(
-            'filter' => array(
+        $incomplete = $tm->getTasks([
+            'filter' => [
                 'name' => 'description_translation',
-            ),
-        ));
+            ],
+        ]);
 
         $k = 0;
 
-        foreach ($incomplete as $incm_task) {
+        foreach ($incomplete as $incompleteTask) {
             //show all incomplete tasks for Top Administrator user group
             if ($this->user->getUserGroupId() != 1) {
-                if ($incm_task['starter'] != $this->user->getId()) {
+                if ($incompleteTask['starter'] != $this->user->getId()) {
                     continue;
                 }
             }
             //define incomplete tasks by last time run
-            $max_exec_time = (int)$incm_task['max_execution_time'];
+            $max_exec_time = (int)$incompleteTask['max_execution_time'];
             if (!$max_exec_time) {
                 //if no limitations for execution time for task - think it's 2 hours
                 $max_exec_time = 7200;
             }
-            if (time() - dateISO2Int($incm_task['last_time_run']) > $max_exec_time) {
+            if (time() - dateISO2Int($incompleteTask['last_time_run']) > $max_exec_time) {
 
                 //get some info about task, for ex message-text and subject
-                $steps = $tm->getTaskSteps($incm_task['task_id']);
+                $steps = $tm->getTaskSteps((int)$incompleteTask['task_id']);
                 if (!$steps) {
-                    $tm->deleteTask($incm_task['task_id']);
+                    $tm->deleteTask((int)$incompleteTask['task_id']);
                 }
-                $user_info = $this->model_user_user->getUser($incm_task['starter']);
-                $incm_task['starter_name'] = $user_info['username'].' '.$user_info['firstname'].' '.$user_info['lastname'];
+                $user_info = $this->model_user_user->getUser($incompleteTask['starter']);
+                $incompleteTask['starter_name'] = $user_info['username'].' '.$user_info['firstname'].' '.$user_info['lastname'];
                 $step = current($steps);
                 $step_settings = $step['settings'];
                 $lang = $this->language->getLanguageDetailsByID((int)$step_settings['src_language_id']);
-                $from = $lang['name'] ? $lang['name'] : 'unknown';
+                $from = $lang['name'] ?: 'unknown';
                 $lang = $this->language->getLanguageDetailsByID((int)$step_settings['language_id']);
-                $to = $lang['name'] ? $lang['name'] : 'unknown';
+                $to = $lang['name'] ?: 'unknown';
 
-                $incm_task['title'] = sprintf($this->language->get('text_task_title'), $from, $to);
-                $incm_task['date_added'] = dateISO2Display($incm_task['date_added'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
-                $incm_task['last_time_run'] = dateISO2Display($incm_task['last_time_run'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
+                $incompleteTask['title'] = sprintf($this->language->get('text_task_title'), $from, $to);
+                $incompleteTask['date_added'] = dateISO2Display(
+                    $incompleteTask['date_added'],
+                    $this->language->get('date_format_short').' '.$this->language->get('time_format')
+                );
+                $incompleteTask['last_time_run'] = dateISO2Display(
+                    $incompleteTask['last_time_run'],
+                    $this->language->get('date_format_short').' '.$this->language->get('time_format')
+                );
 
-                $this->data['tasks'][$k] = $incm_task;
+                $this->data['tasks'][$k] = $incompleteTask;
             }
 
             $k++;
@@ -203,7 +207,7 @@ class ControllerResponsesLocalisationLanguageDescription extends AController
 
         $task_id = (int)$this->request->post['task_id'];
         if (!$task_id) {
-            return null;
+            return;
         }
 
         //check task result
@@ -216,13 +220,14 @@ class ControllerResponsesLocalisationLanguageDescription extends AController
         } else {
             $error_text = 'Task #'.$task_id.' not found!';
             $error = new AError($error_text);
-            return $error->toJSONResponse(
+            $error->toJSONResponse(
                 'APP_ERROR_402',
-                array(
+                [
                     'error_text'  => $error_text,
                     'reset_value' => true,
-                )
+                ]
             );
+            return;
         }
 
         //update controller data
@@ -232,29 +237,29 @@ class ControllerResponsesLocalisationLanguageDescription extends AController
         $this->response->addJSONHeader();
         $this->response->setOutput(
             AJson::encode(
-                array(
+                [
                     'result'      => true,
                     'result_text' => $result_text,
-                )
+                ]
             )
         );
     }
 
     public function restartTask()
     {
-        $this->data['output'] = array();
+        $this->data['output'] = [];
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $task_id = (int)$this->request->get_or_post('task_id');
         $task_api_key = $this->config->get('task_api_key');
-        $etas = array();
+        $etas = [];
         if ($task_id) {
             $tm = new ATaskManager();
 
             $steps = $tm->getTaskSteps($task_id);
             foreach ($steps as $step) {
-                $tm->updateStep($step['step_id'], array('status' => 1));
+                $tm->updateStep((int)$step['step_id'], ['status' => 1]);
                 $etas[$step['step_id']] = $step['max_execution_time'];
             }
 
@@ -266,28 +271,30 @@ class ControllerResponsesLocalisationLanguageDescription extends AController
                 }
                 $error_text = "Error: Cannot to restart task #".$task_id.'. Task removed.';
                 $error = new AError($error_text);
-                return $error->toJSONResponse(
+                $error->toJSONResponse(
                     'APP_ERROR_402',
-                    array(
+                    [
                         'error_text'  => $error_text,
                         'reset_value' => true,
-                    )
+                    ]
                 );
+                return;
             } elseif (!$task_api_key) {
                 $error = new AError('files backup error');
-                return $error->toJSONResponse(
+                $error->toJSONResponse(
                     'APP_ERROR_402',
-                    array(
+                    [
                         'error_text'  => 'Please set up Task API Key in the settings!',
                         'reset_value' => true,
-                    )
+                    ]
                 );
+                return;
             } else {
                 $task_details['task_api_key'] = $task_api_key;
                 $task_details['url'] = HTTPS_SERVER.'task.php';
                 //change task status
                 $task_details['status'] = $tm::STATUS_READY;
-                $tm->updateTask($task_id, array('status' => $tm::STATUS_READY));
+                $tm->updateTask($task_id, ['status' => $tm::STATUS_READY]);
             }
 
             foreach ($etas as $step_id => $eta) {
@@ -298,13 +305,14 @@ class ControllerResponsesLocalisationLanguageDescription extends AController
 
         } else {
             $error = new AError(implode('<br>', $this->errors));
-            return $error->toJSONResponse(
+            $error->toJSONResponse(
                 'VALIDATION_ERROR_406',
-                array(
+                [
                     'error_text'  => 'Unknown task ID.',
                     'reset_value' => true,
-                )
+                ]
             );
+            return;
         }
 
         //update controller data
@@ -313,7 +321,5 @@ class ControllerResponsesLocalisationLanguageDescription extends AController
         $this->load->library('json');
         $this->response->addJSONHeader();
         $this->response->setOutput(AJson::encode($this->data['output']));
-
     }
-
 }

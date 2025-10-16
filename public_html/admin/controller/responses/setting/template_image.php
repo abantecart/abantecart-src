@@ -23,38 +23,32 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerResponsesSettingTemplateImage extends AController
 {
-    private $error = array();
-
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $template = basename($this->request->get['template']);
+        $template = preformatTextID(basename($this->request->get['template']));
 
         $extensions = $this->extensions->getEnabledExtensions();
 
-        $file = $template.'/image/preview.jpg';
-        if (in_array($template, $extensions) && is_file(DIR_EXT.$file)) {
-            $img = HTTPS_EXT.$file;
+        $file = $template . DS . 'image' . DS . 'preview.jpg';
+        if (in_array($template, $extensions) && is_file(DIR_EXT . $file)) {
+            $img = HTTPS_EXT . $file;
         } else {
-            if (is_file('storefront/view/'.$template.'/image/preview.jpg')) {
-                $img = HTTPS_SERVER.'storefront/view/'.$template.'/image/preview.jpg';
+            if (is_file('storefront' . DS . 'view' . DS . $template . DS . 'image' . DS . 'preview.jpg')) {
+                $img = HTTPS_SERVER . 'storefront/view/' . $template . '/image/preview.jpg';
             } else {
-                $img = HTTPS_IMAGE.'no_image.jpg';
+                $img = HTTPS_IMAGE . 'no_image.jpg';
             }
         }
 
-        $edit = $this->html->getSecureURL('design/template/edit', '&tmpl_id='.$template);
-        $html = '<img src="'.$img.'" alt="" title="" />';
-        $html .= '<a class="btn btn-default" href='.$edit.'><i class="template_edit fa fa-gear fa-fw fa-lg"></i> '.$this->language->get('text_edit').'</a>';
+        $edit = $this->html->getSecureURL('design/template/edit', '&tmpl_id=' . $template);
+        $html = '<img src="' . $img . '" alt="" title="" />';
+        $html .= '<a class="btn btn-default" href=' . $edit . '><i class="template_edit fa fa-gear fa-fw fa-lg"></i> ' . $this->language->get('text_edit') . '</a>';
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
         $this->response->setOutput($html);
-
     }
 }
-
-?>

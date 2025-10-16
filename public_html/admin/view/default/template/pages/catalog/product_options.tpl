@@ -27,7 +27,10 @@
 	</div>
 
 	<div class="panel-body panel-body-nopadding tab-content col-xs-12" id="option_values">
-		<?php //# Options HTML loaded from responce controller rt=product/product/load_option ?>		
+		<?php
+            /** Options HTML loaded from response controller
+             * @see ControllerResponsesProductProduct::load_option() */
+        ?>
 	</div>
 </div>
 
@@ -341,15 +344,12 @@ jQuery(function ($) {
 					$('select#option').parents('.primary_content_actions').find('label').remove();
 					$('select#option').remove();
 				}
+                bindAform($("input, textarea, select", '#option_edit_form'));
+                bindCustomEvents('#option_values');
 			},
 			global: false,
 			error: function (jqXHR, textStatus, errorThrown) {
 				error_alert(errorThrown);
-			},
-			complete: function() {
-				bindAform($("input, textarea, select", '#option_edit_form'));
-				bindAform($("input, textarea, select", '#update_option_values'));
-				bindCustomEvents('#option_values');
 			}
 		});
 	});
@@ -392,13 +392,25 @@ jQuery(function ($) {
 			},
 			complete: function() {
 				bindAform($("input, textarea, select", '#option_edit_form'));
-				bindAform($("input, textarea, select", '#update_option_values'));
 				bindCustomEvents('#option_values');
                 that.button('reset');
 			}			
 		});
 		return false;
 	});
+
+    //only positive value of weight in the option values
+    $(document).on('input','input[type=number][name^=weight]', function (e) {
+        const v = parseFloat(this.value);
+        if (isNaN(v) || v < 0 ) {
+            $(this).val('');
+        }
+    });
+    $(document).on('keydown','input[type=number][name^=weight]', function (e) {
+        if (e.key === '-') {
+            e.preventDefault();
+        }
+    });
 
 });
 

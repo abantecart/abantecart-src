@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -33,11 +32,9 @@ class ControllerResponsesSaleInvoice extends AController
         $this->loadLanguage('sale/order');
 
         $this->data['title'] = $this->language->get('heading_title');
-        $this->data['css_url'] = RDIR_TEMPLATE.'stylesheet/invoice.css';
+        $this->data['css_url'] = RDIR_TEMPLATE . 'stylesheet/invoice.css';
 
-        $this->data['base'] = HTTPS === true
-            ? HTTPS_SERVER
-            : HTTP_SERVER;
+        $this->data['base'] = HTTPS_SERVER;
         $this->data['direction'] = $this->language->get('direction');
         $this->data['language'] = $this->language->get('code');
 
@@ -58,10 +55,10 @@ class ControllerResponsesSaleInvoice extends AController
         $this->data['column_total'] = $this->language->get('column_total');
         $this->data['column_comment'] = $this->language->get('column_comment');
 
-        $logo = $this->config->get('config_logo_'.$this->language->getLanguageID())
-                ?: $this->config->get('config_logo');
+        $logo = $this->config->get('config_logo_' . $this->language->getLanguageID())
+            ?: $this->config->get('config_logo');
         $result = getMailLogoDetails($logo);
-        $this->data['logo'] = $result['html'] ?: HTTPS_DIR_RESOURCE.$logo;
+        $this->data['logo'] = $result['html'] ?: HTTPS_DIR_RESOURCE . $logo;
 
         $this->loadModel('sale/order');
         $orders = $this->data['orders'] = [];
@@ -73,56 +70,43 @@ class ControllerResponsesSaleInvoice extends AController
         }
 
         foreach ($orders as $order_id) {
-            $order_info = $this->model_sale_order->getOrder($order_id);
-            if (!$order_info) {
+            $orderInfo = $this->model_sale_order->getOrder($order_id);
+            if (!$orderInfo) {
                 continue;
             }
 
-            $invoice_id = $order_info['invoice_id'] ? $order_info['invoice_prefix'].$order_info['invoice_id'] : '';
+            $invoice_id = $orderInfo['invoice_id'] ? $orderInfo['invoice_prefix'] . $orderInfo['invoice_id'] : '';
 
             $customer = new ACustomer($this->registry);
-            $shipping_data = [
-                'firstname' => $order_info['shipping_firstname'],
-                'lastname'  => $order_info['shipping_lastname'],
-                'company'   => $order_info['shipping_company'],
-                'address_1' => $order_info['shipping_address_1'],
-                'address_2' => $order_info['shipping_address_2'],
-                'city'      => $order_info['shipping_city'],
-                'postcode'  => $order_info['shipping_postcode'],
-                'zone'      => $order_info['shipping_zone'],
-                'zone_code' => $order_info['shipping_zone_code'],
-                'country'   => $order_info['shipping_country'],
-            ];
-            $shipping_address = $customer->getFormattedAddress(
-                $shipping_data,
-                $order_info['shipping_address_format']
+            $shAddressArray = $this->extractAddressOrderData($orderInfo, 'shipping');
+            $shAddressArray['ext_fields'] = $this->extractAddressExtendedData((array)$orderInfo['ext_fields'], 'shipping');
+            $shippingFormattedAddress = $customer->getFormattedAddress(
+                $shAddressArray,
+                $orderInfo['shipping_address_format']
             );
 
-            $payment_data = [
-                'firstname' => $order_info['payment_firstname'],
-                'lastname'  => $order_info['payment_lastname'],
-                'company'   => $order_info['payment_company'],
-                'address_1' => $order_info['payment_address_1'],
-                'address_2' => $order_info['payment_address_2'],
-                'city'      => $order_info['payment_city'],
-                'postcode'  => $order_info['payment_postcode'],
-                'zone'      => $order_info['payment_zone'],
-                'zone_code' => $order_info['payment_zone_code'],
-                'country'   => $order_info['payment_country'],
-            ];
-            $payment_address = $customer->getFormattedAddress(
-                $payment_data,
-                $order_info['payment_address_format']
+            $pmAddressArray = $this->extractAddressOrderData($orderInfo, 'payment');
+            $pmAddressArray['ext_fields'] = $this->extractAddressExtendedData((array)$orderInfo['ext_fields'], 'payment');
+            $paymentFormattedAddress = $customer->getFormattedAddress(
+                $pmAddressArray,
+                $orderInfo['payment_address_format']
             );
 
             $product_data = [];
-
-            $products = $this->model_sale_order->getOrderProducts($order_id);
-
+            $orderProducts = $this->model_sale_order->getOrderProducts($order_id);
             $this->loadModel('setting/setting');
-            $storeSettings = $this->model_setting_setting->getSetting('details', $order_info['store_id']);
+            $storeSettings = $this->model_setting_setting->getSetting('details', $orderInfo['store_id']);
 
-            foreach ($products as $product) {
+            $orderProductIds = array_column($orderProducts, 'product_id');
+            $resource = new AResource('image');
+            $thumbnails = $resource->getMainThumbList(
+                'products',
+                $orderProductIds,
+                $this->config->get('config_image_cart_width'),
+                $this->config->get('config_image_cart_height')
+            );
+
+            foreach ($orderProducts as $product) {
                 $option_data = [];
                 $options = $this->model_sale_order->getOrderOptions($order_id, $product['order_product_id']);
                 foreach ($options as $option) {
@@ -132,70 +116,74 @@ class ControllerResponsesSaleInvoice extends AController
                     ];
                 }
 
+                $imgFile = str_replace(AUTO_SERVER, DIR_ROOT . DS, $thumbnails[(int)$product['product_id']]['thumb_url']);
+                $thumbnailUrl = is_file($imgFile)
+                    ? 'data:' . mime_content_type($imgFile) . ';base64,' . base64_encode(file_get_contents($imgFile))
+                    : '';
+
                 $product_data[] = [
-                    'name'     => $product['name'],
-                    'model'    => $product['model'],
-                    'option'   => $option_data,
-                    'quantity' => $product['quantity'],
-                    'price'    => $this->currency->format(
+                    'name'          => $product['name'],
+                    'thumbnail_url' => $thumbnailUrl,
+                    'model'         => $product['model'],
+                    'option'        => $option_data,
+                    'quantity'      => $product['quantity'],
+                    'price'         => $this->currency->format(
                         $product['price'],
-                        $order_info['currency'],
-                        $order_info['value']
+                        $orderInfo['currency'],
+                        $orderInfo['value']
                     ),
-                    'total'    => $this->currency->format_total(
+                    'total'         => $this->currency->format_total(
                         $product['price'],
                         $product['quantity'],
-                        $order_info['currency'],
-                        $order_info['value']
+                        $orderInfo['currency'],
+                        $orderInfo['value']
                     ),
                 ];
             }
 
             $total_data = $this->model_sale_order->getOrderTotals($order_id);
-
+            $zoneName = '';
             if ($storeSettings['config_zone_id']) {
                 $this->loadModel('localisation/zone');
-                $zone = $this->model_localisation_zone->getZone( $storeSettings['config_zone_id'] );
+                $zone = $this->model_localisation_zone->getZone($storeSettings['config_zone_id']);
                 if ($zone) {
-                    $zone_name = $zone['name'];
+                    $zoneName = $zone['name'];
                 }
             }
+            $countryName = '';
             if ($storeSettings['config_country_id']) {
                 $this->loadModel('localisation/country');
-                $country = $this->model_localisation_country->getCountry( $storeSettings['config_country_id'] );
+                $country = $this->model_localisation_country->getCountry($storeSettings['config_country_id']);
                 if ($country) {
-                    $country_name = $country['name'];
+                    $countryName = $country['name'];
                 }
             }
 
             $this->data['orders'][] = array_merge(
-                $order_info,
+                $orderInfo,
                 [
-                'order_id'           => $order_id,
-                'invoice_id'         => $invoice_id,
-                'date_added'         => dateISO2Display(
-                    $order_info['date_added'],
-                    $this->language->get('date_format_short')
-                ),
-                'store_name'         => $order_info['store_name'],
-                'store_url'          => rtrim($order_info['store_url'], '/'),
-                'address'            => nl2br($storeSettings['config_address']),
-                'city'               => nl2br($storeSettings['config_city']),
-                'postcode'           => nl2br($storeSettings['config_postcode']),
-                'zone'               => $zone_name,
-                'country'            => $country_name,
-                'telephone'          => $storeSettings['config_telephone'],
-                'fax'                => $storeSettings['config_fax'],
-                'email'              => $storeSettings['store_main_email'],
-                'shipping_address'   => $shipping_address,
-                'payment_address'    => $payment_address,
-                'customer_email'     => $order_info['email'],
-                'ip'                 => $order_info['ip'],
-                'customer_telephone' => $order_info['telephone'],
-                'comment'            => $order_info['comment'],
-                'product'            => $product_data,
-                'total'              => $total_data,
-            ]);
+                    'order_id'           => $order_id,
+                    'invoice_id'         => $invoice_id,
+                    'date_added'         => dateISO2Display(
+                        $orderInfo['date_added'],
+                        $this->language->get('date_format_short')
+                    ),
+                    'store_url'          => rtrim($orderInfo['store_url'], '/'),
+                    'address'            => nl2br($storeSettings['config_address']),
+                    'city'               => nl2br($storeSettings['config_city']),
+                    'postcode'           => nl2br($storeSettings['config_postcode']),
+                    'zone'               => $zoneName,
+                    'country'            => $countryName,
+                    'telephone'          => $storeSettings['config_telephone'],
+                    'fax'                => $storeSettings['config_fax'],
+                    'email'              => $storeSettings['store_main_email'],
+                    'shipping_address'   => $shippingFormattedAddress,
+                    'payment_address'    => $paymentFormattedAddress,
+                    'customer_email'     => $orderInfo['email'],
+                    'customer_telephone' => $orderInfo['telephone'],
+                    'product'            => $product_data,
+                    'total'              => $total_data,
+                ]);
 
         }
 
@@ -204,6 +192,40 @@ class ControllerResponsesSaleInvoice extends AController
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
+
+    /**
+     * @param array $orderData
+     * @param string $prefix
+     * @return array
+     */
+    protected function extractAddressOrderData(array $orderData, string $prefix = 'shipping')
+    {
+        $output = [];
+        foreach ($orderData as $key => $value) {
+            if (str_starts_with($key, $prefix . '_')) {
+                $output[str_replace($prefix . '_', '', $key)] = $value;
+            }
+        }
+        return $output;
+    }
+
+    /**
+     * Extracts extended address data based on a specific type prefix.
+     *
+     * @param array $extFields An associative array of extended fields containing keys and values.
+     * @param string $prefix The prefix type that determines which keys to extract, default value is 'shipping'.
+     * @return array An associative array containing the extracted extended address data with the type prefix removed from keys.
+     */
+    protected function extractAddressExtendedData(array $extFields, string $prefix = 'shipping')
+    {
+        $output = [];
+        foreach ($extFields as $key => $value) {
+            if (str_starts_with($key, $prefix . '_')) {
+                $output[str_replace($prefix . '_', '', $key)] = $value;
+            }
+        }
+        return $output;
     }
 
     public function generate()
@@ -237,5 +259,4 @@ class ControllerResponsesSaleInvoice extends AController
         $this->load->library('json');
         $this->response->setOutput(AJson::encode($json));
     }
-
 }

@@ -27,7 +27,7 @@ if($products){ ?>
                             $imgW = $imgW ?? $this->config->get('config_image_product_width');
                             $imgH = $imgH ?? $this->config->get('config_image_product_height');
                             $wishlist = $wishlist ?? $this->customer->getWishlist();
-                            $text_sale = $this->language->get('text_badge_sale','novator/novator');
+                            $text_sale = $this->language->get('text_badge_sale');
                             $text_sale = $text_sale == 'text_badge_sale' ? 'SALE' : $text_sale;
                             $tax_exempt = $this->customer->isTaxExempt();
                             $config_tax = $this->config->get('config_tax');

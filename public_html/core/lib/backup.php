@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -33,7 +33,7 @@ if (!defined('DIR_CORE')) {
 class ABackup
 {
     /**
-     * @var string - mode of sql dump. can be "data_only" and "recreate"
+     * @var string - mode of sql-dump. can be "data_only" and "recreate"
      */
     public $sql_dump_mode = 'data_only';
     protected $backup_name;
@@ -59,23 +59,23 @@ class ABackup
         //first check backup directory create or set writable permissions
         // Before backup process need to call validate() method! (see below)
         if (!make_writable_dir(DIR_BACKUP)) {
-            $this->error[] =
-                'Directory '.DIR_BACKUP.' can not be created or is not writable. Backup operation is not possible';
+            $this->error[] = 'Directory ' . DIR_BACKUP
+                . ' can not be created or is not writable. Backup operation is not possible';
         }
 
         //Add [date] snapshot to the name and validate if archive is already used.
         //Return error if archive can not be created
-        $name = !$name ? 'backup_'.time() : $name;
+        $name = $name ?: 'backup_' . time();
         $this->backup_name = $name;
         //Create a tmp directory with backup name
         //Create subdirectory /files and  /data
-        $this->backup_dir = DIR_BACKUP.$this->backup_name.'/';
+        $this->backup_dir = DIR_BACKUP . $this->backup_name . DS;
 
         if (!is_dir($this->backup_dir) && $create_subdirs) {
             $result = mkdir($this->backup_dir, 0755, true);
 
             if (!$result) {
-                $error_text = "Error: Can't create directory ".$this->backup_dir." during backup.";
+                $error_text = "Error: Can't create directory " . $this->backup_dir . " during backup.";
                 $this->log->write($error_text);
                 $this->error[] = $error_text;
                 $this->backup_dir = $this->backup_name = null;
@@ -84,14 +84,14 @@ class ABackup
         }
 
         if ($this->backup_dir && $create_subdirs) {
-            if (!is_dir($this->backup_dir.'files')) {
-                mkdir($this->backup_dir.'files');
-                chmod($this->backup_dir.'files', 0755);
+            if (!is_dir($this->backup_dir . 'files')) {
+                mkdir($this->backup_dir . 'files');
+                chmod($this->backup_dir . 'files', 0755);
             }
 
-            if (!is_dir($this->backup_dir.'data')) {
-                mkdir($this->backup_dir.'data');
-                chmod($this->backup_dir.'data', 0755);
+            if (!is_dir($this->backup_dir . 'data')) {
+                mkdir($this->backup_dir . 'data');
+                chmod($this->backup_dir . 'data', 0755);
             }
         }
     }
@@ -163,41 +163,44 @@ class ABackup
          * @var $db AMySQLi
          */
         // use driver directly to exclude hooks calls
-        $db = new $driver(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, (defined('DB_PORT') ? DB_PORT : NULL) );
+        $db = new $driver(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, (defined('DB_PORT') ? DB_PORT : null));
         $prefix_len = strlen(DB_PREFIX);
         // get sizes of tables
 
         $sql = "SELECT TABLE_NAME AS 'table_name', table_rows AS 'num_rows'
                 FROM information_schema.TABLES
-                WHERE information_schema.TABLES.table_schema = '".DB_DATABASE."'
-                    AND TABLE_NAME IN ('".implode("','", $table_list)."') ";
+                WHERE information_schema.TABLES.table_schema = '" . DB_DATABASE . "'
+                    AND TABLE_NAME IN ('" . implode("','", $table_list) . "') ";
         if ($prefix_len) {
-            $sql .= " AND TABLE_NAME like '".DB_PREFIX."%'";
+            $sql .= " AND TABLE_NAME like '" . DB_PREFIX . "%'";
         }
 
         $result = $this->db->query($sql);
         $memory_limit = (getMemoryLimitInBytes() - memory_get_usage()) / 4;
 
         // sql-file for small tables
-        $dump_file = $dump_file ? : $this->backup_dir.'data/dump_'.DB_DATABASE.'_'.date('Y-m-d-His').'.sql';
+        $dump_file = $dump_file ?: $this->backup_dir . 'data' . DS . 'dump_' . DB_DATABASE . '_' . date('Y-m-d-His') . '.sql';
         $file = fopen($dump_file, 'w');
         if (!$file) {
-            $error_text = 'Error: Cannot create file as "'.$dump_file.'" during sql-dumping. Check is it writable.';
+            $error_text = 'Error: Cannot create file as "' . $dump_file . '" during sql-dumping. Check is it writable.';
             $error = new AError($error_text);
             $error->toLog()->toDebug();
             return false;
         }
 
+        fwrite($file, "START TRANSACTION;\n\n");
+        fwrite($file, "SET FOREIGN_KEY_CHECKS = 0;\n\n");
+
         foreach ($result->rows as $table_info) {
             $table_name = $table_info['table_name'];
             if ($this->sql_dump_mode == 'data_only') {
-                fwrite($file, "TRUNCATE TABLE `".$table_name."`;\n\n");
+                fwrite($file, "TRUNCATE TABLE `" . $table_name . "`;\n\n");
             } elseif ($this->sql_dump_mode == 'recreate') {
-                $sql = "SHOW CREATE TABLE `".$table_name."`;";
+                $sql = "SHOW CREATE TABLE `" . $table_name . "`;";
                 $r = $db->query($sql);
                 $ddl = $r->row['Create Table'];
-                fwrite($file, "DROP TABLE IF EXISTS `".$table_name."`;\n\n");
-                fwrite($file, $ddl."\n\n");
+                fwrite($file, "DROP TABLE IF EXISTS `" . $table_name . "`;\n\n");
+                fwrite($file, $ddl . "\n\n");
             }
 
             //then try to get table data by pagination.
@@ -205,8 +208,8 @@ class ABackup
             // 1. - get column name with primary key and data type integer
             $sql = "SELECT COLUMN_NAME as `COLUMN_NAME`
                     FROM information_schema.COLUMNS c
-                    WHERE c.`TABLE_SCHEMA` = '".DB_DATABASE."'
-                        AND c.`TABLE_NAME` = '".$table_name."'
+                    WHERE c.`TABLE_SCHEMA` = '" . DB_DATABASE . "'
+                        AND c.`TABLE_NAME` = '" . $table_name . "'
                         AND c.`COLUMN_KEY` = 'PRI'
                         AND c.`DATA_TYPE`='int'
                     LIMIT 0,1;";
@@ -216,9 +219,9 @@ class ABackup
             $small_table = false;
 
             if ($pkColumnName) {
-                $sql = "SELECT MAX(`".$pkColumnName."`) as max, 
-                               MIN(`".$pkColumnName."`) as min
-                        FROM `".$table_name."`";
+                $sql = "SELECT MAX(`" . $pkColumnName . "`) as max, 
+                               MIN(`" . $pkColumnName . "`) as min
+                        FROM `" . $table_name . "`";
                 $r = $db->query($sql);
                 $column_max = $r->row['max'];
                 $column_min = $r->row['min'];
@@ -244,20 +247,28 @@ class ABackup
 
             $sql = "SELECT COLUMN_NAME as `COLUMN_NAME`
                     FROM information_schema.COLUMNS c
-                    WHERE c.`TABLE_SCHEMA` = '".DB_DATABASE."'
-                        AND c.`TABLE_NAME` = '".$table_name."'
+                    WHERE c.`TABLE_SCHEMA` = '" . DB_DATABASE . "'
+                        AND c.`TABLE_NAME` = '" . $table_name . "'
                         AND c.`IS_NULLABLE` = 'YES';";
             $res = $db->query($sql);
-            $nullables = array_column($res->rows,'COLUMN_NAME');
+            $nullables = array_column($res->rows, 'COLUMN_NAME');
+
+            if ($start >= $column_max && $column_max) {
+                throw new AException(
+                    0,
+                    'Abnormal situation! start: '
+                    . $start . " greater or equal than " . $column_max . " for table '" . $table_name . "'\n"
+                );
+            }
 
             while ($start < $column_max) {
                 if (!$small_table) {
                     $sql = "SELECT *
-                            FROM `".$table_name."`
-                            WHERE `".$pkColumnName."` >= '".$start."' 
-                                AND `".$pkColumnName."`< '".$stop."'";
+                            FROM `" . $table_name . "`
+                            WHERE `" . $pkColumnName . "` >= '" . $start . "' 
+                                AND `" . $pkColumnName . "`< '" . $stop . "'";
                 } else {
-                    $sql = "SELECT * FROM `".$table_name."`";
+                    $sql = "SELECT * FROM `" . $table_name . "`";
                 }
                 // dump data with using "INSERT"
                 $r = $db->query($sql, true);
@@ -265,10 +276,10 @@ class ABackup
                     $fields = '';
                     $arr_keys = array_keys($row);
                     foreach ($arr_keys as $value) {
-                        $fields .= '`'.$value.'`, ';
+                        $fields .= '`' . $value . '`, ';
                     }
                     $values = '';
-                    foreach ($row as $col=>$value) {
+                    foreach ($row as $col => $value) {
                         $value = str_replace(["\x00", "\x0a", "\x0d", "\x1a"], ['\0', '\n', '\r', '\Z'], $value);
                         $value = str_replace(["\n", "\r", "\t"], ['\n', '\r', '\t'], $value);
                         $value = str_replace('\\', '\\\\', $value);
@@ -276,16 +287,16 @@ class ABackup
                         $value = str_replace('\\\n', '\n', $value);
                         $value = str_replace('\\\r', '\r', $value);
                         $value = str_replace('\\\t', '\t', $value);
-                        if(in_array($col, $nullables) && $value == '') {
+                        if (in_array($col, $nullables) && $value == '') {
                             $values .= 'NULL, ';
-                        }else {
+                        } else {
                             $values .= '\'' . $value . '\', ';
                         }
                     }
                     fwrite(
                         $file,
-                        'INSERT INTO `'.$table_name.'` ('.preg_replace('/, $/', '', $fields).') 
-                        VALUES ('.preg_replace('/, $/', '', $values).');'."\n"
+                        'INSERT INTO `' . $table_name . '` (' . preg_replace('/, $/', '', $fields) . ') 
+                        VALUES (' . preg_replace('/, $/', '', $values) . ');' . "\n"
                     );
                 }
                 unset($r, $sql);
@@ -298,6 +309,8 @@ class ABackup
         }
 
         fwrite($file, "\n\n");
+        fwrite($file, "SET FOREIGN_KEY_CHECKS = 1;\n\n");
+        fwrite($file, "COMMIT;\n\n");
         fclose($file);
         chmod($dump_file, 0644);
 
@@ -349,7 +362,7 @@ class ABackup
         }
 
         $table_name = $this->registry->get('db')->escape($table_name); // for any case
-        $backupFile = $this->backup_dir.'data/'.DB_DATABASE.'_'.$table_name.'_dump_'.date("Y-m-d-H-i-s").'.sql';
+        $backupFile = $this->backup_dir . 'data' . DS . DB_DATABASE . '_' . $table_name . '_dump_' . date("Y-m-d-H-i-s") . '.sql';
         $result = $this->dumpTables(
             [
                 $table_name,
@@ -378,7 +391,7 @@ class ABackup
         }
 
         if (!is_dir($dir_path)) {
-            $error_text = "Error: Can't backup directory ".$dir_path.' because is not a directory!';
+            $error_text = "Error: Can't backup directory " . $dir_path . ' because is not a directory!';
             $this->log->write($error_text);
             $this->error[] = $error_text;
             return false;
@@ -386,14 +399,14 @@ class ABackup
 
         $path = pathinfo($dir_path, PATHINFO_BASENAME);
 
-        if (!is_dir($this->backup_dir.'files/'.$path)) {
+        if (!is_dir($this->backup_dir . 'files' . DS . $path)) {
             // it needs for nested dirs, for example files/extensions
-            mkdir($this->backup_dir.'files/'.$path, 0755, true);
+            mkdir($this->backup_dir . 'files' . DS . $path, 0755, true);
         }
 
-        if (file_exists($this->backup_dir.'files/'.$path)) {
+        if (file_exists($this->backup_dir . 'files' . DS . $path)) {
             if ($path) {
-                $this->_removeDir($this->backup_dir.'files/'.$path);  // delete stuck dir
+                $this->_removeDir($this->backup_dir . 'files' . DS . $path);  // delete stuck dir
             }
         }
 
@@ -407,17 +420,15 @@ class ABackup
         }
 
         if ($remove) {
-            $result = rename($dir_path, $this->backup_dir.'files/'.$path);
+            $result = rename($dir_path, $this->backup_dir . 'files' . DS . $path);
         } else {
-            $result = $this->_copyDir($dir_path, $this->backup_dir.'files/'.$path);
+            $result = $this->_copyDir($dir_path, $this->backup_dir . 'files' . DS . $path);
         }
 
         if (!$result) {
-            $error_text =
-                "Error: Can't move directory \"".$dir_path." to backup folder \"".$this->backup_dir."files/".$path
-                ."\" during backup\n";
+            $error_text = 'Error: Can\'t move directory "' . $dir_path . '" to backup folder "' . $this->backup_dir . 'files' . DS . $path . '" during backup' . PHP_EOL;
             if (!is_writable($dir_path)) {
-                $error_text .= "Check write permission for directory \"".$dir_path."\"";
+                $error_text .= "Check write permission for directory \"" . $dir_path . "\"";
             }
             $this->log->write($error_text);
             $this->error[] = $error_text;
@@ -443,41 +454,41 @@ class ABackup
             return false;
         }
         $base_name = pathinfo($file_path, PATHINFO_BASENAME);
-        $path = str_replace(DIR_ROOT.'/', '', $file_path);
+        $path = str_replace(DIR_ROOT . DS, '', $file_path);
         $path = str_replace($base_name, '', $path);
 
         if ($path) { //if nested folders presents in path
-            if (!file_exists($this->backup_dir.'files/'.$path)) {
+            if (!file_exists($this->backup_dir . 'files' . DS . $path)) {
                 // create dir with nested folders
-                $result = mkdir($this->backup_dir.'files/'.$path, 0755, true);
+                $result = mkdir($this->backup_dir . 'files' . DS . $path, 0755, true);
             } else {
                 $result = true;
             }
             if (!$result) {
-                $error_text = "Error: Can't create directory ".$this->backup_dir.'files/'.$path." during backup";
+                $error_text = "Error: Can't create directory " . $this->backup_dir . 'files' . DS . $path . " during backup";
                 $this->log->write($error_text);
                 $this->error[] = $error_text;
                 return false;
             }
-            if (!is_writable($this->backup_dir.'files/'.$path)) {
-                $error_text = "Error: Directory ".$this->backup_dir.'files/'.$path.' is not writable for backup.';
+            if (!is_writable($this->backup_dir . 'files' . DS . $path)) {
+                $error_text = "Error: Directory " . $this->backup_dir . 'files' . DS . $path . ' is not writable for backup.';
                 $this->log->write($error_text);
                 $this->error[] = $error_text;
                 return false;
             }
         }
         // move file
-        if (file_exists($this->backup_dir.'files/'.$path.$base_name)) {
-            @unlink($this->backup_dir.'files/'.$path.$base_name); // delete stuck file
+        if (file_exists($this->backup_dir . 'files' . DS . $path . $base_name)) {
+            @unlink($this->backup_dir . 'files' . DS . $path . $base_name); // delete stuck file
         }
         if ($remove) {
-            $result = rename($file_path, $this->backup_dir.'files/'.$path.$base_name);
+            $result = rename($file_path, $this->backup_dir . 'files' . DS . $path . $base_name);
         } else {
-            $result = copy($file_path, $this->backup_dir.'files/'.$path.$base_name);
+            $result = copy($file_path, $this->backup_dir . 'files' . DS . $path . $base_name);
         }
         if (!$result) {
             $error_text =
-                "Error: Can't move file ".$file_path.' into '.$this->backup_dir.'files/'.$path.'during backup.';
+                "Error: Can't move file " . $file_path . ' into ' . $this->backup_dir . 'files' . DS . $path . 'during backup.';
             $this->log->write($error_text);
             $this->error[] = $error_text;
             return false;
@@ -499,20 +510,19 @@ class ABackup
         //And create record in the database for created archive. 
         //generate errors: No space on device (log to message as error too), No permissions, Others
         //return Success or failed.
-
-        compressTarGZ($archive_filename, $src_dir.$filename, 1);
+        compressTarGZ($archive_filename, $src_dir . $filename, 1);
 
         if (!file_exists($archive_filename)) {
-            $error_text = 'Error: cannot to pack '.$archive_filename."\n Please see error log for details.";
+            $error_text = 'Error: cannot to pack ' . $archive_filename . "\n Please see error log for details.";
             $this->error[] = $error_text;
-            $log_text = 'Error: cannot to pack '.$archive_filename."\n";
+            $log_text = 'Error: cannot to pack ' . $archive_filename . "\n";
             $this->log->write($log_text);
             return false;
         } else {
             @chmod($archive_filename, 0644);
         }
         //remove source folder after compress
-        $this->_removeDir($src_dir.$filename);
+        $this->_removeDir($src_dir . $filename);
         return true;
     }
 
@@ -537,12 +547,12 @@ class ABackup
             $objects = scandir($dir);
             foreach ($objects as $obj) {
                 if ($obj != "." && $obj != "..") {
-                    @chmod($dir."/".$obj, 0777);
-                    $err = is_dir($dir."/".$obj)
-                        ? $this->_removeDir($dir."/".$obj)
-                        : unlink($dir."/".$obj);
+                    @chmod($dir . DS . $obj, 0777);
+                    $err = is_dir($dir . DS . $obj)
+                        ? $this->_removeDir($dir . DS . $obj)
+                        : unlink($dir . DS . $obj);
                     if (!$err) {
-                        $error_text = "Error: Can't to delete file or directory: '".$dir."/".$obj."'.";
+                        $error_text = "Error: Can't to delete file or directory: '" . $dir . DS . $obj . "'.";
                         $this->log->write($error_text);
                         $this->error[] = $error_text;
                         return false;
@@ -570,7 +580,7 @@ class ABackup
             return false;
         }
         //prevent recursive copying
-        if (rtrim($src, '/') == rtrim($this->backup_dir, '/')) {
+        if (rtrim($src, DS) == rtrim($this->backup_dir, DS)) {
             return false;
         }
 
@@ -587,20 +597,20 @@ class ABackup
         foreach ($i as $f) {
             $real_path = $f->getRealPath();
             //skip backup, cache and logs
-            if (is_int(strpos($real_path, $this->slash.'backup'))
-                || is_int(strpos($real_path, $this->slash.'cache'))
-                || is_int(strpos($real_path, $this->slash.'thumbnails'))
-                || is_int(strpos($real_path, $this->slash.'logs'))
+            if (is_int(strpos($real_path, $this->slash . 'backup'))
+                || is_int(strpos($real_path, $this->slash . 'cache'))
+                || is_int(strpos($real_path, $this->slash . 'thumbnails'))
+                || is_int(strpos($real_path, $this->slash . 'logs'))
             ) {
                 continue;
             }
             /** DirectoryIterator $f */
             if ($f->isFile()) {
-                copy($real_path, $dest.$this->slash.$f->getFilename());
+                copy($real_path, $dest . $this->slash . $f->getFilename());
             } else {
                 if (!$f->isDot() && $f->isDir()) {
-                    $this->_copyDir($real_path, $dest.$this->slash.$f);
-                    $this->_add_empty_index_file($dest.$this->slash.$f);
+                    $this->_copyDir($real_path, $dest . $this->slash . $f);
+                    $this->_add_empty_index_file($dest . $this->slash . $f);
                 }
             }
         }
@@ -614,12 +624,12 @@ class ABackup
         //if empty directory - creates new empty file to prevent
         // excluding directory during tar.gz compression via PharData class
         if (IS_WINDOWS === true) {
-            $dir = str_replace("\\", '/', $dir);
+            $dir = str_replace("\\", DS, $dir);
         }
         $fi = new FilesystemIterator($dir, FilesystemIterator::SKIP_DOTS);
         $files_count = iterator_count($fi);
         if (!$files_count) {
-            touch($dir.$this->slash."index.html");
+            touch($dir . DS . "index.html");
         }
     }
 
@@ -632,13 +642,13 @@ class ABackup
         $this->error = [];
         //1. check is backup directory is writable
         if (!is_writable(DIR_BACKUP)) {
-            $this->error[] = 'Directory '.DIR_BACKUP.' is non-writable. It is recommended to set write mode for it.';
+            $this->error[] = 'Directory ' . DIR_BACKUP . ' is non-writable. It is recommended to set write mode for it.';
         }
 
         //2. check mysql driver
         $sql = "SELECT TABLE_NAME AS 'table_name'
                 FROM information_schema.TABLES
-                WHERE information_schema.TABLES.table_schema = '".DB_DATABASE."'";
+                WHERE information_schema.TABLES.table_schema = '" . DB_DATABASE . "'";
         $result = $this->db->query($sql, true);
         if ($result === false && DB_DRIVER == 'mysql') {
             $this->error[] =
@@ -651,13 +661,13 @@ class ABackup
         foreach (
             [
                 $this->backup_dir,
-                $this->backup_dir."files".$this->slash,
-                $this->backup_dir."data".$this->slash,
+                $this->backup_dir . "files" . $this->slash,
+                $this->backup_dir . "data" . $this->slash,
             ] as $dir
         ) {
             if (is_dir($dir) && !is_writable($dir)) {
-                $this->error[] = 'Directory '.$dir
-                    .' already exists and it is non-writable. It is recommended to set write mode for it.';
+                $this->error[] = 'Directory ' . $dir
+                    . ' already exists and it is non-writable. It is recommended to set write mode for it.';
             }
         }
 

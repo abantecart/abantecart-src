@@ -1,0 +1,187 @@
+<?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
+
+class ControllerResponsesListingGridForm extends AController
+{
+    /** @var ModelToolFormsManager */
+    public $mdl;
+
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
+    {
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        $this->loadLanguage('forms_manager/forms_manager');
+        $this->mdl = $this->loadModel('tool/forms_manager');
+    }
+
+    public function main()
+    {
+        //Clean up parameters if needed
+        if (isset($this->request->get['keyword'])
+            && $this->request->get['keyword'] == $this->language->get('filter_form')
+        ) {
+            unset($this->request->get['keyword']);
+        }
+
+        //Prepare filter config
+        $filter_params = ['status', 'keyword', 'match'];
+        $grid_filter_params = ['form_name', 'description', 'status'];
+
+        $filter_form = new AFilter(['method' => 'get', 'filter_params' => $filter_params]);
+        $filter_grid = new AFilter(['method' => 'post', 'grid_filter_params' => $grid_filter_params]);
+
+        $results = $this->mdl->getForms(
+            array_merge($filter_form->getFilterData(), $filter_grid->getFilterData())
+        );
+        $total = (int)$results[0]['total_num_rows'];
+        $response = new stdClass();
+        $response->page = $filter_grid->getParam('page');
+        $response->total = $filter_grid->calcTotalPages($total);
+        $response->records = $total;
+        $response->userdata = new stdClass();
+
+        $i = 0;
+        foreach ($results as $result) {
+            $id = $result['form_id'];
+            if ($result['locked']) {
+                $response->userdata->classes[$id] = 'disable-delete';
+            }
+            $response->rows[$i]['id'] = $id;
+            $response->rows[$i]['cell'] = [
+                $result['form_name'],
+                $this->html->buildInput([
+                    'name'  => 'form_description[' . $id . ']',
+                    'value' => $result['description'],
+                ]),
+                $this->html->buildCheckbox([
+                    'name'  => 'form_status[' . $id . ']',
+                    'value' => $result['status'],
+                    'style' => 'btn_switch',
+                ]),
+            ];
+            $i++;
+        }
+
+        $this->load->library('json');
+        $this->response->setOutput(AJson::encode($response));
+    }
+
+    public function update()
+    {
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        if (!$this->user->canModify('tool/forms_manager')) {
+            $error = new AError('');
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
+                    'error_text'  => $this->language->getAndReplace(
+                        'error_permission_modify',
+                        replaces: 'tool/forms_manager'
+                    ),
+                    'reset_value' => true,
+                ]
+            );
+            return;
+        }
+
+        $ids = filterIntegerIdList(explode(',', $this->request->post['id']));
+        switch ($this->request->post['oper']) {
+            case 'del':
+                if ($ids) {
+                    foreach ($ids as $id) {
+                        $this->mdl->deleteForm($id);
+                    }
+                }
+                break;
+            case 'save':
+                $fields = ['form_description', 'form_status'];
+                if ($ids) {
+                    foreach ($ids as $id) {
+                        foreach ($fields as $f) {
+                            if ($f == 'form_status' && !isset($this->request->post['form_status'][$id])) {
+                                $this->request->post['form_status'][$id] = 0;
+                            }
+                            if (isset($this->request->post[$f][$id])) {
+                                $err = $this->_validateField($f, $this->request->post[$f][$id]);
+                                if (!empty($err)) {
+                                    $error = new AError('');
+                                    $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
+                                    return;
+                                }
+                                $this->mdl->updateForm(
+                                    [
+                                        'form_id' => $id,
+                                        $f        => $this->request->post[$f][$id]
+                                    ]
+                                );
+                            }
+                        }
+                    }
+                }
+                break;
+            default:
+        }
+    }
+
+    /**
+     * update only one field
+     */
+    public function update_field()
+    {
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        $formId = (int)$this->request->get['form_id'];
+        if ($this->request->is_POST()) {
+            foreach ($this->request->post as $field => $value) {
+                if (is_array($value)) {
+                    $data = [];
+                    foreach ($value as $id => $val) {
+                        $data['form_id'] = $id;
+                        $data[$field] = $val;
+                        $this->mdl->updateForm($data);
+                    }
+                } elseif ($formId) {
+                    $this->mdl->updateForm(
+                        [
+                            'form_id' => $formId,
+                            $field    => $value
+                        ]
+                    );
+                }
+            }
+        }
+
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
+
+    protected function _validateField($field, $value)
+    {
+        $err = '';
+
+        if (mb_strlen($value) < 1) {
+            $err = $field . ": " . $this->language->get('error_required');
+        }
+
+        return $err;
+    }
+}

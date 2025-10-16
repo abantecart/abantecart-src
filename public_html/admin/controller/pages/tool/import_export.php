@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details is bundled with this package in the file LICENSE.txt.
@@ -495,14 +495,13 @@ class ControllerPagesToolImportExport extends AController
         //get sample row
         $this->data['cols'] = $this->data['data'] = [];
         if ($import_data['file_type'] == 'csv') {
-            ini_set('auto_detect_line_endings', true);
             if ($fh = fopen($import_data['file'], 'r')) {
                 $this->data['cols'] = fgetcsv($fh, 0, $import_data['delimiter']);
                 $this->data['data'] = fgetcsv($fh, 0, $import_data['delimiter']);
             }
         }
 
-        //if map is set, link colums to array index of colums for faster rendering
+        //if map is set, link columns to array index of columns for faster rendering
         if (isset($this->data['map']) && $this->data['map']) {
             $this->data['map'] = $this->reindexMap($this->data['map'], $this->data['cols']);
         }
@@ -620,7 +619,6 @@ class ControllerPagesToolImportExport extends AController
         //get sample row
         $this->data['cols'] = $this->data['data'] = [];
         if ($import_data['file_type'] == 'csv') {
-            ini_set('auto_detect_line_endings', true);
             if ($fh = fopen($import_data['file'], 'r')) {
                 $this->data['cols'] = fgetcsv($fh, 0, $import_data['delimiter']);
                 $this->data['data'] = fgetcsv($fh, 0, $import_data['delimiter']);

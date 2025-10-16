@@ -13,7 +13,7 @@
 
         $tax_exempt = $this->customer->isTaxExempt();
         $config_tax = $this->config->get('config_tax');
-        $text_sale = $this->language->get('text_badge_sale','novator/novator');
+        $text_sale = $this->language->get('text_badge_sale');
         $text_sale = $text_sale == 'text_badge_sale' ? 'SALE' : $text_sale;
 
         foreach ($products as $product) {

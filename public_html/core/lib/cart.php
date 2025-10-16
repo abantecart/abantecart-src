@@ -1,26 +1,27 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
+
 /** @noinspection PhpMultipleClassDeclarationsInspection
  * @noinspection PhpUndefinedClassInspection
-*/
+ */
 
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -70,7 +71,7 @@ class ACart
     protected $promotion;
     /** @var ExtensionsApi */
     protected $extensions;
-    /** @var array  */
+    /** @var array */
     public $errors = [];
 
     /**
@@ -93,7 +94,7 @@ class ACart
         } else {
             $this->cust_data =& $c_data;
         }
-        //can load promotion if customer_group_id is provided  
+        //can load promotion if customer_group_id is provided
         $this->promotion = new APromotion($this->cust_data['customer_group_id']);
 
         if (!isset($this->cust_data['cart']) || !is_array($this->cust_data['cart'])) {
@@ -147,7 +148,7 @@ class ACart
             $quantity = $data['qty'];
 
             if (isset($data['options'])) {
-                $options = (array) $data['options'];
+                $options = (array)$data['options'];
             } else {
                 $options = [];
             }
@@ -160,13 +161,13 @@ class ACart
                 //apply min and max for quantity once we have product details.
                 if ($quantity < $product_result['minimum']) {
                     $this->language->load('checkout/cart', 'silent');
-                    $this->cust_data['error'] = $this->language->get('error_quantity_minimum').'('.$product_result['name'].')';
+                    $this->cust_data['error'] = $this->language->get('error_quantity_minimum') . '(' . $product_result['name'] . ')';
                     $this->update($key, $product_result['minimum']);
                 }
                 if ($product_result['maximum'] > 0) {
                     $this->language->load('checkout/cart', 'silent');
                     if ($quantity > $product_result['maximum']) {
-                        $this->cust_data['error'] = $this->language->get('error_quantity_maximum').'('.$product_result['name'].')';
+                        $this->cust_data['error'] = $this->language->get('error_quantity_maximum') . '(' . $product_result['name'] . ')';
                         $this->update($key, $product_result['maximum']);
                     }
                 }
@@ -191,7 +192,7 @@ class ACart
         if ($recalculate) {
             $this->getProducts(true);
         }
-        return $this->cust_data['cart'][$key] ? : [];
+        return $this->cust_data['cart'][$key] ?: [];
     }
 
     /**
@@ -254,7 +255,7 @@ class ACart
                 $option_value_query = $sf_product_mdl->getProductOptionValues($product_id, $product_option_id);
                 $option_value_query = $option_value_query[0];
                 //Set value from input
-                $option_value_query['name'] = $this->db->escape($options[$product_option_id]);
+                $option_value_query['name'] = $this->db->escape($product_option_value_id);
             } else {
                 //is multivalue option type
                 if (is_array($product_option_value_id)) {
@@ -264,7 +265,7 @@ class ACart
                 } else {
                     $option_value_query = $sf_product_mdl->getProductOptionValue(
                         $product_id,
-                        (int) $product_option_value_id
+                        (int)$product_option_value_id
                     );
                 }
             }
@@ -280,25 +281,22 @@ class ACart
                     $option_value_query['price'] = $group_value_query['price'];
                     $groups[] = $option_value_query['group_id'];
                 }
-                $option_data[] = [
-                    'product_option_value_id' => $option_value_query['product_option_value_id'],
-                    'product_option_id'       => $product_option_id,
-                    'name'                    => $option_query['name'],
-                    'element_type'            => $element_type,
-                    'settings'                => $option_query['settings'],
-                    'value'                   => $option_value_query['name'],
-                    'prefix'                  => $option_value_query['prefix'],
-                    'price'                   => $option_value_query['price'],
-                    'cost'                    => $option_value_query['cost'],
-                    'sku'                     => $option_value_query['sku'],
-                    'inventory_quantity'      => ($option_value_query['subtract']
-                                                    ? (int) $option_value_query['quantity']
-                                                    : 1000000),
-                    'weight'                  => $option_value_query['weight'],
-                    'weight_type'             => $option_value_query['weight_type'],
-                ];
+                $option_data[] =
+                    array_merge(
+                        $option_value_query,
+                        [
+                            'name'               => $option_query['name'],
+                            'product_option_id'  => $product_option_id,
+                            'element_type'       => $element_type,
+                            'settings'           => $option_query['settings'],
+                            'value'              => $option_value_query['name'],
+                            'inventory_quantity' => ($option_value_query['subtract']
+                                ? (int)$option_value_query['quantity']
+                                : 1000000)
+                        ]
+                    );
 
-                //check if need to track stock and we have it
+                //check if we need to track stock and we have it
                 if ($option_value_query['subtract']
                     && $option_value_query['quantity'] < $quantity
                     && !$stock_checkout
@@ -307,24 +305,20 @@ class ACart
                 }
                 $is_some_option_stock_trackable += $option_value_query['subtract'];
                 unset($option_value_query);
-            }
-            //for multi-value options
+            } //for multi-value options
             else if ($option_value_queries) {
                 foreach ($option_value_queries as $item) {
-                    $option_data[] = [
-                        'product_option_value_id' => $item['product_option_value_id'],
-                        'product_option_id'       => $product_option_id,
-                        'name'                    => $option_query['name'],
-                        'value'                   => $item['name'],
-                        'prefix'                  => $item['prefix'],
-                        'price'                   => $item['price'],
-                        'cost'                    => $item['cost'],
-                        'sku'                     => $item['sku'],
-                        'inventory_quantity'      => ($item['subtract'] ? (int) $item['quantity'] : 1000000),
-                        'weight'                  => $item['weight'],
-                        'weight_type'             => $item['weight_type'],
-                    ];
-                    //check if need to track stock and we have it
+                    $option_data[] = array_merge(
+                        $item,
+                        [
+                            'product_option_value_id' => $item['product_option_value_id'],
+                            'product_option_id'       => $product_option_id,
+                            'name'                    => $option_query['name'],
+                            'value'                   => $item['name'],
+                            'inventory_quantity'      => ($item['subtract'] ? (int)$item['quantity'] : 1000000),
+                        ]
+                    );
+                    //check if we need to track stock and we have it
                     if (!$product_query['stock_checkout'] && $item['subtract'] && $item['quantity'] < $quantity) {
                         $stock = false;
                     }
@@ -376,7 +370,7 @@ class ACart
         if ($this->cust_data['cart']) {
             foreach ($this->cust_data['cart'] as $key => $cart_product) {
                 list($pId,) = explode(':', $key);
-                if ($product_id != $pId || $key == $product_id.($options ? ':'.md5(serialize($options)) : '')) {
+                if ($product_id != $pId || $key == $product_id . ($options ? ':' . md5(serialize($options)) : '')) {
                     continue;
                 }
 
@@ -405,35 +399,19 @@ class ACart
         ) {
             $stock = false;
         }
-        $this->data['output'] = [
-            'product_id'         => $product_query['product_id'],
-            'categories'         => $product_query['categories'],
-            'name'               => $product_query['name'],
-            'model'              => $product_query['model'],
-            'manufacturer_id'    => $product_query['manufacturer_id'],
-            'shipping'           => $product_query['shipping'],
-            'option'             => $option_data,
-            'download'           => $download_data,
-            'quantity'           => $quantity,
-            'inventory_quantity' => ($product_query['subtract'] ? (int) $product_query['quantity'] : 1000000),
-            'minimum'            => $product_query['minimum'],
-            'maximum'            => $product_query['maximum'],
-            'stock'              => $stock,
-            'price'              => ($price + $option_price),
-            'cost'               => $product_query['cost'],
-            'total'              => ($price + $option_price) * $quantity,
-            'tax_class_id'       => $product_query['tax_class_id'],
-            'weight'             => $product_query['weight'],
-            'weight_class'       => $product_query['weight_class'],
-            'length'             => $product_query['length'],
-            'width'              => $product_query['width'],
-            'height'             => $product_query['height'],
-            'length_class'       => $product_query['length_class'],
-            'ship_individually'  => $product_query['ship_individually'],
-            'shipping_price'     => $product_query['shipping_price'],
-            'free_shipping'      => $product_query['free_shipping'],
-            'sku'                => $product_query['sku'],
-        ];
+        $this->data['output'] =
+            array_merge(
+                $product_query,
+                [
+                    'option'             => $option_data,
+                    'download'           => $download_data,
+                    'quantity'           => $quantity,
+                    'inventory_quantity' => ($product_query['subtract'] ? (int)$product_query['quantity'] : 1000000),
+                    'stock'              => $stock,
+                    'price'              => ($price + $option_price),
+                    'total'              => ($price + $option_price) * $quantity
+                ]
+            );
         $this->extensions->hk_ProcessData($this, __METHOD__, func_get_args());
         return $this->data['output'];
     }
@@ -443,33 +421,33 @@ class ACart
      * @param int $qty
      * @param array $options
      *
-     * @return false
+     * @return bool
      * @throws AException
      */
     public function add($product_id, $qty = 1, $options = [])
     {
-        $product_id = (int) $product_id;
+        $product_id = (int)$product_id;
         if (!$product_id) {
             $dbg = debug_backtrace();
             $debugInfo = '';
             foreach ($dbg as $d) {
-                $debugInfo .= $d['file'].':'.$d['line']."\n";
+                $debugInfo .= $d['file'] . ':' . $d['line'] . "\n";
             }
             $this->registry->get('log')->write(
-                "Attempt to add zero-value product ID into cart lib. \nDebug Backtrace: \n".$debugInfo
+                "Attempt to add zero-value product ID into cart lib. \nDebug Backtrace: \n" . $debugInfo
             );
             return false;
         }
         if (!$options) {
             $key = $product_id;
         } else {
-            $key = $product_id.':'.md5(serialize($options));
+            $key = $product_id . ':' . md5(serialize($options));
         }
-        if ((int) $qty && ((int) $qty > 0)) {
+        if ((int)$qty && ((int)$qty > 0)) {
             if (!isset($this->cust_data['cart'][$key])) {
-                $this->cust_data['cart'][$key]['qty'] = (int) $qty;
+                $this->cust_data['cart'][$key]['qty'] = (int)$qty;
             } else {
-                $this->cust_data['cart'][$key]['qty'] += (int) $qty;
+                $this->cust_data['cart'][$key]['qty'] += (int)$qty;
             }
             //TODO Add validation for correct options for the product and add error return or more stable behaviour
             $this->cust_data['cart'][$key]['options'] = $options;
@@ -513,7 +491,7 @@ class ACart
      */
     public function getVirtualProducts()
     {
-        return (array) $this->cust_data['cart']['virtual'];
+        return (array)$this->cust_data['cart']['virtual'];
     }
 
     /**
@@ -535,10 +513,10 @@ class ACart
      *
      * @throws AException
      */
-    public function update($key, $qty)
+    public function update($key, $qty, bool $recalculate = true)
     {
-        if ((int) $qty && ((int) $qty > 0)) {
-            $this->cust_data['cart'][$key]['qty'] = (int) $qty;
+        if ((int)$qty && ((int)$qty > 0)) {
+            $this->cust_data['cart'][$key]['qty'] = (int)$qty;
         } else {
             $this->remove($key);
         }
@@ -549,7 +527,9 @@ class ACart
         }
 
         //reload data for the cart
-        $this->getProducts(true);
+        if ($recalculate) {
+            $this->getProducts($recalculate);
+        }
     }
 
     /**
@@ -584,14 +564,15 @@ class ACart
      */
     public function getWeight($product_ids = [])
     {
+        $product_ids = filterIntegerIdList($product_ids);
         $weight = 0;
         $products = $this->getProducts();
         foreach ($products as $product) {
-            if (count($product_ids) > 0 && !in_array((string) $product['product_id'], $product_ids)) {
+            if (count($product_ids) > 0 && !in_array((int)$product['product_id'], $product_ids)) {
                 continue;
             }
 
-            if ($product['shipping']) {
+            if ($this->productRequireShipping($product)) {
                 $product_weight = $product['weight'];
                 // if product_option has weight value
                 if ($product['option']) {
@@ -645,13 +626,14 @@ class ACart
      */
     public function getVolume($product_ids = [])
     {
+        $product_ids = filterIntegerIdList($product_ids);
         $output = 0.0;
         $products = $this->getProducts();
         foreach ($products as $product) {
             if (
-                (count($product_ids) > 0 && !in_array((string) $product['product_id'], $product_ids))
+                (count($product_ids) > 0 && !in_array((int)$product['product_id'], $product_ids))
                 //if not required shipping - skip
-                || !$product['shipping']
+                || !$this->productRequireShipping($product)
             ) {
                 continue;
             }
@@ -672,15 +654,16 @@ class ACart
                     $this->config->get('config_length_class')
                 );
 
-            if(!$productVolume){
-                list($product_id,) = explode(':',$product['key']);
+            if (!$productVolume) {
+                list($product_id,) = explode(':', $product['key']);
                 $this->errors['volume'][$product_id] =
-                    'Product '.$product['name'].' #'.$product_id.' dimensions inaccurate. Click #admin#rt=catalog/product/update&product_id='.$product_id.' to view';
+                    'Product ' . $product['name'] . ' #' . $product_id . ' dimensions inaccurate. Click #admin#rt=catalog/product/update&product_id=' . $product_id . ' to view';
             }
             $output += $productVolume * $product['quantity'];
         }
         return $output;
     }
+
     /**
      * Products with no special settings for shipping
      *
@@ -692,11 +675,8 @@ class ACart
         $basic_ship_products = [];
         $products = $this->getProducts();
         foreach ($products as $product) {
-            if ($product['shipping']
-                && !$product['ship_individually']
-                && !$product['free_shipping']
-                && $product['shipping_price'] == 0
-            ) {
+            if ($this->productRequireShipping($product)
+                && !$product['ship_individually'] && !$product['free_shipping'] && $product['shipping_price'] == 0) {
                 $basic_ship_products[] = $product;
             }
         }
@@ -715,10 +695,8 @@ class ACart
         $special_ship_products = [];
         $products = $this->getProducts();
         foreach ($products as $product) {
-            if ($product['shipping']
-                && ($product['ship_individually']
-                    || $product['free_shipping']
-                    || $product['shipping_price'] > 0)
+            if ($this->productRequireShipping($product)
+                && ($product['ship_individually'] || $product['free_shipping'] || $product['shipping_price'] > 0)
             ) {
                 $special_ship_products[] = $product;
             }
@@ -735,16 +713,17 @@ class ACart
      */
     public function areAllFreeShipping()
     {
-        $all_free_shipping = false;
+        $allFreeShipping = false;
         $products = $this->getProducts();
         foreach ($products as $product) {
-            if (!$product['shipping'] || ($product['shipping'] && $product['free_shipping'])) {
-                $all_free_shipping = true;
+            $requireShipping = $this->productRequireShipping($product);
+            if (!$requireShipping || $product['free_shipping']) {
+                $allFreeShipping = true;
             } else {
                 return false;
             }
         }
-        return $all_free_shipping;
+        return $allFreeShipping;
     }
 
     /**
@@ -801,7 +780,7 @@ class ACart
         $this->sub_total = 0.0;
         $products = $this->getProducts() + $this->getVirtualProducts();
         foreach ($products as $product) {
-            $price = round(($product['price'] ?: $product['amount']),$decPlace);
+            $price = round(($product['price'] ?: $product['amount']), $decPlace);
             $this->sub_total += ($price * $product['quantity']);
         }
         return $this->sub_total;
@@ -945,12 +924,12 @@ class ACart
         $sf_checkout_mdl = $this->load->model('checkout/extension', 'storefront');
         $total_extns = $sf_checkout_mdl->getExtensions('total');
         foreach ($total_extns as $value) {
-            $calc_order[$value['key']] = (int) $this->config->get($value['key'].'_calculation_order');
+            $calc_order[$value['key']] = (int)$this->config->get($value['key'] . '_calculation_order');
         }
         array_multisort($calc_order, SORT_ASC, $total_extns);
 
         foreach ($total_extns as $extn) {
-            $sf_total_mdl = $this->load->model('total/'.$extn['key'], 'storefront');
+            $sf_total_mdl = $this->load->model('total/' . $extn['key'], 'storefront');
             /**
              * parameters are references!!!
              *
@@ -979,7 +958,12 @@ class ACart
         }
 
         $this->total_data = $total_data;
-        $this->final_total = $total;
+        //final total need to take from an order "total" model because of the currency conversion issue
+        foreach($total_data as $arr){
+            if($arr['id'] == 'total'){
+                $this->final_total = $arr['value'];
+            }
+        }
         //if balance become less or 0 reapply partial
         if ($this->cust_data['used_balance'] && $this->final_total) {
             $this->cust_data['used_balance_full'] = false;
@@ -988,12 +972,12 @@ class ACart
     }
 
     /**
-     * Get Total Data for current built cart with all totals, taxes and applied promotions
+     * Get Total Data for the current built cart with all totals, taxes and applied promotions
      * To force recalculate pass argument as TRUE
      *
      * @param bool $recalculate
      *
-     * @return mixed
+     * @return array
      * @throws AException
      */
     public function getFinalTotalData($recalculate = false)
@@ -1120,8 +1104,19 @@ class ACart
                 $shipping = true;
                 break;
             }
+            foreach ($product['option'] as $option) {
+                if ($option['require_shipping']) {
+                    $shipping = true;
+                    break;
+                }
+            }
         }
         return $shipping;
+    }
+
+    protected function productRequireShipping(array $product)
+    {
+        return ($product['shipping'] || array_sum(array_column((array)$product['option'], 'require_shipping')) > 0);
     }
 
     /**

@@ -1,41 +1,33 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
-/**
- * Class ControllerBlocksCustomFormBlock
- *
- * @property ModelToolFormsManager $model_tool_forms_manager
- */
 class ControllerBlocksCustomFormBlock extends AController
 {
-
-    public $data = [];
     protected $validators = '';
     protected $validated_types;
 
     public function main($instance_id = 0)
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -50,19 +42,15 @@ class ControllerBlocksCustomFormBlock extends AController
         $this->loadLanguage('forms_manager/forms_manager');
 
         $block_data = $this->getBlockContent($instance_id);
-        $this->view->assign('block_framed', $block_data['block_framed']);
-        $this->view->assign('content', $block_data['content']);
-        $this->view->assign('heading_title', $block_data['title']);
-        $this->view->assign('stat_url', $this->html->getURL('r/extension/banner_manager'));
-        $this->view->assign('error_required', $this->language->get('error_required'));
-        $this->view->assign('template_dir', RDIR_TEMPLATE);
-
+        $block_data['heading_title'] = $block_data['title'];
+        $block_data['stat_url'] =  $this->html->getURL('r/extension/banner_manager');
+        $block_data['error_required'] = $this->language->get('error_required');
+        $block_data['template_dir'] = RDIR_TEMPLATE;
         $this->view->batchAssign($this->data);
+        $this->view->batchAssign($block_data);
 
         if ($block_data['content']) {
-
             $this->document->addScript(DIR_EXTENSIONS.'forms_manager'.DIR_EXT_STORE.'js/form_check.js');
-
             // need to set wrapper for non products listing blocks
             if ($this->view->isTemplateExists($block_data['block_wrapper'])) {
                 $this->view->setTemplate($block_data['block_wrapper']);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension>
 	<id>page_builder</id>
-    <version>1.4.2</version>
+    <version>1.4.3</version>
 	<type>extension</type>
 	<category>tools</category>
 	<cartversions>

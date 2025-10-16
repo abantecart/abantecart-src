@@ -5,7 +5,6 @@
         </h1>
     </div>
 </div>
-
 <?php if ($success) { ?>
     <div class="alert alert-success alert-dismissible" role="alert">
         <?php echo $success; ?>
@@ -17,42 +16,53 @@ if ($error_warning) { ?>
         <?php echo $error_warning; ?>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-<?php } ?>
+<?php }
+    //$form['form_open']->style .= ' needs-validation';
+    $form['form_open']->attr .= ' novalidate';
+    echo $form['form_open'];
 
-
-    <?php echo $form['form_open'];?>
-        <h4 class="mb-3"><?php echo $text_your_details; ?></h4>
-        <div class="card mb-4">
-            <div class="card-body">
+    foreach($form['fields'] as $group => $fields){ ?>
+        <?php $groupName = current($fields)->field_group_name;
+        if($groupName){ ?>
+            <h4><?php echo $groupName; ?></h4>
             <?php
-                foreach ($form['fields'] as $field_name=>$field) { ?>
-                        <div class="mb-3 row justify-content-md-center align-items-center">
-                            <label for="<?php echo $field->element_id?>" class="text-nowrap col-sm-2 col-form-label me-2"><?php echo ${'entry_'.$field_name}; ?></label>
-                            <div class="col-sm-5">
-                                <?php echo $field; ?>
-                                <span class="help-block text-danger"><?php echo ${'error_'.$field_name}; ?></span>
-                            </div>
+        } ?>
+    <div class="card mb-4">
+        <div class="card-body">
+        <?php
+            foreach ($fields as $field_name=>$field) {
+                if($field->type == 'hidden') {
+                    echo $field;
+                    continue;
+                }?>
+                    <div class="mb-3 row justify-content-md-center align-items-center">
+                        <label for="<?php echo $field->element_id?>" class="col-sm-12 col-md-5 col-form-label me-2">
+                            <?php echo ${'entry_'.$field_name}; ?>
+                        </label>
+                        <div class="col-sm-12 col-md-6">
+                            <?php echo $field; ?>
+                            <span class="help-block text-danger"><?php echo ${'error_'.$field_name}; ?></span>
                         </div>
-                <?php }
-                    echo $this->getHookVar('customer_attributes'); 
-            ?>
-            </div>
+                    </div>
+            <?php } ?>
         </div>
+    </div>
+<?php
+    }
+    echo $this->getHookVar('customer_attributes');
+?>
+    <div class="py-3 col-12 d-flex flex-wrap">
+        <?php
+        $form['back']->style .= 'btn-secondary';
+        $form['back']->icon = 'bi bi-arrow-left';
+        echo $form['back'];
 
-        <div class="py-3 col-12 d-flex flex-wrap">
-            <a href="<?php echo $back; ?>" class="btn btn-secondary" title="<?php echo_html2view($form['back']->text); ?>">
-                <i class="<?php echo $form['back']->icon; ?>"></i>
-                <?php echo $form['back']->text ?>
-            </a>
-            <button id="submit_button" type="submit"
-                    role="button"
-                    class="btn btn-primary ms-auto lock-on-click"
-                    title="<?php echo_html2view($form['continue']->name); ?>">
-                <i class="bi bi-check"></i>
-                <?php echo $form['continue']->name ?>
-            </button>
-        </div>
-    </form>
+        $form['submit']->style .= ' btn-primary ms-auto lock-on-click';
+        $form['submit']->icon = 'fa fa-check';
+        echo $form['submit'];
+        ?>
+    </div>
+</form>
 
 <div id="privacyPolicyModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="privacyPolicyModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">

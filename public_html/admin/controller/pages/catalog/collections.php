@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -84,7 +84,6 @@ class ControllerPagesCatalogCollections extends AController
 
         $grid = $this->dispatch('common/listing_grid', [$grid_settings]);
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
-
         $this->view->assign('insert', $this->html->getSecureURL('catalog/collections/insert'));
         $this->view->assign('help_url', $this->gen_help_url('data_collections'));
 
@@ -93,7 +92,7 @@ class ControllerPagesCatalogCollections extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function buildHeader()
+    protected function buildHeader()
     {
         $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
@@ -124,12 +123,13 @@ class ControllerPagesCatalogCollections extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->buildHeader();
 
-        $this->loadModel('catalog/collection');
+        /** @var ModelCatalogCollection $mdl */
+        $mdl = $this->loadModel('catalog/collection');
 
         if ($this->request->is_POST() && $this->validate($this->request->post)) {
             $data = $this->request->post;
             $data['store_id'] = (int)$this->config->get('current_store_id');
-            $collection = $this->model_catalog_collection->insert($data);
+            $collection = $mdl->insert($data);
         }
 
         if ($this->session->data['success']) {
@@ -171,15 +171,16 @@ class ControllerPagesCatalogCollections extends AController
         $collectionId = (int)$this->request->get['id'];
         $this->buildHeader();
 
-        $this->loadModel('catalog/collection');
+        /** @var ModelCatalogCollection $mdl */
+        $mdl = $this->loadModel('catalog/collection');
         $this->loadModel('localisation/language');
 
         if ($this->request->is_POST()) {
-            $collection = $this->model_catalog_collection->getById($collectionId);
+            $collection = $mdl->getById($collectionId);
 
             if ($collection && $this->validate($this->request->post)) {
                 try {
-                    $this->model_catalog_collection->update($collectionId, $this->request->post);
+                    $mdl->update($collectionId, $this->request->post);
                     $this->session->data['success'] = $this->language->get('save_complete');
                     $this->extensions->hk_ProcessData($this, 'update');
                     redirect(
@@ -239,25 +240,27 @@ class ControllerPagesCatalogCollections extends AController
 
     protected function getForm()
     {
+        /** @var ModelCatalogCollection $mdl */
+        $mdl = $this->loadModel('catalog/collection');
         $collection = null;
         $this->view->assign('error_warning', $this->error['warning']);
         $this->view->assign('error_name', $this->error['name']);
-
         $this->view->assign('cancel', $this->html->getSecureURL('catalog/collections'));
 
-        if ((int)$this->request->get['id']) {
-            $collection = $this->model_catalog_collection->getById((int)$this->request->get['id']);
+        $collectionId = (int)$this->request->get['id'];
+        if ($collectionId) {
+            $collection = $mdl->getById($collectionId);
             if ($collection) {
                 foreach ($collection as $key => $value) {
                     $this->data[$key] = $value;
                 }
-                $products = $this->model_catalog_collection->getProducts(
+                $products = $mdl->getProducts(
                     (array)$collection['conditions'],
                     'date_modified',
                     'DESC',
                     '0',
                     1,
-                    (int)$this->request->get['id']
+                    $collectionId
                 );
                 $this->data['products_count'] = $products['total'];
                 $this->data['form']['show_on_storefront'] = new stdClass();
@@ -271,7 +274,7 @@ class ControllerPagesCatalogCollections extends AController
                 }
 
                 $this->data['form']['show_on_storefront']->href = $storeHome
-                    . '/?rt=product/collection&collection_id=' . (int)$this->request->get['id'];
+                    . '/?rt=product/collection&collection_id=' . $collectionId;
                 if ($this->data['keyword'] && (int)$this->config->get('enable_seo_url')) {
                     $this->data['form']['show_on_storefront']->href = $storeHome . '/' . $this->data['keyword'];
                 }
@@ -283,7 +286,7 @@ class ControllerPagesCatalogCollections extends AController
         }
 
         if ($this->request->get['products']) {
-            $productIds = $this->request->get['products'];
+            $productIds = filterIntegerIdList((array)$this->request->get['products']);
             if (is_array($productIds) && !empty($productIds)) {
                 $this->data['conditions']['conditions'][] = [
                     'object'   => 'products',
@@ -309,7 +312,7 @@ class ControllerPagesCatalogCollections extends AController
                 'listing_grid/collections/update_field',
                 '&id=' . $collection['id']
             );
-            $form = new AForm ('HS');
+            $form = new AForm ('HT');
         }
         $form->setForm(
             [
@@ -411,9 +414,7 @@ class ControllerPagesCatalogCollections extends AController
         );
         $this->data['generate_seo_url'] = $this->html->getSecureURL(
             'common/common/getseokeyword',
-            '&object_key_name=collection_id&id='
-            . ($this->request->get['id'] ?: '0'
-            )
+            '&object_key_name=collection_id&id='. $collectionId
         );
 
         $this->data['form']['fields']['general']['keyword'] = $form->getFieldHtml(
@@ -427,7 +428,7 @@ class ControllerPagesCatalogCollections extends AController
             ]
         );
 
-        if ((int)$this->request->get['id']) {
+        if ($collectionId) {
             $this->data['form']['fields']['general']['products_count'] = $form->getFieldHtml(
                 [
                     'type'  => 'input',
@@ -537,7 +538,7 @@ class ControllerPagesCatalogCollections extends AController
         }
 
         $error_text = $this->html->isSEOkeywordExists(
-            'collection_id=' . $this->request->get['id'],
+            'collection_id=' . (int)$this->request->get['id'],
             $this->request->post['keyword']
         );
         if ($error_text) {
@@ -545,6 +546,7 @@ class ControllerPagesCatalogCollections extends AController
             $this->error['keyword'] = $this->language->get('save_error_unique_keyword');
         }
 
+        $this->extensions->hk_ValidateData($this, $data);
         return (!$this->error);
     }
 
@@ -553,24 +555,25 @@ class ControllerPagesCatalogCollections extends AController
         $collection = [];
         $page_controller = 'pages/product/collection';
         $page_key_param = 'collection_id';
-        $collection_id = (int)$this->request->get['id'];
-        $this->data['collection_id'] = $collection_id;
-        $this->data['id'] = $collection_id;
-        $page_url = $this->html->getSecureURL('catalog/collections/edit_layout', '&id=' . $collection_id);
-        //note: category can not be ID of 0.
-        if (!has_value($collection_id)) {
+        $collectionId = (int)$this->request->get['id'];
+        $this->data['collection_id'] = $collectionId;
+        $this->data['id'] = $collectionId;
+        $page_url = $this->html->getSecureURL('catalog/collections/edit_layout', '&id=' . $collectionId);
+        if (!$collectionId) {
             redirect($this->html->getSecureURL('catalog/collections'));
         }
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
+
         $this->loadLanguage('catalog/collections');
         $this->loadLanguage('design/layout');
         $this->data['help_url'] = $this->gen_help_url('layout_edit');
 
-        if (has_value($collection_id) && $this->request->is_GET()) {
-            $this->loadModel('catalog/collection');
-            $collection = $this->model_catalog_collection->getById($collection_id);
+        if (has_value($collectionId) && $this->request->is_GET()) {
+            /** @var ModelCatalogCollection $mdl */
+            $mdl = $this->loadModel('catalog/collection');
+            $collection = $mdl->getById($collectionId);
         }
 
         // Alert messages
@@ -607,7 +610,7 @@ class ControllerPagesCatalogCollections extends AController
         );
         $this->document->addBreadcrumb(
             [
-                'href'      => $this->html->getSecureURL('catalog/collections/update', '&id=' . $collection_id),
+                'href'      => $this->html->getSecureURL('catalog/collections/update', '&id=' . $collectionId),
                 'text'      => $this->data['heading_title'],
                 'separator' => ' :: ',
             ]
@@ -630,11 +633,11 @@ class ControllerPagesCatalogCollections extends AController
         $tmpl_id = $this->request->get['tmpl_id'] ?: $this->config->get('config_storefront_template');
         $layout = new ALayoutManager($tmpl_id);
         //get existing page layout or generic
-        $page_layout = $layout->getPageLayoutIDs($page_controller, $page_key_param, $collection_id);
+        $page_layout = $layout->getPageLayoutIDs($page_controller, $page_key_param, $collectionId);
         $page_id = $page_layout['page_id'];
         $layout_id = $page_layout['layout_id'];
         $params = [
-            'id'        => $collection_id,
+            'id'        => $collectionId,
             'page_id'   => $page_id,
             'layout_id' => $layout_id,
             'tmpl_id'   => $tmpl_id,
@@ -643,7 +646,7 @@ class ControllerPagesCatalogCollections extends AController
 
         // get templates
         $this->data['templates'] = [];
-        $directories = glob(DIR_STOREFRONT . 'view/*', GLOB_ONLYDIR);
+        $directories = glob(DIR_STOREFRONT . 'view'.DS.'*', GLOB_ONLYDIR);
         foreach ($directories as $directory) {
             $this->data['templates'][] = basename($directory);
         }
@@ -745,6 +748,7 @@ class ControllerPagesCatalogCollections extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $post = $this->request->post;
+        $post['tmpl_id'] = preformatTextID($post['tmpl_id']);
         $pageData = [
             'controller' => 'pages/product/collection',
             'key_param'  => 'collection_id',

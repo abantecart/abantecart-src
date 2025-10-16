@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 
 class ADebug
 {
@@ -156,7 +155,7 @@ class ADebug
             return null;
         }
 
-        echo '<table class="mysql" cellpadding=5>
+        echo '<table class="mysql" >
             <tr>
                 <td><b>Time</b></td>
                 <td><b>File</b></td>
@@ -167,11 +166,11 @@ class ADebug
             $key = $i;
             $query = self::$queries[$key];
 
-            echo '<tr valign="top" '.($key % 2 ? 'class="even"' : '').'>
-                       <td><b>'.$query['time'].'</b></td>
-                       <td>'.$query['file'].'</td>
-                       <td>'.$query['line'].'</td>
-                       <td>'.$query['sql'].'</td>
+            echo '<tr ' . ($key % 2 ? 'class="even"' : '') . '>
+                       <td><b>' . $query['time'] . '</b></td>
+                       <td>' . $query['file'] . '</td>
+                       <td>' . $query['line'] . '</td>
+                       <td>' . $query['sql'] . '</td>
                   </tr>';
         }
         echo '</table>';
@@ -182,7 +181,7 @@ class ADebug
         if (!self::$_is_error) {
             return null;
         }
-        echo '<table class="debug_info" cellpadding=5>
+        echo '<table class="debug_info" >
                     <tr>
                         <td><b>Name</b></td>
                         <td><b>Info</b></td>
@@ -193,8 +192,8 @@ class ADebug
             if (!in_array($c['type'], $show)) {
                 continue;
             }
-            echo '<tr valign="top" class="debug_'.$c['type'].'"><td><b>'.$c['code'].'::'.$c['name'].'</b><br /></td>';
-            echo '<td>'.$c['msg'].'<br /></td>';
+            echo '<tr class="debug_' . $c['type'] . '"><td><b>' . $c['code'] . '::' . $c['name'] . '</b><br /></td>';
+            echo '<td>' . $c['msg'] . '<br /></td>';
         }
         echo '</table>';
     }
@@ -224,22 +223,22 @@ class ADebug
             case 2 :
                 // #1 + mysql site load, php file execution time and page elements load time
                 self::display_errors();
-
+                $time = 0.0;
                 //count php execution time
                 foreach (self::$checkpoints as $name => $c) {
                     if ($c['type'] != 'checkpoint') {
                         continue;
                     }
-                    if ($first == true) {
+                    if ($first) {
                         $first = false;
                         $cumulative = $c;
                     }
                     $time = sprintf("%01.4f", $c['time'] - $cumulative['time']);
                 }
                 echo '<div class="debug_info">';
-                echo 'Queries - '.count(self::$queries).'<br />';
-                echo 'Queries execution time - '.sprintf('%01.5f', self::$queries_time).'<br />';
-                echo 'PHP Execution time - '.$time.'<br />';
+                echo 'Queries - ' . count(self::$queries) . '<br />';
+                echo 'Queries execution time - ' . sprintf('%01.5f', self::$queries_time) . '<br />';
+                echo 'PHP Execution time - ' . $time . '<br />';
                 echo '</div>';
                 break;
 
@@ -249,16 +248,16 @@ class ADebug
                 // #2 + basic logs and stack of execution
                 // #3 + dump mysql statements
                 // #4 + call stack
-                echo '<table class="debug_info" cellpadding=5>
+                echo '<table class="debug_info" >
                     <tr>
                         <td><b>Name</b></td>
                         <td><b>Info</b></td>
                     </tr>';
 
                 foreach (self::$checkpoints as $c) {
-                    echo '<tr valign="top" class="debug_'.$c['type'].'" ><td><b>'.$c['name'].'</b><br /></td>';
+                    echo '<tr class="debug_' . $c['type'] . '" ><td><b>' . $c['name'] . '</b><br /></td>';
                     echo '<td>';
-                    if ($first == true && $c['type'] != 'variable') {
+                    if ($first && $c['type'] != 'variable') {
                         $previous = [
                             'time'           => $c['time'],
                             'memory'         => 0,
@@ -271,24 +270,23 @@ class ADebug
 
                     switch ($c['type']) {
                         case 'variable':
-                            echo $c['msg'].'<br />';
-                            break;
                         case 'error':
                         case 'warning':
-                            echo $c['msg'].'<br />';
+                            echo $c['msg'] . '<br />';
+                            break;
                         case 'checkpoint':
-                            echo '- Memory: '.(number_format($c['memory'] - $previous['memory'])).' ('
-                                .number_format($c['memory']).')'.'<br />';
-                            echo '- Files: '.($c['included_files'] - $previous['included_files']).' ('
-                                .$c['included_files'].')'.'<br />';
-                            echo '- Queries: '.($c['queries'] - $previous['queries']).' ('.$c['queries'].')'.'<br />';
-                            echo '- Time: '.sprintf("%01.4f", $c['time'] - $previous['time']).' ('.sprintf("%01.4f",
-                                    $c['time'] - $cumulative['time']).')'.'<br />';
+                            echo '- Memory: ' . (number_format($c['memory'] - $previous['memory'])) . ' ('
+                                . number_format($c['memory']) . ')' . '<br />';
+                            echo '- Files: ' . ($c['included_files'] - $previous['included_files']) . ' ('
+                                . $c['included_files'] . ')' . '<br />';
+                            echo '- Queries: ' . ($c['queries'] - $previous['queries']) . ' (' . $c['queries'] . ')' . '<br />';
+                            echo '- Time: ' . sprintf("%01.4f", $c['time'] - $previous['time'])
+                                . ' (' . sprintf("%01.4f", $c['time'] - $cumulative['time']) . ')' . '<br />';
                             if (self::$debug_level > 3) {
                                 self::display_queries($previous['queries'], $c['queries']);
                             }
                             if (self::$debug_level > 4) {
-                                echo '<pre>'.$c['trace'].'</pre>';
+                                echo '<pre>' . $c['trace'] . '</pre>';
                             }
                             $previous = $c;
                             break;
@@ -314,12 +312,12 @@ class ADebug
                 //log
                 $text = strip_tags(str_replace('<br />', "\r\n", $debug));
                 if ($text) {
-                    require_once(DIR_CORE.'lib/log.php');
+                    require_once(DIR_CORE . 'lib' . DS . 'log.php');
                     $registry = Registry::getInstance();
                     if ($registry->has('log')) {
                         $log = $registry->get('log');
                     } else {
-                        $log = new ALog(DIR_LOGS.'error.txt');
+                        $log = new ALog(DIR_LOGS . 'error.txt');
                     }
                     $log->write($text);
                 }

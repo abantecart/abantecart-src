@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -88,23 +88,24 @@ class ControllerPagesLocalisationLanguage extends AController
             ]
         );
 
-        $grid_search_form = [];
-        $grid_search_form['id'] = 'languages_grid_search';
-        $grid_search_form['form_open'] = $form->getFieldHtml(
-            [
-                'type'   => 'form',
-                'name'   => 'languages_grid_search',
-                'action' => '',
-            ]
-        );
-        $grid_search_form['submit'] = $form->getFieldHtml(
-            [
-                'type'  => 'button',
-                'name'  => 'submit',
-                'text'  => $this->language->get('button_go'),
-                'style' => 'button1',
-            ]
-        );
+        $grid_search_form = [
+            'id'        => 'languages_grid_search',
+            'form_open' => $form->getFieldHtml(
+                [
+                    'type'   => 'form',
+                    'name'   => 'languages_grid_search',
+                    'action' => '',
+                ]
+            ),
+            'submit'    => $form->getFieldHtml(
+                [
+                    'type'  => 'button',
+                    'name'  => 'submit',
+                    'text'  => $this->language->get('button_go'),
+                    'style' => 'button1',
+                ]
+            )
+        ];
         $grid_search_form['reset'] = $form->getFieldHtml(
             [
                 'type'  => 'button',
@@ -148,6 +149,7 @@ class ControllerPagesLocalisationLanguage extends AController
                 'width'    => 70,
                 'align'    => 'center',
                 'sorttype' => 'string',
+                'search'   => false,
             ],
             [
                 'name'     => 'sort_order',
@@ -187,7 +189,7 @@ class ControllerPagesLocalisationLanguage extends AController
                 ]
             )
         );
-
+        $this->view->assign('add_language_button', $this->html->installLanguageModal());
         $this->processTemplate('pages/localisation/language_list.tpl');
 
         //update controller data
@@ -202,6 +204,7 @@ class ControllerPagesLocalisationLanguage extends AController
         $this->document->setTitle($this->language->get('heading_title'));
         if ($this->request->is_POST() && $this->_validateForm()) {
             $language_id = $this->model_localisation_language->addLanguage($this->request->post);
+            $this->extensions->hk_ProcessData($this, __FUNCTION__, ['language_id' => $language_id]);
             $this->session->data['success'] = $this->language->get('text_success');
             redirect($this->html->getSecureURL('localisation/language/update', '&language_id=' . $language_id));
         }
@@ -215,8 +218,8 @@ class ControllerPagesLocalisationLanguage extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $language_id = (int)$this->request->get['language_id'];
-        if (!$language_id) {
+        $languageId = (int)$this->request->get['language_id'];
+        if (!$languageId) {
             redirect($this->html->getSecureURL('localisation/language'));
         }
 
@@ -227,9 +230,10 @@ class ControllerPagesLocalisationLanguage extends AController
 
         $this->document->setTitle($this->language->get('heading_title'));
         if ($this->request->is_POST() && $this->_validateForm()) {
-            $this->model_localisation_language->editLanguage($language_id, $this->request->post);
+            $this->model_localisation_language->editLanguage($languageId, $this->request->post);
+            $this->extensions->hk_ProcessData($this, __FUNCTION__, ['language_id' => $languageId]);
             $this->session->data['success'] = $this->language->get('text_success');
-            redirect($this->html->getSecureURL('localisation/language/update', '&language_id=' . $language_id));
+            redirect($this->html->getSecureURL('localisation/language/update', '&language_id=' . $languageId));
         }
         $this->_getForm();
 
@@ -258,24 +262,35 @@ class ControllerPagesLocalisationLanguage extends AController
         );
 
         $this->data['cancel'] = $this->html->getSecureURL('localisation/language');
+        $languageId = (int)$this->request->get['language_id'];
 
-        if (isset($this->request->get['language_id']) && $this->request->is_GET()) {
-            $language_info = $this->model_localisation_language->getLanguage($this->request->get['language_id']);
+        if ($languageId && $this->request->is_GET()) {
+            $languageInfo = $this->model_localisation_language->getLanguage($languageId);
         }
 
         foreach ($this->fields as $field) {
-            $this->data[$field] = $this->request->post[$field] ?? $language_info[$field] ?? '';
+            $this->data[$field] = $this->request->post[$field] ?? $languageInfo[$field] ?? '';
         }
 
-        if (!isset($this->request->get['language_id'])) {
+        if (!$languageId) {
             $this->data['action'] = $this->html->getSecureURL('localisation/language/insert');
-            $this->data['heading_title'] = $this->language->get('text_insert') . '&nbsp;' . $this->language->get('text_language');
+            $this->data['heading_title'] = $this->language->get('text_insert')
+                . '&nbsp;'
+                . $this->language->get('text_language');
             $this->data['update'] = '';
             $form = new AForm('ST');
         } else {
-            $this->data['action'] = $this->html->getSecureURL('localisation/language/update', '&language_id=' . $this->request->get['language_id']);
-            $this->data['heading_title'] = $this->language->get('text_edit') . '&nbsp;' . $this->language->get('text_language') . ' - ' . $this->data['name'];
-            $this->data['update'] = $this->html->getSecureURL('listing_grid/language/update_field', '&id=' . $this->request->get['language_id']);
+            $this->data['action'] = $this->html->getSecureURL(
+                'localisation/language/update',
+                '&language_id=' . $languageId
+            );
+            $this->data['heading_title'] = $this->language->get('text_edit')
+                . '&nbsp;' . $this->language->get('text_language')
+                . ' - ' . $this->data['name'];
+            $this->data['update'] = $this->html->getSecureURL(
+                'listing_grid/language/update_field',
+                '&id=' . $languageId
+            );
             $form = new AForm('HS');
         }
 
@@ -321,11 +336,11 @@ class ControllerPagesLocalisationLanguage extends AController
 
         $this->data['form']['fields']['status'] = $form->getFieldHtml(
             [
-                'type'     => 'checkbox',
-                'name'     => 'status',
-                'style'    => 'btn_switch',
-                'value'    => $this->data['status'],
-                'help_url' => $this->gen_help_url('status'),
+                'type'  => 'checkbox',
+                'name'  => 'status',
+                'style' => 'btn_switch',
+                'value' => $this->data['status'],
+                'attr'  => ' reload_on_save="true"'
             ]
         );
         $this->data['form']['fields']['name'] = $form->getFieldHtml([
@@ -342,6 +357,7 @@ class ControllerPagesLocalisationLanguage extends AController
                 'name'     => 'code',
                 'value'    => $this->data['code'],
                 'required' => true,
+                'attr'     => $this->data['code'] == 'en' ? ' readonly="readonly"' : '',
                 'help_url' => $this->gen_help_url('code'),
             ]
         );
@@ -352,6 +368,7 @@ class ControllerPagesLocalisationLanguage extends AController
                 'name'     => 'locale',
                 'value'    => $this->data['locale'],
                 'required' => true,
+                'attr'     => $this->data['code'] == 'en' ? ' readonly="readonly"' : '',
                 'help_url' => $this->gen_help_url('locale'),
             ]
         );
@@ -362,6 +379,7 @@ class ControllerPagesLocalisationLanguage extends AController
                 'name'     => 'directory',
                 'value'    => $this->data['directory'],
                 'required' => true,
+                'attr'     => $this->data['code'] == 'en' ? ' readonly="readonly"' : '',
                 'help_url' => $this->gen_help_url('directory'),
             ]
         );
@@ -375,13 +393,11 @@ class ControllerPagesLocalisationLanguage extends AController
             ]
         );
 
-        if (isset($this->request->get['language_id'])
-            && sizeof($this->language->getAvailableLanguages()) > 1
-        ) {
+        if ($languageId && sizeof($this->language->getAvailableLanguages()) > 1) {
             if ($this->config->get('translate_override_existing')) {
-                $this->data['override_text_note'] = sprintf(
-                    $this->language->get('text_translate_override_existing'),
-                    $this->html->getSecureURL('setting/setting/details')
+                $this->data['override_text_note'] = $this->language->getAndReplace(
+                    'text_translate_override_existing',
+                    replaces: $this->html->getSecureURL('setting/setting/details')
                 );
             }
 
@@ -409,9 +425,8 @@ class ControllerPagesLocalisationLanguage extends AController
                 ]
             );
 
-            $language_id = (int)$this->request->get['language_id'];
             $langList = array_column($this->language->getAvailableLanguages(), 'name', 'language_id');
-            unset($langList[$language_id]);
+            unset($langList[$languageId]);
             if (count($langList) > 1) {
                 $langList = ['' => $this->language->get('text_select')] + $langList;
             }
@@ -428,7 +443,7 @@ class ControllerPagesLocalisationLanguage extends AController
                 [
                     'type'  => 'hidden',
                     'name'  => 'language_id',
-                    'value' => $language_id,
+                    'value' => $languageId,
                 ]
             );
 
@@ -441,9 +456,15 @@ class ControllerPagesLocalisationLanguage extends AController
                     'options' => $translate_methods,
                 ]
             );
-            $this->data['form2']['build_task_url'] = $this->html->getSecureURL('r/localisation/language_description/buildTask');
-            $this->data['form2']['complete_task_url'] = $this->html->getSecureURL('r/localisation/language_description/complete');
-            $this->data['form']['abort_task_url'] = $this->html->getSecureURL('r/localisation/language_description/abort');
+            $this->data['form2']['build_task_url'] = $this->html->getSecureURL(
+                'r/localisation/language_description/buildTask'
+            );
+            $this->data['form2']['complete_task_url'] = $this->html->getSecureURL(
+                'r/localisation/language_description/complete'
+            );
+            $this->data['form']['abort_task_url'] = $this->html->getSecureURL(
+                'r/localisation/language_description/abort'
+            );
 
             //check for incomplete tasks
             $task_name = 'description_translation';
@@ -456,28 +477,32 @@ class ControllerPagesLocalisationLanguage extends AController
                 ]
             );
 
-            foreach ($incomplete as $incm_task) {
+            foreach ($incomplete as $incmTask) {
                 //show all incomplete tasks for Top Administrator user group
                 if ($this->user->getUserGroupId() != 1) {
-                    if ($incm_task['starter'] != $this->user->getId()) {
+                    if ($incmTask['starter'] != $this->user->getId()) {
                         continue;
                     }
                     //rename task to prevent collision with new
-                    if ($incm_task['name'] == $task_name) {
+                    if ($incmTask['name'] == $task_name) {
                         $tm->updateTask(
-                            $incm_task['task_id'],
+                            (int)$incmTask['task_id'],
                             ['name' => $task_name . '_' . date('YmdHis')]
                         );
                     }
                 }
                 //define incomplete tasks by last time run
-                $max_exec_time = (int)$incm_task['max_execution_time'];
+                $max_exec_time = (int)$incmTask['max_execution_time'];
                 if (!$max_exec_time) {
                     //if no limitations for execution time for task - think it's 2 hours
                     $max_exec_time = 7200;
                 }
-                if (time() - dateISO2Int($incm_task['last_time_run']) > $max_exec_time) {
-                    $this->data['incomplete_tasks_url'] = $this->html->getSecureURL('r/localisation/language_description/incomplete');
+                if ($incmTask['last_time_run']
+                    && time() - dateISO2Int($incmTask['last_time_run']) > $max_exec_time
+                ) {
+                    $this->data['incomplete_tasks_url'] = $this->html->getSecureURL(
+                        'r/localisation/language_description/incomplete'
+                    );
                     break;
                 }
             }
@@ -485,6 +510,7 @@ class ControllerPagesLocalisationLanguage extends AController
             $this->data['entry_create_language_note'] = $this->language->get('create_language_note');
         }
 
+        $this->view->assign('list_url', $this->html->getSecureURL('localisation/language', '&saved_list=language_grid'));
         $this->view->assign('help_url', $this->gen_help_url('language_edit'));
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/localisation/language_form.tpl');
@@ -498,6 +524,16 @@ class ControllerPagesLocalisationLanguage extends AController
         $len = mb_strlen($this->request->post['name']);
         if ($len < 2 || $len > 32) {
             $this->error['name'] = $this->language->get('error_name');
+        }
+
+        if (!$this->request->post['status']) {
+            $sql = "SELECT *
+                FROM " . $this->db->table("languages") . "
+                WHERE language_id <> " . (int)$this->request->get['language_id'] . " AND status = 1";
+            $query = $this->db->query($sql);
+            if (!$query->num_rows) {
+                $this->error['status'] = $this->language->get('error_all_disabled');
+            }
         }
 
         if (mb_strlen($this->request->post['code']) < 2) {

@@ -20,8 +20,8 @@ include($tpl_common_dir . 'action_confirm.tpl'); ?>
             /** @see public_html/admin/view/default/template/common/grid_search_form.tpl */
             include($tpl_common_dir . 'grid_search_form.tpl');?>
 		</div>
-
         <?php
+        echo $add_language_button;
         /** @see public_html/admin/view/default/template/common/content_buttons.tpl */
         include($tpl_common_dir . 'content_buttons.tpl'); ?>
 	</div>

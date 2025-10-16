@@ -1,21 +1,21 @@
 <?php
 /*
- * $Id$
+ *   $Id$
  *
- * AbanteCart, Ideal OpenSource Ecommerce Solution
- * http://www.AbanteCart.com
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
  *
- * Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
- * This source file is subject to Open Software License (OSL 3.0)
- * License details is bundled with this package in the file LICENSE.txt.
- * It is also available at this URL:
- * <http://www.opensource.org/licenses/OSL-3.0>
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
  *
- * UPGRADE NOTE:
- * Do not edit or add to this file if you wish to upgrade AbanteCart to newer
- * versions in the future. If you wish to customize AbanteCart for your
- * needs please refer to http://www.AbanteCart.com for more information.
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 class ControllerPagesCatalogAttribute extends AController
@@ -194,7 +194,7 @@ class ControllerPagesCatalogAttribute extends AController
     protected function _getForm()
     {
         $this->data = $attribute_type_info = [];
-        $this->data['error_warning'] = implode("\n", $this->error);
+        $this->data['error_warning'] = implode(PHP_EOL, $this->error);
 
         $this->data['cancel'] = $this->html->getSecureURL('catalog/attribute');
         $this->data['get_attribute_type'] = $this->html->getSecureURL('r/catalog/attribute/get_attribute_type');
@@ -214,7 +214,7 @@ class ControllerPagesCatalogAttribute extends AController
 
         if ($attribute_id && $this->request->is_GET()) {
             $attribute_info = $this->attribute_manager->getAttribute(
-                $this->request->get['attribute_id'],
+                $attribute_id,
                 $this->language->getContentLanguageID()
             );
 

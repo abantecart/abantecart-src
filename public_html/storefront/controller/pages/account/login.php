@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details is bundled with this package in the file LICENSE.txt.
@@ -47,22 +47,18 @@ class ControllerPagesAccountLogin extends AController
             } else {
                 if (isset($this->request->post['account'])) {
                     $this->session->data['account'] = $this->request->post['account'];
-
                     if ($this->request->post['account'] == 'register') {
                         redirect($this->html->getSecureURL('account/create'));
                     }
-
                     if ($this->request->post['account'] == 'guest') {
                         redirect($this->html->getSecureURL('checkout/fast_checkout'));
                     }
                 }
                 //support old email based login
-                $loginname = (isset($this->request->post['loginname'])) ? $this->request->post['loginname'] : $this->request->post['email'];
+                $loginname = $this->request->post['loginname'] ?? $this->request->post['email'];
                 $password = $this->request->post['password'];
                 if (isset($loginname) && isset($password) && $this->_validate($loginname, $password)) {
-                    unset($this->session->data['guest']);
-                    unset($this->session->data['account']);
-
+                    unset($this->session->data['guest'], $this->session->data['account']);
                     $address_id = $this->customer->getAddressId();
                     $this->loadModel('account/address');
                     $address = $this->model_account_address->getAddress($address_id);
@@ -118,24 +114,27 @@ class ControllerPagesAccountLogin extends AController
                 'href'      => $this->html->getHomeURL(),
                 'text'      => $this->language->get('text_home'),
                 'separator' => false,
-            ]);
+            ]
+        );
 
         $this->document->addBreadcrumb(
             [
                 'href'      => $this->html->getSecureURL('account/account'),
                 'text'      => $this->language->get('text_account'),
                 'separator' => $this->language->get('text_separator'),
-            ]);
+            ]
+        );
 
         $this->document->addBreadcrumb(
             [
                 'href'      => $this->html->getSecureURL('account/login'),
                 'text'      => $this->language->get('text_login', 'account/login'),
                 'separator' => $this->language->get('text_separator'),
-            ]);
+            ]
+        );
 
         $this->view->assign('error', '');
-        if (isset($this->error['message'])) {
+        if ($this->error['message']) {
             $this->view->assign('error', $this->error['message']);
         }
 
@@ -177,7 +176,8 @@ class ControllerPagesAccountLogin extends AController
                 'type' => 'submit',
                 'name' => $this->language->get('button_continue'),
                 'icon' => 'fa fa-check',
-            ]);
+            ]
+        );
 
         //second form
         $form = new AForm();
@@ -200,30 +200,49 @@ class ControllerPagesAccountLogin extends AController
                 'type'  => 'input',
                 'name'  => 'loginname',
                 'value' => $loginname,
-            ]);
+            ]
+        );
         //support old email based logging. Remove in the future
         $this->data['form2']['email'] = $form->getFieldHtml(
             [
                 'type'  => 'input',
                 'name'  => 'email',
                 'value' => $loginname,
-            ]);
+            ]
+        );
         $this->data['form2']['password'] = $form->getFieldHtml(
             [
                 'type' => 'password',
                 'name' => 'password',
-            ]);
+            ]
+        );
         $this->data['form2']['login_submit'] = $form->getFieldHtml(
             [
                 'type' => 'submit',
                 'name' => $this->language->get('button_login'),
                 'icon' => 'fa fa-lock',
-            ]);
+            ]
+        );
 
         $this->view->assign('success', '');
         if (isset($this->session->data['success'])) {
             $this->view->assign('success', $this->session->data['success']);
             unset($this->session->data['success']);
+        } elseif (!$this->customer->isLogged()
+            && $this->customer->isUnauthCustomer()
+            && !$this->config->get('config_unauth_customer')
+        ) {
+            $this->view->assign(
+                'success',
+                $this->language->getAndReplace(
+                    'welcome_unauth_customer',
+                    'account/login',
+                    replaces: [
+                        $this->customer->getUnauthName(),
+                        $this->html->getSecureURL('account/login/clearUnauthCustomer')
+                    ]
+                )
+            );
         }
 
         $this->data['forgotten_pass'] = $this->html->getSecureURL('account/forgotten/password');
@@ -233,14 +252,12 @@ class ControllerPagesAccountLogin extends AController
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/account/login.tpl');
 
-        //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _validate($loginname, $password)
+    protected function _validate($loginname, $password)
     {
         if ($this->customer->login($loginname, $password) !== true) {
-
             if ($this->config->get('config_customer_email_activation')) {
                 //check if account is not confirmed in the email.
                 $this->loadModel('account/customer');
@@ -252,9 +269,9 @@ class ControllerPagesAccountLogin extends AController
                 ) {
                     //show link for resend activation code to email
                     $enc = new AEncryption($this->config->get('encryption_key'));
-                    $rid = $enc->encrypt($customer_info['customer_id'].'::'.$customer_info['data']['email_activation']);
+                    $rid = $enc->encrypt($customer_info['customer_id'] . '::' . $customer_info['data']['email_activation']);
                     $this->error['message'] .= sprintf($this->language->get('text_resend_activation_email'),
-                        "\n".$this->html->getSecureURL('account/create/resend', '&rid='.$rid)
+                        "\n" . $this->html->getSecureURL('account/create/resend', '&rid=' . $rid)
                     );
                     return false;
                 }
@@ -274,11 +291,18 @@ class ControllerPagesAccountLogin extends AController
         }
 
         $this->extensions->hk_ValidateData($this);
+        return (!$this->error);
+    }
 
-        if (!$this->error) {
-            return true;
-        } else {
-            return false;
+    public function clearUnauthCustomer()
+    {
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+        if ($this->customer->isUnauthCustomer()) {
+            $this->customer->clearUnauthCustomer();
         }
+
+        $this->data['redirect_url'] = $this->html->getHomeURL();
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        redirect($this->data['redirect_url']);
     }
 }

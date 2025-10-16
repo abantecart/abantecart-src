@@ -59,45 +59,11 @@ class ControllerPagesDesignLayout extends AController
 
         $layout_data['page_url'] = $this->html->getSecureURL('design/layout');
 
-        $allPages = $this->layout->getAllPages();
-        $pageGroups = array_merge($this->layout::PAGE_GROUPS, (array)$this->data['page_groups']);
-        $layoutPages = [];
-        foreach ($allPages as $page) {
-            $httpQuery = [
-                'page_id'   => $page['page_id'],
-                'layout_id' => $page['layout_id'],
-                'tmpl_id'   => $templateTxtId
-            ];
-            $page['url'] = $this->html->getSecureURL('design/layout', '&' . http_build_query($httpQuery));
-            if (!$page['restricted']) {
-                $page['delete_url'] = $this->html->getSecureURL(
-                    'design/layout/delete',
-                    '&' . http_build_query($httpQuery)
-                );
-            }
-            $pageGroup = array_filter(
-                array_keys($pageGroups),
-                function ($controller) use ($page) {
-                    return str_starts_with($page['controller'], $controller);
-                }
-            );
-            if ($pageGroup) {
-                $k = current($pageGroup);
-                if (!$layoutPages[$k]) {
-                    $layoutPages[$k] = [
-                        'id'          => 'dp' . preformatTextID($k),
-                        'name'        => $pageGroups[$k],
-                        'layout_name' => $pageGroups[$k],
-                        'restricted'  => true
-                    ];
-                }
-                $layoutPages[$k]['children'][] = $page;
-            } else {
-                $layoutPages[] = $page;
-            }
-        }
-
-        $layout_data['pages'] = $layoutPages;
+        $layout_data['pages'] = buildPageLayoutTree(
+            $this->layout,
+            $templateTxtId,
+            [ 'page_groups' => (array)$this->data['page_groups'] ]
+        );
 
         $params = [
             'page_id'   => $layout_data['current_page']['page_id'],

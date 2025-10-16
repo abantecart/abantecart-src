@@ -45,7 +45,29 @@
                 } else {
                     echo $payments_selection;
                     echo $shipping_selection;
-                    echo $language_selection;
+                    $list = ['<div style="display: inline-block; overflow-x: scroll; min-height:94px;">'];
+                    foreach((array)$language_packages as $langPack){
+                        $list[] = '<a style="display:inline-block; min-width: 100px; margin-top:20px; " class="install-language" href="'.$langPack['install_url'].'">'
+                                .'<img src="'.$langPack['image_url'].'" alt="'.html2view($langPack['name']).'" style="width:20px">'.$langPack['name'].'</a>';
+                    }
+                    $list[] = '</div>';
+                    echo sprintf($language_selection,implode("\n",$list));
+                ?>
+                <form id="installFrm" method="post" enctype="application/x-www-form-urlencoded" action="<?php echo $this->html->getSecureUrl('tool/package_installer/upload'); ?>">
+                    <input type="hidden" name="package_url" value="">
+                </form>
+                <script>
+                    $(document).ready(function(){
+                        $('.install-language').on('click',function(e){
+                            e.preventDefault();
+                            const url = $(this).attr('href');
+                            $('input[name="package_url"]').val(url);
+                            $('#installFrm').submit();
+                        });
+                    })
+                </script>
+
+                    <?php
                     echo $more_extensions; ?>
                     <br/>
                     <br/>

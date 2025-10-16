@@ -1,5 +1,6 @@
+<?php /** @var AController|AView $this */?>
 <div>
-    <form id="search_form" action="<?php echo HTTPS_SERVER.INDEX_FILE; ?>" class="d-flex form-search top-search">
+    <form id="search_form" action="<?php echo $this->html->getHomeURL(); ?>" class="d-flex form-search top-search">
         <input type="hidden" name="rt" value="content/content/list"/>
         <div class="input-group">
             <input type="text"

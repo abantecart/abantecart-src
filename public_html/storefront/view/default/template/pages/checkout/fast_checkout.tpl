@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function load() {
 
         <?php //run onload validation only for registered customers
         if($this->customer->isLogged()){ ?>
-            $('form#PayFrm, form#AddressFrm, form#Address2Frm').each( function(e){
+            $('form#PayFrm, form#AddressFrm, form#GuestCheckoutFrm').each( function(e){
                validateForm($(this));
             });
         <?php } ?>

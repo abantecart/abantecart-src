@@ -32,6 +32,11 @@ final class ASession
      */
     public function __construct($ses_name = '')
     {
+        $savePathCheck = check_session_save_path();
+
+        if($savePathCheck){
+            exit($savePathCheck['title'].PHP_EOL.$savePathCheck['body']);
+        }
 
         if (class_exists('Registry')) {
             $this->registry = Registry::getInstance();

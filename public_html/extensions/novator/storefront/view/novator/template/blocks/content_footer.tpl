@@ -1,4 +1,4 @@
-<div class="content-footer">
+<div class="content-footer footer-content-menu">
 <?php
     $contents[] = [
             'text' => $text_contact,
@@ -20,6 +20,7 @@
             'text' => $text_cart,
             'href' => $cart
     ];
-    echo renderSFMenuNv($contents);
+
+    echo renderNVNestedMenu($contents,['parent_css' => ' parent-ul border-0 d-flex mx-auto list-unstyled align-items-start mb-0 justify-content-between px-0' ]);
 ?>
 </div>

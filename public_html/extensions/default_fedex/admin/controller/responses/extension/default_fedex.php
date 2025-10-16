@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-   $Id$
-
-   AbanteCart, Ideal OpenSource Ecommerce Solution
-   http://www.AbanteCart.com
-
-   Copyright © 2011-2020 Belavier Commerce LLC
-
-   This source file is subject to Open Software License (OSL 3.0)
-   Lincence details is bundled with this package in the file LICENSE.txt.
-   It is also available at this URL:
-   <http://www.opensource.org/licenses/OSL-3.0>
-
-  UPGRADE NOTE:
-	Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-	versions in the future. If you wish to customize AbanteCart for your
-	needs please refer to http://www.AbanteCart.com for more information.
- ------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!IS_ADMIN || !defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -89,12 +89,12 @@ class ControllerResponsesExtensionDefaultFedex extends AController
 
     private function _processRequest($address)
     {
-        require_once(DIR_EXT.'default_fedex/core/lib/fedex_func.php');
+        require_once(DIR_EXT.'default_fedex'.DS.'core'.DS.'lib'.DS.'fedex_func.php');
 
         if ($this->cfg['default_fedex_test']) {
-            $path_to_wsdl = DIR_EXT.'default_fedex/core/lib/RateService_v9_test.wsdl';
+            $path_to_wsdl = DIR_EXT.'default_fedex'.DS.'core'.DS.'lib'.DS.'RateService_v9_test.wsdl';
         } else {
-            $path_to_wsdl = DIR_EXT.'default_fedex/core/lib/RateService_v9.wsdl';
+            $path_to_wsdl = DIR_EXT.'default_fedex'.DS.'core'.DS.'lib'.DS.'RateService_v9.wsdl';
         }
         $client = new SoapClient($path_to_wsdl, ['trace' => 1]); // Refer to http://us3.php.net/manual/en/ref.soap.php for more information
 

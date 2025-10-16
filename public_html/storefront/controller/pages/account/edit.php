@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -24,10 +24,10 @@ if (!defined('DIR_CORE')) {
 class ControllerPagesAccountEdit extends AController
 {
     public $error = [];
+    public static $formTxtId = 'CustomerFrm';
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -37,21 +37,27 @@ class ControllerPagesAccountEdit extends AController
         }
 
         $this->document->setTitle($this->language->get('heading_title'));
-
         /** @var ModelAccountCustomer $mdl */
         $mdl = $this->loadModel('account/customer');
 
-        $request_data = $this->request->post;
+        $post = $this->request->post;
         if ($this->request->is_POST()) {
             if ($this->csrftoken->isTokenValid()) {
-                $this->error = $mdl->validateEditData($request_data);
+                // validation based on field settings
+                $this->validateForm($post);
+                if (!isset($post['loginname'])) {
+                    unset($this->error['loginname']);
+                }
+
+                //validation of IM-setting
+                $this->error = array_merge($this->error, $mdl->validateEditData($post));
                 //if no update for loginname do not allow edit of username/loginname
                 if (!$this->customer->isLoginnameAsEmail()) {
-                    $request_data['loginname'] = null;
+                    $post['loginname'] = null;
                 } else {
                     //if allow login as email, need to set loginname = email in case email changed
                     if (!$this->config->get('prevent_email_as_login')) {
-                        $request_data['loginname'] = $request_data['email'];
+                        $post['loginname'] = $post['email'];
                     }
                 }
             } else {
@@ -59,8 +65,14 @@ class ControllerPagesAccountEdit extends AController
             }
 
             if (!$this->error) {
-                $mdl->editCustomer($request_data);
-                $mdl->editCustomerNotifications($request_data);
+                unset(
+                    $post['confirm'],
+                    $post['agree'],
+                    $post['csrftoken'],
+                    $post['csrfinstance']
+                );
+                $mdl->editCustomer($post);
+                $mdl->editCustomerNotifications($post);
                 $this->session->data['success'] = $this->language->get('text_success');
                 $this->extensions->hk_ProcessData($this);
                 redirect($this->html->getSecureURL('account/account'));
@@ -78,76 +90,37 @@ class ControllerPagesAccountEdit extends AController
 
         $this->document->addBreadcrumb(
             [
-            'href'      => $this->html->getHomeURL(),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
+                'href'      => $this->html->getHomeURL(),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
             ]
         );
 
         $this->document->addBreadcrumb(
             [
-            'href'      => $this->html->getSecureURL('account/account'),
-            'text'      => $this->language->get('text_account'),
-            'separator' => $this->language->get('text_separator'),
+                'href'      => $this->html->getSecureURL('account/account'),
+                'text'      => $this->language->get('text_account'),
+                'separator' => $this->language->get('text_separator'),
             ]
         );
 
         $this->document->addBreadcrumb(
             [
-            'href'      => $this->html->getSecureURL('account/edit'),
-            'text'      => $this->language->get('text_edit'),
-            'separator' => $this->language->get('text_separator'),
+                'href'      => $this->html->getSecureURL('account/edit'),
+                'text'      => $this->language->get('text_edit'),
+                'separator' => $this->language->get('text_separator'),
             ]
         );
 
-        $this->view->assign('error_warning', $this->error['warning']);
-        $this->view->assign('error_loginname', $this->error['loginname']);
-        $this->view->assign('error_firstname', $this->error['firstname']);
-        $this->view->assign('error_lastname', $this->error['lastname']);
-        $this->view->assign('error_email', $this->error['email']);
-        $this->view->assign('error_telephone', $this->error['telephone']);
+        $customerInfo = $this->model_account_customer->getCustomer($this->customer->getId());
 
-        if ($this->request->is_GET()) {
-            $customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
-        }
-
-        $loginname = $firstname = $lastname = $email = $telephone = '';
-        if (isset($request_data['loginname'])) {
-            $loginname = $request_data['loginname'];
-        } elseif (isset($customer_info)) {
-            $loginname = $customer_info['loginname'];
-        }
-
-        if (isset($request_data['firstname'])) {
-            $firstname = $request_data['firstname'];
-        } elseif (isset($customer_info)) {
-            $firstname = $customer_info['firstname'];
-        }
-
-        if (isset($request_data['lastname'])) {
-            $lastname = $request_data['lastname'];
-        } elseif (isset($customer_info)) {
-            $lastname = $customer_info['lastname'];
-        }
-
-        if (isset($request_data['email'])) {
-            $email = $request_data['email'];
-        } elseif (isset($customer_info)) {
-            $email = $customer_info['email'];
-        }
-
-        if (isset($request_data['telephone'])) {
-            $telephone = $request_data['telephone'];
-        } elseif (isset($customer_info)) {
-            $telephone = $customer_info['telephone'];
-        }
 
         $form = new AForm();
-        $form->setForm(['form_name' => 'AccountFrm']);
+        $form->setForm(['form_name' => static::$formTxtId]);
         $this->data['form']['form_open'] = $form->getFieldHtml(
             [
                 'type'   => 'form',
-                'name'   => 'AccountFrm',
+                'name'   => static::$formTxtId,
                 'action' => $this->html->getSecureURL('account/edit'),
                 'csrf'   => true,
             ]
@@ -155,51 +128,49 @@ class ControllerPagesAccountEdit extends AController
 
         $this->data['reset_loginname'] = $reset_loginname;
 
-        if ($reset_loginname) {
-            $this->data['form']['fields']['loginname'] = $form->getFieldHtml(
-                [
-                    'type'     => 'input',
-                    'name'     => 'loginname',
-                    'value'    => $loginname,
-                    'style'    => 'highlight',
-                    'required' => true,
-                ]
-            );
-        } else {
-            $this->data['form']['fields']['loginname'] = $loginname;
+        $form->loadFromDb(static::$formTxtId);
+        $formElements = $form->getFormElements();
+        $this->data['error_warning'] = $this->error['warning'];
+        $countryId = $this->request->post['country_id']
+            ?? $customerInfo['country_id']
+            ?? $this->config->get('config_country_id');
+        $zoneId = $this->request->post['zone_id']
+            ?? $customerInfo['zone_id']
+            ?? $this->config->get('config_zone_id');
+
+
+        foreach ($formElements as $group => $elements) {
+            foreach ($elements as $name => $element) {
+                //error messages
+                $this->data['error_' . $name] = $this->error[$name];
+                $this->data['entry_' . $name] = $element->display_name ?: $this->language->get('entry_' . $name);
+                $elmValue = $this->request->post[$name]
+                    ?: $customerInfo[$name]
+                        //take extended fields value
+                        ?: $customerInfo['ext_fields'][$name];
+
+                if ($name == 'country_id') {
+                    $element->value = $countryId;
+                } elseif ($name == 'zone_id') {
+                    $element->value = $countryId;
+                    $element->zone_value = $zoneId;
+                    //set zone_id as value for select[option]
+                    $element->submit_mode = 'id';
+                    //show only zone selector
+                    $element->zone_only = true;
+                }elseif($element->type == 'checkbox'){
+                    $element->value = $element->value ?? 1;
+                    $element->checked = $element->value == $elmValue;
+                } else {
+                    $element->value = $elmValue;
+                }
+                $this->data['form']['fields'][$group][$name] = $element;
+                if ($name=='loginname' && !$reset_loginname) {
+                    $this->data['form']['fields'][$group]['loginname'] = $element->value;
+                }
+            }
         }
 
-        $this->data['form']['fields']['firstname'] = $form->getFieldHtml(
-            [
-                'type'     => 'input',
-                'name'     => 'firstname',
-                'value'    => $firstname,
-                'required' => true,
-            ]
-        );
-        $this->data['form']['fields']['lastname'] = $form->getFieldHtml(
-            [
-                'type'     => 'input',
-                'name'     => 'lastname',
-                'value'    => $lastname,
-                'required' => true,
-            ]
-        );
-        $this->data['form']['fields']['email'] = $form->getFieldHtml(
-            [
-                'type'     => 'input',
-                'name'     => 'email',
-                'value'    => $email,
-                'required' => true,
-            ]
-        );
-        $this->data['form']['fields']['telephone'] = $form->getFieldHtml(
-            [
-                'type'  => 'input',
-                'name'  => 'telephone',
-                'value' => $telephone,
-            ]
-        );
 
         //get only active IM drivers
         $im_drivers = $this->im->getIMDriverObjects();
@@ -208,44 +179,64 @@ class ControllerPagesAccountEdit extends AController
                 if (!is_object($driver_obj) || $protocol == 'email') {
                     continue;
                 }
-
-                if (isset($request_data[$protocol])) {
-                    $value = $request_data[$protocol];
-                } elseif (isset($customer_info)) {
-                    $value = $customer_info[$protocol];
-                }else{
-                    $value = null;
-                }
-
+                $value = $post[$protocol] ?? $customerInfo[$protocol];
                 $fld = $driver_obj->getURIField($form, $value);
-                $this->data['form']['fields'][$protocol] = $fld;
-                $this->data['entry_'.$protocol] = $fld->label_text;
-                $this->data['error_'.$protocol] = $this->error[$protocol];
+                $this->data['form']['fields']['general'][$protocol] = $fld;
+                $this->data['entry_' . $protocol] = $fld->label_text;
+                $this->data['error_' . $protocol] = $this->error[$protocol];
             }
         }
 
-        $this->data['form']['continue'] = $form->getFieldHtml(
+        $this->data['form']['continue'] = // backward compatibility. Todo: Remove in the 1.5
+        $this->data['form']['submit'] = $form->getFieldHtml(
             [
+                'id'   => 'submit_button',
                 'type' => 'submit',
-                'icon' => 'fa fa-check',
                 'name' => $this->language->get('button_continue'),
             ]
         );
         $this->data['form']['back'] = $form->getFieldHtml(
             [
-                'type'  => 'button',
-                'name'  => 'back',
-                'style' => 'button',
-                'icon'  => 'fa fa-arrow-left',
-                'text'  => $this->language->get('button_back'),
+                'type' => 'button',
+                'name' => 'back',
+                'text' => $this->language->get('button_back'),
+                'href' => $this->html->getSecureURL('account/account')
             ]
         );
-        $this->data['back'] = $this->html->getSecureURL('account/account');
-       
+
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/account/edit.tpl');
 
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
+
+    protected function validateForm(array &$data)
+    {
+        if (!$this->csrftoken->isTokenValid()) {
+            $this->error['warning'] = $this->language->get('error_unknown');
+        }
+
+        $form = new AForm();
+        $form->loadFromDb(static::$formTxtId);
+        $this->error = $form->validateFormData($data);
+        if (!isset($data['loginname'])) {
+            unset($this->error['loginname']);
+        }
+        if(!$this->error) {
+            $fList = $form->getFields();
+            if ($fList) {
+                foreach ($fList as $fName => $f) {
+                    //if the field is checkbox and not present in the post-data - set it null
+                    if (in_array($f['element_type'],['C','G','M' ]) && !isset($data[$fName])) {
+                        $data[$fName] = null;
+                    }
+                }
+            }
+        }
+
+        $this->extensions->hk_ValidateData($this, ['indata' => $data]);
+
+        return (!$this->error);
     }
 }

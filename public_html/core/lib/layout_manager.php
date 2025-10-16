@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpReturnValueOfMethodIsNeverUsedInspection */
 /*
  *   $Id$
  *
@@ -116,7 +116,7 @@ class ALayoutManager
             }
 
             //check if this is template from core
-            if (!$is_valid && is_dir(DIR_ROOT . '/storefront/view/' . $template)) {
+            if (!$is_valid && is_dir(DIR_ROOT . DS . 'storefront' . DS . 'view' . DS . $template)) {
                 $is_valid = true;
             }
 
@@ -204,7 +204,7 @@ class ALayoutManager
      */
     public function getTemplateList(?bool $enabled = null)
     {
-        $directories = glob(DIR_STOREFRONT . 'view/*', GLOB_ONLYDIR) ?: [];
+        $directories = glob(DIR_STOREFRONT . 'view' . DS . '*', GLOB_ONLYDIR) ?: [];
         $layout_data['templates'] = array_map('basename', $directories);
 
         $filter = [
@@ -265,12 +265,12 @@ class ALayoutManager
         return $pageControllers;
     }
 
-    protected function detectSfController($rt, $extension_id = '')
+    protected function detectSfController($rt, $extTxtId = '')
     {
-        if (!$extension_id) {
-            $dir_app = DIR_APP_SECTION . 'controller/';
+        if (!$extTxtId) {
+            $dirApp = DIR_APP_SECTION . 'controller' . DS;
         } else {
-            $dir_app = DIR_EXT . $extension_id . DIR_EXT_STORE . 'controller/';
+            $dirApp = DIR_EXT . $extTxtId . DIR_EXT_STORE . 'controller' . DS;
         }
         $path_nodes = explode('/', $rt);
         $path_build = '';
@@ -279,13 +279,13 @@ class ALayoutManager
         foreach ($path_nodes as $path_node) {
             $path_node = trim($path_node);
             $path_build .= $path_node;
-            if (is_dir($dir_app . $path_build)) {
+            if (is_dir($dirApp . str_replace('/', DS, $path_build))) {
                 $path_build .= '/';
                 array_shift($path_nodes);
                 continue;
             }
 
-            if (is_file($dir_app . $path_build . '.php')) {
+            if (is_file($dirApp . str_replace('/', DS, $path_build . '.php'))) {
                 //Controller found. Save information and return TRUE
                 //Set controller and method for future use
                 $output['name'] = 'Controller'
@@ -296,7 +296,7 @@ class ALayoutManager
                         )
                     );
                 $output['rt'] = $path_build;
-                $output['path'] = $dir_app . $path_build . '.php';
+                $output['path'] = $dirApp . str_replace('/', DS, $path_build) . '.php';
 
                 //Last part is the method of function to call
                 array_shift($path_nodes);
@@ -331,7 +331,7 @@ class ALayoutManager
             $template_id = $this->tmpl_id;
         }
 
-        $language_id = $this->language?->getContentLanguageID()?:1;
+        $language_id = $this->language?->getContentLanguageID() ?: 1;
         $where = "WHERE l.template_id = '" . $this->db->escape($template_id) . "' ";
         if (!empty($controller)) {
             $where .= " AND p.controller = '" . $this->db->escape($controller) . "' ";
@@ -723,7 +723,7 @@ class ALayoutManager
             if ((string)$block['parent_instance_id'] == (string)$parent_instance_id) {
                 //locate block template assigned based on parent block ID
                 $block['template'] = $this->getBlockTemplate($block['block_id'], $parent_block_id);
-                array_push($blocks, $block);
+                $blocks[] = $block;
             }
         }
         return $blocks;
@@ -926,8 +926,8 @@ class ALayoutManager
             $block = $this->getLayoutBlockByTxtId($placeholder);
             if (!empty ($block)) {
                 list($block['block_id'], $block['custom_block_id']) = explode("_", $block ['block_id']);
-                if ($data['blocks'][ $block['block_id'] ]) {
-                    $block = array_merge($block, $data['blocks'][ $block ['block_id'] ]);
+                if ($data['blocks'][$block['block_id']]) {
+                    $block = array_merge($block, $data['blocks'][$block ['block_id']]);
                     if ($new_layout) {
                         $block ['layout_id'] = $this->layout_id;
                         $instance_id = $this->saveLayoutBlocks($block);
@@ -935,12 +935,12 @@ class ALayoutManager
                         $instance_id = $this->saveLayoutBlocks($block, $block ['instance_id']);
                     }
 
-                    if( isset($data['blocks'][ $block ['block_id'] ]['children'])) {
+                    if (isset($data['blocks'][$block ['block_id']]['children'])) {
                         $this->deleteLayoutBlocks($this->layout_id, $instance_id);
 
-                        foreach( $data['blocks'][ $block['block_id'] ]['children'] as $key => $block_data) {
+                        foreach ($data['blocks'][$block['block_id']]['children'] as $key => $block_data) {
                             $child = [];
-                            if($block_data) {
+                            if ($block_data) {
                                 $child['layout_id'] = $this->layout_id;
                                 list(
                                     $child['block_id'],
@@ -1492,7 +1492,7 @@ class ALayoutManager
             }
         }
         // save block descriptions bypass
-        $data['block_descriptions'] = $data['block_descriptions'] ??  [$data['block_description']];
+        $data['block_descriptions'] = $data['block_descriptions'] ?? [$data['block_description']];
         if ($data['block_descriptions']) {
             foreach ($data['block_descriptions'] as $block_description) {
                 if (!isset($block_description ['language_id']) && $block_description ['language_name']) {
@@ -1555,7 +1555,6 @@ class ALayoutManager
 
         $sql = "UPDATE " . $this->db->table('block_layouts') . " SET status=" . $status . " WHERE " . $where;
         $this->db->query($sql);
-
         return true;
     }
 
@@ -1606,20 +1605,16 @@ class ALayoutManager
                     [(int)$description['language_id'] => $update]
                 );
             }
-
-            $this->cache->remove('layout');
-            return $custom_block_id;
         } else {
             if (!$block_id) {
                 $this->errors = 'Error: Can\'t save custom block, because block_id is empty!';
                 return false;
             }
             $this->db->query(
-                "INSERT INTO " . $this->db->table("custom_blocks") . " (block_id, date_added) VALUES ( '"
-                . $block_id . "', NOW())"
+                "INSERT INTO " . $this->db->table("custom_blocks") . " (block_id, date_added) 
+                VALUES ( '" . $block_id . "', NOW())"
             );
             $custom_block_id = $this->db->getLastId();
-
             $this->language->replaceDescriptions('block_descriptions',
                 ['custom_block_id' => (int)$custom_block_id],
                 [
@@ -1633,10 +1628,9 @@ class ALayoutManager
                     ],
                 ]
             );
-
-            $this->cache->remove('layout');
-            return $custom_block_id;
         }
+        $this->cache->remove('layout');
+        return $custom_block_id;
     }
 
     /**
@@ -2421,10 +2415,10 @@ class ALayoutManager
                                 //if loading language does not exist or installed, log error on update
                                 if (!$language_id) {
                                     $error = "ALayout_manager Error. Unknown language for block descriptions.'."
-                                        . "(Block_id=" . $block_id . ", name=" . (string)$block_description->name . ", "
-                                        . "title=" . (string)$block_description->title . ", "
-                                        . "description=" . (string)$block_description->description . ", "
-                                        . "content=" . (string)$block_description->content . ", "
+                                        . "(Block_id=" . $block_id . ", name=" . $block_description->name . ", "
+                                        . "title=" . $block_description->title . ", "
+                                        . "description=" . $block_description->description . ", "
+                                        . "content=" . $block_description->content . ", "
                                         . ")";
                                     $this->log->write($error);
                                     $this->message->saveError('layout import error', $error);
@@ -2571,7 +2565,7 @@ class ALayoutManager
         // get custom block by name and base block id
         $custom_block_info = $this->getBlocksList(
             [
-                'subsql_filter' => "bd.name = '" . (string)$block->custom_block_txt_id
+                'subsql_filter' => "bd.name = '" . $block->custom_block_txt_id
                     . "' AND cb.block_id='" . $block_id . "'",
             ]
         );
@@ -2752,7 +2746,7 @@ class ALayoutManager
         //get block custom
         $custom_block_info = $this->getBlocksList(
             [
-                'subsql_filter' => "bd.name = '" . (string)$block->custom_block_txt_id
+                'subsql_filter' => "bd.name = '" . $block->custom_block_txt_id
                     . "' AND cb.block_id='" . $block_id . "'",
             ]
         );
@@ -2842,13 +2836,12 @@ class ALayoutManager
             case 'Default':
             case 'General':
                 return 0;
-            case 'Active':
-                return 1;
             case 'Draft':
                 return 2;
             case 'Template':
                 return 3;
             default:
+                //'Active'
                 return 1;
         }
     }

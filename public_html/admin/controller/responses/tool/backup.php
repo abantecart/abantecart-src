@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -60,7 +59,7 @@ class ControllerResponsesToolBackup extends AController
                 return;
             } else {
                 $task_details['task_api_key'] = $task_api_key;
-                $task_details['url'] = HTTPS_SERVER.'task.php';
+                $task_details['url'] = HTTPS_SERVER . 'task.php';
                 $this->data['output']['task_details'] = $task_details;
             }
         }
@@ -81,7 +80,7 @@ class ControllerResponsesToolBackup extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $task_id = (int) $this->request->post['task_id'];
+        $task_id = (int)$this->request->post['task_id'];
         $result_text = '';
         if ($task_id) {
             $backup_name = '';
@@ -90,32 +89,18 @@ class ControllerResponsesToolBackup extends AController
             $steps = $tm->getTaskSteps($task_id);
             if ($steps) {
                 $step_info = current($steps);
-                $backup_name = $step_info['settings']['backup_name'];
-                $backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+                $backup_name = $step_info['settings']['backup_name'] ?: 'manual_backup';
             }
             $tm->deleteTask($task_id);
-            $install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
 
-            $display_name = '';
-            if (is_file(DIR_BACKUP.$backup_name.'.tar.gz')) {
-                $display_name = $backup_name.'.tar.gz';
+            if (is_file(DIR_BACKUP . $backup_name . '.tar.gz')) {
                 $result_text = $this->html->convertLinks($this->language->get('backup_complete_text_file'));
-            } elseif (is_dir(DIR_BACKUP.$backup_name)) {
-                $display_name = $backup_name.'/...';
-                $result_text = sprintf($this->language->get('backup_complete_text_dir'), DIR_BACKUP.$backup_name);
+            } elseif (is_dir(DIR_BACKUP . $backup_name)) {
+                $result_text = $this->language->getAndReplace(
+                    'backup_complete_text_dir',
+                    replaces: DIR_BACKUP . $backup_name
+                );
             }
-
-            $install_upgrade_history->addRows(
-                [
-                    'date_added'  => date("Y-m-d H:i:s", time()),
-                    'name'        => 'Manual Backup',
-                    'version'     => VERSION,
-                    'backup_file' => $display_name,
-                    'backup_date' => date("Y-m-d H:i:s", time()),
-                    'type'        => 'backup',
-                    'user'        => $this->user->getUsername(),
-                ]
-            );
         }
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -141,7 +126,8 @@ class ControllerResponsesToolBackup extends AController
             $this->loadModel('tool/backup');
 
             $bkp = $this->model_tool_backup->backup(
-                $this->request->post['backup'], $this->request->post['backup_files'],
+                $this->request->post['backup'],
+                $this->request->post['backup_files'],
                 $this->request->post['backup_config']
             );
             if ($bkp) {
@@ -151,7 +137,7 @@ class ControllerResponsesToolBackup extends AController
                         'date_added'  => date("Y-m-d H:i:s", time()),
                         'name'        => 'Manual Backup',
                         'version'     => VERSION,
-                        'backup_file' => $this->model_tool_backup->backup_filename.'.tar.gz',
+                        'backup_file' => $this->model_tool_backup->backup_filename . '.tar.gz',
                         'backup_date' => date("Y-m-d H:i:s", time()),
                         'type'        => 'backup',
                         'user'        => $this->user->getUsername(),
@@ -179,9 +165,9 @@ class ControllerResponsesToolBackup extends AController
             $this->errors['warning'] = $this->language->get('error_permission');
         }
 
-        $this->request->post['backup_code'] = $this->request->post['backup_code'] ? true : false;
-        $this->request->post['backup_content'] = $this->request->post['backup_content'] ? true : false;
-        $this->request->post['compress_backup'] = $this->request->post['compress_backup'] ? true : false;
+        $this->request->post['backup_code'] = (bool)$this->request->post['backup_code'];
+        $this->request->post['backup_content'] = (bool)$this->request->post['backup_content'];
+        $this->request->post['compress_backup'] = (bool)$this->request->post['compress_backup'];
 
         if (!$this->request->post['table_list']
             && !$this->request->post['backup_code']

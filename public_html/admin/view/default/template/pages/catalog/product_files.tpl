@@ -54,7 +54,7 @@
 														<li>
 															<a title="<?php js_echo($item['name']) ?>"
 															   href="<?php echo $item['url']; ?>"
-															   target="_new"
+															   target="_blank"
 															   class="ellipsis"
 															><?php echo $item['name']; ?></a>
 														</li>

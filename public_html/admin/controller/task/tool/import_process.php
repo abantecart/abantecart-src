@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -35,6 +34,8 @@ class ControllerTaskToolImportProcess extends AController
     public function processRows(...$args)
     {
         list($task_id, $step_id,) = $args;
+        $task_id = (int)$task_id;
+        $step_id = (int)$step_id;
         $this->load->library('json');
         //for aborting process
         ignore_user_abort(false);
@@ -64,7 +65,7 @@ class ControllerTaskToolImportProcess extends AController
         $this->response->setOutput(AJson::encode($output));
     }
 
-    private function _process($task_id, $step_id)
+    protected function _process(int $task_id, int $step_id)
     {
         if (!$task_id || !$step_id) {
             $error_text = 'Cannot run task step. Task_id (or step_id) has not been set.';
@@ -76,7 +77,7 @@ class ControllerTaskToolImportProcess extends AController
         //get setting with import details
         $import_details = $task_info['settings']['import_data'];
         $file_format = $import_details['format'];
-        $step_info = $tm->getTaskStep($task_id, $step_id);
+        $step_info = $tm->getTaskStep((int)$task_id, (int)$step_id);
         if (!$step_info['settings']) {
             $error_text = "Cannot run task #".$task_id." step #".$step_id.". Can not locate settings for the step.";
             $this->_return_error($error_text);
@@ -144,11 +145,17 @@ class ControllerTaskToolImportProcess extends AController
                     }
 
                     //main driver to process data and import
+                    /**
+                     * @see ModelToolImportProcess::process_categories_record()
+                     * @see ModelToolImportProcess::process_products_record()
+                     * @see ModelToolImportProcess::process_manufacturers_record()
+                     *
+                     */
                     $method = "process_".$type."_record";
                     try {
                         $result = $this->model_tool_import_process->$method($task_id, $vals, $import_details);
                     } catch (AException $e) {
-                        $return[] = "Import Error row number {$index} with {$rowData[0]}: ".$e->getMessage();
+                        $return[] = "Import Error row number " . $index . " with " . $rowData[0] . ": " .$e->getMessage();
                         $result = false;
                     }
 
@@ -159,7 +166,7 @@ class ControllerTaskToolImportProcess extends AController
                     }
                 }
                 if (!empty($return)) {
-                    $imp_log = new ALog(DIR_LOGS.$type."_import_{$task_id}.txt");
+                    $imp_log = new ALog(DIR_LOGS.$type. "_import_" . $task_id . ".txt");
                     foreach ($return as $message) {
                         $imp_log->write($message);
                     }
@@ -183,7 +190,7 @@ class ControllerTaskToolImportProcess extends AController
 
         $tm->updateTaskDetails($task_id, ['settings' => $task_settings]);
         //sends always true as result
-        $tm->updateStep($step_id, ['last_result' => $this->failed_count ? false : true]);
+        $tm->updateStep($step_id, ['last_result' => !$this->failed_count]);
         //all done, clear cache
         $this->cache->remove('*');
         //return always true fo import process only. we think one failed row cannot block task
@@ -195,8 +202,6 @@ class ControllerTaskToolImportProcess extends AController
         if (!$source) {
             return [];
         }
-
-        ini_set('auto_detect_line_endings', true);
         $fh = fopen($source, 'r');
         if (!$fh || !is_resource($fh)) {
             return [];
@@ -224,13 +229,14 @@ class ControllerTaskToolImportProcess extends AController
     {
         $error = new AError($error_text);
         $error->toLog()->toDebug();
-        return $error->toJSONResponse(
+        $error->toJSONResponse(
             'APP_ERROR_402',
             [
                 'error_text'  => $error_text,
                 'reset_value' => true,
             ]
         );
+
     }
 
 }

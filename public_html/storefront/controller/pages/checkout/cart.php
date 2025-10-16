@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 /**
@@ -37,7 +37,7 @@ class ControllerPagesCheckoutCart extends AController
         $cart_rt = 'checkout/cart';
         $product_rt = 'product/product';
         $checkout_rt = 'checkout/fast_checkout';
-        //is this an embed mode
+
         if ($this->config->get('embed_mode')) {
             $cart_rt = 'r/checkout/cart/embed';
         }
@@ -47,15 +47,10 @@ class ControllerPagesCheckoutCart extends AController
 
         //process all possible requests first
         if ($this->request->is_GET() && isset($this->request->get['product_id'])) {
-            if (isset($this->request->get['option'])) {
-                $option = $this->request->get['option'];
-            } else {
-                $option = [];
-            }
-
+            $option = $this->request->get['option'] ?? [];
             $quantity = (int)$this->request->get['quantity'] ?: 1;
             $this->_unset_methods_data_in_session();
-            $this->cart->add($this->request->get['product_id'], $quantity, $option);
+            $this->cart->add((int)$this->request->get['product_id'], $quantity, $option);
             $this->extensions->hk_ProcessData($this, 'add_product');
             redirect($this->html->getSecureURL($cart_rt));
         } else {
@@ -68,7 +63,7 @@ class ControllerPagesCheckoutCart extends AController
             } else {
                 if ($this->request->is_POST()) {
                     $post = $this->request->post;
-                    //if this is coupon, validate and apply
+                    //if this is a coupon, validate and apply
                     if (
                         (isset($post['reset_coupon']) || isset($post['coupon']))
                         && !$this->csrftoken->isTokenValid()
@@ -103,13 +98,13 @@ class ControllerPagesCheckoutCart extends AController
                         //we update cart
                         if (!is_array($post['quantity'])) {
                             $this->loadModel('catalog/product', 'storefront');
-                            $product_id = $post['product_id'];
+                            $product_id = (int)$post['product_id'];
                             $options = $post['option'] ?? [];
                             //for FILE-attributes
                             if (has_value($this->request->files['option']['name'])) {
                                 $fm = new AFile();
                                 foreach ($this->request->files['option']['name'] as $id => $name) {
-                                    $attribute_data = $this->model_catalog_product->getProductOption($product_id, $id);
+                                    $attribute_data = $this->model_catalog_product->getProductOption($product_id, (int)$id);
                                     $attribute_data['settings'] = unserialize($attribute_data['settings']);
                                     $file_path_info = $fm->getUploadFilePath(
                                         $attribute_data['settings']['directory'],
@@ -182,8 +177,10 @@ class ControllerPagesCheckoutCart extends AController
                             $this->cart->add($post['product_id'], $post['quantity'], $options);
                         } else {
                             foreach ($post['quantity'] as $key => $value) {
-                                $this->cart->update($key, $value);
+                                $this->cart->update($key, $value, false);
                             }
+                            //recalculate
+                            $this->cart->getProducts(true);
                         }
                         $this->_unset_methods_data_in_session();
                     }
@@ -196,7 +193,7 @@ class ControllerPagesCheckoutCart extends AController
 
                     $this->extensions->hk_ProcessData($this);
 
-                    //next page is requested after cart update
+                    //the next page is requested after the cart update
                     if (isset($post['next_step'])) {
                         redirect($this->html->getSecureURL($post['next_step']));
                     }
@@ -471,7 +468,7 @@ class ControllerPagesCheckoutCart extends AController
                 $country_id = $shipping_address['country_id'];
                 $zone_id = $shipping_address['zone_id'];
             }
-            // use default address of customer for estimate form whe shipping address is unknown
+            // use the default address of customer for an estimate form when the shipping address is unknown
             if (!$zone_id && $this->customer->isLogged()) {
                 $this->loadModel('account/address', 'storefront');
                 $payment_address = $this->model_account_address->getAddress($this->customer->getAddressId());
@@ -505,12 +502,13 @@ class ControllerPagesCheckoutCart extends AController
 
             $this->data['form_estimate']['country_zones'] = $form->getFieldHtml(
                 [
-                    'type'        => 'zones',
-                    'name'        => 'country',
-                    'submit_mode' => 'id',
-                    'value'       => $country_id,
-                    'zone_name'   => $zone_data['name'],
-                    'zone_value'  => $zone_id,
+                    'type'            => 'zones',
+                    'name'            => 'country',
+                    'submit_mode'     => 'id',
+                    'value'           => $country_id,
+                    'zone_field_name' => 'estimate_zone',
+                    'zone_name'       => $zone_data['name'],
+                    'zone_value'      => $zone_id,
                 ]
             );
 
@@ -584,7 +582,7 @@ class ControllerPagesCheckoutCart extends AController
             if ($session['used_balance'] <= $balance) {
                 $session['used_balance_full'] = true;
             } else {
-                //if balance become less or 0 reapply partial
+                //if the balance becomes less or zero, reapply partial
                 $session['used_balance'] = $balance;
                 $session['used_balance_full'] = false;
             }

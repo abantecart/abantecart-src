@@ -1,24 +1,24 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
+
 /** @noinspection PhpUnused */
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2022 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -32,8 +32,8 @@ class ControllerResponsesCommonZone extends AController
         $output = '';
 
         if (is_numeric($this->request->get['country_id'])){
-            $country_id = $this->request->get['country_id'];
-            $zoneId = $this->request->get['zone_id'];
+            $country_id = (int)$this->request->get['country_id'];
+            $zoneId = (int)$this->request->get['zone_id'];
             $zoneName = $this->request->get['zone_name'];
 
             /** @var ModelLocalisationZone $mdl */
@@ -56,9 +56,9 @@ class ControllerResponsesCommonZone extends AController
                 }
             } else {
                 if (!$zoneId) {
-                    $output .= '<option value="0" selected="selected">'.$this->language->get('text_none').'</option>';
+                    $output .= '<option value="-1" selected="selected">'.$this->language->get('text_none').'</option>';
                 } else {
-                    $output .= '<option value="0">'.$this->language->get('text_none').'</option>';
+                    $output .= '<option value="-1">'.$this->language->get('text_none').'</option>';
                 }
             }
         }

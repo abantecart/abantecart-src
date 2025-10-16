@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 
 class ResourceUploadHandler
 {
@@ -26,8 +26,8 @@ class ResourceUploadHandler
     {
         $this->options = [
             'script_url'              => $_SERVER['PHP_SELF'],
-            'upload_dir'              => dirname(__FILE__).'/files/',
-            'upload_url'              => dirname($_SERVER['PHP_SELF']).'/files/',
+            'upload_dir'              => dirname(__FILE__) . DS . 'files' . DS,
+            'upload_url'              => dirname($_SERVER['PHP_SELF']) . DS . 'files' . DS,
             'param_name'              => 'files',
             // The php.ini settings upload_max_filesize and post_max_size
             // take precedence over the following max_file_size setting:
@@ -49,8 +49,8 @@ class ResourceUploadHandler
                                 ),
                                 */
                 'thumbnail' => [
-                    'upload_dir' => dirname(__FILE__).'/thumbnails/',
-                    'upload_url' => dirname($_SERVER['PHP_SELF']).'/thumbnails/',
+                    'upload_dir' => dirname(__FILE__) . DS . 'thumbnails' . DS,
+                    'upload_url' => dirname($_SERVER['PHP_SELF']) . DS . 'thumbnails' . DS,
                     'max_width'  => 80,
                     'max_height' => 80,
                 ],
@@ -80,18 +80,18 @@ class ResourceUploadHandler
      */
     protected function get_file_object($file_name)
     {
-        $file_path = $this->options['upload_dir'].$file_name;
+        $file_path = $this->options['upload_dir'] . $file_name;
         if (is_file($file_path) && $file_name[0] !== '.') {
             $file = new stdClass();
             $file->name = $file_name;
             $file->size = filesize($file_path);
-            $file->url = $this->options['upload_url'].rawurlencode($file->name);
+            $file->url = $this->options['upload_url'] . rawurlencode($file->name);
             foreach ($this->options['image_versions'] as $version => $options) {
-                if (is_file($options['upload_dir'].$file_name)) {
-                    $file->{$version.'_url'} = $options['upload_url'].rawurlencode($file->name);
+                if (is_file($options['upload_dir'] . $file_name)) {
+                    $file->{$version . '_url'} = $options['upload_url'] . rawurlencode($file->name);
                 }
             }
-            $file->delete_url = $this->options['script_url'].'?file='.rawurlencode($file->name);
+            $file->delete_url = $this->options['script_url'] . '?file=' . rawurlencode($file->name);
             $file->delete_type = 'DELETE';
 
             return $file;
@@ -120,12 +120,12 @@ class ResourceUploadHandler
     {
         Registry::getInstance()->get('language')->load('common/resource_library');
         $upload = $_FILES[$this->options['param_name']] ?? [
-                'tmp_name' => null,
-                'name'     => null,
-                'size'     => null,
-                'type'     => null,
-                'error'    => 'emptyResult',
-            ];
+            'tmp_name' => null,
+            'name'     => null,
+            'size'     => null,
+            'type'     => null,
+            'error'    => 'emptyResult',
+        ];
 
         $info = [];
         if (!is_array($upload['tmp_name'])) {
@@ -162,14 +162,14 @@ class ResourceUploadHandler
     {
         $error_text = '';
         $file = new stdClass();
-        // Remove path information and dots around the filename, to prevent uploading
+        // Remove path information and dots around the filename to prevent uploading
         // into different directories or replacing hidden system files.
-        // Also remove control characters and spaces (\x00 \x20) around the filename:
+        // Also, remove control characters and spaces (\x00 \x20) around the filename:
         $name = $name == '' ? 'UnknownFile' : $name;
         $name = str_replace(" ", "_", stripslashes($name));
 
         // basename removes first part of filename like тест_архив.zip (with non-latin characters).
-        // Basename of that name will be _архив.zip
+        // The basename of that name will be _архив.zip
         if ($this->strpos_array($name, ['/', '\'']) !== false) {
             $name = basename($name);
         } else {
@@ -193,24 +193,24 @@ class ResourceUploadHandler
         }
         $error_text = $this->has_error($uploaded_file, $file, $error_text);
         if (!$error_text && $file->name) {
-            if (!is_dir(DIR_RESOURCE.$this->options['upload_dir'])) {
+            if (!is_dir(DIR_RESOURCE . $this->options['upload_dir'])) {
                 $path = '';
-                $directories = explode('/', str_replace('../', '', $this->options['upload_dir']));
+                $directories = explode(DS, str_replace('../', '', $this->options['upload_dir']));
                 foreach ($directories as $directory) {
-                    $path = $path.'/'.$directory;
-                    if (!is_dir(DIR_RESOURCE.$path)) {
-                        @mkdir(DIR_RESOURCE.$path, 0777);
-                        chmod(DIR_RESOURCE.$path, 0777);
+                    $path = $path . DS . $directory;
+                    if (!is_dir(DIR_RESOURCE . $path)) {
+                        @mkdir(DIR_RESOURCE . $path, 0777);
+                        chmod(DIR_RESOURCE . $path, 0777);
                     }
                 }
             }
-            $rs_dir = DIR_RESOURCE.$this->options['upload_dir'];
+            $rs_dir = DIR_RESOURCE . $this->options['upload_dir'];
             if (!is_dir($rs_dir) || !is_writeable($rs_dir)) {
-                $error_text = "Please check 'resources' folder permissions. (".$rs_dir.")";
+                $error_text = "Please check 'resources' folder permissions. (" . $rs_dir . ")";
             }
         }
         if (!$error_text && $file->name) {
-            $file_path = DIR_RESOURCE.$this->options['upload_dir'].$file->name;
+            $file_path = DIR_RESOURCE . $this->options['upload_dir'] . $file->name;
             $append_file = !$this->options['discard_aborted_uploads']
                 && is_file($file_path)
                 && $file->size > filesize($file_path);
@@ -227,7 +227,7 @@ class ResourceUploadHandler
                     $result = move_uploaded_file($uploaded_file, $file_path);
                     if ($result === false) {
                         $file->error = 'Failed! Check error log for details.';
-                        $error_text = 'Error! Unable to move uploaded file from '.$uploaded_file.' to '.$file_path;
+                        $error_text = 'Error! Unable to move uploaded file from ' . $uploaded_file . ' to ' . $file_path;
                     }
                 }
             } else {
@@ -240,7 +240,7 @@ class ResourceUploadHandler
             }
             $file_size = filesize($file_path);
             if ($file_size === $file->size) {
-                $file->url = $this->options['upload_url'].rawurlencode($file->name);
+                $file->url = $this->options['upload_url'] . rawurlencode($file->name);
                 chmod($file_path, 0777);
             } else {
                 if ($this->options['discard_aborted_uploads']) {
@@ -249,12 +249,12 @@ class ResourceUploadHandler
                     if (!$file_size) {
                         $error_text = 'Unable to save file on disk! Please check "resources" folder permissions!';
                     } else {
-                        $error_text = 'Unable to save file '.basename($file_path).' on disk! Integrity check error!';
+                        $error_text = 'Unable to save file ' . basename($file_path) . ' on disk! Integrity check error!';
                     }
                 }
             }
             $file->size = $file_size;
-            $file->delete_url = $this->options['script_url'].'&resource_id=%ID%';
+            $file->delete_url = $this->options['script_url'] . '&resource_id=%ID%';
             $file->delete_type = 'DELETE';
         } else {
             $file->error = $error_text;
@@ -382,7 +382,7 @@ class ResourceUploadHandler
     public function delete()
     {
         $file_name = isset($_REQUEST['file']) ? basename(stripslashes($_REQUEST['file'])) : null;
-        $file_path = $this->options['upload_dir'].$file_name;
+        $file_path = $this->options['upload_dir'] . $file_name;
         return is_file($file_path) && $file_name[0] !== '.' && unlink($file_path);
     }
 

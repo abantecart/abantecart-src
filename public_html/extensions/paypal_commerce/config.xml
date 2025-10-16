@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <extension>
 	<id>paypal_commerce</id>
-	<version>1.0.7</version>
+	<version>1.4.3</version>
 	<type>payment</type>
 	<category>payment</category>
 	<cartversions>
@@ -25,6 +25,14 @@
 				<item>authorize</item>
 			</variants>
 			<default_value>capture</default_value>
+		</item>
+		<item id="paypal_commerce_enabled_components">
+            <type required="true">checkboxgroup</type>
+			<variants>
+				<item>buttons</item>
+				<item>card-fields</item>
+			</variants>
+			<default_value>buttons</default_value>
 		</item>
 		<item id="paypal_commerce_autoselect">
 			<type>checkbox</type>

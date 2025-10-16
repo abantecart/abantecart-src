@@ -340,7 +340,7 @@ abstract class AController
         // If not set element will not be displayed in placeholder.
         // To use manual inclusion to parent template ignore this parameter
         $new_block['position'] = $template_position;
-        array_push($this->children, $new_block);
+        $this->children[] = $new_block;
     }
 
     public function processTemplate($template = '')
@@ -591,7 +591,7 @@ abstract class AController
     protected function prepareProductSortingParameters(?array $options = [])
     {
         $request = $this->request->get;
-        $page = $request['page'] ?? 1;
+        $page = (int)$request['page'] ?: 1;
         $limit = (int)$request['limit'] ?: $this->config->get('config_catalog_limit');
         $sorting_href = $request['sort'];
         if (!$this->data['sorts']) {

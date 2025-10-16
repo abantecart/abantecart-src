@@ -24,7 +24,7 @@
     <script src="<?php echo $this->templateResource('/js/grapesjs-plugin-forms.min.js'); ?>"></script>
     <script src="<?php echo $this->templateResource('/js/grapesjs-typed.min.js'); ?>"></script>
     <script src="<?php echo $this->templateResource('/js/grapesjs-tui-image-editor.min.js'); ?>"></script>
-    <script src="<?php echo $this->templateResource('/js/grapesjs-abantecart-component/index.js'); ?>"></script>
+    <script src="<?php echo $this->templateResource('/js/grapesjs-abantecart-component.min.js'); ?>"></script>
 </head>
 
 <body>

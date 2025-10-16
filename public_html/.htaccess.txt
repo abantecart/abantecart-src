@@ -10,16 +10,25 @@
 
 # For any support issues please visit: https://forum.abantecart.com
 
-Options +FollowSymlinks
+Options +SymLinksIfOwnerMatch
 
 # Prevent Directory listing
 Options -Indexes
 
 # Prevent Direct Access to files
-<FilesMatch "\.tpl">
-Order deny,allow
-Deny from all
-</FilesMatch>
+<IfModule !mod_authz_core.c>
+    # Apache 2.2
+    <FilesMatch "\.tpl$">
+        Order deny,allow
+        Deny from all
+    </FilesMatch>
+</IfModule>
+<IfModule mod_authz_core.c>
+    # Apache 2.4+
+    <FilesMatch "\.tpl$">
+        Require all denied
+    </FilesMatch>
+</IfModule>
 
 
 RewriteEngine on

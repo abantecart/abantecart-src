@@ -19,36 +19,39 @@ if ($error_warning) { ?>
 <div class="container">
     <h4><?php echo $text_address_book; ?></h4>
     <?php echo $this->getHookvar('pre_address');?>
-    <?php foreach ($addresses as $result) { ?>
+    <?php foreach ($addresses as $address) { ?>
     <div class="genericbox border-bottom">
         <table class="w-100">
             <tr>
-                <td><address><?php echo $result['address']; ?></address></td>
+                <td><address><?php echo $address['address']; ?></address></td>
                 <td class="text-end">
                 <?php
-                    $result['button_edit']->style = ' btn btn-outline-primary';
-                    echo $result['button_edit'];
-                    if ( !$result['default'] ) {
-                        $result['button_delete']->style .= ' btn btn-outline-danger ';
-                        echo $result['button_delete'];
+                    $address['button_edit']->style = ' btn btn-outline-primary';
+                    $address['button_edit']->icon = ' fa fa-edit';
+
+                    echo $address['button_edit'];
+                    if ( !$address['default'] ) {
+                        $address['button_delete']->style .= ' btn btn-outline-danger ';
+                        $address['button_delete']->icon = ' fa fa-remove';
+                        echo $address['button_delete'];
                     } ?>
                 </td>
             </tr>
         </table>
     </div>
-    <?php } ?>
-    <?php echo $this->getHookvar('post_address');?>
+    <?php }
+    echo $this->getHookvar('post_address');
+    ?>
 
     <div class="ps-4 p-3 col-12 d-flex flex-wrap justify-content-evenly">
-        <a href="<?php echo $back; ?>" class="btn btn-secondary" title="<?php echo_html2view($button_back->text); ?>">
-            <i class="<?php echo $button_back->{'icon'}; ?>"></i>
-            <?php echo $button_back->text; ?>
-        </a>
-        <?php echo $this->getHookvar('address_buttons');?>
-        <a href="<?php echo $insert; ?>" class="btn btn-primary" title="<?php echo $button_insert->text ?>">
-            <i class="<?php echo $button_insert->icon; ?>"></i>
-            <?php echo $button_insert->text ?>
-        </a>
+        <?php
+        $button_back->style .= 'btn-secondary';
+        $button_back->icon = 'fa fa-arrow-left';
+        echo $button_back;
+        echo $this->getHookvar('address_buttons');
+        $button_insert->style .= ' btn-primary ';
+        $button_insert->icon = 'fa fa-plus';
+        echo $button_insert;
+        ?>
     </div>
-
 </div>

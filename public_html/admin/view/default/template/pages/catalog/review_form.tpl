@@ -9,7 +9,7 @@
 				</a>
 			</div>
             <?php if($preview){ ?>
-			<a href="<?php echo $preview; ?>" class="btn btn-small btn-default" target="_new"><i class="fa fa-external-link"></i> <?php echo $text_view; ?></a>
+			<a href="<?php echo $preview; ?>" class="btn btn-small btn-default" target="_blank"><i class="fa fa-external-link"></i> <?php echo $text_view; ?></a>
             <?php } ?>
 		</div>
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>

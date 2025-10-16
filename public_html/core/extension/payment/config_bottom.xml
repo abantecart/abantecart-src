@@ -18,6 +18,19 @@
 			<type>checkbox</type>
 			<default_value>0</default_value>
 		</item>
+		<item id="customer_groups">
+			<type>checkboxgroup</type>
+			<variants>
+				<data_source>
+					<model_rt>sale/customer_group</model_rt>
+					<method>getCustomerGroups</method>
+				</data_source>
+				<fields>
+					<field>customer_group_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+		</item>
 		<item id="sort_order">
 			<type>input</type>
 			<default_value/>

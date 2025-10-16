@@ -35,7 +35,7 @@ class TaskTest extends AbanteCartTest
     protected function tearDown(): void
     {
         $tm = new ATaskManager();
-        $tm->deleteTask($this->task_details['task_id']);
+        $tm->deleteTask((int)$this->task_details['task_id']);
     }
 
     public function testTaskRunCLI()

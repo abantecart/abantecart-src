@@ -14,58 +14,53 @@ if ($error_warning) { ?>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php } ?>
-
 <div class="container">
 	<?php
-    $form['form_open']->style .= ' needs-validation';
+    //$form['form_open']->style .= ' needs-validation';
     $form['form_open']->attr .= ' novalidate';
-    echo $form['form_open']; ?>
-	<h4><?php echo $text_edit_address; ?></h4>
+    echo $form['form_open'];
+    foreach($form['fields'] as $group => $fields){
+        $groupName = current($fields)->field_group_name ?: $text_edit_address;
+        if($groupName){ ?>
+            <h4><?php echo $groupName; ?></h4>
+            <?php
+        } ?>
 	<div class="ps-4 border p-3 mb-4">
     <?php
-        foreach ($form['fields'] as $field_name => $field) { ?>
+        foreach ($fields as $field_name => $field) {
+            if($field->type == 'hidden') {
+                echo $field;
+                continue;
+            }
+            ?>
             <div class="mb-3 row">
-                <label for="<?php echo $field->element_id?>" class="text-nowrap col-sm-2 col-form-label me-2">
+                <label for="<?php echo $field->element_id?>" class="col-sm-12 col-md-5 col-form-label me-2 text-md-end">
                     <?php echo ${'entry_'.$field_name}; ?>
                 </label>
-                <div class="col-sm-9 h-100">
+                <div class="col-sm-12 col-md-6  h-100">
                     <?php echo $field; ?>
                     <span class="help-block text-danger"><?php echo ${'error_'.$field_name}; ?></span>
                 </div>
             </div>
         <?php } ?>
-            <div class="mb-3 row">
-                <label for="<?php echo $field->element_id?>" class="text-nowrap col-sm-2 col-form-label me-2">
-                    <?php echo $entry_default; ?>
-                </label>
-                <div class="col-sm-9 h-100">
-                    <?php echo $form['default']; ?>
-                </div>
-            </div>
             <?php echo $this->getHookVar('address_edit_sections'); ?>
-        </div>
+    </div>
+    <?php } ?>
         <div class="ps-4 p-3 col-12 d-flex flex-wrap">
-            <a href="<?php echo $back; ?>" class="btn btn-secondary" title="<?php echo $form['back']->text ?>">
-                <i class="<?php echo $form['back']->{'icon'}; ?>"></i>
-                <?php echo $form['back']->text ?>
-            </a>
-            <button id="submit_button" type="submit"
-                    role="button"
-                    class="btn btn-primary ms-auto lock-on-click"
-                    title="<?php echo_html2view($form['submit']->name); ?>">
-                <i class="fa <?php echo $form['submit']->icon; ?>"></i>
-                <?php echo $form['submit']->name ?>
-            </button>
+            <?php
+            $form['back']->style .= 'btn-secondary';
+            $form['back']->icon = 'fa fa-arrow-left';
+            echo $form['back'];
+
+            $form['submit']->style .= ' btn-primary ms-auto lock-on-click';
+            $form['submit']->icon = 'fa fa-check';
+            echo $form['submit'];
+            ?>
         </div>
     </form>
 </div>
 
 <script type="text/javascript">
-
-<?php $cz_url = $this->html->getURL('common/zone', '&zone_id='. $zone_id); ?>
-$('#AddressFrm_country_id').change(function() {
-    $('select[name=\'zone_id\']').load('<?php echo $cz_url;?>&country_id=' + $(this).val());
-});
-$('select[name=\'zone_id\']').load('<?php echo $cz_url;?>&country_id=' + $('#AddressFrm_country_id').val());
-
+    <?php $cz_url = $this->html->getSecureURL('common/zone', '&zone_id='. $zone_id); ?>
+    $('select[name="zone_id"]').load('<?php echo $cz_url;?>&country_id=' + $('#AddressFrm_country_id').val());
 </script>

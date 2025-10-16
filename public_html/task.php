@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 ob_start();
 
 // Load Configuration
@@ -26,25 +26,29 @@ $root_path = dirname(__FILE__);
 // Windows IIS Compatibility  
 if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
     define('IS_WINDOWS', true);
-    $root_path = str_replace('\\', '/', $root_path);
+    $root_path = str_replace(DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $root_path);
 } else {
     define('IS_WINDOWS', false);
 }
 
 define('DIR_ROOT', $root_path);
-const DIR_CORE = DIR_ROOT . '/core/';
+const DIR_CORE = DIR_ROOT . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR;
 const RDIR_TEMPLATE = 'admin/view/default/';
 
-include_once(DIR_ROOT.'/system/config.php');
+if (is_file(DIR_ROOT . DIRECTORY_SEPARATOR . 'system' . DIRECTORY_SEPARATOR . 'config.php')) {
+    require_once(DIR_ROOT . DIRECTORY_SEPARATOR . 'system' . DIRECTORY_SEPARATOR . 'config.php');
+} else {
+    exit('Fatal Error: configuration not found!');
+}
 
 //set server name for correct email sending
 if (defined('SERVER_NAME') && SERVER_NAME != '') {
-    putenv("SERVER_NAME=".SERVER_NAME);
+    putenv("SERVER_NAME=" . SERVER_NAME);
 }
 
 // New Installation
 if (!defined('DB_DATABASE')) {
-    if(is_dir(DIR_ROOT.'/install')) {
+    if (is_dir(DIR_ROOT . DIRECTORY_SEPARATOR . 'install')) {
         header('Location: install/index.php');
     }
     exit('Fatal Error: configuration not found!');
@@ -52,8 +56,8 @@ if (!defined('DB_DATABASE')) {
 
 // sign of admin side for controllers run from dispatcher
 $_GET['s'] = ADMIN_PATH;
-// Load all initial set up
-require_once(DIR_ROOT.'/core/init.php');
+// Load all initial set-up
+require_once(DIR_ROOT . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'init.php');
 // not needed anymore
 unset($_GET['s']);
 
@@ -112,16 +116,16 @@ if ($mode && !$task_id) {
         if ($mode && $task_id && !$step_id) {
             //when start whole task
             $tm->updateTask($task_id, [
-                    'status'     => $tm::STATUS_READY,
-                    'start_time' => date('Y-m-d H:i:s'),
-                ]
+                            'status'     => $tm::STATUS_READY,
+                            'start_time' => date('Y-m-d H:i:s'),
+                    ]
             );
 
             $task_details = [];
             if ($run_mode != 'continue') {
                 $task_details = $tm->getTaskById($task_id);
                 foreach ($task_details['steps'] as $step) {
-                    $tm->updateStep($step['step_id'], ['status' => $tm::STATUS_READY]);
+                    $tm->updateStep((int)$step['step_id'], ['status' => $tm::STATUS_READY]);
                 }
             }
 
@@ -150,8 +154,8 @@ if ($mode == 'ajax') {
         //use AError class to send fail-response in ajax-mode
         $err = new AError('task run error');
         $err->toJSONResponse(
-            'APP_ERROR_402',
-            ['error_text' => nl2br(implode("\n", $run_log))]
+                'APP_ERROR_402',
+                ['error_text' => nl2br(implode("\n", $run_log))]
         );
         exit;
     }
@@ -268,8 +272,7 @@ if ($mode != 'ajax' && !$step_id) {
                             && step.settings.hasOwnProperty("interrupt_on_step_fault")
                             && step.settings.interrupt_on_step_fault == true) {
                             ajaxes[k]['interrupt_on_step_fault'] = true;
-                        }
-                        else {
+                        } else {
                             ajaxes[k]['interrupt_on_step_fault'] = false;
                         }
                     }

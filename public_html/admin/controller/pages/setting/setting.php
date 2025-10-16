@@ -8,16 +8,17 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
+use JetBrains\PhpStorm\NoReturn;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 if (!defined('DIR_CORE')) {
@@ -68,12 +69,12 @@ class ControllerPagesSettingSetting extends AController
                 unset($post['config_smtp_password']);
             }
 
-            //html decode store name
+            //HTML decode store name
             if (isset($post['store_name'])) {
                 $post['store_name'] = html_entity_decode($post['store_name'], ENT_COMPAT, 'UTF-8');
             }
 
-            //when change base currency for default store also change values for all currencies in database before saving
+            //when change base currency for default store also change values for all currencies in a database before saving
             if (!(int)$get['store_id']
                 && has_value($post['config_currency'])
                 && $post['config_currency'] != $this->config->get('config_currency')
@@ -200,7 +201,7 @@ class ControllerPagesSettingSetting extends AController
         }
 
         $this->data['settings'] = $this->model_setting_setting->getSetting($group, $this->data['store_id']);
-        unset($this->data['settings']['one_field']); //remove sign of single form field
+        unset($this->data['settings']['one_field']); //remove sign of a single form field
         foreach ($this->data['settings'] as $key => $value) {
             if (isset($post[$key])) {
                 $this->data['settings'][$key] = $post[$key];
@@ -244,7 +245,7 @@ class ControllerPagesSettingSetting extends AController
     protected function validateHttpsUrl()
     {
         if (!str_starts_with((string)$this->data['settings']['config_url'], 'https')) {
-            if ( !$this->data['settings']['config_ssl_url']
+            if (!$this->data['settings']['config_ssl_url']
                 || !str_starts_with((string)$this->data['settings']['config_ssl_url'], 'https')
             ) {
                 $this->data['error_https'] = $this->language->get('warning_https_store_url');
@@ -438,12 +439,22 @@ class ControllerPagesSettingSetting extends AController
     {
         $this->data['action'] = $this->html->getSecureURL(
             'setting/setting',
-            '&active=' . $this->data['active'] . '&store_id=' . $this->data['store_id']
+            '&' . http_build_query(
+                [
+                    'active'   => $this->data['active'],
+                    'store_id' => $this->data['store_id']
+                ]
+            )
         );
         $this->data['form_title'] = $this->language->get('text_edit') . ' ' . $this->language->get('heading_title');
         $this->data['update'] = $this->html->getSecureURL(
             'listing_grid/setting/update_field',
-            '&group=' . $this->data['active'] . '&store_id=' . $this->data['store_id']
+            '&' . http_build_query(
+                [
+                    'group'    => $this->data['active'],
+                    'store_id' => $this->data['store_id']
+                ]
+            )
         );
         $this->view->assign('language_code', $this->session->data['language']);
         $form = new AForm('HS');
@@ -481,7 +492,7 @@ class ControllerPagesSettingSetting extends AController
             ]
         );
 
-        //need resource script on every page for quick start
+        //need a resource script on every page for a quick start
         $resources_scripts = $this->dispatch(
             'responses/common/resource_library/get_resources_scripts',
             [
@@ -529,20 +540,20 @@ class ControllerPagesSettingSetting extends AController
                     if (!in_array($parts[1], $field_names)) {
                         //use template id if set.
                         // otherwise use default
-                        $tmpl_id = (string)$this->request->get['tmpl_id'];
-                        if (!$tmpl_id) {
+                        $templateTxtId = preformatTextID($this->request->get['tmpl_id']);
+                        if (!$templateTxtId) {
                             $extManager = new AExtensionManager();
-                            $extInfo = $extManager->getExtensionInfo($this->request->get['extension']);
+                            $extInfo = $extManager->getExtensionInfo(preformatTextID($this->request->get['extension']));
                             if ($extInfo['type'] == 'template') {
-                                $tmpl_id = $extInfo['key'];
+                                $templateTxtId = $extInfo['key'];
                             } else {
-                                $tmpl_id = $this->config->get('config_storefront_template');
+                                $templateTxtId = $this->config->get('config_storefront_template');
                             }
                         }
                         redirect(
                             $this->html->getSecureURL(
                                 'design/template/edit',
-                                '&' . http_build_query(['tmpl_id' => $tmpl_id])
+                                '&' . http_build_query(['tmpl_id' => $templateTxtId])
                             )
                         );
                     }
@@ -711,13 +722,13 @@ class ControllerPagesSettingSetting extends AController
 
         $ret_data['tokens'] = [];
 
-        $files_pages = glob(DIR_APP_SECTION . 'controller/pages/*/*.php');
-        $files_response = glob(DIR_APP_SECTION . 'controller/responses/*/*.php');
+        $files_pages = glob(DIR_APP_SECTION . 'controller' . DS . 'pages' . DS . '*' . DS . '*.php');
+        $files_response = glob(DIR_APP_SECTION . 'controller' . DS . 'responses' . DS . '*' . DS . '*.php');
         $files = array_merge($files_pages, $files_response);
 
         foreach ($files as $file) {
-            $tmp_data = explode('/', dirname($file));
-            $token = end($tmp_data) . '/' . basename($file, '.php');
+            $tmp_data = explode(DS, dirname($file));
+            $token = end($tmp_data) . DS . basename($file, '.php');
             if (!in_array($token, $ignore)) {
                 $ret_data['tokens'][$token] = $token;
             }
@@ -775,7 +786,6 @@ class ControllerPagesSettingSetting extends AController
             }
         }
 
-
         if (!$this->error) {
             return true;
         } else {
@@ -786,7 +796,7 @@ class ControllerPagesSettingSetting extends AController
         }
     }
 
-    /** @noinspection PhpNoReturnAttributeCanBeAddedInspection */
+    #[NoReturn]
     public function phpinfo()
     {
         if (defined('IS_DEMO') && IS_DEMO) {

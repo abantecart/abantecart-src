@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /*
  *   $Id$
  *
@@ -20,6 +21,7 @@
 
 class ControllerBlocksMegaMenu extends AController
 {
+    public $maxLevel = 10;
     protected $category_id = 0;
     protected $path = [];
     protected $selected_root_id = [];
@@ -120,9 +122,13 @@ class ControllerBlocksMegaMenu extends AController
      * @return array
      * @throws AException
      */
-    protected function buildCategoryTree($all_categories = [], $parent_id = 0, $path = '')
+    protected function buildCategoryTree($all_categories = [], $parent_id = 0, $path = '', $level = 0)
     {
         $output = [];
+        //do now allow infinite dig
+        if($level > $this->maxLevel) {
+            return $output;
+        }
         foreach ($all_categories as $category) {
             if ($parent_id != $category['parent_id']) {
                 continue;
@@ -137,14 +143,14 @@ class ControllerBlocksMegaMenu extends AController
             }
             $output[] = $category;
             $output = array_merge(
-                $output, $this->buildCategoryTree($all_categories, $category['category_id'], $category['path'])
+                $output, $this->buildCategoryTree($all_categories, $category['category_id'], $category['path'], $level + 1)
             );
         }
 
         return $output;
     }
 
-    /** Function builds one multi-dimensional (nested) category tree for menu
+    /** Function builds one multidimensional (nested) category tree for menu
      *
      * @param int $parent_id
      *
@@ -179,15 +185,8 @@ class ControllerBlocksMegaMenu extends AController
 
     protected function buildMenu()
     {
-        $cache_key = 'storefront_menu' .
-            '.store_' . (int)$this->config->get('config_store_id')
-            . '_lang_' . $this->config->get('storefront_language_id');
-        $menu_items = $this->cache->pull($cache_key);
-        if ($menu_items === false) {
-            $menu = new AMenu_Storefront();
-            $menu_items = $menu->getMenuItems();
-            $this->cache->push($cache_key, $menu_items);
-        }
+        $menu = new AMenu_Storefront();
+        $menu_items = $menu->getMenuItems();
         //build menu structure after caching. related to http/https urls
         $this->session->data['storefront_menu'] = $this->prepareMenu($menu_items, '');
         return $this->session->data['storefront_menu'];

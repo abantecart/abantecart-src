@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -102,7 +101,7 @@ class ControllerResponsesSaleContact extends AController
 
         $task_id = (int) $this->request->post['task_id'];
         if (!$task_id) {
-            return null;
+            return;
         }
 
         //check task result
@@ -185,7 +184,7 @@ class ControllerResponsesSaleContact extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $task_id = (int) $this->request->get_or_post('task_id');
+        $task_id = (int)$this->request->get_or_post('task_id');
         $task_api_key = $this->config->get('task_api_key');
         $etas = [];
         if ($task_id) {
@@ -194,9 +193,9 @@ class ControllerResponsesSaleContact extends AController
             $steps = $tm->getTaskSteps($task_id);
             foreach ($steps as $step) {
                 if (!$step['settings']['to']) {
-                    $tm->deleteStep($step['step_id']);
+                    $tm->deleteStep((int)$step['step_id']);
                 } else {
-                    $tm->updateStep($step['step_id'], ['status' => 1]);
+                    $tm->updateStep((int)$step['step_id'], ['status' => 1]);
                     $etas[$step['step_id']] = $step['max_execution_time'];
                 }
             }
@@ -288,28 +287,28 @@ class ControllerResponsesSaleContact extends AController
         );
 
         $k = 0;
-        foreach ($incomplete as $incm_task) {
+        foreach ($incomplete as $incmTask) {
             //show all incomplete tasks for Top Administrator user group
             if ($this->user->getUserGroupId() != 1) {
-                if ($incm_task['starter'] != $this->user->getId()) {
+                if ($incmTask['starter'] != $this->user->getId()) {
                     continue;
                 }
             }
             //define incomplete tasks by last time run
-            $max_exec_time = (int) $incm_task['max_execution_time'];
+            $max_exec_time = (int) $incmTask['max_execution_time'];
             if (!$max_exec_time) {
                 //if no limitations for execution time for task - think it's 2 hours
                 //$max_exec_time = 7200;
                 $max_exec_time = 7200;
             }
-            if (time() - dateISO2Int($incm_task['last_time_run']) > $max_exec_time) {
+            if (time() - dateISO2Int($incmTask['last_time_run']) > $max_exec_time) {
                 //get some info about task, for ex message-text and subject
-                $steps = $tm->getTaskSteps($incm_task['task_id']);
+                $steps = $tm->getTaskSteps((int)$incmTask['task_id']);
                 if (!$steps) {
-                    $tm->deleteTask($incm_task['task_id']);
+                    $tm->deleteTask((int)$incmTask['task_id']);
                 }
-                $user_info = $this->model_user_user->getUser($incm_task['starter']);
-                $incm_task['starter_name'] = $user_info['username']
+                $user_info = $this->model_user_user->getUser($incmTask['starter']);
+                $incmTask['starter_name'] = $user_info['username']
                     .' '
                     .$user_info['firstname']
                     .' '.
@@ -318,22 +317,22 @@ class ControllerResponsesSaleContact extends AController
                 $step = current($steps);
                 $step_settings = $step['settings'];
                 if ($step_settings['subject']) {
-                    $incm_task['subject'] = $step_settings['subject'];
+                    $incmTask['subject'] = $step_settings['subject'];
                 }
-                $incm_task['message'] = mb_substr($step_settings['message'], 0, 300);
-                $incm_task['date_added'] = dateISO2Display(
-                    $incm_task['date_added'],
+                $incmTask['message'] = mb_substr($step_settings['message'], 0, 300);
+                $incmTask['date_added'] = dateISO2Display(
+                    $incmTask['date_added'],
                     $this->language->get('date_format_short').' '.$this->language->get('time_format')
                 );
-                $incm_task['last_time_run'] = dateISO2Display(
-                    $incm_task['last_time_run'],
+                $incmTask['last_time_run'] = dateISO2Display(
+                    $incmTask['last_time_run'],
                     $this->language->get('date_format_short').' '.$this->language->get('time_format')
                 );
-                $incm_task['sent'] = sprintf(
-                    $this->language->get('text_sent'), $incm_task['settings']['sent'],
-                    $incm_task['settings']['recipients_count']
+                $incmTask['sent'] = sprintf(
+                    $this->language->get('text_sent'), $incmTask['settings']['sent'],
+                    $incmTask['settings']['recipients_count']
                 );
-                $this->data['tasks'][$k] = $incm_task;
+                $this->data['tasks'][$k] = $incmTask;
             }
             $k++;
         }
@@ -457,5 +456,4 @@ class ControllerResponsesSaleContact extends AController
         $this->response->addJSONHeader();
         $this->response->setOutput(AJson::encode($this->data['output']));
     }
-
 }

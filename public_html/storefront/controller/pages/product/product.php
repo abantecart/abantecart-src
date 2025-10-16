@@ -525,11 +525,6 @@ class ControllerPagesProductProduct extends AController
                     'price_modifier' => $price,
                     'stock_message' => $opt_stock_message
                 ];
-                //disable stock tracking for product if one of option have "subtract"
-                if ($option_value['subtract']) {
-                    $product_info['subtract'] = false;
-                }
-
                 if ($option['element_type'] == 'B') {
                     $name = $default_value = preg_replace("/\r|\n/", " ", $option_value['name']);
                     if ($price) {
@@ -585,6 +580,21 @@ class ControllerPagesProductProduct extends AController
                     $value = $value ?: 1;
                     $data_attr .= ' data-attribute-value-id="'.key($option['option_value']).'"';
                 }
+                //if file - add accept file extension list into attr
+                if ($option['element_type'] == 'U') {
+                    $optionSettings['extensions'] = array_filter(
+                        array_map(
+                            function($item){
+                                $item = trim(trim($item), '.');
+                                return  $item ? '.'.$item : '';
+                            },
+                            explode(',', $optionSettings['extensions'])
+                        )
+                    );
+                    if($optionSettings['extensions']) {
+                        $data_attr .= ' accept="'.implode(",",$optionSettings['extensions']).'"';
+                    }
+                }
 
                 if($txtIds) {
                     if (in_array($option['element_type'], HtmlElementFactory::getElementsWithOptions())) {
@@ -610,6 +620,7 @@ class ControllerPagesProductProduct extends AController
                     'placeholder'      => $option['option_placeholder'],
                     'regexp_pattern'   => $option['regexp_pattern'],
                     'error_text'       => $option['error_text'],
+                    'settings'         => $optionSettings,
                 ];
 
                 if ($option['element_type'] == 'C') {

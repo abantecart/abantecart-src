@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2022 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -34,17 +34,17 @@ class ControllerCommonHead extends AController
 
         $this->loadLanguage('common/header');
         $meta = [
-            'keywords' => [
-                'name' => 'keywords',
+            'keywords'    => [
+                'name'    => 'keywords',
                 'content' => $this->document->getKeywords()
             ],
             'description' => [
-                'name' => 'description',
+                'name'    => 'description',
                 'content' => $this->document->getDescription()
             ],
-            'generator' => [
-                'name' => 'generator',
-                'content' => 'AbanteCart v'.VERSION.' - Open Source eCommerce solution'
+            'generator'   => [
+                'name'    => 'generator',
+                'content' => 'AbanteCart v' . VERSION . ' - Open Source eCommerce solution'
             ],
         ];
         $this->view->assign('meta', $meta);
@@ -72,8 +72,8 @@ class ControllerCommonHead extends AController
             if (is_numeric($iconUri)) {
                 $resource = new AResource('image');
                 $resourceInfo = $resource->getResource($iconUri);
-                if (is_file(DIR_RESOURCE.$resourceInfo['type_dir'].$resourceInfo['resource_path'])) {
-                    $iconUri = $resourceInfo['type_dir'].$resourceInfo['resource_path'];
+                if (is_file(DIR_RESOURCE . $resourceInfo['type_dir'] . str_replace('/', DS, $resourceInfo['resource_path']))) {
+                    $iconUri = $resourceInfo['type_dir'] . $resourceInfo['resource_path'];
                 } else {
                     $this->messages->saveWarning(
                         'Check favicon.',
@@ -82,11 +82,11 @@ class ControllerCommonHead extends AController
                     $iconUri = '';
                 }
             } else {
-                if (!is_file(DIR_RESOURCE.$iconUri)) {
+                if (!is_file(DIR_RESOURCE . str_replace('/', DS, $iconUri))) {
                     $this->messages->saveWarning(
                         'Check favicon.',
                         'Warning: please check favicon in your store settings. Current path is "'
-                            .DIR_RESOURCE.$iconUri.'" but file does not exists.'
+                        . DIR_RESOURCE . str_replace('/', DS, $iconUri) . '" but file does not exists.'
                     );
                     $iconUri = '';
                 }
@@ -94,7 +94,7 @@ class ControllerCommonHead extends AController
         }
 
         if ($this->config->get('config_google_analytics_code')) {
-            $this->view->assign( 'google_analytics_code', trim($this->config->get('config_google_analytics_code')));
+            $this->view->assign('google_analytics_code', trim($this->config->get('config_google_analytics_code')));
         }
 
         $this->view->assign('icon', $iconUri);

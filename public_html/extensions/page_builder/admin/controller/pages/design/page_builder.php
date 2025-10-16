@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details is bundled with this package in the file LICENSE.txt.
@@ -23,13 +23,13 @@ class ControllerPagesDesignPageBuilder extends AController
     public function main()
     {
         //compare urls to prevent CORS blocking. If store url under ssl - redirect admin to ssl mode too
-        $sfUrl = $this->html->getCatalogURL('r/extension/page_builder/getControllerOutput','','',true);
-        if(parse_url($sfUrl, PHP_URL_SCHEME) == 'https' && !HTTPS){
+        $sfUrl = $this->html->getCatalogURL('r/extension/page_builder/getControllerOutput', '', '', true);
+        if (parse_url($sfUrl, PHP_URL_SCHEME) == 'https' && !HTTPS) {
             $params = $this->request->get;
             unset($params['rt']);
             redirect(
-                'https://'.REAL_HOST.HTTP_DIR_NAME
-                .'/?s='.ADMIN_PATH.'&rt=design/page_builder&'.http_build_query($params)
+                'https://' . REAL_HOST . HTTP_DIR_NAME
+                . '/?s=' . ADMIN_PATH . '&rt=design/page_builder&' . http_build_query($params)
             );
         }
 
@@ -39,53 +39,31 @@ class ControllerPagesDesignPageBuilder extends AController
 
         $this->data['page_url'] = $this->html->getSecureURL('p/design/page_builder');
         $this->session->data['content_language_id'] = $this->config->get('storefront_language_id');
-        $this->data['tmpl_id'] = $templateTxtId
-            = $this->request->get['tmpl_id']
+        $this->data['tmpl_id'] =
+        $templateTxtId =
+            $this->request->get['tmpl_id']
                 ?: $this->config->get('config_storefront_template')
                 ?: 'default';
 
         $page_id = (int)$this->request->get['page_id'];
         $layout_id = (int)$this->request->get['layout_id'];
         $layout = new ALayoutManager($templateTxtId, $page_id, $layout_id);
-        $allPages = $layout->getAllPages();
-        if(!$page_id){
+
+        if (!$page_id) {
             $page_id = $this->data['pages'][0]['page_id'];
             $layout_id = $this->data['pages'][0]['layout_id'];
             $layout = new ALayoutManager($templateTxtId, $page_id, $layout_id);
         }
-        $pageGroups = array_merge( $layout::PAGE_GROUPS, (array)$this->data['page_groups'] );
-        $layoutPages = [];
-        foreach($allPages as $page){
-            $page['url'] = $this->html->getSecureURL(
-                'design/page_builder',
-                '&layout_id='.$page['layout_id'].'&page_id='.$page['page_id'].'&tmpl_id='.$templateTxtId
-            );
-            if(!$page['restricted']){
-                $page['delete_url'] = $this->html->getSecureURL(
-                    'design/layout/delete',
-                    '&layout_id='.$page['layout_id'].'&page_id='.$page['page_id'].'&tmpl_id='.$templateTxtId
-                );
-            }
-            $pageGroup = array_filter(array_keys($pageGroups), function($controller) use ($page){
-                return str_starts_with($page['controller'],$controller);
-            });
-            if($pageGroup){
-                $k = current($pageGroup);
-                if(!$layoutPages[$k]){
-                    $layoutPages[$k] = [
-                        'id' => 'dp'.preformatTextID($k),
-                        'name' => $pageGroups[$k],
-                        'layout_name' => $pageGroups[$k],
-                        'restricted' => true
-                    ];
-                }
-                $layoutPages[$k]['children'][] = $page;
-            }else{
-                $layoutPages[] = $page;
-            }
-        }
-        $this->data['pages'] = $layoutPages;
 
+        $this->data['pages'] = buildPageLayoutTree(
+            $layout,
+            $templateTxtId,
+            [
+                'page_groups' => (array)$this->data['page_groups'],
+                'rt'   => 'design/page_builder',
+                'delete_rt'   => 'design/layout/delete',
+            ]
+        );
 
         $this->data['current_page'] = $layout->getPageData();
         $params = [
@@ -97,9 +75,9 @@ class ControllerPagesDesignPageBuilder extends AController
         $this->data['layout_id'] = $params['layout_id'];
 
         $this->data['proto_page_url'] = $this->html->getSecureURL(
-                    'r/design/page_builder',
-                    '&'.http_build_query($params)
-                );
+            'r/design/page_builder',
+            '&' . http_build_query($params)
+        );
         $this->document->setTitle($this->language->get('page_builder_name'));
         // breadcrumb path
         $this->document->initBreadcrumb(
@@ -112,33 +90,33 @@ class ControllerPagesDesignPageBuilder extends AController
         $this->document->addBreadcrumb(
             [
                 'href'    => $this->html->getSecureURL('design/page_builder'),
-                'text'    => $this->language->get('page_builder_name').' - '.$params['tmpl_id'],
+                'text'    => $this->language->get('page_builder_name') . ' - ' . $params['tmpl_id'],
                 'current' => true,
             ]
         );
 
         try {
             checkPBDirs($templateTxtId);
-        }catch(AException $e){
+        } catch (AException $e) {
             $this->view->assign('error_warning', $e->getMessage());
             $this->processTemplate('pages/design/page_builder.tpl');
             return;
         }
 
         // get templates
-        $directories = glob(DIR_STOREFRONT.'view/*', GLOB_ONLYDIR);
+        $directories = glob(DIR_STOREFRONT . 'view'.DS.'*', GLOB_ONLYDIR);
         $this->data['templates'] = array_map('basename', $directories);
 
         $enabled_templates = $this->extensions->getExtensionsList(
             [
-                  'filter' => 'template',
-                  'status' => 1,
+                'filter' => 'template',
+                'status' => 1,
             ]
         );
 
         $this->data['templates'] = array_merge(
             $this->data['templates'],
-            array_column($enabled_templates->rows,'key')
+            array_column($enabled_templates->rows, 'key')
         );
 
         $form = new AForm('ST');
@@ -163,7 +141,7 @@ class ControllerPagesDesignPageBuilder extends AController
         $this->data['undo_success_text'] = $this->language->get('page_builder_undo_success_text');
         $this->data['undo_url'] = $this->html->getSecureURL(
             'r/design/page_builder/undo',
-            '&'.http_build_query($params)
+            '&' . http_build_query($params)
         );
 
         $this->data['button_publish_title'] = $this->language->get('page_builder_button_publish_title');
@@ -171,33 +149,28 @@ class ControllerPagesDesignPageBuilder extends AController
         $this->data['publish_success_text'] = $this->language->get('page_builder_button_publish_success');
         $this->data['publish_url'] = $this->html->getSecureURL(
             'r/design/page_builder/publish',
-            '&'.http_build_query($params)
+            '&' . http_build_query($params)
         );
         $this->data['publish_state_url'] = $this->html->getSecureURL(
             'r/design/page_builder/publishState',
-            '&'.http_build_query($params)
+            '&' . http_build_query($params)
         );
 
-        $prvId  = $this->session->data['PB']['previewId'] ?: genToken();
-        if(!$this->session->data['PB']['previewId']){
+        $prvId = $this->session->data['PB']['previewId'] ?: genToken();
+        if (!$this->session->data['PB']['previewId']) {
             $this->session->data['PB']['previewId'] = $prvId;
         }
         $pageData = $layout->getPageData();
 
-        if($pageData['key_param'] && $pageData['key_value']){
+        if ($pageData['key_param'] && $pageData['key_value']) {
             $params[$pageData['key_param']] = $pageData['key_value'];
         }
         $params['pb'] = $prvId;
 
         $previewRoute = $pageData['controller'] == 'generic'
-                    ? 'extension/generic'
-                    : str_replace('pages/','',$pageData['controller']);
-        $this->data['previewUrl'] = $this->html->getCatalogURL(
-            $previewRoute,
-            '&'.http_build_query($params),
-            '',
-            true
-        );
+            ? 'extension/generic'
+            : str_replace('pages/', '', $pageData['controller']);
+        $this->data['previewUrl'] = $this->html->getCatalogURL($previewRoute, '&' . http_build_query($params), ssl: true);
 
         $this->data['button_remove_custom_page_title'] = $this->language->get(
             'page_builder_button_remove_custom_page_title'
@@ -214,7 +187,18 @@ class ControllerPagesDesignPageBuilder extends AController
 
         $this->data['remove_custom_page_url'] = $this->html->getSecureURL(
             'r/design/page_builder/removeCustomPage',
-            '&'.http_build_query($params)
+            '&' . http_build_query($params)
+        );
+
+        $this->data['text_create_new_layout'] = $this->language->get('text_create_new_layout', 'design/layout');
+        $this->data['new_layout_modal_url'] = $this->html->getSecureURL(
+            'r/design/page_layout',
+            '&' . http_build_query(
+                [
+                    'tmpl_id'      => $params['tmpl_id'],
+                    'redirect_url' => $this->html->getSecureURL('design/page_builder', encode: false)
+                ]
+            ),
         );
 
         $this->preparePresets();
@@ -225,13 +209,14 @@ class ControllerPagesDesignPageBuilder extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    protected function preparePresets(){
+    protected function preparePresets()
+    {
         $this->data['preset_list'] = ['' => $this->language->get('page_builder_text_select_preset')];
-        foreach(glob(DIR_PB_TEMPLATES.'presets'.DS.$this->data['tmpl_id'].DS.'*.json') as $file){
+        foreach (glob(DIR_PB_TEMPLATES . 'presets' . DS . $this->data['tmpl_id'] . DS . '*.json') as $file) {
             $file = pathinfo($file, PATHINFO_FILENAME);
             $this->data['preset_list'][$file] = $file;
         }
-        if($this->data['preset_list']){
+        if ($this->data['preset_list']) {
             $this->data['button_load_preset'] = $this->language->get('page_builder_button_load_preset');
             $this->data['page_builder_text_load_preset_confirm_text'] = $this->language->get(
                 'page_builder_text_load_preset_confirm_text'
@@ -250,7 +235,7 @@ class ControllerPagesDesignPageBuilder extends AController
         );
         $this->data['save_preset_url'] = $this->html->getSecureURL(
             'r/design/page_builder/savePreset',
-            '&tmpl_id='.$this->data['tmpl_id']
+            '&tmpl_id=' . $this->data['tmpl_id']
         );
 
         $this->data['delete_preset_confirm_text'] = $this->language->get('page_builder_text_delete_preset_confirm_text');

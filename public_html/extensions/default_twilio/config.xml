@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension>
 	<id>default_twilio</id>
-	<version>1.1.2</version>
+	<version>1.4.3</version>
 	<type>extension</type>
 	<category>Communication</category>
 	<cartversions>
 		<item>1.4</item>
 	</cartversions>
 	<priority>10</priority>
-	<dependencies></dependencies>
 	<settings>
 		<item id="default_twilio_status">
 			<type>checkbox</type>

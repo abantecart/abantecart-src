@@ -46,6 +46,7 @@ class ExtensionDefaultStorePickup extends Extension
             if ($address['postcode'] == $that->config->get('config_postcode')
                 && $address['country_id'] == $that->config->get('config_country_id')
                 && $address['zone_id'] == $that->config->get('config_zone_id')
+                && $address['address_1'] == $that->config->get('config_address')
             ) {
                 $id = $address['address_id'];
                 break;
@@ -105,6 +106,7 @@ class ExtensionDefaultStorePickup extends Extension
                 if ($address['postcode'] == $that->config->get('config_postcode')
                     && $address['country_id'] == $that->config->get('config_country_id')
                     && $address['zone_id'] == $that->config->get('config_zone_id')
+                    && $address['address_1'] == $that->config->get('config_address')
                 ) {
                     $that->request->get['shipping_address_id']
                         = $that->session->data['fc']['shipping_address_id']

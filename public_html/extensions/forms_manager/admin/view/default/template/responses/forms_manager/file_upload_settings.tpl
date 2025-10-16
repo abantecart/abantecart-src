@@ -3,7 +3,8 @@ $arr = array(
 		'entry_allowed_extensions'=>'extensions',
 		'entry_min_size'=>'min_size',
 		'entry_max_size'=>'max_size',
-		'entry_upload_dir'=>'directory');
+		'entry_upload_dir'=>'directory'
+);
 foreach( $arr as $e=>$name ){
 	$entry = $$e;
 	$field = $form['settings_fields'][$name];

@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<definitions>
-	<definition>
-		<key>text_empty_collection</key>
-		<value><![CDATA[No hay productos para listar]]></value>
-	</definition>
-</definitions>

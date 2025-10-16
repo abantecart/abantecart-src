@@ -184,4 +184,8 @@
 		<key>text_copy_source_text</key>
 		<value><![CDATA[Copy Source Language Text]]></value>
 	</definition>
+	<definition>
+		<key>error_all_disabled</key>
+		<value><![CDATA[ At least one language must be an active!]]></value>
+	</definition>
 </definitions>

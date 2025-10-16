@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -109,7 +109,7 @@ class ControllerPagesDesignContent extends AController
             $this->language->get('column_title'),
             $this->language->get('column_parent'),
             $this->language->get('column_status'),
-            $this->language->get('column_publish_date'),
+            $this->language->get('column_update_date'),
             $this->language->get('column_sort_order'),
         ];
         $grid_settings['colModel'] = [
@@ -134,8 +134,8 @@ class ControllerPagesDesignContent extends AController
                 'search' => false,
             ],
             [
-                'name'   => 'publish_date',
-                'index'  => 'publish_date',
+                'name'   => 'update_date',
+                'index'  => 'date_modified',
                 'width'  => 100,
                 'align'  => 'center',
                 'search' => false,
@@ -194,7 +194,7 @@ class ControllerPagesDesignContent extends AController
         $languages = $this->language->getActiveLanguages();
         if (sizeof($languages) > 1) {
             $this->view->assign('languages', $languages);
-            //selected in selectbox
+            //selected in the selectbox
             $this->view->assign('language_code', $this->session->data['content_language']);
             $get = $this->request->get;
             $hiddens = [];
@@ -440,7 +440,7 @@ class ControllerPagesDesignContent extends AController
             ]
         );
 
-        // get array with stores looks like array (store_id=>array(content_id=>store_name))
+        // get array with stores looks like an array (store_id=>array(content_id=>store_name))
         $store_values = $store_selected = [];
         $store_values[0] = $this->language->get('text_default');
         $currentStore = (int)$this->session->data['current_store_id'];
@@ -476,7 +476,7 @@ class ControllerPagesDesignContent extends AController
             );
         }
 
-        // we need get contents list for parent selector
+        // we need to get a content list for parent selector
         $disabled_parent = [];
         $selectTree = $this->acm->getContentsForSelect($currentStore);
         foreach ($selectTree as $node) {
@@ -721,7 +721,7 @@ class ControllerPagesDesignContent extends AController
             redirect($this->html->getSecureURL('design/content'));
         }
 
-        $page_url = $this->html->getSecureURL('design/content/edit_layout', '&content_id=' . $content_id);
+        $pageUrl = $this->html->getSecureURL('design/content/edit_layout', '&content_id=' . $content_id);
 
         // Alert messages
         if (isset($this->session->data['warning'])) {
@@ -761,7 +761,7 @@ class ControllerPagesDesignContent extends AController
         $this->data['heading_title'] = $this->language->get('text_design') . ' - ' . $content_info['title'];
         $this->document->addBreadcrumb(
             [
-                'href'    => $page_url,
+                'href'    => $pageUrl,
                 'text'    => $this->data['heading_title'],
                 'current' => true,
             ]
@@ -770,23 +770,23 @@ class ControllerPagesDesignContent extends AController
         $this->loadLanguage('design/layout');
         $this->_initTabs('layout');
 
-        $tmpl_id = $this->request->get['tmpl_id'] ?: $this->config->get('config_storefront_template');
-        $layout = new ALayoutManager($tmpl_id);
+        $templateTxtId = preformatTextID((string)$this->request->get['tmpl_id'] ?: $this->config->get('config_storefront_template'));
+        $layout = new ALayoutManager($templateTxtId);
         //get existing page layout or generic
-        $page_layout = $layout->getPageLayoutIDs($page_controller, $page_key_param, $content_id);
-        $page_id = $page_layout['page_id'];
-        $layout_id = $page_layout['layout_id'];
+        $pageLayout = $layout->getPageLayoutIDs($page_controller, $page_key_param, $content_id);
+        $pageId = $pageLayout['page_id'];
+        $layoutId = $pageLayout['layout_id'];
         $params = [
             'content_id' => $content_id,
-            'page_id'    => $page_id,
-            'layout_id'  => $layout_id,
-            'tmpl_id'    => $tmpl_id,
+            'page_id'    => $pageId,
+            'layout_id'  => $layoutId,
+            'tmpl_id'    => $templateTxtId,
         ];
         $url = '&' . http_build_query($params);
 
         // get templates
         $this->data['templates'] = [];
-        $directories = glob(DIR_STOREFRONT . 'view/*', GLOB_ONLYDIR);
+        $directories = glob(DIR_STOREFRONT . 'view'.DS.'*', GLOB_ONLYDIR);
         if ($directories) {
             $this->data['templates'] = array_map('basename', $directories);
         }
@@ -818,19 +818,13 @@ class ControllerPagesDesignContent extends AController
             );
         }
 
-        $this->data['page_url'] = $page_url;
+        $this->data['page_url'] = $pageUrl;
         $this->data['current_url'] = $this->html->getSecureURL('design/content/edit_layout', $url);
 
-        // insert external form of layout
-        $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
+        // insert an external form of layout
+        $layout = new ALayoutManager($templateTxtId, $pageId, $layoutId);
         $layout_form = $this->dispatch('common/page_layout', [$layout]);
         $this->data['block_layout_form'] = $layout_form->dispatchGetOutput();
-
-        //build pages and available layouts for cloning
-        $this->data['pages'] = $layout->getAllPages();
-        $avLayouts = ["0" => $this->language->get('text_select_copy_layout')]
-            + array_column($this->data['pages'], 'layout_name', 'layout_id');
-        unset($avLayouts[$layout_id]);
 
         $form = new AForm('HT');
         $form->setForm(
@@ -839,12 +833,12 @@ class ControllerPagesDesignContent extends AController
             ]
         );
 
-        $this->data['cp_layout_select'] = $form->getFieldHtml(
+        $this->data['pages'] = buildPageLayoutTree(
+            $layout,
+            $templateTxtId,
             [
-                'type'    => 'selectbox',
-                'name'    => 'source_layout_id',
-                'value'   => '',
-                'options' => $avLayouts,
+                'exclude_ids' => [$layoutId],
+                'page_groups' => (array)$this->data['page_groups']
             ]
         );
 

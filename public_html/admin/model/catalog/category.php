@@ -650,4 +650,21 @@ class ModelCatalogCategory extends Model
         $this->cache->push($cacheKey, $output);
         return $output;
     }
+
+    /**
+     * @param int $category_id
+     * @param int $parent_id
+     * @return bool
+     * @throws AException
+     */
+    public function validateParentId(int $category_id, int $parent_id)
+    {
+        //check for deadlock
+        $sql = "SELECT * 
+                FROM ".$this->db->table('categories')." 
+                WHERE category_id = ".$parent_id." 
+                    AND parent_id = ".$category_id;
+        $result = $this->db->query($sql);
+        return !($result->num_rows);
+    }
 }

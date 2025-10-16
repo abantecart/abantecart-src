@@ -391,7 +391,7 @@
 	<definition>
 		<key>stripe_webhook_howto_text</key>
 		<value><![CDATA[Note: To complete setup you should to create webhooks on Stripe Account Side.
-<br> Go to Your <a href="https://dashboard.stripe.com/webhooks" target="_new">Stripe Dashboard Developer Section</a>
+<br> Go to Your <a href="https://dashboard.stripe.com/webhooks" target="_blank">Stripe Dashboard Developer Section</a>
 and Add Endpoints receiving events from your account. After Endpoint has been created copy Signing Secret and save into Stripe Subscription Extension settings belong.
 ]]></value>
 	</definition>

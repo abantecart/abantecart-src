@@ -1,5 +1,5 @@
 <h1 class="ms-3 my-2 heading-title ">
-    <i class="fa fa-face-anguished"></i>
+    <i class="fa-solid fa-face-frown"></i>
     <?php echo $heading_title; ?>
 </h1>
 <div class="container">

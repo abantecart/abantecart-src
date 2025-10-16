@@ -8,55 +8,424 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 /**
  * Class ModelToolImportProcess
  *
- * @property ModelToolImportProcess $model_tool_import_process
  * @property ModelCatalogProduct $model_catalog_product
  * @property ModelCatalogManufacturer $model_catalog_manufacturer
  * @property ModelLocalisationWeightClass $model_localisation_weight_class
  */
 class ModelToolImportProcess extends Model
 {
+    public static $taskController = 'task/tool/import_process/processRows';
     public $errors = [];
     protected $eta = [];
+    //numbers of rows per task step
+    protected $rowDivider = 10;
+    //processing time for one row in seconds
+    protected $rowTimeLimit = 6;
     /**
      * @var ALog
      */
-    protected $imp_log = null;
+    protected $logger;
+
+    /**
+     * Array with configurations for import tables and fields
+     *
+     * @return array
+     */
+    public function importTableCols()
+    {
+        $this->data['import_column_definitions'] =
+            [
+                'products'      => [
+                    'columns' => [
+                        'products.status'                                  =>
+                            [
+                                'title' => 'Status (1 or 0)',
+                                'alias' => 'status',
+                            ],
+                        'products.sku'                                     =>
+                            [
+                                'title'  => 'SKU (up to 64 chars)',
+                                'update' => true,
+                                'alias'  => 'sku',
+                            ],
+                        'products.model'                                   =>
+                            [
+                                'title'  => 'Model (up to 64 chars)',
+                                'update' => true,
+                                'alias'  => 'model',
+                            ],
+                        'product_descriptions.name'                        =>
+                            [
+                                'title'    => 'Name (up to 255 chars)',
+                                'required' => true,
+                                'update'   => true,
+                                'alias'    => 'name',
+                            ],
+                        'product_descriptions.blurb'                       =>
+                            [
+                                'title' => 'Short Description',
+                                'alias' => 'blurb',
+                            ],
+                        'product_descriptions.description'                 =>
+                            [
+                                'title' => 'Long Description',
+                                'alias' => 'description',
+                            ],
+                        'product_descriptions.meta_keywords'               =>
+                            [
+                                'title' => 'Meta Keywords',
+                                'alias' => 'meta keywords',
+                            ],
+                        'product_descriptions.meta_description'            =>
+                            [
+                                'title' => 'Meta Description',
+                                'alias' => 'meta description',
+                            ],
+                        'products.keyword'                                 =>
+                            [
+                                'title' => 'SEO URL',
+                                'alias' => 'seo url',
+                            ],
+                        'products.location'                                =>
+                            [
+                                'title' => 'Location (Text up to 128 chars)',
+                                'alias' => 'warehouse',
+                            ],
+                        'products.quantity'                                =>
+                            [
+                                'title' => 'Quantity',
+                                'alias' => 'stock',
+                            ],
+                        'products.minimum'                                 =>
+                            [
+                                'title' => 'Minimum Order Quantity',
+                                'alias' => 'minimum quantity',
+                            ],
+                        'products.maximum'                                 =>
+                            [
+                                'title' => 'Maximum Order Quantity',
+                                'alias' => 'maximum quantity',
+                            ],
+                        'products.price'                                   =>
+                            [
+                                'title' => 'Product price (In default currency)',
+                                'alias' => 'price',
+                            ],
+                        'products.cost'                                    =>
+                            [
+                                'title' => 'Product Cost (In default currency)',
+                                'alias' => 'cost',
+                            ],
+                        'products.shipping_price'                          =>
+                            [
+                                'title' => 'Fixed shipping price (In default currency)',
+                                'alias' => 'shipping price',
+                            ],
+                        'products.tax_class_id'                            =>
+                            [
+                                'title' => 'Tax Class ID (Number, See tax settings)',
+                                'alias' => 'tax id',
+                            ],
+                        'products.weight_class_id'                         =>
+                            [
+                                'title' => 'Weight Class ID (Number, See weight settings)',
+                                'alias' => 'weight id',
+                            ],
+                        'products.length_class_id'                         =>
+                            [
+                                'title' => 'Length Class ID (Number, See length settings)',
+                                'alias' => 'length id',
+                            ],
+                        'products.weight'                                  =>
+                            [
+                                'title' => 'Product Weight',
+                                'alias' => 'weight',
+                            ],
+                        'products.length'                                  =>
+                            [
+                                'title' => 'Product Length',
+                                'alias' => 'length',
+                            ],
+                        'products.width'                                   =>
+                            [
+                                'title' => 'Product Width',
+                                'alias' => 'width',
+                            ],
+                        'products.height'                                  =>
+                            [
+                                'title' => 'Product Height',
+                                'alias' => 'height',
+                            ],
+                        'products.subtract'                                =>
+                            [
+                                'title' => 'Track Stock Setting (1 or 0)',
+                                'alias' => 'track stock',
+                            ],
+                        'products.free_shipping'                           =>
+                            [
+                                'title' => 'Free shipping (1 or 0)',
+                                'alias' => 'free shipping',
+                            ],
+                        'products.shipping'                                =>
+                            [
+                                'title' => 'Enable Shipping (1 or 0)',
+                                'alias' => 'requires shipping',
+                            ],
+                        'products.sort_order'                              =>
+                            [
+                                'title' => 'Sorting Order',
+                                'alias' => 'sort order',
+                            ],
+                        'products.call_to_order'                           =>
+                            [
+                                'title' => 'Order only by calling (1 or 0)',
+                                'alias' => 'call to order',
+                            ],
+                        'products.date_available'                          =>
+                            [
+                                'title' => 'Date Available (YYYY-MM-DD format)',
+                                'alias' => 'date available',
+                            ],
+                        'categories.category'                              =>
+                            [
+                                'title'      => 'Category Name or Tree',
+                                'split'      => 1,
+                                'multivalue' => 1,
+                                'alias'      => 'category',
+                            ],
+                        'manufacturers.manufacturer'                       =>
+                            [
+                                'title' => 'Manufacturer name',
+                                'alias' => 'manufacturer name',
+                            ],
+                        'images.image'                                     =>
+                            [
+                                'title'      => "Image or List of URLs/Paths",
+                                'split'      => 1,
+                                'multivalue' => 1,
+                                'alias'      => 'image url',
+                            ],
+                        'product_options.name'                             =>
+                            [
+                                'title'      => 'Option name (up to 255 chars)',
+                                'multivalue' => 1,
+                                'alias'      => 'option name',
+                            ],
+                        'product_options.sort_order'                       =>
+                            [
+                                'title'      => 'Option sorting order (numeric)',
+                                'multivalue' => 1,
+                                'alias'      => 'option sort order',
+                            ],
+                        'product_options.status'                           =>
+                            [
+                                'title'      => 'Option status (1 or 0)',
+                                'multivalue' => 1,
+                                'alias'      => 'option status',
+                            ],
+                        'product_options.required'                         =>
+                            [
+                                'title'      => 'Option Required (1 or 0)',
+                                'multivalue' => 1,
+                                'alias'      => 'option required',
+                            ],
+                        'product_options.product_option_values.name'       =>
+                            [
+                                'title'      => 'Option value name (up to 255 chars)',
+                                'multivalue' => 1,
+                                'alias'      => 'option value name',
+                            ],
+                        'product_options.product_option_values.sku'        =>
+                            [
+                                'title'      => 'Option value sku (up to 255 chars)',
+                                'multivalue' => 1,
+                                'alias'      => 'option value sku',
+                            ],
+                        'product_options.product_option_values.quantity'   =>
+                            [
+                                'title'      => 'Option value quantity',
+                                'multivalue' => 1,
+                                'alias'      => 'option value quantity',
+                            ],
+                        'product_options.product_option_values.price'      =>
+                            [
+                                'title'      => 'Option value price',
+                                'multivalue' => 1,
+                                'alias'      => 'option value price',
+                            ],
+                        'product_options.product_option_values.default'    =>
+                            [
+                                'title'      => 'Option value default selection (1 or 0)',
+                                'multivalue' => 1,
+                                'alias'      => 'option value default',
+                            ],
+                        'product_options.product_option_values.weight'     =>
+                            [
+                                'title'      => 'Option value weight (numeric)',
+                                'multivalue' => 1,
+                                'alias'      => 'option value weight',
+                            ],
+                        'product_options.product_option_values.sort_order' =>
+                            [
+                                'title'      => 'Option value sort order (1 or 0)',
+                                'multivalue' => 1,
+                                'alias'      => 'option value sort order',
+                            ],
+                        'product_options.product_option_values.image'      =>
+                            [
+                                'title'      => 'Option value image or List of URLs/Paths',
+                                'split'      => 1,
+                                'multivalue' => 1,
+                                'alias'      => 'option value image',
+                            ],
+                    ],
+                ],
+                'categories'    => [
+                    'columns' => [
+                        'categories.status'                      =>
+                            [
+                                'title' => 'Status (0 or 1)',
+                                'alias' => 'status',
+                            ],
+                        'categories.sort_order'                  =>
+                            [
+                                'title' => 'Sorting Order(Number)',
+                                'alias' => 'sort order',
+                            ],
+                        'categories.keyword'                     =>
+                            [
+                                'title' => 'SEO URL',
+                                'alias' => 'seo url',
+                            ],
+                        'category_descriptions.name'             =>
+                            [
+                                'title'      => 'Category Name or Tree',
+                                'required'   => true,
+                                'split'      => 1,
+                                'multivalue' => 1,
+                                'alias'      => 'name',
+                            ],
+                        'category_descriptions.description'      =>
+                            [
+                                'title' => 'Description',
+                                'alias' => 'description',
+                            ],
+                        'category_descriptions.meta_keywords'    =>
+                            [
+                                'title' => 'Meta Keywords',
+                                'alias' => 'meta keywords',
+                            ],
+                        'category_descriptions.meta_description' =>
+                            [
+                                'title' => 'Meta Description',
+                                'alias' => 'meta description',
+                            ],
+                        'images.image'                           =>
+                            [
+                                'title'      => "Image or List of URLs/Paths",
+                                'split'      => 1,
+                                'multivalue' => 1,
+                                'alias'      => 'image',
+                            ],
+                    ],
+                ],
+                'manufacturers' => [
+                    'columns' => [
+                        'manufacturers.sort_order' =>
+                            [
+                                'title'   => 'Sorting Order (Number)',
+                                'default' => 0,
+                                'alias'   => 'sort order',
+                            ],
+                        'manufacturers.keyword'    =>
+                            [
+                                'title' => 'SEO URL',
+                                'alias' => 'seo url',
+                            ],
+                        'manufacturers.name'       =>
+                            [
+                                'title'    => 'Name (up to 64 chars)',
+                                'required' => true,
+                                'alias'    => 'name',
+                            ],
+                        'images.image'             =>
+                            [
+                                'title'      => "Image or List of URLs/Paths",
+                                'split'      => 1,
+                                'multivalue' => 1,
+                                'alias'      => 'image',
+                            ],
+                    ],
+                ],
+            ];
+        //allow hooks affect on it
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        return $this->data['import_column_definitions'];
+    }
+
+    /**
+     * @param string $logFileName
+     * @return void
+     * @throws AException
+     */
+    public function initLogger(string $logFileName)
+    {
+        $this->logger = new ALog($logFileName);
+    }
+
+    /**
+     * @param int $rowTimeLimit
+     * @return void
+     */
+    public function setRowTimeLimit(int $rowTimeLimit)
+    {
+        $this->rowTimeLimit = $rowTimeLimit;
+    }
+
+    /**
+     * @param int $rowDivider
+     * @return void
+     */
+    public function setRowDivider(int $rowDivider)
+    {
+        $this->rowDivider = $rowDivider;
+    }
 
     /**
      * @param string $task_name
      * @param array $data
      *
      * @return array|bool
+     * @throws AException
      */
-    public function createTask($task_name, $data = [])
+    public function createTask(string $task_name, array $data)
     {
         if (!$task_name) {
-            $this->errors[] = 'Can not to create task. Empty task name has been given.';
+            throw new AException(AC_ERR_USER_ERROR, 'Can not to create task. Empty task name has been given.');
         }
 
         if (!$data['file'] && !$data['products_fields']) {
-            $this->errors[] = 'Missing required data to build a task.';
+            throw new AException(AC_ERR_USER_ERROR, 'Missing required data to build a task (file, product_fields etc).');
         }
         //get file details
-        $total_rows_count = -1;
-        ini_set("auto_detect_line_endings", true);
+        $totalRowsCount = -1;
         $handle = fopen($data['file'], "r");
         if (is_resource($handle)) {
             while (fgetcsv($handle, 0, $data['delimiter']) !== false) {
-                $total_rows_count++;
+                $totalRowsCount++;
             }
             unset($line);
             fclose($handle);
@@ -64,14 +433,6 @@ class ModelToolImportProcess extends Model
             $this->errors[] = 'No import feed file available!';
             return false;
         }
-
-        //task controller processing task steps
-        $task_controller = 'task/tool/import_process/processRows';
-
-        //numbers of rows per task step
-        $divider = 10;
-        //timeout in seconds for one row
-        $time_per_send = 6;
 
         $tm = new ATaskManager();
         //create new task
@@ -81,12 +442,12 @@ class ModelToolImportProcess extends Model
                 'starter'            => 1, //admin-side is starter
                 'created_by'         => $this->user->getId(), //get starter id
                 'status'             => $tm::STATUS_READY,
-                'start_time'         => date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d') + 1, date('Y'))),
-                'last_time_run'      => '0000-00-00 00:00:00',
+                'start_time'         => date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), (int)date('d') + 1, date('Y'))),
+                'last_time_run'      => null,
                 'progress'           => '0',
                 'last_result'        => '1',
                 'run_interval'       => '0',
-                'max_execution_time' => ($total_rows_count * $time_per_send * 2),
+                'max_execution_time' => ($totalRowsCount * $this->rowTimeLimit * 2),
             ]
         );
         if (!$task_id) {
@@ -100,7 +461,7 @@ class ModelToolImportProcess extends Model
                 'created_by' => $this->user->getId(),
                 'settings'   => [
                     'import_data'      => $data,
-                    'total_rows_count' => $total_rows_count,
+                    'total_rows_count' => $totalRowsCount,
                     'success_count'    => 0,
                     'failed_count'     => 0,
                 ],
@@ -109,19 +470,19 @@ class ModelToolImportProcess extends Model
 
         $sort_order = 1;
         $k = 0;
-        while ($k < $total_rows_count) {
+        while ($k < $totalRowsCount) {
             //create task step
-            $stop = $k + $divider;
-            $stop = min($stop, $total_rows_count);
+            $stop = $k + $this->rowDivider;
+            $stop = min($stop, $totalRowsCount);
             $step_id = $tm->addStep(
                 [
                     'task_id'            => $task_id,
                     'sort_order'         => $sort_order,
                     'status'             => 1,
-                    'last_time_run'      => '0000-00-00 00:00:00',
-                    'last_result'        => '0',
-                    'max_execution_time' => ($divider * $time_per_send * 2),
-                    'controller'         => $task_controller,
+                    'last_time_run'      => null,
+                    'last_result'        => 0,
+                    'max_execution_time' => ($this->rowDivider * $this->rowTimeLimit * 2),
+                    'controller'         => static::$taskController,
                     'settings'           => [
                         'start' => $k,
                         'stop'  => $stop,
@@ -134,11 +495,11 @@ class ModelToolImportProcess extends Model
                 return false;
             } else {
                 // get eta in seconds
-                $this->eta[$step_id] = ($divider * $time_per_send * 2);
+                $this->eta[$step_id] = ($this->rowDivider * $this->rowTimeLimit * 2);
             }
 
             $sort_order++;
-            $k += $divider + 1;
+            $k += $this->rowDivider + 1;
         }
 
         $task_details = $tm->getTaskById($task_id);
@@ -157,60 +518,55 @@ class ModelToolImportProcess extends Model
         }
     }
 
-    public function initLogger(string $logFileName)
-    {
-        $this->imp_log = new ALog($logFileName);
-    }
-
     /**
-     * @param int $task_id
+     * @param int|string $task_id
      * @param array $data
      * @param array $settings
      *
      * @return bool|null
      * @throws AException
      */
-    public function process_products_record($task_id, $data, $settings)
+    public function process_products_record(int|string $task_id, array $data, array $settings)
     {
-        $language_id = $settings['language_id'] ?: $this->language->getContentLanguageID();
-        $store_id = $settings['store_id'] ?: $this->config->get('current_store_id');
+        $language_id = (int)$settings['language_id'] ?: $this->language->getContentLanguageID();
+        $store_id = $settings['store_id'] ?? (int)$this->config->get('current_store_id');
         $this->load->model('catalog/product');
         $this->initLogger(DIR_LOGS . "products_import_" . $task_id . ".txt");
-        return $this->addUpdateProduct($data, $settings, $language_id, $store_id);
+        return $this->addUpdateProduct($data, $settings, (int)$language_id, (int)$store_id);
     }
 
     /**
-     * @param int $task_id
+     * @param int|string $task_id
      * @param array $data
      * @param array $settings
      *
      * @return bool|null
      * @throws AException
      */
-    public function process_categories_record($task_id, $data, $settings)
+    public function process_categories_record(int|string $task_id, array $data, array $settings)
     {
-        $language_id = $settings['language_id'] ?: $this->language->getContentLanguageID();
+        $language_id = (int)$settings['language_id'] ?: $this->language->getContentLanguageID();
         $store_id = $settings['store_id'] ?: $this->session->data['current_store_id'];
         $this->load->model('catalog/category');
         $this->initLogger(DIR_LOGS . "categories_import_" . $task_id . ".txt");
-        return $this->addUpdateCategory($data, $settings, $language_id, $store_id);
+        return $this->addUpdateCategory($data, $settings, (int)$language_id, (int)$store_id);
     }
 
     /**
-     * @param int $task_id
+     * @param int|string $task_id
      * @param array $data
      * @param array $settings
      *
      * @return bool|null
      * @throws AException
      */
-    public function process_manufacturers_record($task_id, $data, $settings)
+    public function process_manufacturers_record(int|string $task_id, $data, $settings)
     {
         $language_id = $settings['language_id'] ?: $this->language->getContentLanguageID();
         $store_id = $settings['store_id'] ?: $this->session->data['current_store_id'];
         $this->load->model('catalog/manufacturer');
         $this->initLogger(DIR_LOGS . "manufacturers_import_" . $task_id . ".txt");
-        return $this->addUpdateManufacture($data, $settings, $language_id, $store_id);
+        return $this->addUpdateBrand($data, $settings, $language_id, $store_id);
     }
 
     /**
@@ -222,14 +578,15 @@ class ModelToolImportProcess extends Model
      * @return bool|null
      * @throws AException
      */
-    protected function addUpdateProduct($record, $settings, $language_id, $store_id)
+    protected function addUpdateProduct(array $record, array $settings, int $language_id, int $store_id = 0)
     {
+        $prodMdl = $this->model_catalog_product;
         $status = false;
-        $record = array_map('trim', (array)$record);
+        $record = array_map('trim', $record);
 
         //process columns that needs to be concatenated
         if (isset($settings['concat']) && is_array($settings['concat'])) {
-            $this->updateConcatinatedColumns($record, $settings);
+            $this->updateConcatenatedColumns($record, $settings);
         }
         //data mapping
         $data = $this->buildDataMap(
@@ -239,21 +596,27 @@ class ModelToolImportProcess extends Model
             $settings['split_col']
         );
         if (!$data) {
-            return $this->toLog("Error: Unable to build products import data map.");
+            $this->toLog("Error: Unable to build products import data map.");
+            return false;
         }
         $action = $data['action'][0] ?? 'update_or_insert';
-        $product = $this->_filter_array($data['products']);
-        $product_desc = $this->_filter_array($data['product_descriptions']);
-        $manufacturers = $this->_filter_array($data['manufacturers']);
+        $product = $this->filterArray((array)$data['products']);
+        $product_desc = $this->filterArray((array)$data['product_descriptions']);
+        $manufacturers = $this->filterArray((array)$data['manufacturers']);
         //check if row is complete and uniform
-        if (!$product_desc['name'] && !$product['sku'] && !$product['model']) {
-            return $this->toLog('Error: Record is not complete or missing required data. Skipping!');
+        if (
+            (!$product_desc['name'] && !$product['sku'] && !$product['model'])
+            || ($data['product_options'] && !$this->validateOptions((array)$data['product_options']))
+        ) {
+            $this->toLog('Error: Record is not complete or missing required data. Skipping!');
+            return false;
         }
         $this->toLog("Processing record for product " . $product_desc['name'] . ".");
 
         //detect if we update or create new product based on update settings
         $new_product = true;
         $product_id = 0;
+        $lookup_value = $unique_field = null;
         if ($settings['update_col']) {
             $unique_field_index = key($settings['update_col']);
             if (is_numeric($unique_field_index)) {
@@ -273,15 +636,20 @@ class ModelToolImportProcess extends Model
         }
         //validate actions
         if ($action == 'update' && $new_product) {
-            return $this->toLog('Error: Update only action is set, but product not found. Skipping!');
+            $this->toLog('Error: Update only action is set, but product not found. Skipping!');
+            return false;
         } elseif ($action == 'insert' && !$new_product) {
-            return $this->toLog('Error: Insert only action is set, but product already exists. Skipping!');
+            $this->toLog('Error: Insert only action is set, but product already exists. Skipping!');
+            return false;
         } elseif ($action == 'delete' && ($new_product || !$product_id)) {
-            return $this->toLog('Error: Delete action is set, but product does not exists. Skipping!');
+            $this->toLog(
+                'Warn: Delete action is set, but product does not exists (' . $unique_field . ': ' . $lookup_value . '). Skipping!'
+            );
+            return true;
         }
 
         if ($action == 'delete' && $product_id) {
-            $this->model_catalog_product->deleteProduct($product_id);
+            $prodMdl->deleteProduct($product_id);
             $this->toLog("Deleted product '" . $product_desc['name'] . "' with ID " . $product_id);
             return true;
         }
@@ -320,7 +688,7 @@ class ModelToolImportProcess extends Model
                 $product_data[$key] = $product_data[$key] ?? $val;
             }
             try {
-                $product_id = $this->model_catalog_product->addProduct($product_data);
+                $product_id = $prodMdl->addProduct($product_data);
                 $this->toLog("Created product '" . $product_desc['name'] . "' with ID " . $product_id);
                 $status = true;
             } catch (Exception $e) {
@@ -329,7 +697,7 @@ class ModelToolImportProcess extends Model
         } else {
             //flat array for description (specific for update)
             $product_data['product_description'] = $product_desc;
-            $this->model_catalog_product->updateProduct($product_id, $product_data);
+            $prodMdl->updateProduct($product_id, $product_data);
             $this->toLog("Updated product " . $product_desc['name'] . " with ID " . $product_id);
             $status = true;
         }
@@ -340,11 +708,17 @@ class ModelToolImportProcess extends Model
         if (count($categories)) {
             $product_links['product_category'] = array_column($categories, 'category_id');
         }
-        $this->model_catalog_product->updateProductLinks($product_id, $product_links);
+        $prodMdl->updateProductLinks($product_id, $product_links);
 
         if (isset($data['images'])) {
             //process images
-            $this->migrateImages($data['images'], 'products', $product_id, $product_desc['name'], $language_id);
+            $this->migrateImages(
+                (array)$data['images'],
+                'products',
+                $product_id,
+                (string)$product_desc['name'],
+                $language_id
+            );
         }
 
         if (isset($data['product_options'])) {
@@ -359,6 +733,28 @@ class ModelToolImportProcess extends Model
         return $status;
     }
 
+    protected function validateOptions(array $options)
+    {
+        foreach ($options as $option) {
+            $arr = (array)$option;
+            $flattened = [];
+            array_walk_recursive($arr, function ($value) use (&$flattened) {
+                $flattened[] = (string)$value;
+            });
+
+            $cc = implode('', $flattened);
+            //if option array contains only empty values - skip option check
+            if ($cc === '') {
+                continue;
+            }
+            if (!is_array($option) || !array_filter($option) || !$option['name']) {
+                $this->toLog('Error: Option name must be a non-empty string.');
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * @param array $record
      * @param array $settings
@@ -368,14 +764,13 @@ class ModelToolImportProcess extends Model
      * @return bool|null
      * @throws AException
      */
-    protected function addUpdateCategory($record, $settings, $language_id, $store_id)
+    protected function addUpdateCategory(array $record, array $settings, int $language_id, int $store_id)
     {
-        $this->load->model('catalog/category');
         $record = array_map('trim', (array)$record);
 
         //process columns that needs to be concatenated
         if (isset($settings['concat']) && is_array($settings['concat'])) {
-            $this->updateConcatinatedColumns($record, $settings);
+            $this->updateConcatenatedColumns($record, $settings);
         }
 
         //data mapping
@@ -386,37 +781,49 @@ class ModelToolImportProcess extends Model
             $settings['split_col']
         );
         if (empty($data)) {
-            return $this->toLog("Error: Unable to build categories import data map.");
+            $this->toLog("Error: Unable to build categories import data map.");
+            return false;
         }
 
         $action = $data['action'][0] ?: 'update_or_insert';
-        $category = $this->_filter_array($data['categories']);
+        $category = $this->filterArray((array)$data['categories']);
         //check if we have split tree or an array
-        $category_desc = $this->_filter_array($data['category_descriptions']);
+        $category_desc = $this->filterArray((array)$data['category_descriptions']);
         $category_tree = [];
         if (is_array($category_desc['name'])) {
             // we have category array tree
             $category_tree = $category_desc['name'];
             $category_desc['name'] = end($category_tree);
             $s_tree = implode(' -> ', $category_tree);
-            $this->toLog("Processing record for category { $s_tree } .");
+            $this->toLog("Processing record for category " . $s_tree);
         } else {
             $category_tree[] = $category_desc['name'];
-            $this->toLog("Processing record for category { {$category_desc['name']} } .");
+            $this->toLog("Processing record for category " . $category_desc['name']);
         }
         //process all categories
-        $categories = $this->_process_categories(['category' => [$category_tree]], $language_id, $store_id);
+        $categories = $this->_process_categories(
+            [
+                'category' => [
+                    $category_tree
+                ]
+            ],
+            $language_id,
+            $store_id
+        );
         //we will have always one category
         $category_id = $categories[0]['category_id'];
         $parent_category_id = $categories[0]['parent_id'];
 
         //validate actions
         if ($action == 'update' && !$category_id) {
-            return $this->toLog('Error: Update only action is set, but category not found. Skipping!');
+            $this->toLog('Error: Update only action is set, but category not found. Skipping!');
+            return false;
         } elseif ($action == 'insert' && $category_id) {
-            return $this->toLog('Error: Insert only action is set, but category already exists. Skipping!');
+            $this->toLog('Error: Insert only action is set, but category already exists. Skipping!');
+            return false;
         } elseif ($action == 'delete' && !$category_id) {
-            return $this->toLog('Error: Delete action is set, but category does not exists. Skipping!');
+            $this->toLog('Error: Delete action is set, but category does not exists. Skipping!');
+            return false;
         }
 
         if ($action == 'delete') {
@@ -437,7 +844,6 @@ class ModelToolImportProcess extends Model
                 )
             );
             $this->toLog("Updated category '" . $category_desc['name'] . "' with ID " . $category_id);
-            $status = true;
         } else {
             $default_arr = [
                 'status'     => 1,
@@ -457,17 +863,22 @@ class ModelToolImportProcess extends Model
             );
             if ($category_id) {
                 $this->toLog("Created category " . $category_desc['name'] . " with ID " . $category_id);
-                $status = true;
             } else {
-                $this->toLog("Error: Failed to create category '{$category_desc['name']}'.");
+                $this->toLog("Error: Failed to create category '" . $category_desc['name'] . "'");
                 return false;
             }
         }
 
         //process images
-        $this->migrateImages($data['images'], 'categories', $category_id, $category_desc['name'], $language_id);
+        $this->migrateImages(
+            (array)$data['images'],
+            'categories',
+            $category_id,
+            (string)$category_desc['name'],
+            $language_id
+        );
 
-        return $status;
+        return true;
     }
 
     /**
@@ -479,15 +890,14 @@ class ModelToolImportProcess extends Model
      * @return bool|null
      * @throws AException
      */
-    protected function addUpdateManufacture($record, $settings, $language_id, $store_id)
+    protected function addUpdateBrand(array $record, array $settings, int $language_id, int $store_id)
     {
-        $this->load->model('catalog/category');
         $status = false;
         $record = array_map('trim', (array)$record);
 
         //process columns that needs to be concatenated
         if (isset($settings['concat']) && is_array($settings['concat'])) {
-            $this->updateConcatinatedColumns($record, $settings);
+            $this->updateConcatenatedColumns($record, $settings);
         }
 
         //data mapping
@@ -498,20 +908,24 @@ class ModelToolImportProcess extends Model
             $settings['split_col']
         );
         if (empty($data)) {
-            return $this->toLog("Error: Unable to build manufacturers import data map.");
+            $this->toLog("Error: Unable to build manufacturers import data map.");
+            return false;
         }
 
         $action = $data['action'][0] ?: 'update_or_insert';
-        $manufacturer = $this->_filter_array($data['manufacturers']);
+        $manufacturer = $this->filterArray((array)$data['manufacturers']);
         $manufacturer_id = $this->_process_manufacturer($manufacturer['name'], $manufacturer['sort_order'], $store_id);
 
         //validate actions
         if ($action == 'update' && !$manufacturer_id) {
-            return $this->toLog('Error: Update only action is set, but brand/manufacturer not found. Skipping!');
+            $this->toLog('Error: Update only action is set, but brand/manufacturer not found. Skipping!');
+            return false;
         } elseif ($action == 'insert' && $manufacturer_id) {
-            return $this->toLog('Error: Insert only action is set, but brand/manufacturer already exists. Skipping!');
+            $this->toLog('Error: Insert only action is set, but brand/manufacturer already exists. Skipping!');
+            return false;
         } elseif ($action == 'delete' && !$manufacturer_id) {
-            return $this->toLog('Error: Delete action is set, but brand/manufacturer does not exists. Skipping!');
+            $this->toLog('Error: Delete action is set, but brand/manufacturer does not exists. Skipping!');
+            return false;
         }
 
         if ($action == 'delete') {
@@ -524,10 +938,10 @@ class ModelToolImportProcess extends Model
             $status = true;
             //process images
             $this->migrateImages(
-                $data['images'],
+                (array)$data['images'],
                 'manufacturers',
                 $manufacturer_id,
-                $manufacturer['name'],
+                (string)$manufacturer['name'],
                 $language_id
             );
         }
@@ -552,12 +966,13 @@ class ModelToolImportProcess extends Model
 
         $this->toLog("Creating product option for product ID " . $product_id);
         //get existing options and values.
-        $this->load->model('catalog/product');
-        $options = $this->model_catalog_product->getProductOptions($product_id);
+        /** @var ModelCatalogProduct $prodMdl */
+        $prodMdl = $this->load->model('catalog/product');
+        $options = $prodMdl->getProductOptions($product_id);
         if ($options) {
             //delete all options if exist
             foreach ($options as $option) {
-                $this->model_catalog_product->deleteProductOption($product_id, $option['product_option_id']);
+                $prodMdl->deleteProductOption($product_id, $option['product_option_id']);
             }
         }
 
@@ -579,7 +994,7 @@ class ModelToolImportProcess extends Model
             $opt_data['sort_order'] = $data[$i]['sort_order'] ?? 0;
             $opt_data['status'] = $data[$i]['status'] ?? 1;
 
-            $p_option_id = $this->model_catalog_product->addProductOption($product_id, $opt_data);
+            $p_option_id = $prodMdl->addProductOption($product_id, $opt_data);
             if ($p_option_id) {
                 $this->toLog("Created product option '" . $data[$i]['name'] . "' with ID " . $p_option_id);
             } else {
@@ -604,7 +1019,7 @@ class ModelToolImportProcess extends Model
                     for ($j = 0; $j < max($counts); $j++) {
                         //build flat associative array options value
                         $opt_val_data = [];
-                        foreach (array_keys($option_vals) as $key) {
+                        foreach (array_keys((array)$option_vals) as $key) {
                             $opt_val_data[$key] = $option_vals[$key][$j];
                         }
                         $this->_save_option_value($product_id, $weight_class_id, $p_option_id, $opt_val_data);
@@ -616,25 +1031,26 @@ class ModelToolImportProcess extends Model
     }
 
     /**
-     * @param int $product_id
+     * @param int $productId
      * @param int $weight_class_id
-     * @param int $p_option_id
+     * @param int $optionId
      * @param array $data
      *
      * @return false|int|null
      * @throws AException
      */
-    protected function _save_option_value($product_id, $weight_class_id, $p_option_id, $data)
+    protected function _save_option_value(int $productId, int $weight_class_id, int $optionId, array $data)
     {
-        if (empty($data) || !array_filter($data)) {
-            //skip empty data
+        $data = array_filter($data);
+        if (!$data) {
             return false;
         }
 
-        $opt_val_data = [];
+        $valueData = [];
         $opt_keys = [
             'name'          => '',
             'sku'           => '',
+            'txt_id'        => '',
             'quantity'      => 0,
             'sort_order'    => 0,
             'subtract'      => 0,
@@ -643,54 +1059,65 @@ class ModelToolImportProcess extends Model
             'weight_type'   => 'lbs',
             'default'       => 0,
             'price'         => 0,
+            'cost'          => 0,
             'supplier_code' => '',
             'supplier_id'   => '',
         ];
         foreach ($opt_keys as $k => $v) {
-            $opt_val_data[$k] = $v;
+            $valueData[$k] = $v;
             if (isset($data[$k])) {
-                $opt_val_data[$k] = $data[$k];
+                $valueData[$k] = $data[$k];
             }
         }
         //enable stock taking if quantity specified
-        if ($opt_val_data['quantity'] > 0) {
-            $opt_val_data['subtract'] = 1;
+        if ($valueData['quantity'] > 0) {
+            $valueData['subtract'] = 1;
         }
 
         $this->load->model('localisation/weight_class');
-        $prd_weight_info = $this->model_localisation_weight_class->getWeightClass($weight_class_id);
-        if ($prd_weight_info['unit']) {
-            $opt_val_data['weight_type'] = $prd_weight_info['unit'];
+        $weightClass = $this->model_localisation_weight_class->getWeightClass($weight_class_id);
+        if ($weightClass['unit']) {
+            $valueData['weight_type'] = $weightClass['unit'];
         }
 
-        $pd_opt_val_id = $this->model_catalog_product->addProductOptionValueAndDescription(
-            $product_id,
-            $p_option_id,
-            $opt_val_data
+        $optionValueId = $this->model_catalog_product->addProductOptionValueAndDescription(
+            $productId,
+            $optionId,
+            $valueData
         );
 
-        if ($pd_opt_val_id && !empty($data['image'])) {
+        if ($optionValueId && $data['image']) {
             //process images
             $this->migrateImages(
-                $data, 'product_option_value', $pd_opt_val_id, $data['name'], $this->language->getContentLanguageID()
+                (array)$data,
+                'product_option_value',
+                $optionValueId,
+                (string)$data['name'],
+                $this->language->getContentLanguageID()
             );
         }
-        return $pd_opt_val_id;
+        return $optionValueId;
     }
 
     //add from URL download
 
     /**
      * @param array $data
-     * @param string $object_txt_id
-     * @param int $object_id
-     * @param string $title
-     * @param int $language_id
+     * @param string|null $object_txt_id
+     * @param int|null $object_id
+     * @param string|null $title
+     * @param int|null $language_id
      *
      * @return bool
      * @throws AException
      */
-    public function migrateImages($data = [], $object_txt_id = '', $object_id = 0, $title = '', $language_id = 0)
+    public function migrateImages(
+        array   $data,
+        ?string $object_txt_id = '',
+        ?int    $object_id = 0,
+        ?string $title = '',
+        ?int    $language_id = 0
+    )
     {
         $objects = [
             'products'             => 'Product',
@@ -699,7 +1126,7 @@ class ModelToolImportProcess extends Model
             'product_option_value' => 'ProductOptionValue',
         ];
 
-        if (!in_array($object_txt_id, array_keys($objects)) || !$data || !is_array($data)) {
+        if (!in_array($object_txt_id, array_keys($objects)) || !$data) {
             $this->toLog("Warning: Missing images for " . $object_txt_id . ".");
             return true;
         }
@@ -725,7 +1152,7 @@ class ModelToolImportProcess extends Model
             //check if image is absolute path or remote URL
             $host = parse_url($srcUrl, PHP_URL_HOST);
             $imageBasename = basename(parse_url($srcUrl, PHP_URL_PATH));
-            $dstFileName = DIR_RESOURCE . $rm->getTypeDir() . $imageBasename;
+            $dstFileName = DIR_RESOURCE . $rm->getTypeDir() . str_replace('/', DS, $imageBasename);
             if (!is_dir(DIR_RESOURCE . $rm->getTypeDir())) {
                 @mkdir(DIR_RESOURCE . $rm->getTypeDir(), 0777);
             }
@@ -1056,11 +1483,11 @@ class ModelToolImportProcess extends Model
      */
     protected function buildDataMap($record, $import_col, $fields, $split_col)
     {
-        $ret = [];
+        $output = [];
         $op_index = -1;
         $op_array = [];
         if (!is_array($import_col) || !is_array($fields)) {
-            return $ret;
+            return $output;
         }
 
         //decode html encoded symbols such as &gt;
@@ -1073,9 +1500,14 @@ class ModelToolImportProcess extends Model
                 continue;
             }
             $arr = [];
-            $field_val = $record[$import_col[$index]] ?? '';
+            $field_val = $record[$import_col[$index]] ?? null;
+            //if no data present - skip
+            if (!isset($field_val)) {
+                continue;
+            }
+
             $keys = array_reverse(explode('.', $field));
-            if (end($keys) == 'product_options' && !empty($field_val)) {
+            if (end($keys) == 'product_options') {
                 //map options special way
                 //check if this is still same option or it is new name
                 if (count($keys) == 2) {
@@ -1097,7 +1529,7 @@ class ModelToolImportProcess extends Model
                     }
                     $arr['product_option_values']['image'][] = $field_val;
                     $tmp_index = ($op_index >= 0) ? $op_index : 0;
-                    $op_array[$tmp_index] = array_merge_recursive($op_array[$tmp_index], $arr);
+                    $op_array[$tmp_index] = array_merge_recursive((array)$op_array[$tmp_index], $arr);
                 } else {
                     for ($i = 0; $i < count($keys) - 1; $i++) {
                         if ($i == 0) {
@@ -1107,7 +1539,7 @@ class ModelToolImportProcess extends Model
                         }
                     }
                     $tmp_index = ($op_index >= 0) ? $op_index : 0;
-                    $op_array[$tmp_index] = array_merge_recursive($op_array[$tmp_index], $arr);
+                    $op_array[$tmp_index] = array_merge_recursive((array)$op_array[$tmp_index], $arr);
                 }
             } else {
                 foreach ($keys as $key) {
@@ -1127,14 +1559,14 @@ class ModelToolImportProcess extends Model
                     }
                 }
 
-                $ret = array_merge_recursive($ret, $arr);
+                $output = array_merge_recursive($output, $arr);
             }
         }
 
         if ($op_array) {
-            $ret = array_merge_recursive($ret, ['product_options' => $op_array]);
+            $output = array_merge_recursive($output, ['product_options' => $op_array]);
         }
-        return $ret;
+        return $output;
     }
 
     /**
@@ -1143,7 +1575,7 @@ class ModelToolImportProcess extends Model
      *
      * @return void
      */
-    protected function updateConcatinatedColumns(&$vals, &$map)
+    protected function updateConcatenatedColumns(&$vals, &$map)
     {
         $concatMap = [];
         foreach ($map['concat'] as $index => $col) {
@@ -1156,35 +1588,37 @@ class ModelToolImportProcess extends Model
             //add new column to import list
             $map['import_col'][] = $newName;
             $map[$map['table'] . '_fields'][] = $map[$map['table'] . '_fields'][$index[1]['index']];
-            foreach ($index as $pos => $colDetails) {
+            foreach ($index as $colDetails) {
                 $colIndex = $colDetails['index'];
                 $vals[$newName] .= $colDetails['concat_by'] . $vals[$map['import_col'][$colIndex]];
                 //remove concatenated column from values and map
-                unset($vals[$map['import_col'][$colIndex]]);
-                unset($map['import_col'][$colIndex]);
-                unset($map['products_fields'][$colIndex]);
+                unset(
+                    $vals[$map['import_col'][$colIndex]],
+                    $map['import_col'][$colIndex],
+                    $map['products_fields'][$colIndex]
+                );
             }
         }
         unset($map['concat']);
     }
 
     /**
-     * @param array $arr
+     * @param array $data
      *
      * @return array
      */
-    protected function _filter_array($arr = [])
+    protected function filterArray(array $data = [])
     {
-        $ret = [];
-        if (!$arr || !is_array($arr)) {
-            return $ret;
+        $output = [];
+        if (!$data) {
+            return $output;
         }
 
-        foreach ($arr as $key => $val) {
+        foreach ($data as $key => $val) {
             //get only first element of data array
-            $ret[$key] = reset($val);
+            $output[$key] = reset($val);
         }
-        return $ret;
+        return $output;
     }
 
     /**
@@ -1199,7 +1633,7 @@ class ModelToolImportProcess extends Model
      */
     protected function getValueFromDataMap($key, $record, $fields, $columns)
     {
-        $index = array_search($key, $fields);
+        $index = array_search($key, (array)$fields);
         if ($index !== false) {
             return $record[$columns[$index]];
         }
@@ -1207,294 +1641,18 @@ class ModelToolImportProcess extends Model
     }
 
     /**
-     * @param $message
+     * @param string $message
      *
      * @return null
      */
-    protected function toLog($message)
+    protected function toLog(string $message)
     {
         if (!$message) {
             return null;
         }
-        $log = $this->imp_log ?? Registry::getInstance()->get('log');
+        $log = $this->logger ?? Registry::getInstance()->get('log');
         $log?->write($message);
         return true;
     }
 
-    /**
-     * Array wth configurations for import tables and fields
-     *
-     * @return array()
-     */
-    public function importTableCols()
-    {
-        return [
-            'products'      => [
-                'columns' => [
-                    'products.status'                                  => [
-                        'title' => 'Status (1 or 0)',
-                        'alias' => 'status',
-                    ],
-                    'products.sku'                                     => [
-                        'title'  => 'SKU (up to 64 chars)',
-                        'update' => true,
-                        'alias'  => 'sku',
-                    ],
-                    'products.model'                                   => [
-                        'title'  => 'Model (up to 64 chars)',
-                        'update' => true,
-                        'alias'  => 'model',
-                    ],
-                    'product_descriptions.name'                        => [
-                        'title'    => 'Name (up to 255 chars)',
-                        'required' => true,
-                        'update'   => true,
-                        'alias'    => 'name',
-                    ],
-                    'product_descriptions.blurb'                       => [
-                        'title' => 'Short Description',
-                        'alias' => 'blurb',
-                    ],
-                    'product_descriptions.description'                 => [
-                        'title' => 'Long Description',
-                        'alias' => 'description',
-                    ],
-                    'product_descriptions.meta_keywords'               => [
-                        'title' => 'Meta Keywords',
-                        'alias' => 'meta keywords',
-                    ],
-                    'product_descriptions.meta_description'            => [
-                        'title' => 'Meta Description',
-                        'alias' => 'meta description',
-                    ],
-                    'products.keyword'                                 => [
-                        'title' => 'SEO URL',
-                        'alias' => 'seo url',
-                    ],
-                    'products.location'                                => [
-                        'title' => 'Location (Text up to 128 chars)',
-                        'alias' => 'warehouse',
-                    ],
-                    'products.quantity'                                => [
-                        'title' => 'Quantity',
-                        'alias' => 'stock',
-                    ],
-                    'products.minimum'                                 => [
-                        'title' => 'Minimum Order Quantity',
-                        'alias' => 'minimum quantity',
-                    ],
-                    'products.maximum'                                 => [
-                        'title' => 'Maximum Order Quantity',
-                        'alias' => 'maximum quantity',
-                    ],
-                    'products.price'                                   => [
-                        'title' => 'Product price (In default currency)',
-                        'alias' => 'price',
-                    ],
-                    'products.cost'                                    => [
-                        'title' => 'Product Cost (In default currency)',
-                        'alias' => 'cost',
-                    ],
-                    'products.shipping_price'                          => [
-                        'title' => 'Fixed shipping price (In default currency)',
-                        'alias' => 'shipping price',
-                    ],
-                    'products.tax_class_id'                            => [
-                        'title' => 'Tax Class ID (Number, See tax settings)',
-                        'alias' => 'tax id',
-                    ],
-                    'products.weight_class_id'                         => [
-                        'title' => 'Weight Class ID (Number, See weight settings)',
-                        'alias' => 'weight id',
-                    ],
-                    'products.length_class_id'                         => [
-                        'title' => 'Length Class ID (Number, See length settings)',
-                        'alias' => 'length id',
-                    ],
-                    'products.weight'                                  => [
-                        'title' => 'Product Weight',
-                        'alias' => 'weight',
-                    ],
-                    'products.length'                                  => [
-                        'title' => 'Product Length',
-                        'alias' => 'length',
-                    ],
-                    'products.width'                                   => [
-                        'title' => 'Product Width',
-                        'alias' => 'width',
-                    ],
-                    'products.height'                                  => [
-                        'title' => 'Product Height',
-                        'alias' => 'height',
-                    ],
-                    'products.subtract'                                => [
-                        'title' => 'Track Stock Setting (1 or 0)',
-                        'alias' => 'track stock',
-                    ],
-                    'products.free_shipping'                           => [
-                        'title' => 'Free shipping (1 or 0)',
-                        'alias' => 'free shipping',
-                    ],
-                    'products.shipping'                                => [
-                        'title' => 'Enable Shipping (1 or 0)',
-                        'alias' => 'requires shipping',
-                    ],
-                    'products.sort_order'                              => [
-                        'title' => 'Sorting Order',
-                        'alias' => 'sort order',
-                    ],
-                    'products.call_to_order'                           => [
-                        'title' => 'Order only by calling (1 or 0)',
-                        'alias' => 'call to order',
-                    ],
-                    'products.date_available'                          => [
-                        'title' => 'Date Available (YYYY-MM-DD format)',
-                        'alias' => 'date available',
-                    ],
-                    'categories.category'                              => [
-                        'title'      => 'Category Name or Tree',
-                        'split'      => 1,
-                        'multivalue' => 1,
-                        'alias'      => 'category',
-                    ],
-                    'manufacturers.manufacturer'                       => [
-                        'title' => 'Manufacturer name',
-                        'alias' => 'manufacturer name',
-                    ],
-                    'images.image'                                     => [
-                        'title'      => "Image or List of URLs/Paths",
-                        'split'      => 1,
-                        'multivalue' => 1,
-                        'alias'      => 'image url',
-                    ],
-                    'product_options.name'                             => [
-                        'title'      => 'Option name (up to 255 chars)',
-                        'multivalue' => 1,
-                        'alias'      => 'option name',
-                    ],
-                    'product_options.sort_order'                       => [
-                        'title'      => 'Option sorting order (numeric)',
-                        'multivalue' => 1,
-                        'alias'      => 'option sort order',
-                    ],
-                    'product_options.status'                           => [
-                        'title'      => 'Option status (1 or 0)',
-                        'multivalue' => 1,
-                        'alias'      => 'option status',
-                    ],
-                    'product_options.required'                         => [
-                        'title'      => 'Option Required (1 or 0)',
-                        'multivalue' => 1,
-                        'alias'      => 'option required',
-                    ],
-                    'product_options.product_option_values.name'       => [
-                        'title'      => 'Option value name (up to 255 chars)',
-                        'multivalue' => 1,
-                        'alias'      => 'option value name',
-                    ],
-                    'product_options.product_option_values.sku'        => [
-                        'title'      => 'Option value sku (up to 255 chars)',
-                        'multivalue' => 1,
-                        'alias'      => 'option value sku',
-                    ],
-                    'product_options.product_option_values.quantity'   => [
-                        'title'      => 'Option value quantity',
-                        'multivalue' => 1,
-                        'alias'      => 'option value quantity',
-                    ],
-                    'product_options.product_option_values.price'      => [
-                        'title'      => 'Option value price',
-                        'multivalue' => 1,
-                        'alias'      => 'option value price',
-                    ],
-                    'product_options.product_option_values.default'    => [
-                        'title'      => 'Option value default selection (1 or 0)',
-                        'multivalue' => 1,
-                        'alias'      => 'option value default',
-                    ],
-                    'product_options.product_option_values.weight'     => [
-                        'title'      => 'Option value weight (numeric)',
-                        'multivalue' => 1,
-                        'alias'      => 'option value weight',
-                    ],
-                    'product_options.product_option_values.sort_order' => [
-                        'title'      => 'Option value sort order (1 or 0)',
-                        'multivalue' => 1,
-                        'alias'      => 'option value sort order',
-                    ],
-                    'product_options.product_option_values.image'      => [
-                        'title'      => 'Option value image or List of URLs/Paths',
-                        'split'      => 1,
-                        'multivalue' => 1,
-                        'alias'      => 'option value image',
-                    ],
-                ],
-            ],
-            'categories'    => [
-                'columns' => [
-                    'categories.status'                      => [
-                        'title' => 'Status (0 or 1)',
-                        'alias' => 'status',
-                    ],
-                    'categories.sort_order'                  => [
-                        'title' => 'Sorting Order(Number)',
-                        'alias' => 'sort order',
-                    ],
-                    'categories.keyword'                     => [
-                        'title' => 'SEO URL',
-                        'alias' => 'seo url',
-                    ],
-                    'category_descriptions.name'             => [
-                        'title'      => 'Category Name or Tree',
-                        'required'   => true,
-                        'split'      => 1,
-                        'multivalue' => 1,
-                        'alias'      => 'name',
-                    ],
-                    'category_descriptions.description'      => [
-                        'title' => 'Description',
-                        'alias' => 'description',
-                    ],
-                    'category_descriptions.meta_keywords'    => [
-                        'title' => 'Meta Keywords',
-                        'alias' => 'meta keywords',
-                    ],
-                    'category_descriptions.meta_description' => [
-                        'title' => 'Meta Description',
-                        'alias' => 'meta description',
-                    ],
-                    'images.image'                           => [
-                        'title'      => "Image or List of URLs/Paths",
-                        'split'      => 1,
-                        'multivalue' => 1,
-                        'alias'      => 'image',
-                    ],
-                ],
-            ],
-            'manufacturers' => [
-                'columns' => [
-                    'manufacturers.sort_order' => [
-                        'title'   => 'Sorting Order (Number)',
-                        'default' => 0,
-                        'alias'   => 'sort order',
-                    ],
-                    'manufacturers.keyword'    => [
-                        'title' => 'SEO URL',
-                        'alias' => 'seo url',
-                    ],
-                    'manufacturers.name'       => [
-                        'title'    => 'Name (up to 64 chars)',
-                        'required' => true,
-                        'alias'    => 'name',
-                    ],
-                    'images.image'             => [
-                        'title'      => "Image or List of URLs/Paths",
-                        'split'      => 1,
-                        'multivalue' => 1,
-                        'alias'      => 'image',
-                    ],
-                ],
-            ],
-        ];
-    }
 }

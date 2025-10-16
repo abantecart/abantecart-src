@@ -1,32 +1,28 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
 class ControllerResponsesListingGridTask extends AController
 {
-    private $error = [];
-    public $data = [];
-
     public function main()
     {
         //init controller data
@@ -45,7 +41,7 @@ class ControllerResponsesListingGridTask extends AController
         $limit = $this->request->post ['rows']; // get how many rows we want to have into the grid
 
         //Prepare filter config
-        $grid_filter_params = array_merge(['name'], (array) $this->data['grid_filter_params']);
+        $grid_filter_params = array_merge(['name'], (array)$this->data['grid_filter_params']);
         $filter = new AFilter(['method' => 'post', 'grid_filter_params' => $grid_filter_params]);
         $filter_data = $filter->getFilterData();
 
@@ -117,11 +113,11 @@ class ControllerResponsesListingGridTask extends AController
                 $text_status,
                 dateISO2Display(
                     $result ['start_time'],
-                    $this->language->get('date_format_short').' '.$this->language->get('time_format')
+                    $this->language->get('date_format_short') . ' ' . $this->language->get('time_format')
                 ),
                 dateISO2Display(
                     $result ['date_modified'],
-                    $this->language->get('date_format_short').' '.$this->language->get('time_format')
+                    $this->language->get('date_format_short') . ' ' . $this->language->get('time_format')
                 ),
             ];
             $i++;
@@ -142,7 +138,7 @@ class ControllerResponsesListingGridTask extends AController
         $this->load->library('json');
         $this->load->language('tool/task');
         $this->response->addJSONHeader();
-        $task_id = (int) $this->request->post_or_get('task_id');
+        $task_id = (int)$this->request->post_or_get('task_id');
         $tm = new ATaskManager();
         $task = $tm->getTaskById($task_id);
 
@@ -185,7 +181,7 @@ class ControllerResponsesListingGridTask extends AController
             return;
         }
 
-        //if some of steps have sign for interruption on fail - restart whole task
+        //if some of the steps have sign for interruption on fail - restart whole task
         if ($this->request->get['continue']) {
             $restart_all = false;
             foreach ($task['steps'] as $step) {
@@ -203,14 +199,14 @@ class ControllerResponsesListingGridTask extends AController
             if ($restart_all
                 || in_array($step['status'], [$tm::STATUS_FAILED, $tm::STATUS_INCOMPLETE])
             ) {
-                $tm->updateStep($step['step_id'], ['status' => $tm::STATUS_READY]);
+                $tm->updateStep((int)$step['step_id'], ['status' => $tm::STATUS_READY]);
             }
         }
 
         $tm->updateTask(
             $task_id,
             [
-                'status' => $tm::STATUS_READY,
+                'status'     => $tm::STATUS_READY,
                 'start_time' => date('Y-m-d H:i:s'),
             ]
         );
@@ -233,16 +229,16 @@ class ControllerResponsesListingGridTask extends AController
 
         if (has_value($this->request->post_or_get('task_id'))) {
             $tm = new ATaskManager();
-            $task = $tm->getTaskById($this->request->post_or_get('task_id'));
+            $task = $tm->getTaskById((int)$this->request->post_or_get('task_id'));
             //check
             if ($task && $task['status'] == $tm::STATUS_READY) {
                 $tm->updateTask(
-                    $task['task_id'],
+                    (int)$task['task_id'],
                     [
                         'start_time' => date('Y-m-d H:i:s'),
                     ]
                 );
-                $task_id = $task['task_id'];
+                $task_id = (int)$task['task_id'];
             }
             $this->_run_task($task_id);
         } else {
@@ -255,19 +251,25 @@ class ControllerResponsesListingGridTask extends AController
     }
 
     // run task in separate process
-    private function _run_task($task_id = 0, $run_mode = '')
+
+    /**
+     * @param int $task_id
+     * @param string $run_mode
+     * @return void
+     * @throws AException
+     */
+    protected function _run_task(int $task_id = 0, string $run_mode = '')
     {
         $connect = new AConnect(true);
         $url = $this->config->get('config_url')
-            .'task.php?mode=html&task_api_key='.$this->config->get('task_api_key');
+            . 'task.php?mode=html&task_api_key=' . $this->config->get('task_api_key');
         if ($task_id) {
-            $url .= '&task_id='.$task_id;
+            $url .= '&task_id=' . $task_id;
         }
         if ($run_mode) {
-            $url .= '&run_mode='.$run_mode;
+            $url .= '&run_mode=' . $run_mode;
         }
         $connect->getDataHeaders($url);
         session_write_close();
     }
-
 }

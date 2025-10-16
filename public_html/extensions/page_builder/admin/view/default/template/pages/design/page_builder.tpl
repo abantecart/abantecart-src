@@ -55,7 +55,22 @@ $page_list = '';
         }
         $page_list .= '</li>';
     }
-?>
+    $page_list .= '<li>
+    <a id="create_new_layout" href="'. $new_layout_modal_url.'" data-target="#new_layout_modal" data-toggle="modal" 
+            class="btn" title="'.html2view($text_create_new_layout).'">
+            <strong><i class="fa fa-plus-square-o"></i>&nbsp;'.$text_create_new_layout.'</strong>
+    </a></li>';
+
+    echo $this->html->buildElement(
+        [
+            'type'        => 'modal',
+            'id'          => 'new_layout_modal',
+            'modal_type'  => 'lg',
+            'data_source' => 'ajax',
+            'js_onclose'  => ''
+        ]
+    );
+    ?>
 
 <div id="content" class="panel panel-default">
 	<div class="panel-heading col-xs-12">

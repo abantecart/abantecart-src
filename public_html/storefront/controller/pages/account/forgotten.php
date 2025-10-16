@@ -194,6 +194,7 @@ class ControllerPagesAccountForgotten extends AController
         $rtoken = $this->request->get['rtoken'];
         $enc = new AEncryption($this->config->get('encryption_key'));
         list($customer_id, $code) = explode("::", $enc->decrypt($rtoken));
+        $customer_id = (int)$customer_id;
         $customer_details = $this->model_account_customer->getCustomer($customer_id);
         if (empty($customer_id)
             || empty($customer_details['data']['password_reset'])

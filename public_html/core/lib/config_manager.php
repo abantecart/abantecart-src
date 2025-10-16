@@ -1,21 +1,21 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -45,7 +45,7 @@ class AConfigManager
 
     public function __construct()
     {
-        if (!IS_ADMIN) { // forbid for non admin calls
+        if (!IS_ADMIN) { // forbid for non-admin calls
             throw new AException (AC_ERR_LOAD, 'Error: permission denied to access class AConfigManager');
         }
         $this->registry = Registry::getInstance();
@@ -501,7 +501,7 @@ class AConfigManager
         $languages = $language_codes = [];
         foreach ($results as $v) {
             $languages[$v['code']] = $v['name'];
-            $lng_code = $this->language->getLanguageCodeByLocale($v['locale']);
+            $lng_code = $this->language->getLanguageCodeByLocale((string)$v['locale']);
             $language_codes[$lng_code] = $v['name'];
         }
 
@@ -977,15 +977,6 @@ class AConfigManager
                 'style' => 'btn_switch',
             ]
         );
-        $fields['phone_validation_pattern'] = $form->getFieldHtml(
-            $props[] = [
-                'type'        => 'input',
-                'name'        => 'config_phone_validation_pattern',
-                'value'       => $data['config_phone_validation_pattern'],
-                'placeholder' => '/^[0-9\+\(\)\.\s\-,]+$/',
-                'style'       => 'small-field',
-            ]
-        );
         $fields['prevent_email_as_login'] = $form->getFieldHtml(
             $props[] = [
                 'type'  => 'checkbox',
@@ -999,6 +990,14 @@ class AConfigManager
                 'type'  => 'checkbox',
                 'name'  => 'config_guest_checkout',
                 'value' => $data['config_guest_checkout'],
+                'style' => 'btn_switch',
+            ]
+        );
+        $fields['unauth_customer'] = $form->getFieldHtml(
+            $props[] = [
+                'type'  => 'checkbox',
+                'name'  => 'config_unauth_customer',
+                'value' => $data['config_unauth_customer'] ?? 1,
                 'style' => 'btn_switch',
             ]
         );

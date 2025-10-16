@@ -1,21 +1,21 @@
 <?php
 /*
- * $Id$
+ *   $Id$
  *
- * AbanteCart, Ideal OpenSource Ecommerce Solution
- * http://www.AbanteCart.com
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
  *
- * Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
- * This source file is subject to Open Software License (OSL 3.0)
- * License details is bundled with this package in the file LICENSE.txt.
- * It is also available at this URL:
- * <http://www.opensource.org/licenses/OSL-3.0>
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
  *
- * UPGRADE NOTE:
- * Do not edit or add to this file if you wish to upgrade AbanteCart to newer
- * versions in the future. If you wish to customize AbanteCart for your
- * needs please refer to http://www.AbanteCart.com for more information.
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -33,33 +33,33 @@ class ControllerResponsesListingGridMessageGrid extends AController
         $this->loadLanguage('tool/message_manager');
         if (!$this->user->canAccess('tool/message_manager')) {
             $response = new stdClass ();
-            $response->userdata->error = sprintf(
-                $this->language->get('error_permission_access'),
-                'tool/message_manager'
+            $response->userdata = new stdClass ();
+            $response->userdata->error = $this->language->getAndReplace(
+                'error_permission_access',
+                replaces: 'tool/message_manager'
             );
             $this->load->library('json');
             $this->response->setOutput(AJson::encode($response));
-            return null;
+            return;
         }
 
-        $this->loadModel('tool/message_manager');
-
+        /** @var ModelToolMessageManager $mdl */
+        $mdl = $this->loadModel('tool/message_manager');
         //Prepare filter config
         $grid_filter_params = array_merge(['title', 'date_added', 'status'], (array)$this->data['grid_filter_params']);
         $filter = new AFilter(['method' => 'post', 'grid_filter_params' => $grid_filter_params]);
-
-        $total = $this->model_tool_message_manager->getTotalMessages();
-        $response = new stdClass();
-        $response->page = $filter->getParam('page');
-        $response->total = $filter->calcTotalPages($total);
-        $response->records = $total;
-        $response->userdata = new stdClass();
 
         $sort_array = $filter->getFilterData();
         if ($sort_array['sort'] == 'sort_order') {
             $sort_array['sort'] = 'viewed';
         }
-        $results = $this->model_tool_message_manager->getMessages($sort_array);
+        $results = $mdl->getMessages($sort_array);
+        $total = (int)$results[0]['total_num_rows'];
+        $response = new stdClass();
+        $response->page = $filter->getParam('page');
+        $response->total = $filter->calcTotalPages($total);
+        $response->records = $total;
+        $response->userdata = new stdClass();
 
         $i = 0;
         foreach ($results as $result) {
@@ -80,12 +80,15 @@ class ControllerResponsesListingGridMessageGrid extends AController
                     break;
             }
 
-            $response->userdata->classes[$result ['msg_id']] .= !$result['viewed'] ? ' new_message' : '';
+            $response->userdata->classes[$result['msg_id']] .= !$result['viewed'] ? ' new_message' : '';
 
-            $response->rows [$i] ['cell'] = [
+            $response->rows[$i]['cell'] = [
                 $status,
                 $result ['title'],
-                dateISO2Display($result ['date_added'], $this->language->get('date_format_short').' H:s'),
+                dateISO2Display(
+                    $result ['date_added'],
+                    $this->language->get('date_format_short') . ' ' . $this->language->get('time_format_short')
+                ),
             ];
 
             $i++;
@@ -154,7 +157,7 @@ class ControllerResponsesListingGridMessageGrid extends AController
                             break;
                     }
                     $this->data['message'] ['date_formatted'] = dateISO2Display($this->data['message'] ['date_added'],
-                        $this->language->get('date_format_short').' '.$this->language->get('time_format'));
+                        $this->language->get('date_format_short') . ' ' . $this->language->get('time_format'));
                 } else {
                     $this->data['message'] ["message"] = $this->language->get('text_not_found');
                 }
@@ -174,6 +177,7 @@ class ControllerResponsesListingGridMessageGrid extends AController
 
     public function getNotifies()
     {
+        $this->loadLanguage('tool/message_manager');
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $ret = [
@@ -182,15 +186,18 @@ class ControllerResponsesListingGridMessageGrid extends AController
             'shortlist'   => [],
         ];
 
-        $this->loadLanguage('tool/message_manager');
         $this->data['shortlist'] = $this->messages->getShortList();
         if ($this->data['shortlist']['total']) {
             $ret = $this->data['shortlist'];
-            $ret['total_title'] = sprintf($this->language->get('text_notifier_title'), $ret['total']);
+            $ret['total_title'] = $this->language->getAndReplace(
+                'text_notifier_title',
+                replaces: $ret['total']
+            );
             foreach ($ret['shortlist'] as &$m) {
-                $m['message'] = mb_substr($m['message'], 0, 30).'...';
-                $m['href'] = $this->html->getSecureURL('listing_grid/message_grid/update',
-                    '&oper=show&readonly=1&id='.$m['msg_id']);
+                $m['message'] = mb_substr($m['message'], 0, 30) . '...';
+                $m['href'] = $this->html->getSecureURL(
+                    'listing_grid/message_grid/update',
+                    '&oper=show&readonly=1&id=' . $m['msg_id']);
             }
         }
 

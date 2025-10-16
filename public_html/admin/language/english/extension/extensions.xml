@@ -140,12 +140,12 @@
 	<definition>
 		<key>text_missing_extension</key>
 		<value>
-			<![CDATA["Extension %s:  Source can not be located! Please delete it and visit extension provider to get complete source and install it again  "]]></value>
+			<![CDATA[Extension %s:  Source can not be located! Please delete it and visit extension provider to get complete source and install it again]]></value>
 	</definition>
 	<definition>
 		<key>text_broken_extension</key>
 		<value>
-			<![CDATA["Extension %s:  Source probably broken! Can't find config.xml or main.php files. Please delete it and visit extension provider to get complete source and install it again  "]]></value>
+			<![CDATA[Extension %s:  Source probably broken! Can't find config.xml or main.php files. Please delete it and visit extension provider to get complete source and install it again]]></value>
 	</definition>
 	<definition>
 		<key>text_extension_pagination</key>
@@ -254,7 +254,7 @@
 	<definition>
 		<key>additional_settings_confirm</key>
 		<value>
-			<![CDATA[To set additional settings of extension of another store you need to login into control panel on another domain name. Ok? ]]></value>
+			<![CDATA[To set additional settings of extension of another store you need to log in into control panel on another domain name. Ok? ]]></value>
 	</definition>
 	<definition>
 		<key>error_no_help_file</key>
@@ -395,7 +395,7 @@
 	</definition>
 	<definition>
 		<key>text_more_extensions</key>
-		<value><![CDATA[More extensions are available for easy install.]]></value>
+		<value><![CDATA[More extensions are available for easy installation.]]></value>
 	</definition>
 	<definition>
 		<key>text_support_expiration</key>
@@ -436,5 +436,13 @@
 	<definition>
 		<key>text_max_order_subtotal</key>
 		<value><![CDATA[Maximum Order Subtotal: <span class="help">Enter the maximum order subtotal value for shipment option to be available for customer. This field is optional.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_customer_groups</key>
+		<value><![CDATA[Allowed only for customer group(s):]]></value>
+	</definition>
+	<definition>
+		<key>button_load_more_languages</key>
+		<value><![CDATA[Load More Languages]]></value>
 	</definition>
 </definitions>

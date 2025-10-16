@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 class ControllerResponsesCommonResourceLibrary extends AController
@@ -133,7 +133,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
             ]
         );
 
-        $rm->setType($resource['type_name']);
+        $rm->setType((string)$resource['type_name']);
         $resource['thumbnail_url'] = $rm->getResourceThumb(
             $resource['resource_id'],
             $this->thumb_sizes['width'],
@@ -170,7 +170,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $resDetails = $rm->getResource($resource['resource_id']);
         if ($resDetails['resource_path']) {
             $resDetails['res_url'] = $rm->buildResourceURL($resDetails['resource_path']);
-            $resDetails['file_path'] = DIR_RESOURCE . $rm->getTypeDir() . $resDetails['resource_path'];
+            $resDetails['file_path'] = DIR_RESOURCE . $rm->getTypeDir() . str_replace('/',DS,$resDetails['resource_path']);
             $resDetails['file_size'] = human_filesize(filesize($resDetails['file_path']));
             $img = getimagesize($resDetails['file_path']);
             if ($img[0]) {
@@ -361,7 +361,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $this->data['order'] = $this->request->get['order'];
 
         $rm = new AResourceManager();
-        $rm->setType($this->data['type']);
+        $rm->setType((string)$this->data['type']);
 
         //Build request URI and filter params
         $uri = '&object_name=' . $this->data['object_name']
@@ -773,8 +773,8 @@ class ControllerResponsesCommonResourceLibrary extends AController
             $resource_path = $rm->buildResourcePath($resource_id, $r->name);
 
             if (!rename(
-                DIR_RESOURCE . $info['type_name'] . '/' . $r->name,
-                DIR_RESOURCE . $info['type_name'] . '/' . $resource_path
+                DIR_RESOURCE . $info['type_name'] . DS . $r->name,
+                DIR_RESOURCE . $info['type_name'] . DS . str_replace('/', DS, $resource_path)
             )
             ) {
                 $message = sprintf($this->language->get('error_cannot_move'), $r->name);
@@ -786,10 +786,10 @@ class ControllerResponsesCommonResourceLibrary extends AController
             $rm->updateResource($resource_id, ['resource_path' => $resource_path]);
             //remove old file of resource
             if ($info['resource_path']
-                && is_file(DIR_RESOURCE . $info['type_name'] . '/' . $info['resource_path'])
+                && is_file(DIR_RESOURCE . $info['type_name'] . DS . str_replace('/', DS, $info['resource_path']))
                 && $info['resource_path'] != $resource_path
             ) {
-                unlink(DIR_RESOURCE . $info['type_name'] . '/' . $info['resource_path']);
+                unlink(DIR_RESOURCE . $info['type_name'] . DS . str_replace('/', DS, $info['resource_path']));
             }
         }
 
@@ -829,11 +829,10 @@ class ControllerResponsesCommonResourceLibrary extends AController
         );
 
         $rm = new AResourceManager();
-        $rm->setType($this->request->get['type']);
+        $rm->setType((string)$this->request->get['type']);
         $data = $this->request->post;
 
-        $language_id = (int)$this->request->post['language_id'];
-        $language_id = !$language_id ? $this->language->getContentLanguageID() : $language_id;
+        $language_id = (int)$this->request->post['language_id'] ?: $this->language->getContentLanguageID();
 
         $data['name'] = [$language_id => $this->request->post['name']];
         $data['title'] = [$language_id => $this->request->post['title']];
@@ -1110,8 +1109,8 @@ class ControllerResponsesCommonResourceLibrary extends AController
         foreach ($this->request->post['resources'] as $resource_id) {
             $rm->unmapResource(
                 $this->request->get['object_name'],
-                $this->request->get['object_id'],
-                $resource_id
+                (int)$this->request->get['object_id'],
+                (int)$resource_id
             );
         }
 
@@ -1177,7 +1176,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
                     $this->response->setOutput($result['resource_code']);
                 }
             } else {
-                $file_path = DIR_RESOURCE . $rm->getTypeDir() . $result['resource_path'];
+                $file_path = DIR_RESOURCE . $rm->getTypeDir() . str_replace('/', DS, $result['resource_path']);
                 $result['name'] = pathinfo($result['name'], PATHINFO_FILENAME);
                 $fd = file_exists($file_path) ? fopen($file_path, "r") : null;
                 if ($fd) {
@@ -1260,8 +1259,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $post_data = $this->request->post;
 
         $rm = new AResourceManager();
-        $language_id = $post_data['language_id'] ?? 0;
-        $language_id = $language_id ?: $this->language->getContentLanguageID();
+        $language_id = $post_data['language_id'] ?: $this->language->getContentLanguageID();
         $post_data['language_id'] = $language_id;
         if (!is_array($post_data['name'])) {
             $post_data['name'] = [$language_id => $post_data['name']];
@@ -1386,7 +1384,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
         if (!$info) {
             $info = null;
         } else {
-            $rm->setType($info['type_name']);
+            $rm->setType((string)$info['type_name']);
             $info['thumbnail_url'] = $rm->getResourceThumb(
                 $resource_id,
                 $this->thumb_sizes['width'],
@@ -1446,17 +1444,17 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $this->session->data['rl_types'] = $this->data['types'];
         $this->data['default_type'] = reset($this->data['types']);
         $httpQuery = [
-            'mode' => $mode,
+            'mode'        => $mode,
             'object_name' => $object_name,
-            'object_id' => $object_id,
-            'page' => $page,
-            'limit' => $limit,
-            'sort' => $sort,
-            'order' => $order
+            'object_id'   => $object_id,
+            'page'        => $page,
+            'limit'       => $limit,
+            'sort'        => $sort,
+            'order'       => $order
         ];
 
         $this->data = array_merge($this->data, $httpQuery);
-        $params = '&'.http_build_query($httpQuery);
+        $params = '&' . http_build_query($httpQuery);
         $this->data['rl_resource_library'] = $this->html->getSecureURL('common/resource_library', $params);
         $this->data['rl_resources'] = $this->html->getSecureURL('common/resource_library/resources', $params);
         $this->data['rl_resource_single'] = $this->html->getSecureURL(

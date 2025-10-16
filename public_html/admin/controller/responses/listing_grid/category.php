@@ -267,8 +267,8 @@ class ControllerResponsesListingGridCategory extends AController
         }
 
         $this->loadModel('catalog/category');
-        $category_id = $this->request->get['id'];
-        if (isset($category_id)) {
+        $category_id = (int)$this->request->get['id'];
+        if ($category_id) {
             //request sent from edit form. ID in url
             foreach ($this->request->post as $field => $value) {
                 if ($field == 'keyword') {
@@ -278,7 +278,7 @@ class ControllerResponsesListingGridCategory extends AController
                         return;
                     }
                 }
-                $err = $this->_validateField($category_id, $field, $value);
+                $err = $this->validateField($category_id, $field, $value);
                 if (!empty($err)) {
                     $error = new AError('');
                     $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
@@ -309,13 +309,12 @@ class ControllerResponsesListingGridCategory extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _validateField($category_id, $field, $value)
+    protected function validateField($category_id, $field, $value)
     {
         $err = '';
         switch ($field) {
             case 'category_description' :
                 $language_id = $this->language->getContentLanguageID();
-
                 if (isset($value[$language_id]['name'])
                     && (mb_strlen($value[$language_id]['name']) < 1 || mb_strlen($value[$language_id]['name']) > 255)
                 ) {
@@ -329,6 +328,12 @@ class ControllerResponsesListingGridCategory extends AController
                 break;
             case 'keyword' :
                 $err = $this->html->isSEOkeywordExists('category_id='.$category_id, $value);
+                break;
+            case 'parent_id' :
+                //check for deadlock
+                if(!$this->model_catalog_category->validateParentId( (int)$category_id, (int)$value) ) {
+                    $err = $this->language->get('error_deadlock');
+                }
                 break;
         }
         return $err;
@@ -385,5 +390,4 @@ class ControllerResponsesListingGridCategory extends AController
         $this->response->addJSONHeader();
         $this->response->setOutput(AJson::encode($output));
     }
-
 }

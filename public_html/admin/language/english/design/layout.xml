@@ -70,7 +70,7 @@
     </definition>
     <definition>
         <key>error_page_rt</key>
-        <value><![CDATA['Page Route is Required!']]></value>
+        <value><![CDATA[Page Route is Required!]]></value>
     </definition>
     <definition>
         <key>error_key_parameter_name</key>

@@ -276,6 +276,7 @@ if ($error){ ?>
     </div>
 </div>
 
+<?php echo $this->getHookVar('product_before_tabs'); ?>
 <!-- Product Description tab & comments-->
 <div id="productdesc" class="mt-3 me-4">
     <div class="row">

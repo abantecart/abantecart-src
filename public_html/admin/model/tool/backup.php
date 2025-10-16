@@ -130,7 +130,8 @@ class ModelToolBackup extends Model
      */
     public function backup($tables, $rl = true, $config = false, $sql_dump_mode = 'data_only')
     {
-        $bkp = new ABackup('manual_backup' . '_' . date('Y-m-d-H-i-s'));
+        $backupName = 'manual_backup' . '_' . date('Y-m-d-H-i-s');
+        $bkp = new ABackup($backupName);
 
         if ($bkp->error) {
             return false;
@@ -147,7 +148,7 @@ class ModelToolBackup extends Model
             $bkp->backupDirectory(DIR_RESOURCE, false);
         }
         if ($config) {
-            $bkp->backupFile(DIR_ROOT . '/system/config.php', false);
+            $bkp->backupFile(DIR_ROOT . DS. 'system' . DS . 'config.php', false);
         }
         $result = $bkp->archive(DIR_BACKUP . $bkp->getBackupName() . '.tar.gz', DIR_BACKUP, $bkp->getBackupName());
         if (!$result) {
@@ -191,7 +192,6 @@ class ModelToolBackup extends Model
                 // schedule it!
                 'status'             => 1,
                 'start_time'         => date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), (int)date('d') + 1, date('Y'))),
-                'last_time_run'      => '0000-00-00 00:00:00',
                 'progress'           => '0',
                 'last_result'        => '0',
                 'run_interval'       => '0',
@@ -235,7 +235,6 @@ class ModelToolBackup extends Model
                     'task_id'            => $task_id,
                     'sort_order'         => 1,
                     'status'             => 1,
-                    'last_time_run'      => '0000-00-00 00:00:00',
                     'last_result'        => '0',
                     'max_execution_time' => $eta,
                     'controller'         => 'task/tool/backup/dumptables',
@@ -243,6 +242,7 @@ class ModelToolBackup extends Model
                         'table_list'    => $data['table_list'],
                         'sql_dump_mode' => $data['sql_dump_mode'],
                         'backup_name'   => $backupName,
+                        'username'      => $this->user?->getUserName() ?: 'system',
                     ],
                 ]
             );
@@ -272,13 +272,13 @@ class ModelToolBackup extends Model
                     'task_id'            => $task_id,
                     'sort_order'         => 2,
                     'status'             => 1,
-                    'last_time_run'      => '0000-00-00 00:00:00',
                     'last_result'        => '0',
                     'max_execution_time' => $eta,
                     'controller'         => 'task/tool/backup/backupCodeFiles',
                     'settings'           => [
                         'interrupt_on_step_fault' => false,
                         'backup_name'             => $backupName,
+                        'username'                => $this->user?->getUserName() ?: 'system',
                     ],
                 ]
             );
@@ -305,13 +305,13 @@ class ModelToolBackup extends Model
                     'task_id'            => $task_id,
                     'sort_order'         => 3,
                     'status'             => 1,
-                    'last_time_run'      => '0000-00-00 00:00:00',
                     'last_result'        => '0',
                     'max_execution_time' => $eta,
                     'controller'         => 'task/tool/backup/backupContentFiles',
                     'settings'           => [
                         'interrupt_on_step_fault' => false,
                         'backup_name'             => $backupName,
+                        'username'                => $this->user?->getUserName() ?: 'system',
                     ],
                 ]
             );
@@ -338,13 +338,13 @@ class ModelToolBackup extends Model
                     'task_id'            => $task_id,
                     'sort_order'         => 4,
                     'status'             => 1,
-                    'last_time_run'      => '0000-00-00 00:00:00',
                     'last_result'        => '0',
                     'max_execution_time' => $eta,
                     'controller'         => 'task/tool/backup/compressbackup',
                     'settings'           => [
                         'interrupt_on_step_fault' => false,
                         'backup_name'             => $backupName,
+                        'username'                => $this->user?->getUserName() ?: 'system',
                     ],
                 ]
             );
@@ -375,7 +375,7 @@ class ModelToolBackup extends Model
      * @return array
      * @throws AException
      */
-    public function getTableSizes($table_list = [])
+    public function getTableSizes(array $table_list = [])
     {
         $tables = [];
         foreach ($table_list as $table) {
@@ -432,7 +432,7 @@ class ModelToolBackup extends Model
             if (in_array($d, $content_dirs)) {
                 continue;
             }
-            $item = DIR_ROOT . '/' . $d;
+            $item = DIR_ROOT . DS . $d;
             if (is_dir($item)) {
                 $dirs_size += $this->_get_directory_size($item);
             } elseif (is_file($item)) {
@@ -448,10 +448,10 @@ class ModelToolBackup extends Model
     public function getContentSize()
     {
         // white list
-        $content_dirs = [ 'resources', 'image', 'download' ];
+        $content_dirs = ['resources', 'image', 'download'];
         $dirs_size = 0;
         foreach ($content_dirs as $d) {
-            $dirs_size += $this->_get_directory_size(DIR_ROOT . '/' . $d);
+            $dirs_size += $this->_get_directory_size(DIR_ROOT . DS . $d);
         }
         return $dirs_size;
     }
@@ -461,26 +461,26 @@ class ModelToolBackup extends Model
      *
      * @return int
      */
-    private function _get_directory_size($dir)
+    private function _get_directory_size(string $dir)
     {
         $count_size = 0;
         $dir_array = scandir($dir);
         foreach ($dir_array as $filename) {
             //skip backup, cache and logs
-            if (str_contains($dir . "/" . $filename, '/backup')
-                || str_contains($dir . "/" . $filename, '/cache')
-                || str_contains($dir . "/" . $filename, '/logs')
+            if (str_contains($dir . DS . $filename, DS.'backup')
+                || str_contains($dir . DS . $filename, DS.'cache')
+                || str_contains($dir . DS . $filename, DS.'logs')
             ) {
                 continue;
             }
 
             if ($filename != ".." && $filename != ".") {
-                if (is_dir($dir . "/" . $filename)) {
-                    $new_dir_size = $this->_get_directory_size($dir . "/" . $filename);
+                if (is_dir($dir . DS . $filename)) {
+                    $new_dir_size = $this->_get_directory_size($dir . DS . $filename);
                     $count_size = $count_size + $new_dir_size;
                 } else {
-                    if (is_file($dir . "/" . $filename)) {
-                        $count_size = $count_size + filesize($dir . "/" . $filename);
+                    if (is_file($dir . DS . $filename)) {
+                        $count_size = $count_size + filesize($dir . DS . $filename);
                     }
                 }
             }

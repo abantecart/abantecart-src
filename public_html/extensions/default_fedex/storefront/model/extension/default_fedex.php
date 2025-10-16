@@ -180,8 +180,8 @@ class ModelExtensionDefaultFedex extends Model
         $language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
         $language->load($language->language_details['directory']);
         $language->load('default_fedex/default_fedex');
-        require_once(DIR_EXT.'default_fedex/core/lib/fedex_func.php');
-        $path_to_wsdl = DIR_EXT.'default_fedex/core/lib/';
+        require_once(DIR_EXT.'default_fedex'.DS.'core'.DS.'lib'.DS.'fedex_func.php');
+        $path_to_wsdl = DIR_EXT.'default_fedex'.DS.'core'.DS.'lib'.DS;
         if ($this->config->get('default_fedex_test')) {
             $path_to_wsdl .= 'RateService_v9_test.wsdl';
         } else {

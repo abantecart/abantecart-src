@@ -34,6 +34,10 @@ class ModelLocalisationZone extends Model
      */
     public function getZone($zone_id)
     {
+        if(!$zone_id){
+            return [];
+        }
+
         $language_id = $this->language->getLanguageID();
         $default_lang_id = $this->language->getDefaultLanguageID();
 
@@ -45,7 +49,7 @@ class ModelLocalisationZone extends Model
             LEFT JOIN ".$this->db->table("zone_descriptions")." zd2
                 ON (z.zone_id = zd2.zone_id AND zd2.language_id = '".(int) $default_lang_id."')
             WHERE z.zone_id = '".(int) $zone_id."' 
-                AND status = '1'"
+                AND status = 1"
         );
         return $query->row;
     }

@@ -5,18 +5,19 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -333,7 +334,7 @@ class ControllerPagesCatalogCategory extends AController
                 $this->request->post
             );
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->extensions->hk_ProcessData($this, 'update');
+            $this->extensions->hk_ProcessData($this, __FUNCTION__);
             redirect(
                 $this->html->getSecureURL(
                     'catalog/category/update',
@@ -370,10 +371,7 @@ class ControllerPagesCatalogCategory extends AController
             + array_column($this->data['categories'], 'name', 'category_id');
 
         $category_id = (int)$this->request->get['category_id'];
-        $category_info = [];
-        if ($category_id && $this->request->is_GET()) {
-            $category_info = $this->model_catalog_category->getCategory($category_id);
-        }
+        $category_info = $category_id ? $this->model_catalog_category->getCategory($category_id) : [];
 
         if (!$category_info && $category_id) {
             redirect($this->html->getSecureURL('catalog/category'));
@@ -683,6 +681,17 @@ class ControllerPagesCatalogCategory extends AController
             }
         }
 
+        if ($this->request->post['parent_id'] && (int)$this->request->get['category_id']) {
+            //check for deadlock
+            if (!$this->model_catalog_category->validateParentId(
+                (int)$this->request->get['category_id'],
+                (int)$this->request->post['parent_id'])
+            ) {
+                $this->error['warning'][] = $this->language->get('error_deadlock');
+            }
+        }
+
+
         $error_text = $this->html->isSEOkeywordExists(
             'category_id=' . $this->request->get['category_id'],
             $this->request->post['keyword']
@@ -709,14 +718,13 @@ class ControllerPagesCatalogCategory extends AController
     {
         $page_controller = 'pages/product/category';
         $page_key_param = 'path';
-        $category_id = (int)$this->request->get['category_id'];
-        $this->data['category_id'] = $category_id;
+        $this->data['category_id'] = $categoryId = (int)$this->request->get['category_id'];
         $page_url = $this->html->getSecureURL(
             'catalog/category/edit_layout',
-            '&category_id=' . $category_id
+            '&category_id=' . $categoryId
         );
         //note: category can not be ID of 0.
-        if (!has_value($category_id)) {
+        if (!$categoryId) {
             redirect($this->html->getSecureURL('catalog/category'));
         }
 
@@ -726,7 +734,7 @@ class ControllerPagesCatalogCategory extends AController
         $this->loadLanguage('catalog/category');
         $this->data['help_url'] = $this->gen_help_url('layout_edit');
         $this->loadModel('catalog/category');
-        $this->data['category_description'] = $this->model_catalog_category->getCategoryDescriptions($category_id);
+        $this->data['category_description'] = $this->model_catalog_category->getCategoryDescriptions($categoryId);
         $categoryName = $this->data['category_description'][$this->language->getContentLanguageID()]['name'];
 
         // Alert messages
@@ -776,24 +784,24 @@ class ControllerPagesCatalogCategory extends AController
         $this->data['category_tabs'] = $tabs_obj->dispatchGetOutput();
         unset($tabs_obj);
 
-        $tmpl_id = $this->request->get['tmpl_id'] ?: $this->config->get('config_storefront_template');
-        $layout = new ALayoutManager($tmpl_id);
+        $templateTxtId = (string)$this->request->get['tmpl_id'] ?: $this->config->get('config_storefront_template');
+        $layout = new ALayoutManager($templateTxtId);
         //get existing page layout or generic
-        $page_layout = $layout->getPageLayoutIDs($page_controller, $page_key_param, $category_id);
-        $page_id = $page_layout['page_id'];
-        $layout_id = $page_layout['layout_id'];
+        $pageLayout = $layout->getPageLayoutIDs($page_controller, $page_key_param, $categoryId);
+        $pageId = $pageLayout['page_id'];
+        $layoutId = $pageLayout['layout_id'];
 
         $params = [
-            'category_id' => $category_id,
-            'page_id'     => $page_id,
-            'layout_id'   => $layout_id,
-            'tmpl_id'     => $tmpl_id,
+            'category_id' => $categoryId,
+            'page_id'     => $pageId,
+            'layout_id'   => $layoutId,
+            'tmpl_id'     => $templateTxtId,
         ];
         $url = '&' . $this->html->buildURI($params);
 
         // get templates
         $this->data['templates'] = [];
-        $directories = glob(DIR_STOREFRONT . 'view/*', GLOB_ONLYDIR);
+        $directories = glob(DIR_STOREFRONT . 'view' . DS . '*', GLOB_ONLYDIR);
         if ($directories) {
             $this->data['templates'] = array_map('basename', $directories);
         }
@@ -839,16 +847,10 @@ class ControllerPagesCatalogCategory extends AController
         $this->data['current_url'] = $this->html->getSecureURL('catalog/category/edit_layout', $url);
 
         // insert external form of layout
-        $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
+        $layout = new ALayoutManager($templateTxtId, $pageId, $layoutId);
 
         $layout_form = $this->dispatch('common/page_layout', [$layout]);
         $this->data['block_layout_form'] = $layout_form->dispatchGetOutput();
-
-        //build pages and available layouts for cloning
-        $this->data['pages'] = $layout->getAllPages();
-        $avLayouts = ["0" => $this->language->get('text_select_copy_layout')]
-            + array_column($this->data['pages'], 'layout_name', 'layout_id');
-        unset($avLayouts[$layout_id]);
 
         $form = new AForm('HT');
         $form->setForm(
@@ -857,12 +859,12 @@ class ControllerPagesCatalogCategory extends AController
             ]
         );
 
-        $this->data['cp_layout_select'] = $form->getFieldHtml(
+        $this->data['pages'] = buildPageLayoutTree(
+            $layout,
+            $templateTxtId,
             [
-                'type'    => 'selectbox',
-                'name'    => 'source_layout_id',
-                'value'   => '',
-                'options' => $avLayouts,
+                'exclude_ids' => [$layoutId],
+                'page_groups' => (array)$this->data['page_groups']
             ]
         );
 
@@ -888,6 +890,7 @@ class ControllerPagesCatalogCategory extends AController
         }
 
         $post = $this->request->post;
+        $post['tmpl_id'] = preformatTextID($post['tmpl_id']);
         $pageData = [
             'controller' => 'pages/product/category',
             'key_param'  => 'path',

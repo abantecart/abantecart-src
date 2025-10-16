@@ -1,6 +1,9 @@
 <?php if(!$no_wrapper){?>
     <div class="input-group h-100">
-<?php } ?>
+<?php }
+if($icon){?>
+    <div class="input-group-text" title="<?php echo_html2view($display_name);?>"><?php echo $icon; ?></div>
+<?php }?>
     <input type="<?php echo $type ?>"
            name="<?php echo $name ?>"
            id="<?php echo $id ?>"
@@ -8,8 +11,8 @@
            placeholder="<?php echo $placeholder ?>"
            class="form-control <?php echo $style; ?>" <?php
          echo $attr;
-         echo $regexp_pattern ? ' pattern="'.htmlspecialchars($regexp_pattern, ENT_QUOTES, 'UTF-8').'"':'';
-         echo $error_text ? ' title="'.htmlspecialchars($error_text, ENT_QUOTES, 'UTF-8').'"':'';
+         echo $regexp_pattern ? ' pattern="'.html2view($regexp_pattern).'"':'';
+         echo $error_text ? ' title="'.html2view($error_text).'"':'';
          if ( $required ) { echo ' required'; }
          if($list){ echo ' list="'.$id.'_list"'; }
          ?>/>
@@ -17,7 +20,7 @@
         if($list){ ?>
         <datalist id="<?php echo $id.'_list'?>">
             <?php foreach((array)$list as $l) {
-                echo '<option value="' . htmlspecialchars($l, ENT_QUOTES, 'UTF-8') . '">';
+                echo '<option value="' . html2view($l) . '">';
             }?>
         </datalist>
         <?php }

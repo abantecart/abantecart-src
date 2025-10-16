@@ -438,7 +438,11 @@
 						|| $changed > 0
 				) {
 					//mark field changed
-					$field.addClass(o.changedClass);
+                    if($field.hasClass('chosen')){
+                        $field.parent().addClass(o.changedClass);
+                    }else {
+                        $field.addClass(o.changedClass);
+                    }
 					//build quick save button set
 					showQuickSave($field);
 				} else {
@@ -534,7 +538,7 @@
 		//Show Quick Save buttons and all related
 		function showQuickSave(elem){
 			var $field = $(elem);
-			var $wrapper = $(elem).closest('.afield');
+			var $wrapper = $field.closest('.afield');
 			//locate btn container if it is present
 			var $btncontainer = $wrapper.find(o.btnContainer).last();
 

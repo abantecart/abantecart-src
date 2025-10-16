@@ -163,6 +163,7 @@ function getOptionList()
         '--http_server'      => 'https://your-domain.com',
         '--with-sample-data' => '{ full-path-to-sql-file-or-leave-empty-to-load-default-data }',
         '--template'         => '{novator-or-default-or-custom-name}',
+        '--extensions'       => '"extension_text_id1,extension_text_id2,extension_text_id3"',
     ];
 }
 
@@ -286,6 +287,11 @@ function install($options)
         /** @var ModelInstall $mdl */
         $mdl = $registry->get('load')->model('install');
         $options['install_step_data']['template'] = $options['template'];
+        $options['install_step_data']['install_extensions'] = array_filter(
+            array_map(
+                'trim',
+                explode(',', (string)$options['extensions']))
+        ) ?: [];
         $mdl->preInstallExtensions($options);
 
         $cache = new ACache();

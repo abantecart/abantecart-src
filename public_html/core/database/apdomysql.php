@@ -86,6 +86,7 @@ final class APDOMySQL
         try {
             $timezone = date_default_timezone_get();
             if ($timezone) {
+                $timezone = $timezone == 'UTC' ? 'Europe/London' : $timezone;
                 $this->connection->query("SET time_zone='" . $timezone . "';");
             }
         } catch (Exception|Error $e) {

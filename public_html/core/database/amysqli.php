@@ -53,7 +53,13 @@ final class AMySQLi
             $this->database = $database;
         }
 
-        $connection = new mysqli($hostname, $username, $password, $database, $port);
+        try {
+            $connection = new mysqli($hostname, $username, $password, $database, $port);
+        }catch(Exception|Error $e) {
+            $excMessage = 'Error '.$e->getCode().' ('.$e?->getSqlState().'): '. $e->getMessage().PHP_EOL
+                .'Cannot establish database connection. Check your database connection settings';
+            throw new AException($e->getCode(), $excMessage);
+        }
         if ($connection->connect_error) {
             $err = new AError(
                 'Cannot establish database connection to '.$database.' using '.$username.'@'.$hostname.":".$port
@@ -87,6 +93,7 @@ final class AMySQLi
         try {
             $timezone = date_default_timezone_get();
             if ($timezone) {
+                $timezone = $timezone == 'UTC' ? 'Europe/London' : $timezone;
                 $connection->query("SET time_zone='".$timezone."';");
             }
         } catch (\Exception $e) {
