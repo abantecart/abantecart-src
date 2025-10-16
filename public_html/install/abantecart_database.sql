@@ -881,8 +881,8 @@ VALUES
 
 ('extensions', 'banner_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
 ('extensions', 'forms_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
-('template', 'novator', 'template', 0, 1, '1.0.0', null, NOW(), now() + INTERVAL 4 MINUTE , now() ),
-('extensions', 'page_builder', 'tools', 1, 10000, '1.4.0', null, NOW(), NOW(), NOW())
+('template', 'novator', 'template', 0, 1, '1.0.4', null, NOW(), now() + INTERVAL 4 MINUTE , now() ),
+('extensions', 'page_builder', 'tools', 1, 10000, '1.4.4', null, NOW(), NOW(), NOW())
 ;
 
 --
@@ -12050,7 +12050,7 @@ VALUES  (20, NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (21,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (22,'1.4.3','1');
+VALUES  (22,'1.4.4','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (23,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
