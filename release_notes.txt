@@ -1,3 +1,4 @@
+
 # AbanteCart v1.4.3 — Release Notes
 
 > Broad Windows compatibility and a major move to Form Manager, enabling merchants to edit forms, add new fields, group fields, customize field icons, apply restrictions, and control validation messages. Customer registration, customer details, address, and guest checkout forms now load from the database (AForm).
