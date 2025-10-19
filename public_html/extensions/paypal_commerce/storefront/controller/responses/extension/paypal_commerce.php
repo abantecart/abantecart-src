@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 /*
  *   $Id$
  *
@@ -80,7 +80,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $template = 'responses/paypal_commerce_confirm.tpl';
 
-        $data['enabled_components'] = unserialize($this->config->get('paypal_commerce_enabled_components')) ?: [];
+        $data['enabled_components'] = unserialize($this->config->get('paypal_commerce_enabled_components')) ?: ['buttons'];
+        $data['enabled_funding'] = unserialize($this->config->get('paypal_commerce_enabled_funding')) ?: [];
 
         //AVS validation
         if (in_array('card-fields', $data['enabled_components'])) {
@@ -209,7 +210,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $mdl = $this->loadModel('extension/paypal_commerce');
 
         $data['intent'] = $this->config->get('paypal_commerce_transaction_type');
-        //need an order details
+        //need an order detail
         $data['order_info'] = $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 
         $orderTotal = $taxes = $discount = $handling_fee = 0.0;
@@ -289,14 +290,14 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 }
 
                 $addressType = 'shipping';
-                $flds = [
+                $commonShipPayFields = [
                     'address_line_1' => $addressType . '_address_1',
                     'address_line_2' => $addressType . '_address_2',
                     'admin_area_2'   => $addressType . '_city',
                     'postal_code'    => $addressType . '_postcode',
                 ];
 
-                foreach ($flds as $n => $alias) {
+                foreach ($commonShipPayFields as $n => $alias) {
                     if ($order_info[$alias]) {
                         $shipping['address'][$n] = $order_info[$alias];
                     }
@@ -361,11 +362,11 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             ];
 
 
-            // comment fot yet. Paypal requires amount breakdown for each line including tax amount per item (tax amount for 1 piece).
-            // Then PP api calculates tax * quantity and then the compares this sum with total_tax_amount.
+            // comment for yet. PayPal requires amount breakdown for each line including tax amount per item (tax amount for 1 piece).
+            // Then PP api calculates tax * quantity, and then the compares this sum with total_tax_amount.
             //Approach for tax amount calculation of abc and pp are different.
-            //We cannot to solve this issue yet.
-            //Also found pp api bug with shipping tax. It's not contains it at all. Can be solved with handling fee.
+            //We cannot solve this issue yet.
+            //Also found pp api bug with shipping tax. It does not contain it at all. Can be solved with handling fee.
             $items[$i] = [
                 'name'        => substr($product['name'], 0, 127),
                 'unit_amount' => [
@@ -400,7 +401,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 $order_description .= $desc['title'] . ' ' . $postfix . "\n";
             }
         }
-        //this description cannot be more than 127 chars length
+        //this description cannot be more than 127 char lengths
         $order_description = mb_strlen($order_description) > 127
             ? mb_substr($order_description, 0, 127)
             : $order_description;

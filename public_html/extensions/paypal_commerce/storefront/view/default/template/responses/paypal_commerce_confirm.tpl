@@ -79,9 +79,17 @@ if ($error) { ?>
                     console.log(e);
                 }
             }
-            <?php $cmpList = implode(",",$enabled_components) ?: 'buttons'; ?>
+            <?php
+            $cmpList = implode(",",(array)$enabled_components) ?: 'buttons';
+            $fundingList = implode(",",(array)$enabled_funding);
+            ?>
             loadPaypalScript(
-                "https://www.paypal.com/sdk/js?client-id=<?php echo $this->config->get('paypal_commerce_client_id') ?>&components=<?php echo $cmpList; ?>&intent=<?php echo $intent; ?>&currency=<?php echo $this->currency->getCode(); ?>",
+                "https://www.paypal.com/sdk/js?client-id=<?php
+                        echo $this->config->get('paypal_commerce_client_id');
+                        echo $fundingList ? '&enable-funding='.$fundingList : '';
+                ?>&components=<?php echo $cmpList;
+                ?>&intent=<?php echo $intent;
+                ?>&currency=<?php echo $this->currency->getCode(); ?>",
                 () => {
                     <?php if(in_array('card-fields',$enabled_components)) { ?>
                     initCardFields();

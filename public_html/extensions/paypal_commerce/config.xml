@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <extension>
 	<id>paypal_commerce</id>
-	<version>1.4.3</version>
+	<version>1.4.4</version>
 	<type>payment</type>
 	<category>payment</category>
 	<cartversions>
@@ -34,6 +34,29 @@
 			</variants>
 			<default_value>buttons</default_value>
 		</item>
+        <item id="paypal_commerce_enabled_funding">
+            <type required="true">checkboxgroup</type>
+            <variants>
+                <item>venmo</item>
+                <item>paylater</item>
+                <item>credit</item>
+                <item>bancontact</item>
+                <item>blik</item>
+                <item>eps</item>
+                <item>giropay</item>
+                <item>ideal</item>
+                <item>mybank</item>
+                <item>p24</item>
+                <item>sepa</item>
+                <item>sofort</item>
+                <item>trustly</item>
+                <item>mercadopago</item>
+                <item>oxxo</item>
+                <item>boleto</item>
+                <item>wechatpay</item>
+            </variants>
+            <default_value>venmo</default_value>
+        </item>
 		<item id="paypal_commerce_autoselect">
 			<type>checkbox</type>
 			<default_value>0</default_value>
