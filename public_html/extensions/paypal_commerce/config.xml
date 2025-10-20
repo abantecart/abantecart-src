@@ -34,6 +34,15 @@
 			</variants>
 			<default_value>buttons</default_value>
 		</item>
+        <item id="paypal_commerce_3ds_policy">
+            <type>selectbox</type>
+            <variants>
+                <item>0</item>
+                <item>SCA_WHEN_REQUIRED</item>
+                <item>SCA_ALWAYS</item>
+            </variants>
+            <default_value>capture</default_value>
+        </item>
         <item id="paypal_commerce_enabled_funding">
             <type required="true">checkboxgroup</type>
             <variants>

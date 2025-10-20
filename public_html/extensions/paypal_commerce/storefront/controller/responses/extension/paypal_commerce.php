@@ -422,13 +422,21 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $ppData['payment_source']['paypal'] = [
             'experience_context' => [
-                'return_url' => $this->html->getSecureURL('checkout%2Ffast_checkout'),
-                'cancel_url' => $this->html->getSecureURL('checkout%2Ffast_checkout'),
+                'return_url' => $this->html->getSecureURL('checkout/fast_checkout'),
+                'cancel_url' => $this->html->getSecureURL('checkout/fast_checkout'),
                 'app_switch_preference' => [
                     'launch_paypal_app' => true
                 ]
             ]
         ];
+        $_3ds_policy = $this->config->get('paypal_commerce_3ds_policy');
+        if($_3ds_policy && $this->request->get['card']=='true') {
+            $ppData['payment_source']['card']['attributes'] = [
+                'verification' => [
+                    'method' => $this->config->get('paypal_commerce_3ds_policy')
+                ]
+            ];
+        }
 
         try {
             $output = (array)$mdl->createPPOrder($ppData);

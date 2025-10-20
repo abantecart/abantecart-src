@@ -125,7 +125,7 @@ if ($error) { ?>
                             }
                         },
                         createOrder: function () {
-                            return fetch(<?php js_echo($create_order_url); ?> + '&' + $('input[name=csrftoken], input[name=csrfinstance]').serialize(), {
+                            return fetch(<?php js_echo($create_order_url); ?> + '&card=true&' + $('input[name=csrftoken], input[name=csrfinstance]').serialize(), {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json'
@@ -142,6 +142,13 @@ if ($error) { ?>
                                 });
                         },
                         onApprove: function (data) {
+                            const { liabilityShift, orderID } = data;
+
+                            // Only reject if 3DS explicitly failed, not if unavailable/unknown
+                            if (liabilityShift !== 'POSSIBLE') {
+                                showPPError(<?php js_echo($this->language->get('paypal_commerce_3ds_failed')); ?>);
+                                return;
+                            }
                             // Send the PayPal order ID to the server for capture
                             return fetch(<?php js_echo($capture_order_url); ?> +'&' + $('input[name=csrftoken], input[name=csrfinstance]').serialize(), {
                                 method: 'POST',
@@ -149,7 +156,7 @@ if ($error) { ?>
                                     'Content-Type': 'application/json'
                                 },
                                 body: JSON.stringify({
-                                    orderID: data.orderID
+                                    orderID: orderID
                                 })
                             })
                                 .then(response => response.json())
@@ -264,7 +271,6 @@ if ($error) { ?>
                                 width: '50px'
                             }
                         },
-                        fundingSource: undefined,
                         createOrder: function (data, actions) {
                             return (
                                 // send your cart info to your server side to create a PayPal Order.

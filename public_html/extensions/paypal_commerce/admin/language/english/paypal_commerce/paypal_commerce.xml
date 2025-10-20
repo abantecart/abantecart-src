@@ -90,8 +90,7 @@
 	</definition>
 	<definition>
 		<key>paypal_commerce_autoselect</key>
-		<value>
-			<![CDATA[Auto Select:<br /><span class="help">You can set to skip the payment selection page if there is only one payment option. This payment method will be selected automatically</span>]]></value>
+		<value><![CDATA[Auto Select:<br /><span class="help">You can set to skip the payment selection page if there is only one payment option. This payment method will be selected automatically</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_paypal_commerce_connect</key>
@@ -127,8 +126,7 @@
 	</definition>
 	<definition>
 		<key>paypal_commerce_status_decline</key>
-		<value>
-			<![CDATA[Decline:<br /><span class="help">Order status you want to record in history in response to payment processor status. Main order status is not affected. Order will not be placed only after payment is a success.</span>]]></value>
+		<value><![CDATA[Decline:<br /><span class="help">Order status you want to record in history in response to payment processor status. Main order status is not affected. Order will not be placed only after payment is a success.</span>]]></value>
 	</definition>
 	<definition>
 		<key>paypal_commerce_status_capture_pending</key>
@@ -391,5 +389,21 @@ and Add Endpoints receiving events from your account. After Endpoint has been cr
     <definition>
         <key>paypal_commerce_enabled_funding_wechatpay</key>
         <value><![CDATA[WeChat Pay]]></value>
+    </definition>
+    <definition>
+        <key>paypal_commerce_3ds_policy</key>
+        <value><![CDATA[3D Secure Policy Using Card Fields Component]]></value>
+    </definition>
+    <definition>
+        <key>paypal_commerce_3ds_policy_0</key>
+        <value><![CDATA[ -- n/a -- ]]></value>
+    </definition>
+    <definition>
+        <key>paypal_commerce_3ds_policy_SCA_WHEN_REQUIRED</key>
+        <value><![CDATA[When Required (depends on credit card settings)]]></value>
+    </definition>
+    <definition>
+        <key>paypal_commerce_3ds_policy_SCA_ALWAYS</key>
+        <value><![CDATA[Always]]></value>
     </definition>
 </definitions>
