@@ -14,13 +14,13 @@ jobs:
         php: [ '8.2', '8.3', '8.4' ]
         db:
           - ver: mysql
-            release: '8.0'
-#          - ver: mysql
-#            release: latest
+            release: '8.0.40'  # Oldest supported
+          - ver: mysql
+            release: '8.4.3'  # Latest stable (or '9.0' if compatible)
           - ver: mariadb
-            release: '10.5.25'
-#          - ver: mariadb
-#            release: latest
+            release: '10.11'  # Latest LTS
+          - ver: mariadb
+            release: '11.6'   # Latest stable
       fail-fast: false
 
     steps:
