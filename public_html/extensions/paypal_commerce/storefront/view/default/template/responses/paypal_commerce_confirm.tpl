@@ -255,7 +255,7 @@ if ($error) { ?>
 
                 // Initialize Buttons component
                 try {
-                    paypal.Buttons({
+                    let ppBtns = paypal.Buttons({
                         commit: false,
                         layout: 'horizontal',
                         style: {
@@ -264,6 +264,7 @@ if ($error) { ?>
                                 width: '50px'
                             }
                         },
+                        fundingSource: undefined,
                         createOrder: function (data, actions) {
                             return (
                                 // send your cart info to your server side to create a PayPal Order.
@@ -326,7 +327,14 @@ if ($error) { ?>
                             const message = parsePayPalErrorMessage(err.message)
                             showPPError( message.description || "An unknown error occurred." );
                         }
-                    }).render('#paypal-button-container');
+                    });
+
+                    // if return from PayPal mobile app
+                    if (ppBtns.hasReturned()) {
+                        ppBtns.resume();
+                    } else {
+                        ppBtns.render('#paypal-button-container');
+                    }
                 } catch (e) {
                     console.log(e);
                 }

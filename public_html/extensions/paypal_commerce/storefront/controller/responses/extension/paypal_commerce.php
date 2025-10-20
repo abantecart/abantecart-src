@@ -304,11 +304,6 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 }
             }
         }
-
-        $ppData['application_context']['cancel_url']
-            = $ppData['application_context']['return_url']
-            = $this->html->getSecureURL('checkout/fast_checkout');
-
         //get tax per item lines
         $taxExts = $this->extensions->getInstalled('tax');
         $enabledExts = $this->extensions->getEnabledExtensions();
@@ -424,6 +419,16 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $ppData['purchase_units'][0]['amount']['breakdown'] = $amountBreakdown;
             $ppData['purchase_units'][0]['items'] = $items;
         }
+
+        $ppData['payment_source']['paypal'] = [
+            'experience_context' => [
+                'return_url' => $this->html->getSecureURL('checkout%2Ffast_checkout'),
+                'cancel_url' => $this->html->getSecureURL('checkout%2Ffast_checkout'),
+                'app_switch_preference' => [
+                    'launch_paypal_app' => true
+                ]
+            ]
+        ];
 
         try {
             $output = (array)$mdl->createPPOrder($ppData);
