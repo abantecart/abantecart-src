@@ -170,7 +170,7 @@ class ControllerResponsesExtensionStripe extends AController
             ],
             "metadata"       => [
                 "order_id" => $order_info['order_id'],
-                "products" => implode('; '.PHP_EOL,$productNames)
+                "products" => mb_substr(implode('; '.PHP_EOL,$productNames),0,500)
             ],
         ];
 
