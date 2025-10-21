@@ -146,6 +146,9 @@ class ControllerResponsesExtensionStripe extends AController
             }
         }
 
+        $cart_products = $this->cart->getProducts() + $this->cart->getVirtualProducts();
+        $productNames = array_column($cart_products, 'name');
+
         $piDetails = [
             'capture_method' => $this->config->get('stripe_settlement'),
             'amount'         => $this->data['total_amount'],
@@ -167,8 +170,11 @@ class ControllerResponsesExtensionStripe extends AController
             ],
             "metadata"       => [
                 "order_id" => $order_info['order_id'],
+                "products" => implode('; '.PHP_EOL,$productNames)
             ],
         ];
+
+
         if($customer_stripe_id){
             $piDetails['customer'] = $customer_stripe_id;
         }

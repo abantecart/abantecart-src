@@ -58,7 +58,7 @@ ADebug::checkpoint('init end');
 if (!defined('IS_ADMIN') || !IS_ADMIN) { // storefront load
 
     // Relative paths and directories
-    define('RDIR_TEMPLATE', 'storefront/view/'.$config->get('config_storefront_template').'/');
+    define('RDIR_TEMPLATE', 'storefront/view/'.($config?->get('config_storefront_template')?:'default').'/');
 
     $registry->set('customer', new ACustomer($registry));
     $registry->set('tax', new ATax($registry));
