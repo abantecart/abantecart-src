@@ -2309,9 +2309,7 @@ li#review-set::before {
     overflow: visible;
 }
 
-.menu-offcanvas .offcanvas-body {
-    overflow: visible;
-}
+
 
 .offcanvas [data-bs-dismiss="offcanvas"] {
     margin-left: -40px;
@@ -3727,11 +3725,7 @@ h4 .heading-title:after,
     }
 
     .offcanvas.menu-offcanvas {
-        --bs-offcanvas-width: 300px;
-    }
-
-    .offcanvas.menu-offcanvas .offcanvas-body {
-        padding: 10px;
+        --bs-offcanvas-width: 95%;
     }
 
     .offcanvas.menu-offcanvas .menu-top-btn {
@@ -4071,11 +4065,21 @@ a.share{
     color: var(--bs-body-color);
 }
 
-.footer-content-menu>ul>li + li{
-    /* gap */
-    margin-left: 15px;
+.footer-content-menu>ul>li{
+    margin-right: 15px;
 }
 
 .account-login .form-check{
     border: 0 !important;
+}
+
+.bottom-footer-block {
+    position: relative;
+    overflow: visible;
+    z-index: 1;
+}
+
+.footer-notes {
+    position: relative;
+    z-index: 2;
 }
