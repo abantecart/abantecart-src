@@ -379,4 +379,26 @@ class ExtensionPaypalCommerce extends Extension
         }
     }
 
+    public function onControllerPagesProductProduct_UpdateData()
+    {
+        if (IS_ADMIN) { return; }
+        $that =& $this->baseObject;
+        if(!$that->config->get('paypal_commerce_pay_later_product_message_status')){
+            return;
+        }
+
+        $payLaterMessage = html_entity_decode($that->config->get('paypal_commerce_pay_later_product_message'));
+        $payLaterMessage = str_replace('ENTER_VALUE_HERE','%s',$payLaterMessage);
+        if(!str_contains($payLaterMessage,'%s')){
+            return;
+        }
+        $payLaterMessage = sprintf(
+            $payLaterMessage,
+            $that->data['price_num'] * ($that->request->get['quantity'] ?: $that->data['minimum'] ?: 1)
+        );
+        $payLaterMessage .= '<script src="https://www.paypal.com/sdk/js?client-id='.$that->config->get('paypal_commerce_client_id')
+            .'&components=messages,buttons" data-namespace="PayPalSDK"></script>';
+        $that->view->addHookVar('extended_product_options', $payLaterMessage);
+    }
+
 }

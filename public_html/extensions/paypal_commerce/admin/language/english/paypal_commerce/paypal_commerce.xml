@@ -406,4 +406,12 @@ and Add Endpoints receiving events from your account. After Endpoint has been cr
         <key>paypal_commerce_3ds_policy_SCA_ALWAYS</key>
         <value><![CDATA[Always]]></value>
     </definition>
+    <definition>
+        <key>paypal_commerce_pay_later_product_message_status</key>
+        <value><![CDATA[Show Pay Later Offers Message]]></value>
+    </definition>
+    <definition>
+        <key>paypal_commerce_pay_later_product_message</key>
+        <value><![CDATA[PayLater Product Message HTML-code]]></value>
+    </definition>
 </definitions>

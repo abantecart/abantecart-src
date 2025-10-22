@@ -66,6 +66,14 @@
             </variants>
             <default_value>venmo</default_value>
         </item>
+        <item id="paypal_commerce_pay_later_product_message_status">
+            <type>checkbox</type>
+            <default_value>1</default_value>
+        </item>
+        <item id="paypal_commerce_pay_later_product_message">
+            <type>textarea</type>
+            <default_value><![CDATA[<div data-pp-message data-pp-style-layout="text" data-pp-style-logo-type="inline" data-pp-style-text-color="black" data-pp-style-text-size="12" data-pp-amount=ENTER_VALUE_HERE data-pp-placement=product></div>]]></default_value>
+        </item>
 		<item id="paypal_commerce_autoselect">
 			<type>checkbox</type>
 			<default_value>0</default_value>
