@@ -139,6 +139,20 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             ]
         );
 
+        //PayLater message
+        if($this->config->get('paypal_commerce_pay_later_checkout_message_status')) {
+            $payLaterMessage = html_entity_decode($this->config->get('paypal_commerce_pay_later_checkout_message'));
+            $payLaterMessage = str_replace('ENTER_VALUE_HERE', '%s', $payLaterMessage);
+            if (!str_contains($payLaterMessage, '%s')) {
+                return;
+            }
+            $payLaterMessage = sprintf(
+                $payLaterMessage,
+                $this->cart->getFinalTotalData()['value']
+            );
+            $data['pay_later_message'] = $payLaterMessage;
+        }
+
         $this->view->batchAssign($data);
         $this->processTemplate($template);
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -375,7 +389,6 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 'quantity'    => $product['quantity']
             ];
 
-
             if ($description) {
                 $items[$i]['description'] = $description;
             }
@@ -429,6 +442,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 ]
             ]
         ];
+
         $_3ds_policy = $this->config->get('paypal_commerce_3ds_policy');
         if($_3ds_policy && $this->request->get['card']=='true') {
             $ppData['payment_source']['card']['attributes'] = [
