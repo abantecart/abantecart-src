@@ -35,7 +35,7 @@ if ($error) { ?>
                         <?php echo $button_confirm->text; ?>
                     </button>
                     <?php } ?>
-                    <div class="row my-3"><?php echo $pay_later_message; ?></div>
+                    <div class="pay-later-message row my-3"><?php echo $pay_later_message; ?></div>
                 </div>
             </div>
         </div>

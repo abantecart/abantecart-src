@@ -140,17 +140,16 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         );
 
         //PayLater message
-        if($this->config->get('paypal_commerce_pay_later_checkout_message_status')) {
+        if ($this->config->get('paypal_commerce_pay_later_checkout_message_status')) {
             $payLaterMessage = html_entity_decode($this->config->get('paypal_commerce_pay_later_checkout_message'));
             $payLaterMessage = str_replace('ENTER_VALUE_HERE', '%s', $payLaterMessage);
-            if (!str_contains($payLaterMessage, '%s')) {
-                return;
+            if (str_contains($payLaterMessage, '%s')) {
+                $payLaterMessage = sprintf(
+                    $payLaterMessage,
+                    $this->cart->getFinalTotal()
+                );
+                $data['pay_later_message'] = $payLaterMessage;
             }
-            $payLaterMessage = sprintf(
-                $payLaterMessage,
-                $this->cart->getFinalTotalData()['value']
-            );
-            $data['pay_later_message'] = $payLaterMessage;
         }
 
         $this->view->batchAssign($data);
@@ -229,8 +228,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $orderTotal = $taxes = $discount = $handling_fee = 0.0;
         foreach ($this->cart->getFinalTotalData() as $total) {
-            if($total['id'] == 'total'){
-                $orderTotal = "".round($total['converted'],2);
+            if ($total['id'] == 'total') {
+                $orderTotal = "" . round($total['converted'], 2);
             }
 
             $data['order_' . $total['id']] = $this->currency->convert(
@@ -275,9 +274,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $ppData['intent'] = strtoupper($this->config->get('paypal_commerce_transaction_type'));
 
         $ppData['payer'] = [
-            'name' => [
+            'name'          => [
                 'given_name' => $order_info['shipping_firstname'],
-                'surname' => $order_info['shipping_lastname'],
+                'surname'    => $order_info['shipping_lastname'],
             ],
             'email_address' => $order_info['email'],
         ];
@@ -435,8 +434,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $ppData['payment_source']['paypal'] = [
             'experience_context' => [
-                'return_url' => $this->html->getSecureURL('checkout/fast_checkout'),
-                'cancel_url' => $this->html->getSecureURL('checkout/fast_checkout'),
+                'return_url'            => $this->html->getSecureURL('checkout/fast_checkout'),
+                'cancel_url'            => $this->html->getSecureURL('checkout/fast_checkout'),
                 'app_switch_preference' => [
                     'launch_paypal_app' => true
                 ]
@@ -444,7 +443,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         ];
 
         $_3ds_policy = $this->config->get('paypal_commerce_3ds_policy');
-        if($_3ds_policy && $this->request->get['card']=='true') {
+        if ($_3ds_policy && $this->request->get['card'] == 'true') {
             $ppData['payment_source']['card']['attributes'] = [
                 'verification' => [
                     'method' => $this->config->get('paypal_commerce_3ds_policy')
@@ -504,7 +503,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 $result = $mdl->capturePPOrder($ppOrderId);
                 if ($result->purchase_units[0]->payments->captures[0]->status == 'DECLINED') {
                     throw new Exception(
-                        $this->language->get('paypal_commerce_error_declined').'. '
+                        $this->language->get('paypal_commerce_error_declined') . '. '
                         . $result->purchase_units[0]->payments->captures[0]->seller_protection->status
                     );
                 }
@@ -512,7 +511,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 $result = $mdl->authorizePPOrder($ppOrderId);
                 if ($result->purchase_units[0]->payments->authorizations[0]->status == 'DENIED') {
                     throw new Exception(
-                        $this->language->get('paypal_commerce_error_denied').'. '
+                        $this->language->get('paypal_commerce_error_denied') . '. '
                         . $result->purchase_units[0]->payments->authorizations[0]->seller_protection->status
                     );
                 }
@@ -555,7 +554,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $this->response->setOutput(AJson::encode($output));
         }
 
-        $orderTotalAmt = "".round($order_info['total']*$order_info['value'],2);
+        $orderTotalAmt = "" . round($order_info['total'] * $order_info['value'], 2);
         /** @var ModelExtensionPaypalCommerce $mdl */
         $mdl = $this->loadModel('extension/paypal_commerce');
         $transactionDetails = json_decode(
