@@ -3,7 +3,6 @@ $total_items = sizeof((array)$products);
 $cart_view_limit = $total_items;
 if ($total_items > 0) { ?>
 <div id="top_cart_product_list" class="products">
-
     <?php echo $this->getHookVar('cart_top_pre_list_hook'); ?>
     <?php
     for ($i = 0; $i < $cart_view_limit && $i < $total_items; $i++) {
@@ -44,7 +43,7 @@ if ($total_items > 0) { ?>
 </div>
     <div class="offcanvas-body border-top mt-4 p-0 pt-4 ">
         <?php foreach ($totals as $total) { ?>
-            <div class="d-flex  align-items-center justify-content-between mb-3 px-0 mx-4">
+            <div class="d-flex align-items-center justify-content-between mb-3 px-0 mx-4">
                 <div class="col-auto ">
                     <h5 class="mb-0"><?php echo $total['title']; ?></h5>
                 </div>
@@ -58,14 +57,14 @@ if ($total_items > 0) { ?>
             <div class="col-5">
                 <a href="<?php echo $this->html->getSecureURL('checkout/cart'); ?>">
                     <div class="d-grid">
-                        <button class="btn btn-dark"><?php echo $this->language->get('text_view', 'blocks/cart');?></button>
+                        <button class="btn btn-dark p-3"><?php echo $this->language->get('text_view', 'blocks/cart');?></button>
                     </div>
                 </a>
             </div>
             <div class="col-5">
                 <a href="<?php echo $this->html->getSecureURL('checkout/fast_checkout'); ?>">
                     <div class="d-grid">
-                        <button class="btn btn-warning"><?php echo $this->language->get('text_checkout', 'blocks/cart'); ?></button>
+                        <button class="btn btn-warning p-3"><?php echo $this->language->get('text_checkout', 'blocks/cart'); ?></button>
                     </div>
                 </a>
             </div>
