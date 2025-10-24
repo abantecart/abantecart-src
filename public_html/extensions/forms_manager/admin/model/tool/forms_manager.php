@@ -244,9 +244,6 @@ class ModelToolFormsManager extends Model
 
             if (isset($data['controller_path'])) {
                 $cols[] = 'controller = "' . $this->db->escape($data['controller_path']) . '"';
-                if (!$data['success_page']) {
-                    $cols[] = 'success_page = "' . $this->db->escape($data['controller_path']) . '"';
-                }
             }
 
             if (isset($data['success_page'])) {
