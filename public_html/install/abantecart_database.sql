@@ -1,3 +1,4 @@
+SET @CORE_VERSION = "1.4.4";
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET CHARSET "utf8mb4";
 START TRANSACTION;
@@ -882,7 +883,7 @@ VALUES
 ('extensions', 'banner_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
 ('extensions', 'forms_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
 ('template', 'novator', 'template', 0, 1, '1.0.4', null, NOW(), now() + INTERVAL 4 MINUTE , now() ),
-('extensions', 'page_builder', 'tools', 1, 10000, '1.4.4', null, NOW(), NOW(), NOW())
+('extensions', 'page_builder', 'tools', 1, 10000, @CORE_VERSION, null, NOW(), NOW(), NOW())
 ;
 
 --
@@ -1818,6 +1819,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('im', 'config_im_guest_sms_status', '1'),
 
 -- system
+('system','core_version', @CORE_VERSION),
 ('system','config_session_ttl',120),
 ('system','config_maintenance',0),
 ('system','encryption_key',12345),
@@ -12050,7 +12052,7 @@ VALUES  (20, NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (21,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (22,'1.4.4','1');
+VALUES  (22,@CORE_VERSION,'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (23,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
