@@ -236,6 +236,7 @@ class APackageManager
     public function replaceCoreFiles()
     {
         $coreFiles = $this->session->data['package_info']['package_content']['core'];
+        $actor = $this->user->getUsername();
         $error = new AError('');
         if ($this->session->data['package_info']['ftp']) {
             $ftp_user = $this->session->data['package_info']['ftp_user'];
@@ -274,10 +275,21 @@ class APackageManager
                             'backup_file' => '',
                             'backup_date' => '',
                             'type'        => 'upgrade',
-                            'user'        => $this->user->getUsername(),
+                            'user'        => $actor,
                         ]
                     );
                 } else {
+                    $historyDataset->addRows(
+                        [
+                            'date_added'  => date("Y-m-d H:i:s", time()),
+                            'name'        => 'Failed to upgrade core file: ' . $core_filename,
+                            'version'     => $this->session->data['package_info']['package_version'],
+                            'backup_file' => '',
+                            'backup_date' => '',
+                            'type'        => 'error',
+                            'user'        => $actor,
+                        ]
+                    );
                     $this->error .= " Error: Cannot upgrade file : '" . $core_filename . PHP_EOL;
                     $error->msg = $this->error;
                     $error->toLog()->toDebug();
@@ -286,7 +298,6 @@ class APackageManager
             ftp_close($fconnect);
         } else {
             $historyDataset = new ADataset('install_upgrade_history', 'admin');
-            $actor = $this->user->getUsername();
             $historyRows = [];
 
             $srcDir = $this->session->data['package_info']['tmp_dir']
@@ -334,6 +345,15 @@ class APackageManager
                         'user'        => $actor,
                     ];
                 } else {
+                    $historyRows[] = [
+                        'date_added'  => date("Y-m-d H:i:s", time()),
+                        'name'        => 'Failed to upgrade core file: ' . $coreFileName,
+                        'version'     => $this->session->data['package_info']['package_version'],
+                        'backup_file' => '',
+                        'backup_date' => '',
+                        'type'        => 'error',
+                        'user'        => $actor,
+                    ];
                     $this->error .= " Error: Cannot upgrade file : '" . $coreFileName . PHP_EOL;
                     $error->msg = $this->error;
                     $error->toLog()->toDebug();
@@ -344,7 +364,7 @@ class APackageManager
     }
 
     /**
-     * method removes non-empty directory (use it carefully)
+     * method removes a non-empty directory (use it carefully)
      *
      * @param string $dir
      *

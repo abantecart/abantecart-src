@@ -1,30 +1,29 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
 class ControllerResponsesListingGridInstallUpgradeHistory extends AController
 {
-    public $error = array();
-    public $data = array();
+    public $error = [];
 
     public function main()
     {
@@ -34,7 +33,10 @@ class ControllerResponsesListingGridInstallUpgradeHistory extends AController
         $this->loadLanguage('tool/install_upgrade_history');
         if (!$this->user->canAccess('tool/install_upgrade_history')) {
             $response = new stdClass();
-            $response->userdata->error = sprintf($this->language->get('error_permission_access'), 'tool/install_upgrade_history');
+            $response->userdata->error = $this->language->getAndReplace(
+                'error_permission_access',
+                replaces: 'tool/install_upgrade_history'
+            );
             $this->load->library('json');
             $this->response->setOutput(AJson::encode($response));
             return null;
@@ -42,28 +44,27 @@ class ControllerResponsesListingGridInstallUpgradeHistory extends AController
 
         $this->loadModel('tool/install_upgrade_history');
 
-        $page = $this->request->post ['page']; // get the requested page
-        $limit = $this->request->post ['rows']; // get how many rows we want to have into the grid
-        $sidx = $this->request->post ['sidx']; // get index row - i.e. user click to sort
-        $sord = $this->request->post ['sord']; // get the direction
-
-        $filter = array();
-        //process custom search form
-        //$allowedSearchFilter = array ('name', 'date_added', 'type','user' );
-
-        if (isset ($this->request->post ['filters']) && $this->request->post ['filters'] != '') {
-            $this->request->post ['filters'] = json_decode(html_entity_decode($this->request->post ['filters']));
-            $filter['value'] = $this->request->post ['filters']->rules[0]->data;
+        $page = $this->request->post['page']; // get the requested page
+        $limit = $this->request->post['rows']; // get how many rows we want to have into the grid
+        $sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
+        $sord = $this->request->post['sord']; // get the direction
+        $filter = [];
+        if ($this->request->get['type']){
+            $filter = [
+                'column_name' => 'type',
+                'operator'    => 'like',
+                'value'       => (string)$this->request->get['type']
+            ];
         }
 
         // process jGrid search parameter
-
-        $data = array(
-            'sort'   => $sidx.":".$sord,
+        $data = [
+            'sort'   => $sidx . ":" . $sord,
             'offset' => ($page - 1) * $limit,
             'limit'  => $limit,
             'filter' => $filter,
-        );
+        ];
+
         $total = $this->model_tool_install_upgrade_history->getTotalRows($filter);
         if ($total > 0) {
             $total_pages = ceil($total / $limit);
@@ -82,8 +83,8 @@ class ControllerResponsesListingGridInstallUpgradeHistory extends AController
         foreach ($results as $k => $result) {
             $k++;
             $response->rows [$i] ['id'] = $k;
-
             switch ($result['type']) {
+                case 'error':
                 case 'delete':
                     $response->userdata->classes[$k] = 'warning';
                     break;
@@ -96,13 +97,17 @@ class ControllerResponsesListingGridInstallUpgradeHistory extends AController
                     break;
             }
 
-            if (is_file(DIR_BACKUP.$result ['backup_file'])) {
-                $link = '<a target="_blank" title="'.$this->language->get('text_download').'" href="'.$this->html->getSecureURL('tool/backup/download', '&filename='.urlencode($result ['backup_file'])).'">'.$result ['backup_file'].'</a>';
+            if (is_file(DIR_BACKUP . $result ['backup_file'])) {
+                $link = '<a target="_blank" title="' . html2view($this->language->get('text_download'))
+                    . '" href="' . $this->html->getSecureURL(
+                            'tool/backup/download',
+                            '&'.http_build_query(['filename' => $result['backup_file']])) . '">'
+                        . $result ['backup_file'] . '</a>';
             } else {
-                $link = $result ['backup_file'];
+                $link = $result['backup_file'];
             }
 
-            $response->rows [$i] ['cell'] = array(
+            $response->rows [$i] ['cell'] = [
                 $k,
                 $result ['date_added'],
                 $result ['type'],
@@ -111,7 +116,7 @@ class ControllerResponsesListingGridInstallUpgradeHistory extends AController
                 $result ['backup_date'],
                 $link,
                 $result ['user'],
-            );
+            ];
 
             $i++;
         }
@@ -122,7 +127,5 @@ class ControllerResponsesListingGridInstallUpgradeHistory extends AController
 
         $this->load->library('json');
         $this->response->setOutput(AJson::encode($this->data['response']));
-
     }
-
 }
