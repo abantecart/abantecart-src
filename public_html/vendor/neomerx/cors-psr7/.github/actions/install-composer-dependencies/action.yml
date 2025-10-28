@@ -1,0 +1,28 @@
+name: Install composer dependencies
+description: Installs composer dependencies, from cache if possible
+inputs:
+  with-dev:
+    description: Whether to install dev dependencies (yes/no)
+    required: false
+    default: no
+runs:
+  using: composite
+  steps:
+    - name: Cache vendor directory
+      id: cache-vendor
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}-dev-${{ inputs.with-dev }}
+
+    - if: ${{ steps.cache-vendor.outputs.cache-hit == false }}
+      name: Cache composer cache
+      uses: actions/cache@v3
+      with:
+        path: /tmp/composer-cache
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+
+    - if: ${{ steps.cache-vendor.outputs.cache-hit == false }}
+      uses: php-actions/composer@v6
+      with:
+        dev: ${{ inputs.with-dev }}

@@ -1,0 +1,63 @@
+{
+    "name": "relay/relay",
+    "type": "library",
+    "description": "A PSR-15 server request handler.",
+    "keywords": [
+        "middleware",
+        "psr-7",
+        "psr-15"
+    ],
+    "homepage": "https://github.com/relayphp/Relay.Relay",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Relay.Relay Contributors",
+            "homepage": "https://github.com/relayphp/Relay.Relay/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "psr/http-message": "~1.0 || ~2.0",
+        "psr/http-server-handler": "~1.0",
+        "psr/http-server-middleware": "^1.0"
+    },
+    "require-dev": {
+        "doctrine/coding-standard": "^9.0",
+        "nyholm/psr7": "^1.6",
+        "nyholm/psr7-server": "^1.1",
+        "phpstan/phpstan": "^1.12",
+        "phpunit/phpunit": "~7.0 || ~9.5",
+        "roave/security-advisories": "dev-master",
+        "vimeo/psalm": "^4.30"
+    },
+    "autoload": {
+        "psr-4": {
+            "Relay\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Relay\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "provide": {
+        "psr/http-server-handler-implementation": "1.0"
+    },
+    "scripts": {
+        "test": [
+            "phpcs",
+            "phpstan analyse",
+            "psalm",
+            "phpunit"
+        ],
+        "fix": [
+            "phpcbf"
+        ]
+    }
+}

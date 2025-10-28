@@ -1,0 +1,36 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/Dispatcher.php
+
+		-
+			message: "#^Negated boolean expression is always false\\.$#"
+			count: 1
+			path: src/Factory.php
+
+		-
+			message: "#^Method Middlewares\\\\Utils\\\\FactoryDiscovery\\:\\:getFactory\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/FactoryDiscovery.php
+
+		-
+			message: "#^Parameter \\#1 \\$class of function class_exists expects string, array\\<string, class\\-string\\>\\|string given\\.$#"
+			count: 1
+			path: src/FactoryDiscovery.php
+
+		-
+			message: "#^Property Middlewares\\\\Utils\\\\FactoryDiscovery\\:\\:\\$factory has no type specified\\.$#"
+			count: 1
+			path: src/FactoryDiscovery.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/HttpErrorException.php
+
+		-
+			message: "#^Method Middlewares\\\\Utils\\\\RequestHandlerContainer\\:\\:resolve\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/RequestHandlerContainer.php

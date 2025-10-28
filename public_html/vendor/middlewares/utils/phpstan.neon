@@ -1,0 +1,12 @@
+#
+# phpstan at max level leaves a mess for factory
+#
+includes:
+    - phpstan-baseline.neon
+
+parameters:
+    level: max
+    checkMissingIterableValueType: false
+    paths:
+        - src
+        - tests

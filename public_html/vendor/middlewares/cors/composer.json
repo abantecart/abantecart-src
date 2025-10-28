@@ -1,0 +1,51 @@
+{
+    "name": "middlewares/cors",
+    "type": "library",
+    "description": "Middleware to implement Cross-Origin Resource Sharing (CORS)",
+    "license": "MIT",
+    "keywords": [
+        "psr-7",
+        "psr-15",
+        "middleware",
+        "http",
+        "cors",
+        "Cross-Origin",
+        "security"
+    ],
+    "homepage": "https://github.com/middlewares/cors",
+    "support": {
+        "issues": "https://github.com/middlewares/cors/issues"
+    },
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "neomerx/cors-psr7": "^2.0 || ^3.0",
+        "middlewares/utils": "^2 || ^3 || ^4",
+        "psr/http-server-middleware": "^1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8 || ^9",
+        "friendsofphp/php-cs-fixer": "^3",
+        "squizlabs/php_codesniffer": "^3",
+        "oscarotero/php-cs-fixer-config": "^2",
+        "phpstan/phpstan": "^1 || ^2",
+        "laminas/laminas-diactoros": "^2 || ^3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Middlewares\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Middlewares\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "cs": "phpcs",
+        "cs-fix": "php-cs-fixer fix",
+        "phpstan": "phpstan analyse",
+        "test": "phpunit",
+        "coverage": "phpunit --coverage-text",
+        "coverage-html": "phpunit --coverage-html=coverage"
+    }
+}

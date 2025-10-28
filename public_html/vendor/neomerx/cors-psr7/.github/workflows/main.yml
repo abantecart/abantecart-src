@@ -1,0 +1,37 @@
+name: CI
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  tests:
+    name: tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        php: [ '8.1' ]
+        dependency-version: [ prefer-stable ]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 10
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: xdebug
+
+      - name: Install composer dependencies
+        uses: ./.github/actions/install-composer-dependencies
+        with:
+          with-dev: yes
+
+      - name: Run tests
+        run: composer test
+
+      - if: "matrix.php == 8.1"
+        name: Upload code coverage
+        run: XDEBUG_MODE=coverage php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover && php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
+
