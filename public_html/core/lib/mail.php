@@ -55,7 +55,7 @@ class AMail
      *
      * @throws AException
      */
-    public function __construct(AConfig $config = null)
+    public function __construct(?AConfig $config)
     {
         $dsn = '';
         $registry = Registry::getInstance();
@@ -134,7 +134,7 @@ class AMail
     /**
      * @param string $name - sender's name
      */
-    public function setSender(string $name, string $from = null)
+    public function setSender(string $name, ?string $from)
     {
         $from = $from ?? current($this->email->getFrom());
         $from = $from instanceof Address ? $from->getAddress() : (string)$from;
