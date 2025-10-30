@@ -46,7 +46,7 @@ class AMail
     protected $log;
     protected $storeId = 0;
     protected $placeholders = [];
-    protected $emailTemplate;
+    protected $emailTemplate = [];
     public $transporting = 'mail';
     public $error = [];
 
@@ -345,7 +345,11 @@ class AMail
 
         try {
             $this->email->ensureValidity();
-            $this->mailer->send($this->email);
+            if($this->mailer instanceof MailApi){
+                $this->mailer->send($this);
+            }else {
+                $this->mailer->send($this->email);
+            }
         } catch (Exception|Error $e) {
             $this->log->write(__CLASS__ . ': ' . $e->getMessage() . "\n" . $e->getTraceAsString());
             $this->error[] = $e->getMessage() . "\n" . $e->getTraceAsString();
@@ -357,5 +361,20 @@ class AMail
         }
 
         return true;
+    }
+
+    public function getEmail(): EMail
+    {
+        return $this->email;
+    }
+
+    public function getEmailTemplate(): array
+    {
+        return $this->emailTemplate;
+    }
+
+    public function getPlaceholders(): array
+    {
+        return $this->placeholders;
     }
 }
