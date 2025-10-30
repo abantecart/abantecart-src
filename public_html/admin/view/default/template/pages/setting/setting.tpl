@@ -199,7 +199,7 @@ jQuery(function () {
         field_list.smtp[2] = 'smtp_password';
         field_list.smtp[3] = 'smtp_port';
         field_list.smtp[4] = 'smtp_timeout';
-        field_list.dsn[0] = 'dsn_entry';
+        field_list.dsn[0]  = 'dsn_entry';
 
         var f, hide = [], show = $('#settingFrm_config_mail_transporting').val();
         if (show === 'mail') {
@@ -208,7 +208,10 @@ jQuery(function () {
             hide = ['mail', 'dsn'];
         } else if (show === 'dsn') {
             hide = ['mail', 'smtp'];
+        }else{
+            hide = ['mail', 'smtp', 'dsn'];
         }
+
         for (var h in hide) {
             for (f in field_list[hide[h]]) {
                 $('#settingFrm_config_' + field_list[hide[h]][f] + '_fld').fadeOut();

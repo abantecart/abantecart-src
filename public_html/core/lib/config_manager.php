@@ -1680,17 +1680,23 @@ class AConfigManager
     {
         $fields = [];
         //mail section
+        $options = [
+            'mail' => $this->language->get('text_mail'),
+            'smtp' => $this->language->get('text_smtp'),
+            'dsn'  => $this->language->get('text_dsn'),
+        ];
+
+        $mailExtensions = MailApiManager::getInstance()->getMailDriversList();
+        foreach ($mailExtensions as $txtId => $name) {
+            $options['mailapi_' . $txtId] = $name;
+        }
 
         $fields['mail_transporting'] = $form->getFieldHtml(
             $props[] = [
                 'type'    => 'selectbox',
                 'name'    => 'config_mail_transporting',
                 'value'   => $data['config_mail_transporting'],
-                'options' => [
-                    'mail' => $this->language->get('text_mail'),
-                    'smtp' => $this->language->get('text_smtp'),
-                    'dsn'  => $this->language->get('text_dsn'),
-                ],
+                'options' => $options,
                 'style'   => "no-save",
             ]
         );
