@@ -298,6 +298,10 @@ try {
     require_once(DIR_CORE . 'lib' . DS . 'document.php');
     require_once(DIR_CORE . 'lib' . DS . 'image.php');
     require_once(DIR_CORE . 'lib' . DS . 'log.php');
+
+    require_once(DIR_CORE . 'lib' . DS . 'contracts' . DS . 'MailApi.php');
+    require_once(DIR_CORE . 'lib' . DS . 'MailApiManager.php');
+    require_once(DIR_CORE . 'lib' . DS . 'MailApiResponse.php');
     require_once(DIR_CORE . 'lib' . DS . 'mail.php');
     require_once(DIR_CORE . 'lib' . DS . 'message.php');
     require_once(DIR_CORE . 'lib' . DS . 'pagination.php');

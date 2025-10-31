@@ -18,6 +18,7 @@
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
+use contracts\MailApi;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mime\Address;
@@ -34,6 +35,7 @@ if (!defined('DIR_CORE')) {
  */
 class AMail
 {
+    /** @var MailApi|false|Mailer|null  */
     protected $mailer;
     protected $email;
 
@@ -44,7 +46,7 @@ class AMail
     protected $log;
     protected $storeId = 0;
     protected $placeholders = [];
-    protected $emailTemplate;
+    protected $emailTemplate = [];
     public $transporting = 'mail';
     public $error = [];
 
@@ -55,7 +57,7 @@ class AMail
      *
      * @throws AException
      */
-    public function __construct(AConfig $config = null)
+    public function __construct(?AConfig $config)
     {
         $dsn = '';
         $registry = Registry::getInstance();
@@ -85,19 +87,25 @@ class AMail
                     . urlencode(MAILER['username']) . (MAILER['password'] ? ':' . urlencode(MAILER['password']) : '')
                     . '@' . urlencode(MAILER['host'] ?: 'default') . (MAILER['port'] ? ':' . MAILER['port'] : '');
             }
+        }elseif(str_starts_with($this->transporting, 'mailapi_')){
+            $this->mailer = MailApiManager::getInstance()->getCurrentMailApiDriver();
+            if(is_bool($this->mailer)){
+                $this->mailer = null;
+            }
         }
         if (!$dsn) {
             $dsn = 'native://default';
+        }
+        if(!$this->mailer) {
+            $transport = Symfony\Component\Mailer\Transport::fromDsn($dsn);
+            $registry->set('current_mail_transport', get_class($transport));
+            $this->mailer = new Mailer($transport);
         }
 
         $this->log = $registry->get('log');
         $this->messages = $registry->get('messages');
         $this->storeId = (int)($config->get('current_store_id') ?? $config->get('config_store_id'));
         $this->extensions = $registry->get('extensions');
-
-        $transport = Symfony\Component\Mailer\Transport::fromDsn($dsn);
-        $registry->set('current_mail_transport', get_class($transport));
-        $this->mailer = new Mailer($transport);
     }
 
     /**
@@ -134,7 +142,7 @@ class AMail
     /**
      * @param string $name - sender's name
      */
-    public function setSender(string $name, string $from = null)
+    public function setSender(string $name, ?string $from = '')
     {
         $from = $from ?? current($this->email->getFrom());
         $from = $from instanceof Address ? $from->getAddress() : (string)$from;
@@ -337,7 +345,11 @@ class AMail
 
         try {
             $this->email->ensureValidity();
-            $this->mailer->send($this->email);
+            if($this->mailer instanceof MailApi){
+                $this->mailer->send($this);
+            }else {
+                $this->mailer->send($this->email);
+            }
         } catch (Exception|Error $e) {
             $this->log->write(__CLASS__ . ': ' . $e->getMessage() . "\n" . $e->getTraceAsString());
             $this->error[] = $e->getMessage() . "\n" . $e->getTraceAsString();
@@ -349,5 +361,20 @@ class AMail
         }
 
         return true;
+    }
+
+    public function getEmail(): EMail
+    {
+        return $this->email;
+    }
+
+    public function getEmailTemplate(): array
+    {
+        return $this->emailTemplate;
+    }
+
+    public function getPlaceholders(): array
+    {
+        return $this->placeholders;
     }
 }

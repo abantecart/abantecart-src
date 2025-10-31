@@ -265,6 +265,7 @@ if ($error) { ?>
                 // Initialize Buttons component
                 try {
                     let ppBtns = paypal.Buttons({
+                        appSwitchWhenAvailable: true,
                         commit: false,
                         layout: 'horizontal',
                         style: {
