@@ -37,8 +37,8 @@ class AMail
 {
     /** @var MailApi|false|Mailer|null  */
     protected $mailer;
+    /** @var Email  */
     protected $email;
-
 
     /** @var AMessage */
     protected $messages;

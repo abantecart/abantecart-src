@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 /** @noinspection PhpUndefinedClassInspection */
@@ -1504,8 +1504,9 @@ class ModelCatalogProduct extends Model
      * @return array
      * @throws AException
      */
-    public function getProductCategories($productId)
+    public function getProductCategories( $productId, $languageId = null)
     {
+        $languageId = (int)($languageId ?? $this->config->get('config_language_id'));
         $storeId = (int) $this->config->get('config_store_id');
         $cacheKey = 'product.category_ids.'.$productId.'_'.$storeId;
         $output = $this->cache->pull($cacheKey);
@@ -1513,13 +1514,15 @@ class ModelCatalogProduct extends Model
             return $output;
         }
         $query = $this->db->query(
-            "SELECT p2c.category_id
+            "SELECT p2c.category_id, cd.name
             FROM ".$this->db->table("products_to_categories")." p2c
             INNER JOIN ".$this->db->table("categories_to_stores")." c2s
                 ON (c2s.category_id = p2c.category_id AND c2s.store_id = '".$storeId."')
+            LEFT JOIN ".$this->db->table("category_descriptions")." cd
+                ON cd.category_id = p2c.category_id AND cd.language_id = '".$languageId."'
             WHERE p2c.product_id = '".(int) $productId."'"
         );
-        $output = array_column($query->rows, 'category_id');
+        $output = array_column($query->rows, 'name', 'category_id');
         $this->cache->push($cacheKey,$output);
         return $output;
     }

@@ -1087,12 +1087,12 @@ function js_encode($text)
 /**
  * Echo js_encode string;
  *
- * @param string $text
+ * @param mixed $value
  *
  */
-function js_echo($text)
+function js_echo($value)
 {
-    echo js_encode($text);
+    echo js_encode($value);
 }
 
 /**
