@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 class ControllerPagesProductProduct extends AController
@@ -24,7 +24,6 @@ class ControllerPagesProductProduct extends AController
 
     protected function _init()
     {
-        //is this an embed mode
         if ($this->config->get('embed_mode')) {
             $this->routes['cart_rt'] = 'r/checkout/cart/embed';
         } else {
@@ -71,25 +70,27 @@ class ControllerPagesProductProduct extends AController
         );
 
         $this->loadModel('tool/seo_url');
-        $this->loadModel('catalog/category');
+        /** @var ModelCatalogCategory $cMdl */
+        $cMdl = $this->loadModel('catalog/category');
+        $product_info['categories'] = [];
         if(!isset($request['path'])){
-            $prodCategories = $this->model_catalog_product->getProductCategories($product_id);
-            if($prodCategories){
-                $request['path'] = $this->model_catalog_category->buildPath(current($prodCategories));
+            $product_info['categories'] = $this->model_catalog_product->getProductCategories($product_id);
+            if($product_info['categories']){
+                $request['path'] = $cMdl->buildPath(key($product_info['categories']));
             }
-
         }
 
         if (isset($request['path'])) {
             $path = '';
             foreach (explode('_', $request['path']) as $path_id) {
-                $category_info = $this->model_catalog_category->getCategory($path_id);
+                $category_info = $cMdl->getCategory($path_id);
                 if (!$path) {
                     $path = $path_id;
                 } else {
                     $path .= '_'.$path_id;
                 }
                 if ($category_info) {
+                    $product_info['categories'][$category_info['category_id']] = $category_info['name'];
                     $this->document->addBreadcrumb(
                         [
                             'href'      => $this->html->getSEOURL('product/category', '&path='.$path, '&encode'),
@@ -102,14 +103,14 @@ class ControllerPagesProductProduct extends AController
         }
 
         $this->loadModel('catalog/manufacturer');
-        if (isset($request['manufacturer_id'])) {
-            $manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($request['manufacturer_id']);
+        $brandId = (int)$request['manufacturer_id'];
+        if ($brandId) {
+            $manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($brandId);
             if ($manufacturer_info) {
                 $this->document->addBreadcrumb(
                     [
-                        'href'      => $this->html->getSEOURL(
-                            'product/manufacturer',
-                            '&manufacturer_id='.$request['manufacturer_id'], '&encode'
+                        'href'      => $this->html->getSEOURL( 'product/manufacturer', '&manufacturer_id='.$brandId,
+                            true
                         ),
                         'text'      => $manufacturer_info['name'],
                         'separator' => $this->language->get('text_separator'),
