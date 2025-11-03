@@ -365,6 +365,9 @@ class ModelExtensionUps extends Model
 
         $accessToken = getUPSAccessToken(Registry::getInstance());
         $config = Configuration::getDefaultConfiguration()->setAccessToken($accessToken);
+        if(!$this->config->get('ups_test_mode')){
+            $config->setHost('https://onlinetools.ups.com/api');
+        }
         $apiInstance = new RatingApi(new Client(), $config);
 
         $this->session->data['ups_data']['toAddress'] = [
@@ -634,6 +637,9 @@ class ModelExtensionUps extends Model
 
             $accessToken = getUPSAccessToken(Registry::getInstance());
             $config = \UPS\Shipping\Configuration::getDefaultConfiguration()->setAccessToken($accessToken);
+            if(!$this->config->get('ups_test_mode')){
+                $config->setHost('https://onlinetools.ups.com/api');
+            }
 
             $apiInstance = new UPS\Shipping\Request\ShippingApi(
             // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
