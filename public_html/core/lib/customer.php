@@ -508,6 +508,15 @@ class ACustomer
     }
 
     /**
+     * @since 1.4.4
+     * @return string
+     */
+    public function getFullName()
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
+
+    /**
      * @return string
      */
     public function getLoginName()
