@@ -53,8 +53,13 @@ function getUPSAccessToken(Registry $registry, $options = [])
 
         $configuration = Configuration::getDefaultConfiguration()
             ->setUsername($clientId)
-            ->setPassword($password)
-            ->setHost('https://wwwcie.ups.com');
+            ->setPassword($password);
+        if(!$config->get('ups_test_mode')){
+            $configuration->setHost('https://onlinetools.ups.com/api');
+        }else{
+            $configuration->setHost('https://wwwcie.ups.com');
+        }
+
 
         $apiInstance = new OAuthClientCredentialsApi(new Client(), $configuration);
         $result = $apiInstance->createToken("client_credentials", $accNumber);
@@ -98,6 +103,9 @@ function validateAddress(array $address)
 {
     $accessToken = getUPSAccessToken(Registry::getInstance());
     $config = \UPS\AddressValidation\Configuration::getDefaultConfiguration()->setAccessToken($accessToken);
+    if(!Registry::getInstance()->get('config')->get('ups_test_mode')){
+        $config->setHost('https://onlinetools.ups.com/api');
+    }
 
     $apiInstance = new AddressValidationApi(new Client(), $config);
 

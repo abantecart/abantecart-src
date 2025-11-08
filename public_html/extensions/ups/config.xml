@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension>
     <id>ups</id>
-    <version>1.4.3</version>
+    <version>1.4.4</version>
     <type>shipping</type>
     <category>Payment &amp;amp; Shipping</category>
     <cartversions>
@@ -21,6 +21,10 @@
         </item>
         <item id="ups_password">
             <type required="true">input</type>
+        </item>
+        <item id="ups_test_mode">
+            <type>checkbox</type>
+            <default_value>0</default_value>
         </item>
         <item id="ups_validate_address">
             <type>checkbox</type>

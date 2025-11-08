@@ -155,6 +155,7 @@ class ModelCheckoutOrder extends Model
         if ($result !== null) {
             return $result;
         }
+        return null;
     }
 
     /**
@@ -167,7 +168,7 @@ class ModelCheckoutOrder extends Model
     public function _create($data, $setOrderId = 0)
     {
         $setOrderId = (int)$setOrderId;
-        //reuse same order_id or unused one order_status_id = 0
+        //reuse the same order_id or unused one order_status_id = 0
         if ($setOrderId) {
             $query = $this->db->query(
                 "SELECT order_id
@@ -235,7 +236,7 @@ class ModelCheckoutOrder extends Model
 
         foreach ($this->data['order_column_list'] as $key => $dataType) {
 
-            if(!isset($data[$key])){
+            if (!isset($data[$key])) {
                 continue;
             }
             if ($dataType == 'int') {
@@ -272,9 +273,9 @@ class ModelCheckoutOrder extends Model
                 }
             } else {
                 //prevent duplicates in the ext_fields data
-                foreach(['payment_','shipping_'] as $t) {
+                foreach (['payment_', 'shipping_'] as $t) {
                     $testKey = str_replace($t, '', $key);
-                    if (//if data goes to the orders table
+                    if (//if data goes to the order table
                         isset($this->data['order_column_list'][$testKey])
                         && isset($data[$testKey])
                         //and values are equal
@@ -372,7 +373,13 @@ class ModelCheckoutOrder extends Model
         return $order_id;
     }
 
-    protected function saveIMOrderData($order_id, $data)
+    /**
+     * @param $orderId
+     * @param $data
+     * @return void
+     * @throws AException
+     */
+    protected function saveIMOrderData($orderId, $data)
     {
         $protocols = $this->im->getProtocols();
         $p = [];
@@ -409,18 +416,18 @@ class ModelCheckoutOrder extends Model
 
                 $sql = "SELECT * 
                         FROM " . $this->db->table('order_data') . "
-                        WHERE order_id = " . (int)$order_id . " 
+                        WHERE order_id = " . (int)$orderId . " 
                             AND type_id = " . $type_id;
                 $r = $this->db->query($sql);
                 if (!$r->num_rows) {
                     $sql = "INSERT INTO " . $this->db->table('order_data') . "
                         (`order_id`, `type_id`, `data`, `date_added`)
                         VALUES 
-                        (" . (int)$order_id . ", " . (int)$type_id . ", '" . $this->db->escape($im_data) . "', NOW() )";
+                        (" . (int)$orderId . ", " . (int)$type_id . ", '" . $this->db->escape($im_data) . "', NOW() )";
                 } else {
                     $sql = "UPDATE " . $this->db->table('order_data') . "
                             SET `data` = '" . $this->db->escape($im_data) . "'
-                            WHERE order_id = " . (int)$order_id . " AND type_id = " . (int)$type_id;
+                            WHERE order_id = " . (int)$orderId . " AND type_id = " . (int)$type_id;
                 }
                 $this->db->query($sql);
                 $savedProtocols[] = $protocol;
@@ -1112,59 +1119,65 @@ class ModelCheckoutOrder extends Model
     }
 
     /**
-     * @param int $order_id
-     * @param string|array $data
+     * @param int $orderId
+     * @param string|array $data - array or serialized string
      *
      * @return bool|stdClass
      * @throws AException
      */
-    public function updatePaymentMethodData($order_id, $data)
+    public function updatePaymentMethodData($orderId, $data)
     {
+        $sql = "SELECT payment_method_data
+                FROM " . $this->db->table('orders') . "
+                WHERE order_id = " . (int)$orderId;
+        $result = $this->db->query($sql);
+        $priorData = unserialize($result->row['payment_method_data']) ?: [];
         if (is_array($data)) {
-            $data = serialize($data);
+            $data = serialize($priorData + $data);
+        } else {
+            $data = $priorData + (unserialize($priorData) ?: []);
         }
-
         return $this->db->query(
-            'UPDATE ' . $this->db->table('orders') . '
-            SET payment_method_data = "' . $this->db->escape($data) . '"
-            WHERE order_id = "' . (int)$order_id . '"'
+            "UPDATE " . $this->db->table('orders') . "
+            SET payment_method_data = '" . $this->db->escape(serialize($data)) . "'
+            WHERE order_id = " . (int)$orderId
         );
     }
 
     /**
-     * @param $order_id
+     * @param $orderId
      *
      * @return bool
      * @throws AException
      */
-    protected function _remove_order($order_id)
+    protected function _remove_order($orderId)
     {
-        $order_id = (int)$order_id;
-        if (!$order_id) {
+        $orderId = (int)$orderId;
+        if (!$orderId) {
             return false;
         }
 
-        $this->db->query("DELETE FROM `" . $this->db->table("order_products") . "` WHERE order_id = '" . $order_id . "'");
-        $this->db->query("DELETE FROM `" . $this->db->table("order_options") . "` WHERE order_id = '" . $order_id . "'");
-        $this->db->query("DELETE FROM `" . $this->db->table("order_downloads") . "` WHERE order_id = '" . $order_id . "'");
-        $this->db->query("DELETE FROM `" . $this->db->table("order_totals") . "` WHERE order_id = '" . $order_id . "'");
-        $this->db->query("DELETE FROM `" . $this->db->table("order_data") . "` WHERE order_id = '" . $order_id . "'");
-        $this->db->query("DELETE FROM `" . $this->db->table("orders") . "` WHERE order_id = '" . $order_id . "'");
+        $this->db->query("DELETE FROM `" . $this->db->table("order_products") . "` WHERE order_id = '" . $orderId . "'");
+        $this->db->query("DELETE FROM `" . $this->db->table("order_options") . "` WHERE order_id = '" . $orderId . "'");
+        $this->db->query("DELETE FROM `" . $this->db->table("order_downloads") . "` WHERE order_id = '" . $orderId . "'");
+        $this->db->query("DELETE FROM `" . $this->db->table("order_totals") . "` WHERE order_id = '" . $orderId . "'");
+        $this->db->query("DELETE FROM `" . $this->db->table("order_data") . "` WHERE order_id = '" . $orderId . "'");
+        $this->db->query("DELETE FROM `" . $this->db->table("orders") . "` WHERE order_id = '" . $orderId . "'");
 
         return true;
     }
 
-    public function saveOrderProductStocks($order_product_id, $product_id, $product_option_value_id, $order_quantity)
+    public function saveOrderProductStocks($orderProductId, $productId, $optionValueId, $orderQuantity)
     {
-        if (!$order_quantity) {
+        if (!$orderQuantity) {
             return false;
         }
-        $stock_locations = $this->getProductStockLocations($product_id, $product_option_value_id);
+        $stock_locations = $this->getProductStockLocations($productId, $optionValueId);
 
         if (!$stock_locations) {
             return false;
         }
-        $remains = $order_quantity;
+        $remains = $orderQuantity;
         $available_quantity = array_sum(array_column($stock_locations, 'quantity'));
 
         //do not save when zero stocks on all locations
@@ -1176,8 +1189,8 @@ class ModelCheckoutOrder extends Model
             //skip zero stock locations or non-trackable
             if (
                 ($available_quantity && !$row['quantity'])
-                || (!$product_option_value_id && !$row['product_subtract'])
-                || ($product_option_value_id && !$row['product_option_value_subtract'])
+                || (!$optionValueId && !$row['product_subtract'])
+                || ($optionValueId && !$row['product_option_value_subtract'])
             ) {
                 continue;
             }
@@ -1195,9 +1208,9 @@ class ModelCheckoutOrder extends Model
             $sql = "UPDATE " . $this->db->table("product_stock_locations") . " 
                     SET quantity = " . (int)$newQnty . "
                     WHERE location_id= " . (int)$row['location_id'] . "
-                        AND product_id = " . (int)$product_id
-                . ((int)$product_option_value_id
-                    ? " AND product_option_value_id='" . (int)$product_option_value_id . "' "
+                        AND product_id = " . (int)$productId
+                . ((int)$optionValueId
+                    ? " AND product_option_value_id='" . (int)$optionValueId . "' "
                     : " AND product_option_value_id IS NULL");
             $this->db->query($sql);
             //save stocks into order details
@@ -1205,9 +1218,9 @@ class ModelCheckoutOrder extends Model
                 "INSERT INTO " . $this->db->table("order_product_stock_locations") . "
                     (order_product_id, product_id, product_option_value_id, location_id, location_name, quantity, sort_order)
                 VALUES( 
-                    " . (int)$order_product_id . ",
-                    " . (int)$product_id . ", 
-                    " . ((int)$product_option_value_id ?: 'NULL') . ", 
+                    " . (int)$orderProductId . ",
+                    " . (int)$productId . ", 
+                    " . ((int)$optionValueId ?: 'NULL') . ", 
                     " . (int)$row['location_id'] . ", 
                     '" . $this->db->escape($row['location_name']) . "',
                     " . (int)$quantity . ", 

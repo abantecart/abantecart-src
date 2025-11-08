@@ -21,6 +21,10 @@
         <value><![CDATA[API Password<br/><span class="help">You can find it in your application section on https://developer.ups.com/apps </span>]]></value>
     </definition>
     <definition>
+        <key>ups_test_mode</key>
+        <value><![CDATA[Test mode]]></value>
+    </definition>
+    <definition>
         <key>ups_validate_address</key>
         <value><![CDATA[Address Validation]]></value>
     </definition>
