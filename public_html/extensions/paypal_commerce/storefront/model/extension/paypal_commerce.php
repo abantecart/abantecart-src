@@ -77,11 +77,6 @@ class ModelExtensionPaypalCommerce extends Model
         }
     }
 
-    public function getBNCode()
-    {
-        return 'QWJhbnRlQ2FydF9TUA==';
-    }
-
     /**
      * @param int $customerId
      * @param string $paypalCustomerId

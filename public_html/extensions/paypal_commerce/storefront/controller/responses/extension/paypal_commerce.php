@@ -56,7 +56,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         /** @var ModelExtensionPaypalCommerce $mdl */
         $mdl = $this->load->model('extension/paypal_commerce');
         $data['client_token'] = $mdl->getClientToken();
-        $data['bn_code'] = $mdl->getBnCode();
+        $data['bn_code'] = ExtensionPaypalCommerce::getBnCode();
         if (!$data['client_token']) {
             $data['error'] = 'Cannot to obtain client token from Paypal API. Incident has been reported.';
             $this->messages->saveError('Paypal Commerce API Error', $data['error'] . "\nSee error log for details.");

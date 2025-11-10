@@ -521,6 +521,19 @@ class ALanguage
     }
 
     /**
+     * Current site language locale
+     *
+     * @return string
+     */
+    public function getLanguageLocale(string $format = '')
+    {
+        if($format === 'language-country'){
+            return str_replace('_','-',explode('.',explode(',',$this->current_language['locale'])[0])[0]);
+        }
+        return (string)$this->current_language['locale'];
+    }
+
+    /**
      * Current site language ID
      *
      * @return int
