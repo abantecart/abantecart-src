@@ -72,6 +72,7 @@ $templates = [
         'responses/extension/paypal_commerce_connect.tpl',
         'responses/extension/paypal_commerce_test.tpl',
         'responses/extension/paypal_commerce_manual_connect.tpl',
-        'responses/extension/paypal_commerce_note_wrapper.tpl'
+        'responses/extension/paypal_commerce_note_wrapper.tpl',
+        'responses/extension/paylater_configurator.tpl'
     ]
 ];

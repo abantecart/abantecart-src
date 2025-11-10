@@ -36,6 +36,17 @@ class ExtensionPaypalCommerce extends Extension
         return $that->config->get('paypal_commerce_status');
     }
 
+    public static function getBnCode()
+    {
+        return 'QWJhbnRlQ2FydF9TUA==';
+    }
+
+
+    public static function getPartnerClientId()
+    {
+        return 'QWYxUnZvbEEtOHVFeGppRnJ6c0w5S28wR2I5Z0NIX0lSUjhlUUhkOHZScnE5TDdEbjVYUkxXMnVKQzFvWnozOGVGOUlyS3NOQS1jR2huNmY=';
+    }
+
     //Hook to extension edit in the admin
     public function onControllerPagesExtensionExtensions_InitData()
     {
@@ -383,9 +394,6 @@ class ExtensionPaypalCommerce extends Extension
     {
         if (IS_ADMIN) { return; }
         $that =& $this->baseObject;
-        if(!$that->config->get('paypal_commerce_pay_later_product_message_status')){
-            return;
-        }
 
         $payLaterMessage = html_entity_decode($that->config->get('paypal_commerce_pay_later_product_message'));
         $payLaterMessage = str_replace('ENTER_VALUE_HERE','%s',$payLaterMessage);
@@ -399,6 +407,31 @@ class ExtensionPaypalCommerce extends Extension
         $payLaterMessage .= '<script src="https://www.paypal.com/sdk/js?client-id='.$that->config->get('paypal_commerce_client_id')
             .'&components=messages,buttons" data-namespace="PayPalSDK"></script>';
         $that->view->addHookVar('extended_product_options', $payLaterMessage);
+    }
+
+    public function onControllerPagesCheckoutCart_UpdateData()
+    {
+        if (IS_ADMIN) { return; }
+        $that =& $this->baseObject;
+
+        $payLaterMessage = html_entity_decode($that->config->get('paypal_commerce_pay_later_checkout_message'));
+        $payLaterMessage = str_replace('ENTER_VALUE_HERE','%s',$payLaterMessage);
+        if(!str_contains($payLaterMessage,'%s')){
+            return;
+        }
+        $totals = $that->view->getData('totals');
+        foreach ($totals as $total) {
+            if($total['id'] == 'total'){
+                $totalAmount = $total['value'];
+            }
+        }
+        $payLaterMessage = sprintf(
+            $payLaterMessage,
+            $totalAmount
+        );
+        $payLaterMessage .= '<script src="https://www.paypal.com/sdk/js?client-id='.$that->config->get('paypal_commerce_client_id')
+            .'&components=messages,buttons" data-namespace="PayPalSDK"></script>';
+        $that->view->addHookVar('pre_top_cart_buttons', $payLaterMessage);
     }
 
 }

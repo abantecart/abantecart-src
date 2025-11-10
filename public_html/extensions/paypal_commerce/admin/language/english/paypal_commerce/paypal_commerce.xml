@@ -407,19 +407,7 @@ and Add Endpoints receiving events from your account. After Endpoint has been cr
         <value><![CDATA[Always]]></value>
     </definition>
     <definition>
-        <key>paypal_commerce_pay_later_product_message_status</key>
-        <value><![CDATA[Show Pay Later Offers Message On Product Page]]></value>
-    </definition>
-    <definition>
-        <key>paypal_commerce_pay_later_product_message</key>
-        <value><![CDATA[PayLater Product Message HTML-code]]></value>
-    </definition>
-    <definition>
-        <key>paypal_commerce_pay_later_checkout_message_status</key>
-        <value><![CDATA[Show Pay Later Offers Message On Checkout Page]]></value>
-    </definition>
-    <definition>
-        <key>paypal_commerce_pay_later_checkout_message</key>
-        <value><![CDATA[PayLater Checkout Message HTML-code]]></value>
+        <key>paypal_commerce_pay_later_message_configurator</key>
+        <value><![CDATA[Pay Later Offer Messages<span class="help">Pay Later offers messages can be configured to display on product pages and checkout pages. This feature allows merchants to provide customers with information about available payment options and terms.</span>]]></value>
     </definition>
 </definitions>

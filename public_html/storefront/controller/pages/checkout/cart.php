@@ -422,16 +422,16 @@ class ControllerPagesCheckoutCart extends AController
             $cf_total_max = $this->config->get('total_order_maximum');
             if (!$this->cart->hasMinRequirement()) {
                 $this->data['form']['checkout'] = '';
-                $error_msg[] = sprintf(
-                    $this->language->get('error_order_minimum'),
-                    $this->currency->format($cf_total_min)
+                $error_msg[] = $this->language->getAndReplace(
+                    'error_order_minimum',
+                    replaces: $this->currency->format($cf_total_min)
                 );
             }
             if (!$this->cart->hasMaxRequirement()) {
                 $this->data['form']['checkout'] = '';
-                $error_msg[] = sprintf(
-                    $this->language->get('error_order_maximum'),
-                    $this->currency->format($cf_total_max)
+                $error_msg[] = $this->language->getAndReplace(
+                    'error_order_maximum',
+                    replaces: $this->currency->format($cf_total_max)
                 );
             }
 

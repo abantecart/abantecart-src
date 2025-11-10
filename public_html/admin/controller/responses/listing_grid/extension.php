@@ -34,12 +34,8 @@ class ControllerResponsesListingGridExtension extends AController
         $this->loadLanguage('extension/extensions');
         /** @var ModelToolMPAPI $mpModel */
         $mpModel = $this->loadModel('tool/mp_api');
-
-        $page = $this->request->post['page']; // get the requested page
-        if ((int)$page < 0) {
-            $page = 0;
-        }
-        $limit = $this->request->post['rows']; // get how many rows we want to have into the grid
+        $page = min(0,(int)$this->request->post['page']);
+        $limit = (int)$this->request->post['rows']; // get how many rows we want to have into the grid
         $sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
         $sord = $this->request->post['sord']; // get the direction
 
@@ -75,7 +71,7 @@ class ControllerResponsesListingGridExtension extends AController
             $sord = 'asc';
         }
 
-        //extensions that has record in DB but missing files
+        //extensions that have a record in DB but missing files
         $missing_extensions = $this->extensions->getMissingExtensions();
 
         $data = [
@@ -87,15 +83,11 @@ class ControllerResponsesListingGridExtension extends AController
         if ($this->config->get('current_store_id')) {
             $data['store_id'] = (int)$this->config->get('current_store_id');
         }
-        //extensions list. NOTE: set "force" mode to get data from db
+        //an extension list. NOTE: set "force" mode to get data from db
         $extensions = $this->extension_manager->getExtensionsList($data, 'force');
 
         $total = $extensions->total;
-        if ($total > 0) {
-            $total_pages = ceil($total / $limit);
-        } else {
-            $total_pages = 0;
-        }
+        $total_pages = $total > 0 ? ceil($total / $limit) : 0;
 
         $response = new stdClass();
         $response->rows = [];
@@ -107,7 +99,7 @@ class ControllerResponsesListingGridExtension extends AController
         $i = 0;
         $for_push = $push = [];
 
-        // get extensions for install
+        // get extensions for installation
         $ready_to_install = $this->session->data['ready_to_install'];
         $to_install = $to_inst_keys = [];
 
@@ -130,7 +122,7 @@ class ControllerResponsesListingGridExtension extends AController
             }
         }
 
-        //filter already installed from remote list (ignores new versions too)
+        //filter already installed from a remote list (ignores new versions too)
         foreach ($extensions->rows as $row) {
             if (in_array($row['key'], $to_inst_keys)) {
                 unset($to_install[$row['key']]);
@@ -179,7 +171,7 @@ class ControllerResponsesListingGridExtension extends AController
                 $icon = '<img src="' . RDIR_TEMPLATE . 'image/default_extension.png' . '" alt="' . $extension . '" />';
                 $name = sprintf($this->language->get('text_missing_extension'), $extension);
                 $category = $status = '';
-                // change it for show it in list first by default sorting
+                // change it to show it in a list first by default sorting
                 $row['date_modified'] = date('Y-m-d H:i:s', time());
             } //corrupted extension
             elseif (!file_exists(DIR_EXT . $extension . DS . 'main.php') || !file_exists(DIR_EXT . $extension . DS . 'config.xml')) {
@@ -188,7 +180,7 @@ class ControllerResponsesListingGridExtension extends AController
                 $icon = '<img src="' . RDIR_TEMPLATE . 'image/default_extension.png' . '" alt="' . $extension . '" />';
                 $name = sprintf($this->language->get('text_broken_extension'), $extension);
                 $category = $status = '';
-                // change it for show it in list first by default sorting
+                // change it to show it in a list first by default sorting
                 $row['date_modified'] = date('Y-m-d H:i:s', time());
             } else {
                 if (!$this->config->has($extension . '_status')) {
@@ -255,7 +247,7 @@ class ControllerResponsesListingGridExtension extends AController
                         $push[] = $i;
                     }
                 }
-                //when support period expired
+                //when a support period expired
                 if (($updates
                         && isset($updates[$extension]['support_expiration'])
                         && $updates[$extension]['support_expiration']
@@ -268,7 +260,7 @@ class ControllerResponsesListingGridExtension extends AController
                     $expired = true;
                     $response->userdata->classes[$id] = 'expired ' . $response->userdata->classes[$id];
                 }
-                //check of minor cart version
+                //check of a minor cart version
                 if (!is_null($this->config->get($extension . "_status"))) {
                     $cfg = getExtensionConfigXml($extension);
                     if ($cfg->cartversions->item) {
@@ -289,7 +281,7 @@ class ControllerResponsesListingGridExtension extends AController
                 $response->userdata->classes[$id] .= ' disable-expired ';
             }
             $response->userdata->mp_product_url[$id] = $row['mp_product_url'] ?: $updates[$extension]['url'];
-            //if url of product page still empty - send to search result page
+            //if url of product page still empty - send to the search result page
             if (!$response->userdata->mp_product_url[$id]) {
                 $response->userdata->mp_product_url[$id] = $mpModel->getMPURL()
                     . '?rt=product/search&keyword=' . $extension;
@@ -347,7 +339,6 @@ class ControllerResponsesListingGridExtension extends AController
                     'reset_value' => true,
                 ]
             );
-            return;
         }
 
         $this->loadLanguage('extension/extensions');
@@ -389,7 +380,7 @@ class ControllerResponsesListingGridExtension extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('extension/extensions');
 
-        // first of all we need check dependencies
+        // first we need to check dependencies
         $config = getExtensionConfigXml($this->request->get['extension']);
         $result = $this->extension_manager->validateDependencies($this->request->get['extension'], $config);
         $this->data = ['license_text' => '', 'error_text' => ''];
