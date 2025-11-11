@@ -1,6 +1,6 @@
 <?php /** @var AView|AController $this */?>
 <div id="messaging-configurator"></div>
-<script src="<?php echo $this->templateResource('/js/merchant-configurator.js'); ?>" defer></script>
+<script src="https://www.paypalobjects.com/merchant-library/merchant-configurator.js" defer></script>
 <script>
     window.addEventListener('load', function () {
         const MessagingConfigHandler = (data) => {
