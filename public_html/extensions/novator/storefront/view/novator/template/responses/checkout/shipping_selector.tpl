@@ -31,6 +31,7 @@ if($this->cart->hasShipping()){
             $readonly = ' readonly ';
         } ?>
         <div class="d-flex w-100 border rounded flex-column mb-3 shipping-selectors">
+            <?php echo $this->getHookVar('pre_shipping_methods');?>
         <?php
          foreach ($csession['shipping_methods'] as $shipping_method) { ?>
              <h6 class="fw-bold p-3 bg-gradient bg-primary bg-opacity-10 text-dark">

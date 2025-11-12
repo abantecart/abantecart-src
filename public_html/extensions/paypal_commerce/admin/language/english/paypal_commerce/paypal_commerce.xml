@@ -410,4 +410,12 @@ and Add Endpoints receiving events from your account. After Endpoint has been cr
         <key>paypal_commerce_pay_later_message_configurator</key>
         <value><![CDATA[Pay Later Offer Messages<span class="help">Pay Later offers messages can be configured to display on product pages and checkout pages. This feature allows merchants to provide customers with information about available payment options and terms.</span>]]></value>
     </definition>
+    <definition>
+        <key>paypal_commerce_text_run_configurator</key>
+        <value><![CDATA[Run Configurator]]></value>
+    </definition>
+    <definition>
+        <key>paypal_commerce_text_connect_for_configurator</key>
+        <value><![CDATA[Please connect to PayPal to see Configurator]]></value>
+    </definition>
 </definitions>

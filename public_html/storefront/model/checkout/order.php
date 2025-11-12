@@ -540,9 +540,9 @@ class ModelCheckoutOrder extends Model
                     //notify admin about out of stock for option-based product
                     $message_arr = [
                         1 => [
-                            'message' => sprintf(
-                                $language->get('im_product_out_of_stock_admin_text'),
-                                $product['product_id']
+                            'message' => $language->getAndReplace(
+                                'im_product_out_of_stock_admin_text',
+                                replaces: $product['product_id']
                             ),
                         ],
                     ];
@@ -590,9 +590,9 @@ class ModelCheckoutOrder extends Model
                     //notify admin about out of stock
                     $message_arr = [
                         1 => [
-                            'message' => sprintf(
-                                $language->get('im_product_out_of_stock_admin_text'),
-                                $product['product_id']
+                            'message' => $language->getAndReplace(
+                                'im_product_out_of_stock_admin_text',
+                                replaces: $product['product_id']
                             ),
                         ],
                     ];
@@ -920,7 +920,11 @@ class ModelCheckoutOrder extends Model
             }
         }
 
-        $msg_text = sprintf($language->get('text_new_order_text'), $orderInfo['firstname'] . ' ' . $orderInfo['lastname']);
+        $msg_text = $language->getAndReplace(
+            'text_new_order_text',
+            replaces: $orderInfo['firstname'] . ' ' . $orderInfo['lastname']
+        );
+
         $msg_text .= "<br/><br/>";
         foreach ($mailTplData['totals'] as $total) {
             $msg_text .= $total['title'] . ' - ' . $total['text'] . "<br/>";
@@ -933,7 +937,7 @@ class ModelCheckoutOrder extends Model
         $language->load('common/im');
         $message_arr = [
             1 => [
-                'message' => sprintf($language->get('im_new_order_text_to_admin'), $orderId),
+                'message' => $language->getAndReplace('im_new_order_text_to_admin', replaces: $orderId),
             ],
         ];
 
@@ -1068,17 +1072,15 @@ class ModelCheckoutOrder extends Model
 
             $message_arr = [
                 0 => [
-                    'message' => sprintf(
-                        $language_im->get('im_order_update_text_to_customer'),
-                        $order_id,
-                        $status_name
+                    'message' => $language_im->getAndReplace(
+                        'im_order_update_text_to_customer',
+                        replaces: [$order_id,$status_name]
                     ),
                 ],
                 1 => [
-                    'message' => sprintf(
-                        $language_im->get('im_order_update_text_to_admin'),
-                        $order_id,
-                        $status_name
+                    'message' => $language_im->getAndReplace(
+                        'im_order_update_text_to_admin',
+                        replaces: [$order_id, $status_name]
                     ),
                 ],
             ];
