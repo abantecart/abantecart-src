@@ -25,21 +25,36 @@ if($this->config->get('paypal_commerce_client_id')){ ?>
                 $('input[name="paypal_commerce_pay_later_'+placement+'_message"]').val(
                     merchantConfigurators.generateMessagingCodeSnippet({messageConfig: cfg})
                 )
-                //mark form as changed
-                $('[data-target="#pp_cfg_modal"]').parent().addClass('changed').parents('form').prop('changed','true');
-                $('#pp_cfg_modal').modal('hide');
             }
+            //save json-config for next editing
+            $('input[name="paypal_commerce_pay_later_message_config"]').val( JSON.stringify(data.config));
+            //mark form as changed
+            $('[data-target="#pp_cfg_modal"]').parent().addClass('changed').parents('form').prop('changed','true');
+            $('#pp_cfg_modal').modal('hide');
         };
 
-        merchantConfigurators.Messaging({
-                    bnCode: <?php js_echo(base64_decode(ExtensionPaypalCommerce::getBnCode()));?>,
-                    merchantIdentifier: <?php js_echo($this->config->get('paypal_commerce_client_id'));?>,
-                    partnerClientId: <?php js_echo(base64_decode(ExtensionPaypalCommerce::getPartnerClientId()));?>,
-                    partnerName: "AbanteCart",
-            onSave: MessagingConfigHandler,
-            locale: <?php js_echo($this->language->getLanguageLocale('language-country')); ?>,
-            placements: ['checkout', 'product', 'cart'],
-        });
+        let savedConfig = <?php js_echo(json_decode(html_entity_decode($this->config->get('paypal_commerce_pay_later_message_config')),JSON_PRETTY_PRINT)?:[]);?>;
+        if(savedConfig.hasOwnProperty('cart') && savedConfig.cart.hasOwnProperty('placement')){
+            delete savedConfig.cart.placement;
+        }
+        if(savedConfig.hasOwnProperty('product') && savedConfig.product.hasOwnProperty('placement')) {
+            delete savedConfig.product.placement;
+        }
+        if(savedConfig.hasOwnProperty('checkout') && savedConfig.checkout.hasOwnProperty('placement')) {
+            delete savedConfig.checkout.placement;
+        }
+        merchantConfigurators.Messaging(
+            {
+                bnCode: <?php js_echo(base64_decode(ExtensionPaypalCommerce::getBnCode()));?>,
+                merchantIdentifier: <?php js_echo($this->config->get('paypal_commerce_client_id'));?>,
+                partnerClientId: <?php js_echo(base64_decode(ExtensionPaypalCommerce::getPartnerClientId()));?>,
+                partnerName: "AbanteCart",
+                onSave: MessagingConfigHandler,
+                locale: <?php js_echo($this->language->getLanguageLocale('language-country')); ?>,
+                placements: ['product','cart','checkout'],
+                config: savedConfig
+            }
+        );
     });
 </script>
 <?php }else{ ?>
