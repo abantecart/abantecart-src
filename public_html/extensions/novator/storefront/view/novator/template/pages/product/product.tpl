@@ -79,6 +79,7 @@ if ($error){ ?>
             <div class="row g-1">
                 <div class="col-sm-9" >
                     <h1 class="h4 heading-title" style="width: 100%;"><?php echo $heading_title; ?></h1>
+                    <?php echo $this->getHookVar('after_product_name');?>
                     <?php if($manufacturer){?>
                         <h6 class="my-2 text-warning"><u><a class="my-2 text-warning" href="<?php echo $manufacturers;  ?>"><?php echo $manufacturer; ?></a></u></h6>
                     <?php }?>

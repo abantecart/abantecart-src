@@ -146,6 +146,7 @@
                         <?php } else { ?>
                             <div class="mb-0 prod-price text-muted fw-semibold"><?php echo $product['price'] . $tax_message; ?></div>
                         <?php } ?>
+                        <?php echo $this->getHookVar('product_listing_details_price_' . $product['product_id']); ?>
                     </div>
                 <?php }
                 echo $this->getHookVar('product_price_hook_var_' . $product['product_id']);
