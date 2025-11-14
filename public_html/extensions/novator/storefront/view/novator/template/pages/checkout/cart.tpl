@@ -113,7 +113,7 @@ if (sizeof((array) $error_warning) > 0) {
         </div>
         <div class="cart-info product-list">
             <div class="row">
-                <div class="py-3 col-12 d-flex flex-wrap justify-content-end">
+                <div class="py-3 col-12 d-flex flex-wrap justify-content-end align-items-start">
                     <?php
                     echo $this->getHookVar('pre_top_cart_buttons'); ?>
                     <button id="submit_button" type="submit"
