@@ -395,6 +395,29 @@ class ExtensionPaypalCommerce extends Extension
         if (IS_ADMIN) { return; }
         $that =& $this->baseObject;
 
+        $view = new AView(Registry::getInstance());
+        $data['show_buttons'] = $that->config->get('paypal_commerce_show_buttons_product');
+        $data['fast_checkout_buy_now_status'] = $that->config->get('fast_checkout_buy_now_status');
+        $data['buynow_url'] = $that->view->getData('buynow_url');
+
+        $that->loadLanguage('paypal_commerce/paypal_commerce');
+        /** @var ModelExtensionPaypalCommerce $mdl */
+        $mdl = $that->load->model('extension/paypal_commerce');
+        $data['client_token'] = $mdl->getClientToken();
+        $data['bn_code'] = ExtensionPaypalCommerce::getBnCode();
+        $data['intent'] = $that->config->get('paypal_commerce_transaction_type');
+        $data['enabled_components'] = unserialize($that->config->get('paypal_commerce_enabled_components')) ?: ['buttons'];
+        $data['enabled_funding'] = unserialize($that->config->get('paypal_commerce_enabled_funding')) ?: [];
+        $data['create_temp_order_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/createTempOrder');
+        $data['prepare_checkout_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/prepareCheckout');
+
+        $productInfo = $that->view->getData('product_info');
+        $data['product_name'] = $productInfo['name'];
+        $data['return_url'] = $data['cancel_url'] = $that->html->getSEOURL('product/product','&product_id=' . $productInfo['product_id']);
+        $view->batchAssign($data);
+        $ppButtons = $view->fetch('responses/paypal_commerce_buy_now.tpl');
+        $that->view->addHookVar('buttons', $ppButtons);
+
         $payLaterMessage = html_entity_decode($that->config->get('paypal_commerce_pay_later_product_message'));
         $payLaterMessage = str_replace('ENTER_VALUE_HERE','%s',$payLaterMessage);
         if(!str_contains($payLaterMessage,'%s')){
@@ -404,8 +427,6 @@ class ExtensionPaypalCommerce extends Extension
             $payLaterMessage,
             $that->data['price_num'] * ($that->request->get['quantity'] ?: $that->data['minimum'] ?: 1)
         );
-        $payLaterMessage .= '<script src="https://www.paypal.com/sdk/js?client-id='.$that->config->get('paypal_commerce_client_id')
-            .'&components=messages,buttons" data-namespace="PayPalSDK"></script>';
         $that->view->addHookVar('extended_product_options', $payLaterMessage);
     }
 
@@ -413,25 +434,59 @@ class ExtensionPaypalCommerce extends Extension
     {
         if (IS_ADMIN) { return; }
         $that =& $this->baseObject;
+        $view = new AView(Registry::getInstance());
+        $data['show_buttons'] = $that->config->get('paypal_commerce_show_buttons_product');
+        $that->loadLanguage('paypal_commerce/paypal_commerce');
+        /** @var ModelExtensionPaypalCommerce $mdl */
+        $mdl = $that->load->model('extension/paypal_commerce');
+        $data['client_token'] = $mdl->getClientToken();
+        $data['bn_code'] = ExtensionPaypalCommerce::getBnCode();
+        $data['intent'] = $that->config->get('paypal_commerce_transaction_type');
+        $data['enabled_components'] = unserialize($that->config->get('paypal_commerce_enabled_components')) ?: ['buttons'];
+        $data['enabled_funding'] = unserialize($that->config->get('paypal_commerce_enabled_funding')) ?: [];
+        $data['create_temp_order_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/createTempOrder');
+        $data['prepare_checkout_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/prepareCheckout');
+        $data['return_url'] = $data['cancel_url'] = $that->html->getSEOURL('checkout/cart');
+        $view->batchAssign($data);
+        $ppButtons = $view->fetch('responses/paypal_commerce_buy_now.tpl');
+        $that->view->addHookVar('post_top_cart_buttons', $ppButtons);
 
-        $payLaterMessage = html_entity_decode($that->config->get('paypal_commerce_pay_later_checkout_message'));
+
+        $payLaterMessage = html_entity_decode($that->config->get('paypal_commerce_pay_later_cart_message'));
         $payLaterMessage = str_replace('ENTER_VALUE_HERE','%s',$payLaterMessage);
         if(!str_contains($payLaterMessage,'%s')){
             return;
         }
+        $payLaterMessage = sprintf(
+            $payLaterMessage,
+            $that->data['price_num'] * ($that->request->get['quantity'] ?: $that->data['minimum'] ?: 1)
+        );
         $totals = $that->view->getData('totals');
+        $totalAmount = null;
         foreach ($totals as $total) {
             if($total['id'] == 'total'){
                 $totalAmount = $total['value'];
+                break;
             }
         }
         $payLaterMessage = sprintf(
             $payLaterMessage,
             $totalAmount
         );
-        $payLaterMessage .= '<script src="https://www.paypal.com/sdk/js?client-id='.$that->config->get('paypal_commerce_client_id')
-            .'&components=messages,buttons" data-namespace="PayPalSDK"></script>';
         $that->view->addHookVar('pre_top_cart_buttons', $payLaterMessage);
     }
 
+    /**
+     * make PayPal as a pre-selected payment method
+     *
+     * @return void
+     */
+    public function onControllerPagesCheckoutFastCheckout_InitData()
+    {
+        $that = & $this->baseObject;
+        if($this->baseObject_method == '__construct' && $that->session->data['paypal']['payment_method']){
+            $that->session->data['fc']['payment_method'] = $that->session->data['paypal']['payment_method'];
+            unset($that->session->data['paypal']['payment_method']);
+        }
+    }
 }

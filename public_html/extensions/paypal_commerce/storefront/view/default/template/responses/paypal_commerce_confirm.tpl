@@ -12,8 +12,6 @@ if ($error) { ?>
         //transaction details from Paypal API ?>
         <input id="transaction_details" name="transaction_details" type="hidden" value="">
         <?php echo $this->getHookVar('payment_table_pre'); ?>
-        <div id="div-preloader" class="wait alert alert-info text-center text-nowrap"><i
-                    class="fa fa-refresh fa-spin"></i> <?php echo $text_wait; ?></div>
         <div class="form-group text-center action-buttons" style="display: none;">
             <div class="center-block">
                 <div id="paypal-button-container">
@@ -44,42 +42,11 @@ if ($error) { ?>
     <?php if (!in_array($intent, ['capture', 'authorize'])) {
         $intent = 'authorize';
     }
+    /** @see paypal_commerce_js_sdk_load.tpl */
+    require_once('paypal_commerce_js_sdk_load.tpl');
     ?>
     <script type="text/javascript">
         $(document).ready(function () {
-            // Load the PayPal script and initialize CardFields
-            function loadPaypalScript(url, callback) {
-                var script = document.createElement("script");
-                script.type = "text/javascript";
-                script.setAttribute("data-client-token", <?php js_echo($client_token)?>);
-                script.setAttribute("data-partner-attribution-id", atob(<?php js_echo($bn_code);?>));
-                script.addEventListener('error', function (e) {
-                    $('#paypalFrm').before('<div class="alert alert-warning"><i class="fa fa-exclamation fa-fw"></i> Apologies, unable to load the PayPal script. Please try later or choose another payment method.</div>');
-                    $('#div-preloader').hide();
-                });
-                if (script.readyState) {
-                    // For IE
-                    script.onreadystatechange = function () {
-                        if (script.readyState === "loaded" ||
-                            script.readyState === "complete") {
-                            script.onreadystatechange = null;
-                            callback();
-                        }
-                    };
-                } else {
-                    // For other browsers
-                    script.onload = function () {
-                        callback();
-                    };
-                }
-
-                script.src = url;
-                try {
-                    document.getElementsByTagName('head')[0].appendChild(script);
-                } catch (e) {
-                    console.log(e);
-                }
-            }
             <?php
             $cmpList = implode(",",(array)$enabled_components) ?: 'buttons';
             $cmpList .= ',messages';
@@ -99,7 +66,8 @@ if ($error) { ?>
                     if( !$enabled_components || in_array('buttons',$enabled_components) ){  ?>
                     initButtons();
                     <?php } ?>
-                }
+                },
+                $('#paypalFrm')
             );
 
             <?php if(in_array('card-fields',$enabled_components)) { ?>
@@ -226,7 +194,7 @@ if ($error) { ?>
                     $("#checkout_btn").on("click", async () => {
                         $('#paypalFrm').parent().find('.alert').remove();
                         $('.paypal-buttons').hide();
-                        $('#div-preloader').show();
+                        $('div.spinner-overlay').show();
                         try {
                             await cardFields.submit(
                                 {
@@ -243,7 +211,7 @@ if ($error) { ?>
                             );
                         }catch(error) {
                             resetLockedButton($('#checkout_btn'));
-                            $('#div-preloader').hide();
+                            $('div.spinner-overlay').hide();
                             $('.paypal-buttons').show();
                         }
                     });
@@ -252,7 +220,7 @@ if ($error) { ?>
                 }
 
                 $('#paypalFrm').find('.action-buttons').show();
-                $('#div-preloader').hide();
+                $('div.spinner-overlay').hide();
             }
             <?php }
             if(in_array('buttons',$enabled_components)){ ?>
@@ -274,19 +242,24 @@ if ($error) { ?>
                                 width: '50px'
                             }
                         },
+                        onClick: function () {
+                            $('div.spinner-overlay').show();
+                        },
                         createOrder: function (data, actions) {
                             return (
                                 // send your cart info to your server side to create a PayPal Order.
-                                fetch(<?php js_echo($create_order_url);?>+'&' + $('input[name=csrftoken], input[name=csrfinstance]').serialize(), {
-                                    method: "POST",
+                                fetch(<?php js_echo($create_order_url);?>+'&' + $('input[name=csrftoken], input[name=csrfinstance]').serialize(),
+                                    {
+                                        method: "POST",
+                                    }
+                                ).then((response) => response.json())
+                                // return the PayPal Order ID that you received from the PayPal backend
+                                .then(function (order) {
+                                    $('input[name=csrftoken]').val(order.csrftoken);
+                                    $('input[name=csrfinstance]').val(order.csrfinstance);
+                                    return order.id;
                                 })
-                                    .then((response) => response.json())
-                                    // return the PayPal Order ID that you received from the PayPal backend
-                                    .then(function (order) {
-                                        $('input[name=csrftoken]').val(order.csrftoken);
-                                        $('input[name=csrfinstance]').val(order.csrfinstance);
-                                        return order.id;
-                                    })
+                                .catch(showPPError)
                             );
                         },
                         onCancel: function (data) {
@@ -333,8 +306,9 @@ if ($error) { ?>
                                 .catch(showPPError);
                         },
                         onError: function (err) {
+                            console.log(err);
                             const message = parsePayPalErrorMessage(err.message)
-                            showPPError( message.description || "An unknown error occurred." );
+                            showPPError( message ? message.description :"An unknown error occurred." );
                         }
                     });
 
@@ -349,7 +323,7 @@ if ($error) { ?>
                 }
 
                 $('#paypalFrm').find('.action-buttons').show();
-                $('#div-preloader').hide();
+                $('div.spinner-overlay').hide();
             }
             <?php } ?>
             function showPPError(text) {
@@ -357,7 +331,7 @@ if ($error) { ?>
                     '<div class="alert alert-danger"><i class="fa fa-exclamation fa-fw"></i> ' + text + '</div>'
                     + '<button class="btn btn-info" onclick="location.reload();" type="button">Try again</button>'
                 );
-                $('#div-preloader').hide();
+                $('div.spinner-overlay').hide();
                 $('#paypalFrm .action-buttons').hide();
             }
 
@@ -380,32 +354,10 @@ if ($error) { ?>
                         }
                     },
                     error: function (xhr, status, error) {
-                        $('#div-preloader').hide();
+                        $('div.spinner-overlay').hide();
                         $form.before('<div class="alert alert-danger"><i class="fa fa-exclamation"></i> ' + status + ' ' + error + '</div>');
                     }
                 });
-            }
-
-            function parsePayPalErrorMessage(errMessage) {
-                try {
-                    const jsonStart = errMessage.indexOf('{');
-                    if (jsonStart === -1) return null;
-
-                    const rawJson = errMessage.slice(jsonStart);
-                    const parsed = JSON.parse(rawJson);
-
-                    return {
-                        name: parsed.name,
-                        issue: parsed.details?.[0]?.issue,
-                        field: parsed.details?.[0]?.field,
-                        description: parsed.details?.[0]?.description,
-                        debugId: parsed.debug_id,
-                        link: parsed.links?.[0]?.href,
-                        raw: parsed
-                    };
-                } catch (e) {
-                    return { error: 'Failed to parse PayPal error JSON', rawMessage: errMessage };
-                }
             }
         });
     </script>
