@@ -953,7 +953,6 @@ class ControllerPagesProductProduct extends AController
         }
 
         if($this->config->get('fast_checkout_buy_now_status')) {
-
             $data = [];
             $data['button_add_to_cart'] = $this->language->get('button_add_to_cart');
             $data['text_buynow'] = $this->language->get('fast_checkout_buy_now');
@@ -968,6 +967,7 @@ class ControllerPagesProductProduct extends AController
                 'product_add_to_cart_html',
                 $view->fetch('pages/product/add_to_cart_buttons.tpl')
             );
+            $this->data += $data;
         }
 
         $this->view->setTemplate('pages/product/product.tpl');
