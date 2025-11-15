@@ -650,9 +650,6 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $currencyCode = $this->currency->getCode();
         /** @var ModelExtensionPaypalCommerce $mdl */
         $mdl = $this->loadModel('extension/paypal_commerce');
-
-        $ee = $this->cart->getFinalTotal();
-
         $orderTotal = $inData['total']
             ? "" . round($this->currency->convert(
                 $inData['total'],

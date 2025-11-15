@@ -69,6 +69,11 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                         },
                         onClick: function () {
                             $('#preloader').css('display', 'block');
+                            <?php
+                            if($this->customer->isLogged()){ ?>
+                                return preparePPCheckout({});
+                            <?php }
+                            ?>
                         },
                         onCancel: function () {
                             $('#preloader').css('display', 'none');
@@ -100,27 +105,7 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                             );
                         },
                         onApprove: function (data, actions) {
-                            console.log(data);
-                            // Pass the PayPal order ID to your server side where you will capture it
-                            return fetch(<?php js_echo($prepare_checkout_url);?>,
-                                {
-                                    method: "POST",
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify(data)
-                                }
-                            ).then(function() {
-                                <?php if($product_name){?>
-                                const form = $('#ppBuyNow').closest('form');
-                                <?php if($fast_checkout_buy_now_status){?>
-                                form.attr('action', <?php js_echo($buynow_url);?>);
-                                <?php } ?>
-                                form.submit();
-                                <?php }else{ ?>
-                                save_and_checkout('checkout/fast_checkout');
-                                <?php }?>
-                            }).catch(showPPError);
+                            return preparePPCheckout(data);
                         },
                         onError: function (err) {
                             const message = parsePayPalErrorMessage(err.message);
@@ -133,6 +118,35 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                     console.log(e);
                 }
                 $('#paypalFrm').find('.action-buttons').show();
+            }
+
+            function preparePPCheckout(data){
+                // Pass the PayPal order ID to your server side where you will capture it
+                return fetch(<?php js_echo($prepare_checkout_url);?>,
+                    {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    }
+                ).then(startPPCheckout)
+                .catch(showPPError);
+            }
+
+            function startPPCheckout(){
+                <?php
+                //if click on the product page
+                if($product_name){?>
+                const form = $('#ppBuyNow').closest('form');
+                <?php if($fast_checkout_buy_now_status){?>
+                form.attr('action', <?php js_echo($buynow_url);?>);
+                <?php } ?>
+                form.submit();
+                <?php }else{
+                //if click on the cart page ?>
+                save_and_checkout('checkout/fast_checkout');
+                <?php } ?>
             }
 
             function showPPError(text) {
