@@ -77,6 +77,9 @@ class MailApiManager
         $driverTxtId = str_replace('mailapi_', '', $this->config->get('config_mail_transporting'));
         try {
             $driverClass = $this->config->get($driverTxtId . '_driver_classname');
+            if(!class_exists($driverClass)) {
+                return false;
+            }
             $driver = new $driverClass($this->registry);
             if (!($driver instanceof MailApi)) {
                 $this->registry->get('log')->write($driverClass . ' not instance of MailApi Class!');

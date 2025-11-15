@@ -22,7 +22,6 @@
 	}
     $(document).ready(function(){
         $('#fast_checkout_summary_block').on('reload', loadFCBlockSummaryContent);
-        loadFCBlockSummaryContent();
     });
     <?php } ?>
 </script>

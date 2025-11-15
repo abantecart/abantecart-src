@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 if (!defined('DIR_CORE')) {
@@ -66,12 +66,16 @@ class ControllerResponsesCheckoutPay extends AController
                 $tax_country_id = $guestSessionData['shipping']['country_id'] ?? $guestSessionData['country_id'];
                 $tax_zone_id = $guestSessionData['shipping']['zone_id'] ?? $guestSessionData['zone_id'];
             }
+            if(!$this->session->data['fc']['guest']){
+                $this->session->data['fc']['guest'] = $guestSessionData;
+                unset($this->session->data['guest']);
+            }
         }
 
         if ($tax_country_id && !$this->request->post['country_id']) {
             $this->tax->setZone($tax_country_id, $tax_zone_id);
         }
-        //short reference to fast checkout session
+        //short reference to a fast checkout session
         $this->fc_session =& $this->session->data['fc'];
         //set cart key into cookie every request to compare it on js-side
         // (case when two single-checkout tabs opened)
@@ -98,6 +102,7 @@ class ControllerResponsesCheckoutPay extends AController
 
     public function main()
     {
+
         $this->data['error'] = '';
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $request = array_merge($this->request->get, $this->request->post);

@@ -1074,7 +1074,7 @@ class ModelCheckoutOrder extends Model
                 0 => [
                     'message' => $language_im->getAndReplace(
                         'im_order_update_text_to_customer',
-                        replaces: [$order_id,$status_name]
+                        replaces: [$order_id, $status_name]
                     ),
                 ],
                 1 => [
@@ -1135,9 +1135,9 @@ class ModelCheckoutOrder extends Model
         $result = $this->db->query($sql);
         $priorData = unserialize($result->row['payment_method_data']) ?: [];
         if (is_array($data)) {
-            $data = serialize($priorData + $data);
+            $data = $priorData + $data;
         } else {
-            $data = $priorData + (unserialize($priorData) ?: []);
+            $data = $priorData + (unserialize($data) ?: []);
         }
         return $this->db->query(
             "UPDATE " . $this->db->table('orders') . "

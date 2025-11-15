@@ -104,7 +104,7 @@ if (sizeof((array) $error_warning) > 0) {
         <?php echo $this->getHookVar('list_more_product_last'); ?>
     </div>
     <div class="container-fluid cart-info product-list">
-        <div class="ps-4 p-3 col-12 d-flex flex-wrap justify-content-end">
+        <div class="ps-4 p-3 col-12 d-flex flex-wrap justify-content-end align-items-start">
             <?php
             echo $this->getHookVar('pre_top_cart_buttons'); ?>
             <button id="submit_button" type="submit"

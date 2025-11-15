@@ -65,7 +65,8 @@ $languages = [
 
 $templates = [
     'storefront' => [
-        'responses/paypal_commerce_confirm.tpl'
+        'responses/paypal_commerce_confirm.tpl',
+        'responses/paypal_commerce_buy_now.tpl'
     ],
     'admin'      => [
         'pages/sale/paypal_commerce_payment_details.tpl',

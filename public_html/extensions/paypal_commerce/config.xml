@@ -66,6 +66,14 @@
             </variants>
             <default_value>venmo</default_value>
         </item>
+        <item id="paypal_commerce_show_buttons_product">
+            <type>checkbox</type>
+            <default_value>1</default_value>
+        </item>
+        <item id="paypal_commerce_show_buttons_cart">
+            <type>checkbox</type>
+            <default_value>1</default_value>
+        </item>
         <item id="paypal_commerce_pay_later_message_configurator">
             <type>html_template</type>
             <template>responses/extension/paylater_configurator.tpl</template>

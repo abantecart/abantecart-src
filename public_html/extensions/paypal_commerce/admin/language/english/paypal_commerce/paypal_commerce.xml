@@ -418,4 +418,12 @@ and Add Endpoints receiving events from your account. After Endpoint has been cr
         <key>paypal_commerce_text_connect_for_configurator</key>
         <value><![CDATA[Please connect to PayPal to see Configurator]]></value>
     </definition>
+    <definition>
+        <key>paypal_commerce_show_buttons_product</key>
+        <value><![CDATA[Show PayPal Checkout Buttons on the Product Page]]></value>
+    </definition>
+    <definition>
+        <key>paypal_commerce_show_buttons_cart</key>
+        <value><![CDATA[Show PayPal Checkout Buttons on the Cart Page]]></value>
+    </definition>
 </definitions>
