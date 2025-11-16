@@ -1913,7 +1913,7 @@ DROP TABLE IF EXISTS `ac_stock_statuses`;
 CREATE TABLE `ac_stock_statuses` (
   `stock_status_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(32) NOT NULL COMMENT 'translatable',
+  `name` varchar(128) NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`stock_status_id`,`language_id`)
 ) ENGINE=InnoDb  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
