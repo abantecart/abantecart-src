@@ -74,7 +74,7 @@ if (!defined('IS_ADMIN') || !IS_ADMIN) { // storefront load
 }// end admin load
 
 $registry->set('currency', new ACurrency($registry));
-
+$hook->hk_IndexProcess();
 //Route to request process
 $router = new ARouter($registry);
 $registry->set('router', $router);

@@ -26,6 +26,7 @@ if (!defined('DIR_CORE')) {
  *
  * @property ExtensionsApi $extensions
  * @method hk_InitEnd
+ * @method hk_IndexProcess
  * @method hk_IndexEnd
  */
 final class AHook
