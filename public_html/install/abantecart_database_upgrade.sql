@@ -199,3 +199,5 @@ alter table `ac_weight_classes`
 alter table `ac_zones_to_locations`
     modify `date_added` timestamp default current_timestamp() null;
 
+alter table `ac_stock_statuses`
+    modify `name` varchar(128) NOT NULL COMMENT 'translatable';
