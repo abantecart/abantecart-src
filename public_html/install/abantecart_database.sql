@@ -1135,6 +1135,9 @@ ON `ac_orders` (
     `language_id`,
     `currency_id`,
     `coupon_id`);
+create index `ac_orders_date_idx`
+    on `ac_orders` (`date_added` desc, `date_modified` desc);
+
 --
 -- DDL for table `order_downloads`
 --

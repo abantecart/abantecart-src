@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -63,23 +62,20 @@ class ModelReportSale extends Model
             $inc_sql .= " AS total ";
         } else {
             if ($mode == 'summary') {
-                $inc_sql = 'COUNT(*) AS orders, 
-                            SUM(total) AS total_amount';
+                $inc_sql = 'COUNT(*) AS orders, SUM(total) AS total_amount';
             } else {
-                $inc_sql = "MIN(date_added) AS date_start, 
-                            MAX(date_added) AS date_end, 
-                            COUNT(*) AS orders, 
+                $inc_sql = "MIN(date_added) AS date_start, MAX(date_added) AS date_end, COUNT(*) AS orders, 
                             SUM(total) AS total ";
             }
         }
 
-        $sql = "SELECT ".$inc_sql." 
-                FROM `".$this->db->table("orders")."`";
+        $sql = "SELECT " . $inc_sql . " 
+                FROM `" . $this->db->table("orders") . "`";
 
         if ($filter['order_status'] == 'all') {
             $sql .= " WHERE order_status_id >= 0 ";
-        } elseif ((int) $filter['order_status']) {
-            $sql .= " WHERE order_status_id = ".(int) $filter['order_status']." ";
+        } elseif ((int)$filter['order_status']) {
+            $sql .= " WHERE order_status_id = " . (int)$filter['order_status'] . " ";
         } else {
             //all orders
             $sql .= " WHERE order_status_id > 0";
@@ -94,10 +90,17 @@ class ModelReportSale extends Model
         } else {
             $date_end = date('Y-m-d', time());
         }
-        $sql .= " AND 
-            (DATE_FORMAT(date_added,'%Y-%m-%d') >= DATE_FORMAT('".$this->db->escape($date_start)."','%Y-%m-%d') 
-            AND 
-            DATE_FORMAT(date_added,'%Y-%m-%d') <= DATE_FORMAT('".$this->db->escape($date_end)."','%Y-%m-%d') )";
+
+        //speedup the sql query. Do not use date functions here!
+        if ($date_start != $date_end) {
+            $date_start = date('Y-m-d', dateISO2Int($date_start));
+            $date_end = date('Y-m-d 23:59:59', dateISO2Int($date_end));
+            $sql .= " AND date_added >= '" . $this->db->escape($date_start) . "' 
+                      AND date_added <= '" . $this->db->escape($date_end) . "'";
+        } else {
+            $date_start = date('Y-m-d', dateISO2Int($date_start));
+            $sql .= " AND date_added > '" . $this->db->escape($date_start) . "'";
+        }
 
         //If for total, we done building the query
         if ($mode == 'total_only') {
@@ -126,7 +129,7 @@ class ModelReportSale extends Model
         }
 
         if (isset($data['sort'])) {
-            $sql .= " ORDER BY ".$this->db->escape($data['sort'])." ".$this->db->escape($data['order']);
+            $sql .= " ORDER BY " . $this->db->escape($data['sort']) . " " . $this->db->escape($data['order']);
         }
 
         if (isset($data['start']) || isset($data['limit'])) {
@@ -138,7 +141,7 @@ class ModelReportSale extends Model
                 $data['limit'] = 20;
             }
 
-            $sql .= " LIMIT ".(int) $data['start'].",".(int) $data['limit'];
+            $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
         }
 
         $query = $this->db->query($sql);
@@ -214,16 +217,16 @@ class ModelReportSale extends Model
             }
         }
 
-        $sql = "SELECT ".$inc_sql."
-                FROM `".$this->db->table("orders")."` o 
-                LEFT JOIN `".$this->db->table("order_totals")."` ot 
+        $sql = "SELECT " . $inc_sql . "
+                FROM `" . $this->db->table("orders") . "` o 
+                LEFT JOIN `" . $this->db->table("order_totals") . "` ot 
                     ON (o.order_id = ot.order_id) 
                 WHERE ot.type = 'tax' ";
 
         if ($filter['order_status'] == 'all') {
             $sql .= " AND o.order_status_id >= 0 ";
-        } elseif ((int) $filter['order_status']) {
-            $sql .= " AND o.order_status_id = ".(int) $filter['order_status']." ";
+        } elseif ((int)$filter['order_status']) {
+            $sql .= " AND o.order_status_id = " . (int)$filter['order_status'] . " ";
         } else {
             //all orders
             $sql .= " AND o.order_status_id > 0";
@@ -239,9 +242,9 @@ class ModelReportSale extends Model
             $date_end = date('Y-m-d', time());
         }
         $sql .= " AND 
-            (DATE_FORMAT(o.date_added,'%Y-%m-%d') >= DATE_FORMAT('".$this->db->escape($date_start)."','%Y-%m-%d') 
+            (DATE_FORMAT(o.date_added,'%Y-%m-%d') >= DATE_FORMAT('" . $this->db->escape($date_start) . "','%Y-%m-%d') 
             AND 
-            DATE_FORMAT(o.date_added,'%Y-%m-%d') <= DATE_FORMAT('".$this->db->escape($date_end)."','%Y-%m-%d') )";
+            DATE_FORMAT(o.date_added,'%Y-%m-%d') <= DATE_FORMAT('" . $this->db->escape($date_end) . "','%Y-%m-%d') )";
 
         //If for total, we done building the query
         if ($mode == 'total_only') {
@@ -270,7 +273,7 @@ class ModelReportSale extends Model
         }
 
         if (isset($data['sort'])) {
-            $sql .= " ORDER BY ".$this->db->escape($data['sort'])." ".$this->db->escape($data['order']);
+            $sql .= " ORDER BY " . $this->db->escape($data['sort']) . " " . $this->db->escape($data['order']);
         }
 
         if (isset($data['start']) || isset($data['limit'])) {
@@ -282,7 +285,7 @@ class ModelReportSale extends Model
                 $data['limit'] = 20;
             }
 
-            $sql .= " LIMIT ".(int) $data['start'].",".(int) $data['limit'];
+            $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
         }
         $query = $this->db->query($sql);
         return $query->rows;
@@ -345,16 +348,16 @@ class ModelReportSale extends Model
             }
         }
 
-        $sql = "SELECT ".$inc_sql." 
-                FROM `".$this->db->table("orders")."` o 
-                LEFT JOIN `".$this->db->table("order_totals")."` ot 
+        $sql = "SELECT " . $inc_sql . " 
+                FROM `" . $this->db->table("orders") . "` o 
+                LEFT JOIN `" . $this->db->table("order_totals") . "` ot 
                     ON (o.order_id = ot.order_id) 
                 WHERE ot.type = 'shipping' ";
 
         if ($filter['order_status'] == 'all') {
             $sql .= " AND o.order_status_id >= 0 ";
-        } elseif ((int) $filter['order_status']) {
-            $sql .= " AND o.order_status_id = ".(int) $filter['order_status']." ";
+        } elseif ((int)$filter['order_status']) {
+            $sql .= " AND o.order_status_id = " . (int)$filter['order_status'] . " ";
         } else {
             //all orders
             $sql .= " AND o.order_status_id > 0";
@@ -371,9 +374,9 @@ class ModelReportSale extends Model
             $date_end = date('Y-m-d', time());
         }
         $sql .= " AND 
-        (DATE_FORMAT(o.date_added,'%Y-%m-%d') >= DATE_FORMAT('".$this->db->escape($date_start)."','%Y-%m-%d') 
+        (DATE_FORMAT(o.date_added,'%Y-%m-%d') >= DATE_FORMAT('" . $this->db->escape($date_start) . "','%Y-%m-%d') 
         AND 
-        DATE_FORMAT(o.date_added,'%Y-%m-%d') <= DATE_FORMAT('".$this->db->escape($date_end)."','%Y-%m-%d') )";
+        DATE_FORMAT(o.date_added,'%Y-%m-%d') <= DATE_FORMAT('" . $this->db->escape($date_end) . "','%Y-%m-%d') )";
 
         //If for total, we done building the query
         if ($mode == 'total_only') {
@@ -402,7 +405,7 @@ class ModelReportSale extends Model
         }
 
         if (isset($data['sort'])) {
-            $sql .= " ORDER BY ".$this->db->escape($data['sort'])." ".$this->db->escape($data['order']);
+            $sql .= " ORDER BY " . $this->db->escape($data['sort']) . " " . $this->db->escape($data['order']);
         }
 
         if (isset($data['start']) || isset($data['limit'])) {
@@ -414,7 +417,7 @@ class ModelReportSale extends Model
                 $data['limit'] = 20;
             }
 
-            $sql .= " LIMIT ".(int) $data['start'].",".(int) $data['limit'];
+            $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
         }
 
         $query = $this->db->query($sql);
@@ -455,18 +458,18 @@ class ModelReportSale extends Model
                             COUNT(DISTINCT o.order_id) AS orders ";
         }
 
-        $sql = "SELECT ".$inc_sql." 
-                FROM `".$this->db->table("orders")."` o 
-                LEFT JOIN `".$this->db->table("coupons")."` c 
+        $sql = "SELECT " . $inc_sql . " 
+                FROM `" . $this->db->table("orders") . "` o 
+                LEFT JOIN `" . $this->db->table("coupons") . "` c 
                     ON (o.coupon_id = c.coupon_id) ";
 
         if ($mode == 'default') {
-            $sql .= "LEFT JOIN `".$this->db->table("coupon_descriptions")."` cd
-                      ON (c.coupon_id = cd.coupon_id AND cd.language_id=".(int) $this->language->getContentLanguageID()
-                .")";
+            $sql .= "LEFT JOIN `" . $this->db->table("coupon_descriptions") . "` cd
+                      ON (c.coupon_id = cd.coupon_id AND cd.language_id=" . (int)$this->language->getContentLanguageID()
+                . ")";
         }
 
-        $sql .= "LEFT JOIN `".$this->db->table("order_totals")."` ot 
+        $sql .= "LEFT JOIN `" . $this->db->table("order_totals") . "` ot 
                     ON (o.order_id = ot.order_id)
                 WHERE ot.type = 'discount' ";
 
@@ -480,9 +483,9 @@ class ModelReportSale extends Model
         } else {
             $date_end = date('Y-m-d', time());
         }
-        $sql .= " AND (DATE_FORMAT(o.date_added,'%Y-%m-%d') >= DATE_FORMAT('".$this->db->escape($date_start)."','%Y-%m-%d') 
-                  AND DATE_FORMAT(o.date_added,'%Y-%m-%d') <= DATE_FORMAT('".$this->db->escape($date_end)
-            ."','%Y-%m-%d') )";
+        $sql .= " AND (DATE_FORMAT(o.date_added,'%Y-%m-%d') >= DATE_FORMAT('" . $this->db->escape($date_start) . "','%Y-%m-%d') 
+                  AND DATE_FORMAT(o.date_added,'%Y-%m-%d') <= DATE_FORMAT('" . $this->db->escape($date_end)
+            . "','%Y-%m-%d') )";
 
         //If for total, we done building the query
         if ($mode == 'total_only') {
@@ -501,11 +504,11 @@ class ModelReportSale extends Model
         ];
 
         if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
-            $sql .= " ORDER BY ".$sort_data[$data['sort']];
+            $sql .= " ORDER BY " . $sort_data[$data['sort']];
         } else {
             $sql .= " ORDER BY c.coupon_id";
         }
-        $sql .= " ".$this->db->escape($data['order']);
+        $sql .= " " . $this->db->escape($data['order']);
 
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
@@ -516,7 +519,7 @@ class ModelReportSale extends Model
                 $data['limit'] = 20;
             }
 
-            $sql .= " LIMIT ".(int) $data['start'].",".(int) $data['limit'];
+            $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
         }
         $query = $this->db->query($sql);
         return $query->rows;

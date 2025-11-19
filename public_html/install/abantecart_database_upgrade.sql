@@ -201,3 +201,6 @@ alter table `ac_zones_to_locations`
 
 alter table `ac_stock_statuses`
     modify `name` varchar(128) NOT NULL COMMENT 'translatable';
+
+create index `ac_orders_date_idx`
+    on `ac_orders` (`date_added` desc, `date_modified` desc);
