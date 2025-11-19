@@ -311,7 +311,7 @@ final class ARouter
                 //The last part is the method of function to call
                 array_shift($path_nodes);
                 $lastKey = array_key_last($path_nodes);
-                $method_to_call = $path_nodes[$lastKey];
+                $method_to_call = $lastKey ? $path_nodes[$lastKey] : '';
                 if ($method_to_call) {
                     $this->method = $method_to_call;
                 } else {
