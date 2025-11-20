@@ -30,7 +30,7 @@
   </definition>
   <definition>
     <key>error_name</key>
-    <value><![CDATA[Stock Status Name must be between 2 and 32 characters!]]></value>
+    <value><![CDATA[Stock Status Name must be between 2 and 128 characters!]]></value>
   </definition>
   <definition>
     <key>error_product</key>
