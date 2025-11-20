@@ -26,6 +26,9 @@ class ControllerCommonHeader extends AController
 
     public function main()
     {
+        //set expired update date for first time
+        $this->session->data['header_data']['last_update'] = $this->session->data['header_data']['last_update']
+            ?? time() - 864000;
         //use to init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -221,11 +224,15 @@ class ControllerCommonHeader extends AController
                     'date_end'     => $now,
                 ],
             ];
-
-            $today_orders = $this->loadModel('report/sale')->getSaleReportSummary($data);
-            $this->data['today_order_count'] = $today_orders['orders'];
+            if (time() - $this->session->data['header_data']['last_update'] > 3600 * 4) {
+                /** @var ModelReportSale $rMdl */
+                $rMdl = $this->loadModel('report/sale');
+                $this->session->data['header_data']['today_orders'] = $rMdl->getSaleReportSummary($data);
+                $this->session->data['header_data']['last_update'] = time();
+            }
+            $this->data['today_order_count'] = $this->session->data['header_data']['today_orders']['orders'];
             $this->data['today_sales_amount'] = $this->currency->format(
-                $today_orders['total_amount'],
+                $this->session->data['header_data']['today_orders']['total_amount'],
                 $this->config->get('config_currency')
             );
             $this->data['vieworder'] = true;
@@ -234,7 +241,9 @@ class ControllerCommonHeader extends AController
         }
 
         if ($groupID == self::TOP_ADMIN_GROUP || $permissions['access']['catalog/review']) {
-            $this->data['today_review_count'] = $this->loadModel('catalog/review')->getTotalToday();
+            /** @var ModelCatalogReview $pMdl */
+            $pMdl = $this->loadModel('catalog/review');
+            $this->data['today_review_count'] = $pMdl->getTotalToday();
             $this->data['viewreview'] = true;
         } else {
             $this->data['viewreview'] = false;
