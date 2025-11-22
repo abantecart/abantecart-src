@@ -51,8 +51,8 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                 initButtons,
                 wrapper
             );
-<?php if($show_buttons){ ?>
             function initButtons() {
+                <?php if(!$show_buttons){ echo 'return;'; }?>
                 if (paypal === undefined) { return; }
 
                 // Initialize Buttons component
@@ -149,7 +149,5 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                 $('#preloader').css('display', 'none');
                 wrapper.hide();
             }
-<?php } ?>
-
         });
     </script>

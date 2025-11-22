@@ -439,7 +439,7 @@ class ExtensionPaypalCommerce extends Extension
         if (IS_ADMIN) { return; }
         $that =& $this->baseObject;
         $view = new AView(Registry::getInstance());
-        $data['show_buttons'] = $that->config->get('paypal_commerce_show_buttons_product');
+        $data['show_buttons'] = $that->config->get('paypal_commerce_show_buttons_cart');
         $that->loadLanguage('paypal_commerce/paypal_commerce');
         /** @var ModelExtensionPaypalCommerce $mdl */
         $mdl = $that->load->model('extension/paypal_commerce');
@@ -452,6 +452,7 @@ class ExtensionPaypalCommerce extends Extension
         $data['prepare_checkout_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/prepareCheckout');
         $data['return_url'] = $data['cancel_url'] = $that->html->getSEOURL('checkout/cart');
         $view->batchAssign($data);
+        /** @see public_html/extensions/paypal_commerce/storefront/view/default/template/responses/paypal_commerce_buy_now.tpl */
         $ppButtons = $view->fetch('responses/paypal_commerce_buy_now.tpl');
         $that->view->addHookVar('post_top_cart_buttons', $ppButtons);
 
