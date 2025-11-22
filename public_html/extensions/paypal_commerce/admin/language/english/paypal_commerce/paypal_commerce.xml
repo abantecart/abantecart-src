@@ -262,8 +262,12 @@
 		<value><![CDATA[Connect with PayPal	]]></value>
 	</definition>
 	<definition>
-		<key>text_disconnect</key>
-		<value><![CDATA[Disconnect PayPal]]></value>
+		<key>text_disconnect_sandbox</key>
+		<value><![CDATA[Disconnect Sandbox]]></value>
+	</definition>
+	<definition>
+		<key>text_disconnect_live</key>
+		<value><![CDATA[Disconnect Live]]></value>
 	</definition>
 	<definition>
 		<key>text_skip_connect</key>
