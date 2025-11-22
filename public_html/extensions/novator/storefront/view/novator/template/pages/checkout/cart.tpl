@@ -133,9 +133,10 @@ if (sizeof((array) $error_warning) > 0) {
                         <?php echo $button_checkout; ?>
                     </a>
                     <?php } ?>
-                    <?php echo $this->getHookVar('post_top_cart_buttons'); ?>
+
                 </div>
             </div>
+            <?php echo $this->getHookVar('post_top_cart_buttons'); ?>
         </div>
     </form>
 

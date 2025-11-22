@@ -244,7 +244,7 @@ if ($error){ ?>
                                                 <i class="fa-solid fa-print fa-xl"></i>
                                                 <?php echo $button_print; ?>
                                             </a>
-                                            <?php echo $this->getHookVar('buttons');
+                                    <?php
                                         if ($is_customer) { ?>
                                             <div class="wishlist mb-2">
                                                 <a id="wishlist_remove"
@@ -261,6 +261,7 @@ if ($error){ ?>
                                                 </a>
                                         </div>
                                     <?php } ?>
+                                            <div class="col-12"><?php echo $this->getHookVar('buttons'); ?></div>
                                         </div>
                                     </div>
                                 </fieldset>

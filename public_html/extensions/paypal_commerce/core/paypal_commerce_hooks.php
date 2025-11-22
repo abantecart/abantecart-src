@@ -427,7 +427,7 @@ class ExtensionPaypalCommerce extends Extension
             $payLaterMessage,
             $that->data['price_num'] * ($that->request->get['quantity'] ?: $that->data['minimum'] ?: 1)
         );
-        $that->view->addHookVar('extended_product_options', $payLaterMessage);
+        $that->view->addHookVar('extended_product_options', '<div style="margin: auto">' . $payLaterMessage.'</div>');
     }
 
     public function onControllerPagesCheckoutCart_UpdateData()
@@ -473,7 +473,7 @@ class ExtensionPaypalCommerce extends Extension
             $payLaterMessage,
             $totalAmount
         );
-        $that->view->addHookVar('pre_top_cart_buttons', $payLaterMessage);
+        $that->view->addHookVar('pre_top_cart_buttons', '<div style="margin: auto">' . $payLaterMessage.'</div>');
     }
 
     /**
