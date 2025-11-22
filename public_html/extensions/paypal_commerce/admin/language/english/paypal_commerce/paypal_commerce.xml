@@ -38,7 +38,8 @@
 	</definition>
     <definition>
         <key>paypal_commerce_enabled_components</key>
-        <value><![CDATA[Enabled Components:]]></value>
+        <value>
+            <![CDATA[Enabled Components:<span class="help">Select which payment components to enable: PayPal Buttons for express checkout or Card Fields for direct credit card processing.</span>]]></value>
     </definition>
     <definition>
         <key>paypal_commerce_enabled_components_buttons</key>
