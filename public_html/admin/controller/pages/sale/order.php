@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 class ControllerPagesSaleOrder extends AController
@@ -103,10 +103,10 @@ class ControllerPagesSaleOrder extends AController
 
         //outer parameters to filter the result 
         $extra_params = isset($this->request->get['customer_id'])
-            ? '&customer_id=' . $this->request->get['customer_id']
+            ? '&customer_id=' . (int)$this->request->get['customer_id']
             : '';
         $extra_params .= isset($this->request->get['product_id'])
-            ? '&product_id=' . $this->request->get['product_id']
+            ? '&product_id=' . (int)$this->request->get['product_id']
             : '';
 
         $grid_settings = [
@@ -355,10 +355,10 @@ class ControllerPagesSaleOrder extends AController
         $viewport_mode = $args[0]['viewport_mode'] ?? '';
 
         $this->data = [];
-        $fields = $this->detailsFields;
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
+        $fields = $this->detailsFields;
 
         $this->document->setTitle($this->language->get('heading_title'));
 
@@ -370,6 +370,7 @@ class ControllerPagesSaleOrder extends AController
         $order_id = (int)$this->request->get['order_id'];
         if ($this->request->is_POST() && $this->_validateForm()) {
             $this->model_sale_order->editOrder($order_id, $this->request->post);
+            $this->extensions->hk_ProcessData($this, __FUNCTION__, ['order_id' => $order_id]);
             if (has_value($this->request->post['downloads'])) {
                 $data = $this->request->post['downloads'];
                 $this->loadModel('catalog/download');
@@ -562,7 +563,7 @@ class ControllerPagesSaleOrder extends AController
             }
             $fData['value'] = $fValue;
             $this->data['ext_fields'][$fName] = $fData;
-         }
+        }
 
         $this->loadModel('catalog/product');
         $this->loadModel('catalog/category');
@@ -636,7 +637,6 @@ class ControllerPagesSaleOrder extends AController
             $stock_quantities = [];
 
             if ($stock_located) {
-                $stock_quantities = [];
                 foreach ($stock_located as $row) {
                     $stock_quantities[] = [
                         'location_id' => $row['location_id'],
@@ -1049,7 +1049,7 @@ class ControllerPagesSaleOrder extends AController
             ]
         );
 
-        $countries = array_column($this->data['countries'], 'name','country_id');
+        $countries = array_column($this->data['countries'], 'name', 'country_id');
         if (!$this->data['shipping_country_id']) {
             $this->data['shipping_country_id'] = $this->config->get('config_country_id');
         }
@@ -1096,16 +1096,16 @@ class ControllerPagesSaleOrder extends AController
         $mdl = $this->loadModel('tool/forms_manager', 'silent');
         $languageId = $this->language->getContentLanguageID();
         foreach ($orderInfo['ext_fields'] as $fName => $fValue) {
-            if(!str_starts_with($fName, $type.'_')) {
+            if (!str_starts_with($fName, $type . '_')) {
                 continue;
             }
-            $fName = str_replace($type.'_', '', $fName);
+            $fName = str_replace($type . '_', '', $fName);
             $fData = $mdl?->getFieldDescriptionsByName($fName, $languageId);
             if (!$fData || !$fValue) {
                 continue;
             }
             $fData['value'] = $fValue;
-            $this->data['form'][$type.'_fields']['ext_fields'][$fName] = $fData;
+            $this->data['form'][$type . '_fields']['ext_fields'][$fName] = $fData;
         }
     }
 
@@ -1130,7 +1130,7 @@ class ControllerPagesSaleOrder extends AController
             );
         }
 
-        $countries = array_column($this->data['countries'], 'name','country_id');
+        $countries = array_column($this->data['countries'], 'name', 'country_id');
         if (!$this->data['payment_country_id']) {
             $this->data['payment_country_id'] = $this->config->get('config_country_id');
         }

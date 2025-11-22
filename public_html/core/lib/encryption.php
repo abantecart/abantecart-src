@@ -582,7 +582,7 @@ final class ADataEncryption
      */
     public function getEncryptedTableID($table)
     {
-        if (has_value($this->enc_data)) {
+        if (has_value($this->enc_data) && isset($this->enc_data[$table])) {
             return $this->enc_data[$table]['id'];
         }
         return '';
@@ -800,11 +800,10 @@ final class ADataEncryption
     {
         $config = $this->registry->get('config');
         $cache = $this->registry->get('cache');
-
-        $this->keys = [];
         $cache_key = 'encryption.keys.store_' . (int)$config->get('config_store_id');
         $this->keys = $cache->pull($cache_key);
-        if (empty($this->keys)) {
+        if ($this->keys === false) {
+            $this->keys = [];
             $db = $this->registry->get('db');
             $query = $db->query("SELECT * FROM " . $db->table('encryption_keys') . " WHERE status = 1");
             if (!$query->num_rows) {

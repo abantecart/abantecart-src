@@ -1,4 +1,7 @@
-<?php if ($search_form) { ?>
+<?php
+/** @var AView|AController $this */
+echo $this->getHookVar('before_grid_search_form');
+if ($search_form) { ?>
     <form id="<?php echo $search_form['form_open']->name; ?>"
           method="<?php echo $search_form['form_open']->method; ?>"
           name="<?php echo $search_form['form_open']->name; ?>" class="pull-left form-inline" role="form">
@@ -8,8 +11,7 @@
                 <?php echo $f; ?>
             </div>
             <?php
-        }
-        ?>
+        } ?>
         <div class="btn-group">
             <button type="submit" class="btn btn-primary tooltips" title="<?php echo $button_filter; ?>">
                 <?php echo $search_form['submit']->text ?>
@@ -21,4 +23,5 @@
             </button>
         </div>
     </form>
-<?php   } ?>
+<?php   }
+echo $this->getHookVar('after_grid_search_form');?>

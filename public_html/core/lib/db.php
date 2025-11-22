@@ -198,10 +198,10 @@ final class ADB
                     $query .= $line;
                     if (preg_match('/;\s*$/', $line)) {
                         $query = str_replace("`ac_", "`" . $this->table_prefix, $query);
-                        $result = $this->_query($query, true);
                         if (!$query) {
                             continue;
                         }
+                        $result = $this->_query($query, true);
                         if (!$result) {
                             $err = $this->driver->getDBError();
                             $this->error = var_export($err, true);

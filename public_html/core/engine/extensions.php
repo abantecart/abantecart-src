@@ -161,7 +161,7 @@ class ExtensionCollection
             // If another extension needs to access the dispatching extension,
             //   it can use $this->ExtensionsApi->extensionName.
             if (($baseObject instanceof Extension) === false) {
-                $extension->loadBaseObject($baseObject, $args[0]);
+                $extension->loadBaseObject($baseObject, $args[0] ?? 'main');
                 $extension->loadExtensionsApi($baseObject->ExtensionsApi);
             }
 

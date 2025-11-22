@@ -8,14 +8,14 @@
  *   Copyright © 2011-2024 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 /** @noinspection PhpUndefinedClassInspection */
@@ -264,9 +264,9 @@ class ACustomer
         $this->firstname = $data['firstname'];
         $this->lastname = $data['lastname'];
         if ($this->dcrypt->active) {
-            $this->email = $this->dcrypt->decrypt_field($data['email'], $data['key_id']);
-            $this->telephone = $this->dcrypt->decrypt_field($data['telephone'], $data['key_id']);
-            $this->fax = $this->dcrypt->decrypt_field($data['fax'], $data['key_id']);
+            $data['email'] = $this->email = $this->dcrypt->decrypt_field($data['email'], $data['key_id']);
+            $data['telephone'] = $this->telephone = $this->dcrypt->decrypt_field($data['telephone'], $data['key_id']);
+            $data['fax'] = $this->fax = $this->dcrypt->decrypt_field($data['fax'], $data['key_id']);
         } else {
             $this->email = $data['email'];
             $this->telephone = $data['telephone'];
@@ -287,6 +287,7 @@ class ACustomer
         $this->address_id = (int)$data['address_id'];
 
         $this->db->query("SET @CUSTOMER_ID = '" . (int)$this->customer_id . "'");
+        $this->extensions->hk_ProcessData($this, 'init', $data);
     }
 
     public function setLastLogin($customer_id)
@@ -508,8 +509,8 @@ class ACustomer
     }
 
     /**
-     * @since 1.4.4
      * @return string
+     * @since 1.4.4
      */
     public function getFullName()
     {

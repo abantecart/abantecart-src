@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -68,14 +68,13 @@ class ControllerResponsesListingGridStockStatus extends AController
 
         $results = $this->model_localisation_stock_status->getStockStatuses($data);
         $i = 0;
-        $languageId = $this->language->getContentLanguageID();
         foreach ($results as $result) {
             $id = $result['stock_status_id'];
             $response->rows[$i]['id'] = $id;
             $response->rows[$i]['cell'] = [
                 $this->html->buildInput(
                     [
-                        'name'  => 'stock_status[' . $id . '][' . $languageId . '][name]',
+                        'name'  => 'stock_status[' . $id . '][name]',
                         'value' => $result['name'],
                     ]
                 ),
@@ -114,12 +113,7 @@ class ControllerResponsesListingGridStockStatus extends AController
             );
             return;
         }
-        $ids = array_unique(
-            array_map(
-                'intval',
-                explode(',', $this->request->post['id'])
-            )
-        );
+        $ids = filterIntegerIdList(explode(',', $this->request->post['id']));
         if ($ids) {
             switch ($this->request->post['oper']) {
                 case 'del':
@@ -138,32 +132,28 @@ class ControllerResponsesListingGridStockStatus extends AController
                                     'error_text' => $errorText,
                                 ]
                             );
-                            return;
                         }
                         $this->model_localisation_stock_status->deleteStockStatus($id);
                     }
                     break;
                 case 'save':
                     foreach ($ids as $id) {
-                        if (isset($this->request->post['stock_status'][$id])) {
-                            foreach ($this->request->post['stock_status'][$id] as $value) {
-                                if (mb_strlen($value['name']) < 2 || mb_strlen($value['name']) > 32) {
-                                    $errorText = $this->language->get('error_name');
-                                    $error = new AError($errorText);
-                                    $error->toJSONResponse(
-                                        'VALIDATION_ERROR_406',
-                                        [
-                                            'error_text' => $errorText,
-                                        ]
-                                    );
-                                    return;
-                                }
-                            }
-                            $this->model_localisation_stock_status->editStockStatus(
-                                $id,
-                                ['stock_status' => $this->request->post['stock_status'][$id]]
+                        $value = $this->request->post['stock_status'][$id];
+                        if (mb_strlen($value['name']) < 2 || mb_strlen($value['name']) > 128) {
+                            $errorText = $this->language->get('error_name');
+                            $error = new AError($errorText);
+                            $error->toJSONResponse(
+                                'VALIDATION_ERROR_406',
+                                [
+                                    'error_text' => $errorText,
+                                ]
                             );
                         }
+
+                        $this->model_localisation_stock_status->editStockStatus(
+                            $id,
+                            ['stock_status' => $value]
+                        );
                     }
                     break;
                 default:
@@ -178,6 +168,7 @@ class ControllerResponsesListingGridStockStatus extends AController
      * update only one field
      *
      * @return void
+     * @throws AException
      */
     public function update_field()
     {
@@ -197,21 +188,21 @@ class ControllerResponsesListingGridStockStatus extends AController
         }
 
         $this->loadModel('localisation/stock_status');
-        if (isset($this->request->get['id']) && !empty($this->request->post['stock_status'])) {
+        if (isset($this->request->get['id']) && $this->request->post['stock_status']) {
             //request sent from edit form. ID in url
-            foreach ($this->request->post['stock_status'] as $value) {
-                if (mb_strlen($value['name']) < 2 || mb_strlen($value['name']) > 32) {
-                    $errorText = $this->language->get('error_name');
-                    $error = new AError($errorText);
-                    $error->toJSONResponse(
-                        'VALIDATION_ERROR_406',
-                        [
-                            'error_text' => $errorText,
-                        ]
-                    );
-                    return;
-                }
+            if (mb_strlen($this->request->post['stock_status']['name']) < 2
+                || mb_strlen($this->request->post['stock_status']['name']) > 128
+            ) {
+                $errorText = $this->language->get('error_name');
+                $error = new AError($errorText);
+                $error->toJSONResponse(
+                    'VALIDATION_ERROR_406',
+                    [
+                        'error_text' => $errorText,
+                    ]
+                );
             }
+
             $this->model_localisation_stock_status->editStockStatus(
                 $this->request->get['id'],
                 $this->request->post
@@ -222,18 +213,16 @@ class ControllerResponsesListingGridStockStatus extends AController
         //request sent from jGrid. ID is key of array
         if (isset($this->request->post['stock_status'])) {
             foreach ($this->request->post['stock_status'] as $id => $v) {
-                foreach ($v as $value) {
-                    if (mb_strlen($value['name']) < 2 || mb_strlen($value['name']) > 32) {
-                        $errorText = $this->language->get('error_name');
-                        $error = new AError($errorText);
-                        $error->toJSONResponse(
-                            'VALIDATION_ERROR_406',
-                            [
-                                'error_text' => $errorText,
-                            ]
-                        );
-                        return;
-                    }
+                if (mb_strlen($this->request->post['stock_status'][$id]['name']) < 2
+                    || mb_strlen($this->request->post['stock_status'][$id]['name']) > 128) {
+                    $errorText = $this->language->get('error_name');
+                    $error = new AError($errorText);
+                    $error->toJSONResponse(
+                        'VALIDATION_ERROR_406',
+                        [
+                            'error_text' => $errorText,
+                        ]
+                    );
                 }
                 $this->model_localisation_stock_status->editStockStatus($id, ['stock_status' => $v]);
             }
