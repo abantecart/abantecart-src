@@ -15,26 +15,29 @@ if ($error) { ?>
         <div class="form-group text-center action-buttons" style="display: none;">
             <div class="center-block">
                 <div id="paypal-button-container">
-                    <?php if(in_array('card-fields',$enabled_components)) {
-                     //uncomment for testing of api-errors ?>
-<!--                    <div id="owner-name"></div>-->
-                    <div id="card-number"></div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div id="card-expiration"></div>
-                        </div>
-                        <div class="col-6">
-                            <div id="card-cvv"></div>
-                        </div>
-                    </div>
-                    <button type="button" id="checkout_btn" class="my-4 btn btn-primary lock-on-click fs-5 fw-bold"
-                            title="<?php echo $button_confirm->text ?>">
-                        <i class="bi bi-check-lg"></i>
-                        <?php echo $button_confirm->text; ?>
-                    </button>
-                    <?php } ?>
                     <div class="pay-later-message row my-3"><?php echo $pay_later_message; ?></div>
                 </div>
+                <?php if(in_array('card-fields',$enabled_components)) { ?>
+                <div id="paypal-fields-container" class="mt-5">
+                        <?php
+                        //uncomment for testing of api-errors ?>
+                        <!--                    <div id="owner-name"></div>-->
+                        <div id="card-number"></div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div id="card-expiration"></div>
+                            </div>
+                            <div class="col-6">
+                                <div id="card-cvv"></div>
+                            </div>
+                        </div>
+                        <button type="button" id="checkout_btn" class="my-4 btn btn-primary lock-on-click fs-5 fw-bold"
+                                title="<?php echo $button_confirm->text ?>">
+                            <i class="bi bi-check-lg"></i>
+                            <?php echo $button_confirm->text; ?>
+                        </button>
+                </div>
+                <?php } ?>
             </div>
         </div>
         </form>
@@ -60,12 +63,13 @@ if ($error) { ?>
                 ?>&intent=<?php echo $intent;
                 ?>&currency=<?php echo $this->currency->getCode(); ?>",
                 () => {
-                    <?php if(in_array('card-fields',$enabled_components)) { ?>
-                    initCardFields();
-                    <?php }
+                    <?php
                     if( !$enabled_components || in_array('buttons',$enabled_components) ){  ?>
                     initButtons();
-                    <?php } ?>
+                    <?php }
+                    if(in_array('card-fields',$enabled_components)) { ?>
+                    initCardFields();
+                    <?php }?>
                 },
                 $('#paypalFrm')
             );

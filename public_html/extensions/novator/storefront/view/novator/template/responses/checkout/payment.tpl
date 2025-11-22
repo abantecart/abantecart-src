@@ -163,7 +163,7 @@ if ($show_payment == true) {
                 </div>
             </div>
         </div>
-        <div class="text-end"><?php echo $text_accept_agree ?>&nbsp;
+        <div class="text-center"><?php echo $text_accept_agree ?>&nbsp;
             <a onclick="openModalRemote('#returnPolicyModal', '<?php echo $text_accept_agree_href; ?>'); return false;"
                href="<?php echo $text_accept_agree_href; ?>"><b><?php echo $text_accept_agree_href_link; ?></b></a>
         </div>
