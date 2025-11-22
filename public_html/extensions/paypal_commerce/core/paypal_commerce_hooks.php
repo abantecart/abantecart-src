@@ -109,6 +109,7 @@ class ExtensionPaypalCommerce extends Extension
     {
         $that = $this->baseObject;
         $current_ext_id = $that->request->get['extension'];
+
         if (IS_ADMIN === true && $current_ext_id == 'paypal_commerce' && $this->baseObject_method == 'edit') {
             $html = '<a class="btn btn-white tooltips" target="_blank" href="https://www.paypal.com" title="Visit paypal">
                         <i class="fa fa-external-link fa-lg"></i>
@@ -140,9 +141,12 @@ class ExtensionPaypalCommerce extends Extension
             $data['disconnect_url'] = $that->html->getSecureURL('extension/extensions/edit', '&extension=paypal_commerce&disconnect=true');
             /** @var ModelToolMPAPI $mpMdl */
             $mpMdl = $that->loadModel('tool/mp_api');
+            $extConfig = getExtensionConfigXml('paypal_commerce');
             $data['connect_url'] = $mpMdl->getMPURL() . '?rt=index/paypal_onboarding'
                 . '&abc_onboard_url=' . base64_encode($that->html->getSecureURL('extension/paypal_commerce/onboard'))
                 . '&nonce=' . getNonce(UNIQUE_ID)
+                . '&pp_version= ' . $extConfig->version
+                . '&abc_version= ' . VERSION
                 . '&store_id=' . (int)$that->session->data['current_store_id'];
 
             //see if we are connected yet to paypal
