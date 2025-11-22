@@ -320,7 +320,7 @@ and Add Endpoints receiving events from your account. After Endpoint has been cr
 	</definition>
     <definition>
         <key>paypal_commerce_enabled_funding</key>
-        <value><![CDATA[Enabled Funding:]]></value>
+        <value><![CDATA[Funding Options:]]></value>
     </definition>
     <definition>
         <key>paypal_commerce_enabled_funding_venmo</key>
@@ -392,7 +392,7 @@ and Add Endpoints receiving events from your account. After Endpoint has been cr
     </definition>
     <definition>
         <key>paypal_commerce_3ds_policy</key>
-        <value><![CDATA[3D Secure Policy Using Card Fields Component]]></value>
+        <value><![CDATA[3D Secure Policy (Card Fields only)]]></value>
     </definition>
     <definition>
         <key>paypal_commerce_3ds_policy_0</key>
@@ -420,10 +420,10 @@ and Add Endpoints receiving events from your account. After Endpoint has been cr
     </definition>
     <definition>
         <key>paypal_commerce_show_buttons_product</key>
-        <value><![CDATA[Show PayPal Checkout Buttons on the Product Page]]></value>
+        <value><![CDATA[Product Page Checkout Buttons]]></value>
     </definition>
     <definition>
         <key>paypal_commerce_show_buttons_cart</key>
-        <value><![CDATA[Show PayPal Checkout Buttons on the Cart Page]]></value>
+        <value><![CDATA[Cart Page Checkout Buttons]]></value>
     </definition>
 </definitions>
