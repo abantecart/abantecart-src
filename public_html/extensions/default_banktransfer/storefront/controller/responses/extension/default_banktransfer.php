@@ -25,6 +25,7 @@ class ControllerResponsesExtensionDefaultBanktransfer extends AController
 {
     public function main()
     {
+        $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('default_banktransfer/default_banktransfer');
 
         $this->view->assign('text_instructions', $this->language->get('text_instructions'));
@@ -55,19 +56,24 @@ class ControllerResponsesExtensionDefaultBanktransfer extends AController
         }
 
         $this->processTemplate('responses/default_banktransfer.tpl');
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
     public function confirm()
     {
+        $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('default_banktransfer/default_banktransfer');
         $this->load->model('checkout/order');
 
         $comment = $this->language->get('text_instructions')."\n";
         $comment .= $this->config->get('default_banktransfer_instructions_'.$this->language->getLanguageID())."\n\n";
         $comment .= $this->language->get('text_payment')."\n";
-        $comment = html_entity_decode($comment,ENT_QUOTES,'UTF-8');
+        $this->data['comment'] = html_entity_decode($comment,ENT_QUOTES,'UTF-8');
+        $this->extensions->hk_ProcessData($this, __FUNCTION__);
 
-        $this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('default_banktransfer_order_status_id'), $comment);
+        $this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('default_banktransfer_order_status_id'), $this->data['comment']);
+
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 }
 
