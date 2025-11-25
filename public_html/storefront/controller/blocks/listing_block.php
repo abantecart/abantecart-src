@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -106,15 +106,14 @@ class ControllerBlocksListingBlock extends AController
      */
     protected function _prepareProducts(&$data, $block_wrapper = '')
     {
-        $this->loadModel('catalog/product');
+        /** @var ModelCatalogProduct $mdl */
+        $mdl = $this->loadModel('catalog/product');
         $this->loadModel('catalog/review');
         $this->loadLanguage('product/product');
-        $productIds = $products = [];
-        foreach ($data as $result) {
-            $productIds[] = (int)$result['product_id'];
-        }
-        $products_info = $this->model_catalog_product->getProductsAllInfo($productIds);
-        $stock_info = $this->model_catalog_product->getProductsStockInfo($productIds);
+        $products = [];
+        $productIds = filterIntegerIdList(array_column($data, 'product_id'));
+        $products_info = $mdl->getProductsAllInfo($productIds);
+        $stock_info = $mdl->getProductsStockInfo($productIds);
 
         foreach ($data as $result) {
             $rating = $products_info[$result['product_id']]['rating'];
@@ -159,39 +158,33 @@ class ControllerBlocksListingBlock extends AController
                 : $result['stock_checkout'];
             if ($stock_info[$result['product_id']]['subtract']) {
                 $track_stock = true;
-                $total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
-                //we have stock or out of stock checkout is allowed
+                $total_quantity = $mdl->hasAnyStock($result['product_id']);
+                //we have stock or out-of-stock checkout is allowed
                 if ($total_quantity > 0 || $stock_checkout) {
                     $in_stock = true;
                 }
             }
 
-            $products[] = [
-                'product_id'     => $result['product_id'],
-                'name'           => $result['name'],
-                'model'          => $result['model'],
-                'rating'         => $rating,
-                'stars'          => sprintf($this->language->get('text_stars'), $rating),
-                'price'          => $result['price'],
-                'options'        => $result['options'],
-                'call_to_order'  => $result['call_to_order'],
-                'special'        => $special_price,
-                'thumb'          => $result['image'],
-                'image'          => $result['image'],
-                'href'           => $this->html->getSEOURL(
-                    'product/product',
-                    '&product_id=' . $result['product_id'],
-                    '&encode'
-                ),
-                'add'            => $add_to_cart,
-                'item_name'      => 'product',
-                'track_stock'    => $track_stock,
-                'blurb'          => $result['blurb'],
-                'in_stock'       => $in_stock,
-                'no_stock_text'  => $no_stock_text,
-                'total_quantity' => $total_quantity,
-                'tax_class_id'   => $result['tax_class_id'],
-            ];
+            $products[] = array_merge(
+                $result,
+                [
+                    'rating'         => $rating,
+                    'stars'          => $this->language->getAndReplace('text_stars', replaces: $rating),
+                    'special'        => $special_price,
+                    'thumb'          => $result['image'],
+                    'href'           => $this->html->getSEOURL(
+                        'product/product',
+                        '&product_id=' . $result['product_id'],
+                        true
+                    ),
+                    'add'            => $add_to_cart,
+                    'item_name'      => 'product',
+                    'track_stock'    => $track_stock,
+                    'in_stock'       => $in_stock,
+                    'no_stock_text'  => $no_stock_text,
+                    'total_quantity' => $total_quantity
+                ]
+            );
         }
 
         if (!current($products)['thumb']) {
@@ -203,9 +196,10 @@ class ControllerBlocksListingBlock extends AController
             $products = $this->_prepareCustomItems($data_source, $products);
         }
         //need to override reference (see params)
-        $data = $products;
+        $this->data['products'] = $products;
+        $this->extensions->hk_ProcessData($this, __FUNCTION__, ['data_source' => $data_source, 'block_wrapper' => $block_wrapper]);
 
-        // set sign of displaying prices on storefront
+        // set sign of displaying prices on the storefront
         if ($this->config->get('config_customer_price')) {
             $display_price = true;
         } elseif ($this->customer->isLogged()) {
@@ -216,7 +210,7 @@ class ControllerBlocksListingBlock extends AController
         $this->view->assign('display_price', $display_price);
         $this->view->assign('review_status', $this->config->get('display_reviews'));
 
-        $this->view->assign('products', $products);
+        $this->view->assign('products', $this->data['products']);
         $vertical_tpl = [
             'blocks/listing_block_column_left.tpl',
             'blocks/listing_block_column_right.tpl',
@@ -241,12 +235,12 @@ class ControllerBlocksListingBlock extends AController
     protected function _prepareItems($content = [])
     {
         $item2Name = [
-            'category_id'     => 'category',
-            'manufacturer_id' => 'manufacturer',
-            'product_id'      => 'product',
-            'resource_id'     => 'resource',
-            'content_id'      => 'content',
-        ];
+                'category_id'     => 'category',
+                'manufacturer_id' => 'manufacturer',
+                'product_id'      => 'product',
+                'resource_id'     => 'resource',
+                'content_id'      => 'content',
+            ] + (array)$this->data['item_map_list'];
         $item_name = $item2Name[key(current($content))];
 
         foreach ($content as &$cn) {
@@ -273,6 +267,8 @@ class ControllerBlocksListingBlock extends AController
                         '&encode'
                     );
                     break;
+                default:
+                    $this->extensions->hk_ProcessData($this, __FUNCTION__, ['content' => $cn]);
             }
         }
         return $content;
@@ -488,12 +484,12 @@ class ControllerBlocksListingBlock extends AController
                 );
             }
 
-            // Skip if data source is vanished but still set in the listing.
+            // Skip if a data source is vanished but still set in the listing.
             $result = array_filter($result);
         }
 
         if ($result && !current($result)['thumb']) {
-            //add thumbnails to custom list of items. 1 thumbnail per item
+            //add thumbnails to a custom list of items. 1 thumbnail per item
             if ($data_source['data_type'] == 'content_id') {
                 $result = $this->_addThumbsToContent($result);
             } else {
