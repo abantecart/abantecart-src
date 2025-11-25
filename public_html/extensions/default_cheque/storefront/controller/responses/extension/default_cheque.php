@@ -70,10 +70,17 @@ class ControllerResponsesExtensionDefaultCheque extends AController
         $comment = "\n\n".$this->language->get('text_payable')."\n";
         $comment .= $this->config->get('default_cheque_payable')."\n\n";
         $comment .= $this->language->get('text_address')."\n";
-        $comment .= ($this->config->get('default_cheque_address') ? $this->config->get('default_cheque_address') : $this->config->get('config_address'))."\n\n";
+        $comment .= $this->config->get('default_cheque_address') ?: $this->config->get('config_address').PHP_EOL.PHP_EOL;
         $comment .= $this->language->get('text_payment')."\n";
+        $this->data['comment'] = html_entity_decode($comment,ENT_QUOTES,'UTF-8');
 
-        $this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('default_cheque_order_status_id'), $comment);
+        $this->extensions->hk_ProcessData($this, __FUNCTION__);
+
+        $this->model_checkout_order->confirm(
+            (int)$this->session->data['order_id'],
+            (int)$this->config->get('default_cheque_order_status_id'),
+            $this->data['comment']
+        );
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
     }
 }
