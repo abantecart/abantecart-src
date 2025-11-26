@@ -17,7 +17,7 @@
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
-if (!defined('DIR_CORE') || !IS_ADMIN) {
+if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
