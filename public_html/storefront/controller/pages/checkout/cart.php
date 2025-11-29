@@ -322,52 +322,48 @@ class ControllerPagesCheckoutCart extends AController
                         $thumbnail['thumb_url'] = $main_image['thumb_url'];
                     }
                 }
-
+                $result['price_num'] = $result['price'] ?: $result['amount'];
                 $price_with_tax = $this->tax->calculate(
-                    $result['price'] ?: $result['amount'],
+                    $result['price_num'],
                     $result['tax_class_id'],
                     $this->config->get('config_tax')
                 );
-                $products[] = [
-                    'remove'       => $form->getFieldHtml(
-                        [
-                            'type' => 'checkbox',
-                            'name' => 'remove['.$result['key'].']',
-                        ]
-                    ),
-                    'remove_url'   => $this->html->getSecureURL($cart_rt, '&remove='.$result['key']),
-                    'key'          => $result['key'],
-                    'name'         => $result['name'],
-                    'model'        => $result['model'],
-                    'sku'          => $result['sku'],
-                    'thumb'        => $thumbnail,
-                    'option'       => $option_data,
-                    'quantity'     => $form->getFieldHtml(
-                        [
-                            'type'  => 'input',
-                            'name'  => 'quantity['.$result['key'].']',
-                            'value' => $result['quantity'],
-                            'style' => 'short',
-                            'attr'  => ' size="6" '
-                                .( (int)$result['maximum'] ? 'max="'.(int)$result['maximum'].'"' : '')
-                                   .( ' min="'.(int)$result['minimum'].'"'),
-                            'size'  => 6,
-                            'max'   => (int)$result['maximum'],
-                            'min'   => (int)$result['minimum']
-                        ]
-                    ),
-                    'stock'        => $result['stock'],
-                    'tax_class_id' => $result['tax_class_id'],
-                    'price'        => $this->currency->format($price_with_tax),
-                    'total'        => $this->currency->format_total($price_with_tax, $result['quantity']),
-                    'href'         => $this->html->getSEOURL(
-                        $product_rt,
-                        '&product_id='.$result['product_id'].'&key='.$result['key'],
-                        true
-                    ),
-                    'minimum'       => $result['minimum']?:1,
-                    'maximum'       => $result['maximum']
-                ];
+                $products[] = array_merge(
+                    $result,
+                    [
+                        'remove'       => $form->getFieldHtml(
+                            [
+                                'type' => 'checkbox',
+                                'name' => 'remove['.$result['key'].']',
+                            ]
+                        ),
+                        'remove_url'   => $this->html->getSecureURL($cart_rt, '&remove='.$result['key']),
+                        'thumb'        => $thumbnail,
+                        'option'       => $option_data,
+                        'quantity'     => $form->getFieldHtml(
+                            [
+                                'type'  => 'input',
+                                'name'  => 'quantity['.$result['key'].']',
+                                'value' => $result['quantity'],
+                                'style' => 'short',
+                                'attr'  => ' size="6" '
+                                    .( (int)$result['maximum'] ? 'max="'.(int)$result['maximum'].'"' : '')
+                                       .( ' min="'.(int)$result['minimum'].'"'),
+                                'size'  => 6,
+                                'max'   => (int)$result['maximum'],
+                                'min'   => (int)$result['minimum']
+                            ]
+                        ),
+                        'price'        => $this->currency->format($price_with_tax),
+                        'total'        => $this->currency->format_total($price_with_tax, $result['quantity']),
+                        'href'         => $this->html->getSEOURL(
+                            $product_rt,
+                            '&product_id='.$result['product_id'].'&key='.$result['key'],
+                            true
+                        ),
+                        'minimum'       => $result['minimum']?:1,
+                    ]
+                );
             }
             $this->data['products'] = $products;
             $this->data['form']['update'] = $form->getFieldHtml(
