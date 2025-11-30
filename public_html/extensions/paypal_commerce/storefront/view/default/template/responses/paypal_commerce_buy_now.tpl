@@ -60,13 +60,8 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                     let ppBtns = paypal.Buttons({
                         appSwitchWhenAvailable: true,
                         commit: false,
-                           onClick: function () {
+                        onClick: function () {
                             $('#preloader').css('display', 'block');
-                            <?php
-                            if($this->customer->isLogged()){ ?>
-                                return preparePPCheckout({});
-                            <?php }
-                            ?>
                         },
                         onCancel: function () {
                             $('#preloader').css('display', 'none');
@@ -77,6 +72,7 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                                 cancel_url: <?php js_echo($cancel_url);?>
                             };
                             <?php if($product_name){?>
+                            orderDetails.product_id = <?php js_echo($product_id);?>;
                             orderDetails.product_name = <?php js_echo($product_name);?>;
                             orderDetails.quantity = $('input[name=quantity]').val();
                             orderDetails.total = $('#product_total_num').val();
@@ -84,7 +80,7 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                             <?php }?>
                             return (
                                 // send your cart info to your server side to create a PayPal Order.
-                                fetch(<?php js_echo($create_temp_order_url);?>, {
+                                fetch(<?php js_echo($create_quick_order_url);?>, {
                                     method: "POST",
                                     headers: {
                                         'Content-Type': 'application/json'
@@ -98,12 +94,30 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                             );
                         },
                         onApprove: function (data, actions) {
-                            return preparePPCheckout(data);
+                            //TODO: add finalizing
                         },
                         onError: function (err) {
                             const message = parsePayPalErrorMessage(err.message);
                             showPPError( message ? message.description :"An unknown error occurred.");
-                        }
+                        },
+                        onShippingAddressChange: function (data, actions) {
+                            return fetch(<?php js_echo($order_shipping_address_changed_url);?>, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(data)
+                            }).then((response) => response.json())
+                                .then((details) => {
+                                    if (details.error) {
+                                        return actions.reject();
+                                    }
+
+                                    //?????? actions DO NOT HAVE method resolve here
+                                    return actions.resolve();
+                                });
+                        },
+
                     });
 
                     ppBtns.render('#paypal-button-container');

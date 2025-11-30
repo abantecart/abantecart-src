@@ -412,13 +412,16 @@ class ExtensionPaypalCommerce extends Extension
         $data['intent'] = $that->config->get('paypal_commerce_transaction_type');
         $data['enabled_components'] = unserialize($that->config->get('paypal_commerce_enabled_components')) ?: ['buttons'];
         $data['enabled_funding'] = unserialize($that->config->get('paypal_commerce_enabled_funding')) ?: [];
-        $data['create_temp_order_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/createTempOrder');
+        $data['create_quick_order_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/createQuickOrder');
+        $data['order_shipping_address_changed_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/orderShippingAddressChanged');
         $data['prepare_checkout_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/prepareCheckout');
 
         $productInfo = $that->view->getData('product_info');
+        $data['product_id'] = $productInfo['product_id'];
         $data['product_name'] = $productInfo['name'];
         $data['return_url'] = $data['cancel_url'] = $that->html->getSEOURL('product/product','&product_id=' . $productInfo['product_id']);
         $view->batchAssign($data);
+        $that->session->data['reference_id'] = 'abc_'.randomWord(5);
         $ppButtons = $view->fetch('responses/paypal_commerce_buy_now.tpl');
         $that->view->addHookVar('buttons', $ppButtons);
 
@@ -448,7 +451,7 @@ class ExtensionPaypalCommerce extends Extension
         $data['intent'] = $that->config->get('paypal_commerce_transaction_type');
         $data['enabled_components'] = unserialize($that->config->get('paypal_commerce_enabled_components')) ?: ['buttons'];
         $data['enabled_funding'] = unserialize($that->config->get('paypal_commerce_enabled_funding')) ?: [];
-        $data['create_temp_order_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/createTempOrder');
+        $data['create_quick_order_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/createQuickOrder');
         $data['prepare_checkout_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/prepareCheckout');
         $data['return_url'] = $data['cancel_url'] = $that->html->getSEOURL('checkout/cart');
         $view->batchAssign($data);

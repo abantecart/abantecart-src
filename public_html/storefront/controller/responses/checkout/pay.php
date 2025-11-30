@@ -1725,7 +1725,7 @@ class ControllerResponsesCheckoutPay extends AController
         return $this->session->data['payment_methods'];
     }
 
-    protected function _select_shipping($selected = '')
+    public function _select_shipping($selected = '')
     {
         //if shipping not required - skip
         if (!$this->cart->hasShipping()) {
