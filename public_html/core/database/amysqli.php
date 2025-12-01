@@ -56,7 +56,8 @@ final class AMySQLi
         try {
             $connection = new mysqli($hostname, $username, $password, $database, $port);
         }catch(Exception|Error $e) {
-            $excMessage = 'Error '.$e->getCode().' ('.$e?->getSqlState().'): '. $e->getMessage().PHP_EOL
+            $sqlState = method_exists($e, 'getSqlState') ? '('.$e->getSqlState().')' : null;
+            $excMessage = 'Error '.$e->getCode().' '.$sqlState.': '. $e->getMessage().PHP_EOL
                 .'Cannot establish database connection. Check your database connection settings';
             throw new AException($e->getCode(), $excMessage);
         }
