@@ -308,7 +308,7 @@ class AOrder
         $order_info['language_id'] = $this->config->get('storefront_language_id');
         $order_info['currency_id'] = $this->currency->getId();
         $order_info['currency'] = $this->currency->getCode();
-        $order_info['value'] = $orderTotalAmountConverted / $orderTotalAmount;
+        $order_info['value'] = $orderTotalAmount > 0 ? $orderTotalAmountConverted / $orderTotalAmount : 0.0;
 
         if (isset($inData['coupon'])) {
             $promotion = new APromotion();
