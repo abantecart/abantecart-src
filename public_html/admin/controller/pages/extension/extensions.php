@@ -459,8 +459,7 @@ class ControllerPagesExtensionExtensions extends AController
                     $data['options'] = $item['options'];
                     if ($item['model_rt'] != '') {
                         //force loading of models even before the extension is enabled
-                        $this->loadModel($item['model_rt'], 'force');
-                        $model = $this->{'model_' . str_replace("/", "_", $item['model_rt'])};
+                        $model = $this->loadModel($item['model_rt'], 'force');
                         $method_name = $item['method'];
                         if (method_exists($model, $method_name)) {
                             $res = call_user_func([$model, $method_name]);
@@ -479,7 +478,7 @@ class ControllerPagesExtensionExtensions extends AController
                     if ($data['type'] == 'checkboxgroup' || $data['type'] == 'multiselectbox') {
                         #custom settings for multivalue
                         $data['scrollbox'] = 'true';
-                        if (substr($item['name'], -2) != '[]') {
+                        if (!str_ends_with($item['name'], '[]')) {
                             $data['name'] = $item['name'] . "[]";
                         }
                         $data['style'] = "chosen";
@@ -489,22 +488,19 @@ class ControllerPagesExtensionExtensions extends AController
                     // if options need to extract from db
                     $data['template'] = $item['template'];
                     $data['options'] = $item['options'];
-                    if (is_array($item['data_source']) && $item['data_source']) {
+                    if (is_array($item['data_source']) && is_array($item['data_source']['model_rt'])) {
                         foreach ($item['data_source']['model_rt'] as $k => $model_rt) {
                             //force loading of models even before the extension is enabled
-                            $this->loadModel($model_rt, 'force');
-                            $model = $this->{'model_' . str_replace("/", "_", $model_rt)};
+                            $model = $this->loadModel($model_rt, 'force');
                             $method_name = $item['data_source']['method'][$k];
                             if (method_exists($model, $method_name)) {
                                 $data['options'][$method_name] = call_user_func([$model, $method_name]);
                             }
                         }
                     } else {
-                        //TODO: remove it in 2.0
                         if ($item['model_rt'] != '') {
                             //force loading of models even before the extension is enabled
-                            $this->loadModel($item['model_rt'], 'force');
-                            $model = $this->{'model_' . str_replace("/", "_", $item['model_rt'])};
+                            $model = $this->loadModel($item['model_rt'], 'force');
                             $method_name = $item['method'];
                             if (method_exists($model, $method_name)) {
                                 $data['options'][$method_name] = call_user_func([$model, $method_name]);
