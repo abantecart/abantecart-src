@@ -13045,3 +13045,25 @@ VALUES
     (4,7,4);
 
 COMMIT;
+
+--
+-- Table structure for table `ac_shopping_sessions`
+--
+DROP TABLE IF EXISTS `ac_shopping_sessions`;
+create table `ac_shopping_sessions`
+(
+    `customer_id`   int                                 null,
+    `order_id`      int                                 null,
+    `type`          varchar(255)                        not null,
+    `key`           varchar(255)                        not null,
+    `data`          json                                not null,
+    `date_added`    timestamp default CURRENT_TIMESTAMP not null,
+    `date_modified` timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
+    constraint `ac_shopping_sessions_customer_fk`
+        foreign key (`customer_id`) references `ac_customers` (`customer_id`)
+            on update cascade on delete cascade
+);
+create index `ac_shopping_sessions_int_idx`
+    on `ac_shopping_sessions` (`customer_id` desc, `order_id` desc);
+create unique index `ac_shopping_sessions_text_idx`
+    on `ac_shopping_sessions` (`type`, `key`, `data`);

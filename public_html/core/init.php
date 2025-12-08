@@ -335,6 +335,7 @@ try {
     require_once(DIR_CORE . 'lib' . DS . 'im.php');
     require_once(DIR_CORE . 'lib' . DS . 'csrf_token.php');
     require_once(DIR_CORE . 'lib' . DS . 'ASupplier.php');
+    require_once(DIR_CORE . 'lib' . DS . 'AShoppingData.php');
 
 //Admin manager classes
     if (IS_ADMIN === true) {

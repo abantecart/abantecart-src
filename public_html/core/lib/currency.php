@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -27,14 +26,22 @@ if (!defined('DIR_CORE')) {
  */
 final class ACurrency
 {
+    /** @var string */
     private $code;
     private $currencies = [];
+    /** @var AConfig */
     private $config;
+    /** @var ADB */
     private $db;
+    /** @var ALanguage */
     private $language;
+    /** @var ARequest */
     private $request;
+    /** @var ASession */
     private $session;
+    /** @var ALog */
     private $log;
+    /** @var AMessage */
     private $message;
     /**
      * @var bool - sign that currency was switched
@@ -54,7 +61,6 @@ final class ACurrency
         $this->request = $registry->get('request');
         $this->session = $registry->get('session');
         $this->log = $registry->get('log');
-        /** @var AMessage */
         $this->message = $registry->get('messages');
 
         $cache = $registry->get('cache');
@@ -63,17 +69,17 @@ final class ACurrency
         if ($cache_data !== false) {
             $this->currencies = $cache_data;
         } else {
-            $query = $this->db->query("SELECT * FROM ".$this->db->table("currencies"));
+            $query = $this->db->query("SELECT * FROM " . $this->db->table("currencies"));
             foreach ($query->rows as $result) {
                 $this->currencies[$result['code']] = [
-                    'code'          => $result['code'],
-                    'currency_id'   => $result['currency_id'],
-                    'title'         => $result['title'],
-                    'symbol_left'   => $result['symbol_left'],
-                    'symbol_right'  => $result['symbol_right'],
+                    'code' => $result['code'],
+                    'currency_id' => $result['currency_id'],
+                    'title' => $result['title'],
+                    'symbol_left' => $result['symbol_left'],
+                    'symbol_right' => $result['symbol_right'],
                     'decimal_place' => (int)$result['decimal_place'],
-                    'value'         => $result['value'],
-                    'status'        => $result['status'],
+                    'value' => $result['value'],
+                    'status' => $result['status'],
                 ];
             }
             $cache->push($cache_key, $this->currencies);
@@ -105,7 +111,8 @@ final class ACurrency
                 $this->set($this->request->cookie['currency']);
             }
         } else {
-            // need to know about currency switch. Check if currency was set but not in list of available currencies
+            // need to know about the currency switch.
+            // Check if a currency was set but not in the list of available currencies
             if (isset($currencyCode) || isset($this->session->data['currency'])
                 || isset($this->request->cookie['currency'])
             ) {
@@ -124,40 +131,40 @@ final class ACurrency
     }
 
     /**
-     * @param string $currency
+     * @param string $currencyCode
      *
-     * @return false
+     * @return bool
      */
-    public function set($currency)
+    public function set($currencyCode)
     {
-        if (!isset($this->currencies[$currency])) {
+        if (!isset($this->currencies[$currencyCode])) {
             return false;
         }
-        // if currency disabled - set first enabled from list
-        if (!$this->currencies[$currency]['status']) {
+        // if currency disabled - set first enabled from a list
+        if (!$this->currencies[$currencyCode]['status']) {
             foreach ($this->currencies as $curr) {
                 if ($curr['status']) {
-                    $currency = $curr['code'];
+                    $currencyCode = $curr['code'];
                     break;
                 }
             }
         }
 
-        $this->code = $currency;
+        $this->code = $currencyCode;
 
-        if ((!isset($this->session->data['currency'])) || ($this->session->data['currency'] != $currency)) {
-            $this->session->data['currency'] = $currency;
+        if ((!isset($this->session->data['currency'])) || ($this->session->data['currency'] != $currencyCode)) {
+            $this->session->data['currency'] = $currencyCode;
         }
 
-        if ((!isset($this->request->cookie['currency'])) || ($this->request->cookie['currency'] != $currency)) {
+        if ((!isset($this->request->cookie['currency'])) || ($this->request->cookie['currency'] != $currencyCode)) {
             //Set cookie for the currency code
             setCookieOrParams(
                 'currency',
-                $currency,
+                $currencyCode,
                 [
-                    'path'     => dirname($this->request->server['PHP_SELF']),
-                    'domain'   => null,
-                    'secure'   => (defined('HTTPS') && HTTPS),
+                    'path' => dirname($this->request->server['PHP_SELF']),
+                    'domain' => null,
+                    'secure' => (defined('HTTPS') && HTTPS),
                     'httponly' => true,
                     'samesite' => ((defined('HTTPS') && HTTPS) ? 'None' : 'lax'),
                     'lifetime' => time() + 60 * 60 * 24 * 30,
@@ -168,7 +175,7 @@ final class ACurrency
     }
 
     /**
-     * Format only number part (digit based)
+     * Format only number part (digit-based)
      *
      * @param float $number
      * @param string $currency
@@ -211,7 +218,7 @@ final class ACurrency
      * @param float $crr_value
      * @param bool $format
      *
-     * @return string|float
+     * @return string
      * @throws AException
      */
     public function format($number, $currency = '', $crr_value = 0.0, $format = true)
@@ -230,19 +237,19 @@ final class ACurrency
             $value = (float)$number;
         }
 
-        $decimal_place = (int) $this->currencies[$currency]['decimal_place'];
+        $decimal_place = (int)$this->currencies[$currency]['decimal_place'];
 
         if ($format) {
             $formatted_number = $this->wrap_display_format(round(abs($value), $decimal_place), $currency);
         } else {
             $formatted_number = number_format(round(abs($value), $decimal_place), $decimal_place, '.', '');
         }
-        //check if number is negative
+        //check if the number is negative
         $sign = '';
         if (round($value, $decimal_place) < 0) {
             $sign = '-';
         }
-        return $sign.$formatted_number;
+        return $sign . $formatted_number;
     }
 
     /**
@@ -262,12 +269,12 @@ final class ACurrency
         }
         $symbol_left = $this->currencies[$currency]['symbol_left'];
         $symbol_right = $this->currencies[$currency]['symbol_right'];
-        $decimal_place = (int) $this->currencies[$currency]['decimal_place'];
+        $decimal_place = (int)$this->currencies[$currency]['decimal_place'];
         $decimal_point = $this->language->get('decimal_point');
         $thousand_point = $this->language->get('thousand_point');
 
         $formatted_number = number_format($number, $decimal_place, $decimal_point, $thousand_point);
-        return $symbol_left.$formatted_number.$symbol_right;
+        return $symbol_left . $formatted_number . $symbol_right;
     }
 
     /**
@@ -276,6 +283,7 @@ final class ACurrency
      * @param string $code_to
      *
      * @return float|bool
+     * @throws AException
      */
     public function convert($value, $code_from, $code_to)
     {
@@ -283,19 +291,19 @@ final class ACurrency
         $from = isset($this->currencies[$code_from]['value']) ? (float)$this->currencies[$code_from]['value'] : 0;
         $to = isset($this->currencies[$code_to]['value']) ? (float)$this->currencies[$code_to]['value'] : 0;
         $to_decimal = isset($this->currencies[$code_to]['decimal_place'])
-            ? (int) $this->currencies[$code_to]['decimal_place']
+            ? (int)$this->currencies[$code_to]['decimal_place']
             : 2;
 
         $error = false;
         if (!$to) {
-            $msg = 'Error: tried to convert into inaccessible currency! Currency code is '.$code_to;
-            $this->log->write('ACurrency '.$msg);
+            $msg = 'Error: tried to convert into inaccessible currency! Currency code is ' . $code_to;
+            $this->log->write('ACurrency ' . $msg);
             $this->message->saveError('Currency conversion error', $msg);
             $error = true;
         }
         if (!$from) {
-            $msg = 'Error: tried to convert from inaccessible currency! Currency code is '.$code_from;
-            $this->log->write('ACurrency '.$msg);
+            $msg = 'Error: tried to convert from inaccessible currency! Currency code is ' . $code_from;
+            $this->log->write('ACurrency ' . $msg);
             $this->message->saveError('Currency conversion error .', $msg);
             $error = true;
         }

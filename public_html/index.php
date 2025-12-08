@@ -65,6 +65,7 @@ if (!defined('IS_ADMIN') || !IS_ADMIN) { // storefront load
     $registry->set('weight', new AWeight($registry));
     $registry->set('length', new ALength($registry));
     $registry->set('cart', new ACart($registry));
+    $registry->set('shopping_data', new AShoppingData($registry, (int)$registry->get('customer')->getId()));
 
 } else {
     // Admin template load

@@ -484,21 +484,27 @@ class ControllerResponsesCheckoutPay extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
+    /**
+     * @param array $in_data
+     * @param array $request
+     * @return int|false
+     * @throws AException
+     */
     protected function updateOrCreateOrder($in_data, $request)
     {
         //do not allow to run if already ran and failed
         if ($this->error['updateOrCreateOrder']) {
-            return;
+            return false;
         }
 
         //do nothing if customer is nobody
         if (!$this->customer->isLogged() && !$this->fc_session['guest']) {
-            return;
+            return false;
         }
 
         //if customer unknown - skip creation of order
         if (!$this->config->get('config_guest_checkout') && !$this->customer->isLogged()) {
-            return;
+            return false;
         }
         //this needed to save session for next controller call
         $this->session->data['fc'] = $this->fc_session;
@@ -563,6 +569,7 @@ class ControllerResponsesCheckoutPay extends AController
             unset($this->session->data['order_id']);
             $this->main();
         }
+        return $order_id ?: false;
     }
 
     protected function addLoginForm($request, $get_params)

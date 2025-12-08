@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /*
  *   $Id$
@@ -28,52 +29,52 @@ class ModelCheckoutOrder extends Model
         parent::__construct($registry);
         //this list can be changed from hook beforeModelModelCheckoutOrder
         $this->data['order_column_list'] = [
-            'store_id'                => 'int',
-            'store_name'              => 'string',
-            'store_url'               => 'string',
-            'customer_id'             => 'int',
-            'customer_group_id'       => 'int',
-            'firstname'               => 'string',
-            'lastname'                => 'string',
-            'email'                   => 'string',
-            'telephone'               => 'string',
-            'fax'                     => 'string',
-            'total'                   => 'float',
-            'language_id'             => 'int',
-            'currency'                => 'string',
-            'currency_id'             => 'int',
-            'value'                   => 'float',
-            'coupon_id'               => 'int',
-            'ip'                      => 'string',
-            'shipping_firstname'      => 'string',
-            'shipping_lastname'       => 'string',
-            'shipping_company'        => 'string',
-            'shipping_address_1'      => 'string',
-            'shipping_address_2'      => 'string',
-            'shipping_city'           => 'string',
-            'shipping_postcode'       => 'string',
-            'shipping_zone'           => 'string',
-            'shipping_zone_id'        => 'int',
-            'shipping_country'        => 'string',
-            'shipping_country_id'     => 'int',
+            'store_id' => 'int',
+            'store_name' => 'string',
+            'store_url' => 'string',
+            'customer_id' => 'int',
+            'customer_group_id' => 'int',
+            'firstname' => 'string',
+            'lastname' => 'string',
+            'email' => 'string',
+            'telephone' => 'string',
+            'fax' => 'string',
+            'total' => 'float',
+            'language_id' => 'int',
+            'currency' => 'string',
+            'currency_id' => 'int',
+            'value' => 'float',
+            'coupon_id' => 'int',
+            'ip' => 'string',
+            'shipping_firstname' => 'string',
+            'shipping_lastname' => 'string',
+            'shipping_company' => 'string',
+            'shipping_address_1' => 'string',
+            'shipping_address_2' => 'string',
+            'shipping_city' => 'string',
+            'shipping_postcode' => 'string',
+            'shipping_zone' => 'string',
+            'shipping_zone_id' => 'int',
+            'shipping_country' => 'string',
+            'shipping_country_id' => 'int',
             'shipping_address_format' => 'string',
-            'shipping_method'         => 'string',
-            'shipping_method_key'     => 'string',
-            'payment_firstname'       => 'string',
-            'payment_lastname'        => 'string',
-            'payment_company'         => 'string',
-            'payment_address_1'       => 'string',
-            'payment_address_2'       => 'string',
-            'payment_city'            => 'string',
-            'payment_postcode'        => 'string',
-            'payment_zone'            => 'string',
-            'payment_zone_id'         => 'int',
-            'payment_country'         => 'string',
-            'payment_country_id'      => 'int',
-            'payment_address_format'  => 'string',
-            'payment_method'          => 'string',
-            'payment_method_key'      => 'string',
-            'comment'                 => 'string',
+            'shipping_method' => 'string',
+            'shipping_method_key' => 'string',
+            'payment_firstname' => 'string',
+            'payment_lastname' => 'string',
+            'payment_company' => 'string',
+            'payment_address_1' => 'string',
+            'payment_address_2' => 'string',
+            'payment_city' => 'string',
+            'payment_postcode' => 'string',
+            'payment_zone' => 'string',
+            'payment_zone_id' => 'int',
+            'payment_country' => 'string',
+            'payment_country_id' => 'int',
+            'payment_address_format' => 'string',
+            'payment_method' => 'string',
+            'payment_method_key' => 'string',
+            'comment' => 'string',
         ];
     }
 
@@ -372,6 +373,8 @@ class ModelCheckoutOrder extends Model
             );
         }
 
+        $this->shopping_data->save('cart', $this->cart->getCartKey(), orderId: $order_id);
+
         //save IM URI of order
         $this->saveIMOrderData($order_id, $data);
         return $order_id;
@@ -413,7 +416,7 @@ class ModelCheckoutOrder extends Model
             if ($uri) {
                 $im_data = serialize(
                     [
-                        'uri'    => $uri,
+                        'uri' => $uri,
                         'status' => $this->config->get('config_im_guest_' . $protocol . '_status'),
                     ]
                 );
@@ -484,6 +487,7 @@ class ModelCheckoutOrder extends Model
                 SET " . implode(", ", $update) . "
                 WHERE order_id = '" . (int)$orderId . "'";
         $this->db->query($sql);
+        $this->shopping_data->remove('cart', (string)$this->cart->getCartKey());
 
         //record history
         $this->db->query(
@@ -697,24 +701,24 @@ class ModelCheckoutOrder extends Model
 
         // add data from order
         $mailTplData += [
-            'order_id'           => $orderId,
-            'customer_id'        => $orderInfo['customer_id'],
-            'date_added'         => dateISO2Display($orderInfo['date_added'], $language->get('date_format_short')),
-            'store_name'         => $orderInfo['store_name'],
-            'address'            => nl2br($this->config->get('config_address')),
-            'telephone'          => $this->config->get('config_telephone'),
-            'fax'                => $this->config->get('config_fax'),
-            'email'              => $this->config->get('store_main_email'),
-            'store_url'          => $orderInfo['store_url'],
-            'firstname'          => $orderInfo['firstname'],
-            'lastname'           => $orderInfo['lastname'],
-            'shipping_method'    => $orderInfo['shipping_method'],
-            'payment_method'     => $orderInfo['payment_method'],
-            'customer_email'     => $orderInfo['email'],
+            'order_id' => $orderId,
+            'customer_id' => $orderInfo['customer_id'],
+            'date_added' => dateISO2Display($orderInfo['date_added'], $language->get('date_format_short')),
+            'store_name' => $orderInfo['store_name'],
+            'address' => nl2br($this->config->get('config_address')),
+            'telephone' => $this->config->get('config_telephone'),
+            'fax' => $this->config->get('config_fax'),
+            'email' => $this->config->get('store_main_email'),
+            'store_url' => $orderInfo['store_url'],
+            'firstname' => $orderInfo['firstname'],
+            'lastname' => $orderInfo['lastname'],
+            'shipping_method' => $orderInfo['shipping_method'],
+            'payment_method' => $orderInfo['payment_method'],
+            'customer_email' => $orderInfo['email'],
             'customer_telephone' => $orderInfo['telephone'],
-            'customer_fax'       => $orderInfo['fax'],
-            'customer_ip'        => $orderInfo['ip'],
-            'comment'            => trim(nl2br(html_entity_decode($orderInfo['comment'], ENT_QUOTES, 'UTF-8'))),
+            'customer_fax' => $orderInfo['fax'],
+            'customer_ip' => $orderInfo['ip'],
+            'comment' => trim(nl2br(html_entity_decode($orderInfo['comment'], ENT_QUOTES, 'UTF-8'))),
         ];
 
         $mailTplData['customer_mobile_phone'] = $this->im->getCustomerURI('sms', (int)$orderInfo['customer_id'], $orderId);
@@ -751,15 +755,15 @@ class ModelCheckoutOrder extends Model
 
         $shipping_data = [
             'firstname' => $orderInfo['shipping_firstname'],
-            'lastname'  => $orderInfo['shipping_lastname'],
-            'company'   => $orderInfo['shipping_company'],
+            'lastname' => $orderInfo['shipping_lastname'],
+            'company' => $orderInfo['shipping_company'],
             'address_1' => $orderInfo['shipping_address_1'],
             'address_2' => $orderInfo['shipping_address_2'],
-            'city'      => $orderInfo['shipping_city'],
-            'postcode'  => $orderInfo['shipping_postcode'],
-            'zone'      => $orderInfo['shipping_zone'],
+            'city' => $orderInfo['shipping_city'],
+            'postcode' => $orderInfo['shipping_postcode'],
+            'zone' => $orderInfo['shipping_zone'],
             'zone_code' => $zoneCode,
-            'country'   => $orderInfo['shipping_country'],
+            'country' => $orderInfo['shipping_country'],
         ];
 
         $mailTplData['shipping_data'] = $shipping_data;
@@ -772,15 +776,15 @@ class ModelCheckoutOrder extends Model
 
         $payment_data = [
             'firstname' => $orderInfo['payment_firstname'],
-            'lastname'  => $orderInfo['payment_lastname'],
-            'company'   => $orderInfo['payment_company'],
+            'lastname' => $orderInfo['payment_lastname'],
+            'company' => $orderInfo['payment_company'],
             'address_1' => $orderInfo['payment_address_1'],
             'address_2' => $orderInfo['payment_address_2'],
-            'city'      => $orderInfo['payment_city'],
-            'postcode'  => $orderInfo['payment_postcode'],
-            'zone'      => $orderInfo['payment_zone'],
+            'city' => $orderInfo['payment_city'],
+            'postcode' => $orderInfo['payment_postcode'],
+            'zone' => $orderInfo['payment_zone'],
             'zone_code' => $zoneCode,
-            'country'   => $orderInfo['payment_country'],
+            'country' => $orderInfo['payment_country'],
         ];
 
         $mailTplData['payment_data'] = $payment_data;
@@ -826,7 +830,7 @@ class ModelCheckoutOrder extends Model
                     $option['value'] = '';
                 }
                 $option_data[] = [
-                    'name'  => $option['name'],
+                    'name' => $option['name'],
                     'value' => $option['value'],
                 ];
             }
@@ -840,13 +844,13 @@ class ModelCheckoutOrder extends Model
                 $product,
                 [
                     'thumbnail_url' => $thumbnailUrl,
-                    'option'        => $option_data,
-                    'price'         => $this->currency->format(
+                    'option' => $option_data,
+                    'price' => $this->currency->format(
                         $product['price'],
                         $orderInfo['currency'],
                         $orderInfo['value']
                     ),
-                    'total'         => $this->currency->format_total(
+                    'total' => $this->currency->format_total(
                         $product['price'],
                         $product['quantity'],
                         $orderInfo['currency'],
@@ -1064,14 +1068,14 @@ class ModelCheckoutOrder extends Model
             }
 
             $data = [
-                'store_name'       => $order_row['store_name'],
-                'order_id'         => $order_id,
+                'store_name' => $order_row['store_name'],
+                'order_id' => $order_id,
                 'order_date_added' => dateISO2Display($order_row['date_added'], $language->get('date_format_short')),
-                'order_status'     => $order_status_query->num_rows ? $order_status_query->row['name'] : '',
-                'invoice'          => $order_row['customer_id']
+                'order_status' => $order_status_query->num_rows ? $order_status_query->row['name'] : '',
+                'invoice' => $order_row['customer_id']
                     ? $order_row['store_url'] . 'index.php?rt=account/order_details&order_id=' . $order_id
                     : $invoiceUrl,
-                'comment'          => $comment ?: '',
+                'comment' => $comment ?: '',
             ];
 
             $message_arr = [
