@@ -62,6 +62,15 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                         commit: false,
                         onClick: function () {
                             $('#preloader').css('display', 'block');
+                            <?php // post single-checkout product into fast-checkout to create fc-cart in session?>
+                            fetch('index.php?rt=checkout/fast_checkout&single_checkout=1&pp=1', {
+                                method: "POST",
+                                headers: {
+                                    'Content-Type': $('form#product').attr('enctype')
+                                },
+                                body: $('form#product').serialize()
+                            });
+                            return true;
                         },
                         onCancel: function () {
                             $('#preloader').css('display', 'none');
@@ -100,24 +109,6 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                             const message = parsePayPalErrorMessage(err.message);
                             showPPError( message ? message.description :"An unknown error occurred.");
                         },
-                        onShippingAddressChange: function (data, actions) {
-                            return fetch(<?php js_echo($order_shipping_address_changed_url);?>, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(data)
-                            }).then((response) => response.json())
-                                .then((details) => {
-                                    if (details.error) {
-                                        return actions.reject();
-                                    }
-
-                                    //?????? actions DO NOT HAVE method resolve here
-                                    return actions.resolve();
-                                });
-                        },
-
                     });
 
                     ppBtns.render('#paypal-button-container');

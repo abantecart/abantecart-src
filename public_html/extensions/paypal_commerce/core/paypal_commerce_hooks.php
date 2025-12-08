@@ -413,7 +413,6 @@ class ExtensionPaypalCommerce extends Extension
         $data['enabled_components'] = unserialize($that->config->get('paypal_commerce_enabled_components')) ?: ['buttons'];
         $data['enabled_funding'] = unserialize($that->config->get('paypal_commerce_enabled_funding')) ?: [];
         $data['create_quick_order_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/createQuickOrder');
-        $data['order_shipping_address_changed_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/orderShippingAddressChanged');
         $data['prepare_checkout_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/prepareCheckout');
 
         $productInfo = $that->view->getData('product_info');
