@@ -89,8 +89,9 @@ class ModelAccountCustomer extends Model
 
         $insertArr = [];
         if ($this->dcrypt->active) {
-            $data = $this->dcrypt->encrypt_data($data, 'customers');
-            $insertArr[] = "`key_id` = " . (int)$data['key_id'];
+            $encData = $this->dcrypt->encrypt_data($data, 'customers');
+        } else {
+            $encData = $data;
         }
 
         $data['salt'] = $salt_key = genToken(8);
@@ -101,7 +102,7 @@ class ModelAccountCustomer extends Model
         $subscriber = $this->db->query(
             "SELECT customer_id
             FROM " . $this->db->table("customers") . "
-            WHERE LOWER(`email`) = LOWER('" . $this->db->escape($data['email']) . "')
+            WHERE LOWER(`email`) = LOWER('" . $this->db->escape($encData['email']) . "')
                 AND customer_group_id IN (SELECT customer_group_id
                                           FROM " . $this->db->table('customer_groups') . "
                                           WHERE `name` = 'Newsletter Subscribers')"
@@ -130,7 +131,7 @@ class ModelAccountCustomer extends Model
             } else {
                 $value = $this->db->escape(serialize($data[$key]));
             }
-            $insertArr[] = "`" . $key . "` = '" . $value . "'";
+            $insertArr[$key] = $value;
         }
         //prepare extended fields values
         $extFields = [];
@@ -164,12 +165,20 @@ class ModelAccountCustomer extends Model
         }
 
         if ($extFields) {
-            $insertArr[] = "`ext_fields` = '" . $this->db->escape(js_encode($extFields)) . "'";
+            $insertArr['ext_fields'] = $this->db->escape(js_encode($extFields));
+        }
+        if ($this->dcrypt->active) {
+            $insertArr = $this->dcrypt->encrypt_data($insertArr, 'customers');
+            $insertArr['key_id'] = (int)$data['key_id'];
         }
 
+        $insertData = [];
+        foreach ($insertArr as $k => $v) {
+            $insertData[$k] = "`" . $k . "` = '" . $v . "'";
+        }
 
         $sql = "INSERT INTO " . $this->db->table("customers") . "
-                SET " . implode(', ', $insertArr);
+                SET " . implode(', ', $insertData);
         $this->db->query($sql);
         $customer_id = $this->db->getLastId();
 
@@ -808,7 +817,7 @@ class ModelAccountCustomer extends Model
             }
         }
 
-        if ($this->config->get('prevent_email_as_login') ) {
+        if ($this->config->get('prevent_email_as_login')) {
             if (!$this->is_unique_loginname($data['loginname'])) {
                 $this->error['loginname'] = $this->language->get('error_loginname_notunique');
             }

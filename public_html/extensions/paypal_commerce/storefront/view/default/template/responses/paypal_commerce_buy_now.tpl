@@ -21,7 +21,7 @@
 /** @var AController|AView $this */
 if($show_buttons){
 ?>
-<div id="ppBuyNow" class="form-group text-center action-buttons">
+<div id="ppBuyNow" class="d-flex text-center action-buttons align-items-center justify-content-center">
     <div class="center-block">
         <div id="paypal-button-container"></div>
     </div>
@@ -51,8 +51,8 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                 initButtons,
                 wrapper
             );
-<?php if($show_buttons){ ?>
             function initButtons() {
+                <?php if(!$show_buttons){ echo 'return;'; }?>
                 if (paypal === undefined) { return; }
 
                 // Initialize Buttons component
@@ -60,14 +60,7 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                     let ppBtns = paypal.Buttons({
                         appSwitchWhenAvailable: true,
                         commit: false,
-                        layout: 'horizontal',
-                        style: {
-                            label: 'checkout',
-                            size: {
-                                width: '50px'
-                            }
-                        },
-                        onClick: function () {
+                           onClick: function () {
                             $('#preloader').css('display', 'block');
                             <?php
                             if($this->customer->isLogged()){ ?>
@@ -156,7 +149,5 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                 $('#preloader').css('display', 'none');
                 wrapper.hide();
             }
-<?php } ?>
-
         });
     </script>

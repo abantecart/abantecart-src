@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -61,11 +61,7 @@ class ModelAccountAddress extends Model
         }
 
         //encrypt customer data
-        $insertArr = [ 'customer_id' => '`customer_id` = '.$customerId ];
-        if ($this->dcrypt->active) {
-            $data = $this->dcrypt->encrypt_data($data, 'addresses');
-            $insertArr['key_id'] = "`key_id` = " . (int)$data['key_id'];
-        }
+        $insertArr = ['customer_id' => $customerId];
 
         //prepare data to insert into customer table
         foreach ($this->data['address_column_list'] as $key => $dataType) {
@@ -81,7 +77,7 @@ class ModelAccountAddress extends Model
             } else {
                 $value = $this->db->escape(serialize($data[$key]));
             }
-            $insertArr[$key] = "`" . $key . "` = '" . $value . "'";
+            $insertArr[$key] = $value;
         }
         //prepare extended fields values
         $extFields = [];
@@ -107,11 +103,21 @@ class ModelAccountAddress extends Model
             }
         }
         if ($extFields) {
-            $insertArr['ext_fields'] = "`ext_fields` = '" . $this->db->escape(js_encode($extFields)) . "'";
+            $insertArr['ext_fields'] = $this->db->escape(js_encode($extFields));
         }
+        if ($this->dcrypt->active) {
+            $insertArr = $this->dcrypt->encrypt_data($insertArr, 'addresses');
+            $insertArr['key_id'] = "`key_id` = " . (int)$data['key_id'];
+        }
+
+        $insertData = [];
+        foreach ($insertArr as $k => $v) {
+            $insertData[$k] = "`" . $k . "` = '" . $v . "'";
+        }
+
         $this->db->query(
             "INSERT INTO `" . $this->db->table("addresses") . "`
-            SET " . implode(', ', $insertArr)
+            SET " . implode(', ', $insertData)
         );
         $address_id = $this->db->getLastId();
 

@@ -225,7 +225,7 @@ class ModelCheckoutOrder extends Model
 
         $insertArr = [];
         if ($setOrderId) {
-            $insertArr[] = "`order_id` = '" . (int)$setOrderId . "'";
+            $insertArr['order_id'] = (int)$setOrderId;
         }
 
         //remove to exclude these fields from "ext_fields" data
@@ -248,7 +248,7 @@ class ModelCheckoutOrder extends Model
             } else {
                 $value = $this->db->escape(serialize($data[$key]));
             }
-            $insertArr[] = "`" . $key . "` = '" . $value . "'";
+            $insertArr[$key] = $value;
         }
 
         //prepare extended fields values
@@ -289,15 +289,19 @@ class ModelCheckoutOrder extends Model
         }
 
         if ($extFields) {
-            $insertArr[] = "`ext_fields` = '" . $this->db->escape(js_encode($extFields)) . "'";
+            $insertArr['ext_fields'] = $this->db->escape(js_encode($extFields));
         }
 
         if ($this->dcrypt->active) {
-            $data = $this->dcrypt->encrypt_data($data, 'orders');
-            $insertArr[] = "`key_id` = '" . (int)$data['key_id'] . "'";
+            $insertArr = $this->dcrypt->encrypt_data($insertArr, 'orders');
+            $insertArr['key_id'] = (int)$data['key_id'];
+        }
+        $insertData = [];
+        foreach ($insertArr as $k => $v) {
+            $insertData[$k] = "`" . $k . "` = '" . $v . "'";
         }
 
-        $this->db->query("INSERT INTO `" . $this->db->table("orders") . "` SET " . implode(', ', $insertArr));
+        $this->db->query("INSERT INTO `" . $this->db->table("orders") . "` SET " . implode(', ', $insertData));
 
         $order_id = $this->db->getLastId();
 

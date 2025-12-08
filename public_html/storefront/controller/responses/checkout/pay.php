@@ -98,6 +98,10 @@ class ControllerResponsesCheckoutPay extends AController
     {
         //this needed to save session for next controller call
         $this->session->data['fc'] = $this->fc_session;
+        //refresh global session guest data with fc guest data
+        if($this->session->data['fc']['guest'] && $this->allow_guest){
+            $this->session->data['guest'] = $this->session->data['fc']['guest'];
+        }
     }
 
     public function main()

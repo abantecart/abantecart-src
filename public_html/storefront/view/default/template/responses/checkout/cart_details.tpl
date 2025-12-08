@@ -48,7 +48,9 @@ if ($total_items > 0) {
 	<?php if ($total_items > $cart_view_limit) {  ?>
 		<tr>
 			<td colspan="5">
-				<a class="d-flex justify-content-center" title="see more cart products" href="<?php echo $view; ?>">
+				<a class="d-flex justify-content-center"
+                   title="<?php echo html2view($this->language->get('text_see_more_cart_products','checkout/fast_checkout'))?>"
+                   href="<?php echo $view; ?>">
 					<i class="fa fa-chevron-down fa-lg"></i>
 				</a>
 			</td>

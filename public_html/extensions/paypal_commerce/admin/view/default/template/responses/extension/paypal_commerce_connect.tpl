@@ -1,7 +1,7 @@
 
 <?php if ($connected) { ?>
     <a class="inblock btn btn-default mr10" href="<?php echo $disconnect_url; ?>">
-        <i class="fa fa-chain-broken fa-fw"></i> <?php echo $text_disconnect; ?>
+        <i class="fa fa-chain-broken fa-fw"></i> <?php echo $test_mode ? $text_disconnect_sandbox : $text_disconnect_live; ?>
     </a>
     <?php if ($test_mode) { ?>
         <a href="<?php echo $connect_url; ?>" class="pp-live-btn inblock mr10">

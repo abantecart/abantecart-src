@@ -883,9 +883,9 @@ VALUES
 ('extensions', 'banner_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
 ('extensions', 'forms_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
 ('template', 'novator', 'template', 0, 1, '1.0.4', null, NOW(), now() + INTERVAL 4 MINUTE , now() ),
-('extensions', 'page_builder', 'tools', 1, 10000, @CORE_VERSION, null, NOW(), NOW(), NOW())
+('extensions', 'page_builder', 'tools', 1, 10000, @CORE_VERSION, null, NOW(), NOW(), NOW()),
+('payment', 'paypal_commerce', 'payment', 0, 100, @CORE_VERSION, null, NOW(), now() + INTERVAL 4 MINUTE , now() )
 ;
-
 --
 -- DDL for tables of banner manager
 --

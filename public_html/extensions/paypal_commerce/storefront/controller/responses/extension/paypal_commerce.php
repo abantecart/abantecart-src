@@ -26,9 +26,9 @@ if (!defined('DIR_CORE')) {
 
 class ControllerResponsesExtensionPaypalCommerce extends AController
 {
-    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
+    public function swapCart()
     {
-        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+
         if (isset($this->session->data['fc'])) {
             $cartClassName = get_class($this->cart);
             $this->registry->set(
@@ -42,6 +42,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
     public function main()
     {
+        $this->swapCart();
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->document->addStyle(
             [
@@ -159,6 +160,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
     public function send()
     {
+        $this->swapCart();
         $output = [];
         if (!$this->csrftoken->isTokenValid()) {
             $output['error'] = $this->language->get('error_unknown');
@@ -208,6 +210,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             return;
         }
 
+        $this->swapCart();
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         //swap cart
@@ -494,7 +497,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $this->response->setOutput(AJson::encode($output));
             return;
         }
-
+        $this->swapCart();
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('paypal_commerce/paypal_commerce');
@@ -766,6 +769,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
      */
     public function webhookAuthCreated()
     {
+        $this->swapCart();
         $this->processWebHook(
             'PAYMENT.AUTHORIZATION.CREATED',
             $this->config->get('paypal_commerce_status_success_unsettled'),
@@ -774,6 +778,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
     public function webhookAuthVoided()
     {
+        $this->swapCart();
         $this->processWebHook(
             'PAYMENT.AUTHORIZATION.VOIDED',
             $this->order_status->getStatusByTextId('canceled'),
@@ -782,6 +787,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
     public function webhookCaptureCompleted()
     {
+        $this->swapCart();
         $this->processWebHook(
             'PAYMENT.CAPTURE.COMPLETED',
             $this->config->get('paypal_commerce_status_success_settled'),
@@ -790,6 +796,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
     public function webhookCaptureDenied()
     {
+        $this->swapCart();
         $this->processWebHook(
             'PAYMENT.CAPTURE.DENIED',
             $this->config->get('paypal_commerce_status_decline'),
@@ -798,6 +805,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
     public function webhookCapturePending()
     {
+        $this->swapCart();
         $this->processWebHook(
             'PAYMENT.CAPTURE.PENDING',
             $this->config->get('paypal_commerce_status_capture_pending'),
@@ -806,6 +814,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
     public function webhookCaptureRefunded()
     {
+        $this->swapCart();
         $this->processWebHook(
             'PAYMENT.CAPTURE.REFUNDED',
             $this->config->get('paypal_commerce_status_refund'),

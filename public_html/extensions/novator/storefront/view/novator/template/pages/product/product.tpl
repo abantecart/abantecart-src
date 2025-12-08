@@ -253,7 +253,7 @@ if ($error){ ?>
                                         <?php echo $form['product_id'] . $form['redirect']; ?>
                                     </div>
 
-                                    <div class="d-flex flex-column flex-lg-row align-items-center justify-content-lg-between">
+                                    <div class="d-flex flex-column flex-lg-row align-items-center justify-content-center">
                                         <?php
                                         if(!$product_info['call_to_order']){
                                             if (!$can_buy) { ?>
@@ -287,8 +287,8 @@ if ($error){ ?>
                                             </div>
                                             <?php }
                                         } ?>
-                                        <div><?php echo $this->getHookVar('buttons'); ?></div>
                                     </div>
+                                    <div class="col-12"><?php echo $this->getHookVar('buttons'); ?></div>
                                     <?php
                                      if($product_info['free_shipping'] && $product_info['shipping_price'] <= 0) { ?>
                                          <div class="mt-3 mb-0">

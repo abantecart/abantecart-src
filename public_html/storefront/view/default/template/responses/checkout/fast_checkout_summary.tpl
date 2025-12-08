@@ -53,7 +53,9 @@
             <?php if ($total_items > $cart_view_limit) {  ?>
                 <tr>
                     <td class="table-light text-center">
-                        <a class="btn btn-lightblue btn-sm" title="see more cart products" href="<?php echo $this->html->getSecureUrl($cart_rt); ?>">
+                        <a class="btn btn-lightblue btn-sm"
+                           title="<?php echo html2view($this->language->get('text_see_more_cart_products','checkout/fast_checkout'))?>"
+                           href="<?php echo $this->html->getSecureUrl($cart_rt); ?>">
                             <i class="fa fa-angles-down fa-lg"></i>
                         </a>
                     </td>
