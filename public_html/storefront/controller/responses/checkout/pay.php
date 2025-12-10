@@ -363,7 +363,7 @@ class ControllerResponsesCheckoutPay extends AController
         }
 
         //set shipping method
-        $this->_select_shipping($this->request->get['shipping_method'] ?? $this->fc_session['shipping_method']['id']);
+        $this->select_shipping($this->request->get['shipping_method'] ?? $this->fc_session['shipping_method']['id']);
 
         //handle balance. Re-apply balance on every request as total can change
         if ($this->fc_session['used_balance'] && !$request['balance']) {
@@ -1732,12 +1732,15 @@ class ControllerResponsesCheckoutPay extends AController
         return $this->session->data['payment_methods'];
     }
 
-    public function _select_shipping($selected = '')
+    public function select_shipping($selected = '')
     {
         //if shipping not required - skip
         if (!$this->cart->hasShipping()) {
             return;
         }
+
+        $selected = $selected ?? $this->request->get_or_post('shipping_method');
+
         $selected_shipping = [];
         if ($selected) {
             $selected_shipping = explode('.', $selected);

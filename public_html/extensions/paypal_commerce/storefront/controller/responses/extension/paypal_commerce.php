@@ -358,8 +358,6 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
     protected function prepareOrderData($order_info)
     {
-
-        $decPlace = $this->data['pp']['decPlace'];
         $this->data['pp']['orderTotal'] = $taxes = $discount = $handling_fee = 0.0;
 
         foreach ($this->cart->getFinalTotalData() as $total) {
@@ -383,25 +381,25 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         }
         $this->data['pp']['amountBreakdown'] = [
             'item_total' => [
-                'value'         => "" . round($this->data['pp']['order_subtotal'], $decPlace),
                 'currency_code' => $this->data['currencyCode'],
+                'value'         => (string)round($this->data['pp']['order_subtotal'], 2),
             ],
             'tax_total'  => [
-                'value'         => "" . round($taxes, $decPlace),
                 'currency_code' => $this->data['currencyCode'],
+                'value'         => (string)round($taxes, 2)
             ],
             'shipping'   => [
-                'value'         => "" . round($this->data['pp']['order_shipping'], $decPlace),
                 'currency_code' => $this->data['currencyCode'],
+                'value'         => (string)round($this->data['pp']['order_shipping'], 2),
             ],
-//            'discount'   => [
-//                'value'         => "" . round($discount, $decPlace),
-//                'currency_code' => $this->data['currencyCode'],
-//            ],
-//            'handling'   => [
-//                'value'         => "" . round($handling_fee, $decPlace),
-//                'currency_code' => $this->data['currencyCode'],
-//            ],
+            'discount'   => [
+                'currency_code' => $this->data['currencyCode'],
+                'value'         => (string)round($discount, 2)
+            ],
+            'handling'   => [
+                'currency_code' => $this->data['currencyCode'],
+                'value'         => (string)round($handling_fee, 2)
+            ],
         ];
 
         $this->load->model('localisation/country');
@@ -797,13 +795,6 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $inData = file_get_contents('php://input');
         $inData = (array)json_decode($inData, true);
 
-//        //mark paypal_commerce as the default payment method and use this mark in
-//        $this->session->data['paypal']['payment_method'] = [
-//            'id'         => 'paypal_commerce',
-//            'title'      => $this->language->get('text_title', 'paypal_commerce/paypal_commerce'),
-//            'sort_order' => $this->config->get('paypal_commerce_sort_order')
-//        ];
-
         $this->currency->set($this->request->get['currency_code']);
         $cartKey = (string)$this->request->get['ck'];
         $cartData = $this->shopping_data->get('cart',$cartKey);
@@ -818,6 +809,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             );
         }
 
+        if($cartData['order_id']) {
+            $this->session->data['order_id'] = $cartData['order_id'];
+        }
         $fcSession =& $this->session->data['fc'];
         $fcSession['cart_key'] = $cartKey;
         $fcSession['cart'] = $cartData['data'];
@@ -868,22 +862,36 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         //$shNames = explode(' ', $ppOrderDetails->purchase_units[0]->shipping->name->full_name);
         $fcSession['guest']['shipping']['firstname'] = 'guest';
         $fcSession['guest']['shipping']['lastname'] = 'guest';
+
+        if($inData['shipping_option']){
+            $dd = new ADispatcher(
+                'responses/checkout/pay/select_shipping',
+                ['selected' => $inData['shipping_option']['id']]
+            );
+            $dd->dispatch();
+        }
         //create new order in the session
         /** @see ControllerResponsesCheckoutPay::updateOrderData() */
         $dd = new ADispatcher('responses/checkout/pay/updateOrderData');
-        $dd->dispatchGetOutput();
-        /** @see ControllerResponsesCheckoutPay::_select_shipping() */
-        $dd = new ADispatcher('responses/checkout/pay/_select_shipping');
-        $dd->dispatchGetOutput();
+        $dd->dispatch();
+        /** @see ControllerResponsesCheckoutPay::select_shipping() */
+        $dd = new ADispatcher('responses/checkout/pay/select_shipping');
+        $dd->dispatch();
 
+        $abcOrderId = $this->session->data['order_id'];
+        if(!$abcOrderId) {
+            throw new AException(AC_ERR_USER_ERROR, 'PayPal Express: Order not created after customer login into PP account!');
+        }
+        $this->shopping_data->save('cart',$cartKey, orderId: $abcOrderId);
         //collect all data from order for response
         /** @var ModelCheckoutOrder $oMdl */
         $oMdl = $this->loadModel('checkout/order');
-        $order_info = $oMdl->getOrder($this->session->data['order_id']);
+        $order_info = $oMdl->getOrder($abcOrderId);
         $this->data = [
             'currencyCode' => $this->currency->getCode(),
             'decPlace' => (int)$this->currency->getCurrency()['decimal_place']
         ];
+
 
         $this->prepareOrderData($order_info);
         $output = [
@@ -898,15 +906,16 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                     'label'  => $quote['title'],
                     'amount' => [
                         'currency_code' => $this->data['currencyCode'],
-                        'value'         => "".round((float)$quote['cost'], 2),
+                        'value'         => (string)preformatFloat(round((float)$quote['cost'], 2)),
                     ],
                     'type' => 'SHIPPING',
-                    'selected' => (bool)$this->session->data['fc']['shipping_method'][$quote['id']]
+                    'selected' => ($this->session->data['fc']['shipping_method']['id'] == $quote['id'])
                 ];
             }
         }
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
+
         $this->load->library('json');
         $this->response->addJSONHeader();
         $this->response->setOutput(AJson::encode($output));
