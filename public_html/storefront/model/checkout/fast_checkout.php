@@ -183,11 +183,22 @@ class ModelCheckoutFastCheckout extends Model
             'telephone',
             'comment'
         ];
-        $upd = [];
+        $inArr = $upd = [];
         foreach ($allowed as $field_name) {
             if (isset($data[$field_name])) {
-                $upd[] = "`" . $field_name . "` = '" . $this->db->escape($data[$field_name]) . "' ";
+                $inArr[$field_name] = $data[$field_name];
             }
+        }
+        if(!$inArr){
+            return false;
+        }
+
+        if ($this->dcrypt->active) {
+            $inArr = $this->dcrypt->encrypt_data($inArr, 'orders');
+        }
+
+        foreach($inArr as $field_name => $value) {
+            $upd[] = "`" . $field_name . "` = '" . $this->db->escape($value) . "' ";
         }
 
         $sql = "UPDATE " . $this->db->table('orders') . "
@@ -195,7 +206,6 @@ class ModelCheckoutFastCheckout extends Model
                 WHERE order_id = " . $order_id . " AND order_status_id = 0";
         $this->db->query($sql);
         return true;
-
     }
 
     /**
