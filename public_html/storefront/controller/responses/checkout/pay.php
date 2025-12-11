@@ -1026,9 +1026,9 @@ class ControllerResponsesCheckoutPay extends AController
 
         /** @var ModelAccountOrder $mdlOrder */
         $mdlOrder = $this->loadModel('account/order');
-        $order_details = $mdlOrder->getOrder($order_id);
+        $this->data['order_details'] = $mdlOrder->getOrder($order_id);
         //build custom order message based on the status
-        if ($this->order_status->getStatusByTextId('completed') == $order_details['order_status_id']) {
+        if ($this->order_status->getStatusByTextId('completed') == $this->data['order_details']['order_status_id']) {
             $this->data['order_finished_message'] = $this->language->get('fast_checkout_order_success_message');
         } elseif ($this->session->data['processing_order_errors']) {
             $this->data['order_finished_message'] = $this->session->data['processing_order_errors'];
