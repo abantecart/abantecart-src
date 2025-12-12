@@ -512,8 +512,8 @@ class ControllerResponsesCheckoutPay extends AController
         $order->buildOrderData($in_data);
         $order_id = $order->saveOrder();
 
-        /** @var ModelCheckoutFastCheckout $mdl */
-        $mdl = $this->loadModel('checkout/fast_checkout');
+        /** @var ModelCheckoutOrder $mdl */
+        $mdl = $this->loadModel('checkout/order');
         if ($order_id) {
             if ($request['telephone']) {
                 $mdl->updateOrderDetails(
