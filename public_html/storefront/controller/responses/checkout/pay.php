@@ -1732,11 +1732,11 @@ class ControllerResponsesCheckoutPay extends AController
         return $this->session->data['payment_methods'];
     }
 
-    public function select_shipping($selected = '')
+    public function select_shipping( $selected = '', $selectFirst = false)
     {
         //if shipping not required - skip
         if (!$this->cart->hasShipping()) {
-            return;
+            return false;
         }
 
         $selected = $selected ?? $this->request->get_or_post('shipping_method');
@@ -1816,6 +1816,12 @@ class ControllerResponsesCheckoutPay extends AController
                         }
                         $this->_to_log($errText . $method['error']);
                     }
+                    if(!$this->fc_session['shipping_method'] && $selectFirst && !$selected){
+                        $quotes = $method['quote'];
+                        if($quotes) {
+                            $this->fc_session['shipping_method'] = current($quotes);
+                        }
+                    }
                 }
             } elseif (count($shipMethods) === 0 && $this->cart->hasShipping()) {
                 $this->_to_log(
@@ -1891,9 +1897,10 @@ class ControllerResponsesCheckoutPay extends AController
             $this->data['shipping_methods'] = [];
         }
         $this->fc_session['shipping_methods'] = $this->data['shipping_methods'];
-        if ($selected_shipping) {
-            $this->updateOrCreateOrder($this->fc_session, ['shipping_method' => $selected]);
+        if ($selected_shipping || $selectFirst) {
+            return $this->updateOrCreateOrder($this->fc_session, ['shipping_method' => $selected]);
         }
+        return true;
     }
 
     /**

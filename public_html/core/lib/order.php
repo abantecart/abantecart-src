@@ -105,13 +105,13 @@ class AOrder
      * @return array
      * @throws AException
      */
-    public function loadOrderData($order_id, $order_status_id = '')
+    public function loadOrderData($order_id, $order_status_id = '', $mode = '')
     {
         if ($order_id) {
             $this->order_id = $order_id;
         }
         //get order details for specific status. NOTE: Customer ID need to be set in customer class
-        $this->order_data = $this->model_account_order->getOrder($this->order_id, $order_status_id);
+        $this->order_data = $this->model_account_order->getOrder($this->order_id, $order_status_id, $mode);
         $this->extensions->hk_ProcessData($this, 'load_order_data');
         return (array)$this->data + (array)$this->order_data;
     }

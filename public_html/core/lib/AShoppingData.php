@@ -149,4 +149,63 @@ class AShoppingData
         );
         $this->extensions->hk_ProcessData($this, __FUNCTION__, func_get_args());
     }
+
+    public function search(array $searchData, string $type, string $key = null, array $options = [])
+    {
+        if (!$searchData || !$type) {
+            return [];
+        }
+
+        $conditions = ["`type` = '" . $this->db->escape($type) . "'"];
+
+        if ($key) {
+            $conditions[] = "`key` = '" . $this->db->escape($key) . "'";
+        }
+
+        foreach ($searchData as $jsonKey => $value) {
+            $jsonPath = '$.' . str_replace('.', '.', $jsonKey);
+            if (is_array($value)) {
+                $jsonPath = $this->buildJsonPath($jsonKey);
+                foreach ($value as $nestedKey => $nestedValue) {
+                    $fullPath = $jsonPath . '.' . $nestedKey;
+                    if (is_scalar($nestedValue)) {
+                        $conditions[] = "JSON_UNQUOTE(JSON_EXTRACT(`data`, '" . $this->db->escape($fullPath) . "')) = '"
+                            . $this->db->escape($nestedValue) . "'";
+                    }
+                }
+            } elseif (is_scalar($value)) {
+                $conditions[] = "JSON_UNQUOTE(JSON_EXTRACT(`data`, '" . $this->db->escape($jsonPath) . "')) = '"
+                    . $this->db->escape($value) . "'";
+            }
+        }
+
+        $sql = "SELECT * 
+            FROM " . $this->db->table("shopping_sessions") . "
+            WHERE " . implode(' AND ', $conditions);
+
+        if(in_array($options['sort'], ['customer_id', 'order_id', 'type','key','date_added', 'date_modified'])){
+            $sql .= " ORDER BY " . $options['sort'].' '.(strtolower($options['order'])=='desc'?'desc':'asc');
+        }
+
+        $result = $this->db->query($sql);
+        $output = [];
+
+        if ($result->num_rows) {
+            foreach ($result->rows as $row) {
+                $row['data'] = json_decode($row['data'], true);
+                $output[] = $row;
+            }
+        }
+        return $output;
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
+    protected function buildJsonPath(string $key): string
+    {
+        return '$.' . str_replace('.', '.', $key);
+
+    }
 }

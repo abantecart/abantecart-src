@@ -419,8 +419,10 @@ class ExtensionPaypalCommerce extends Extension
         $data['product_id'] = $productInfo['product_id'];
         $data['product_name'] = $productInfo['name'];
         $data['return_url'] = $data['cancel_url'] = $that->html->getSEOURL('product/product','&product_id=' . $productInfo['product_id']);
+        $data['capture_order_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/captureOrder');
+        $data['action'] = $that->html->getSecureURL('r/extension/paypal_commerce/send');
         $view->batchAssign($data);
-        $that->session->data['reference_id'] = 'abc_'.randomWord(5);
+
         $ppButtons = $view->fetch('responses/paypal_commerce_buy_now.tpl');
         $that->view->addHookVar('buttons', $ppButtons);
 
@@ -453,6 +455,8 @@ class ExtensionPaypalCommerce extends Extension
         $data['create_quick_order_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/createQuickOrder');
         $data['prepare_checkout_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/prepareCheckout');
         $data['return_url'] = $data['cancel_url'] = $that->html->getSEOURL('checkout/cart');
+        $data['capture_order_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/captureOrder');
+        $data['action'] = $that->html->getSecureURL('r/extension/paypal_commerce/send');
         $view->batchAssign($data);
         /** @see public_html/extensions/paypal_commerce/storefront/view/default/template/responses/paypal_commerce_buy_now.tpl */
         $ppButtons = $view->fetch('responses/paypal_commerce_buy_now.tpl');
