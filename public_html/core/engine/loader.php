@@ -98,25 +98,35 @@ final class ALoader
         }
 
         $file = $section . 'model' . DS . $model . '.php';
+        $extensionTxtId = '';
         if ($this->registry->has('extensions') && $result = $this->extensions->isExtensionResource('M', $model, $force, $mode)) {
             if (is_file($file)) {
                 $warning = new AWarning("Extension <b>{$result['extension']}</b> override model <b>$model</b>");
                 $warning->toDebug();
             }
             $file = $result['file'];
+            $extensionTxtId = $result['extension'];
         }
 
-        $class = 'Model' . preg_replace('/[^a-zA-Z0-9]/', '', $model);
-        $obj_name = 'model_' . str_replace('/', '_', $model);
+        $className = 'Model' . preg_replace('/[^a-zA-Z0-9]/', '', $model);
+        $objName = 'model_' . str_replace('/', '_', $model);
 
         //if model is loaded return it back
-        if (is_object($this->registry->get($obj_name))) {
-            return $this->registry->get($obj_name);
+        if (is_object($this->registry->get($objName))) {
+            return $this->registry->get($objName);
         } else {
             if (file_exists($file)) {
                 include_once($file);
-                $this->registry->set($obj_name, new $class($this->registry));
-                return $this->registry->get($obj_name);
+                $mdl = null;
+                if ($extensionTxtId) {
+                    //if class definition with root namescape not found - try to use extension namespace
+                    $fullClassName = '\extensions\\'.$extensionTxtId.'\storefront\model\\'.$className;
+                    $mdl = new $fullClassName($this->registry);
+                }elseif(class_exists($className)) {
+                    $mdl = new $className($this->registry);
+                }
+                $this->registry->set($objName, $mdl);
+                return $this->registry->get($objName);
             } else if ($mode != 'silent') {
                 $backtrace = debug_backtrace();
                 $trace = '';
