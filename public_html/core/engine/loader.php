@@ -98,7 +98,9 @@ final class ALoader
         }
 
         $file = $section . 'model' . DS . $model . '.php';
-        $extensionTxtId = '';
+        $className = 'Model' . preg_replace('/[^a-zA-Z0-9]/', '', $model);
+        $objName = 'model_' . str_replace('/', '_', $model);
+        $extensionTxtId = $fullClassName = '';
         if ($this->registry->has('extensions') && $result = $this->extensions->isExtensionResource('M', $model, $force, $mode)) {
             if (is_file($file)) {
                 $warning = new AWarning("Extension <b>{$result['extension']}</b> override model <b>$model</b>");
@@ -106,10 +108,9 @@ final class ALoader
             }
             $file = $result['file'];
             $extensionTxtId = $result['extension'];
+            //if class definition with root namescape not found - try to use extension namespace
+            $fullClassName = '\extensions\\'.$extensionTxtId.'\storefront\model\\'.$className;
         }
-
-        $className = 'Model' . preg_replace('/[^a-zA-Z0-9]/', '', $model);
-        $objName = 'model_' . str_replace('/', '_', $model);
 
         //if model is loaded return it back
         if (is_object($this->registry->get($objName))) {
@@ -118,9 +119,7 @@ final class ALoader
             if (file_exists($file)) {
                 include_once($file);
                 $mdl = null;
-                if ($extensionTxtId) {
-                    //if class definition with root namescape not found - try to use extension namespace
-                    $fullClassName = '\extensions\\'.$extensionTxtId.'\storefront\model\\'.$className;
+                if ($extensionTxtId && class_exists($fullClassName)) {
                     $mdl = new $fullClassName($this->registry);
                 }elseif(class_exists($className)) {
                     $mdl = new $className($this->registry);
