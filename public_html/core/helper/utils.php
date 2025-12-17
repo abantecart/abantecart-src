@@ -1717,3 +1717,11 @@ function passwordHash(string $password, string $salt): string
 {
     return sha1($salt . sha1($salt . sha1($password)));
 }
+function insert2ArrayAfter(array $array, string $itemKey, $itemValue, string|int $positionAfter = null): array
+{
+    $positionAfter = $positionAfter ?? array_key_last($array);
+    $pos = array_search($positionAfter, array_keys($array)) + 1;
+    return array_slice($array, 0, $pos, true) +
+        [$itemKey => $itemValue] +
+        array_slice($array, $pos, count($array) - $pos, true);
+}
