@@ -994,6 +994,9 @@ class ControllerResponsesCheckoutPay extends AController
             $mdl = $this->loadModel('checkout/fast_checkout', 'storefront');
             //for guest build tokenized access to download and order details.
             $secToken = $mdl->getGuestToken($order_id);
+            if(!$secToken){
+                $this->log->write('Cannot find guest_token for order id: ' . $order_id);
+            }
             $order_token = generateOrderToken($order_id, $order_data['email'], $secToken);
             $this->data['button_order_details'] = $this->html->buildElement(
                 [

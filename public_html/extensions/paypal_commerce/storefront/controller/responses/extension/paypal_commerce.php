@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUndefinedClassInspection */
 /*
  *   $Id$
  *
@@ -17,8 +19,6 @@
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
-
-/** @noinspection PhpUndefinedClassInspection */
 
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -524,13 +524,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             }
 
             if($cartData['order_id']) {
-                $this->session->data['order_id'] = $cartData['order_id'];
-                /** @see ControllerResponsesCheckoutPay::select_shipping() */
-                $dd = new ADispatcher( 'responses/checkout/pay/select_shipping');
-                $dd->dispatch();
-                /** @see ControllerResponsesCheckoutPay::updateOrderData() */
-                $dd = new ADispatcher('responses/checkout/pay/updateOrderData');
-                $dd->dispatch();
+                $orderId = $this->session->data['order_id'] = $cartData['order_id'];
             }
             $fcSession =& $this->session->data['fc'];
             $fcSession['cart_key'] = $cartKey;
@@ -575,23 +569,27 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             }
 
             $output = ['id' => $result->id];
-            $order = new AOrder($this->registry, $this->session->data['order_id']);
+            $order = new AOrder($this->registry, $orderId);
             $orderInfo = $order->loadOrderData($this->session->data['order_id'],'any',($this->customer->getId()?:'guest'));
             if($orderInfo && !$orderInfo['email']){
-                $order->buildOrderData(
-                    [
-                        'guest' => [
-                            'firstname' => $result->payer->name->given_name,
-                            'lastname' => $result->payer->name->surname,
-                            'company' => $result->payment_source->paypal->business_name,
-                        ],
-                        'email' => $result->payer->email_address
-                    ]
-                );
+                $this->session->data['fc'] += $order->data;
+                /** @see ControllerResponsesCheckoutPay::select_shipping() */
+                $dd = new ADispatcher( 'responses/checkout/pay/select_shipping');
+                $dd->dispatch();
+                //resave an order into database
+                $this->session->data['fc']['email'] = $result->payer->email_address;
+                $this->session->data['fc']['guest']['email'] = $result->payer->email_address;
+                $this->session->data['fc']['guest']['firstname'] = $result->payer->name->given_name;
+                $this->session->data['fc']['guest']['lastname'] = $result->payer->name->surname;
+                $this->session->data['fc']['guest']['company'] = $result->payment_source->paypal->business_name;
+//todo: take correct shipping address from order!
+                $this->session->data['fc']['guest']['shipping']['firstname'] = $result->payer->name->given_name;
+                $this->session->data['fc']['guest']['shipping']['lastname'] = $result->payer->name->surname;
+                $this->session->data['fc']['guest']['shipping']['company'] = $result->payment_source->paypal->business_name;
+
+                $order->buildOrderData( $this->session->data['fc'] );
                 $order->saveOrder();
             }
-            $dd=1;
-
         } catch (Exception|Error $e) {
             $output['error'] = $e->getMessage();
         }
