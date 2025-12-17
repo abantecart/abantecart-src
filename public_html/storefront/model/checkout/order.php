@@ -75,6 +75,24 @@ class ModelCheckoutOrder extends Model
             'payment_method_key'      => 'string',
             'comment'                 => 'string',
         ];
+        $this->data['order_product_column_list'] = [
+            'product_id'       => 'int',
+            'name'             => 'string',
+            'model'            => 'string',
+            'sku'              => 'string',
+            'price'            => 'float',
+            'cost'             => 'float',
+            'total'            => 'float',
+            'tax'              => 'float',
+            'quantity'         => 'int',
+            'subtract'         => 'int',
+            'weight'           => 'float',
+            'weight_iso_code'  => 'string',
+            'width'            => 'float',
+            'height'           => 'float',
+            'length'           => 'float',
+            'length_iso_code'  => 'string',
+        ];
     }
 
     /**
@@ -306,27 +324,30 @@ class ModelCheckoutOrder extends Model
         $order_id = $this->db->getLastId();
 
         foreach ($data['products'] as $product) {
-            $this->db->query(
-                "INSERT INTO " . $this->db->table("order_products") . "
-                SET `order_id` = '" . (int)$order_id . "',
-                    `product_id` = '" . (int)$product['product_id'] . "',
-                    `name` = '" . $this->db->escape($product['name']) . "',
-                    `model` = '" . $this->db->escape($product['model']) . "',
-                    `sku` = '" . $this->db->escape($product['sku']) . "',
-                    `price` = '" . (float)$product['price'] . "',
-                    `cost` = '" . (float)$product['cost'] . "',
-                    `total` = '" . (float)$product['total'] . "',
-                    `tax` = '" . (float)$product['tax'] . "',
-                    `quantity` = '" . (int)$product['quantity'] . "',
-                    `subtract` = '" . (int)$product['stock'] . "',
-                    `weight` = '" . (float)$product['weight'] . "',
-                    `weight_iso_code` = '" . $this->db->escape($product['weight_iso_code']) . "',
-                    `width` = '" . (float)$product['width'] . "',
-                    `height` = '" . (float)$product['height'] . "',
-                    `length` = '" . (float)$product['length'] . "',
-                    `length_iso_code` = '" . $this->db->escape($product['length_iso_code']) . "'"
-            );
+            $insertArr = [
+                'order_id' => $order_id
+            ];
+            foreach ($this->data['order_product_column_list'] as $key => $dataType) {
+                if (!isset($product[$key])) {
+                    continue;
+                }
+                if ($dataType == 'int') {
+                    $value = (int)$product[$key];
+                } elseif ($dataType == 'float') {
+                    $value = (float)$product[$key];
+                } elseif ($dataType == 'string') {
+                    $value = $this->db->escape($product[$key]);
+                } else {
+                    $value = $this->db->escape(serialize($product[$key]));
+                }
+                $insertArr[$key] = $value;
+            }
 
+            $insertData = [];
+            foreach ($insertArr as $k => $v) {
+                $insertData[$k] = "`" . $k . "` = '" . $v . "'";
+            }
+            $this->db->query("INSERT INTO `" . $this->db->table("order_products") . "` SET " . implode(', ', $insertData));
             $order_product_id = $this->db->getLastId();
 
             foreach ($product['option'] as $option) {
