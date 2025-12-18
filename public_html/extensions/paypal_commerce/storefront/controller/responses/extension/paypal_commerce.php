@@ -721,6 +721,10 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         //short name
         $fcSession =& $this->session->data['fc'];
+        if(!$fcSession['cart'] && $this->session->data['cart']) {
+            $fcSession =& $this->session->data;
+        }
+
         if(!$fcSession['cart']){
             $error = new AError('Cart data not found!');
             $error->toJSONResponse(
