@@ -1151,7 +1151,9 @@ class ExtensionsApi
 
         $method = strtolower($method[0]) . substr($method, 1);
 
-        $extension_method = ucfirst(get_class($baseObject)) . ucfirst($method);
+        $baseClassName = basename(str_replace('\\', '/', get_class($baseObject)));
+
+        $extension_method = ucfirst($baseClassName) . ucfirst($method);
 
         // before hook - runs before method; allows parameters to be changed
         $before_args = $args;
@@ -1182,7 +1184,7 @@ class ExtensionsApi
                 /** @see ADispatcher::dispatch() */
                 throw new AException(
                     AC_HOOK_OVERRIDE,
-                    'Class ' . get_class($baseObject) . ' overridden by extension hook ' . 'override' . $extension_method . '.',
+                    'Class ' . $baseClassName . ' overridden by extension hook ' . 'override' . $extension_method . '.',
                     '',
                     '',
                     $result

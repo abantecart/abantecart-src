@@ -166,39 +166,6 @@ class ModelCheckoutFastCheckout extends Model
     }
 
     /**
-     * @param int $order_id
-     * @param array $data
-     *
-     * @return bool
-     * @throws AException
-     */
-    public function updateOrderDetails($order_id, $data = [])
-    {
-        $order_id = (int)$order_id;
-        if (!$order_id) {
-            return false;
-        }
-
-        $allowed = [
-            'telephone',
-            'comment'
-        ];
-        $upd = [];
-        foreach ($allowed as $field_name) {
-            if (isset($data[$field_name])) {
-                $upd[] = "`" . $field_name . "` = '" . $this->db->escape($data[$field_name]) . "' ";
-            }
-        }
-
-        $sql = "UPDATE " . $this->db->table('orders') . "
-                SET " . implode(', ', $upd) . "
-                WHERE order_id = " . $order_id . " AND order_status_id = 0";
-        $this->db->query($sql);
-        return true;
-
-    }
-
-    /**
      * @param array $data
      *
      * @return bool
