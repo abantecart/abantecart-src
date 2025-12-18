@@ -1,4 +1,6 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /*
  *   $Id$
  *
@@ -18,7 +20,6 @@
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
-/** @noinspection PhpMultipleClassDeclarationsInspection */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -280,7 +281,7 @@ class ACustomer
             $this->telephone = $data['telephone'];
             $this->fax = $data['fax'];
         }
-        $this->newsletter = (int)$data['newsletter'];
+        $this->newsletter = (int) $data['newsletter'];
 
         $this->customer_group_id = (int)$data['customer_group_id'];
         //save it to use in APromotion class
@@ -316,6 +317,7 @@ class ACustomer
 
     /**
      * @param string $sessID
+     *
      * @void
      * @throws AException
      */
@@ -324,24 +326,29 @@ class ACustomer
         //first clear all expired tokens
         $customerSesTbl = $this->db->table("customer_sessions");
         $session_ttl = $this->config->get('config_session_ttl');
-        $this->db->query("DELETE FROM " . $customerSesTbl . " 
-            WHERE customer_id = '" . $this->customer_id . "' 
-            AND last_active < DATE_SUB(NOW(), INTERVAL " . $session_ttl . " MINUTE)");
+        $this->db->query(
+            "DELETE FROM ".$customerSesTbl." 
+                WHERE customer_id = '".$this->customer_id."' 
+                AND last_active < DATE_SUB(NOW(), INTERVAL ".$session_ttl." MINUTE)"
+        );
 
         //set or update token
-        $this->db->query("INSERT INTO " . $customerSesTbl . " 
+        $this->db->query(
+            "INSERT INTO ".$customerSesTbl." 
              VALUES (
-                '" . $this->customer_id . "',
-                '" . $this->db->escape($sessID) . "',
-                '" . $this->db->escape($this->request->getRemoteIP()) . "',
+                '".$this->customer_id."',
+                '".$this->db->escape($sessID)."',
+                '".$this->db->escape($this->request->getRemoteIP())."',
                 NOW(),
                 NOW()
             )
-            ON DUPLICATE KEY UPDATE last_active = NOW()");
+            ON DUPLICATE KEY UPDATE last_active = NOW()"
+        );
     }
 
     /**
      * @param string $sessionId
+     *
      * @return bool
      * @throws AException
      */
@@ -350,9 +357,9 @@ class ACustomer
         $customerSesTbl = $this->db->table("customer_sessions");
         $user_query = $this->db->query(
             "SELECT * 
-            FROM " . $customerSesTbl . " 
-            WHERE customer_id = '" . $this->customer_id . "'  
-                AND session_id = '" . $this->db->escape($sessionId) . "'"
+            FROM ".$customerSesTbl." 
+            WHERE customer_id = '".$this->customer_id."'  
+                AND session_id = '".$this->db->escape($sessionId)."'"
         );
         if ($user_query->num_rows) {
             return true;
@@ -365,18 +372,21 @@ class ACustomer
      * Delete all or specific active sessions for the customer
      *
      * @param string $sessionId
+     *
      * @return void
      * @throws AException
      */
     public function deleteActiveSessions(string $sessionId = '')
     {
-        $this->deleteActiveSessionsByID((int)$this->customer_id, (string)$sessionId);
+        $this->deleteActiveSessionsByID($this->customer_id, $sessionId);
     }
 
     /**
      * Delete all or specific active sessions for the customer by customer ID
+     *
      * @param int $customerId
      * @param string $sessionId
+     *
      * @void
      * @throws AException
      */
@@ -420,7 +430,7 @@ class ACustomer
             '',
             [
                 'lifetime' => time() - 3600,
-                'path' => dirname($this->request->server['PHP_SELF']),
+                'path'     => dirname($this->request->server['PHP_SELF']),
             ]
         );
         $this->extensions->hk_ProcessData($this, 'logout');
@@ -807,7 +817,6 @@ class ACustomer
     public function mergeCustomerCart($cart)
     {
         $cart = !is_array($cart) ? [] : $cart;
-
         if ($cart && !is_array($this->session->data['cart'])) {
             $this->session->data['cart'] = [];
         }
@@ -816,7 +825,8 @@ class ACustomer
                 $this->session->data['cart'][$key] = $value;
             }
         }
-        if (!$this->session->data['fc']['cart']) {
+        //in case when a customer logged-in from checkout
+        if ($this->session->data['fc']['cart_key']) {
             $this->session->data['fc']['cart'] = $this->session->data['cart'];
         }
         return $this->session->data['cart'];
@@ -916,7 +926,7 @@ class ACustomer
      */
     public function getWishList()
     {
-        $customerId = $this->customer_id ?: $this->unauth_customer['customer_id'];
+        $customerId = $this->customer_id ? : $this->unauth_customer['customer_id'];
         if (!$customerId) {
             return [];
         }
