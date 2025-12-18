@@ -115,15 +115,13 @@ class ControllerBlocksSpecial extends AController
                 }
             }
 
-            $this->data['products'][] = [
-                'product_id'     => $result['product_id'],
-                'name'           => $result['name'],
-                'blurb'          => $result['blurb'],
-                'model'          => $result['model'],
+            $this->data['products'][] =
+                $result
+                +
+                [
                 'rating'         => (int) $result['rating'],
                 'stars'          => sprintf($this->language->get('text_stars'), (int) $result['rating']),
                 'price'          => $price,
-                'call_to_order'  => $result['call_to_order'],
                 'options'        => $options,
                 'special'        => $special,
                 'thumb'          => $thumbnail,
@@ -137,8 +135,6 @@ class ControllerBlocksSpecial extends AController
                 'in_stock'       => $in_stock,
                 'no_stock_text'  => $no_stock_text,
                 'total_quantity' => $total_quantity,
-                'date_added'     => $result['date_added'],
-                'tax_class_id'   => $result['tax_class_id'],
             ];
         }
 

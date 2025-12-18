@@ -135,14 +135,13 @@ class ControllerBlocksViewedProducts extends AController
                     }
                 }
 
-                $this->data['products'][] = [
-                    'product_id' => $result['product_id'],
-                    'name' => $result['name'],
-                    'model' => $result['model'],
+                $this->data['products'][] =
+                    $result
+                    +
+                    [
                     'rating' => $rating,
                     'stars' => sprintf($this->language->get('text_stars'), $rating),
                     'price' => $price,
-                    'call_to_order' => $result['call_to_order'],
                     'options' => $options,
                     'special' => $special,
                     'thumb' => $thumbnail,

@@ -103,15 +103,13 @@ class ControllerBlocksBestSeller extends AController
                 }
             }
 
-            $this->data['products'][] = [
-                'product_id'     => $result['product_id'],
-                'name'           => $result['name'],
-                'blurb'          => $result['blurb'],
-                'model'          => $result['model'],
+            $this->data['products'][] =
+                $result
+                +
+                [
                 'rating'         => $rating,
                 'stars'          => sprintf($this->language->get('text_stars'), $rating),
                 'price'          => $price,
-                'call_to_order'  => $result['call_to_order'],
                 'options'        => $options,
                 'special'        => $special,
                 'thumb'          => $thumbnail,
@@ -123,7 +121,6 @@ class ControllerBlocksBestSeller extends AController
                 'in_stock'       => $in_stock,
                 'no_stock_text'  => $no_stock_text,
                 'total_quantity' => $total_quantity,
-                'tax_class_id'   => $result['tax_class_id'],
             ];
         }
 
