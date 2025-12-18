@@ -61,7 +61,7 @@ $guest_data = $this->session->data['fc']['guest'];
         <input id="telephone" type="text" aria-label="telephone" name="telephone" inputmode="tel"
                class="form-control <?php echo $invalid_phone ? 'is-invalid' : ''; ?>"
                placeholder="<?php echo_html2view($fast_checkout_text_telephone_placeholder); ?>"
-               pattern="<?php echo regexForHtmlPattern($phone_pattern);?>"
+               <?php echo $phone_pattern ? 'pattern="'.regexForHtmlPattern($phone_pattern).'"' : ''; ?>
                value="<?php echo $customer_telephone; ?>" <?php echo $requiredPhone; ?>>
         <span class="input-group-text">
             <button class="btn btn-outline-secondary btn-lg btn-telephone" type="button"
