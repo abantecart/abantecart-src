@@ -18,6 +18,10 @@
 			<type>html_template</type>
 			<template>responses/extension/paypal_commerce_test.tpl</template>
 		</item>
+		<item id="paypal_commerce_debug_logging">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
 		<item id="paypal_commerce_transaction_type">
             <type>selectbox</type>
 			<variants>

@@ -468,10 +468,6 @@ class ExtensionPaypalCommerce extends Extension
         if(!str_contains($payLaterMessage,'%s')){
             return;
         }
-        $payLaterMessage = sprintf(
-            $payLaterMessage,
-            $that->data['price_num'] * ($that->request->get['quantity'] ?: $that->data['minimum'] ?: 1)
-        );
         $totals = $that->view->getData('totals');
         $totalAmount = null;
         foreach ($totals as $total) {

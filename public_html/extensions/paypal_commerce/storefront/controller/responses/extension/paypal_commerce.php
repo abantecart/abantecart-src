@@ -68,7 +68,6 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $icon = $this->config->get("paypal_commerce_payment_storefront_icon");
         if (has_value($icon)) {
             $icon_data = $this->model_checkout_extension->getSettingImage($icon);
-            $icon_data = $this->model_checkout_extension->getSettingImage($icon);
             if ($icon_data['resource_path']) {
                 $data['icon'] = $this->html->buildResourceImage(
                     [
@@ -576,17 +575,22 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 /** @see ControllerResponsesCheckoutPay::select_shipping() */
                 $dd = new ADispatcher( 'responses/checkout/pay/select_shipping');
                 $dd->dispatch();
-                //resave an order into database
+                //resave an order into a database
                 $this->session->data['fc']['email'] = $result->payer->email_address;
                 $this->session->data['fc']['guest']['email'] = $result->payer->email_address;
                 $this->session->data['fc']['guest']['firstname'] = $result->payer->name->given_name;
                 $this->session->data['fc']['guest']['lastname'] = $result->payer->name->surname;
                 $this->session->data['fc']['guest']['company'] = $result->payment_source->paypal->business_name;
-//todo: take correct shipping address from order!
-                $this->session->data['fc']['guest']['shipping']['firstname'] = $result->payer->name->given_name;
-                $this->session->data['fc']['guest']['shipping']['lastname'] = $result->payer->name->surname;
-                $this->session->data['fc']['guest']['shipping']['company'] = $result->payment_source->paypal->business_name;
-
+                //take the correct shipping address from order
+                $ppO = $mdl->getOrder($ppOrderId);
+                list($fName, $lName) = explode(' ', $ppO->purchase_units[0]->shipping->name->full_name);
+                $this->session->data['fc']['guest']['shipping']['firstname'] = $fName;
+                $this->session->data['fc']['guest']['shipping']['lastname'] = $lName;
+                $this->session->data['fc']['guest']['shipping']['company'] = $ppO->payment_source->paypal->business_name;
+                $this->session->data['fc']['guest']['shipping']['address_1'] = $ppO->purchase_units[0]->shipping->address->address_line_1;
+                $this->session->data['fc']['guest']['shipping']['address_2'] = $ppO->purchase_units[0]->shipping->address->address_line_2;
+                $this->session->data['fc']['guest']['shipping']['city'] = $ppO->purchase_units[0]->shipping->address->admin_area_2;
+                $this->session->data['fc']['guest']['shipping']['postcode'] = $ppO->purchase_units[0]->shipping->address->postal_code;
                 $order->buildOrderData( $this->session->data['fc'] );
                 $order->saveOrder();
             }
@@ -616,7 +620,6 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         /** @var ModelCheckoutOrder $oMdl */
         $oMdl = $this->loadModel('checkout/order');
         $orderId = $this->session->data['order_id'];
-
         $order_info = $oMdl->getOrder((int)$orderId);
         if (!$order_info) {
             $output['error'] = $this->language->get('error_unknown');
@@ -624,8 +627,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 "Paypal Commerce: " . __CLASS__ . "::" . __METHOD__ . ": Order #" . $orderId . " not found"
             );
             $err->toLog()->toDebug();
-            $this->load->library('json');
-            $this->response->setOutput(AJson::encode($output));
+            return $output;
         }
 
         $orderTotalAmt = "" . round($order_info['total'] * $order_info['value'], 2);
