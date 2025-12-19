@@ -48,9 +48,9 @@ class ModelExtensionPaypalCommerce extends Model
     {
         parent::__construct($registry);
         $this->paypal = getPaypalClient(
-            $this->config->get('paypal_commerce_client_id'),
-            $this->config->get('paypal_commerce_client_secret'),
-            $this->config->get('paypal_commerce_test_mode')
+            (string)$this->config->get('paypal_commerce_client_id'),
+            (string)$this->config->get('paypal_commerce_client_secret'),
+            (int)$this->config->get('paypal_commerce_test_mode')
         );
     }
 

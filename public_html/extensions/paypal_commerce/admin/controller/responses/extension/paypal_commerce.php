@@ -178,7 +178,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $clientSecret = $this->request->get['paypal_commerce_client_secret'] ?: $this->config->get('paypal_commerce_client_secret');
         $error_message = '';
         try {
-            $client = getPaypalClient($clientId, $clientSecret, $testMode);
+            $client = getPaypalClient((string)$clientId, (string)$clientSecret, (int)$testMode);
             $request = new PayPalCheckoutSdk\Products\ProductsGetList();
             $client->execute($request);
         } catch (Exception $e) {
