@@ -141,7 +141,12 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         );
 
         //PayLater message
-        if ($this->config->get('paypal_commerce_pay_later_checkout_message_status')) {
+        $plConfig = json_decode(
+            html_entity_decode($this->config->get('paypal_commerce_pay_later_message_config'), ENT_QUOTES, 'UTF-8'),
+            true
+        );
+
+        if ($plConfig && $plConfig['checkout']['status'] == 'enabled') {
             $payLaterMessage = html_entity_decode($this->config->get('paypal_commerce_pay_later_checkout_message'));
             $payLaterMessage = str_replace('ENTER_VALUE_HERE', '%s', $payLaterMessage);
             if (str_contains($payLaterMessage, '%s')) {
