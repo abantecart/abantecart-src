@@ -117,9 +117,8 @@ if ($error) { ?>
                         },
                         onApprove: function (data) {
                             const { liabilityShift, orderID } = data;
-
                             // Only reject if 3DS explicitly failed, not if unavailable/unknown
-                            if (liabilityShift !== 'POSSIBLE') {
+                            if (liabilityShift !== undefined && liabilityShift !== 'POSSIBLE') {
                                 showPPError(<?php js_echo($this->language->get('paypal_commerce_3ds_failed')); ?>);
                                 return;
                             }

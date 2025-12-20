@@ -258,13 +258,24 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         if ($_3ds_policy && $this->request->get['card'] == 'true') {
             $ppData['payment_source']['card']['attributes'] = [
                 'verification' => [
-                    'method' => $this->config->get('paypal_commerce_3ds_policy')
+                    'method' => $_3ds_policy
                 ]
             ];
         }
 
         try {
             $output = (array)$mdl->createPPOrder($ppData);
+            $this->shopping_data->save(
+                'paypal_data',
+                $this->cart->getCartKey(),
+                [
+                    'reference_id' => $ppData['purchase_units'][0]['reference_id'],
+                    'order_id' => $output['id'],
+                    'status' => $output['status'],
+                    'payment_source' => $output['payment_source'],
+                ],
+                $this->session->data['order_id']
+            );
         } catch (\PayPalHttp\HttpException|Error $e) {
             $this->log->write('PaypalCommerce order creation error: ' . $e->getMessage() . "\n Input Data: " . var_export($ppData, true));
             $output['error'] = $e->getMessage();
@@ -481,7 +492,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         ];
         $ppOrderData = $this->shopping_data->get('paypal_data', (string)$this->cart->getCartKey());
         $this->data['pp']['purchase_units'][0] = [
-            'reference_id' => $ppOrderData['data']['reference_id'],
+            'reference_id' => $ppOrderData['data']['reference_id'] ?: $this->session->data['reference_id'],
             'amount'      => [
                 'value'         => $this->data['pp']['orderTotal'],
                 'currency_code' => $this->data['currencyCode']
@@ -748,6 +759,13 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             new $cartClassName($this->registry, $fcSession)
         );
 
+        //cleanup cart
+        foreach($this->cart->getProducts() as $key=>$cartProduct) {
+            if($cartProduct['stock']<=0){
+                $this->cart->remove($key);
+            }
+        }
+
         //save cart_key into cookie to check on js-side if pp-checkout failed and customer goes to FastCheckout process
         setCookieOrParams(
             'fc_cart_key',
@@ -767,13 +785,15 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $this->data['currencyCode'] = $this->currency->getCode();
         /** @var ModelExtensionPaypalCommerce $mdl */
         $mdl = $this->loadModel('extension/paypal_commerce');
-        $orderTotal = $inData['total']
-            ? "" . round($this->currency->convert(
-                $inData['total'],
-                $this->config->get('config_currency'),
-                $this->data['currencyCode']
-            ), 2)
-            : $this->cart->getFinalTotal();
+        $orderTotal = "" . round(
+            $inData['total']
+                ? $this->currency->convert(
+                    $inData['total'],
+                    $this->config->get('config_currency'),
+                    $this->data['currencyCode']
+                )
+                : $this->cart->getFinalTotal()
+            ,2);
 
         $ppData['intent'] = strtoupper($this->config->get('paypal_commerce_transaction_type'));
 

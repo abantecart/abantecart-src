@@ -398,6 +398,10 @@ class ExtensionPaypalCommerce extends Extension
     {
         if (IS_ADMIN) { return; }
         $that =& $this->baseObject;
+        //do nothing when the product is out-of-stock
+        if(!$that->view->getData('can_buy')){
+            return;
+        }
 
         $view = new AView(Registry::getInstance());
         $data['show_buttons'] = $that->config->get('paypal_commerce_show_buttons_product');
@@ -442,6 +446,19 @@ class ExtensionPaypalCommerce extends Extension
     {
         if (IS_ADMIN) { return; }
         $that =& $this->baseObject;
+        $canBuy = true;
+        foreach($that->data['products'] as $product){
+            if($product['stock'] <= 0){
+                $canBuy = false;
+            }else{
+                $canBuy = true;
+                break;
+            }
+        }
+        if(!$canBuy){
+            return;
+        }
+
         $view = new AView(Registry::getInstance());
         $data['show_buttons'] = $that->config->get('paypal_commerce_show_buttons_cart');
         $that->loadLanguage('paypal_commerce/paypal_commerce');
@@ -457,30 +474,29 @@ class ExtensionPaypalCommerce extends Extension
         $data['return_url'] = $data['cancel_url'] = $that->html->getSEOURL('checkout/cart');
         $data['capture_order_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/captureOrder');
         $data['action'] = $that->html->getSecureURL('r/extension/paypal_commerce/send');
+        $data['placement'] = 'cart';
         $view->batchAssign($data);
         /** @see public_html/extensions/paypal_commerce/storefront/view/default/template/responses/paypal_commerce_buy_now.tpl */
         $ppButtons = $view->fetch('responses/paypal_commerce_buy_now.tpl');
         $that->view->addHookVar('post_top_cart_buttons', $ppButtons);
 
 
-        $payLaterMessage = html_entity_decode($that->config->get('paypal_commerce_pay_later_cart_message'));
-        $payLaterMessage = str_replace('ENTER_VALUE_HERE','%s',$payLaterMessage);
-        if(!str_contains($payLaterMessage,'%s')){
-            return;
-        }
-        $totals = $that->view->getData('totals');
-        $totalAmount = null;
-        foreach ($totals as $total) {
-            if($total['id'] == 'total'){
-                $totalAmount = $total['value'];
-                break;
-            }
-        }
-        $payLaterMessage = sprintf(
-            $payLaterMessage,
-            $totalAmount
+        $plConfig = json_decode(
+            html_entity_decode($that->config->get('paypal_commerce_pay_later_message_config'), ENT_QUOTES, 'UTF-8'),
+            true
         );
-        $that->view->addHookVar('pre_top_cart_buttons', '<div style="margin: auto">' . $payLaterMessage.'</div>');
+
+        if ($plConfig && $plConfig['cart']['status'] == 'enabled') {
+            $payLaterMessage = html_entity_decode($that->config->get('paypal_commerce_pay_later_cart_message'));
+            $payLaterMessage = str_replace('ENTER_VALUE_HERE', '%s', $payLaterMessage);
+            if (str_contains($payLaterMessage, '%s')) {
+                $payLaterMessage = sprintf(
+                    $payLaterMessage,
+                    $that->cart->getFinalTotal()
+                );
+            }
+            $that->view->addHookVar('pre_top_cart_buttons', '<div style="margin: auto">' . $payLaterMessage.'</div>');
+        }
     }
 
     /**
