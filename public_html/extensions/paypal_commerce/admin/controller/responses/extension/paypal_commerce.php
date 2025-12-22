@@ -85,6 +85,16 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
     }
 
+    /**
+     * Retrieves PayPal Commerce credentials using the provided authorization details.
+     *
+     * @param string $authCode The authorization code provided by PayPal.
+     * @param string $sharedId The shared ID used for API integration with PayPal.
+     * @param string $pmid The PayPal merchant ID for the account.
+     * @param string $mode The operation mode, either 'test' for sandbox or 'live' for production.
+     * @return array An array containing the retrieved credentials or an empty array on failure.
+     * @throws AException
+     */
     protected function getPPCredentials($authCode, $sharedId, $pmid, $mode)
     {
         $output = [];
@@ -127,6 +137,13 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         return $output;
     }
 
+    /**
+     * Obtain credentials for a PayPal merchant account using the provided access token.
+     * @param string $accessToken The access token obtained from PayPal.
+     * @param string $pmid The PayPal merchant ID for the account.
+     * @param string $mode The operation mode, either 'test' for sandbox or 'live' for production.
+     * @return array An array containing the retrieved credentials or an empty array on failure.
+     */
     protected function obtainCredentials($accessToken, $pmid, $mode)
     {
         $output = [];
@@ -160,7 +177,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $output = [
                 'client_id'     => $json['client_id'],
                 'client_secret' => $json['client_secret'],
+                'payer_id'      => $json['payer_id'],
             ];
+
         } else {
             $this->log->write(__FILE__ . ': CURL ISSUE: ' . curl_error($curl) . "\n" . var_export(curl_getinfo($curl), true));
         }

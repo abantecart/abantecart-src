@@ -158,6 +158,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             }
         }
 
+        $data['pageType'] = "checkout";
         $this->view->batchAssign($data);
         $this->processTemplate($template);
         $this->extensions->hk_UpdateData($this, __FUNCTION__);

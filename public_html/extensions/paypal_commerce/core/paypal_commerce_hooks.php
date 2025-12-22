@@ -425,6 +425,7 @@ class ExtensionPaypalCommerce extends Extension
         $data['return_url'] = $data['cancel_url'] = $that->html->getSEOURL('product/product','&product_id=' . $productInfo['product_id']);
         $data['capture_order_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/captureOrder');
         $data['action'] = $that->html->getSecureURL('r/extension/paypal_commerce/send');
+        $data['pageType'] = "product";
         $view->batchAssign($data);
 
         $ppButtons = $view->fetch('responses/paypal_commerce_buy_now.tpl');
@@ -474,12 +475,11 @@ class ExtensionPaypalCommerce extends Extension
         $data['return_url'] = $data['cancel_url'] = $that->html->getSEOURL('checkout/cart');
         $data['capture_order_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/captureOrder');
         $data['action'] = $that->html->getSecureURL('r/extension/paypal_commerce/send');
-        $data['placement'] = 'cart';
+        $data['pageType'] = $data['placement'] = 'cart';
         $view->batchAssign($data);
         /** @see public_html/extensions/paypal_commerce/storefront/view/default/template/responses/paypal_commerce_buy_now.tpl */
         $ppButtons = $view->fetch('responses/paypal_commerce_buy_now.tpl');
         $that->view->addHookVar('post_top_cart_buttons', $ppButtons);
-
 
         $plConfig = json_decode(
             html_entity_decode($that->config->get('paypal_commerce_pay_later_message_config'), ENT_QUOTES, 'UTF-8'),
