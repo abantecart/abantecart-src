@@ -58,6 +58,7 @@ if ($error) { ?>
             loadPaypalScript(
                 "https://www.paypal.com/sdk/js?client-id=<?php
                         echo $this->config->get('paypal_commerce_client_id');
+                        echo '&merchant-id='.$this->config->get('paypal_commerce_payer_id');
                         echo $fundingList ? '&enable-funding='.$fundingList : '';
                 ?>&components=<?php echo $cmpList;
                 ?>&intent=<?php echo $intent;

@@ -807,31 +807,34 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             'description' => $inData['product_name'] ? substr($inData['product_name'], 0, 127) : ''
         ];
 
+        $shippingPreference = $this->cart->hasShipping() ? 'GET_FROM_FILE' : 'NO_SHIPPING';
         $ppData['payment_source']['paypal'] = [
             'experience_context' => [
                 'return_url'            => $inData['return_url'],
                 'cancel_url'            => $inData['return_url'],
-                'shipping_preference'   => 'GET_FROM_FILE',
-                'order_update_callback_config' => [
-                    'callback_url' => $this->html->getSecureURL(
-                        'r/extension/paypal_commerce/orderUpdate',
-                        '&'.http_build_query(
-                            [
-                                'ck' => $fcSession['cart_key'],
-                                'currency_code' => $this->data['currencyCode'],
-                                //uncomment for debug
-                                'XDEBUG_TRIGGER' => 1,
-                                'XDEBUG_SESSION' => 'PHPSTORM'
-                            ]
-                        )
-                    ),
-                    'callback_events' => ["SHIPPING_ADDRESS","SHIPPING_OPTIONS"]
-                ],
+                'shipping_preference'   => $shippingPreference,
                 'app_switch_preference' => [
                     'launch_paypal_app' => true
                 ]
             ]
         ];
+        if($shippingPreference != 'NO_SHIPPING') {
+            $ppData['payment_source']['paypal']['experience_context']['order_update_callback_config'] = [
+                'callback_url' => $this->html->getSecureURL(
+                    'r/extension/paypal_commerce/orderUpdate',
+                    '&'.http_build_query(
+                        [
+                            'ck' => $fcSession['cart_key'],
+                            'currency_code' => $this->data['currencyCode'],
+                            //uncomment for debug
+//                            'XDEBUG_TRIGGER' => 1,
+//                            'XDEBUG_SESSION' => 'PHPSTORM'
+                        ]
+                    )
+                ),
+                'callback_events' => ["SHIPPING_ADDRESS","SHIPPING_OPTIONS"]
+            ];
+        }
 
         try {
             $output = (array)$mdl->createPPOrder($ppData);

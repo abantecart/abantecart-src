@@ -30,10 +30,11 @@ require_once('paypal_commerce_js_sdk_load.tpl');
             loadPaypalScript(
                 "https://www.paypal.com/sdk/js?client-id=<?php
                         echo $this->config->get('paypal_commerce_client_id');
+                        echo '&merchant-id='.$this->config->get('paypal_commerce_payer_id');
                         echo $fundingList ? '&enable-funding='.$fundingList : '';
                 ?>&components=<?php echo $cmpList;
                 ?>&intent=<?php echo $intent;
-                ?>&currency=<?php echo $this->currency->getCode(); ?>",
+                ?>&currency=<?php echo $this->currency->getCode(); ?>&commit=true",
                 initButtons,
                 wrapper
             );
