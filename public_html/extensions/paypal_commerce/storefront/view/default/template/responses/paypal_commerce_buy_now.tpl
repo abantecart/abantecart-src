@@ -26,11 +26,12 @@ require_once('paypal_commerce_js_sdk_load.tpl');
             <?php
             $cmpList = implode(",",array_unique(array_merge((array)$enabled_components,['buttons','messages'])));
             $fundingList = implode(",",(array)$enabled_funding);
+            $payerId = $this->config->get('paypal_commerce_payer_id');
             ?>
             loadPaypalScript(
                 "https://www.paypal.com/sdk/js?client-id=<?php
                         echo $this->config->get('paypal_commerce_client_id');
-                        echo '&merchant-id='.$this->config->get('paypal_commerce_payer_id');
+                        echo $payerId ? '&merchant-id='.$payerId : '';
                         echo $fundingList ? '&enable-funding='.$fundingList : '';
                 ?>&components=<?php echo $cmpList;
                 ?>&intent=<?php echo $intent;
