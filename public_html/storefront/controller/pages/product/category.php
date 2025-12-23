@@ -134,7 +134,9 @@ class ControllerPagesProductCategory extends AController
                         'href'      => $this->html->getSEOURL(
                             'product/category',
                             '&' . http_build_query($httpQuery)),
-                        'text'      => $category_info['name'],
+                        'text'      => mb_strlen($category_info['name'], 'UTF-8') > 150
+                            ? mb_substr($category_info['name'], 0, 150, 'UTF-8') . '...'
+                            : $category_info['name'],
                         'separator' => $this->language->get('text_separator')
                     ]
                 );
@@ -373,7 +375,7 @@ class ControllerPagesProductCategory extends AController
                 unset($pQuery['page'], $pQuery['order']);
                 $pagination_url = $this->html->getSEOURL(
                     'product/category',
-                    '&page=--page--&' . http_build_query($pQuery, '', null, PHP_QUERY_RFC3986),
+                    '&page=--page--&' . http_build_query($pQuery),
                 );
 
                 $rQuery = $httpQuery;
