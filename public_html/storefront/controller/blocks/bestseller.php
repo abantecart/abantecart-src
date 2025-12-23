@@ -61,18 +61,38 @@ class ControllerBlocksBestSeller extends AController
             )
             : [];
         $stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
+
         foreach ($results as $result) {
             $thumbnail = $thumbnails[$result['product_id']];
             $rating = $products_info[$result['product_id']]['rating'];
             $special = false;
             $discount = $products_info[$result['product_id']]['discount'];
+
             if ($discount) {
-                $price = $this->currency->format($this->tax->calculate($discount, $result['tax_class_id'], $this->config->get('config_tax')));
+                $price = $this->currency->format(
+                    $this->tax->calculate(
+                        $discount,
+                        $result['tax_class_id'],
+                        $this->config->get('config_tax')
+                    )
+                );
             } else {
-                $price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')));
+                $price = $this->currency->format(
+                    $this->tax->calculate(
+                        $result['price'],
+                        $result['tax_class_id'],
+                        $this->config->get('config_tax')
+                    )
+                );
                 $special = $products_info[$result['product_id']]['special'];
                 if ($special) {
-                    $special = $this->currency->format($this->tax->calculate($special, $result['tax_class_id'], $this->config->get('config_tax')));
+                    $special = $this->currency->format(
+                        $this->tax->calculate(
+                            $special,
+                            $result['tax_class_id'],
+                            $this->config->get('config_tax')
+                        )
+                    );
                 }
             }
 
@@ -104,24 +124,25 @@ class ControllerBlocksBestSeller extends AController
             }
 
             $this->data['products'][] =
-                $result
-                +
-                [
-                'rating'         => $rating,
-                'stars'          => sprintf($this->language->get('text_stars'), $rating),
-                'price'          => $price,
-                'options'        => $options,
-                'special'        => $special,
-                'thumb'          => $thumbnail,
-                'href'           => $this->html->getSEOURL(
-                    'product/product', '&product_id='.$result['product_id'], '&encode'
-                ),
-                'add'            => $add,
-                'track_stock'    => $track_stock,
-                'in_stock'       => $in_stock,
-                'no_stock_text'  => $no_stock_text,
-                'total_quantity' => $total_quantity,
-            ];
+                array_merge(
+                    $result,
+                    [
+                        'rating'         => $rating,
+                        'stars'          => sprintf($this->language->get('text_stars'), $rating),
+                        'price'          => $price,
+                        'options'        => $options,
+                        'special'        => $special,
+                        'thumb'          => $thumbnail,
+                        'href'           => $this->html->getSEOURL(
+                            'product/product', '&product_id='.$result['product_id'], '&encode'
+                        ),
+                        'add'            => $add,
+                        'track_stock'    => $track_stock,
+                        'in_stock'       => $in_stock,
+                        'no_stock_text'  => $no_stock_text,
+                        'total_quantity' => $total_quantity,
+                    ]
+                );
         }
 
         if ($this->config->get('config_customer_price')) {

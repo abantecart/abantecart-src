@@ -136,26 +136,27 @@ class ControllerBlocksViewedProducts extends AController
                 }
 
                 $this->data['products'][] =
-                    $result
-                    +
-                    [
-                    'rating' => $rating,
-                    'stars' => sprintf($this->language->get('text_stars'), $rating),
-                    'price' => $price,
-                    'options' => $options,
-                    'special' => $special,
-                    'thumb' => $thumbnail,
-                    'href' => $this->html->getSEOURL(
-                        'product/product',
-                        '&product_id='.$result['product_id'],
-                        '&encode'
-                    ),
-                    'add' => $add,
-                    'track_stock'    => $track_stock,
-                    'in_stock'       => $in_stock,
-                    'no_stock_text'  => $no_stock_text,
-                    'total_quantity' => $total_quantity,
-                ];
+                    array_merge(
+                        $result,
+                        [
+                            'rating' => $rating,
+                            'stars' => sprintf($this->language->get('text_stars'), $rating),
+                            'price' => $price,
+                            'options' => $options,
+                            'special' => $special,
+                            'thumb' => $thumbnail,
+                            'href' => $this->html->getSEOURL(
+                                'product/product',
+                                '&product_id='.$result['product_id'],
+                                '&encode'
+                            ),
+                            'add' => $add,
+                            'track_stock'    => $track_stock,
+                            'in_stock'       => $in_stock,
+                            'no_stock_text'  => $no_stock_text,
+                            'total_quantity' => $total_quantity,
+                        ]
+                    );
             }
         }
 
