@@ -1,23 +1,23 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
-
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 class ControllerPagesProductCategory extends AController
 {
     public function __construct(Registry $registry, $instance_id, $controller, $parent_controller = '')
@@ -33,7 +33,7 @@ class ControllerPagesProductCategory extends AController
     public function main()
     {
         $request = $this->request->get;
-        //is this an embed mode
+
         $this->data['cart_rt'] = $this->config->get('embed_mode')
             ? 'r/checkout/cart/embed'
             : 'checkout/cart';
@@ -77,7 +77,7 @@ class ControllerPagesProductCategory extends AController
             $path = '';
             $parts = explode('_', $request['path']);
             if (count($parts) == 1) {
-                //see if this is a category ID to sub category, need to build full path
+                //if this is a category ID to subcategory, need to build a full path
                 $parts = explode('_', $mdl->buildPath($request['path']));
             }
             $currentId = end($parts);
@@ -150,7 +150,7 @@ class ControllerPagesProductCategory extends AController
             $category_info['category_id'] = 0;
         }
 
-        //if category not set but brands are selected
+        //if a category isn't set but brands are selected
         if (!$category_id && $httpQuery['manufacturer_id']) {
             redirect($this->html->getSecureURL('product/manufacturer', '&' . http_build_query($httpQuery)));
         }
@@ -179,6 +179,7 @@ class ControllerPagesProductCategory extends AController
                 'order' => $order,
                 'limit' => $limit,
                 'start' => ($page - 1) * $limit,
+                'filter'=> []
             ];
 
             if (isset($this->request->get['manufacturer_id'])) {
@@ -188,13 +189,18 @@ class ControllerPagesProductCategory extends AController
                 $productFilter['filter']['rating'] = $this->request->get['rating'];
             }
 
+            $productFilter['filter'] = array_merge(
+                $productFilter['filter'],
+                (array)$this->data['additional_filters']
+            );
+
             $products_result = $this->model_catalog_product->getProductsByCategoryId(
                 $category_id,
                 $productFilter
             );
             $product_total = $products_result[0]['total_num_rows'];
 
-            //if requested page does not exist
+            //if the requested page does not exist
             if ($product_total < ($page - 1) * $limit && $page > 1) {
                 $httpQuery['page'] = 1;
                 redirect($this->html->getSEOURL('product/category', '&' . http_build_query($httpQuery)));
@@ -307,7 +313,7 @@ class ControllerPagesProductCategory extends AController
                     if ($stock_info[$result['product_id']]['subtract']) {
                         $track_stock = true;
                         $total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
-                        //we have stock or out of stock checkout is allowed
+                        //we have stock or out-of-stock checkout is allowed
                         if ($total_quantity > 0 || $stock_checkout) {
                             $in_stock = true;
                         }
