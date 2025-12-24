@@ -126,31 +126,28 @@ class ControllerBlocksLatest extends AController
                 }
             }
 
-            $this->data['products'][] = [
-                'product_id'     => $result['product_id'],
-                'name'           => $result['name'],
-                'blurb'          => $result['blurb'],
-                'model'          => $result['model'],
-                'rating'         => $rating,
-                'stars'          => sprintf($this->language->get('text_stars'), $rating),
-                'price'          => $price,
-                'call_to_order'  => $result['call_to_order'],
-                'options'        => $options,
-                'special'        => $special,
-                'thumb'          => $thumbnail,
-                'href'           => $this->html->getSEOURL(
-                    'product/product',
-                    '&product_id='.$result['product_id'],
-                    '&encode'
-                ),
-                'add'            => $add,
-                'track_stock'    => $track_stock,
-                'in_stock'       => $in_stock,
-                'no_stock_text'  => $no_stock_text,
-                'total_quantity' => $total_quantity,
-                'date_added'     => $result['date_added'],
-                'tax_class_id'   => $result['tax_class_id'],
-            ];
+            $this->data['products'][] =
+                array_merge(
+                    $result,
+                    [
+                        'rating'         => $rating,
+                        'stars'          => sprintf($this->language->get('text_stars'), $rating),
+                        'price'          => $price,
+                        'options'        => $options,
+                        'special'        => $special,
+                        'thumb'          => $thumbnail,
+                        'href'           => $this->html->getSEOURL(
+                            'product/product',
+                            '&product_id='.$result['product_id'],
+                            '&encode'
+                        ),
+                        'add'            => $add,
+                        'track_stock'    => $track_stock,
+                        'in_stock'       => $in_stock,
+                        'no_stock_text'  => $no_stock_text,
+                        'total_quantity' => $total_quantity
+                    ]
+                );
         }
 
         $this->view->assign('products', $this->data['products']);

@@ -8,18 +8,19 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 /** @noinspection PhpUndefinedClassInspection */
 
 /**
@@ -103,6 +104,7 @@ if (!defined('DIR_CORE')) {
  * @property AOrderStatus $order_status
  * @property AIMManager $im
  * @property CSRFToken $csrftoken
+ * @property AShoppingData $shopping_data
  */
 abstract class AController
 {
@@ -139,7 +141,7 @@ abstract class AController
         $this->config = $this->registry->get('config');
 
         if ($this->language) {
-            //add main language to languages references and map to view
+            //add the main language to languages references and map to view
             $this->loadLanguage($this->language->language_details['filename']);
             //try to map controller language to view
             $this->loadLanguage($this->controller, "silent");
@@ -148,7 +150,7 @@ abstract class AController
         $this->loadModel($this->controller, "silent");
 
         if ($this->layout) {
-            //Load Controller template and pass to view. This can be reset in controller as well
+            //Load the Controller template and pass to view. This can be reset in controller as well
             $this->view->setTemplate($this->layout->getBlockTemplate($this->instance_id));
             //Load Children from layout if any. 'instance_id', 'controller', 'block_text_id', 'template'
             $this->block_details = $this->layout->getBlockDetails($this->instance_id);
@@ -171,7 +173,7 @@ abstract class AController
         $this->clear();
     }
 
-    //Get cache key values for provided controller
+    //Get cache key values for the provided controller
     public function getCacheKeyValues($controller)
     {
         //use dispatcher to get class and details
@@ -185,7 +187,7 @@ abstract class AController
             if (class_exists($rt_class)) {
                 $static_method = $rt_method . '_cache_keys';
                 if (method_exists($rt_class, $static_method)) {
-                    //finally get keys and build a cache key
+                    //finally, get keys and build a cache key
                     return call_user_func($rt_class . '::' . $static_method);
                 }
             }
@@ -201,7 +203,7 @@ abstract class AController
         return $this->controller;
     }
 
-    // Clear function is public in case controller needs to be cleaned explicitly
+    // Clear function is public in case the controller needs to be cleaned explicitly
     public function clear()
     {
         $vars = get_object_vars($this);
@@ -260,7 +262,7 @@ abstract class AController
     }
 
     /**
-     * Dispatch new controller to be ran
+     * Dispatch a new controller to be run
      *
      * @param string $dispatch_rt
      * @param string[] $args
@@ -285,7 +287,7 @@ abstract class AController
      */
     public function getChildren()
     {
-        //Check if we have children in layout
+        //Check if we have children in the layout
         return $this->children;
     }
 
@@ -309,7 +311,7 @@ abstract class AController
     public function getChildrenBlocks()
     {
         $blocks = [];
-        // Look into all blocks that are loaded from layout database or have position set for them
+        // Look into all blocks that are loaded from a layout database or have position set for them
         // Hardcoded children with blocks require manual inclusion to the templates.
         foreach ($this->children as $block) {
             if (!empty($block['position'])) {
@@ -318,7 +320,7 @@ abstract class AController
                     $blocks[(int)($block['position'] / 10 - 1)] =
                         $block['block_txt_id'] . '_' . (int)$block['instance_id'];
                 } else {
-                    array_push($blocks, $block['block_txt_id'] . '_' . $block['instance_id']);
+                    $blocks[] = $block['block_txt_id'].'_'.$block['instance_id'];
                 }
             }
         }
@@ -328,7 +330,7 @@ abstract class AController
     // Add Child controller to be processed
     public function addChild($new_controller, $block_text_id, $new_template = '', $template_position = '')
     {
-        // append child to the controller children list
+        // append a child to the controller children list
         $new_block = [];
         $new_block['parent_instance_id'] = $this->instance_id;
         $new_block['instance_id'] = $block_text_id . $this->instance_id;
@@ -336,18 +338,18 @@ abstract class AController
         $new_block['controller'] = $new_controller;
         $new_block['block_txt_id'] = $block_text_id;
         $new_block['template'] = $new_template;
-        // This it to position element to the placeholder.
-        // If not set element will not be displayed in placeholder.
-        // To use manual inclusion to parent template ignore this parameter
+        // This is to position an element to the placeholder.
+        // If not set, an element will not be displayed in the placeholder.
+        // To use manual inclusion to parent template, ignore this parameter
         $new_block['position'] = $template_position;
         $this->children[] = $new_block;
     }
 
     public function processTemplate($template = '')
     {
-        //is this an embed mode? Special templates needs to be loaded
+        //is this an embed mode? Special templates need to be loaded
         if (is_object($this->registry->get('config')) && $this->registry->get('config')->get('embed_mode')) {
-            //get template if it was set earlier
+            //get a template if it was set earlier
             if (empty($template)) {
                 $template = $this->view->getTemplate();
             }
@@ -393,8 +395,8 @@ abstract class AController
                         && !in_array($block_details['controller'], $excluded_blocks)
                     ) {
                         if (!empty($this->parent_controller)) {
-                            //build block template file path based on primary template used
-                            //template path is based on parent block 'template_dir'
+                            //build block template file path based on the primary template a used
+                            //template path is based on the parent block 'template_dir'
                             $tpl = $this->view->getTemplate();
                             $tmp_dir = $this->parent_controller->view->data['template_dir'] . "template/";
                             $block_tpl_file = $tmp_dir . $this->view->getTemplate();
@@ -429,7 +431,7 @@ abstract class AController
     }
 
     /**
-     * Set of functions to access parent controller and exchange information
+     * Set of functions to access the parent controller and exchange information
      *
      * @param $parent_controller_name
      * @param $variable
@@ -462,7 +464,7 @@ abstract class AController
         if (!empty ($this->parent_controller)) {
             $this->parent_controller->view->append($variable, $value);
         } else {
-            $wrn = new AWarning('Parent controller called does not exist in ' . get_class($this));
+            $wrn = new AWarning('Parent controller called does not exist in '.get_class($this));
             $wrn->toDebug();
         }
     }
@@ -476,14 +478,16 @@ abstract class AController
             return null;
         }
 
-        //Future stronger security permissions validation
-        //validate session token and login
-        // Dispatch to log in if failed
-        // validate access rights for current controller or parent with $parent_controller->can_access()
-        // If both have no access rights dispatch to no rights page
+        /*
+         Future stronger security permissions validation.
+         Validate session token and login
+         Dispatch to log in if failed
+         to validate access rights for the current controller or parent with $parent_controller->can_access()
+         If both have no access rights, dispatch to no rights page
 
-        // NOTEs: Need to skip for some common controllers.
-        // Need to include this validation in constructor and break out of it if failed.
+         NOTEs: Need to skip for some common controllers.
+         Need to include this validation in the constructor and break out of it if failed.
+        */
         return null;
     }
 
@@ -562,13 +566,13 @@ abstract class AController
                     'text_act_on_behalf',
                     '',
                     [
-                        $this->customer->getEmail() ?: 'guest',
-                        $this->session->data['merchant_username']
+                        $this->customer->getEmail() ? : 'guest',
+                        $this->session->data['merchant_username'],
                     ]
                 )
             );
         }
-        //add ability to create custom warnings
+        //add the ability to create custom warnings
         $this->extensions->hk_ProcessData($this, __FUNCTION__);
     }
 
@@ -576,16 +580,18 @@ abstract class AController
     {
         $default_sorting = $this->config->get('config_product_default_sort_order');
         $this->data['sorts'] = [
-            $default_sorting     => $this->language->get('text_default'),
-            'name-ASC'           => $this->language->get('text_sorting_name_asc'),
-            'name-DESC'          => $this->language->get('text_sorting_name_desc'),
-            'price-ASC'          => $this->language->get('text_sorting_price_asc'),
-            'price-DESC'         => $this->language->get('text_sorting_price_desc'),
-            'rating-DESC'        => $this->language->get('text_sorting_rating_desc'),
-            'rating-ASC'         => $this->language->get('text_sorting_rating_asc'),
-            'date_modified-DESC' => $this->language->get('text_sorting_date_desc'),
-            'date_modified-ASC'  => $this->language->get('text_sorting_date_asc'),
+            $default_sorting => $this->language->get('text_default'),
+            'name-ASC'       => $this->language->get('text_sorting_name_asc'),
+            'name-DESC'      => $this->language->get('text_sorting_name_desc'),
+            'price-ASC'      => $this->language->get('text_sorting_price_asc'),
+            'price-DESC'     => $this->language->get('text_sorting_price_desc'),
         ];
+        if ($this->isReviewAllowed()) {
+            $this->data['sorts']['rating-DESC'] = $this->language->get('text_sorting_rating_desc');
+            $this->data['sorts']['rating-ASC'] = $this->language->get('text_sorting_rating_asc');
+        }
+        $this->data['sorts']['date_modified-DESC'] = $this->language->get('text_sorting_date_desc');
+        $this->data['sorts']['date_modified-ASC'] = $this->language->get('text_sorting_date_asc');
     }
 
     protected function prepareProductSortingParameters(?array $options = [])

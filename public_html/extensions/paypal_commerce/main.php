@@ -20,6 +20,7 @@
 
 if (!class_exists('ExtensionPaypalCommerce')) {
     require_once(__DIR__ . DS . 'vendor' . DS . 'autoload.php');
+    require_once(__DIR__ . DS . 'core' . DS . 'debugPayPalHttpClient.php');
     require_once(__DIR__ . DS . 'core' . DS . 'paypal_commerce_hooks.php');
     require_once(__DIR__ . DS . 'core' . DS . 'paypal_commerce_modules.php');
 }

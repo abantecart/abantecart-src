@@ -54,10 +54,12 @@ if ($error) { ?>
             $cmpList = implode(",",(array)$enabled_components) ?: 'buttons';
             $cmpList .= ',messages';
             $fundingList = implode(",",(array)$enabled_funding);
+            $payerId = $this->config->get('paypal_commerce_payer_id');
             ?>
             loadPaypalScript(
                 "https://www.paypal.com/sdk/js?client-id=<?php
                         echo $this->config->get('paypal_commerce_client_id');
+                        echo $payerId ? '&merchant-id='.$payerId : '';
                         echo $fundingList ? '&enable-funding='.$fundingList : '';
                 ?>&components=<?php echo $cmpList;
                 ?>&intent=<?php echo $intent;
@@ -117,9 +119,8 @@ if ($error) { ?>
                         },
                         onApprove: function (data) {
                             const { liabilityShift, orderID } = data;
-
                             // Only reject if 3DS explicitly failed, not if unavailable/unknown
-                            if (liabilityShift !== 'POSSIBLE') {
+                            if (liabilityShift !== undefined && liabilityShift !== 'POSSIBLE') {
                                 showPPError(<?php js_echo($this->language->get('paypal_commerce_3ds_failed')); ?>);
                                 return;
                             }

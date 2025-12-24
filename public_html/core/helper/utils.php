@@ -1717,7 +1717,7 @@ function passwordHash(string $password, string $salt): string
 {
     return sha1($salt . sha1($salt . sha1($password)));
 }
-function insert2ArrayAfter(array $array, string $itemKey, $itemValue, string|int $positionAfter = null): array
+function insert2ArrayAfter(array $array, string $itemKey, $itemValue, string|int|null $positionAfter = null): array
 {
     $positionAfter = $positionAfter ?? array_key_last($array);
     $pos = array_search($positionAfter, array_keys($array)) + 1;

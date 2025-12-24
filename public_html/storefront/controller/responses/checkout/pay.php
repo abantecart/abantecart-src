@@ -90,9 +90,9 @@ class ControllerResponsesCheckoutPay extends AController
             'fc_cart_key',
             $this->fc_session['cart_key'],
             [
-                'path' => dirname($this->request->server['PHP_SELF']),
-                'domain' => null,
-                'secure' => (defined('HTTPS') && HTTPS),
+                'path'     => dirname($this->request->server['PHP_SELF']),
+                'domain'   => null,
+                'secure'   => (defined('HTTPS') && HTTPS),
                 'httponly' => false,
                 'samesite' => ((defined('HTTPS') && HTTPS) ? 'None' : 'lax')
             ]
@@ -105,7 +105,7 @@ class ControllerResponsesCheckoutPay extends AController
         //this needed to save session for next controller call
         $this->session->data['fc'] = $this->fc_session;
         //refresh global session guest data with fc guest data
-        if ($this->session->data['fc']['guest'] && $this->allow_guest) {
+        if($this->session->data['fc']['guest'] && $this->allow_guest){
             $this->session->data['guest'] = $this->session->data['fc']['guest'];
         }
     }
@@ -368,8 +368,8 @@ class ControllerResponsesCheckoutPay extends AController
             $this->session->data['fc'] = $this->fc_session;
         }
 
-        //set a shipping method
-        $this->_select_shipping($this->request->get['shipping_method'] ?? $this->fc_session['shipping_method']['id']);
+        //set shipping method
+        $this->select_shipping($this->request->get['shipping_method'] ?? $this->fc_session['shipping_method']['id']);
 
         //handle balance. Re-apply balance on every request as the total can change
         if ($this->fc_session['used_balance'] && !$request['balance']) {
@@ -396,8 +396,8 @@ class ControllerResponsesCheckoutPay extends AController
         $form->setForm(['form_name' => 'PayFrm']);
         $this->data['pay_form']['form_open'] = $form->getFieldHtml(
             [
-                'type' => 'form',
-                'name' => 'PayFrm',
+                'type'   => 'form',
+                'name'   => 'PayFrm',
                 'action' => '',
             ]
         );
@@ -490,21 +490,27 @@ class ControllerResponsesCheckoutPay extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
+    /**
+     * @param array $in_data
+     * @param array $request
+     * @return int|false
+     * @throws AException
+     */
     protected function updateOrCreateOrder($in_data, $request)
     {
         //do not allow running if already ran and failed
         if ($this->error['updateOrCreateOrder']) {
-            return;
+            return false;
         }
 
         //do nothing if the customer is nobody
         if (!$this->customer->isLogged() && !$this->fc_session['guest']) {
-            return;
+            return false;
         }
 
         //if customer unknown - skip creation of order
         if (!$this->config->get('config_guest_checkout') && !$this->customer->isLogged()) {
-            return;
+            return false;
         }
         //this needed to save session for next controller call
         $this->session->data['fc'] = $this->fc_session;
@@ -518,8 +524,8 @@ class ControllerResponsesCheckoutPay extends AController
         $order->buildOrderData($in_data);
         $order_id = $order->saveOrder();
 
-        /** @var ModelCheckoutOrder $mdl */
-        $mdl = $this->loadModel('checkout/order');
+        /** @var ModelCheckoutFastCheckout $mdl */
+        $mdl = $this->loadModel('checkout/fast_checkout');
         if ($order_id) {
             if ($request['telephone']) {
                 $mdl->updateOrderDetails(
@@ -535,10 +541,10 @@ class ControllerResponsesCheckoutPay extends AController
                     $this->model_account_customer->editCustomer(
                         [
                             'firstname' => $this->customer->getFirstName(),
-                            'lastname' => $this->customer->getLastName(),
-                            'email' => $this->customer->getEmail(),
+                            'lastname'  => $this->customer->getLastName(),
+                            'email'     => $this->customer->getEmail(),
                             'telephone' => $request['telephone'],
-                            'fax' => $this->customer->getFax()
+                            'fax'       => $this->customer->getFax()
                         ]
                     );
                 }
@@ -573,6 +579,7 @@ class ControllerResponsesCheckoutPay extends AController
             unset($this->session->data['order_id']);
             $this->main();
         }
+        return $order_id ?: false;
     }
 
     protected function addLoginForm($request, $get_params)
@@ -582,18 +589,18 @@ class ControllerResponsesCheckoutPay extends AController
             $form->setForm(['form_name' => 'LoginFrm']);
             $this->data['login_form']['form_open'] = $form->getFieldHtml(
                 [
-                    'type' => 'form',
-                    'name' => 'LoginFrm',
+                    'type'   => 'form',
+                    'name'   => 'LoginFrm',
                     'method' => 'post',
                     'action' => $this->html->getSecureURL('r/checkout/pay/login', $get_params),
-                    'csrf' => true,
+                    'csrf'   => true,
                 ]
             );
 
             $this->data['login_form']['loginname'] = $form->getFieldHtml(
                 [
-                    'type' => 'input',
-                    'name' => 'loginname',
+                    'type'  => 'input',
+                    'name'  => 'loginname',
                     'value' => $request['loginname'],
                 ]
             );
@@ -672,8 +679,8 @@ class ControllerResponsesCheckoutPay extends AController
         $form->setForm(['form_name' => 'PayFrm']);
         $this->data['pay_form']['form_open'] = $form->getFieldHtml(
             [
-                'type' => 'form',
-                'name' => 'PayFrm',
+                'type'   => 'form',
+                'name'   => 'PayFrm',
                 'action' => $form_action,
             ]
         );
@@ -784,7 +791,7 @@ class ControllerResponsesCheckoutPay extends AController
                 }
 
                 $option_data[] = [
-                    'name' => $option['name'],
+                    'name'  => $option['name'],
                     'value' => $value,
                     'title' => $title,
                 ];
@@ -799,20 +806,20 @@ class ControllerResponsesCheckoutPay extends AController
             );
 
             $products[] = [
-                'key' => $cartProduct['key'],
-                'name' => $cartProduct['name'],
+                'key'       => $cartProduct['key'],
+                'name'      => $cartProduct['name'],
                 'thumbnail' => $thumbnail,
-                'option' => $option_data,
-                'quantity' => $cartProduct['quantity'],
-                'stock' => $cartProduct['stock'],
-                'price' => $this->currency->format(
+                'option'    => $option_data,
+                'quantity'  => $cartProduct['quantity'],
+                'stock'     => $cartProduct['stock'],
+                'price'     => $this->currency->format(
                     $this->tax->calculate(
                         $cartProduct['price'],
                         $cartProduct['tax_class_id'],
                         $this->config->get('config_tax')
                     )
                 ),
-                'href' => $this->html->getSEOURL('product/product', '&product_id=' . $cartProduct['product_id'], true),
+                'href'      => $this->html->getSEOURL('product/product', '&product_id=' . $cartProduct['product_id'], true),
             ];
         }
 
@@ -821,15 +828,15 @@ class ControllerResponsesCheckoutPay extends AController
         if ($virtual_products) {
             foreach ($virtual_products as $virtual) {
                 $products[] = [
-                    'name' => ($virtual['name'] ?: 'Virtual Product'),
-                    'model' => $virtual['model'],
-                    'price' => $this->currency->format(
+                    'name'      => ($virtual['name'] ?: 'Virtual Product'),
+                    'model'     => $virtual['model'],
+                    'price'     => $this->currency->format(
                         $virtual['amount'],
                         $this->currency->getCode()
                     ),
-                    'quantity' => ($virtual['quantity'] ?: 1),
-                    'option' => [],
-                    'weight' => (float)$virtual['weight'],
+                    'quantity'  => ($virtual['quantity'] ?: 1),
+                    'option'    => [],
+                    'weight'    => (float)$virtual['weight'],
                     'thumbnail' => $virtual['thumbnail'],
                 ];
                 $this->data['items_total'] += ($virtual['quantity'] ?: 1)
@@ -896,7 +903,7 @@ class ControllerResponsesCheckoutPay extends AController
                 return;
             }
             $this->fc_session['payment_method'] = [
-                'id' => 'no_payment_required',
+                'id'    => 'no_payment_required',
                 'title' => $this->language->get('no_payment_required'),
             ];
 
@@ -999,6 +1006,9 @@ class ControllerResponsesCheckoutPay extends AController
             $mdl = $this->loadModel('checkout/fast_checkout', 'storefront');
             //for guest build tokenized access to download and order details.
             $secToken = $mdl->getGuestToken($order_id);
+            if(!$secToken){
+                $this->log->write('Cannot find guest_token for order id: ' . $order_id);
+            }
             $order_token = generateOrderToken($order_id, $order_data['email'], $secToken);
             $this->data['button_order_details'] = $this->html->buildElement(
                 [
@@ -1068,23 +1078,23 @@ class ControllerResponsesCheckoutPay extends AController
         /** @var ModelCheckoutFastCheckout $mdl */
         $mdl = $this->loadModel('checkout/fast_checkout');
         $customer_data = [
-            'status' => 1,
-            'loginname' => $this->config->get('prevent_email_as_login')
+            'status'        => 1,
+            'loginname'     => $this->config->get('prevent_email_as_login')
                 ? randomWord(7)
                 : $order_data['email'],
-            'password' => randomWord(7),
-            'firstname' => $order_data['firstname'],
-            'lastname' => $order_data['lastname'],
-            'email' => $order_data['email'],
-            'telephone' => $order_data['telephone'],
-            'fax' => $order_data['fax'],
-            'company' => ($order_data['shipping_company'] ?: $order_data['payment_company']),
-            'address_1' => ($order_data['shipping_address_1'] ?: $order_data['payment_address_1']),
-            'address_2' => ($order_data['shipping_address_2'] ?: $order_data['payment_address_2']),
-            'city' => ($order_data['shipping_city'] ?: $order_data['payment_city']),
-            'postcode' => ($order_data['shipping_postcode'] ?: $order_data['payment_postcode']),
-            'country_id' => ($order_data['shipping_country_id'] ?: $order_data['payment_country_id']),
-            'zone_id' => ($order_data['shipping_zone_id'] ?: $order_data['payment_zone_id']),
+            'password'      => randomWord(7),
+            'firstname'     => $order_data['firstname'],
+            'lastname'      => $order_data['lastname'],
+            'email'         => $order_data['email'],
+            'telephone'     => $order_data['telephone'],
+            'fax'           => $order_data['fax'],
+            'company'       => ($order_data['shipping_company'] ?: $order_data['payment_company']),
+            'address_1'     => ($order_data['shipping_address_1'] ?: $order_data['payment_address_1']),
+            'address_2'     => ($order_data['shipping_address_2'] ?: $order_data['payment_address_2']),
+            'city'          => ($order_data['shipping_city'] ?: $order_data['payment_city']),
+            'postcode'      => ($order_data['shipping_postcode'] ?: $order_data['payment_postcode']),
+            'country_id'    => ($order_data['shipping_country_id'] ?: $order_data['payment_country_id']),
+            'zone_id'       => ($order_data['shipping_zone_id'] ?: $order_data['payment_zone_id']),
             'language_code' => $this->language->getLanguageCode(),
         ];
 
@@ -1118,15 +1128,15 @@ class ControllerResponsesCheckoutPay extends AController
                 ) {
                     $address = [
                         'customer_id' => $customer_id,
-                        'firstname' => $order_data['firstname'],
-                        'lastname' => $order_data['lastname'],
-                        'company' => $order_data['payment_company'],
-                        'address_1' => $order_data['payment_address_1'],
-                        'address_2' => $order_data['payment_address_2'],
-                        'city' => $order_data['payment_city'],
-                        'postcode' => $order_data['payment_postcode'],
-                        'country_id' => $order_data['payment_country_id'],
-                        'zone_id' => $order_data['payment_zone_id'],
+                        'firstname'   => $order_data['firstname'],
+                        'lastname'    => $order_data['lastname'],
+                        'company'     => $order_data['payment_company'],
+                        'address_1'   => $order_data['payment_address_1'],
+                        'address_2'   => $order_data['payment_address_2'],
+                        'city'        => $order_data['payment_city'],
+                        'postcode'    => $order_data['payment_postcode'],
+                        'country_id'  => $order_data['payment_country_id'],
+                        'zone_id'     => $order_data['payment_zone_id'],
                     ];
                     $this->loadModel('account/address');
                     $this->model_account_address->addAddress($address);
@@ -1246,7 +1256,7 @@ class ControllerResponsesCheckoutPay extends AController
         }
 
         return [
-            'count' => $downloadsCount,
+            'count'        => $downloadsCount,
             'download_url' => $downloadUrl
         ];
     }
@@ -1479,8 +1489,8 @@ class ControllerResponsesCheckoutPay extends AController
 
         $this->data['address_form']['form_open'] = $form->getFieldHtml(
             [
-                'type' => 'form',
-                'name' => static::$formTxtId,
+                'type'   => 'form',
+                'name'   => static::$formTxtId,
                 'action' => $this->html->getSecureURL('r/checkout/pay/address', $params),
             ]
         );
@@ -1631,11 +1641,11 @@ class ControllerResponsesCheckoutPay extends AController
         if (round($this->cart->getFinalTotal(), 4) == 0) {
             $paymentHTML = $this->html->buildButton(
                 [
-                    'text' => $this->language->get('order_confirm'),
+                    'text'  => $this->language->get('order_confirm'),
                     'title' => $this->language->get('order_confirm'),
-                    'id' => 'no_payment_confirm',
+                    'id'    => 'no_payment_confirm',
                     'style' => 'btn btn-primary btn-lg btn-block',
-                    'icon' => 'fa fa-check',
+                    'icon'  => 'fa fa-check',
                 ]
             );
             $this->view->assign('payment_form', $paymentHTML);
@@ -1650,11 +1660,11 @@ class ControllerResponsesCheckoutPay extends AController
         } elseif ($this->fc_session['used_balance_full']) {
             $paymentHTML = $this->html->buildButton(
                 [
-                    'text' => $this->language->get('order_confirm'),
+                    'text'  => $this->language->get('order_confirm'),
                     'title' => $this->language->get('order_confirm'),
-                    'id' => 'no_payment_confirm',
+                    'id'    => 'no_payment_confirm',
                     'style' => 'btn btn-primary btn-lg btn-block',
-                    'icon' => 'fa fa-check',
+                    'icon'  => 'fa fa-check',
                 ]
             );
             $this->view->assign('payment_form', $paymentHTML);
@@ -1713,8 +1723,8 @@ class ControllerResponsesCheckoutPay extends AController
         if ($no_payment) {
             $method_data = [
                 'no_payment_required' => [
-                    'id' => 'no_payment_required',
-                    'title' => $this->language->get('no_payment_required'),
+                    'id'         => 'no_payment_required',
+                    'title'      => $this->language->get('no_payment_required'),
                     'sort_order' => 1,
                 ]
             ];
@@ -1736,12 +1746,15 @@ class ControllerResponsesCheckoutPay extends AController
         return $this->session->data['payment_methods'];
     }
 
-    protected function _select_shipping($selected = '')
+    public function select_shipping( $selected = '', $selectFirst = false)
     {
         //if shipping not required - skip
         if (!$this->cart->hasShipping()) {
-            return;
+            return false;
         }
+
+        $selected = $selected ?? $this->request->get_or_post('shipping_method');
+
         $selected_shipping = [];
         if ($selected) {
             $selected_shipping = explode('.', $selected);
@@ -1769,10 +1782,10 @@ class ControllerResponsesCheckoutPay extends AController
 
                 if ($quote) {
                     $quote_data[$shpTxtId] = [
-                        'title' => $quote['title'],
-                        'quote' => $quote['quote'],
+                        'title'      => $quote['title'],
+                        'quote'      => $quote['quote'],
                         'sort_order' => $quote['sort_order'],
-                        'error' => $quote['error'],
+                        'error'      => $quote['error'],
                     ];
                     $shpSettings = $this->model_checkout_extension->getSettings($shpTxtId);
                     $icon = $shpSettings[$shpTxtId . "_shipping_storefront_icon"];
@@ -1816,6 +1829,12 @@ class ControllerResponsesCheckoutPay extends AController
                             $errText .= "CustomerID: " . $this->customer->getId() . ' ';
                         }
                         $this->_to_log($errText . $method['error']);
+                    }
+                    if(!$this->fc_session['shipping_method'] && $selectFirst && !$selected){
+                        $quotes = $method['quote'];
+                        if($quotes) {
+                            $this->fc_session['shipping_method'] = current($quotes);
+                        }
                     }
                 }
             } elseif (count($shipMethods) === 0 && $this->cart->hasShipping()) {
@@ -1875,14 +1894,14 @@ class ControllerResponsesCheckoutPay extends AController
                         }
                         $this->data['shipping_methods'][$k]['quote'][$key]['radio'] = $this->html->buildElement(
                             [
-                                'type' => 'radio',
-                                'id' => $val['id'],
-                                'name' => 'shipping_method',
+                                'type'    => 'radio',
+                                'id'      => $val['id'],
+                                'name'    => 'shipping_method',
                                 'options' =>
                                     [
                                         $val['id'] => '<div class="checkbox_place"><i class="fa fa-check fa-2x"></i></div>',
                                     ],
-                                'value' => $selected,
+                                'value'   => $selected,
                             ]
                         );
                     }
@@ -1892,9 +1911,10 @@ class ControllerResponsesCheckoutPay extends AController
             $this->data['shipping_methods'] = [];
         }
         $this->fc_session['shipping_methods'] = $this->data['shipping_methods'];
-        if ($selected_shipping) {
-            $this->updateOrCreateOrder($this->fc_session, ['shipping_method' => $selected]);
+        if ($selected_shipping || $selectFirst) {
+            return $this->updateOrCreateOrder($this->fc_session, ['shipping_method' => $selected]);
         }
+        return true;
     }
 
     /**
@@ -2084,10 +2104,10 @@ class ControllerResponsesCheckoutPay extends AController
         $this->error['message'] = $this->language->get('fast_checkout_error_no_address');
         $this->error['message'] .= $this->html->buildElement(
             [
-                'type' => 'button',
-                'name' => 'add_address',
-                'text' => 'Click to Add Address',
-                'href' => $this->html->getSecureURL('account/address/insert'),
+                'type'  => 'button',
+                'name'  => 'add_address',
+                'text'  => 'Click to Add Address',
+                'href'  => $this->html->getSecureURL('account/address/insert'),
                 'style' => 'btn-default',
             ]
         );

@@ -39,6 +39,7 @@ if (!defined('DIR_CORE')) {
  * @property ALoader $load
  * @property ModelCheckoutExtension $model_checkout_extension
  * @property ADownload $download
+ * @property AShoppingData $shopping_data
  */
 class ACart
 {
@@ -88,7 +89,7 @@ class ACart
         $this->language = $registry->get('language');
         $this->extensions = $registry->get('extensions');
 
-        //if nothing is passed (default) use session array. Customer session, can function on storefront only
+        //if nothing is passed (default) use session array. Customer session can function on storefront only
         if ($c_data == null) {
             $this->cust_data =& $this->session->data;
         } else {
@@ -100,6 +101,12 @@ class ACart
         if (!isset($this->cust_data['cart']) || !is_array($this->cust_data['cart'])) {
             $this->cust_data['cart'] = [];
         }
+        $this->cust_data['cart_key'] = $this->cust_data['cart_key'] ?: randomWord(5);
+    }
+
+    public function getCartKey()
+    {
+        return $this->cust_data['cart_key'];
     }
 
     /**
@@ -285,11 +292,11 @@ class ACart
                     array_merge(
                         $option_value_query,
                         [
-                            'name'               => $option_query['name'],
-                            'product_option_id'  => $product_option_id,
-                            'element_type'       => $element_type,
-                            'settings'           => $option_query['settings'],
-                            'value'              => $option_value_query['name'],
+                            'name' => $option_query['name'],
+                            'product_option_id' => $product_option_id,
+                            'element_type' => $element_type,
+                            'settings' => $option_query['settings'],
+                            'value' => $option_value_query['name'],
                             'inventory_quantity' => ($option_value_query['subtract']
                                 ? (int)$option_value_query['quantity']
                                 : 1000000)
@@ -312,10 +319,10 @@ class ACart
                         $item,
                         [
                             'product_option_value_id' => $item['product_option_value_id'],
-                            'product_option_id'       => $product_option_id,
-                            'name'                    => $option_query['name'],
-                            'value'                   => $item['name'],
-                            'inventory_quantity'      => ($item['subtract'] ? (int)$item['quantity'] : 1000000),
+                            'product_option_id' => $product_option_id,
+                            'name' => $option_query['name'],
+                            'value' => $item['name'],
+                            'inventory_quantity' => ($item['subtract'] ? (int)$item['quantity'] : 1000000),
                         ]
                     );
                     //check if we need to track stock and we have it
@@ -380,7 +387,7 @@ class ACart
             }
         }
 
-        //check if we need to check main product stock. Do only if no stock trackable options selected
+        //check if we need to check the main product stock. Do only if no stock trackable options are selected
         if (!$options
             && $product_query['subtract']
             && $product_query['quantity'] < $quantity
@@ -403,13 +410,13 @@ class ACart
             array_merge(
                 $product_query,
                 [
-                    'option'             => $option_data,
-                    'download'           => $download_data,
-                    'quantity'           => $quantity,
+                    'option' => $option_data,
+                    'download' => $download_data,
+                    'quantity' => $quantity,
                     'inventory_quantity' => ($product_query['subtract'] ? (int)$product_query['quantity'] : 1000000),
-                    'stock'              => $stock,
-                    'price'              => ($price + $option_price),
-                    'total'              => ($price + $option_price) * $quantity
+                    'stock' => $stock,
+                    'price' => ($price + $option_price),
+                    'total' => ($price + $option_price) * $quantity
                 ]
             );
         $this->extensions->hk_ProcessData($this, __METHOD__, func_get_args());
@@ -460,6 +467,8 @@ class ACart
 
         $this->extensions->hk_ProcessData($this, __METHOD__, func_get_args());
 
+        $this->shopping_data->save('cart', $this->getCartKey(), $this->cust_data['cart']);
+
         //reload data for the cart
         $this->getProducts(true);
         return true;
@@ -470,6 +479,7 @@ class ACart
      * @param $data
      *
      * @return bool
+     * @throws AException
      */
     public function addVirtual($key, $data)
     {
@@ -483,6 +493,7 @@ class ACart
         $data['key'] = $key;
         $this->cust_data['cart']['virtual'][$key] = $data;
         $this->extensions->hk_ProcessData($this, __METHOD__, func_get_args());
+        $this->shopping_data->save('cart', $this->getCartKey(), $this->cust_data['cart']);
         return true;
     }
 
@@ -496,6 +507,7 @@ class ACart
 
     /**
      * @param $key
+     * @throws AException
      */
     public function removeVirtual($key)
     {
@@ -505,6 +517,7 @@ class ACart
                 unset($this->cust_data['cart']['virtual']);
             }
         }
+        $this->shopping_data->save('cart', $this->getCartKey(), $this->cust_data['cart']);
     }
 
     /**
@@ -526,6 +539,8 @@ class ACart
             $this->customer->saveCustomerCart();
         }
 
+        $this->shopping_data->save('cart', $this->getCartKey(), $this->cust_data['cart']);
+
         //reload data for the cart
         if ($recalculate) {
             $this->getProducts($recalculate);
@@ -534,6 +549,7 @@ class ACart
 
     /**
      * @param $key
+     * @throws AException
      */
     public function remove($key)
     {
@@ -546,11 +562,13 @@ class ACart
             if ($this->customer && ($this->customer->isLogged() || $this->customer->isUnauthCustomer())) {
                 $this->customer->saveCustomerCart();
             }
+            $this->shopping_data->save('cart', $this->getCartKey(), $this->cust_data['cart']);
         }
     }
 
     public function clear()
     {
+        $this->shopping_data->remove('cart', (string)$this->getCartKey());
         $this->cust_data['cart'] = [];
     }
 
@@ -938,10 +956,10 @@ class ACart
             $sf_total_mdl->getTotal($total_data, $total, $taxes, $this->cust_data);
             //trick to change data via hooks
             $this->data = [
-                'total_key'  => $extn['key'],
+                'total_key' => $extn['key'],
                 'total_data' => $total_data,
-                'total'      => $total,
-                'taxes'      => $taxes,
+                'total' => $total,
+                'taxes' => $taxes,
             ];
             $this->registry->get('extensions')->hk_ProcessData($this, __FUNCTION__, ['total_text_id' => $extn]);
 
@@ -959,8 +977,8 @@ class ACart
 
         $this->total_data = $total_data;
         //final total need to take from an order "total" model because of the currency conversion issue
-        foreach($total_data as $arr){
-            if($arr['id'] == 'total'){
+        foreach ($total_data as $arr) {
+            if ($arr['id'] == 'total') {
                 $this->final_total = $arr['value'];
             }
         }
@@ -1016,7 +1034,7 @@ class ACart
     }
 
     /**
-     * Check if order/cart total has minimum amount setting met if it was set
+     * Check if order/cart total has a minimum amount setting met if it was set
      *
      * @return bool
      * @throws AException
@@ -1120,7 +1138,7 @@ class ACart
     }
 
     /**
-     * Return FALSE if all products do NOT have download type
+     * Return FALSE if all products do NOT have a download type
      *
      * @return bool
      * @throws AException
@@ -1140,11 +1158,12 @@ class ACart
     }
 
     /**
-     * Function allow to replace customer_data inside instance.
-     * Useful for cases when we override cart class with custom data
+     * Function allows replacing customer_data inside an instance.
+     * Useful for cases when we override a cart class with custom data
      *
      * @param string $key
      * @param mixed $value
+     * @throws AException
      */
     public function replaceCustData($key, $value)
     {
@@ -1152,5 +1171,8 @@ class ACart
             return;
         }
         $this->cust_data[$key] = $value;
+        if ($key == 'cart') {
+            $this->shopping_data->save('cart', $this->getCartKey(), $this->cust_data['cart']);
+        }
     }
 }

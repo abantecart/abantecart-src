@@ -105,15 +105,54 @@ class AOrder
      * @return array
      * @throws AException
      */
-    public function loadOrderData($order_id, $order_status_id = '')
+    public function loadOrderData($order_id, $order_status_id = '', $mode = '')
     {
         if ($order_id) {
             $this->order_id = $order_id;
         }
         //get order details for specific status. NOTE: Customer ID need to be set in customer class
-        $this->order_data = $this->model_account_order->getOrder($this->order_id, $order_status_id);
+        $this->order_data = $this->model_account_order->getOrder($this->order_id, $order_status_id, $mode);
         $this->extensions->hk_ProcessData($this, 'load_order_data');
+        if (!$this->data) {
+            $this->restoreDataFromDb($this->order_data);
+        }
         return (array)$this->data + (array)$this->order_data;
+    }
+
+    protected function restoreDataFromDb(array $orderData)
+    {
+        //do not allow restore order for another registered customer!
+        if (!$orderData
+            || ($orderData['customer_id'] && $orderData['customer_id'] != $this->customer->getId())
+        ) {
+            return false;
+        }
+
+        if ($orderData['customer_id']) {
+            $this->customer_id = $orderData['customer_id'];
+//TODO: need to finish
+//            $shippingAddressId = (int)$inData['shipping_address_id'];
+//            $this->data['']
+        } else {
+            $this->data = $orderData;
+            foreach (['payment', 'shipping'] as $dataSection) {
+                foreach ($orderData as $colName => $colValue) {
+                    if (str_starts_with($colName, $dataSection . '_') && !str_contains($colName, 'method')) {
+                        $this->data['guest'][$dataSection][str_replace($dataSection . '_', '', $colName)] = $colValue;
+                    }
+                }
+            }
+        }
+        $this->data['shipping_method'] = [
+            'id' => $orderData['shipping_method_key'],
+            'title' => $orderData['shipping_method'],
+        ];
+        $this->data['payment_method'] = [
+            'id' => $orderData['payment_method_key'],
+            'title' => $orderData['payment_method'],
+        ];
+
+        return true;
     }
 
     /**
@@ -153,10 +192,10 @@ class AOrder
 
             //allow changing total data on-the-fly for extensions, for example rounding of amount etc
             $this->data = [
-                'total_key'  => $result['key'],
+                'total_key' => $result['key'],
                 'total_data' => $total_data,
-                'total'      => $totalAmount,
-                'taxes'      => $taxes,
+                'total' => $totalAmount,
+                'taxes' => $taxes,
             ];
 
             $this->extensions->hk_ProcessData($this, __FUNCTION__);
@@ -285,18 +324,18 @@ class AOrder
             $product_data[] = array_merge(
                 $product,
                 [
-                    'weight'          => (float)$product['weight'],
+                    'weight' => (float)$product['weight'],
                     'weight_iso_code' => $product['weight_class'],
-                    'width'           => (float)$product['width'],
-                    'height'          => (float)$product['height'],
-                    'length'          => (float)$product['length'],
+                    'width' => (float)$product['width'],
+                    'height' => (float)$product['height'],
+                    'length' => (float)$product['length'],
                     'length_iso_code' => $product['length_class'],
                     //ternary for virtual products
-                    'price'           => $product['amount'] ?: $product['price'],
-                    'total'           => $product['amount']
+                    'price' => $product['amount'] ?: $product['price'],
+                    'total' => $product['amount']
                         ? ($product['amount'] * $product['quantity'])
                         : $product['total'],
-                    'tax'             => $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']),
+                    'tax' => $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']),
                 ]
             );
         }
@@ -387,33 +426,33 @@ class AOrder
         if ($orderData['shipping_city']) {
             $gaOrderData['shipping_address'] = [
                 'firstName' => $orderData['shipping_firstname'],
-                'lastName'  => $orderData['shipping_lastname'],
-                'address1'  => $orderData['shipping_address_1'],
-                'city'      => $orderData['shipping_city'],
-                'state'     => $orderData['shipping_zone'],
-                'country'   => $orderData['shipping_country'],
+                'lastName' => $orderData['shipping_lastname'],
+                'address1' => $orderData['shipping_address_1'],
+                'city' => $orderData['shipping_city'],
+                'state' => $orderData['shipping_zone'],
+                'country' => $orderData['shipping_country'],
             ];
         }
         $gaOrderData['payment_address'] = $addr = [
             'firstName' => $orderData['payment_firstname'],
-            'lastName'  => $orderData['payment_lastname'],
-            'address1'  => $orderData['payment_address_1'],
-            'city'      => $orderData['payment_city'],
-            'state'     => $orderData['payment_zone'],
-            'country'   => $orderData['payment_country'],
+            'lastName' => $orderData['payment_lastname'],
+            'address1' => $orderData['payment_address_1'],
+            'city' => $orderData['payment_city'],
+            'state' => $orderData['payment_zone'],
+            'country' => $orderData['payment_country'],
         ];
 
         $gaOrderData =
             [
                 'transaction_id' => (int)$orderData['order_id'],
-                'store_name'     => $registry->get('config')->get('store_name'),
-                'currency_code'  => $orderData['currency'] ?: $registry->get('currency')->getCode(),
-                'total'          => (float)$currency->format_number($order_total),
-                'tax'            => (float)$currency->format_number($order_tax),
-                'shipping'       => (float)$currency->format_number($order_shipping),
-                'discount'       => (float)$currency->format_number($order_discount),
-                'coupon'         => $registry->get('session')->data['coupon'],
-                'couponId'       => $orderData['coupon_id']
+                'store_name' => $registry->get('config')->get('store_name'),
+                'currency_code' => $orderData['currency'] ?: $registry->get('currency')->getCode(),
+                'total' => (float)$currency->format_number($order_total),
+                'tax' => (float)$currency->format_number($order_tax),
+                'shipping' => (float)$currency->format_number($order_shipping),
+                'discount' => (float)$currency->format_number($order_discount),
+                'coupon' => $registry->get('session')->data['coupon'],
+                'couponId' => $orderData['coupon_id']
             ]
             + $gaOrderData
             + $addr;
@@ -438,12 +477,12 @@ class AOrder
                 }
 
                 $gaOrderData['items'][$i] = [
-                    'item_id'   => (int)$product['product_id'],
+                    'item_id' => (int)$product['product_id'],
                     'item_name' => $product['name'],
-                    'sku'       => $sku,
-                    'price'     => (float)$product['price'],
-                    'quantity'  => (int)$product['quantity'],
-                    'url'       => $html?->getSEOURL('product/product', 'product_id=' . $product['product_id']),
+                    'sku' => $sku,
+                    'price' => (float)$product['price'],
+                    'quantity' => (int)$product['quantity'],
+                    'url' => $html?->getSEOURL('product/product', 'product_id=' . $product['product_id']),
                     'image_url' => $resource?->getMainThumb(
                         'products',
                         $product['product_id'],
@@ -451,9 +490,8 @@ class AOrder
                         $config?->get('config_image_popup_height')
                     )['thumb_url'],
                 ];
-                if($gaOrderData['items'][$i]['image_url']
-                    && !str_starts_with($gaOrderData['items'][$i]['image_url'], 'http'))
-                {
+                if ($gaOrderData['items'][$i]['image_url']
+                    && !str_starts_with($gaOrderData['items'][$i]['image_url'], 'http')) {
                     $gaOrderData['items'][$i]['image_url'] = (HTTPS ? 'https:' : 'http:')
                         . $gaOrderData['items'][$i]['image_url'];
                 }
