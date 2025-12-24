@@ -1,4 +1,4 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
 /*
  *   $Id$
  *
@@ -20,6 +20,7 @@
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 /** @noinspection PhpUndefinedClassInspection */
 
 /**
@@ -140,7 +141,7 @@ abstract class AController
         $this->config = $this->registry->get('config');
 
         if ($this->language) {
-            //add main language to languages references and map to view
+            //add the main language to languages references and map to view
             $this->loadLanguage($this->language->language_details['filename']);
             //try to map controller language to view
             $this->loadLanguage($this->controller, "silent");
@@ -319,7 +320,7 @@ abstract class AController
                     $blocks[(int)($block['position'] / 10 - 1)] =
                         $block['block_txt_id'] . '_' . (int)$block['instance_id'];
                 } else {
-                    $blocks[] = $block['block_txt_id'] . '_' . $block['instance_id'];
+                    $blocks[] = $block['block_txt_id'].'_'.$block['instance_id'];
                 }
             }
         }
@@ -337,9 +338,9 @@ abstract class AController
         $new_block['controller'] = $new_controller;
         $new_block['block_txt_id'] = $block_text_id;
         $new_block['template'] = $new_template;
-        // To position an element to the placeholder.
-        // If not, a set element will not be displayed in the placeholder.
-        // To use manual inclusion to parent template ignore this parameter
+        // This is to position an element to the placeholder.
+        // If not set, an element will not be displayed in the placeholder.
+        // To use manual inclusion to parent template, ignore this parameter
         $new_block['position'] = $template_position;
         $this->children[] = $new_block;
     }
@@ -394,7 +395,7 @@ abstract class AController
                         && !in_array($block_details['controller'], $excluded_blocks)
                     ) {
                         if (!empty($this->parent_controller)) {
-                            //build block template file path based on the primary template used
+                            //build block template file path based on the primary template a used
                             //template path is based on the parent block 'template_dir'
                             $tpl = $this->view->getTemplate();
                             $tmp_dir = $this->parent_controller->view->data['template_dir'] . "template/";
@@ -402,11 +403,11 @@ abstract class AController
                             $prt_block_tpl_file = $tmp_dir . $this->parent_controller->view->getTemplate();
                             $args = [
                                 'block_instance_id' => $this->instance_id,
-                                'block_controller' => $this->dispatcher->getFile(),
-                                'block_tpl' => $tpl ? $block_tpl_file : 'auto',
-                                'parent_id' => $this->parent_controller->instance_id,
+                                'block_controller'  => $this->dispatcher->getFile(),
+                                'block_tpl'         => $tpl ? $block_tpl_file : 'auto',
+                                'parent_id'         => $this->parent_controller->instance_id,
                                 'parent_controller' => $this->parent_controller->dispatcher->getFile(),
-                                'parent_tpl' => $prt_block_tpl_file,
+                                'parent_tpl'        => $prt_block_tpl_file,
                             ];
                             $debug_wrapper = $this->dispatch(
                                 'common/template_debug',
@@ -463,7 +464,7 @@ abstract class AController
         if (!empty ($this->parent_controller)) {
             $this->parent_controller->view->append($variable, $value);
         } else {
-            $wrn = new AWarning('Parent controller called does not exist in ' . get_class($this));
+            $wrn = new AWarning('Parent controller called does not exist in '.get_class($this));
             $wrn->toDebug();
         }
     }
@@ -473,11 +474,9 @@ abstract class AController
      */
     public function can_access()
     {
-        /*
         if (!defined('IS_ADMIN') || !IS_ADMIN) {
             return null;
         }
-        */
 
         /*
          Future stronger security permissions validation.
@@ -567,8 +566,8 @@ abstract class AController
                     'text_act_on_behalf',
                     '',
                     [
-                        $this->customer->getEmail() ?: 'guest',
-                        $this->session->data['merchant_username']
+                        $this->customer->getEmail() ? : 'guest',
+                        $this->session->data['merchant_username'],
                     ]
                 )
             );
@@ -582,15 +581,17 @@ abstract class AController
         $default_sorting = $this->config->get('config_product_default_sort_order');
         $this->data['sorts'] = [
             $default_sorting => $this->language->get('text_default'),
-            'name-ASC' => $this->language->get('text_sorting_name_asc'),
-            'name-DESC' => $this->language->get('text_sorting_name_desc'),
-            'price-ASC' => $this->language->get('text_sorting_price_asc'),
-            'price-DESC' => $this->language->get('text_sorting_price_desc'),
-            'rating-DESC' => $this->language->get('text_sorting_rating_desc'),
-            'rating-ASC' => $this->language->get('text_sorting_rating_asc'),
-            'date_modified-DESC' => $this->language->get('text_sorting_date_desc'),
-            'date_modified-ASC' => $this->language->get('text_sorting_date_asc'),
+            'name-ASC'       => $this->language->get('text_sorting_name_asc'),
+            'name-DESC'      => $this->language->get('text_sorting_name_desc'),
+            'price-ASC'      => $this->language->get('text_sorting_price_asc'),
+            'price-DESC'     => $this->language->get('text_sorting_price_desc'),
         ];
+        if ($this->isReviewAllowed()) {
+            $this->data['sorts']['rating-DESC'] = $this->language->get('text_sorting_rating_desc');
+            $this->data['sorts']['rating-ASC'] = $this->language->get('text_sorting_rating_asc');
+        }
+        $this->data['sorts']['date_modified-DESC'] = $this->language->get('text_sorting_date_desc');
+        $this->data['sorts']['date_modified-ASC'] = $this->language->get('text_sorting_date_asc');
     }
 
     protected function prepareProductSortingParameters(?array $options = [])
@@ -619,11 +620,11 @@ abstract class AController
             }
         }
         return [
-            'sort' => $sort,
+            'sort'     => $sort,
             'raw_sort' => $rawSort,
-            'order' => $order,
-            'page' => $page,
-            'limit' => $limit
+            'order'    => $order,
+            'page'     => $page,
+            'limit'    => $limit
         ];
     }
 }

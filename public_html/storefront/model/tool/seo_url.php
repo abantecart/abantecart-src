@@ -77,8 +77,11 @@ class ModelToolSeoUrl extends Model
                 if (!$object_name) {
                     continue;
                 }
-
-                $keyword = $this->getSEOKeyword($object_name, $param_key, (int)$value, $language_id);
+                if(!is_array($value)) {
+                    $keyword = $this->getSEOKeyword($object_name, $param_key, (int) $value, $language_id);
+                }else{
+                    $keyword = '';
+                }
                 if ($keyword) {
                     if ($object_name == 'content') {
                         if ($httpQuery['parent_id']) {
