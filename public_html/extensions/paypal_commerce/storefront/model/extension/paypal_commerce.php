@@ -48,9 +48,9 @@ class ModelExtensionPaypalCommerce extends Model
     {
         parent::__construct($registry);
         $this->paypal = getPaypalClient(
-            $this->config->get('paypal_commerce_client_id'),
-            $this->config->get('paypal_commerce_client_secret'),
-            $this->config->get('paypal_commerce_test_mode')
+            (string)$this->config->get('paypal_commerce_client_id'),
+            (string)$this->config->get('paypal_commerce_client_secret'),
+            (int)$this->config->get('paypal_commerce_test_mode')
         );
     }
 
@@ -399,6 +399,9 @@ class ModelExtensionPaypalCommerce extends Model
     public function createPPOrder($data)
     {
         $request = new OrdersCreateRequest();
+        $request->payPalPartnerAttributionId(
+            base64_decode(ExtensionPaypalCommerce::getBnCode())
+        );
         $request->body = json_encode($data, JSON_PRETTY_PRINT);
         $response = $this->paypal->execute($request);
         return $response->result;
@@ -413,6 +416,8 @@ class ModelExtensionPaypalCommerce extends Model
     public function capturePPOrder($ppOrderId)
     {
         $request = new OrdersCaptureRequest($ppOrderId);
+        //TODO: add metaDataID
+        //$request->payPalClientMetadataId($payPalClientMetadataId);
         $response = $this->paypal->execute($request);
         return $response->result;
     }
@@ -426,6 +431,8 @@ class ModelExtensionPaypalCommerce extends Model
     public function authorizePPOrder($ppOrderId)
     {
         $request = new OrdersAuthorizeRequest($ppOrderId);
+        //TODO: add metaDataID
+        //$request->payPalClientMetadataId($payPalClientMetadataId);
         $response = $this->paypal->execute($request);
         return $response->result;
     }

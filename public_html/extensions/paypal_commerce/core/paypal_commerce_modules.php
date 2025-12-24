@@ -26,15 +26,20 @@ use PayPalCheckoutSdk\Core\SandboxEnvironment;
  * @param string $accountId
  * @param string $secretKey
  * @param int $testMode
- *
- * @return PayPalHttpClient
+ * @return PayPalHttpClient|DebugPayPalHttpClient
+ * @throws AException
  */
-function getPaypalClient($accountId, $secretKey, $testMode = 0)
+
+function getPaypalClient( string $accountId, string $secretKey, int $testMode = 0): DebugPayPalHttpClient|PayPalHttpClient
 {
     if ($testMode) {
         $env = new SandboxEnvironment($accountId, $secretKey);
     } else {
         $env = new ProductionEnvironment($accountId, $secretKey);
+    }
+
+    if (Registry::getInstance()?->get('config')?->get('paypal_commerce_debug_logging')) {
+        return new DebugPayPalHttpClient($env, true);
     }
 
     return new PayPalHttpClient($env);

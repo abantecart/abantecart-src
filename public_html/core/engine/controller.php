@@ -1,5 +1,4 @@
 <?php
-
 /*
  *   $Id$
  *
@@ -105,6 +104,7 @@ if (!defined('DIR_CORE')) {
  * @property AOrderStatus $order_status
  * @property AIMManager $im
  * @property CSRFToken $csrftoken
+ * @property AShoppingData $shopping_data
  */
 abstract class AController
 {
@@ -185,10 +185,10 @@ abstract class AController
             /** @noinspection PhpIncludeInspection */
             require_once($rt_file);
             if (class_exists($rt_class)) {
-                $static_method = $rt_method.'_cache_keys';
+                $static_method = $rt_method . '_cache_keys';
                 if (method_exists($rt_class, $static_method)) {
                     //finally, get keys and build a cache key
-                    return call_user_func($rt_class.'::'.$static_method);
+                    return call_user_func($rt_class . '::' . $static_method);
                 }
             }
         }
@@ -316,9 +316,9 @@ abstract class AController
         foreach ($this->children as $block) {
             if (!empty($block['position'])) {
                 //assign count based on position (currently div. by 10)
-                if ((int) $block['position'] % 10 == 0) {
-                    $blocks[(int) ($block['position'] / 10 - 1)] =
-                        $block['block_txt_id'].'_'.(int) $block['instance_id'];
+                if ((int)$block['position'] % 10 == 0) {
+                    $blocks[(int)($block['position'] / 10 - 1)] =
+                        $block['block_txt_id'] . '_' . (int)$block['instance_id'];
                 } else {
                     $blocks[] = $block['block_txt_id'].'_'.$block['instance_id'];
                 }
@@ -333,7 +333,7 @@ abstract class AController
         // append a child to the controller children list
         $new_block = [];
         $new_block['parent_instance_id'] = $this->instance_id;
-        $new_block['instance_id'] = $block_text_id.$this->instance_id;
+        $new_block['instance_id'] = $block_text_id . $this->instance_id;
         $new_block['block_id'] = $block_text_id;
         $new_block['controller'] = $new_controller;
         $new_block['block_txt_id'] = $block_text_id;
@@ -391,16 +391,16 @@ abstract class AController
                     $block_details = $this->layout->getBlockDetails($this->instance_id);
                     $excluded_blocks = ['common/head'];
 
-                    if (!empty($this->instance_id) && (string) $this->instance_id != '0'
+                    if (!empty($this->instance_id) && (string)$this->instance_id != '0'
                         && !in_array($block_details['controller'], $excluded_blocks)
                     ) {
                         if (!empty($this->parent_controller)) {
                             //build block template file path based on the primary template a used
                             //template path is based on the parent block 'template_dir'
                             $tpl = $this->view->getTemplate();
-                            $tmp_dir = $this->parent_controller->view->data['template_dir']."template/";
-                            $block_tpl_file = $tmp_dir.$this->view->getTemplate();
-                            $prt_block_tpl_file = $tmp_dir.$this->parent_controller->view->getTemplate();
+                            $tmp_dir = $this->parent_controller->view->data['template_dir'] . "template/";
+                            $block_tpl_file = $tmp_dir . $this->view->getTemplate();
+                            $prt_block_tpl_file = $tmp_dir . $this->parent_controller->view->getTemplate();
                             $args = [
                                 'block_instance_id' => $this->instance_id,
                                 'block_controller'  => $this->dispatcher->getFile(),
@@ -417,7 +417,7 @@ abstract class AController
                             $output = trim($this->view->getOutput());
                             if ($output) {
                                 //TODO: think to move this part into js. Debug wrapper div breaks css cascade!
-                                $output = '<div class="block_tmpl_wrapper">'.$output.$debug_output.'</div>';
+                                $output = '<div class="block_tmpl_wrapper">' . $output . $debug_output . '</div>';
                             }
                             $this->view->setOutput($output);
                         }
@@ -446,7 +446,7 @@ abstract class AController
                 $this->parent_controller->AddToParentByName($parent_controller_name, $variable, $value);
             } else {
                 $wrn = new AWarning(
-                    'Call to unknown parent controller '.$parent_controller_name.' in '.get_class($this)
+                    'Call to unknown parent controller ' . $parent_controller_name . ' in ' . get_class($this)
                 );
                 $wrn->toDebug();
             }
@@ -478,14 +478,16 @@ abstract class AController
             return null;
         }
 
-        //Future stronger security permissions validation
-        //validate session token and login
-        // Dispatch to log in if failed
-        //  to validate access rights for the current controller or parent with $parent_controller->can_access()
-        // If both have no access rights, dispatch to no rights page
+        /*
+         Future stronger security permissions validation.
+         Validate session token and login
+         Dispatch to log in if failed
+         to validate access rights for the current controller or parent with $parent_controller->can_access()
+         If both have no access rights, dispatch to no rights page
 
-        // NOTEs: Need to skip for some common controllers.
-        // Need to include this validation in the constructor and break out of it if failed.
+         NOTEs: Need to skip for some common controllers.
+         Need to include this validation in the constructor and break out of it if failed.
+        */
         return null;
     }
 
@@ -509,7 +511,7 @@ abstract class AController
             $main_key = str_replace('/', '_', $this->controller);
         }
 
-        return "https://docs.abantecart.com/tag/".$main_key;
+        return "https://docs.abantecart.com/tag/" . $main_key;
     }
 
     public function isReviewAllowed($productId = 0)
@@ -537,7 +539,7 @@ abstract class AController
             { //allow who purchase
                 $this->loadModel('checkout/order');
                 if (!$this->customer || !$this->customer->isLogged() || !$this->customer->getId()
-                    || !(int) $productId) {
+                    || !(int)$productId) {
                     return false;
                 }
                 return $this->model_checkout_order->productIsPurchasedByCustomer($this->customer->getId(), $productId);
@@ -595,8 +597,8 @@ abstract class AController
     protected function prepareProductSortingParameters(?array $options = [])
     {
         $request = $this->request->get;
-        $page = (int) $request['page'] ? : 1;
-        $limit = (int) $request['limit'] ? : $this->config->get('config_catalog_limit');
+        $page = (int)$request['page'] ?: 1;
+        $limit = (int)$request['limit'] ?: $this->config->get('config_catalog_limit');
         $sorting_href = $request['sort'];
         if (!$this->data['sorts']) {
             $this->prepareProductListingParameters();
@@ -607,14 +609,14 @@ abstract class AController
         list($sort, $order) = explode("-", $sorting_href);
         $rawSort = $sort;
         if ($sort == 'name') {
-            $sort = 'pd.'.$sort;
+            $sort = 'pd.' . $sort;
         } elseif (!$options && in_array($sort, ['sort_order', 'price'])) {
-            $sort = 'p.'.$sort;
+            $sort = 'p.' . $sort;
         } elseif ($options['special']) {
             if ($sort == 'sort_order') {
-                $sort = 'p.'.$sort;
+                $sort = 'p.' . $sort;
             } elseif (in_array($sort, ['price', 'p.price'])) {
-                $sort = 'ps.'.$sort;
+                $sort = 'ps.' . $sort;
             }
         }
         return [
@@ -622,7 +624,7 @@ abstract class AController
             'raw_sort' => $rawSort,
             'order'    => $order,
             'page'     => $page,
-            'limit'    => $limit,
+            'limit'    => $limit
         ];
     }
 }

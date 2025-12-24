@@ -431,4 +431,8 @@ and Add Endpoints receiving events from your account. After Endpoint has been cr
         <key>paypal_commerce_show_buttons_cart</key>
         <value><![CDATA[Cart Page Checkout Buttons]]></value>
     </definition>
+    <definition>
+        <key>paypal_commerce_debug_logging</key>
+        <value><![CDATA[Debug Logging:<span class="help">See the log in Admin->System->Error Logs section</span>]]></value>
+    </definition>
 </definitions>
