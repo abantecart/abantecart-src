@@ -419,6 +419,7 @@ class ControllerResponsesCheckoutPay extends AController
             //customer details
             $this->data['customer_email'] = $this->customer->getEmail();
             $phone = $this->data['customer_telephone'] = $this->customer->getTelephone() ?: $this->fc_session['telephone'];
+            $this->data['phone_pattern'] = DEFAULT_PHONE_REGEX_PATTERN;
             if ($this->config->get('fast_checkout_require_phone_number')) {
                 $form = new AForm();
                 $form->loadFromDb('CustomerFrm');
@@ -427,7 +428,6 @@ class ControllerResponsesCheckoutPay extends AController
                 if (mb_strlen($phone) < 3 || mb_strlen($phone) > 32 || !preg_match($pattern, $phone)) {
                     //hide payment form when phone number required and incorrect
                     $this->data['show_payment'] = false;
-                    $this->data['phone_pattern'] = $pattern;
                     $this->data['invalid_phone'] = true;
                 }
             }
