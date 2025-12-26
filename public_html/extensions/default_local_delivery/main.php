@@ -44,7 +44,6 @@ $languages = [
 $templates = [
     'storefront' => [
         'pages/checkout/default_local_delivery_fields.tpl',
-        'pages/checkout/fast_checkout_fields.tpl'
     ],
     'admin'      => [],
 ];

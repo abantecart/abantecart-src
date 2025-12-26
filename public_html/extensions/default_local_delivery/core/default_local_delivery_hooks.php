@@ -48,13 +48,6 @@ class ExtensionDefaultLocalDelivery extends Extension
             return;
         }
 
-        if(!$that->config->get('fast_checkout_require_phone_number')) {
-            $view = new AView(Registry::getInstance(), 0);
-            $view->batchAssign($that->data);
-            $view->batchAssign($that->view->getData());
-            $view->assign('fast_checkout_text_apply', $that->language->get('fast_checkout_text_apply'));
-            $html = $view->fetch('pages/checkout/fast_checkout_fields.tpl');
-            $that->view->addHookVar('payment_form_fields', $html);
-        }
+        $that->view->assign('require_telephone', true);
     }
 }
