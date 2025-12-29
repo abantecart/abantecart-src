@@ -95,6 +95,7 @@ class ControllerBlocksCategoryFilter extends AController
 
         $this->buildTrees();
 
+        $this->data['selected_categories'] = $this->selectedCategories;
         $this->data['selected_brand'] = $this->selectedBrands;
         $this->data['selected_rating'] = $this->selectedRatings;
 
