@@ -65,6 +65,8 @@ class ControllerPagesProductCategory extends AController
             $httpQuery['rating'] = $ratings;
         }
 
+        $httpQuery = array_merge($httpQuery, (array)$this->data['additional_filters']);
+
         /** @var ModelCatalogCategory $mdl */
         $mdl = $this->loadModel('catalog/category');
         $this->loadModel('tool/seo_url');
