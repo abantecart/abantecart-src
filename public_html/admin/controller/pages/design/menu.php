@@ -35,8 +35,8 @@ class ControllerPagesDesignMenu extends AController
     ];
     /** @var AMenu_Storefront */
     protected $menu;
-    protected $menu_items;
-    protected $menu_tree;
+    protected $menu_items = [];
+    protected $menu_tree = [];
 
     public function main()
     {

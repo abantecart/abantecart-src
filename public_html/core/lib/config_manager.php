@@ -1123,14 +1123,6 @@ class AConfigManager
                 'style' => 'btn_switch',
             ]
         );
-        $fields['fast_checkout_require_phone_number'] = $form->getFieldHtml(
-            $props[] = [
-                'type'  => 'checkbox',
-                'name'  => 'fast_checkout_require_phone_number',
-                'value' => $data['fast_checkout_require_phone_number'],
-                'style' => 'btn_switch',
-            ]
-        );
 
         $fields['fast_checkout_payment_address_equal_shipping'] = $form->getFieldHtml(
             $props[] = [

@@ -52,7 +52,7 @@ class ControllerResponsesCheckoutPay extends AController
         $this->loadModel('checkout/order');
         $this->loadLanguage('checkout/fast_checkout');
 
-        $this->data['require_telephone'] = $this->config->get('fast_checkout_require_phone_number');
+        $this->data['require_telephone'] = $this->isPhoneRequired();
 
         //set a tax zone for tax class based on session data
         $tax_zone_id = $tax_country_id = null;
@@ -419,17 +419,15 @@ class ControllerResponsesCheckoutPay extends AController
             //customer details
             $this->data['customer_email'] = $this->customer->getEmail();
             $phone = $this->data['customer_telephone'] = $this->customer->getTelephone() ?: $this->fc_session['telephone'];
-            if ($this->config->get('fast_checkout_require_phone_number')) {
-                $form = new AForm();
-                $form->loadFromDb('CustomerFrm');
-                $telephoneField = $form->getField('telephone');
-                $pattern = $telephoneField['regexp_pattern'] ?: DEFAULT_PHONE_REGEX_PATTERN;
-                if (mb_strlen($phone) < 3 || mb_strlen($phone) > 32 || !preg_match($pattern, $phone)) {
-                    //hide payment form when phone number required and incorrect
-                    $this->data['show_payment'] = false;
-                    $this->data['phone_pattern'] = $pattern;
-                    $this->data['invalid_phone'] = true;
-                }
+
+            $form = new AForm();
+            $form->loadFromDb('CustomerFrm');
+            $telephoneField = $form->getField('telephone');
+            $this->data['phone_pattern'] = $telephoneField['regexp_pattern'] ?: DEFAULT_PHONE_REGEX_PATTERN;
+            if (mb_strlen($phone) < 3 || mb_strlen($phone) > 32 || !preg_match($this->data['phone_pattern'], $phone)) {
+                //hide payment form when phone number required and incorrect
+                $this->data['show_payment'] = false;
+                $this->data['invalid_phone'] = true;
             }
         }
 
@@ -694,7 +692,7 @@ class ControllerResponsesCheckoutPay extends AController
                 }
             }
 
-            if (!$this->fc_session['telephone'] && $this->config->get('fast_checkout_require_phone_number')) {
+            if (!$this->fc_session['telephone'] && $this->isPhoneRequired()) {
                 //hide payment form when phone number required and incorrect
                 $this->data['show_payment'] = false;
                 $this->data['payment_form'] = false;
@@ -1945,7 +1943,7 @@ class ControllerResponsesCheckoutPay extends AController
             }
         }
 
-        if ($this->config->get('fast_checkout_require_phone_number') && !$request['telephone']) {
+        if ($this->isPhoneRequired() && !$request['telephone']) {
             $this->error['message'] = $this->language->get('fast_checkout_error_phone');
             return false;
         }
@@ -2112,5 +2110,14 @@ class ControllerResponsesCheckoutPay extends AController
             ]
         );
     }
+
+    protected function isPhoneRequired(){
+        $form = new AForm();
+        $formTxtId = $this->customer->isLogged() ? 'CustomerFrm' : 'GuestCheckoutFrm';
+        $form->loadFromDb($formTxtId);
+        $telephoneField = $form->getField('telephone');
+        return $telephoneField['required'] ? : false;
+    }
+
 
 }

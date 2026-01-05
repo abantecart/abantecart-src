@@ -95,6 +95,7 @@ class ControllerBlocksCategoryFilter extends AController
 
         $this->buildTrees();
 
+        $this->data['selected_categories'] = $this->selectedCategories;
         $this->data['selected_brand'] = $this->selectedBrands;
         $this->data['selected_rating'] = $this->selectedRatings;
 
@@ -106,6 +107,8 @@ class ControllerBlocksCategoryFilter extends AController
         $httpQuery['keyword'] = $get['keyword'];
         $httpQuery['description'] = $get['description'];
 
+        //remove the page number to reset page to "1" when some filter changed
+        unset($httpQuery['page']);
         $this->data['page_url'] = $this->html->getSEOURL($this->request->get['rt'], '&' . http_build_query($httpQuery));
         $this->view->batchAssign($this->data);
         if (!$this->data['category_details']['tree'] && !$this->data['ratings'] && !$this->data['brands']) {
