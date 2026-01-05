@@ -228,7 +228,7 @@ class ControllerResponsesCheckoutPay extends AController
 
             if (!$this->request->get['shipping_address_id']) {
                 //validate payment address. See hook calls inside. Some extensions can affect it
-                $this->error = $this->model_account_address->validateAddressData($this->data['payment_address']);
+                $this->error = $this->model_account_address->validateAddressData((array)$this->data['payment_address']);
                 if ($this->error) {
                     $this->data['error'] = $this->language->get('fast_checkout_text_payment_address') . ": " . implode("\n", $this->error);
                 }
@@ -2106,7 +2106,7 @@ class ControllerResponsesCheckoutPay extends AController
             [
                 'type'  => 'button',
                 'name'  => 'add_address',
-                'text'  => 'Click to Add Address',
+                'text'  => $this->language->get('text_add_address'),
                 'href'  => $this->html->getSecureURL('account/address/insert'),
                 'style' => 'btn-default',
             ]
