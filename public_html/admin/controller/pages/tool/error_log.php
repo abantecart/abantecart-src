@@ -44,6 +44,8 @@ class ControllerPagesToolErrorLog extends AController
         }
 
         $filename = $this->request->get['filename'] ?: $this->config->get('config_error_filename');
+        //remove relative parents from the filename to avoid directory traversal
+        $filename = str_replace('..'.DS, '', $filename);
         $file = DIR_LOGS.$filename;
         if(!is_file($file)) {
             redirect($this->html->getSecureURL(
@@ -56,8 +58,7 @@ class ControllerPagesToolErrorLog extends AController
         $this->data['clear_url'] = $this->html->getSecureURL( 'tool/error_log/clearlog', '&filename='.$filename );
 
         $all_logs = array_merge(
-            glob(DIR_LOGS.'{*.log,*.txt}', GLOB_BRACE)
-            +
+            glob(DIR_LOGS.'{*.log,*.txt}', GLOB_BRACE),
             glob(DIR_LOGS.'*/{*.log,*.txt}', GLOB_BRACE)
         );
         $options = [];
