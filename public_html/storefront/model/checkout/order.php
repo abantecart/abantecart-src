@@ -860,11 +860,13 @@ class ModelCheckoutOrder extends Model
             $thumbnailUrl = is_file($imgFile)
                 ? 'data:' . mime_content_type($imgFile) . ';base64,' . base64_encode(file_get_contents($imgFile))
                 : '';
+            $thumbnailRemoteUrl = str_replace(AUTO_SERVER,HTTPS_SERVER,$thumbnails[(int)$product['product_id']]['thumb_url']);
 
             $this->data['products'][] = array_merge(
                 $product,
                 [
                     'thumbnail_url' => $thumbnailUrl,
+                    'thumbnail_remote_url' => $thumbnailRemoteUrl,
                     'option' => $option_data,
                     'price' => $this->currency->format(
                         $product['price'],
@@ -886,6 +888,7 @@ class ModelCheckoutOrder extends Model
         $this->data['mail_template'] = 'mail/order_confirm.tpl';
 
         //allow changing email data from extensions
+        //see $that->data['mail_template_data']
         $this->extensions->hk_ProcessData($this, 'sf_order_confirm_mail');
 
         $view = new AView($this->registry, 0);
