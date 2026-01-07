@@ -1693,19 +1693,35 @@ function isUrlAlive(string $url): bool
  * Processes a given regular expression to extract and clean the core HTML pattern.
  *
  * @param string|null $regex The input regular expression, typically enclosed in delimiters and may include anchors (^ and $).
- * @return string The cleaned regular expression pattern without delimiters and anchors.
+ *
+ * @return string|null The cleaned regular expression pattern without delimiters and anchors.
  */
-function regexForHtmlPattern(?string $regex)
+function regexForHtmlPattern(?string $regex): ?string
 {
-    // remove separators /.../
-    $regex = trim($regex);
-    if (preg_match('#^/(.*?)/[a-zA-Z]*$#', $regex, $m)) {
-        $regex = $m[1];
+    if (!$regex) {
+        return null;
     }
 
-    // remove ^ and $
+    $regex = trim($regex);
+
+    // Remove delimiters (first and last character if they match common delimiters)
+    if (preg_match('/^([\/\#\~\@\%\|\!])(.*)\\1[imsxuADSUXJ]*$/s', $regex, $matches)) {
+        $regex = $matches[2];
+    }
+
+    // Remove leading ^ and trailing $
     $regex = preg_replace('/^\^/', '', $regex);
-    return preg_replace('/\$$/', '', $regex);
+    $regex = preg_replace('/\$$/', '', $regex);
+
+    // Replace regex shorthand character classes with HTML5 pattern equivalents
+    $regex = str_replace('\d', '[0-9]', $regex);
+    $regex = str_replace('\s', ' ', $regex);
+    $regex = str_replace('\w', '[a-zA-Z0-9_]', $regex);
+    $regex = str_replace('\D', '[^0-9]', $regex);
+    $regex = str_replace('\S', '[^ ]', $regex);
+    $regex = str_replace('\W', '[^a-zA-Z0-9_]', $regex);
+
+    return $regex;
 }
 
 /**
