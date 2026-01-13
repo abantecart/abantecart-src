@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -343,15 +343,15 @@ class ControllerPagesProductProduct extends AController
         $product_discounts = $promotion->getProductDiscounts($product_id);
         $discounts = [];
         foreach ($product_discounts as $discount) {
+            $price_num = $this->tax->calculate(
+                $discount['price'],
+                $product_info['tax_class_id'],
+                (bool) $this->config->get('config_tax')
+            );
             $discounts[] = [
                 'quantity' => $discount['quantity'],
-                'price'    => $this->currency->format(
-                    $this->tax->calculate(
-                        $discount['price'],
-                        $product_info['tax_class_id'],
-                        (bool) $this->config->get('config_tax')
-                    )
-                )
+                'price'    => $this->currency->format($price_num),
+                'price_num' => $price_num
             ];
         }
         $this->data['discounts'] = $discounts;
