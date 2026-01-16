@@ -1,11 +1,11 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -18,6 +18,7 @@
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 /**
  * @property ModelCatalogDownload $model_catalog_download
  */
@@ -81,11 +82,11 @@ class ModelCatalogProduct extends Model
                 $update
             );
         } else { // if cloning
-            foreach ($data['product_description'] as $language_id => $value) {
+            foreach ($data['product_description'] as $lang_id => $value) {
                 $this->db->query(
                     "INSERT INTO " . $this->db->table("product_descriptions") . " 
                     SET product_id = '" . $product_id . "',
-                        language_id = '" . (int)$language_id . "',
+                        language_id = '" . (int)$lang_id . "',
                         name = '" . $this->db->escape($value['name']) . "',
                         meta_keywords = '" . $this->db->escape($value['meta_keywords']) . "',
                         meta_description = '" . $this->db->escape($value['meta_description']) . "',
@@ -108,14 +109,12 @@ class ModelCatalogProduct extends Model
                         'keyword' => SEOEncode($data['keyword'], 'product_id', $product_id),
                     ],
                 ];
-            } //when cloning
+            }
+            //when cloning
             else {
                 if (is_array($data['keyword'])) {
                     $all_languages = $this->language->getAvailableLanguages();
-                    $all_ids = [];
-                    foreach ($all_languages as $l) {
-                        $all_ids[] = $l['language_id'];
-                    }
+                    $all_ids = array_column($all_languages,'language_id');
                     foreach ($data['keyword'] as $lang_id => $seo_key) {
                         if (!in_array($lang_id, $all_ids)) {
                             continue;
@@ -139,10 +138,7 @@ class ModelCatalogProduct extends Model
                 $product_seo_keys = $this->getProductSEOKeywords($product_id);
 
                 $all_languages = $this->language->getAvailableLanguages();
-                $all_ids = [];
-                foreach ($all_languages as $l) {
-                    $all_ids[] = $l['language_id'];
-                }
+                $all_ids = array_column($all_languages,'language_id');
                 foreach ($product_seo_keys as $lang_id => $seo_key) {
                     if (!in_array($lang_id, $all_ids)) {
                         continue;
@@ -209,8 +205,8 @@ class ModelCatalogProduct extends Model
                 priority = '" . (int)$data['priority'] . "',
                 price_prefix = '" . $this->db->escape($data['price_prefix']) . "',
                 price = '" . preformatFloat($data['price']) . "',
-                date_start = '" . $this->db->escape($data['date_start']) . "',
-                date_end = '" . $this->db->escape($data['date_end']) . "'"
+                date_start = DATE('" . $this->db->escape($data['date_start']) . "'),
+                date_end = DATE('" . $this->db->escape($data['date_end']) . "')"
         );
         $id = $this->db->getLastId();
         $this->_touch_product($product_id);
@@ -241,8 +237,8 @@ class ModelCatalogProduct extends Model
                 priority = '" . (int)$data['priority'] . "',
                 price_prefix = '" . $this->db->escape($data['price_prefix']) . "',
                 price = '" . preformatFloat($data['price'], $this->language->get('decimal_point')) . "',
-                date_start = '" . $this->db->escape($data['date_start']) . "',
-                date_end = '" . $this->db->escape($data['date_end']) . "'"
+                date_start = DATE('" . $this->db->escape($data['date_start']) . "'),
+                date_end = DATE('" . $this->db->escape($data['date_end']) . "')"
         );
         $id = $this->db->getLastId();
         $this->_touch_product($product_id);
@@ -432,9 +428,13 @@ class ModelCatalogProduct extends Model
         }
         $update = [];
         foreach ($fields as $f) {
-            if (isset($data[$f])) {
-                $update[] = $f . " = '" . $this->db->escape($data[$f]) . "'";
+            $newValue = $data[$f];
+            if(str_starts_with($f, 'date_')){
+                $newValue = "DATE('".$newValue."')";
+            }else{
+                $newValue = "'".$this->db->escape($data[$f])."'";
             }
+            $update[] = $f . " = " . $newValue;
         }
         if (!empty($update)) {
             $this->db->query(
@@ -464,7 +464,13 @@ class ModelCatalogProduct extends Model
         $update = [];
         foreach ($fields as $f) {
             if (isset($data[$f])) {
-                $update[] = $f . " = '" . $this->db->escape($data[$f]) . "'";
+                $newValue = $data[$f];
+                if(str_starts_with($f, 'date_')){
+                    $newValue = "DATE('".$newValue."')";
+                }else{
+                    $newValue = "'".$this->db->escape($data[$f])."'";
+                }
+                $update[] = $f . " = " . $newValue;
             }
         }
         if (!empty($update)) {
