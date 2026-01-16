@@ -242,6 +242,21 @@ class ModelAccountCustomer extends Model
             $lang_key = 'im_new_customer_text_to_admin';
             $templateId = 'storefront_new_customer_admin_notify';
         }
+
+        // Send additional alert emails about new registered customer
+        $emails = array_unique(
+            array_map(
+                'trim',
+                explode(',', $this->config->get('config_alert_emails'))
+            )
+        );
+        $emails = array_filter($emails, function ($email) {
+            return preg_match(EMAIL_REGEX_PATTERN, $email);
+        });
+        foreach ($emails as $email) {
+            $this->_send_email($email, $templateId, $data);
+        }
+
         $message_arr = [
             1 => [
                 'message' => $language->getAndReplace(
