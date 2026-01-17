@@ -223,12 +223,6 @@ class ModelCatalogProduct extends Model
     public function addProductSpecial($product_id, $data)
     {
         $data['price'] = str_replace(" ", "", $data['price']);
-        if (!empty($data['date_start']) && !$data['iso_date']) {
-            $data['date_start'] = dateDisplay2ISO($data['date_start'], $this->language->get('date_format_short'));
-        }
-        if (!empty($data['date_end']) && !$data['iso_date']) {
-            $data['date_end'] = dateDisplay2ISO($data['date_end'], $this->language->get('date_format_short'));
-        }
 
         $this->db->query(
             "INSERT INTO " . $this->db->table("product_specials") . "
