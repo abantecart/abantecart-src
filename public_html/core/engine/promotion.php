@@ -237,8 +237,8 @@ class APromotion
             WHERE rd.product_id = '".(int) $product_id."'
                 AND rd.customer_group_id = '".(int) $customer_group_id."'
                 AND rd.quantity > 1
-                AND (COALESCE(rd.date_start, '1970-01-01') OR rd.date_start < NOW())
-                AND (COALESCE(rd.date_end, '2200-01-01') OR rd.date_end > NOW())
+                AND (COALESCE(rd.date_start, '1970-01-01') < NOW())
+                AND (COALESCE(rd.date_end, '2200-01-01') > NOW())
             ORDER BY rd.quantity ASC, rd.priority ASC"
         );
         $output = $query->rows;
