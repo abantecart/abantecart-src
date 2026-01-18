@@ -81,8 +81,7 @@ class ControllerBlocksBannerBlock extends AController
                     $row['images'] = $rl->getResourceAllObjects('banners', $row['banner_id']);
                     //add click registration wrapper to each URL
                     //NOTE: You can remove below line to use tracking javascript instead. Javascript tracks HTML banner clicks
-                    $row['target_url'] = $this->html->getURL('r/extension/banner_manager/click', '&banner_id='.$row['banner_id'], true);
-
+                    $row['target_url'] = $row['target_url'] ?: $this->html->getURL('r/extension/banner_manager/click', '&banner_id='.$row['banner_id'], true);
                 } else {
                     $row['description'] = html_entity_decode($row['description']);
                 }
