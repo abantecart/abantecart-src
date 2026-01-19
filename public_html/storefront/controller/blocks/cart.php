@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 class ControllerBlocksCart extends AController
@@ -68,9 +68,10 @@ class ControllerBlocksCart extends AController
                 'height' => $this->config->get('config_image_cart_height'),
             ],
         ];
+        $this->data['all_instock'] = true;
         foreach ($cart_products as $result) {
             $option_data = [];
-            $thumbnail = $thumbnails[$result['product_id']] ?: $result['thumb'];
+            $thumbnail = $thumbnails[$result['product_id']] ? : $result['thumb'];
             foreach ($result['option'] as $option) {
                 $title = '';
                 if ($option['element_type'] == 'H') {
@@ -88,7 +89,7 @@ class ControllerBlocksCart extends AController
 
                     $value = str_replace('\r\n', "\n", $value);
                     if (mb_strlen($value) > 64) {
-                        $value = mb_substr($value, 0, 64).'...';
+                        $value = mb_substr($value, 0, 64) . '...';
                     }
                 }
 
@@ -124,20 +125,21 @@ class ControllerBlocksCart extends AController
                 'stock'    => $result['stock'],
                 'price'    => $this->currency->format(
                     $this->tax->calculate(
-                        $result['price'] ?: $result['amount'],
+                        $result['price'] ? : $result['amount'],
                         $result['tax_class_id'],
                         $this->config->get('config_tax')
                     )
                 ),
                 'href'     => $this->html->getSEOURL(
                     'product/product',
-                    '&product_id='.$result['product_id'],
+                    '&product_id=' . $result['product_id'],
                     true
                 ),
                 'thumb'    => $thumbnail,
-                'minimum'       => $result['minimum']?:1,
-                'maximum'       => $result['maximum']
+                'minimum'  => $result['minimum'] ? : 1,
+                'maximum'  => $result['maximum'],
             ];
+            $this->data['all_instock'] = !$result['stock'] ? false : $this->data['all_instock'];
         }
 
         $this->data['products'] = $products;

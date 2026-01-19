@@ -226,3 +226,8 @@ create index `ac_shopping_sessions_int_idx`
     on `ac_shopping_sessions` (`customer_id` desc, `order_id` desc);
 create unique index `ac_shopping_sessions_text_idx`
     on `ac_shopping_sessions` (`type`, `key`, `data`);
+
+UPDATE `ac_product_discounts` SET date_start = NULL WHERE date_start = '0000-00-00';
+UPDATE `ac_product_discounts` SET date_end = NULL WHERE date_end = '0000-00-00';
+UPDATE `ac_product_specials` SET date_start = NULL WHERE date_start = '0000-00-00';
+UPDATE `ac_product_specials` SET date_end = NULL WHERE date_end = '0000-00-00';

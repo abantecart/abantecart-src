@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -34,7 +34,7 @@ class ControllerResponsesListingGridExtension extends AController
         $this->loadLanguage('extension/extensions');
         /** @var ModelToolMPAPI $mpModel */
         $mpModel = $this->loadModel('tool/mp_api');
-        $page = min(0,(int)$this->request->post['page']);
+        $page = max(1,(int)$this->request->post['page']);
         $limit = (int)$this->request->post['rows']; // get how many rows we want to have into the grid
         $sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
         $sord = $this->request->post['sord']; // get the direction
@@ -79,6 +79,8 @@ class ControllerResponsesListingGridExtension extends AController
             'search'     => $search_str,
             'filter'     => $this->session->data['extension_filter'],
             'sort_order' => [$sidx, $sord],
+            'page'       => $page,
+            'limit'      => $limit,
         ];
         if ($this->config->get('current_store_id')) {
             $data['store_id'] = (int)$this->config->get('current_store_id');
@@ -87,7 +89,7 @@ class ControllerResponsesListingGridExtension extends AController
         $extensions = $this->extension_manager->getExtensionsList($data, 'force');
 
         $total = $extensions->total;
-        $total_pages = $total > 0 ? ceil($total / $limit) : 0;
+        $total_pages = $total > 0 ? (int)ceil($total / $limit) : 0;
 
         $response = new stdClass();
         $response->rows = [];

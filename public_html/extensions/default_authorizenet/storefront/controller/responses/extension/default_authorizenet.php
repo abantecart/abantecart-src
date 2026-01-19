@@ -63,7 +63,7 @@ class ControllerResponsesExtensionDefaultAuthorizeNet extends AController
     {
         //need an order details
         $this->loadModel('checkout/order');
-        $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
+        $this->data['order_info'] = $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
         $this->data['payment_address'] = $order_info['payment_address_1']." ".$order_info['payment_address_2'];
         if ($this->customer->isLogged()) {
             $this->data['edit_address'] = $this->html->getSecureURL('checkout/address/payment');

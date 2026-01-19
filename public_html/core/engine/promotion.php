@@ -157,10 +157,10 @@ class APromotion
                 LEFT JOIN ".$this->db->table("products")." p
                     ON p.product_id = rd.product_id
                 WHERE rd.product_id = '".(int) $product_id."'
-                        AND rd.customer_group_id = '".$customer_group_id."'
-                        AND rd.quantity <= '".(int) $discount_quantity."'
-                        AND ((rd.date_start = '0000-00-00' OR rd.date_start < NOW()) 
-                                AND (rd.date_end = '0000-00-00' OR rd.date_end > NOW()))
+                    AND rd.customer_group_id = '".$customer_group_id."'
+                    AND rd.quantity <= '".(int) $discount_quantity."'
+                    AND ( COALESCE(rd.date_start,'1970-01-01') < NOW() )
+                    AND ( COALESCE(rd.date_end,'2200-01-01') > NOW() )
                 ORDER BY rd.quantity DESC, rd.priority ASC, discount_price ASC
                 LIMIT 1";
         $product_discount_query = $this->db->query($sql);
@@ -237,8 +237,8 @@ class APromotion
             WHERE rd.product_id = '".(int) $product_id."'
                 AND rd.customer_group_id = '".(int) $customer_group_id."'
                 AND rd.quantity > 1
-                AND ((rd.date_start = '0000-00-00' OR rd.date_start < NOW())
-                AND (rd.date_end = '0000-00-00' OR rd.date_end > NOW()))
+                AND (COALESCE(rd.date_start, '1970-01-01') < NOW())
+                AND (COALESCE(rd.date_end, '2200-01-01') > NOW())
             ORDER BY rd.quantity ASC, rd.priority ASC"
         );
         $output = $query->rows;
@@ -272,8 +272,8 @@ class APromotion
                             ON p.product_id = ps.product_id
             WHERE ps.product_id = '".(int) $product_id."'
                 AND ps.customer_group_id = '".$customer_group_id."'
-                AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW())
-                AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW()))
+                AND ( COALESCE(ps.date_start,'1970-01-01') < NOW() )
+                AND ( COALESCE(ps.date_end,'2200-01-01') > NOW() )
             ORDER BY ps.priority ASC, special_price ASC 
             LIMIT 1"
         );
@@ -337,8 +337,8 @@ class APromotion
                 WHERE p.status = '1'
                     AND p.date_available <= NOW() AND p2s.store_id = '".$store_id."'
                     AND ps.customer_group_id = '".$customer_group_id."'
-                    AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW())
-                    AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW()))
+                    AND ( COALESCE(ps.date_start,'1970-01-01') < NOW() )
+                    AND ( COALESCE(ps.date_end,'2200-01-01') > NOW() )
                 GROUP BY ps.product_id";
 
         $sort_data = [
@@ -409,8 +409,8 @@ class APromotion
                 AND p.date_available <= NOW()
                 AND p2s.store_id = '".(int) $store_id."'
                 AND ps.customer_group_id = '".(int) $customer_group_id."'
-                AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW())
-                AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW()))"
+                AND ( COALESCE(ps.date_start,'1970-01-01') < NOW() )
+                AND ( COALESCE(ps.date_end,'2200-01-01') > NOW() )"
         );
 
         $output = (int) $query->row['total'];

@@ -1,22 +1,22 @@
-<?php /** @noinspection PhpReturnValueOfMethodIsNeverUsedInspection */
+<?php
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
- */
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */ /** @noinspection PhpReturnValueOfMethodIsNeverUsedInspection */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -2179,11 +2179,20 @@ class ALayoutManager
      */
     private function _processPage($layout_id, $page)
     {
+
+        //validate
+        try{
+            $keyValue = $this->validatePageKeyValue($page);
+        }catch (Exception $e){
+            $this->log->write('Layout XML Import Error: Tried to insert page: '. var_export($page, true));
+            return false;
+        }
+
         $sql = "SELECT p.page_id
                 FROM " . $this->db->table("pages") . " p
                 WHERE controller='" . $this->db->escape($page->controller) . "'
                         AND key_param = '" . $this->db->escape($page->key_param) . "'
-                        AND key_value = '" . $this->db->escape($page->key_value) . "'";
+                        AND key_value = '" . $this->db->escape($keyValue) . "'";
 
         $result = $this->db->query($sql);
         $page_id = ( int )$result->row ['page_id'];
@@ -2194,9 +2203,9 @@ class ALayoutManager
                     WHERE page_id = '" . $page_id . "' AND layout_id= '" . $layout_id . "'";
             $result = $this->db->query($sql);
             if (!( int )$result->row ['layout_id']) {
-                $sql =
-                    "INSERT INTO " . $this->db->table("pages_layouts") . " (layout_id,page_id) VALUES ('" . ( int )$layout_id
-                    . "','" . ( int )$page_id . "')";
+                $sql = "INSERT INTO " . $this->db->table("pages_layouts") . " 
+                            (layout_id,page_id) 
+                        VALUES ('" . ( int )$layout_id. "','" . ( int )$page_id . "')";
                 $this->db->query($sql);
             }
         } else { // if page new
@@ -2204,7 +2213,7 @@ class ALayoutManager
                     VALUES ('0',
                             '" . $this->db->escape(trim($page->controller)) . "',
                             '" . $this->db->escape(trim($page->key_param)) . "',
-                            '" . $this->db->escape(trim($page->key_value)) . "',NOW())";
+                            '" . $this->db->escape(trim($keyValue)) . "',NOW())";
             $this->db->query($sql);
             $page_id = $this->db->getLastId();
             $sql = "INSERT INTO " . $this->db->table("pages_layouts") . " (layout_id,page_id)
@@ -2241,6 +2250,45 @@ class ALayoutManager
         }
 
         return true;
+    }
+
+    /**
+     * Validates the key parameters of a page and ensures that the provided key value corresponds to
+     * a valid category or description. Throws an exception if the validation fails.
+     *
+     * @param object $page The page object containing key parameters and descriptions to validate.
+     *
+     * @return int|string The validated key value, either the category ID or the key value itself.
+     * @throws AException If the key parameter is 'path' or 'category_id' and no valid category or description is found.
+     */
+    protected function validatePageKeyValue($page)
+    {
+        $pageName = trim($page->page_descriptions->page_description->name);
+        if($page->key_param == 'path' || $page->key_param == 'category_id'){
+            /** @var ModelCatalogCategory $mdl */
+            $mdl = $this->registry->get('load')->model('catalog/category');
+            $categoryDescriptions = $mdl->getCategoryDescriptions($page->key_value);
+            /** @var ModelLocalisationLanguage $lMdl */
+            $lMdl = $this->registry->get('load')->model('localisation/language');
+            $res = $lMdl->getLanguages(
+                [
+                    'subsql_filter' => " directory='".$this->db->escape(trim($page->page_descriptions->page_description->language))."'"
+                ]
+            );
+            $languageId = current($res)['language_id'];
+            if(!$categoryDescriptions || $categoryDescriptions[$languageId]['name'] != $pageName){
+                $sql = "SELECT * 
+                        FROM " . $this->db->table("category_descriptions") . " 
+                        WHERE name LIKE '" . $this->db->escape($pageName) . "'";
+                $res = $this->db->query($sql);
+                if(!$res->num_rows){
+                    throw new AException('Invalid category id');
+                }
+                return $res->row['category_id'];
+            }
+            return $page->key_value;
+        }
+        //TODO: do the same for product and content in the future
     }
 
     /**

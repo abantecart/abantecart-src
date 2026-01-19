@@ -658,6 +658,7 @@ class AForm
                 'field_group_name'        => $field['group_name'],
                 'field_group_description' => $field['group_description'],
                 'field_group_sort_order'  => $field['group_sort_order'],
+                'error_text'              => $field['error_text'],
             ];
             $data['value'] = $data['type'] == 'checkbox' && !$data['value'] ? 1 : $data['value'];
             $data['text'] = $data['type'] == 'label' && !$data['text'] ? $data['value'] : $data['text'];

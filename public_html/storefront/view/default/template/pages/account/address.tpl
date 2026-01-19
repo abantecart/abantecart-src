@@ -16,7 +16,7 @@ if ($error_warning) { ?>
 <?php } ?>
 <div class="container">
 	<?php
-    //$form['form_open']->style .= ' needs-validation';
+    $form['form_open']->style .= ' needs-validation';
     $form['form_open']->attr .= ' novalidate';
     echo $form['form_open'];
     foreach($form['fields'] as $group => $fields){

@@ -1,13 +1,11 @@
 <?php
-/** @noinspection PhpMultipleClassDeclarationsInspection */
-
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -19,6 +17,8 @@
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
+
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -378,7 +378,7 @@ class ACustomer
      */
     public function deleteActiveSessions(string $sessionId = '')
     {
-        $this->deleteActiveSessionsByID($this->customer_id, $sessionId);
+        $this->deleteActiveSessionsByID((int)$this->customer_id, $sessionId);
     }
 
     /**

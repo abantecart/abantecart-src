@@ -110,14 +110,35 @@ echo $form_open;?>
         authData.clientKey = "<?php echo $this->config->get('default_authorizenet_api_public_key');?>";
         authData.apiLoginID = "<?php echo $this->config->get('default_authorizenet_api_login_id');?>";
 
-        var cardData = {};
-        cardData.cardNumber = $("[name=cc_number]").val();
-        cardData.month = $("[name=cc_expire_date_month]").val();
-        cardData.year = $("[name=cc_expire_date_year]").val();
-        cardData.cardCode = $("[name=cc_cvv2]").val();
+        let cardData = {
+            cardNumber: $("[name=cc_number]").val(),
+            month: $("[name=cc_expire_date_month]").val(),
+            year: $("[name=cc_expire_date_year]").val(),
+            cardCode: $("[name=cc_cvv2]").val()
+        };
+        let billTo = {
+            firstName: <?php js_echo($order_info['payment_firstname'] ?? '');?>,
+            lastName: <?php js_echo($order_info['payment_lastname'] ?? '');?>,
+            address: <?php js_echo($order_info['payment_address_1'] ?? '');?>,
+            city: <?php js_echo($order_info['payment_city'] ?? '');?>,
+            state: <?php js_echo($order_info['payment_zone'] ?? '');?>,
+            zip: <?php js_echo(substr($order_info['payment_postcode'],0,5) ?? '');?>,
+            country: <?php js_echo($order_info['payment_country'] ?? '');?>
+        };
+        let shipTo = {
+            firstName: <?php js_echo($order_info['shipping_firstname'] ?? '');?>,
+            lastName: <?php js_echo($order_info['shipping_lastname'] ?? '');?>,
+            address: <?php js_echo($order_info['shipping_address_1'] ?? '');?>,
+            city: <?php js_echo($order_info['shipping_city'] ?? '');?>,
+            state: <?php js_echo($order_info['shipping_zone'] ?? '');?>,
+            zip: <?php js_echo(substr($order_info['shipping_postcode'],0,5) ?? '');?>,
+            country: <?php js_echo($order_info['shipping_country'] ?? '');?>
+        };
         var secureData = {};
         secureData.authData = authData;
         secureData.cardData = cardData;
+        secureData.billTo = billTo;
+        secureData.shipTo = shipTo;
         Accept.dispatchData(secureData, responseHandler);
     }
 
