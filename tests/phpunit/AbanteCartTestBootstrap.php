@@ -18,12 +18,19 @@
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
+namespace phpunit;
+
+use ACustomer;
+use AUser;
+use PHPUnit;
+use Registry;
+
 /**
  * Class AbanteCartTest
  *
  * @property ACustomer $customer
  */
-class AbanteCartTest extends PHPUnit\Framework\TestCase
+class AbanteCartTestBootstrap extends PHPUnit\Framework\TestCase
 {
     protected $registry;
 
@@ -34,14 +41,13 @@ class AbanteCartTest extends PHPUnit\Framework\TestCase
         $dirname = dirname(__FILE__);
         $dirname = dirname($dirname);
 
-        $dirname = dirname($dirname).DIRECTORY_SEPARATOR.'public_html';
+        $dirname = dirname($dirname) . DIRECTORY_SEPARATOR . 'public_html';
         define('ABC_TEST_ROOT_PATH', $dirname);
         define('ABC_TEST_HTTP_HOST', 'travis-ci.org');
         define('ABC_TEST_PHP_SELF', 'abantecart/abantecart-src/public_html/index.php');
 
         $_SERVER['HTTP_HOST'] = ABC_TEST_HTTP_HOST;
         $_SERVER['PHP_SELF'] = ABC_TEST_PHP_SELF;
-
 
         // Load Configuration
 
@@ -54,13 +60,13 @@ class AbanteCartTest extends PHPUnit\Framework\TestCase
             $root_path = str_replace('\\', '/', $root_path);
         }
         define('DIR_ROOT', $root_path);
-        define('DIR_CORE', DIR_ROOT.DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR);
+        define('DIR_CORE', DIR_ROOT . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR);
 
-        $this->loadConfiguration(DIR_ROOT.DIRECTORY_SEPARATOR.'system'.DIRECTORY_SEPARATOR.'config.php');
+        $this->loadConfiguration(DIR_ROOT . DIRECTORY_SEPARATOR . 'system' . DIRECTORY_SEPARATOR . 'config.php');
 
         //set server name for correct email sending
         if (defined('SERVER_NAME') && SERVER_NAME != '') {
-            putenv("SERVER_NAME=".SERVER_NAME);
+            putenv("SERVER_NAME=" . SERVER_NAME);
         }
 
         //purge _GET
@@ -77,7 +83,7 @@ class AbanteCartTest extends PHPUnit\Framework\TestCase
 
         $_GET['s'] = ADMIN_PATH; // sign of admin side for controllers run from dispatcher
         // Load all initial set up
-        require_once(DIR_ROOT.DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR.'init.php');
+        require_once(DIR_ROOT . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'init.php');
         unset($_GET['s']);// not needed anymore
 
         // Registry
@@ -103,12 +109,12 @@ class AbanteCartTest extends PHPUnit\Framework\TestCase
         if (file_exists($path) && filesize($path)) {
             require_once($path);
         } else {
-            throw new Exception('AbanteCart has to be installed first!');
+            throw new \Exception('AbanteCart has to be installed first!');
         }
 
         // New Installation
         if (!defined('DB_DATABASE')) {
-            throw new Exception('AbanteCart has to be installed first!');
+            throw new \Exception('AbanteCart has to be installed first!');
         }
     }
 
@@ -116,7 +122,7 @@ class AbanteCartTest extends PHPUnit\Framework\TestCase
     {
         $logged = $this->customer->login($user, $password);
         if (!$logged) {
-            throw new Exception('Could not login customer');
+            throw new \Exception('Could not login customer');
         }
     }
 
@@ -129,7 +135,7 @@ class AbanteCartTest extends PHPUnit\Framework\TestCase
 
     public function getOutput()
     {
-        $class = new ReflectionClass("Response");
+        $class = new \ReflectionClass("Response");
         $property = $class->getProperty("output");
         $property->setAccessible(true);
         return $property->getValue($this->response);
