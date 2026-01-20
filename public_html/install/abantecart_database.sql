@@ -13066,4 +13066,4 @@ create table `ac_shopping_sessions`
 create index `ac_shopping_sessions_int_idx`
     on `ac_shopping_sessions` (`customer_id` desc, `order_id` desc);
 create unique index `ac_shopping_sessions_text_idx`
-    on `ac_shopping_sessions` (`type`, `key`, `data`);
+    on `ac_shopping_sessions` (`type`, `key`);
