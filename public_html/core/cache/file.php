@@ -437,7 +437,7 @@ class ACacheDriverFile extends ACacheDriver
         $ret = true;
         if ($renamed) {
             clearstatcache(true, $path);
-            if (!rmdir($path)) {
+            if (is_dir($path) && !rmdir($path)) {
                 $err_text = sprintf('Error: Cannot delete cache directory: %s! No permissions to delete.', $path);
                 $error = new AError($err_text);
                 $error->toLog()->toDebug();
