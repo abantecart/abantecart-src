@@ -90,7 +90,7 @@ class ControllerBlocksCategoryFilter extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->loadLanguage('novator/novator');
+
         $get = $this->request->get;
 
         $this->buildTrees();

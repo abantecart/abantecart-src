@@ -1,11 +1,13 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -40,7 +42,6 @@ class ExtensionPaypalCommerce extends Extension
     {
         return 'QWJhbnRlQ2FydF9TUA==';
     }
-
 
     public static function getPartnerClientId()
     {
@@ -223,21 +224,23 @@ class ExtensionPaypalCommerce extends Extension
     {
         /** @var ControllerPagesSaleOrderTabs $that */
         $that =& $this->baseObject;
-        $order_id = $that->data['order_id'];
+        $order_id = (int)$that->data['order_id'];
         //are we logged in and in admin?
         if (IS_ADMIN && $that->user->isLogged()) {
-            //check if tab is not yet enabled.
+            //check if the tab is not yet enabled.
             if (in_array('payment_details', $that->data['groups'])) {
                 return null;
             }
-            //check if we this order is used paypal payment
+            //check if we this order is used PayPal payment
             $that->loadModel('extension/paypal_commerce');
             $this->_load_paypal_order_data($order_id, $that);
 
             if (!$this->r_data || !$this->r_data['charge_id']) {
                 return;
             }
-            $this->r_data['settings'] = $this->r_data['settings'] ? unserialize($this->r_data['settings']) : [];
+            $this->r_data['settings'] = $this->r_data['settings']
+                ? unserialize($this->r_data['settings'])
+                : [];
 
             $that->data['groups'][] = 'payment_details';
             $that->data['link_payment_details'] = $that->html->getSecureURL(
@@ -245,12 +248,12 @@ class ExtensionPaypalCommerce extends Extension
                 '&order_id=' . $order_id
                 . '&extension=paypal_commerce'
             );
-            //reload main view data with updated tab
+            //reload main view data with an updated tab
             $that->view->batchAssign($that->data);
         }
     }
 
-    //Hook to payment details page to show information
+    //Hook to the payment details page to show information
     public function onControllerPagesSaleOrder_UpdateData()
     {
         $that = $this->baseObject;
@@ -282,58 +285,58 @@ class ExtensionPaypalCommerce extends Extension
                     'error_warning',
                     "Some error happened!. Check the error log for more details."
                 );
-            } elseif ($chargeData instanceof stdClass) {
+            } else {
                 $data['transaction_id'] = $this->r_data['transaction_id'];
                 $data['amount_refunded'] = 0;
                 $amt = 0;
                 $currencyCode = '';
-                if ($chargeData->intent == 'AUTHORIZE') {
-                    foreach ($chargeData->purchase_units[0]->payments->authorizations as $auth) {
-                        $amt += $auth->amount->value;
-                        $currencyCode = $auth->amount->currency_code;
+                if ($chargeData->getIntent() == 'AUTHORIZE') {
+                    foreach ($chargeData->getPurchaseUnits()[0]->getPayments()->getAuthorizations() as $auth) {
+                        $amt += (float) $auth->getAmount()->getValue();
+                        $currencyCode = $auth->getAmount()->getCurrencyCode();
                     }
                     $data['amount_authorized'] = round($amt, 2);
                     $data['amount_authorized_formatted'] = $that->currency->format($amt, $currencyCode, 1);
-                    $amt = 0;
-                    if ($chargeData->purchase_units[0]->payments->captures) {
-                        foreach ($chargeData->purchase_units[0]->payments->captures as $capt) {
-                            if ($capt->status == 'PARTIALLY_REFUNDED') {
-                                $data['amount_refunded'] += $capt->amount->value;
+                    $amt = 0.0;
+                    if ($chargeData->getPurchaseUnits()[0]->getPayments()->getCaptures()) {
+                        foreach ($chargeData->getPurchaseUnits()[0]->getPayments()->getCaptures() as $capt) {
+                            if ($capt->getStatus() == 'PARTIALLY_REFUNDED') {
+                                $data['amount_refunded'] += (float) $capt->getAmount()->getValue();
                             } else {
-                                $amt += $capt->amount->value;
+                                $amt += (float) $capt->getAmount()->getValue();
                             }
-                            $currencyCode = $capt->amount->currency_code;
+                            $currencyCode = $capt->getAmount()->getCurrencyCode();
                         }
                     }
                     $data['amount_captured'] = round($amt, 2);
                     $data['amount_captured_formatted'] = $that->currency->format($amt, $currencyCode, 1);
                 } else {
-                    foreach ($chargeData->purchase_units[0]->payments->captures as $capt) {
-                        $amt += $capt->amount->value;
-                        $currencyCode = $capt->amount->currency_code;
+                    foreach ($chargeData->getPurchaseUnits()[0]->getPayments()->getCaptures() as $capt) {
+                        $amt += (float) $capt->getAmount()->getValue();
+                        $currencyCode = $capt->getAmount()->getCurrencyCode();
                     }
                     $data['amount_captured'] = round($amt, 2);
                     $data['amount_captured_formatted'] = $that->currency->format($amt, $currencyCode, 1);
                     $data['captured'] = 1;
                 }
 
-                if ($chargeData->purchase_units[0]->payments->refunds) {
+                if ($chargeData->getPurchaseUnits()[0]->getPayments()->getRefunds()) {
                     $amt = 0;
-                    foreach ($chargeData->purchase_units[0]->payments->refunds as $refund) {
-                        $amt += $refund->amount->value;
-                        $currencyCode = $refund->amount->currency_code;
-                        $amount = round((float)$refund->amount->value, 2);
+                    foreach ($chargeData->getPurchaseUnits()[0]->getPayments()->getRefunds() as $refund) {
+                        $amt += (float)$refund->getAmount()->getValue();
+                        $currencyCode = $refund->getAmount()->getCurrencyCode();
+                        $amount = round((float) $refund->getAmount()->getValue(), 2);
                         $refunds[] = [
-                            'id'               => $refund->id,
+                            'id'               => $refund->getId(),
                             'amount'           => $amount,
                             'amount_formatted' => $that->currency->format($amount, strtoupper($currencyCode), 1),
                             'currency'         => $currencyCode,
                             'reason'           => $refund->reason,
-                            'date_added'       => (string)date(
+                            'date_added'       => (string) date(
                                 $that->language->get('date_format_short') . " " . $that->language->get('time_format'),
                                 strtotime($refund->create_time)
                             ),
-                            'receipt_number'   => $refund->id,
+                            'receipt_number'   => $refund->getId(),
                         ];
                     }
                     $data['refunded'] = true;
@@ -346,7 +349,8 @@ class ExtensionPaypalCommerce extends Extension
                 //check a void status.
                 //Not captured and refunded
                 if ($data['refunded'] && !$data['captured']
-                    || $chargeData->purchase_units[0]->payments->authorizations[0]->status == 'VOIDED') {
+                    || $chargeData->getPurchaseUnits()[0]->getPayments()->getAuthorizations()[0]->getStatus()
+                    == 'VOIDED') {
                     $data['void_status'] = 1;
                 }
 
@@ -356,29 +360,36 @@ class ExtensionPaypalCommerce extends Extension
                     strtoupper($currencyCode),
                     1
                 );
+
+                $view->assign('order_id', $order_id);
+                $view->assign('test_mode', $this->r_data['paypal_commerce_test_mode']);
+                $view->assign('void_url', $that->html->getSecureURL('r/extension/paypal_commerce/void'));
+                $view->assign('capture_url', $that->html->getSecureURL('r/extension/paypal_commerce/capture'));
+                $view->assign('refund_url', $that->html->getSecureURL('r/extension/paypal_commerce/refund'));
+                $view->assign('paypal_order', $data);
+                $view->assign('refund', $refunds);
+
+                $view->batchAssign($that->language->getASet('paypal_commerce/paypal_commerce'));
+                $this->baseObject->view->addHookVar(
+                    'extension_payment_details',
+                    $view->fetch('pages/sale/paypal_commerce_payment_details.tpl')
+                );
             }
-
-            $view->assign('order_id', $order_id);
-            $view->assign('test_mode', $this->r_data['paypal_commerce_test_mode']);
-            $view->assign('void_url', $that->html->getSecureURL('r/extension/paypal_commerce/void'));
-            $view->assign('capture_url', $that->html->getSecureURL('r/extension/paypal_commerce/capture'));
-            $view->assign('refund_url', $that->html->getSecureURL('r/extension/paypal_commerce/refund'));
-            $view->assign('paypal_order', $data);
-            $view->assign('refund', $refunds);
-
-            $view->batchAssign($that->language->getASet('paypal_commerce/paypal_commerce'));
-            $this->baseObject->view->addHookVar(
-                'extension_payment_details',
-                $view->fetch('pages/sale/paypal_commerce_payment_details.tpl')
-            );
         }
     }
 
+    /**
+     * @param string $order_id
+     * @param object $that
+     *
+     * @return void
+     * @throws AException
+     */
     private function _load_paypal_order_data($order_id, $that)
     {
         //data already loaded, return
         if ($this->r_data) {
-            return null;
+            return;
         }
         /** @var ModelExtensionPaypalCommerce $mdl */
         $mdl = $that->model_extension_paypal_commerce;
@@ -422,7 +433,11 @@ class ExtensionPaypalCommerce extends Extension
         $productInfo = $that->view->getData('product_info');
         $data['product_id'] = $productInfo['product_id'];
         $data['product_name'] = $productInfo['name'];
-        $data['return_url'] = $data['cancel_url'] = $that->html->getSEOURL('product/product','&product_id=' . $productInfo['product_id']);
+        $data['return_url'] = $data['cancel_url'] = $that->html->getSEOURL(
+            'product/product',
+            '&product_id=' . $productInfo['product_id']
+        );
+
         $data['capture_order_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/captureOrder');
         $data['action'] = $that->html->getSecureURL('r/extension/paypal_commerce/send');
         $data['pageType'] = "product";
