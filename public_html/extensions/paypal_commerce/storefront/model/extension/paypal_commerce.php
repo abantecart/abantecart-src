@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -20,14 +20,7 @@
 
 /** @noinspection PhpUndefinedClassInspection */
 
-use PayPalCheckoutSdk\Core\ClientTokenRequest;
-use PayPalCheckoutSdk\Core\PayPalHttpClient;
-use PayPalCheckoutSdk\Orders\OrdersAuthorizeRequest;
-use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
-use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
-use PayPalCheckoutSdk\Orders\OrdersGetRequest;
-use PayPalCheckoutSdk\Products\ProductCreateRequest;
-use PayPalHttp\IOException;
+use PaypalServerSdkLib\Http\ApiResponse;
 
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -42,8 +35,13 @@ if (!defined('DIR_CORE')) {
  */
 class ModelExtensionPaypalCommerce extends Model
 {
-    protected PayPalHttpClient $paypal;
+    protected $paypal;
 
+    /**
+     * @param Registry $registry
+     *
+     * @throws AException
+     */
     public function __construct($registry)
     {
         parent::__construct($registry);
@@ -64,16 +62,78 @@ class ModelExtensionPaypalCommerce extends Model
         return false;
     }
 
-    public function getClientToken()
+    /**
+     * @return false|string
+     */
+    public function getClientToken(): ?string
     {
         try {
-            $request = new ClientTokenRequest();
-            /** @var stdClass $response */
-            $response = $this->paypal->execute($request);
-            return $response->result->client_token;
-        } catch (Exception $e) {
-            $this->log->write(__FILE__ . "::" . __METHOD__ . " Exception: " . $e->getMessage());
-            return false;
+            $oauthToken = $this->paypal->getClientCredentialsAuth()->fetchToken();
+            $accessToken = (string)$oauthToken->getAccessToken();
+
+            if ($accessToken === '') {
+                $this->log->write(__FILE__ . '::' . __METHOD__ . ' Empty access token received from PayPal.');
+                return null;
+            }
+
+            $isSandbox = (bool)$this->config->get('paypal_commerce_test_mode');
+            $baseUrl = $isSandbox ? 'https://api-m.sandbox.paypal.com' : 'https://api-m.paypal.com';
+
+            $ch = curl_init($baseUrl . '/v1/identity/generate-token');
+            if ($ch === false) {
+                $this->log->write(__FILE__ . '::' . __METHOD__ . ' Failed to init cURL.');
+                return null;
+            }
+
+            curl_setopt_array($ch, [
+                CURLOPT_POST           => true,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER     => [
+                    'Authorization: Bearer ' . $accessToken,
+                    'Content-Type: application/json',
+                    'Accept: application/json',
+                ],
+                CURLOPT_POSTFIELDS     => '{}',
+                CURLOPT_TIMEOUT        => 30,
+            ]);
+
+            $raw = curl_exec($ch);
+            $curlErr = curl_error($ch);
+            $httpCode = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            if ($raw === false) {
+                $this->log->write(__FILE__ . '::' . __METHOD__ . ' cURL error: ' . $curlErr);
+                return null;
+            }
+
+            $decoded = json_decode($raw, true);
+            if (!is_array($decoded)) {
+                $this->log->write(
+                    __FILE__ . '::' . __METHOD__ . ' Invalid JSON from PayPal. HTTP ' . $httpCode . '. Raw: ' . $raw
+                );
+                return null;
+            }
+
+            if ($httpCode < 200 || $httpCode >= 300) {
+                $this->log->write(
+                    __FILE__ . '::' . __METHOD__ . ' PayPal generate-token failed. HTTP ' . $httpCode . '. Response: ' . $raw
+                );
+                return null;
+            }
+
+            $clientToken = (string)($decoded['client_token'] ?? '');
+            if ($clientToken === '') {
+                $this->log->write(
+                    __FILE__ . '::' . __METHOD__ . ' PayPal response has no client_token. Response: ' . $raw
+                );
+                return null;
+            }
+
+            return $clientToken;
+        } catch (\Throwable $e) {
+            $this->log->write(__FILE__ . '::' . __METHOD__ . ' Exception: ' . $e->getMessage());
+            return null;
         }
     }
 
@@ -116,23 +176,30 @@ class ModelExtensionPaypalCommerce extends Model
     }
 
     /**
-     * @param $paypalOrderId
+     * @param string $paypalOrderId
      *
-     * @return stdClass|false
+     * @return PaypalServerSdkLib\Models\Order|false
      */
-    public function getOrder($paypalOrderId)
+    public function getOrder(string $paypalOrderId): ?object
     {
-        try {
-            $request = new OrdersGetRequest($paypalOrderId);
-            $response = $this->paypal->execute($request);
-            return $response->result;
-        } catch (Exception $e) {
-            $this->log->write(__FILE__ . "::" . __METHOD__ . " Exception: " . $e->getMessage() . ' (' . $e->getCode() . ')');
+        if ($paypalOrderId === '') {
+            return null;
         }
-        return false;
+
+        $apiResponse = $this->paypal
+            ->getOrdersController()
+            ->getOrder(['id' => $paypalOrderId]);
+
+        return $apiResponse->getResult();
     }
 
-    public function getMethod($address)
+    /**
+     * @param $address
+     *
+     * @return array
+     * @throws AException
+     */
+    public function getMethod(array $address = [])
     {
         $this->load->language('paypal_commerce/paypal_commerce');
         if ($this->config->get('paypal_commerce_status')) {
@@ -168,7 +235,13 @@ class ModelExtensionPaypalCommerce extends Model
         return $payment_data;
     }
 
-    public function addShippingAddress($data)
+    /**
+     * @param array $data
+     *
+     * @return int
+     * @throws AException
+     */
+    public function addShippingAddress( array $data = [] )
     {
         //encrypt customer data
         $key_sql = '';
@@ -178,11 +251,11 @@ class ModelExtensionPaypalCommerce extends Model
         }
 
         if (!has_value($data['country_id'])) {
-            $data['country_id'] = $this->getCountryIdByCode2($data['iso_code_2']);
+            $data['country_id'] = $this->getCountryIdByCode2((string)$data['iso_code_2']);
         }
 
         if (!has_value($data['zone_id'])) {
-            $data['zone_id'] = $this->getZoneId($data['country_id'], $data['zone_code']);
+            $data['zone_id'] = $this->getZoneId( (int)$data['country_id'], (string)$data['zone_code']);
         }
 
         $this->db->query(
@@ -201,7 +274,7 @@ class ModelExtensionPaypalCommerce extends Model
             . $key_sql
         );
 
-        $address_id = $this->db->getLastId();
+        $address_id = (int)$this->db->getLastId();
 
         if (isset($data['default']) && $data['default'] == '1') {
             $this->db->query(
@@ -214,7 +287,13 @@ class ModelExtensionPaypalCommerce extends Model
         return $address_id;
     }
 
-    public function getCountryIdByCode2($code)
+    /**
+     * @param string $code
+     *
+     * @return false|int
+     * @throws AException
+     */
+    public function getCountryIdByCode2( string $code)
     {
         $result = $this->db->query(
             'SELECT country_id 
@@ -223,12 +302,12 @@ class ModelExtensionPaypalCommerce extends Model
         );
 
         if ($result->num_rows > 0) {
-            return $result->row['country_id'];
+            return (int)$result->row['country_id'];
         }
-        return null;
+        return false;
     }
 
-    public function getZoneId($country_id, $zone_code)
+    public function getZoneId(int $country_id, string $zone_code)
     {
         $result = $this->db->query(
             'SELECT zone_id 
@@ -243,10 +322,10 @@ class ModelExtensionPaypalCommerce extends Model
         return null;
     }
 
-    //record order with paypal database
+    //record order with PayPal database
     public function savePaypalOrder($order_id, $data)
     {
-        //settings contains order product meta data such as selected options
+        //settings contain order product meta-data such as selected options
         if (isset($data['settings'])) {
             $data['settings'] = !is_string($data['settings'])
                 ? serialize($data['settings'])
@@ -392,48 +471,77 @@ class ModelExtensionPaypalCommerce extends Model
 
     /**
      * @param array $data
-     * @return stdClass
-     * @throws \PayPalHttp\HttpException
-     * @throws IOException
+     *
+     * @return PaypalServerSdkLib\Models\Order|null
      */
-    public function createPPOrder($data)
+    public function createPPOrder(array $data): ?object
     {
-        $request = new OrdersCreateRequest();
-        $request->payPalPartnerAttributionId(
-            base64_decode(ExtensionPaypalCommerce::getBnCode())
-        );
-        $request->body = json_encode($data, JSON_PRETTY_PRINT);
-        $response = $this->paypal->execute($request);
-        return $response->result;
+        $apiResponse = $this->paypal
+            ->getOrdersController()
+            ->createOrder([
+                'paypalPartnerAttributionId' => base64_decode(ExtensionPaypalCommerce::getBnCode()),
+                'body' => $data,
+            ]);
+        return $apiResponse->getResult();
+    }
+
+
+    /**
+     * @param string $ppOrderId
+     * @return PaypalServerSdkLib\Models\Order|null
+     */
+    public function capturePPOrder(string $ppOrderId): ?object
+    {
+        if ($ppOrderId === '') {
+            return null;
+        }
+    
+        try {
+            $apiResponse = $this->paypal
+                ->getOrdersController()
+                ->captureOrder([
+                    'id' => $ppOrderId,
+                    // TODO: add metaDataID (PayPal-Client-Metadata-Id) if needed by your flow
+                    // 'paypalClientMetadataId' => $payPalClientMetadataId,
+                ]);
+    
+            return $apiResponse->getResult();
+        } catch (Exception $e) {
+            $this->log->write(
+                __FILE__ . '::' . __METHOD__ . ' Exception: ' . $e->getMessage() . ' (' . $e->getCode() . ')'
+            );
+    
+            return null;
+        }
     }
 
     /**
      * @param string $ppOrderId
-     * @return array|object|string
-     * @throws \PayPalHttp\HttpException
-     * @throws IOException
+     *
+     * @return PaypalServerSdkLib\Models\Order|null
      */
-    public function capturePPOrder($ppOrderId)
+    public function authorizePPOrder(string $ppOrderId): ?object
     {
-        $request = new OrdersCaptureRequest($ppOrderId);
-        //TODO: add metaDataID
-        //$request->payPalClientMetadataId($payPalClientMetadataId);
-        $response = $this->paypal->execute($request);
-        return $response->result;
-    }
+        if ($ppOrderId === '') {
+            return null;
+        }
 
-    /**
-     * @param string $ppOrderId
-     * @return array|object|string
-     * @throws \PayPalHttp\HttpException
-     * @throws IOException
-     */
-    public function authorizePPOrder($ppOrderId)
-    {
-        $request = new OrdersAuthorizeRequest($ppOrderId);
-        //TODO: add metaDataID
-        //$request->payPalClientMetadataId($payPalClientMetadataId);
-        $response = $this->paypal->execute($request);
-        return $response->result;
+        try {
+            $apiResponse = $this->paypal
+                ->getOrdersController()
+                ->authorizeOrder([
+                    'id' => $ppOrderId,
+                    // TODO: add metaDataID (PayPal-Client-Metadata-Id) if needed by your flow
+                    // 'paypalClientMetadataId' => $payPalClientMetadataId,
+                ]);
+
+            return $apiResponse->getResult();
+        } catch (Exception $e) {
+            $this->log->write(
+                __FILE__ . '::' . __METHOD__ . ' Exception: ' . $e->getMessage() . ' (' . $e->getCode() . ')'
+            );
+
+            return null;
+        }
     }
 }
