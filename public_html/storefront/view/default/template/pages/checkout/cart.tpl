@@ -23,6 +23,7 @@ if (sizeof((array) $error_warning) > 0) {
 <?php
     }
 } ?>
+<?php echo $this->getHookVar('pre_cart_content'); ?>
 <div class="container-fluid">
     <?php echo $form['form_open']; ?>
     <div class="d-flex flex-wrap w-100 py-3 rounded">

@@ -26,7 +26,7 @@ if (sizeof((array) $error_warning) > 0) {
 <?php
     }
 } ?>
-
+<?php echo $this->getHookVar('pre_cart_content'); ?>
     <?php echo $form['form_open']; ?>
         <div class="py-3">
             <?php
