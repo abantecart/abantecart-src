@@ -276,7 +276,7 @@ class ControllerPagesAccountOrderDetails extends AController
                         $this->language->get('date_format_short') . ' ' . $this->language->get('time_format')
                     ),
                     'status'     => $result['status'],
-                    'comment'    => nl2br($result['comment']),
+                    'comment'    => nl2br(strip_tags(html_entity_decode($result['comment']))),
                 ];
             }
             $this->data['histories'] = $histories;
