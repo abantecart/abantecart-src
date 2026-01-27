@@ -44,3 +44,4 @@
 /public_html/extensions/default_swedish/
 /public_html/extensions/default_ukrainian/
 /public_html/.well-known/
+/tests/phpunit/.phpunit.result.cache

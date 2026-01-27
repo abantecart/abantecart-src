@@ -1,13 +1,11 @@
 <?php
-/** @noinspection PhpMultipleClassDeclarationsInspection */
-/** @noinspection PhpUndefinedClassInspection */
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -20,6 +18,8 @@
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUndefinedClassInspection */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -52,8 +52,6 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         );
 
         $this->loadLanguage('paypal_commerce/paypal_commerce');
-        /** @var ModelCheckoutOrder $oMdl */
-        $oMdl = $this->loadModel('checkout/order');
         /** @var ModelExtensionPaypalCommerce $mdl */
         $mdl = $this->load->model('extension/paypal_commerce');
         $data['client_token'] = $mdl->getClientToken();
@@ -122,7 +120,10 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $get = $this->request->get;
         unset($get['rt']);
-        if (!isset($get['product_key']) && $this->session->data['fc']['single_checkout'] && $this->session->data['fc']['product_key']) {
+        if ( !isset($get['product_key'])
+            && $this->session->data['fc']['single_checkout']
+            && $this->session->data['fc']['product_key']
+        ) {
             $get['product_key'] = $this->session->data['fc']['product_key'];
             $get['fc'] = $get['single_checkout'] = 1;
         }
@@ -265,20 +266,24 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         }
 
         try {
-            $output = (array)$mdl->createPPOrder($ppData);
+            $ppOrder = $mdl->createPPOrder($ppData);
+            $output['id'] = $ppOrder->getId();
             $this->shopping_data->save(
                 'paypal_data',
                 $this->cart->getCartKey(),
                 [
                     'reference_id' => $ppData['purchase_units'][0]['reference_id'],
                     'order_id' => $output['id'],
-                    'status' => $output['status'],
-                    'payment_source' => $output['payment_source'],
+                    'status' => $ppOrder->getStatus(),
+                    'payment_source' => $ppOrder->getPaymentSource(),
                 ],
                 $this->session->data['order_id']
             );
-        } catch (\PayPalHttp\HttpException|Error $e) {
-            $this->log->write('PaypalCommerce order creation error: ' . $e->getMessage() . "\n Input Data: " . var_export($ppData, true));
+        } catch ( Exception|Error $e ) {
+            $this->log->write(
+                'PaypalCommerce order creation error: ' . $e->getMessage()
+                . "\n Input Data: " . var_export($ppData, true)
+            );
             $output['error'] = $e->getMessage();
         }
 
@@ -584,7 +589,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 }
             }
 
-            $output = ['id' => $result->id];
+            $output = ['id' => $result->getId()];
             $order = new AOrder($this->registry, $orderId);
             $orderInfo = $order->loadOrderData($this->session->data['order_id'],'any',($this->customer->getId()?:'guest'));
             if($orderInfo && !$orderInfo['email']){
@@ -593,21 +598,21 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 $dd = new ADispatcher( 'responses/checkout/pay/select_shipping');
                 $dd->dispatch();
                 //resave an order into a database
-                $this->session->data['fc']['email'] = $result->payer->email_address;
-                $this->session->data['fc']['guest']['email'] = $result->payer->email_address;
-                $this->session->data['fc']['guest']['firstname'] = $result->payer->name->given_name;
-                $this->session->data['fc']['guest']['lastname'] = $result->payer->name->surname;
-                $this->session->data['fc']['guest']['company'] = $result->payment_source->paypal->business_name;
+                $this->session->data['fc']['email'] = $result->getPayer()->getEmailAddress();
+                $this->session->data['fc']['guest']['email'] = $result->getPayer()->getEmailAddress();
+                $this->session->data['fc']['guest']['firstname'] = $result->getPayer()->getName()->getGivenName();
+                $this->session->data['fc']['guest']['lastname'] = $result->getPayer()->getName()->getSurname();
+                $this->session->data['fc']['guest']['company'] = $result->getPaymentSource()->getPaypal()->getBusinessName();
                 //take the correct shipping address from order
                 $ppO = $mdl->getOrder($ppOrderId);
-                list($fName, $lName) = explode(' ', $ppO->purchase_units[0]->shipping->name->full_name);
+                list($fName, $lName) = explode(' ', $ppO->getPurchaseUnits()[0]->getShipping()->getName()->getFullName());
                 $this->session->data['fc']['guest']['shipping']['firstname'] = $fName;
                 $this->session->data['fc']['guest']['shipping']['lastname'] = $lName;
-                $this->session->data['fc']['guest']['shipping']['company'] = $ppO->payment_source->paypal->business_name;
-                $this->session->data['fc']['guest']['shipping']['address_1'] = $ppO->purchase_units[0]->shipping->address->address_line_1;
-                $this->session->data['fc']['guest']['shipping']['address_2'] = $ppO->purchase_units[0]->shipping->address->address_line_2;
-                $this->session->data['fc']['guest']['shipping']['city'] = $ppO->purchase_units[0]->shipping->address->admin_area_2;
-                $this->session->data['fc']['guest']['shipping']['postcode'] = $ppO->purchase_units[0]->shipping->address->postal_code;
+                $this->session->data['fc']['guest']['shipping']['company'] = $ppO->getPaymentSource()->getPaypal()->getBusinessName();
+                $this->session->data['fc']['guest']['shipping']['address_1'] = $ppO->getPurchaseUnits()[0]->getShipping()->getAddress()->getAddressLine1();
+                $this->session->data['fc']['guest']['shipping']['address_2'] = $ppO->getPurchaseUnits()[0]->getShipping()->getAddress()->getAddressLine2();
+                $this->session->data['fc']['guest']['shipping']['city'] = $ppO->getPurchaseUnits()[0]->getShipping()->getAddress()->getAdminArea2();
+                $this->session->data['fc']['guest']['shipping']['postcode'] = $ppO->getPurchaseUnits()[0]->getShipping()->getAddress()->getPostalCode();
                 $order->buildOrderData( $this->session->data['fc'] );
                 $order->saveOrder();
             }
@@ -660,7 +665,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         );
         $response = $mdl->getOrder($transactionDetails['id']);
 
-        $ppData = $this->shopping_data->get('paypal_data',$this->cart->getCartKey());
+        $ppData = $this->shopping_data->get('paypal_data', $this->cart->getCartKey());
 
         if (!$response) {
             $output['error'] = 'Cannot establish a connection to the server OR transaction Id is unknown';
@@ -671,9 +676,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $err->toLog()->toDebug();
         } //validate order info before confirmation
         elseif (
-            $response->purchase_units[0]->reference_id != $ppData['data']['reference_id']
-            || $response->purchase_units[0]->amount->currency_code != $order_info['currency']
-            || $response->purchase_units[0]->amount->value != $orderTotalAmt
+            $response->getPurchaseUnits()[0]->getReferenceId() != $ppData['data']['reference_id']
+            || $response->getPurchaseUnits()[0]->getAmount()->getCurrencyCode() != $order_info['currency']
+            || $response->getPurchaseUnits()[0]->getAmount()->getValue() != $orderTotalAmt
         ) {
             $output['error'] = $this->language->get('error_unknown');
             $err = new AError(
@@ -682,40 +687,39 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 . "Requested Order Info:\n" . var_export($order_info, true)
             );
             $err->toLog()->toDebug();
-        } else {
-            if ($response->status == 'COMPLETED') {
-                $orderStatusId = $this->config->get('paypal_commerce_transaction_type') == 'capture'
-                    ? $this->config->get('paypal_commerce_status_success_settled')
-                    : $this->config->get('paypal_commerce_status_success_unsettled');
-                $oMdl->confirm(
-                    $orderId,
-                    $orderStatusId ?: $this->order_status->getStatusByTextId('pending')
-                );
+        } elseif ($response->getStatus() == 'COMPLETED') {
+            $orderStatusId = $this->config->get('paypal_commerce_transaction_type') == 'capture'
+                ? $this->config->get('paypal_commerce_status_success_settled')
+                : $this->config->get('paypal_commerce_status_success_unsettled');
+            $oMdl->confirm(
+                $orderId,
+                $orderStatusId ?: $this->order_status->getStatusByTextId('pending')
+            );
 
-                $oMdl->updatePaymentMethodData(
-                    $orderId,
-                    serialize(json_decode(json_encode($response), true))
-                );
+            $oMdl->updatePaymentMethodData(
+                $orderId,
+                serialize($response->jsonSerialize())
+            );
 
-                $mdl->savePaypalCustomer($this->customer->getId(), $transactionDetails['payer']['payer_id']);
-                $mdl->savePaypalOrder(
-                    $orderId,
-                    [
-                        'id'             => $transactionDetails['id'],
-                        'transaction_id' => $transactionDetails['id'],
-                    ]
-                );
-                try {
-                    $output['success'] = $this->html->getSecureURL('checkout/finalize');
-                } catch (Exception $e) {
-                    $this->log->write(__FILE__ . ':' . __LINE__ . '   - ' . $e->getMessage() . "\n\n" . $e->getTraceAsString());
-                    $output['error'] = 'Oops, Unexpected Application Error';
-                }
-            } else {
-                $output['error'] = "Oops, Unexpected Application Error\n(" . $response->status . ' ' . $response->status_detail->reason . ")";
-                $this->log->write(var_export($response, true));
+            $mdl->savePaypalCustomer($this->customer->getId(), $transactionDetails['payer']['payer_id']);
+            $mdl->savePaypalOrder(
+                $orderId,
+                [
+                    'id'             => $transactionDetails['id'],
+                    'transaction_id' => $transactionDetails['id'],
+                ]
+            );
+            try {
+                $output['success'] = $this->html->getSecureURL('checkout/finalize');
+            } catch (Exception $e) {
+                $this->log->write(__FILE__ . ':' . __LINE__ . '   - ' . $e->getMessage() . "\n\n" . $e->getTraceAsString());
+                $output['error'] = 'Oops, Unexpected Application Error';
             }
+        } else {
+            $output['error'] = "Oops, Unexpected Application Error\n(" . $response->getStatus() . ")";
+            $this->log->write(var_export($response, true));
         }
+
         return $output;
     }
 
@@ -837,18 +841,19 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         }
 
         try {
-            $output = (array)$mdl->createPPOrder($ppData);
+            $ppOrder = $mdl->createPPOrder($ppData);
+            $output['id'] = $ppOrder->getId();
             $this->shopping_data->save(
                 'paypal_data',
                 $fcSession['cart_key'],
                 [
                     'reference_id' => $this->session->data['reference_id'],
-                    'order_id' => $output['id'],
-                    'status' => $output['status'],
-                    'payment_source' => $output['payment_source'],
+                    'order_id' => $ppOrder->getId(),
+                    'status' => $ppOrder->getStatus(),
+                    'payment_source' => $ppOrder->getPaymentSource(),
                 ]
             );
-        } catch (\PayPalHttp\HttpException|Error $e) {
+        } catch (Exception|Error $e) {
             $this->log->write('PaypalCommerce order creation error: ' . $e->getMessage() . "\n Input Data: " . var_export($ppData, true));
             $output['error'] = $e->getMessage();
         }
@@ -909,8 +914,10 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $ppOrderId = $inData['id'];
         /** @var ModelExtensionPaypalCommerce $mdl */
         $mdl = $this->loadModel('extension/paypal_commerce');
-        $ppOrderDetails = $mdl->getOrder($ppOrderId);
-        if($ppOrderDetails === false) {
+        try {
+            $ppOrderDetails = $mdl->getOrder($ppOrderId);
+        }catch (Exception|Error $e) {
+            $this->log->write($e->getMessage());
             $error = new AError('Paypal Order '.$ppOrderId.' not found!');
             $error->toJSONResponse(
                 406,
@@ -923,7 +930,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $fcSession['guest']['firstname'] = 'guest';
         $fcSession['guest']['lastname'] = 'guest';
-        $fcSession['guest']['email'] = $ppOrderDetails->payer->email_address;
+        $fcSession['guest']['email'] = $ppOrderDetails->getPayer()->getEmailAddress();
         $fcSession['guest']['shipping']['city'] = $inData['shipping_address']['city'];
 
         /** @var ModelLocalisationCountry $cMdl */
@@ -958,7 +965,6 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                     'selectFirst' => true
                 ]
             );
-            $dd->dispatch();
         }else {
             //create new order in the session
             /** @see ControllerResponsesCheckoutPay::updateOrderData() */
@@ -972,8 +978,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                     'selectFirst' => true
                 ]
             );
-            $dd->dispatch();
         }
+        $dd->dispatch();
 
         $abcOrderId = $this->session->data['order_id'];
         if(!$abcOrderId) {
