@@ -37,7 +37,7 @@
         "wikimedia/composer-merge-plugin": "^2.1.0",
         "guzzlehttp/guzzle": "7.9.3",
         "guzzlehttp/psr7": "2.7.1",
-        "symfony/process": "v7.3.0",
+        "symfony/process": "v7.3.11",
         "symfony/http-client": "v7.3.1"
     },
     "extra": {
