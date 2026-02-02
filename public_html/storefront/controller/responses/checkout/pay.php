@@ -193,7 +193,7 @@ class ControllerResponsesCheckoutPay extends AController
             //was address changed?
             $address_id = $this->customer->getAddressId();
             if ($this->request->get['payment_address_id']) {
-                $address_id = $this->request->get['payment_address_id'];
+                $address_id = (int)$this->request->get['payment_address_id'];
             } else {
                 if ($this->fc_session['payment_address_id']) {
                     if (
@@ -951,7 +951,7 @@ class ControllerResponsesCheckoutPay extends AController
     public function success()
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $order_id = $this->request->get['order_id'];
+        $order_id = (int)$this->request->get['order_id'];
         if (!$order_id || !is_numeric($order_id) || $this->session->data['processed_order_id'] != $order_id) {
             $this->error['message'] = $this->language->get('fast_checkout_error_unexpected');
             $this->main();
