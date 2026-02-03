@@ -97,9 +97,7 @@ final class AMySQLi
                 $timezone = $timezone == 'UTC' ? 'Europe/London' : $timezone;
                 $connection->query("SET time_zone='".$timezone."';");
             }
-        } catch (\Exception $e) {
-            error_log($e->getMessage());
-        }
+        } catch (\Exception $e) {}
 
         $this->registry = Registry::getInstance();
         $this->connection = $connection;
