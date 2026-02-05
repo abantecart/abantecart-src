@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -17,6 +17,8 @@
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
+
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -491,8 +493,9 @@ class ControllerResponsesCheckoutPay extends AController
     /**
      * @param array $in_data
      * @param array $request
+     *
      * @return int|false
-     * @throws AException
+     * @throws AException|TransportExceptionInterface
      */
     protected function updateOrCreateOrder($in_data, $request)
     {
@@ -522,8 +525,8 @@ class ControllerResponsesCheckoutPay extends AController
         $order->buildOrderData($in_data);
         $order_id = $order->saveOrder();
 
-        /** @var ModelCheckoutFastCheckout $mdl */
-        $mdl = $this->loadModel('checkout/fast_checkout');
+        /** @var ModelCheckoutOrder $mdl */
+        $mdl = $this->loadModel('checkout/order');
         if ($order_id) {
             if ($request['telephone']) {
                 $mdl->updateOrderDetails(
@@ -1753,16 +1756,15 @@ class ControllerResponsesCheckoutPay extends AController
 
         $selected = $selected ?? $this->request->get_or_post('shipping_method');
 
-        $selected_shipping = [];
+        $shipMethods = $selected_shipping = [];
         if ($selected) {
             $selected_shipping = explode('.', $selected);
         }
 
-        if (!isset($this->fc_session['shipping_methods'])
-            || !$this->config->get('config_shipping_session')
-        ) {
+        if (!isset($this->fc_session['shipping_methods']) || !$this->config->get('config_shipping_session')){
             $quote_data = [];
             $results = $this->model_checkout_extension->getExtensions('shipping');
+
             if ($this->fc_session['shipping_address_id']) {
                 $this->loadModel('account/address');
                 $shipping_address = $this->model_account_address->getAddress(
@@ -1841,6 +1843,10 @@ class ControllerResponsesCheckoutPay extends AController
                     . "Probably, need to check shipping setting!"
                 );
             }
+        }
+
+        if(!in_array($selected_shipping[0], array_keys($shipMethods))){
+            $selected = $selected_shipping = [];
         }
 
         //# If only 1 shipping - set it as default
