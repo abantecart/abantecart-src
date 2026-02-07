@@ -49,7 +49,7 @@ if($this->cart->hasShipping()){
                         </div>
                         <label class="p-2 flex-grow-1"
                                id="<?php echo $quote['id'];?>_title"
-                               for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
+                               for="<?php echo preformatTextID($quote['radio']->element_id.$quote['radio']->id); ?>"
                                title="<?php echo_html2view($quote['description'] ? : $quote['title']); ?>">
                             <?php $icon = (array)$shipping_method['icon'];
                             if (sizeof($icon)) {
