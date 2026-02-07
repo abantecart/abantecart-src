@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 use GuzzleHttp\Client;
@@ -634,7 +634,6 @@ class ModelExtensionUps extends Model
         $shipmentData = $order_shipping_data['data']['ups_data'];
 
         try {
-
             $accessToken = getUPSAccessToken(Registry::getInstance());
             $config = \UPS\Shipping\Configuration::getDefaultConfiguration()->setAccessToken($accessToken);
             if(!$this->config->get('ups_test_mode')){
@@ -642,7 +641,7 @@ class ModelExtensionUps extends Model
             }
 
             $apiInstance = new UPS\Shipping\Request\ShippingApi(
-            // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+            // If you wish use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
             // This is optional, `GuzzleHttp\Client` will be used as default.
                 new GuzzleHttp\Client(),
                 $config
@@ -652,6 +651,9 @@ class ModelExtensionUps extends Model
             $shipper->setAddress(
                 new \UPS\Shipping\Shipping\ShipperAddress($shipmentData['fromAddress'])
             );
+            if(strlen($this->config->get('ups_telephone'))<10){
+                throw new AException(0, 'Invalid sender phone number');
+            }
 
             $shipper->setPhone(
                 new ShipperPhone(
@@ -796,19 +798,18 @@ class ModelExtensionUps extends Model
             }
             $this->saveOrderShippingData($order_id, $data);
         } catch (\UPS\Shipping\ApiException $e) {
-            $this->log->write(
-                "UPS API Create Shipment Request Exception (Order ID '.$order_id.'): \n"
-                . $e->getResponseBody()
-            );
+            $msg = "UPS API Create Shipment Request Exception (Order ID '.$order_id.'): ".PHP_EOL
+                . $e->getResponseBody();
+            $this->errors[] = $msg;
+            $this->log->write($msg);
             return false;
         } catch (Exception|Error $e) {
-            $this->log->write(
-                "UPS API Create Shipment Request Exception (Order ID '.$order_id.'): \n"
-                . $e->getMessage() . PHP_EOL . $e->getTraceAsString()
-            );
+            $msg = "UPS API Create Shipment Request Exception (Order ID '.$order_id.'): ".PHP_EOL
+                . $e->getMessage();
+            $this->errors[] = $msg;
+            $this->log->write($msg . PHP_EOL . $e->getTraceAsString());
             return false;
         }
-
         return true;
     }
 }

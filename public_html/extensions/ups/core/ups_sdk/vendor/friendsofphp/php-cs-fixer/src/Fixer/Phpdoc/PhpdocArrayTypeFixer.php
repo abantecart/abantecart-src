@@ -49,18 +49,18 @@ final class PhpdocArrayTypeFixer extends AbstractPhpdocTypesFixer
                          * @param string[][] $y
                          */
 
-                        PHP
+                        PHP,
                 ),
             ],
             null,
-            'Risky when using `T[]` in union types.'
+            'Risky when using `T[]` in union types.',
         );
     }
 
     /**
      * {@inheritdoc}
      *
-     * Must run before PhpdocAlignFixer, PhpdocListTypeFixer, PhpdocTypesOrderFixer.
+     * Must run before PhpdocAlignFixer, PhpdocListTypeFixer, PhpdocTypesNoDuplicatesFixer, PhpdocTypesOrderFixer.
      * Must run after AlignMultilineCommentFixer, CommentToPhpdocFixer, PhpdocIndentFixer, PhpdocScalarFixer, PhpdocToCommentFixer, PhpdocTypesFixer.
      */
     public function getPriority(): int
