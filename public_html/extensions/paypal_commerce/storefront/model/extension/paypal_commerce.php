@@ -472,9 +472,9 @@ class ModelExtensionPaypalCommerce extends Model
     /**
      * @param array $data
      *
-     * @return PaypalServerSdkLib\Models\Order|null
+     * @return PaypalServerSdkLib\Models\Order|array|null
      */
-    public function createPPOrder(array $data): ?object
+    public function createPPOrder(array $data)
     {
         $apiResponse = $this->paypal
             ->getOrdersController()

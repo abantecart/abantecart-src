@@ -245,7 +245,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $ppData['payer'] = $this->data['pp']['payer'];
         $ppData['purchase_units'] = $this->data['pp']['purchase_units'];
-        $this->buildPPItems();
+        $this->buildPPItems($order_info);
         $ppData['purchase_units'][0]['items'] = $this->data['pp']['items'];
         $ppData['payment_source']['paypal'] = [
             'experience_context' => [
@@ -267,6 +267,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         try {
             $ppOrder = $mdl->createPPOrder($ppData);
+            if(is_array($ppOrder)) {
+                throw new Exception(json_encode($ppOrder));
+            }
             $output['id'] = $ppOrder->getId();
             $this->shopping_data->save(
                 'paypal_data',
@@ -303,19 +306,20 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $this->response->setOutput(AJson::encode($output));
     }
 
-    protected function buildPPItems()
+    protected function buildPPItems($order_info)
     {
+        $orderId = (int)$order_info['order_id'];
         $i = 0;
         $items = $orderDescription = [];
-        $cartProducts = $this->cart->getProducts() + $this->cart->getVirtualProducts();
-        foreach ($cartProducts as $product) {
+        $orderProducts = $this->model_checkout_order->getOrderProducts($orderId);
+        foreach ($orderProducts as $product) {
             $sku = $product['sku'];
             $description = '';
             if ($product['option']) {
                 foreach ($product['option'] as $opt) {
-                    $title = strip_tags($opt['value']);
+                    $title = strip_tags(html_entity_decode($opt['value']));
                     $title = str_replace('\r\n', "\n", $title);
-                    $description .= $opt['name'] . ':' . $title . "; ";
+                    $description .= html_entity_decode($opt['name']) . ':' . $title . "; ";
                     if (mb_strlen($description) > 120) {
                         $description = mb_substr($description, 0, 115) . '...';
                     }
@@ -361,7 +365,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $this->data['pp']['items'] = $items;
 
         // cut description (paypal api requirements. See Order->create->purchase_units->description)
-        $charsPerItem = round(120 / count($cartProducts));
+        $charsPerItem = round(120 / count($orderProducts));
         $order_description = '';
         foreach ($orderDescription as $desc) {
             $postfix = ' x ' . $desc['quantity'];
@@ -379,25 +383,26 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
     protected function prepareOrderData($order_info)
     {
+        $orderId = (int)$order_info['order_id'];
         $this->data['pp']['orderTotal'] = $taxes = $discount = $handling_fee = 0.0;
-
-        foreach ($this->cart->getFinalTotalData() as $total) {
-            if ($total['id'] == 'total') {
-                $this->data['pp']['orderTotal'] = "" . round($total['converted'], 2);
-            }
-
-            $this->data['pp']['order_' . $total['id']] = $this->currency->convert(
+        $orderTotals = $this->model_checkout_order->getOrderTotals($orderId);
+        foreach ($orderTotals as $total) {
+            $this->data['pp']['order_' . $total['type']] = $this->currency->convert(
                 (float)$total['value'],
                 $this->config->get('config_currency'),
                 $this->data['currencyCode']
             );
 
-            if (in_array($total['total_type'], ['discount', 'promotion', 'coupon', 'balance'])) {
-                $discount += abs($this->data['pp']['order_' . $total['id']]);
-            } elseif ($total['total_type'] == 'fee' || str_ends_with($total['total_type'], '_fee')) {
-                $handling_fee += abs($this->data['pp']['order_' . $total['id']]);
-            } elseif ($total['total_type'] == 'tax') {
-                $taxes += $this->data['pp']['order_' . $total['id']];
+            if($total['type'] == 'total'){
+                $this->data['pp']['orderTotal'] = "".round( $this->data['pp'][ 'order_total' ], 2 );
+            }
+
+            if (in_array($total['type'], ['discount', 'promotion', 'coupon', 'balance'])) {
+                $discount += abs($this->data['pp']['order_' . $total['type']]);
+            } elseif ($total['type'] == 'fee' || str_ends_with($total['total_type'], '_fee')) {
+                $handling_fee += abs($this->data['pp']['order_' . $total['type']]);
+            } elseif ($total['type'] == 'tax') {
+                $taxes += $this->data['pp']['order_' . $total['type']];
             }
         }
         $this->data['pp']['amountBreakdown'] = [
@@ -930,7 +935,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $fcSession['guest']['firstname'] = 'guest';
         $fcSession['guest']['lastname'] = 'guest';
-        $fcSession['guest']['email'] = $ppOrderDetails->getPayer()->getEmailAddress();
+        $fcSession['guest']['email'] = $ppOrderDetails?->getPayer()?->getEmailAddress();
         $fcSession['guest']['shipping']['city'] = $inData['shipping_address']['city'];
 
         /** @var ModelLocalisationCountry $cMdl */
