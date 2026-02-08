@@ -28,7 +28,6 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 {
     public function swapCart()
     {
-
         if (isset($this->session->data['fc'])) {
             $cartClassName = get_class($this->cart);
             $this->registry->set(
@@ -58,7 +57,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $data['bn_code'] = ExtensionPaypalCommerce::getBnCode();
         if (!$data['client_token']) {
             $data['error'] = 'Cannot to obtain client token from Paypal API. Incident has been reported.';
-            $this->messages->saveError('Paypal Commerce API Error', $data['error'] . "\nSee error log for details.");
+            $this->messages->saveError(
+                'Paypal Commerce API Error', $data['error'] . PHP_EOL . "See error log for details."
+            );
         }
 
         $data['intent'] = $this->config->get('paypal_commerce_transaction_type');
@@ -79,8 +80,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $template = 'responses/paypal_commerce_confirm.tpl';
 
-        $data['enabled_components'] = unserialize($this->config->get('paypal_commerce_enabled_components')) ?: ['buttons'];
-        $data['enabled_funding'] = unserialize($this->config->get('paypal_commerce_enabled_funding')) ?: [];
+        $data['enabled_components'] =
+            unserialize($this->config->get('paypal_commerce_enabled_components')) ? : ['buttons'];
+        $data['enabled_funding'] = unserialize($this->config->get('paypal_commerce_enabled_funding')) ? : [];
 
         //AVS validation
         if (in_array('card-fields', $data['enabled_components'])) {
@@ -120,7 +122,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $get = $this->request->get;
         unset($get['rt']);
-        if ( !isset($get['product_key'])
+        if (!isset($get['product_key'])
             && $this->session->data['fc']['single_checkout']
             && $this->session->data['fc']['product_key']
         ) {
@@ -219,7 +221,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $this->swapCart();
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->session->data['reference_id'] = 'abc_'.randomWord(10);
+        $this->session->data['reference_id'] = 'abc_' . randomWord(10);
         //swap cart if we have paypal_cart
         if ($this->session->data['paypal_cart']['cart']) {
             $cartClass = get_class($this->cart);
@@ -229,7 +231,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         }
         $this->data = [
             'currencyCode' => $this->currency->getCode(),
-            'decPlace' => (int)$this->currency->getCurrency()['decimal_place']
+            'decPlace'     => (int) $this->currency->getCurrency()['decimal_place'],
         ];
         /** @var ModelExtensionPaypalCommerce $mdl */
         $mdl = $this->loadModel('extension/paypal_commerce');
@@ -239,7 +241,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         //need an order detail
         /** @var ModelCheckoutOrder $oMdl */
         $oMdl = $this->loadModel('checkout/order');
-        $order_info = $oMdl->getOrder((int)$this->session->data['order_id']);
+        $order_info = $oMdl->getOrder((int) $this->session->data['order_id']);
 
         $this->prepareOrderData($order_info);
 
@@ -252,22 +254,22 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 'return_url'            => $this->html->getSecureURL('checkout/fast_checkout'),
                 'cancel_url'            => $this->html->getSecureURL('checkout/fast_checkout'),
                 'app_switch_preference' => [
-                    'launch_paypal_app' => true
-                ]
-            ]
+                    'launch_paypal_app' => true,
+                ],
+            ],
         ];
         $_3ds_policy = $this->config->get('paypal_commerce_3ds_policy');
         if ($_3ds_policy && $this->request->get['card'] == 'true') {
             $ppData['payment_source']['card']['attributes'] = [
                 'verification' => [
-                    'method' => $_3ds_policy
-                ]
+                    'method' => $_3ds_policy,
+                ],
             ];
         }
 
         try {
             $ppOrder = $mdl->createPPOrder($ppData);
-            if(is_array($ppOrder)) {
+            if (is_array($ppOrder)) {
                 throw new Exception(json_encode($ppOrder));
             }
             $output['id'] = $ppOrder->getId();
@@ -275,17 +277,17 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 'paypal_data',
                 $this->cart->getCartKey(),
                 [
-                    'reference_id' => $ppData['purchase_units'][0]['reference_id'],
-                    'order_id' => $output['id'],
-                    'status' => $ppOrder->getStatus(),
+                    'reference_id'   => $ppData['purchase_units'][0]['reference_id'],
+                    'order_id'       => $output['id'],
+                    'status'         => $ppOrder->getStatus(),
                     'payment_source' => $ppOrder->getPaymentSource(),
                 ],
                 $this->session->data['order_id']
             );
-        } catch ( Exception|Error $e ) {
+        } catch (Exception|Error $e) {
             $this->log->write(
                 'PaypalCommerce order creation error: ' . $e->getMessage()
-                . "\n Input Data: " . var_export($ppData, true)
+                . PHP_EOL . "Input Data: " . var_export($ppData, true)
             );
             $output['error'] = $e->getMessage();
         }
@@ -308,7 +310,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
     protected function buildPPItems($order_info)
     {
-        $orderId = (int)$order_info['order_id'];
+        $orderId = (int) $order_info['order_id'];
         $i = 0;
         $items = $orderDescription = [];
         $orderProducts = $this->model_checkout_order->getOrderProducts($orderId);
@@ -318,7 +320,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             if ($product['option']) {
                 foreach ($product['option'] as $opt) {
                     $title = strip_tags(html_entity_decode($opt['value']));
-                    $title = str_replace('\r\n', "\n", $title);
+                    $title = str_replace('\r\n', PHP_EOL, $title);
                     $description .= html_entity_decode($opt['name']) . ':' . $title . "; ";
                     if (mb_strlen($description) > 120) {
                         $description = mb_substr($description, 0, 115) . '...';
@@ -332,9 +334,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $orderDescription[] = [
                 'title'    => html_entity_decode($product['name'] . ' ' . $description),
                 'quantity' => $product['quantity'],
-                'sku'      => html_entity_decode($sku)
+                'sku'      => html_entity_decode($sku),
             ];
-
 
             // comment for yet. PayPal requires amount breakdown for each line including tax amount per item (tax amount for 1 piece).
             // Then PP api calculates tax * quantity, and then the compares this sum with total_tax_amount.
@@ -344,14 +345,16 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $items[$i] = [
                 'name'        => substr($product['name'], 0, 127),
                 'unit_amount' => [
-                    'value'         => "" . round($this->currency->convert(
-                            $product['price'],
-                            $this->config->get('config_currency'),
-                            $this->data['currencyCode']
-                        ), 2),
+                    'value'         => "" . round(
+                            $this->currency->convert(
+                                $product['price'],
+                                $this->config->get('config_currency'),
+                                $this->data['currencyCode']
+                            ), 2
+                        ),
                     'currency_code' => $this->data['currencyCode'],
                 ],
-                'quantity'    => $product['quantity']
+                'quantity'    => $product['quantity'],
             ];
 
             if ($description) {
@@ -370,9 +373,10 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         foreach ($orderDescription as $desc) {
             $postfix = ' x ' . $desc['quantity'];
             if (mb_strlen($desc['title']) > ($charsPerItem - strlen($postfix))) {
-                $order_description .= mb_substr($desc['title'], 0, ($charsPerItem - strlen($postfix) - 3)) . '...' . $postfix . "  ";
+                $order_description .= mb_substr($desc['title'], 0, ($charsPerItem - strlen($postfix) - 3)) . '...'
+                    . $postfix . "  ";
             } else {
-                $order_description .= $desc['title'] . ' ' . $postfix . "\n";
+                $order_description .= $desc['title'] . ' ' . $postfix . PHP_EOL;
             }
         }
         //this description cannot be more than 127 char lengths
@@ -383,18 +387,18 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
     protected function prepareOrderData($order_info)
     {
-        $orderId = (int)$order_info['order_id'];
+        $orderId = (int) $order_info['order_id'];
         $this->data['pp']['orderTotal'] = $taxes = $discount = $handling_fee = 0.0;
         $orderTotals = $this->model_checkout_order->getOrderTotals($orderId);
         foreach ($orderTotals as $total) {
             $this->data['pp']['order_' . $total['type']] = $this->currency->convert(
-                (float)$total['value'],
+                (float) $total['value'],
                 $this->config->get('config_currency'),
                 $this->data['currencyCode']
             );
 
-            if($total['type'] == 'total'){
-                $this->data['pp']['orderTotal'] = "".round( $this->data['pp'][ 'order_total' ], 2 );
+            if ($total['type'] == 'total') {
+                $this->data['pp']['orderTotal'] = "" . round($this->data['pp']['order_total'], 2);
             }
 
             if (in_array($total['type'], ['discount', 'promotion', 'coupon', 'balance'])) {
@@ -408,23 +412,23 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $this->data['pp']['amountBreakdown'] = [
             'item_total' => [
                 'currency_code' => $this->data['currencyCode'],
-                'value'         => (string)round($this->data['pp']['order_subtotal'], 2),
+                'value'         => (string) round($this->data['pp']['order_subtotal'], 2),
             ],
             'tax_total'  => [
                 'currency_code' => $this->data['currencyCode'],
-                'value'         => (string)round($taxes, 2)
+                'value'         => (string) round($taxes, 2),
             ],
             'shipping'   => [
                 'currency_code' => $this->data['currencyCode'],
-                'value'         => (string)round($this->data['pp']['order_shipping'], 2),
+                'value'         => (string) round($this->data['pp']['order_shipping'], 2),
             ],
             'discount'   => [
                 'currency_code' => $this->data['currencyCode'],
-                'value'         => (string)round($discount, 2)
+                'value'         => (string) round($discount, 2),
             ],
             'handling'   => [
                 'currency_code' => $this->data['currencyCode'],
-                'value'         => (string)round($handling_fee, 2)
+                'value'         => (string) round($handling_fee, 2),
             ],
         ];
 
@@ -501,15 +505,15 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             ],
             'email_address' => $order_info['email'],
         ];
-        $ppOrderData = $this->shopping_data->get('paypal_data', (string)$this->cart->getCartKey());
+        $ppOrderData = $this->shopping_data->get('paypal_data', (string) $this->cart->getCartKey());
         $this->data['pp']['purchase_units'][0] = [
-            'reference_id' => $ppOrderData['data']['reference_id'] ?: $this->session->data['reference_id'],
-            'amount'      => [
+            'reference_id' => $ppOrderData['data']['reference_id'] ? : $this->session->data['reference_id'],
+            'amount'       => [
                 'value'         => $this->data['pp']['orderTotal'],
-                'currency_code' => $this->data['currencyCode']
+                'currency_code' => $this->data['currencyCode'],
             ],
         ];
-        if($this->data['pp']['order_description']){
+        if ($this->data['pp']['order_description']) {
             $this->data['pp']['purchase_units'][0]['description'] = $this->data['pp']['order_description'];
         }
 
@@ -518,7 +522,6 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         if ($this->config->get('config_currency') == $this->data['currencyCode'] && !$this->config->get('config_tax')) {
             $this->data['pp']['purchase_units'][0]['amount']['breakdown'] = $this->data['pp']['amountBreakdown'];
         }
-
     }
 
     public function captureOrder()
@@ -529,27 +532,27 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         }
 
         $json = file_get_contents('php://input');
-        $json = (array)json_decode($json, true);
+        $json = (array) json_decode($json, true);
         $ppOrderId = $json['orderID'];
         $output = [];
 
         $orderId = $this->session->data['order_id'];
         //"buy-now" process
-        if(!$orderId) {
+        if (!$orderId) {
             $cartKey = $this->cart->getCartKey();
-            $cartData = $this->shopping_data->get('cart',$cartKey);
-            if(!$cartData['data']) {
+            $cartData = $this->shopping_data->get('cart', $cartKey);
+            if (!$cartData['data']) {
                 $error = new AError('Cart data not found!');
                 $error->toJSONResponse(
                     406,
                     [
-                        'error' => true,
-                        'message' => 'Cart data not found'
+                        'error'   => true,
+                        'message' => 'Cart data not found',
                     ]
                 );
             }
 
-            if($cartData['order_id']) {
+            if ($cartData['order_id']) {
                 $orderId = $this->session->data['order_id'] = $cartData['order_id'];
             }
             $fcSession =& $this->session->data['fc'];
@@ -560,7 +563,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 'cart',
                 new $cartClassName($this->registry, $fcSession)
             );
-        }else {
+        } else {
             if (!$this->csrftoken->isTokenValid()) {
                 $output['error'] = $this->language->get('error_unknown');
                 $this->load->library('json');
@@ -596,29 +599,38 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
             $output = ['id' => $result->getId()];
             $order = new AOrder($this->registry, $orderId);
-            $orderInfo = $order->loadOrderData($this->session->data['order_id'],'any',($this->customer->getId()?:'guest'));
-            if($orderInfo && !$orderInfo['email']){
+            $orderInfo =
+                $order->loadOrderData($this->session->data['order_id'], 'any', ($this->customer->getId() ? : 'guest'));
+            if ($orderInfo && !$orderInfo['email']) {
                 $this->session->data['fc'] += $order->data;
                 /** @see ControllerResponsesCheckoutPay::select_shipping() */
-                $dd = new ADispatcher( 'responses/checkout/pay/select_shipping');
+                $dd = new ADispatcher('responses/checkout/pay/select_shipping');
                 $dd->dispatch();
                 //resave an order into a database
                 $this->session->data['fc']['email'] = $result->getPayer()->getEmailAddress();
                 $this->session->data['fc']['guest']['email'] = $result->getPayer()->getEmailAddress();
                 $this->session->data['fc']['guest']['firstname'] = $result->getPayer()->getName()->getGivenName();
                 $this->session->data['fc']['guest']['lastname'] = $result->getPayer()->getName()->getSurname();
-                $this->session->data['fc']['guest']['company'] = $result->getPaymentSource()->getPaypal()->getBusinessName();
+                $this->session->data['fc']['guest']['company'] =
+                    $result->getPaymentSource()->getPaypal()->getBusinessName();
                 //take the correct shipping address from order
                 $ppO = $mdl->getOrder($ppOrderId);
-                list($fName, $lName) = explode(' ', $ppO->getPurchaseUnits()[0]->getShipping()->getName()->getFullName());
+                list(
+                    $fName, $lName
+                    ) = explode(' ', $ppO->getPurchaseUnits()[0]->getShipping()->getName()->getFullName());
                 $this->session->data['fc']['guest']['shipping']['firstname'] = $fName;
                 $this->session->data['fc']['guest']['shipping']['lastname'] = $lName;
-                $this->session->data['fc']['guest']['shipping']['company'] = $ppO->getPaymentSource()->getPaypal()->getBusinessName();
-                $this->session->data['fc']['guest']['shipping']['address_1'] = $ppO->getPurchaseUnits()[0]->getShipping()->getAddress()->getAddressLine1();
-                $this->session->data['fc']['guest']['shipping']['address_2'] = $ppO->getPurchaseUnits()[0]->getShipping()->getAddress()->getAddressLine2();
-                $this->session->data['fc']['guest']['shipping']['city'] = $ppO->getPurchaseUnits()[0]->getShipping()->getAddress()->getAdminArea2();
-                $this->session->data['fc']['guest']['shipping']['postcode'] = $ppO->getPurchaseUnits()[0]->getShipping()->getAddress()->getPostalCode();
-                $order->buildOrderData( $this->session->data['fc'] );
+                $this->session->data['fc']['guest']['shipping']['company'] =
+                    $ppO->getPaymentSource()->getPaypal()->getBusinessName();
+                $this->session->data['fc']['guest']['shipping']['address_1'] =
+                    $ppO->getPurchaseUnits()[0]->getShipping()->getAddress()->getAddressLine1();
+                $this->session->data['fc']['guest']['shipping']['address_2'] =
+                    $ppO->getPurchaseUnits()[0]->getShipping()->getAddress()->getAddressLine2();
+                $this->session->data['fc']['guest']['shipping']['city'] =
+                    $ppO->getPurchaseUnits()[0]->getShipping()->getAddress()->getAdminArea2();
+                $this->session->data['fc']['guest']['shipping']['postcode'] =
+                    $ppO->getPurchaseUnits()[0]->getShipping()->getAddress()->getPostalCode();
+                $order->buildOrderData($this->session->data['fc']);
                 $order->saveOrder();
             }
         } catch (Exception|Error $e) {
@@ -646,18 +658,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $output = [];
         /** @var ModelCheckoutOrder $oMdl */
         $oMdl = $this->loadModel('checkout/order');
-        $orderId = $this->session->data['order_id'];
-        $order_info = $oMdl->getOrder((int)$orderId);
-        if (!$order_info) {
-            $output['error'] = $this->language->get('error_unknown');
-            $err = new AError(
-                "Paypal Commerce: " . __CLASS__ . "::" . __METHOD__ . ": Order #" . $orderId . " not found"
-            );
-            $err->toLog()->toDebug();
-            return $output;
-        }
+        $orderId = (int) $this->session->data['order_id'];
 
-        $orderTotalAmt = "" . round($order_info['total'] * $order_info['value'], 2);
         /** @var ModelExtensionPaypalCommerce $mdl */
         $mdl = $this->loadModel('extension/paypal_commerce');
         $transactionDetails = json_decode(
@@ -668,9 +670,44 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             ),
             true
         );
-        $response = $mdl->getOrder($transactionDetails['id']);
+        $response = $mdl->getOrder((string) $transactionDetails['id']);
+        $cartKey = (string) $this->cart->getCartKey();
 
-        $ppData = $this->shopping_data->get('paypal_data', $this->cart->getCartKey());
+        $ppData = $this->shopping_data->get('paypal_data', $cartKey);
+        if (!$orderId && !$this->cart->hasShipping()) {
+            $cartData = $this->shopping_data->get('cart', $cartKey);
+            if (!$cartData['data']) {
+                $error = new AError('Cart data not found!');
+                $error->toJSONResponse(
+                    406,
+                    [
+                        'error'   => true,
+                        'message' => 'Cart data not found',
+                    ]
+                );
+            }
+
+            $this->createUpdateOrder(
+                [
+                    'id'       => $ppData['data']['order_id'],
+                    'cart_key' => $cartKey,
+                    'cartData' => $cartData,
+                ]
+            );
+            $orderId = (int) $this->session->data['order_id'];
+        }
+
+        $order_info = $oMdl->getOrder((int) $orderId);
+        if (!$order_info) {
+            $output['error'] = $this->language->get('error_unknown');
+            $err = new AError(
+                "Paypal Commerce: " . __CLASS__ . "::" . __METHOD__ . ": Order #" . $orderId . " not found"
+            );
+            $err->toLog()->toDebug();
+            return $output;
+        }
+
+        $orderTotalAmt = "" . round($order_info['total'] * $order_info['value'], 2);
 
         if (!$response) {
             $output['error'] = 'Cannot establish a connection to the server OR transaction Id is unknown';
@@ -688,8 +725,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $output['error'] = $this->language->get('error_unknown');
             $err = new AError(
                 "Paypal Commerce: Suspect Order Confirmation Request: "
-                . "\n Order Transaction Details:" . var_export($response, true) . "\n"
-                . "Requested Order Info:\n" . var_export($order_info, true)
+                . PHP_EOL . " Order Transaction Details:" . var_export($response, true) . PHP_EOL
+                . "Requested Order Info:" . PHP_EOL . var_export($order_info, true)
             );
             $err->toLog()->toDebug();
         } elseif ($response->getStatus() == 'COMPLETED') {
@@ -698,7 +735,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 : $this->config->get('paypal_commerce_status_success_unsettled');
             $oMdl->confirm(
                 $orderId,
-                $orderStatusId ?: $this->order_status->getStatusByTextId('pending')
+                $orderStatusId ? : $this->order_status->getStatusByTextId('pending')
             );
 
             $oMdl->updatePaymentMethodData(
@@ -717,17 +754,18 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             try {
                 $output['success'] = $this->html->getSecureURL('checkout/finalize');
             } catch (Exception $e) {
-                $this->log->write(__FILE__ . ':' . __LINE__ . '   - ' . $e->getMessage() . "\n\n" . $e->getTraceAsString());
+                $this->log->write(
+                    __FILE__ . ':' . __LINE__ . '   - ' . $e->getMessage() . PHP_EOL . PHP_EOL . $e->getTraceAsString()
+                );
                 $output['error'] = 'Oops, Unexpected Application Error';
             }
         } else {
-            $output['error'] = "Oops, Unexpected Application Error\n(" . $response->getStatus() . ")";
+            $output['error'] = "Oops, Unexpected Application Error (" . $response->getStatus() . ")";
             $this->log->write(var_export($response, true));
         }
 
         return $output;
     }
-
 
     /**
      * Handles the creation of a temporary PayPal order for an express-checkout process.
@@ -745,21 +783,21 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             return;
         }
         $inData = file_get_contents('php://input');
-        $inData = (array)json_decode($inData, true);
+        $inData = (array) json_decode($inData, true);
 
         //short name
         $fcSession =& $this->session->data['fc'];
-        if(!$fcSession['cart'] && $this->session->data['cart']) {
+        if (!$fcSession['cart'] && $this->session->data['cart']) {
             $fcSession =& $this->session->data;
         }
 
-        if(!$fcSession['cart']){
+        if (!$fcSession['cart']) {
             $error = new AError('Cart data not found!');
             $error->toJSONResponse(
                 406,
                 [
-                    'error' => true,
-                    'message' => 'Cart data not found'
+                    'error'   => true,
+                    'message' => 'Cart data not found',
                 ]
             );
         }
@@ -770,8 +808,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         );
 
         //cleanup cart
-        foreach($this->cart->getProducts() as $key=>$cartProduct) {
-            if($cartProduct['stock']<=0){
+        foreach ($this->cart->getProducts() as $key => $cartProduct) {
+            if ($cartProduct['stock'] <= 0) {
                 $this->cart->remove($key);
             }
         }
@@ -785,35 +823,31 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 'domain'   => null,
                 'secure'   => (defined('HTTPS') && HTTPS),
                 'httponly' => false,
-                'samesite' => ((defined('HTTPS') && HTTPS) ? 'None' : 'lax')
+                'samesite' => ((defined('HTTPS') && HTTPS) ? 'None' : 'lax'),
             ]
         );
 
-        $this->session->data['reference_id'] = 'abc_'.randomWord(10);
+        $this->session->data['reference_id'] = 'abc_' . randomWord(10);
         $output = [];
 
         $this->data['currencyCode'] = $this->currency->getCode();
+        $this->tax->setZone(
+            $fcSession['tax_country_id'] ? : $this->config->get('config_country_id'),
+            $fcSession['tax_zone_id'] ? : $this->config->get('config_zone_id'),
+        );
         /** @var ModelExtensionPaypalCommerce $mdl */
         $mdl = $this->loadModel('extension/paypal_commerce');
-        $orderTotal = "" . round(
-            $inData['total']
-                ? $this->currency->convert(
-                    $inData['total'],
-                    $this->config->get('config_currency'),
-                    $this->data['currencyCode']
-                )
-                : $this->cart->getFinalTotal()
-            ,2);
+        $orderTotal = "" . round($this->cart->getFinalTotal(true), 2);
 
         $ppData['intent'] = strtoupper($this->config->get('paypal_commerce_transaction_type'));
 
         $ppData['purchase_units'][0] = [
             'reference_id' => $this->session->data['reference_id'],
-            'amount'      => [
-                'value'         => $orderTotal?: 0.01,
-                'currency_code' => $this->data['currencyCode']
+            'amount'       => [
+                'value'         => $orderTotal ? : 0.01,
+                'currency_code' => $this->data['currencyCode'],
             ],
-            'description' => $inData['product_name'] ? substr($inData['product_name'], 0, 127) : ''
+            'description'  => $inData['product_name'] ? substr($inData['product_name'], 0, 127) : '',
         ];
 
         $shippingPreference = $this->cart->hasShipping() ? 'GET_FROM_FILE' : 'NO_SHIPPING';
@@ -823,25 +857,25 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 'cancel_url'            => $inData['return_url'],
                 'shipping_preference'   => $shippingPreference,
                 'app_switch_preference' => [
-                    'launch_paypal_app' => true
-                ]
-            ]
+                    'launch_paypal_app' => true,
+                ],
+            ],
         ];
-        if($shippingPreference != 'NO_SHIPPING') {
+        if ($shippingPreference != 'NO_SHIPPING') {
             $ppData['payment_source']['paypal']['experience_context']['order_update_callback_config'] = [
-                'callback_url' => $this->html->getSecureURL(
+                'callback_url'    => $this->html->getSecureURL(
                     'r/extension/paypal_commerce/orderUpdate',
-                    '&'.http_build_query(
+                    '&' . http_build_query(
                         [
-                            'ck' => $fcSession['cart_key'],
+                            'ck'            => $fcSession['cart_key'],
                             'currency_code' => $this->data['currencyCode'],
                             //uncomment for debug
-//                            'XDEBUG_TRIGGER' => 1,
-//                            'XDEBUG_SESSION' => 'PHPSTORM'
+                            //                            'XDEBUG_TRIGGER' => 1,
+                            //                            'XDEBUG_SESSION' => 'PHPSTORM'
                         ]
                     )
                 ),
-                'callback_events' => ["SHIPPING_ADDRESS","SHIPPING_OPTIONS"]
+                'callback_events' => ["SHIPPING_ADDRESS", "SHIPPING_OPTIONS"],
             ];
         }
 
@@ -852,14 +886,18 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 'paypal_data',
                 $fcSession['cart_key'],
                 [
-                    'reference_id' => $this->session->data['reference_id'],
-                    'order_id' => $ppOrder->getId(),
-                    'status' => $ppOrder->getStatus(),
+                    'reference_id'   => $this->session->data['reference_id'],
+                    'order_id'       => $ppOrder->getId(),
+                    'status'         => $ppOrder->getStatus(),
                     'payment_source' => $ppOrder->getPaymentSource(),
                 ]
             );
         } catch (Exception|Error $e) {
-            $this->log->write('PaypalCommerce order creation error: ' . $e->getMessage() . "\n Input Data: " . var_export($ppData, true));
+            $this->log->write(
+                'PaypalCommerce order creation error: ' . $e->getMessage() . PHP_EOL . "Input Data: " . var_export(
+                    $ppData, true
+                )
+            );
             $output['error'] = $e->getMessage();
         }
 
@@ -881,144 +919,71 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
     public function orderUpdate()
     {
-
         if (!$this->request->is_POST()) {
             http_response_code(406);
             return;
         }
 
         $inData = file_get_contents('php://input');
-        $inData = (array)json_decode($inData, true);
+        $inData = (array) json_decode($inData, true);
 
         $this->currency->set($this->request->get['currency_code']);
-        $cartKey = (string)$this->request->get['ck'];
-        $cartData = $this->shopping_data->get('cart',$cartKey);
-        if(!$cartData['data']) {
+        $cartKey = (string) $this->request->get['ck'];
+        $cartData = $this->shopping_data->get('cart', $cartKey);
+        if (!$cartData['data']) {
             $error = new AError('Cart data not found!');
             $error->toJSONResponse(
                 406,
                 [
-                    'error' => true,
-                    'message' => 'Cart data not found'
+                    'error'   => true,
+                    'message' => 'Cart data not found',
                 ]
             );
         }
 
-        if($cartData['order_id']) {
+        $inData['cart_key'] = $cartKey;
+        $inData['cartData'] = $cartData;
+
+        if ($cartData['order_id']) {
             $this->session->data['order_id'] = $cartData['order_id'];
         }
-        $fcSession =& $this->session->data['fc'];
-        $fcSession['cart_key'] = $cartKey;
-        $fcSession['cart'] = $cartData['data'];
-        $cartClassName = get_class($this->cart);
-        $this->registry->set(
-            'cart',
-            new $cartClassName($this->registry, $fcSession)
-        );
 
-        $ppOrderId = $inData['id'];
-        /** @var ModelExtensionPaypalCommerce $mdl */
-        $mdl = $this->loadModel('extension/paypal_commerce');
-        try {
-            $ppOrderDetails = $mdl->getOrder($ppOrderId);
-        }catch (Exception|Error $e) {
-            $this->log->write($e->getMessage());
-            $error = new AError('Paypal Order '.$ppOrderId.' not found!');
-            $error->toJSONResponse(
-                406,
-                [
-                    'error' => true,
-                    'message' => 'Paypal Order '.$ppOrderId.' not found!'
-                ]
-            );
-        }
-
-        $fcSession['guest']['firstname'] = 'guest';
-        $fcSession['guest']['lastname'] = 'guest';
-        $fcSession['guest']['email'] = $ppOrderDetails?->getPayer()?->getEmailAddress();
-        $fcSession['guest']['shipping']['city'] = $inData['shipping_address']['city'];
-
-        /** @var ModelLocalisationCountry $cMdl */
-        $cMdl = $this->loadModel('localisation/country');
-        $countryInfo = $cMdl->getCountryByCode((string)$inData['shipping_address']['country_code'],2);
-        $fcSession['guest']['shipping']['country_id'] = (int)$countryInfo['country_id'];
-        $fcSession['guest']['shipping']['country'] = $countryInfo['name'];
-        $fcSession['guest']['shipping']['iso_code_2'] = $countryInfo['iso_code_2'];
-        $fcSession['guest']['shipping']['iso_code_3'] = $countryInfo['iso_code_3'];
-        $fcSession['guest']['shipping']['address_format'] = $countryInfo['address_format'];
-
-          /** @var ModelLocalisationZone $zMdl */
-        $zMdl = $this->loadModel('localisation/zone');
-        $zoneInfo = $zMdl->getZoneByCode((string)$inData['shipping_address']['admin_area_1'],(int)$countryInfo['country_id']);
-        $fcSession['guest']['shipping']['zone'] = $zoneInfo['name'];
-        $fcSession['guest']['shipping']['zone_id'] = (int)$zoneInfo['zone_id'];
-        $fcSession['guest']['shipping']['postcode'] = $inData['shipping_address']['postal_code'];
-
-        $fcSession['guest'] += $fcSession['guest']['shipping'];
-
-        //$shNames = explode(' ', $ppOrderDetails->purchase_units[0]->shipping->name->full_name);
-        $fcSession['guest']['shipping']['firstname'] = 'guest';
-        $fcSession['guest']['shipping']['lastname'] = 'guest';
-
-        if($inData['shipping_option']){
-            //update order
-            /** @see ControllerResponsesCheckoutPay::select_shipping() */
-            $dd = new ADispatcher(
-                'responses/checkout/pay/select_shipping',
-                [
-                    'selected' => $inData['shipping_option']['id'],
-                    'selectFirst' => true
-                ]
-            );
-        }else {
-            //create new order in the session
-            /** @see ControllerResponsesCheckoutPay::updateOrderData() */
-            $dd = new ADispatcher('responses/checkout/pay/updateOrderData');
-            $dd->dispatch();
-            /** @see ControllerResponsesCheckoutPay::select_shipping() */
-            $dd = new ADispatcher(
-                'responses/checkout/pay/select_shipping',
-                [
-                    'selected' => '',
-                    'selectFirst' => true
-                ]
-            );
-        }
-        $dd->dispatch();
+        $this->createUpdateOrder($inData);
 
         $abcOrderId = $this->session->data['order_id'];
-        if(!$abcOrderId) {
-            throw new AException(AC_ERR_USER_ERROR, 'PayPal Express: Order not created after customer login into PP account!');
+        if (!$abcOrderId) {
+            throw new AException(
+                AC_ERR_USER_ERROR, 'PayPal Express: Order not created after customer login into PP account!'
+            );
         }
-        $this->shopping_data->save('cart',$cartKey, orderId: $abcOrderId);
-        $this->shopping_data->save('paypal_data',$cartKey, orderId: $abcOrderId);
+        $this->shopping_data->save('cart', $cartKey, orderId: $abcOrderId);
+        $this->shopping_data->save('paypal_data', $cartKey, orderId: $abcOrderId);
         //collect all data from order for response
         /** @var ModelCheckoutOrder $oMdl */
         $oMdl = $this->loadModel('checkout/order');
         $order_info = $oMdl->getOrder($abcOrderId);
         $this->data = [
             'currencyCode' => $this->currency->getCode(),
-            'decPlace' => (int)$this->currency->getCurrency()['decimal_place']
+            'decPlace'     => (int) $this->currency->getCurrency()['decimal_place'],
         ];
-
 
         $this->prepareOrderData($order_info);
         $output = [
-            'id' => randomWord(10),
-            'purchase_units' => $this->data['pp']['purchase_units']
+            'id'             => randomWord(10),
+            'purchase_units' => $this->data['pp']['purchase_units'],
         ];
 
-        foreach((array)$this->session->data['fc']['shipping_methods'] as $sMethod){
-            foreach($sMethod['quote'] as $quote) {
+        foreach ((array) $this->session->data['fc']['shipping_methods'] as $sMethod) {
+            foreach ($sMethod['quote'] as $quote) {
                 $output['purchase_units'][0]['shipping_options'][] = [
-                    'id'     => $quote['id'],
-                    'label'  => $quote['title'],
-                    'amount' => [
+                    'id'       => $quote['id'],
+                    'label'    => $quote['title'],
+                    'amount'   => [
                         'currency_code' => $this->data['currencyCode'],
-                        'value'         => (string)preformatFloat(round((float)$quote['cost'], 2)),
+                        'value'         => (string) preformatFloat(round((float) $quote['cost'], 2)),
                     ],
-                    'type' => 'SHIPPING',
-                    'selected' => ($this->session->data['fc']['shipping_method']['id'] == $quote['id'])
+                    'type'     => 'SHIPPING',
+                    'selected' => ($this->session->data['fc']['shipping_method']['id'] == $quote['id']),
                 ];
             }
         }
@@ -1030,6 +995,86 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $this->response->setOutput(AJson::encode($output));
     }
 
+    protected function createUpdateOrder(array $inData)
+    {
+        $fcSession =& $this->session->data['fc'];
+        $fcSession['cart_key'] = $inData['cart_key'];
+        $fcSession['cart'] = $inData['cartData']['data'];
+        $cartClassName = get_class($this->cart);
+        $this->registry->set(
+            'cart',
+            new $cartClassName($this->registry, $fcSession)
+        );
+
+        $ppOrderId = $inData['id'];
+        /** @var ModelExtensionPaypalCommerce $mdl */
+        $mdl = $this->loadModel('extension/paypal_commerce');
+        try {
+            $ppOrderDetails = $mdl->getOrder($ppOrderId);
+        } catch (Exception|Error $e) {
+            $this->log->write($e->getMessage());
+            $error = new AError('Paypal Order ' . $ppOrderId . ' not found!');
+            $error->toJSONResponse(
+                406,
+                [
+                    'error'   => true,
+                    'message' => 'Paypal Order ' . $ppOrderId . ' not found!',
+                ]
+            );
+        }
+
+        $fcSession['guest']['firstname'] = 'guest';
+        $fcSession['guest']['lastname'] = 'guest';
+        $fcSession['guest']['email'] = $ppOrderDetails?->getPayer()?->getEmailAddress();
+        $fcSession['guest']['shipping']['city'] = $inData['shipping_address']['city'];
+
+        /** @var ModelLocalisationCountry $cMdl */
+        $cMdl = $this->loadModel('localisation/country');
+        $countryInfo = $cMdl->getCountryByCode((string) $inData['shipping_address']['country_code'], 2);
+        $fcSession['guest']['shipping']['country_id'] = (int) $countryInfo['country_id'];
+        $fcSession['guest']['shipping']['country'] = $countryInfo['name'];
+        $fcSession['guest']['shipping']['iso_code_2'] = $countryInfo['iso_code_2'];
+        $fcSession['guest']['shipping']['iso_code_3'] = $countryInfo['iso_code_3'];
+        $fcSession['guest']['shipping']['address_format'] = $countryInfo['address_format'];
+
+        /** @var ModelLocalisationZone $zMdl */
+        $zMdl = $this->loadModel('localisation/zone');
+        $zoneInfo = $zMdl->getZoneByCode(
+            (string) $inData['shipping_address']['admin_area_1'],
+            (int) $countryInfo['country_id']
+        );
+        $fcSession['guest']['shipping']['zone'] = $zoneInfo['name'];
+        $fcSession['guest']['shipping']['zone_id'] = (int) $zoneInfo['zone_id'];
+        $fcSession['guest']['shipping']['postcode'] = $inData['shipping_address']['postal_code'];
+
+        $fcSession['guest'] += $fcSession['guest']['shipping'];
+
+        //$shNames = explode(' ', $ppOrderDetails->purchase_units[0]->shipping->name->full_name);
+        $fcSession['guest']['shipping']['firstname'] = 'guest';
+        $fcSession['guest']['shipping']['lastname'] = 'guest';
+
+        if ($inData['shipping_option']) {
+            $shippingArgs = [
+                'selected'    => $inData['shipping_option']['id'],
+                'selectFirst' => true,
+            ];
+        } else {
+            //create a new order in the session
+            /** @see ControllerResponsesCheckoutPay::updateOrderData() */
+            $dd = new ADispatcher('responses/checkout/pay/updateOrderData');
+            $dd->dispatch();
+            $shippingArgs = [
+                'selected'    => '',
+                'selectFirst' => true,
+            ];
+        }
+        /** @see ControllerResponsesCheckoutPay::select_shipping() */
+        $dd = new ADispatcher(
+            'responses/checkout/pay/select_shipping',
+            $shippingArgs
+        );
+        $dd->dispatch();
+    }
 
     /*
      *  WEBHOOKS SECTION
@@ -1114,7 +1159,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $oMdl->addHistory(
             $orderId,
             $this->data['order_status_id'],
-            "Paypal webhook " . $eventName . ": \n\nParsed data:\n" . var_export($inData['parsed'], true)
+            "Paypal webhook " . $eventName . ": " . PHP_EOL . "Parsed data:" . PHP_EOL . var_export(
+                $inData['parsed'], true
+            )
         );
     }
 
@@ -1129,13 +1176,19 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
     protected function webhookValidate($inData, $eventName)
     {
-
         if (!$inData['parsed']) {
-            $this->log->write("Paypal webhook " . $eventName . ": incorrect incoming data! \n:" . var_export($inData['raw'], true));
+            $this->log->write(
+                "Paypal webhook " . $eventName . ": incorrect incoming data! :" . PHP_EOL . var_export(
+                    $inData['raw'], true
+                )
+            );
             return false;
         }
         if ($inData['parsed']['event_type'] != $eventName) {
-            $this->log->write("Paypal webhook processing: Wrong Event Type! Waiting for " . $eventName . "  but " . $inData['parsed']['event_type'] . " was given");
+            $this->log->write(
+                "Paypal webhook processing: Wrong Event Type! Waiting for " . $eventName . "  but "
+                . $inData['parsed']['event_type'] . " was given"
+            );
             return false;
         }
 
@@ -1147,9 +1200,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         if (!$orderInfo) {
             $this->log->write(
                 "Paypal webhook " . $eventName
-                . ": order ID " . $orderId . " not found!\n Raw input data:\n"
+                . ": order ID " . $orderId . " not found!" . PHP_EOL . " Raw input data:" . PHP_EOL
                 . var_export($inData['raw'], true)
-                . "\n\nParsed data:\n" . var_export($inData['parsed'], true)
+                . PHP_EOL . PHP_EOL . "Parsed data:" . PHP_EOL . var_export($inData['parsed'], true)
             );
             return false;
         } elseif (isset($ppOrderId)) {
@@ -1159,11 +1212,11 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             if ($ppOrderInfo['charge_id'] != $ppOrderId) {
                 $this->log->write(
                     "Paypal webhook " . $eventName
-                    . ": order ID " . $orderId
-                    . " \n Paypal related OrderId: " . $ppOrderId . " but not found in the database.\n"
-                    . " \n Raw input data:\n"
+                    . ": order ID " . $orderId . PHP_EOL
+                    . "Paypal related OrderId: " . $ppOrderId . " but not found in the database." . PHP_EOL
+                    . "Raw input data:" . PHP_EOL
                     . var_export($inData['raw'], true)
-                    . "\n\nParsed data:\n" . var_export($inData['parsed'], true)
+                    . PHP_EOL . PHP_EOL . "Parsed data:" . PHP_EOL . var_export($inData['parsed'], true)
                 );
                 return false;
             }
@@ -1175,32 +1228,33 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
      * Retrieves the order ID associated with a given reference ID.
      *
      * @param string $referenceId The reference ID used to search for the order ID.
+     *
      * @return int|false Returns the order ID as an integer if found, or false if the reference ID is invalid or not found.
      */
     function getOrderIdByReferenceId(string $referenceId)
     {
-        if(!$referenceId){
+        if (!$referenceId) {
             return false;
         }
         $result = $this->shopping_data->search(
-            ['reference_id' => $referenceId],
-            'paypal_data',
+                     ['reference_id' => $referenceId],
+                     'paypal_data',
             options: ['sort' => 'order_id', 'order' => 'desc']
         );
-        return (int)$result[0]['order_id'];
+        return (int) $result[0]['order_id'];
     }
 
     function getOrderIdByPaypalOrderId(string $ppOrderId)
     {
-        if(!$ppOrderId){
+        if (!$ppOrderId) {
             return false;
         }
         $result = $this->shopping_data->search(
-            ['order_id' => $ppOrderId],
-            'paypal_data',
+                     ['order_id' => $ppOrderId],
+                     'paypal_data',
             options: ['sort' => 'order_id', 'order' => 'desc']
         );
-        return (int)$result[0]['order_id'];
+        return (int) $result[0]['order_id'];
     }
 
 }
