@@ -414,6 +414,8 @@ class ExtensionPaypalCommerce extends Extension
             return;
         }
 
+        //clean cart of checkout process first to avoid amount mismatch
+        unset($that->session->data['fc']['cart']);
         $view = new AView(Registry::getInstance());
         $data['show_buttons'] = $that->config->get('paypal_commerce_show_buttons_product');
         $data['fast_checkout_buy_now_status'] = $that->config->get('fast_checkout_buy_now_status');
@@ -462,6 +464,8 @@ class ExtensionPaypalCommerce extends Extension
     {
         if (IS_ADMIN) { return; }
         $that =& $this->baseObject;
+        //clean cart of checkout process first
+        unset($that->session->data['fc']['cart']);
         $canBuy = true;
         foreach($that->data['products'] as $product){
             if($product['stock'] <= 0){
