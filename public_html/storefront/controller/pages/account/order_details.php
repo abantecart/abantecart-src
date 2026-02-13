@@ -207,12 +207,7 @@ class ControllerPagesAccountOrderDetails extends AController
                             $value = mb_substr($value, 0, 64) . '...';
                         }
                     }
-
-                    $option_data[] = [
-                        'name'  => $option['name'],
-                        'value' => $value,
-                        'title' => $title,
-                    ];
+                    $option_data[] = array_merge($option, ['value' => $value,'title' => $title]);
                 }
 
                 $mSizes = [
