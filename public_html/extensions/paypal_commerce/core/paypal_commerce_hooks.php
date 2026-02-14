@@ -283,7 +283,7 @@ class ExtensionPaypalCommerce extends Extension
             if (!$chargeData) {
                 $view->assign(
                     'error_warning',
-                    "Some error happened!. Check the error log for more details."
+                    "Some error happened. Check the error log for more details."
                 );
             } else {
                 $data['transaction_id'] = $this->r_data['transaction_id'];

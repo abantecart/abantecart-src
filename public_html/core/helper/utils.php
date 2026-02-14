@@ -1741,3 +1741,12 @@ function insert2ArrayAfter(array $array, string $itemKey, $itemValue, string|int
         [$itemKey => $itemValue] +
         array_slice($array, $pos, count($array) - $pos, true);
 }
+
+function canBuyProduct(string|int|null $productStockCheckout, int $inStock = 0)
+{
+    $stockCheckout = (bool) (in_array($productStockCheckout, ['0', '1', 0, 1])
+        ? $productStockCheckout
+        : Registry::getInstance()->get('config')->get('config_stock_checkout')
+    );
+    return $inStock || $stockCheckout;
+}

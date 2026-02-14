@@ -599,8 +599,11 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
             $output = ['id' => $result->getId()];
             $order = new AOrder($this->registry, $orderId);
-            $orderInfo =
-                $order->loadOrderData($this->session->data['order_id'], 'any', ($this->customer->getId() ? : 'guest'));
+            $orderInfo = $order->loadOrderData(
+                $orderId,
+                'any',
+                ($this->customer->getId() ? : 'guest')
+            );
             if ($orderInfo && !$orderInfo['email']) {
                 $this->session->data['fc'] += $order->data;
                 /** @see ControllerResponsesCheckoutPay::select_shipping() */
@@ -809,7 +812,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         //cleanup cart
         foreach ($this->cart->getProducts() as $key => $cartProduct) {
-            if ($cartProduct['stock'] <= 0) {
+            if( !canBuyProduct($cartProduct['stock_checkout'], $cartProduct['stock']) ) {
                 $this->cart->remove($key);
             }
         }
