@@ -33,13 +33,19 @@ jobs:
           MYSQL_DATABASE: abantecart_test_build
           MYSQL_USER: abantecart
           MYSQL_PASSWORD: cartsarecool
+
+          MARIADB_ROOT_PASSWORD: root
+          MARIADB_DATABASE: abantecart_test_build
+          MARIADB_USER: abantecart
+          MARIADB_PASSWORD: cartsarecool
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot --silent"
+          --health-cmd="sh -c 'if command -v mariadb-admin >/dev/null 2>&1; then mariadb-admin ping -h 127.0.0.1 -uroot -proot --silent; else mysqladmin ping -h 127.0.0.1 -uroot -proot --silent; fi'"
           --health-interval=5s
           --health-timeout=3s
           --health-retries=30
+          --health-start-period=20s
 
     steps:
       - uses: actions/checkout@v4
