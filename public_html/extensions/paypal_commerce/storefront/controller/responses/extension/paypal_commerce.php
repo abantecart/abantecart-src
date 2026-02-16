@@ -292,10 +292,15 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $output['error'] = $e->getMessage();
         }
 
-        if (isset($output['error'])) {
-            if ($output['error']) {
-                http_response_code(406);
-            }
+        if ($output['error']) {
+            $error = new AError('PaypalCommerce order creation error.');
+            $error->toJSONResponse(
+                406,
+                [
+                    'error'   => true,
+                    'message' => 'PaypalCommerce order creation error.',
+                ]
+            );
         }
 
         $csrftoken = $this->registry->get('csrftoken');
@@ -604,18 +609,20 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 'any',
                 ($this->customer->getId() ? : 'guest')
             );
-            if ($orderInfo && !$orderInfo['email']) {
+            if ($orderInfo) {
                 $this->session->data['fc'] += $order->data;
+
                 /** @see ControllerResponsesCheckoutPay::select_shipping() */
                 $dd = new ADispatcher('responses/checkout/pay/select_shipping');
                 $dd->dispatch();
                 //resave an order into a database
+                $companyName = $result->getPaymentSource()?->getPaypal()?->getBusinessName() ? : '';
+
                 $this->session->data['fc']['email'] = $result->getPayer()->getEmailAddress();
                 $this->session->data['fc']['guest']['email'] = $result->getPayer()->getEmailAddress();
                 $this->session->data['fc']['guest']['firstname'] = $result->getPayer()->getName()->getGivenName();
                 $this->session->data['fc']['guest']['lastname'] = $result->getPayer()->getName()->getSurname();
-                $this->session->data['fc']['guest']['company'] =
-                    $result->getPaymentSource()->getPaypal()->getBusinessName();
+                $this->session->data['fc']['guest']['company'] = $companyName;
                 //take the correct shipping address from order
                 $ppO = $mdl->getOrder($ppOrderId);
                 list(
@@ -623,8 +630,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                     ) = explode(' ', $ppO->getPurchaseUnits()[0]->getShipping()->getName()->getFullName());
                 $this->session->data['fc']['guest']['shipping']['firstname'] = $fName;
                 $this->session->data['fc']['guest']['shipping']['lastname'] = $lName;
-                $this->session->data['fc']['guest']['shipping']['company'] =
-                    $ppO->getPaymentSource()->getPaypal()->getBusinessName();
+                $this->session->data['fc']['guest']['shipping']['company'] = $companyName;
                 $this->session->data['fc']['guest']['shipping']['address_1'] =
                     $ppO->getPurchaseUnits()[0]->getShipping()->getAddress()->getAddressLine1();
                 $this->session->data['fc']['guest']['shipping']['address_2'] =
@@ -633,16 +639,29 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                     $ppO->getPurchaseUnits()[0]->getShipping()->getAddress()->getAdminArea2();
                 $this->session->data['fc']['guest']['shipping']['postcode'] =
                     $ppO->getPurchaseUnits()[0]->getShipping()->getAddress()->getPostalCode();
+                $this->session->data['fc']['payment_method'] = [
+                    'id'    => 'paypal_commerce',
+                    'title' => 'Paypal',
+                ];
+
                 $order->buildOrderData($this->session->data['fc']);
                 $order->saveOrder();
             }
         } catch (Exception|Error $e) {
             $output['error'] = $e->getMessage();
+            $this->log->write($output['error'] . PHP_EOL . $e->getTraceAsString());
         }
 
         if (isset($output['error'])) {
             if ($output['error']) {
-                http_response_code(406);
+                $error = new AError('Paypal Capture order error');
+                $error->toJSONResponse(
+                    406,
+                    [
+                        'error'   => $output['error'],
+                        'message' => $output['Paypal Capture order error'],
+                    ]
+                );
             }
         }
 
@@ -812,7 +831,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         //cleanup cart
         foreach ($this->cart->getProducts() as $key => $cartProduct) {
-            if( !canBuyProduct($cartProduct['stock_checkout'], $cartProduct['stock']) ) {
+            if (!canBuyProduct($cartProduct['stock_checkout'], $cartProduct['stock'])) {
                 $this->cart->remove($key);
             }
         }
@@ -904,10 +923,15 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $output['error'] = $e->getMessage();
         }
 
-        if (isset($output['error'])) {
-            if ($output['error']) {
-                http_response_code(406);
-            }
+        if ($output['error']) {
+            $error = new AError('PaypalCommerce order creation error.');
+            $error->toJSONResponse(
+                406,
+                [
+                    'error'   => true,
+                    'message' => 'PaypalCommerce order creation error.',
+                ]
+            );
         }
 
         $csrftoken = $this->registry->get('csrftoken');
@@ -1055,6 +1079,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         //$shNames = explode(' ', $ppOrderDetails->purchase_units[0]->shipping->name->full_name);
         $fcSession['guest']['shipping']['firstname'] = 'guest';
         $fcSession['guest']['shipping']['lastname'] = 'guest';
+        $this->session->data['fc']['payment_method_key'] = 'paypal_commerce';
+        $this->session->data['fc']['payment_method'] = 'Paypal';
 
         if ($inData['shipping_option']) {
             $shippingArgs = [
