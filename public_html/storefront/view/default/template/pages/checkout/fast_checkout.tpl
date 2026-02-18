@@ -5,6 +5,13 @@ if ($error) { ?>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     <?php
+}
+if ($warning) { ?>
+    <div class="alert alert-warning alert-dismissible" role="alert">
+        <?php echo $warning; ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php
 } ?>
 <div class="spinner-overlay">
     <div class="text-center h-100 d-flex align-items-center justify-content-center">

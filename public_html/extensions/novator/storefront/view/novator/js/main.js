@@ -142,7 +142,7 @@ $(document).ready(function(){
 
     $(window).on('beforeunload', function ( e ) {
        let link = document.activeElement.href;
-       if(link || link.search('download') === -1) {
+       if(link && link.search('download') === -1) {
            $('#preloader').css('display', 'block');
        }
     });

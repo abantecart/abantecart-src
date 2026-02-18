@@ -1483,4 +1483,27 @@ class ModelCheckoutOrder extends Model
         $this->db->query($sql);
         return true;
     }
+
+    /**
+     * @param int $orderId
+     *
+     * @return string
+     * @throws AException
+     */
+    public function getChecksum(int $orderId)
+    {
+        $orderData = $this->getOrderTotals($orderId);
+        if(!$orderData){
+            //case with empty order data.
+            // Set random word to avoid md5 brut-force
+            $orderData = randomWord(16);
+        } else {
+            //remove id of row as unique data regardless value set
+            $orderData = array_map(function ($item) {
+                unset($item['order_total_id']);
+                return $item;
+            }, $orderData);
+        }
+        return md5(var_export($orderData, true));
+    }
 }

@@ -1,8 +1,9 @@
 <script type="application/javascript">
-    fc_main_url = '<?php echo $main_url;?>';
-    fc_checkbox_post_url = '<?php echo $this->html->getSecureUrl('r/checkout/pay/changeCheckBox'); ?>';
-    fc_comment_post_url = '<?php echo $this->html->getSecureUrl('r/checkout/pay/updateOrderData'); ?>';
-    fc_product_page_url = '<?php echo $this->html->getSecureUrl('product/product')?>';
+    fc_main_url = <?php js_echo($main_url);?>;
+    fc_checkbox_post_url = <?php js_echo($this->html->getSecureUrl('r/checkout/pay/changeCheckBox'));?>;
+    fc_comment_post_url = <?php js_echo($this->html->getSecureUrl('r/checkout/pay/updateOrderData')); ?>;
+    fc_product_page_url = <?php js_echo($this->html->getSecureUrl('product/product'));?>;
+    fc_order_checksum_url = <?php js_echo($this->html->getSecureUrl('r/checkout/pay/checkOrderIntegrity','&checksum='.$order_checksum)); ?>;
 </script>
 
 <?php echo $head; ?>

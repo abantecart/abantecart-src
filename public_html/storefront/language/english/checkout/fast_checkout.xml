@@ -493,4 +493,8 @@
 		<key>text_see_more_cart_products</key>
 		<value><![CDATA[See more cart products]]></value>
 	</definition>
+	<definition>
+		<key>warning_order_changed</key>
+		<value><![CDATA[Order has been changed. Please review your cart.]]></value>
+	</definition>
 </definitions>

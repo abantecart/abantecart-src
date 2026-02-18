@@ -343,6 +343,10 @@ class ControllerPagesCheckoutFastCheckout extends AController
             $order_data
         );
 
+        if($this->request->get['order_changed']){
+            $this->data['warning'] = $this->language->get('warning_order_changed');
+        }
+
         $this->view->batchAssign($this->data);
         $this->view->setTemplate('pages/checkout/fast_checkout.tpl');
         $this->processTemplate();

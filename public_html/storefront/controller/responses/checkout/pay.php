@@ -472,7 +472,14 @@ class ControllerResponsesCheckoutPay extends AController
 
         $this->updateOrCreateOrder($this->fc_session, $request);
 
+        //add order checksum when order already created
+        /** @var ModelCheckoutOrder $mdl */
+        $mdl = $this->loadModel('checkout/order');
+        $this->data['order_checksum'] = $mdl->getChecksum((int)$this->session->data['order_id']);
+
         $this->view->batchAssign($this->data);
+        /** @see public_html/storefront/view/default/template/responses/checkout/main.tpl */
+        /** @see public_html/extensions/novator/storefront/view/novator/template/responses/checkout/main.tpl */
         $this->response->setOutput($this->view->fetch('responses/checkout/main.tpl'));
     }
 
@@ -2125,5 +2132,25 @@ class ControllerResponsesCheckoutPay extends AController
         return $telephoneField['required'] ? : false;
     }
 
+    public function checkOrderIntegrity()
+    {
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+        $checkSum = $this->request->get['checksum'];
+        $orderId = (int)$this->session->data['order_id'];
+
+        if (!$checkSum || !$orderId) {
+            $this->data['output'] = false;
+        }else{
+            /** @var ModelCheckoutOrder $mdl */
+            $mdl = $this->loadModel('checkout/order');
+            $orderCheckSum = $mdl->getChecksum($orderId);
+            $this->data['output'] = ($checkSum == $orderCheckSum);
+        }
+
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $this->load->library('json');
+        $this->response->addJSONHeader();
+        $this->response->setOutput(AJson::encode(['result' => $this->data['output']]));
+    }
 
 }
