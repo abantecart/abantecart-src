@@ -43,9 +43,13 @@ function orderIntegrityCheck() {
         },
     });
 }
-$(document).ready(function () {
-    setInterval(orderIntegrityCheck, 50000);
-});
+
+if (typeof fc_order_checksum_url !== 'undefined' && fc_order_checksum_url.length > 0) {
+    $(document).ready(function () {
+        setInterval(orderIntegrityCheck, 50000);
+    });
+}
+
 function checkCartKey() {
     if ($('body').data('cart_key') && $('body').data('cart_key') !== readCookie('fc_cart_key')) {
         let pKey = $('body').data('product_key');

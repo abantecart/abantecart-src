@@ -23,30 +23,31 @@ getUrlParams = function (key, value) {
     return searchParams.toString()
 };
 
-function orderIntegrityCheck() {
-    $.ajax({
-        type: 'GET',
-        url: fc_order_checksum_url,
-        dataType: 'json',
-        contentType: 'application/json',
-        success: function (data) {
-            if(data.result === false){
-                // Close all child windows
-                if (window.opener) {
-                    window.opener.postMessage('closeChildren', '*');
+if (typeof fc_order_checksum_url !== 'undefined' && fc_order_checksum_url.length > 0) {
+    function orderIntegrityCheck() {
+        $.ajax({
+            type: 'GET',
+            url: fc_order_checksum_url,
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                if(data.result === false){
+                    // Close all child windows
+                    if (window.opener) {
+                        window.opener.postMessage('closeChildren', '*');
+                    }
+                    // Reload the page with order_changed parameter
+                    const url = new URL(window.location);
+                    url.searchParams.set('order_changed', '1');
+                    window.location.href = url.toString();
                 }
-                // Reload the page with order_changed parameter
-                const url = new URL(window.location);
-                url.searchParams.set('order_changed', '1');
-                window.location.href = url.toString();
-            }
-        },
+            },
+        });
+    }
+    $(document).ready(function () {
+        setInterval(orderIntegrityCheck, 50000);
     });
 }
-$(document).ready(function () {
-    setInterval(orderIntegrityCheck, 50000);
-});
-
 function checkCartKey() {
     if ($('body').data('cart_key') && $('body').data('cart_key') !== readCookie('fc_cart_key')) {
         let pKey = $('body').data('product_key');
