@@ -33,13 +33,16 @@ if (typeof fc_order_checksum_url !== 'undefined' && fc_order_checksum_url.length
             success: function (data) {
                 if(data.result === false){
                     // Close all child windows
-                    if (window.opener) {
-                        window.opener.postMessage('closeChildren', '*');
+                    if (window.opener && !window.opener.closed) {
+                        window.opener.close();
                     }
-                    // Reload the page with order_changed parameter
-                    const url = new URL(window.location);
-                    url.searchParams.set('order_changed', '1');
-                    window.location.href = url.toString();
+                    for (var i = 0; i < window.length; i++) {
+                        if (window[i] && !window[i].closed) {
+                            window[i].close();
+                        }
+                    }
+                    document.cookie = "order_changed=1; max-age=10";
+                    window.location.reload();
                 }
             },
         });

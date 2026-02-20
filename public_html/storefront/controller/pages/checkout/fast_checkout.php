@@ -343,7 +343,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
             $order_data
         );
 
-        if($this->request->get['order_changed']){
+        if($this->request->cookie['order_changed']){
             $this->data['warning'] = $this->language->get('warning_order_changed');
         }
 
