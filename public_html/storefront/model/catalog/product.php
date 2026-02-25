@@ -1577,7 +1577,9 @@ class ModelCatalogProduct extends Model
         }
 
         $sql = " ( SELECT CASE WHEN p2sp.price_prefix='%' 
-                            THEN p.price - (p2sp.price * (p.price/100)) 
+                              THEN p.price - (p2sp.price * (p.price/100))
+                            WHEN p2sp.price_prefix='Δ' 
+                              THEN p.price - p2sp.price                            
                             ELSE p2sp.price END as special_price
                     FROM " . $this->db->table("product_specials") . " p2sp
                     WHERE p2sp.product_id = p.product_id
@@ -1636,9 +1638,13 @@ class ModelCatalogProduct extends Model
         $output = $this->cache->pull($cacheKey);
         // if no cache
         if ($output === false) {
+            $output = [];
             $sql = "SELECT ps.product_id, 
-                        CASE WHEN ps.price_prefix='%' THEN p.price - (ps.price * (p.price/100)) 
-                             ELSE ps.price END AS special_price
+                        CASE WHEN ps.price_prefix='%' 
+                               THEN p.price - (ps.price * (p.price/100))
+                             WHEN ps.price_prefix='Δ' 
+                               THEN p.price - ps.price 
+                        ELSE ps.price END AS special_price
                     FROM " . $this->db->table("product_specials") . " ps
                     LEFT JOIN " . $this->db->table("products") . " p
                         ON p.product_id = ps.product_id
@@ -1673,7 +1679,10 @@ class ModelCatalogProduct extends Model
 
             // discounts
             $sql = "SELECT rd.product_id,
-                        CASE WHEN rd.price_prefix='%' THEN p.price - (rd.price * (p.price/100)) 
+                        CASE WHEN rd.price_prefix='%' 
+                              THEN p.price - (rd.price * (p.price/100))
+                            WHEN rd.price_prefix='Δ' 
+                              THEN p.price - rd.price 
                             ELSE rd.price END AS discount_price
                     FROM " . $this->db->table("product_discounts") . " rd
                     LEFT JOIN " . $this->db->table("products") . " p
@@ -2004,7 +2013,10 @@ class ModelCatalogProduct extends Model
                     WHERE r1.product_id = ps.product_id AND r1.status = '1'
                     GROUP BY r1.product_id) AS rating\n";
         }
-        $sql .= ", (SELECT CASE WHEN rd.price_prefix='%' THEN p.price - (rd.price * (p.price/100)) 
+        $sql .= ", (SELECT CASE WHEN rd.price_prefix='%' 
+                                  THEN p.price - (rd.price * (p.price/100))
+                                WHEN rd.price_prefix='Δ' 
+                                  THEN p.price - rd.price  
                                 ELSE rd.price END AS discount_price
                     FROM " . $this->db->table("product_discounts") . " rd
                     WHERE rd.product_id = ps.product_id

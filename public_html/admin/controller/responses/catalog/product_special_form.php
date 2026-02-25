@@ -1,11 +1,13 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -84,12 +86,6 @@ class ControllerResponsesCatalogProductSpecialForm extends AController
 
         if ($specialId) {
             $special_info = $mdl->getProductSpecial($specialId);
-            if ($special_info['date_start'] == '0000-00-00') {
-                $special_info['date_start'] = '';
-            }
-            if ($special_info['date_end'] == '0000-00-00') {
-                $special_info['date_end'] = '';
-            }
         }
 
         $this->loadModel('sale/customer_group');
@@ -192,19 +188,20 @@ class ControllerResponsesCatalogProductSpecialForm extends AController
             [
                 'type'  => 'input',
                 'name'  => 'priority',
-                'value' => $this->data['priority'],
+                'value' => $this->data['priority'] ?: 1,
                 'style' => 'small-field',
             ]
         );
-        $currencyInfo = $this->currency->getCurrency($this->config->get('config_currency'));
+
         $this->data['form']['fields']['price_prefix'] = $form->getFieldHtml(
             [
                 'type'    => 'selectbox',
                 'name'    => 'price_prefix',
                 'value'   => $this->data['price_prefix'],
                 'options' => [
-                    '$' => $currencyInfo['symbol_left'] . $currencyInfo['symbol_right'],
-                    '%' => '%'
+                    '$' => $this->language->get('text_new_price'),
+                    '%' => $this->language->get('text_prc_off'),
+                    'Δ' => $this->language->get('text_fixed_amount_off')
                 ]
             ]
         );
@@ -214,7 +211,6 @@ class ControllerResponsesCatalogProductSpecialForm extends AController
                 'type'  => 'input',
                 'name'  => 'price',
                 'value' => moneyDisplayFormat($this->data['price']),
-                'style' => 'tiny-field',
             ]
         );
 
@@ -250,6 +246,7 @@ class ControllerResponsesCatalogProductSpecialForm extends AController
 
         $view->assign('help_url', $this->gen_help_url('product_special_edit'));
         $view->batchAssign($this->data);
+        /** @see public_html/admin/view/default/template/responses/catalog/product_promotion_form.tpl */
         $this->data['response'] = $view->fetch('responses/catalog/product_promotion_form.tpl');
         $this->response->setOutput($this->data['response']);
     }
