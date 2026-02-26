@@ -468,7 +468,8 @@ class ExtensionPaypalCommerce extends Extension
         unset($that->session->data['fc']['cart']);
         $canBuy = true;
         foreach($that->data['products'] as $product){
-            if($product['stock'] <= 0){
+            $stockCheckout = $product['stock_checkout'] ?? $that->config->get('config_stock_checkout');
+            if( $product['stock'] <= 0 && $stockCheckout < 1){
                 $canBuy = false;
             }else{
                 $canBuy = true;

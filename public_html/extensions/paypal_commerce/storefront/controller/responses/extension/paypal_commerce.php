@@ -1081,7 +1081,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $fcSession['guest']['shipping']['zone_id'] = (int) $zoneInfo['zone_id'];
         $fcSession['guest']['shipping']['postcode'] = $inData['shipping_address']['postal_code'];
 
-        $fcSession['guest'] += $fcSession['guest']['shipping'];
+        $fcSession['guest'] = array_merge($fcSession['guest'], $fcSession['guest']['shipping']);
 
         //$shNames = explode(' ', $ppOrderDetails->purchase_units[0]->shipping->name->full_name);
         $fcSession['guest']['shipping']['firstname'] = 'guest';
