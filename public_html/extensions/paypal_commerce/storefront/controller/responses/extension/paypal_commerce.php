@@ -610,10 +610,15 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 ($this->customer->getId() ? : 'guest')
             );
             if ($orderInfo) {
-                $this->session->data['fc'] += $order->data;
+                $this->session->data['fc'] = array_merge($order->data, $this->session->data['fc']);
 
                 /** @see ControllerResponsesCheckoutPay::select_shipping() */
-                $dd = new ADispatcher('responses/checkout/pay/select_shipping');
+                $dd = new ADispatcher(
+                    'responses/checkout/pay/select_shipping',
+                    [
+                        'selected'=>$this->session->data['fc']['shipping_method']['id']
+                    ]
+                );
                 $dd->dispatch();
                 //resave an order into a database
                 $companyName = $result->getPaymentSource()?->getPaypal()?->getBusinessName() ? : '';

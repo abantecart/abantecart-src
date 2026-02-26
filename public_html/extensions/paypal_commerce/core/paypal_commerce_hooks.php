@@ -290,16 +290,18 @@ class ExtensionPaypalCommerce extends Extension
                 $data['amount_refunded'] = 0;
                 $amt = 0;
                 $currencyCode = '';
+                $priorCaptures = $chargeData->getPurchaseUnits()[0]->getPayments()->getCaptures();
+                $priorAuthorizations = $chargeData->getPurchaseUnits()[0]->getPayments()->getAuthorizations();
                 if ($chargeData->getIntent() == 'AUTHORIZE') {
-                    foreach ($chargeData->getPurchaseUnits()[0]->getPayments()->getAuthorizations() as $auth) {
+                    foreach ($priorAuthorizations as $auth) {
                         $amt += (float) $auth->getAmount()->getValue();
                         $currencyCode = $auth->getAmount()->getCurrencyCode();
                     }
                     $data['amount_authorized'] = round($amt, 2);
                     $data['amount_authorized_formatted'] = $that->currency->format($amt, $currencyCode, 1);
                     $amt = 0.0;
-                    if ($chargeData->getPurchaseUnits()[0]->getPayments()->getCaptures()) {
-                        foreach ($chargeData->getPurchaseUnits()[0]->getPayments()->getCaptures() as $capt) {
+                    if ($priorCaptures) {
+                        foreach ($priorCaptures as $capt) {
                             if ($capt->getStatus() == 'PARTIALLY_REFUNDED') {
                                 $data['amount_refunded'] += (float) $capt->getAmount()->getValue();
                             } else {
@@ -311,7 +313,7 @@ class ExtensionPaypalCommerce extends Extension
                     $data['amount_captured'] = round($amt, 2);
                     $data['amount_captured_formatted'] = $that->currency->format($amt, $currencyCode, 1);
                 } else {
-                    foreach ($chargeData->getPurchaseUnits()[0]->getPayments()->getCaptures() as $capt) {
+                    foreach ($priorCaptures as $capt) {
                         $amt += (float) $capt->getAmount()->getValue();
                         $currencyCode = $capt->getAmount()->getCurrencyCode();
                     }
@@ -319,10 +321,10 @@ class ExtensionPaypalCommerce extends Extension
                     $data['amount_captured_formatted'] = $that->currency->format($amt, $currencyCode, 1);
                     $data['captured'] = 1;
                 }
-
-                if ($chargeData->getPurchaseUnits()[0]->getPayments()->getRefunds()) {
+                $priorRefunds = $chargeData->getPurchaseUnits()[0]->getPayments()?->getRefunds();
+                if ($priorRefunds) {
                     $amt = 0;
-                    foreach ($chargeData->getPurchaseUnits()[0]->getPayments()->getRefunds() as $refund) {
+                    foreach ($priorRefunds as $refund) {
                         $amt += (float)$refund->getAmount()->getValue();
                         $currencyCode = $refund->getAmount()->getCurrencyCode();
                         $amount = round((float) $refund->getAmount()->getValue(), 2);
@@ -348,9 +350,7 @@ class ExtensionPaypalCommerce extends Extension
                 }
                 //check a void status.
                 //Not captured and refunded
-                if ($data['refunded'] && !$data['captured']
-                    || $chargeData->getPurchaseUnits()[0]->getPayments()->getAuthorizations()[0]->getStatus()
-                    == 'VOIDED') {
+                if ($data['refunded'] && !$data['captured'] || $priorAuthorizations[0]?->getStatus() == 'VOIDED'){
                     $data['void_status'] = 1;
                 }
 
