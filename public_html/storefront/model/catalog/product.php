@@ -23,6 +23,18 @@
 /** @noinspection PhpUndefinedClassInspection */
 class ModelCatalogProduct extends Model
 {
+    protected $customer_group_id;
+    public function __construct($registry)
+    {
+        parent::__construct($registry);
+        //special prices
+        if (is_object($this->customer) && $this->customer->isLogged()) {
+            $this->customer_group_id = (int) $this->customer->getCustomerGroupId();
+        } else {
+            $this->customer_group_id = (int) $this->config->get('config_customer_group_id');
+        }
+    }
+
     /**
      * @param int $product_id
      *
@@ -288,7 +300,10 @@ class ModelCatalogProduct extends Model
         $store_id = (int) $this->config->get('config_store_id');
         $language_id = (int) $this->config->get('storefront_language_id');
         $cache_key = 'product.listing.products_category.'
-            . md5(var_export(func_get_args(), true) . $store_id . $language_id);
+            . md5(var_export(func_get_args(), true)
+            . $this->customer_group_id
+            . $store_id
+            . $language_id);
         $cache = $this->cache->pull($cache_key);
         if ($cache === false) {
             $sql = "SELECT DISTINCT " . $this->db->getSqlCalcTotalRows() . " p.*, 
@@ -372,8 +387,9 @@ class ModelCatalogProduct extends Model
     {
         $store_id = (int) $this->config->get('config_store_id');
 
-        $cache_key =
-            'product.listing.products_by_category.' . md5(var_export($category_id, true)) . '.store_' . $store_id;
+        $cache_key = 'product.listing.products_by_category.'
+            . md5(var_export($category_id, true))
+            . '.store_' . $store_id;
         $cache = $this->cache->pull($cache_key);
         if ($cache === false) {
             $sql = "SELECT COUNT(*) AS total
@@ -417,7 +433,8 @@ class ModelCatalogProduct extends Model
         $start = abs((int) $data['start']);
         $limit = abs((int) $data['limit'] ? : 20);
         $store_id = (int) $this->config->get('config_store_id');
-        $cache_key = 'product.listing.brands.' . md5(var_export(func_get_args(), true));
+        $cache_key = 'product.listing.brands.' . md5(var_export(func_get_args(), true))
+            . $this->customer_group_id;
         $cache = $this->cache->pull($cache_key);
         if ($cache !== false) {
             return $cache;
@@ -518,8 +535,8 @@ class ModelCatalogProduct extends Model
             "SELECT COUNT(*) AS total
             FROM " . $this->db->table("products") . "
             WHERE status = '1'
-                    AND date_available <= NOW()
-                    AND manufacturer_id = '" . (int) $manufacturer_id . "'"
+                AND date_available <= NOW()
+                AND manufacturer_id = '" . (int) $manufacturer_id . "'"
         );
         return (int) $query->row['total'];
     }
@@ -645,7 +662,11 @@ class ModelCatalogProduct extends Model
             }
         }
 
-        $cacheKey = 'product.search.results' . md5(var_export($data, true) . var_export($categoryIds, true));
+        $cacheKey = 'product.search.results'
+            . $this->customer_group_id
+            . (int) $this->config->get('storefront_language_id')
+            . md5(var_export($data, true)
+            . var_export($categoryIds, true));
         $output = $this->cache->pull($cacheKey);
         if ($output !== false) {
             return $output;
@@ -825,6 +846,7 @@ class ModelCatalogProduct extends Model
         $limit = abs((int) $limit);
         $storeId = (int) $this->config->get('config_store_id');
         $cache_key = 'product.latest.'
+            . $this->customer_group_id
             . $limit
             . '.store_' . $storeId
             . '_lang_' . $this->config->get('storefront_language_id');
@@ -868,7 +890,10 @@ class ModelCatalogProduct extends Model
         $limit = abs((int) $limit);
         $storeId = (int) $this->config->get('config_store_id');
         $cacheKey = 'product.popular.'
-            . $limit . '.store_' . $storeId . '_lang_' . $this->config->get('storefront_language_id');
+            . $this->customer_group_id
+            . $limit
+            . '.store_' . $storeId
+            . '_lang_' . $this->config->get('storefront_language_id');
         $output = $this->cache->pull($cacheKey);
         if ($output !== false) {
             return $output;
@@ -906,7 +931,11 @@ class ModelCatalogProduct extends Model
         $limit = abs((int) $limit);
         $language_id = (int) $this->config->get('storefront_language_id');
         $store_id = (int) $this->config->get('config_store_id');
-        $cacheKey = 'product.featured.' . $limit . '.store_' . $store_id . '_lang_' . $language_id;
+        $cacheKey = 'product.featured.'
+            . $limit
+            . $this->customer_group_id
+            . '.store_' . $store_id
+            . '_lang_' . $language_id;
         $product_data = $this->cache->pull($cacheKey);
         if ($product_data === false) {
             $sql = "SELECT f.*, pd.*, ss.name AS stock, p.*
@@ -922,7 +951,7 @@ class ModelCatalogProduct extends Model
                     WHERE p2s.store_id = '" . $store_id . "'
                         AND p.status='1'
                         AND p.date_available <= NOW()
-                    ORDER BY p.sort_order ASC, p.date_available DESC ";
+                    ORDER BY p.sort_order, p.date_available DESC ";
 
             if ((int) $limit) {
                 $sql .= " LIMIT " . (int) $limit;
@@ -946,7 +975,11 @@ class ModelCatalogProduct extends Model
         $limit = abs((int) $limit);
         $language_id = (int) $this->config->get('storefront_language_id');
         $store_id = (int) $this->config->get('config_store_id');
-        $cache_key = 'product.bestseller.' . $limit . '.store_' . $store_id . '_lang_' . $language_id;
+        $cache_key = 'product.bestseller.'
+            . $this->customer_group_id
+            . $limit
+            . '.store_' . $store_id
+            . '_lang_' . $language_id;
 
         $product_data = $this->cache->pull($cache_key);
         if ($product_data === false) {
@@ -973,7 +1006,10 @@ class ModelCatalogProduct extends Model
                 }
 
                 if ($products) {
-                    $sql = "SELECT pd.*, ss.name AS stock, p.*
+                    $sql = "SELECT pd.*, ss.name AS stock, p.*,"
+                                  . $this->_sql_final_price_string() . ",
+                                " . $this->_sql_avg_rating_string() . ",
+                                " . $this->_sql_review_count_string() . "
                             FROM " . $this->db->table("products") . " p
                             LEFT JOIN " . $this->db->table("product_descriptions") . " pd
                                 ON (p.product_id = pd.product_id AND pd.language_id = '" . $language_id . "')
@@ -1237,7 +1273,7 @@ class ModelCatalogProduct extends Model
                         "SELECT *
                         FROM " . $this->db->table("product_option_descriptions") . "
                         WHERE product_option_id = '" . (int) $product_option['product_option_id'] . "'
-                            AND language_id = '" . (int) $language_id . "'"
+                            AND language_id = '" . $language_id . "'"
                     );
 
                     $product_option_data[$product_option['product_option_id']] = [
@@ -1290,7 +1326,7 @@ class ModelCatalogProduct extends Model
                         AND p.product_id IN (" . implode(', ', $products) . ")
                         AND p.status='1'
                         AND p.date_available <= NOW()
-                ORDER BY p.sort_order ASC, p.date_available DESC";
+                ORDER BY p.sort_order, p.date_available DESC";
         $query = $this->db->query($sql);
         $result = $query->rows;
         $this->cache->push($cacheKey, $result);
@@ -1569,13 +1605,6 @@ class ModelCatalogProduct extends Model
 
     protected function _sql_final_price_string()
     {
-        //special prices
-        if (is_object($this->customer) && $this->customer->isLogged()) {
-            $customer_group_id = (int) $this->customer->getCustomerGroupId();
-        } else {
-            $customer_group_id = (int) $this->config->get('config_customer_group_id');
-        }
-
         $sql = " ( SELECT CASE WHEN p2sp.price_prefix='%' 
                               THEN p.price - (p2sp.price * (p.price/100))
                             WHEN p2sp.price_prefix='Δ' 
@@ -1583,7 +1612,7 @@ class ModelCatalogProduct extends Model
                             ELSE p2sp.price END as special_price
                     FROM " . $this->db->table("product_specials") . " p2sp
                     WHERE p2sp.product_id = p.product_id
-                            AND p2sp.customer_group_id = '" . $customer_group_id . "'
+                            AND p2sp.customer_group_id = '" . $this->customer_group_id . "'
                             AND COALESCE(p2sp.date_start, '1970-01-01') < NOW()
                             AND COALESCE(p2sp.date_end, '2200-01-01') > NOW()
                     ORDER BY p2sp.priority ASC, special_price ASC LIMIT 1
@@ -1620,18 +1649,11 @@ class ModelCatalogProduct extends Model
             return false;
         }
         $productIds = filterIntegerIdList($productIds);
-
-        //special prices
-        if (is_object($this->customer) && $this->customer->isLogged()) {
-            $customerGroupId = $this->customer->getCustomerGroupId();
-        } else {
-            $customerGroupId = (int) $this->config->get('config_customer_group_id');
-        }
         $languageId = (int) $this->config->get('storefront_language_id');
         $storeId = (int) $this->config->get('config_store_id');
         $cacheKey = 'product.all_info.'
             . md5(implode('', $productIds))
-            . '.' . $customerGroupId
+            . '.' . $this->customer_group_id
             . '.store_' . $storeId
             . '_lang_' . $languageId;
 
@@ -1649,10 +1671,10 @@ class ModelCatalogProduct extends Model
                     LEFT JOIN " . $this->db->table("products") . " p
                         ON p.product_id = ps.product_id
                     WHERE ps.product_id IN (" . implode(', ', $productIds) . ")
-                            AND ps.customer_group_id = '" . $customerGroupId . "'
+                            AND ps.customer_group_id = '" . $this->customer_group_id . "'
                             AND COALESCE(ps.date_start, '1970-01-01') < NOW()
                             AND COALESCE(ps.date_end, '2200-01-01') > NOW()
-                    ORDER BY ps.product_id ASC, ps.priority ASC, special_price ASC";
+                    ORDER BY ps.product_id, ps.priority, special_price";
             $result = $this->db->query($sql);
             $temp = '';
             $specials = [];
@@ -1688,11 +1710,11 @@ class ModelCatalogProduct extends Model
                     LEFT JOIN " . $this->db->table("products") . " p
                         ON p.product_id = rd.product_id
                     WHERE rd.product_id IN (" . implode(', ', $productIds) . ")
-                        AND rd.customer_group_id = '" . (int) $customerGroupId . "'
+                        AND rd.customer_group_id = '" . $this->customer_group_id . "'
                         AND rd.quantity = '1'
                         AND COALESCE(rd.date_start, '1970-01-01') < NOW()
                         AND COALESCE(rd.date_end, '2200-01-01') > NOW()
-                    ORDER BY rd.product_id ASC, rd.priority ASC, discount_price ASC";
+                    ORDER BY rd.product_id, rd.priority, discount_price";
             $result = $this->db->query($sql);
             $temp = '';
             $discounts = [];
@@ -1921,7 +1943,7 @@ class ModelCatalogProduct extends Model
                 WHERE pd.language_id = '" . $language_id . "' 
                     AND p.date_available <= NOW() 
                     AND p.status = '1'
-                ORDER BY pd.name ASC"
+                ORDER BY pd.name"
             );
 
             $output = $query->rows;
@@ -1992,9 +2014,7 @@ class ModelCatalogProduct extends Model
 
         $languageId = (int) $this->config->get('storefront_language_id');
         $storeId = (int) $this->config->get('config_store_id');
-        $customerGroupId = (int) $data['customer_group_id']
-            ? : $this->customer->getCustomerGroupId()
-                ? : $this->config->get('config_customer_group_id');
+        $customerGroupId = (int) $data['customer_group_id'] ?: $this->customer_group_id;
 
         $cache_key = 'product.specials.' . $customerGroupId;
         $cache_key .= $this->cache->paramsToString($data);
