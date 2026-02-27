@@ -1964,6 +1964,7 @@ class ModelCatalogProduct extends Model
     }
 
     /**
+     * @deprecated since 1.4.4
      * @param string $sort
      * @param string $order
      * @param int $start
@@ -1976,8 +1977,14 @@ class ModelCatalogProduct extends Model
     {
         $start = abs((int) $start);
         $limit = abs((int) $limit);
-        $promotion = new APromotion();
-        return $promotion->getProductSpecials($sort, $order, $start, $limit);
+        return $this->getSpecialProducts(
+            [
+                'sort'  => $sort,
+                'order' => $order,
+                'start' => $start,
+                'limit' => $limit,
+            ]
+        );
     }
 
     /**
