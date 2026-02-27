@@ -542,9 +542,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $output = [];
 
         $orderId = $this->session->data['order_id'];
+        $cartKey = $this->cart->getCartKey();
         //"buy-now" process
         if (!$orderId) {
-            $cartKey = $this->cart->getCartKey();
             $cartData = $this->shopping_data->get('cart', $cartKey);
             if (!$cartData['data']) {
                 $error = new AError('Cart data not found!');
@@ -610,39 +610,45 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 ($this->customer->getId() ? : 'guest')
             );
             if ($orderInfo) {
-                $this->session->data['fc'] += $order->data;
+                $this->session->data['fc'] = array_merge($order->data, $this->session->data['fc']);
 
                 /** @see ControllerResponsesCheckoutPay::select_shipping() */
-                $dd = new ADispatcher('responses/checkout/pay/select_shipping');
+                $dd = new ADispatcher(
+                    'responses/checkout/pay/select_shipping',
+                    [
+                        'selected'=>$this->session->data['fc']['shipping_method']['id']
+                    ]
+                );
                 $dd->dispatch();
                 //resave an order into a database
                 $companyName = $result->getPaymentSource()?->getPaypal()?->getBusinessName() ? : '';
-
-                $this->session->data['fc']['email'] = $result->getPayer()->getEmailAddress();
-                $this->session->data['fc']['guest']['email'] = $result->getPayer()->getEmailAddress();
-                $this->session->data['fc']['guest']['firstname'] = $result->getPayer()->getName()->getGivenName();
-                $this->session->data['fc']['guest']['lastname'] = $result->getPayer()->getName()->getSurname();
+                $ppPayer = $result->getPayer();
+                $this->session->data['fc']['email'] = $ppPayer->getEmailAddress();
+                $this->session->data['fc']['guest']['email'] = $ppPayer->getEmailAddress();
+                $this->session->data['fc']['guest']['firstname'] = $ppPayer->getName()->getGivenName();
+                $this->session->data['fc']['guest']['lastname'] = $ppPayer->getName()->getSurname();
                 $this->session->data['fc']['guest']['company'] = $companyName;
                 //take the correct shipping address from order
                 $ppO = $mdl->getOrder($ppOrderId);
-                list(
-                    $fName, $lName
-                    ) = explode(' ', $ppO->getPurchaseUnits()[0]->getShipping()->getName()->getFullName());
+                $ppShipping = $ppO->getPurchaseUnits()[0]->getShipping();
+                list($fName, $lName) = explode(' ',$ppShipping->getName()->getFullName());
+
+                $ppAddress = $ppShipping->getAddress();
                 $this->session->data['fc']['guest']['shipping']['firstname'] = $fName;
                 $this->session->data['fc']['guest']['shipping']['lastname'] = $lName;
                 $this->session->data['fc']['guest']['shipping']['company'] = $companyName;
-                $this->session->data['fc']['guest']['shipping']['address_1'] =
-                    $ppO->getPurchaseUnits()[0]->getShipping()->getAddress()->getAddressLine1();
-                $this->session->data['fc']['guest']['shipping']['address_2'] =
-                    $ppO->getPurchaseUnits()[0]->getShipping()->getAddress()->getAddressLine2();
-                $this->session->data['fc']['guest']['shipping']['city'] =
-                    $ppO->getPurchaseUnits()[0]->getShipping()->getAddress()->getAdminArea2();
-                $this->session->data['fc']['guest']['shipping']['postcode'] =
-                    $ppO->getPurchaseUnits()[0]->getShipping()->getAddress()->getPostalCode();
+                $this->session->data['fc']['guest']['shipping']['address_1'] = $ppAddress->getAddressLine1();
+                $this->session->data['fc']['guest']['shipping']['address_2'] = $ppAddress->getAddressLine2();
+                $this->session->data['fc']['guest']['shipping']['city'] = $ppAddress->getAdminArea2();
+                $this->session->data['fc']['guest']['shipping']['postcode'] = $ppAddress->getPostalCode();
                 $this->session->data['fc']['payment_method'] = [
                     'id'    => 'paypal_commerce',
                     'title' => 'Paypal',
                 ];
+                $ppData = $this->shopping_data->get('paypal_data', $cartKey);
+                if($ppData['data']['shipping_method']) {
+                    $this->session->data['fc']['shipping_method'] = $ppData['data']['shipping_method'];
+                }
 
                 $order->buildOrderData($this->session->data['fc']);
                 $order->saveOrder();
@@ -983,8 +989,14 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 AC_ERR_USER_ERROR, 'PayPal Express: Order not created after customer login into PP account!'
             );
         }
-        $this->shopping_data->save('cart', $cartKey, orderId: $abcOrderId);
-        $this->shopping_data->save('paypal_data', $cartKey, orderId: $abcOrderId);
+
+        $ppData = $this->shopping_data->get('paypal_data', $cartKey);
+        if( $this->session->data['fc']['shipping_method'] ){
+            $ppData['data']['shipping_method'] = $this->session->data['fc']['shipping_method'];
+        }
+        $this->shopping_data->save('paypal_data', $cartKey, $ppData['data'], $abcOrderId);
+        $this->shopping_data->save('cart', $cartKey, orderId:  $abcOrderId);
+
         //collect all data from order for response
         /** @var ModelCheckoutOrder $oMdl */
         $oMdl = $this->loadModel('checkout/order');
@@ -1053,7 +1065,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $fcSession['guest']['firstname'] = 'guest';
         $fcSession['guest']['lastname'] = 'guest';
         $fcSession['guest']['email'] = $ppOrderDetails?->getPayer()?->getEmailAddress();
-        $fcSession['guest']['shipping']['city'] = $inData['shipping_address']['city'];
+        $fcSession['guest']['shipping']['city'] = $inData['shipping_address']['city'] ?: $inData['shipping_address']['admin_area_2'];
 
         /** @var ModelLocalisationCountry $cMdl */
         $cMdl = $this->loadModel('localisation/country');
@@ -1074,18 +1086,24 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $fcSession['guest']['shipping']['zone_id'] = (int) $zoneInfo['zone_id'];
         $fcSession['guest']['shipping']['postcode'] = $inData['shipping_address']['postal_code'];
 
-        $fcSession['guest'] += $fcSession['guest']['shipping'];
+        $fcSession['guest'] = array_merge($fcSession['guest'], $fcSession['guest']['shipping']);
 
         //$shNames = explode(' ', $ppOrderDetails->purchase_units[0]->shipping->name->full_name);
         $fcSession['guest']['shipping']['firstname'] = 'guest';
         $fcSession['guest']['shipping']['lastname'] = 'guest';
-        $this->session->data['fc']['payment_method_key'] = 'paypal_commerce';
-        $this->session->data['fc']['payment_method'] = 'Paypal';
+        $fcSession['payment_method_key'] = 'paypal_commerce';
+        $fcSession['payment_method'] = 'Paypal';
 
         if ($inData['shipping_option']) {
             $shippingArgs = [
                 'selected'    => $inData['shipping_option']['id'],
                 'selectFirst' => true,
+            ];
+            $fcSession['shipping_method'] = [
+                'id'    => $inData['shipping_option']['id'],
+                'title' => $inData['shipping_option']['label'],
+                'text'  => $inData['shipping_option']['label'],
+                'cost'  => $inData['shipping_option']['amount']['value'],
             ];
         } else {
             //create a new order in the session

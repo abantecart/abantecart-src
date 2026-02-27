@@ -188,7 +188,12 @@ jQuery(function ($) {
 });
 <?php if ($active == 'mail') { ?>
 jQuery(function () {
-    $(document).ready(mail_toggle);
+    $(document).ready(function(){
+        <?php if($this->request->post['config_mail_transporting']){ ?>
+        $('#settingFrm_config_mail_transporting').val(<?php js_echo($this->request->post['config_mail_transporting']); ?>);
+        <?php } ?>
+        mail_toggle();
+    });
     $('#settingFrm_config_mail_transporting').change(mail_toggle);
 
     function mail_toggle() {

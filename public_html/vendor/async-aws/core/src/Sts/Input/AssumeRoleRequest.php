@@ -35,7 +35,7 @@ final class AssumeRoleRequest extends Input
      * when you assume the role. For more information, see `sts:RoleSessionName` [^2].
      *
      * The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric
-     * characters with no spaces. You can also include underscores or any of the following characters: =,.@-
+     * characters with no spaces. You can also include underscores or any of the following characters: +=,.@-
      *
      * [^1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html#cloudtrail-integration_signin-tempcreds
      * [^2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_rolesessionname
@@ -187,7 +187,7 @@ final class AssumeRoleRequest extends Input
      * Access to Your Amazon Web Services Resources to a Third Party [^1] in the *IAM User Guide*.
      *
      * The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric
-     * characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
+     * characters with no spaces. You can also include underscores or any of the following characters: +=,.@:\/-
      *
      * [^1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html
      *
@@ -202,7 +202,7 @@ final class AssumeRoleRequest extends Input
      * Resource Name (ARN) for a virtual device (such as `arn:aws:iam::123456789012:mfa/user`).
      *
      * The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric
-     * characters with no spaces. You can also include underscores or any of the following characters: =,.@-
+     * characters with no spaces. You can also include underscores or any of the following characters: +=/:,.@-
      *
      * @var string|null
      */
@@ -258,16 +258,16 @@ final class AssumeRoleRequest extends Input
      * @param array{
      *   RoleArn?: string,
      *   RoleSessionName?: string,
-     *   PolicyArns?: null|array<PolicyDescriptorType|array>,
-     *   Policy?: null|string,
-     *   DurationSeconds?: null|int,
-     *   Tags?: null|array<Tag|array>,
-     *   TransitiveTagKeys?: null|string[],
-     *   ExternalId?: null|string,
-     *   SerialNumber?: null|string,
-     *   TokenCode?: null|string,
-     *   SourceIdentity?: null|string,
-     *   ProvidedContexts?: null|array<ProvidedContext|array>,
+     *   PolicyArns?: array<PolicyDescriptorType|array>|null,
+     *   Policy?: string|null,
+     *   DurationSeconds?: int|null,
+     *   Tags?: array<Tag|array>|null,
+     *   TransitiveTagKeys?: string[]|null,
+     *   ExternalId?: string|null,
+     *   SerialNumber?: string|null,
+     *   TokenCode?: string|null,
+     *   SourceIdentity?: string|null,
+     *   ProvidedContexts?: array<ProvidedContext|array>|null,
      *   '@region'?: string|null,
      * } $input
      */
@@ -292,16 +292,16 @@ final class AssumeRoleRequest extends Input
      * @param array{
      *   RoleArn?: string,
      *   RoleSessionName?: string,
-     *   PolicyArns?: null|array<PolicyDescriptorType|array>,
-     *   Policy?: null|string,
-     *   DurationSeconds?: null|int,
-     *   Tags?: null|array<Tag|array>,
-     *   TransitiveTagKeys?: null|string[],
-     *   ExternalId?: null|string,
-     *   SerialNumber?: null|string,
-     *   TokenCode?: null|string,
-     *   SourceIdentity?: null|string,
-     *   ProvidedContexts?: null|array<ProvidedContext|array>,
+     *   PolicyArns?: array<PolicyDescriptorType|array>|null,
+     *   Policy?: string|null,
+     *   DurationSeconds?: int|null,
+     *   Tags?: array<Tag|array>|null,
+     *   TransitiveTagKeys?: string[]|null,
+     *   ExternalId?: string|null,
+     *   SerialNumber?: string|null,
+     *   TokenCode?: string|null,
+     *   SourceIdentity?: string|null,
+     *   ProvidedContexts?: array<ProvidedContext|array>|null,
      *   '@region'?: string|null,
      * }|AssumeRoleRequest $input
      */

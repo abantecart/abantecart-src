@@ -2,11 +2,48 @@
 
 ## NOT RELEASED
 
+## 1.28.1
+
+### Changed
+
+- Remove redundant ext-json requirement
+
+### Fixed
+
+- SignerV4: Fix presign request for some S3 compatible third services
+
+## 1.28.0
+
+### Added
+
+- AWS api-change: Added `us-isob-west-1` region
+- Added `DescribeLogGroups` method
+- Support for BedrockAgent
+- Support for AWS S3 Vectors
+- AWS api-change: Added `eusc-de-east-1` region
+
+### Dependency bumped
+
+- Drop support for PHP versions lower than 8.2
+
+### Changed
+
+- Apply new CodingStandard from latest php-cs-fixer.
+- Fix PHP 8.5 deprecation by avoiding using `null` as an array offset.
+- Harden code against error cases
+- AWS enhancement: Documentation updates.
+- Use a more stable sorting for the list of generated region metadata
+
+### Fixed
+
+- Buffer the response in temporary file to avoid issues when stream is used by another request's body
+- SignerV4: Fix signing request during DST change
+
 ## 1.27.1
 
 ### Fixed
 
-- SignerV4: fix sort of query parameters to build correct canoncal query string 
+- SignerV4: fix sort of query parameters to build correct canonical query string
 
 ## 1.27.0
 

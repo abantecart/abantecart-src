@@ -11,9 +11,13 @@
         "ses"
     ],
     "require": {
-        "php": "^7.2.5 || ^8.0",
-        "ext-json": "*",
+        "php": "^8.2",
         "async-aws/core": "^1.9"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.5.42",
+        "symfony/error-handler": "^7.3.2 || ^8.0",
+        "symfony/phpunit-bridge": "^7.3.2 || ^8.0"
     },
     "autoload": {
         "psr-4": {
@@ -27,7 +31,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.13-dev"
+            "dev-master": "1.14-dev"
         }
     }
 }

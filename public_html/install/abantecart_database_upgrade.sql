@@ -231,3 +231,6 @@ UPDATE `ac_product_discounts` SET date_start = NULL WHERE date_start = '0000-00-
 UPDATE `ac_product_discounts` SET date_end = NULL WHERE date_end = '0000-00-00';
 UPDATE `ac_product_specials` SET date_start = NULL WHERE date_start = '0000-00-00';
 UPDATE `ac_product_specials` SET date_end = NULL WHERE date_end = '0000-00-00';
+
+alter table `ac_category_descriptions`
+    modify `description` longtext NULL COMMENT 'translatable';
