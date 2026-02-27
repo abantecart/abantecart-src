@@ -1,23 +1,25 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2026 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnused */
 
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -40,14 +42,15 @@ class ControllerBlocksSpecial extends AController
         $this->loadLanguage('blocks/special');
         $this->data['heading_title'] = $this->language->get('heading_title', 'blocks/special');
 
-        $this->loadModel('catalog/product');
+        /** @var ModelCatalogProduct $pMdl */
+        $pMdl = $this->loadModel('catalog/product');
         $this->loadModel('catalog/review');
         $this->loadModel('tool/seo_url');
         $this->loadModel('tool/image');
         $promotion = new APromotion();
         $this->data['button_add_to_cart'] = $this->language->get('button_add_to_cart');
         $this->data['products'] = [];
-        $results = $this->model_catalog_product->getSpecialProducts(
+        $results = $pMdl->getSpecialProducts(
             [
                 'sort'       => 'pd.name',
                 'order'      => 'ASC',
@@ -68,33 +71,38 @@ class ControllerBlocksSpecial extends AController
                 $this->config->get('config_image_product_height')
             )
             : [];
-        $stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
+        $stock_info = $pMdl->getProductsStockInfo($product_ids);
         foreach ($results as $result) {
-            $thumbnail = $thumbnails[$result['product_id']];
-            $special = false;
+            $productId = $result['product_id'];
+            $thumbnail = $thumbnails[$productId];
+            $special = $specialNum = false;
             $discount = $result['discount_price'];
+
             if ($discount) {
-                $price = $discount;
+                $priceNum = $discount;
             } else {
-                $price = $result['price'];
-                $special = $promotion->getProductSpecial($result['product_id']);
+                $priceNum = $result['price'];
+                $special = $promotion->getProductSpecial($productId);
                 if ($special) {
-                    $special = $this->currency->format(
-                        $this->tax->calculate($special, $result['tax_class_id'], $this->config->get('config_tax'))
+                    $specialNum = $this->tax->calculate(
+                        $special,
+                        $result['tax_class_id'],
+                        $this->config->get('config_tax')
                     );
+                    $special = $this->currency->format($specialNum);
                 }
             }
-            $price = $this->currency->format(
-                $this->tax->calculate($price, $result['tax_class_id'], $this->config->get('config_tax'))
-            );
-            $options = $this->model_catalog_product->getProductOptions($result['product_id']);
+            $priceNum = $this->tax->calculate($priceNum, $result['tax_class_id'], $this->config->get('config_tax'));
+            $price = $this->currency->format($priceNum);
+
+            $options = $pMdl->getProductOptions($productId);
             if ($options) {
-                $add = $this->html->getSEOURL('product/product', '&product_id='.$result['product_id'], '&encode');
+                $add = $this->html->getSEOURL('product/product', '&product_id='.$productId, '&encode');
             } else {
                 if ($this->config->get('config_cart_ajax')) {
                     $add = '#';
                 } else {
-                    $add = $this->html->getSecureURL('checkout/cart', '&product_id='.$result['product_id'], '&encode');
+                    $add = $this->html->getSecureURL('checkout/cart', '&product_id='.$productId, '&encode');
                 }
             }
 
@@ -106,28 +114,30 @@ class ControllerBlocksSpecial extends AController
             $stock_checkout = $result['stock_checkout'] === ''
                 ? $this->config->get('config_stock_checkout')
                 : $result['stock_checkout'];
-            if ($stock_info[$result['product_id']]['subtract']) {
+            if ($stock_info[$productId]['subtract']) {
                 $track_stock = true;
-                $total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
-                //we have stock or out of stock checkout is allowed
+                $total_quantity = $pMdl->hasAnyStock($productId);
+                //we have stock or out-of-stock checkout is allowed
                 if ($total_quantity > 0 || $stock_checkout) {
                     $in_stock = true;
                 }
             }
-
+            $rating = (int) $result['rating'];
             $this->data['products'][] =
                 array_merge(
                     $result,
                     [
-                        'rating'         => (int) $result['rating'],
-                        'stars'          => sprintf($this->language->get('text_stars'), (int) $result['rating']),
+                        'rating'         => $rating,
+                        'stars'          => $this->language->getAndReplace( 'text_stars', replaces: $rating ),
                         'price'          => $price,
+                        'price_num'      => $priceNum,
                         'options'        => $options,
                         'special'        => $special,
+                        'special_num'    => $specialNum,
                         'thumb'          => $thumbnail,
                         'href'           => $this->html->getSEOURL(
                             'product/product',
-                            '&product_id='.$result['product_id'],
+                            '&product_id='.$productId,
                             '&encode'
                         ),
                         'add'            => $add,

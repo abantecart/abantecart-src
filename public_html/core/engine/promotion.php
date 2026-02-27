@@ -309,6 +309,7 @@ class APromotion
      * @return array
      * @throws AException
      * @deprecated since 1.2.7
+     * @see \ModelCatalogProduct::getSpecialProducts
      *
      */
     public function getProductSpecials($sort = 'p.sort_order', $order = 'ASC', $start = 0, $limit = 20)
