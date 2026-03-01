@@ -1,4 +1,25 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2026 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
+
+/** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -6,16 +27,15 @@ if (!defined('DIR_CORE')) {
 
 class ControllerBlocksViewedProducts extends AController
 {
-
     public function main()
     {
-
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->language->load('blocks/viewed');
         $this->view->assign('heading_title', $this->language->get('text_recently_viewed'));
 
-        $this->loadModel('catalog/product');
+        /** @var ModelCatalogProduct $pMdl */
+        $pMdl = $this->loadModel('catalog/product');
         $this->loadModel('catalog/review');
         $this->loadModel('tool/image');
 
@@ -34,78 +54,60 @@ class ControllerBlocksViewedProducts extends AController
             }
         }
 
-        //reverse, so we show recent first
+        //reverse, so we show a recent first
         $product_ids = array_reverse($product_ids);
         //set limit
         if ($this->config->get('viewed_products_limit')) {
             $product_ids = array_slice($product_ids, 0, $this->config->get('viewed_products_limit'));
         }
 
-
-
-        $products_info = $this->model_catalog_product->getProductsAllInfo($product_ids);
-        $products = $this->model_catalog_product->getProductsFromIDs($product_ids);
+        $products_info = $pMdl->getProductsAllInfo($product_ids);
+        $products = $pMdl->getProductsFromIDs($product_ids);
         $resource = new AResource('image');
 
-        $width = $this->config->get('viewed_products_image_width');
-        if (!has_value($width)) {
-            $width = $this->config->get('config_image_product_width');
-        }
-        $height = $this->config->get('viewed_products_image_height');
-        if (!has_value($height)) {
-            $height = $this->config->get('config_image_product_height');
-        }
-        $stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
+        $width = $this->config->get('viewed_products_image_width') ? : $this->config->get('config_image_product_width');
+        $height =
+            $this->config->get('viewed_products_image_height') ? : $this->config->get('config_image_product_height');
+
+        $stock_info = $pMdl->getProductsStockInfo($product_ids);
         if (is_array($products)) {
             foreach ($products as $result) {
+                $productId = $result['product_id'];
                 $thumbnail = $resource->getMainThumb(
                     'products',
-                    $result['product_id'],
+                    $productId,
                     $width,
                     $height,
                     true
                 );
 
-                $rating = $products_info[$result['product_id']]['rating'];
+                $rating = $products_info[$productId]['rating'];
+                $special = $specialNum = false;
 
-                $special = false;
+                $discount = $products_info[$productId]['discount'];
 
-                $discount = $products_info[$result['product_id']]['discount'];
                 if ($discount) {
-                    $price = $this->currency->format(
-                        $this->tax->calculate(
-                            $discount,
-                            $result['tax_class_id'],
-                            $this->config->get('config_tax')
-                        )
-                    );
+                    $priceNum = $discount;
                 } else {
-                    $price = $this->currency->format(
-                        $this->tax->calculate(
-                            $result['price'],
+                    $priceNum = $result['price'];
+                    $special = $products_info[$productId]['special'];
+                    if ($special) {
+                        $specialNum = $this->tax->calculate(
+                            $special,
                             $result['tax_class_id'],
                             $this->config->get('config_tax')
-                        )
-                    );
-
-                    $special = $products_info[$result['product_id']]['special'];
-
-                    if ($special) {
-                        $special = $this->currency->format(
-                            $this->tax->calculate(
-                                $special,
-                                $result['tax_class_id'],
-                                $this->config->get('config_tax')
-                            )
                         );
+                        $special = $this->currency->format($specialNum);
                     }
                 }
+                $priceNum = $this->tax->calculate($priceNum, $result['tax_class_id'], $this->config->get('config_tax'));
+                $price = $this->currency->format($priceNum);
 
-                $options = $products_info[$result['product_id']]['options'];
+                $options = $products_info[$productId]['options'];
                 if ($options) {
                     $add = $this->html->getSEOURL(
                         'product/product',
-                        '&product_id='.$result['product_id'],
+                        '&product_id=' . $productId,
                         '&encode'
                     );
                 } else {
@@ -114,7 +116,7 @@ class ControllerBlocksViewedProducts extends AController
                     } else {
                         $add = $this->html->getSecureURL(
                             'checkout/cart',
-                            '&product_id='.$result['product_id'],
+                            '&product_id=' . $productId,
                             '&encode'
                         );
                     }
@@ -126,10 +128,10 @@ class ControllerBlocksViewedProducts extends AController
                 $stock_checkout = $result['stock_checkout'] === ''
                     ? $this->config->get('config_stock_checkout')
                     : $result['stock_checkout'];
-                if ($stock_info[$result['product_id']]['subtract']) {
+                if ($stock_info[$productId]['subtract']) {
                     $track_stock = true;
-                    $total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
-                    //we have stock or out of stock checkout is allowed
+                    $total_quantity = $pMdl->hasAnyStock($productId);
+                    //we have stock or out-of-stock checkout is allowed
                     if ($total_quantity > 0 || $stock_checkout) {
                         $in_stock = true;
                     }
@@ -139,18 +141,20 @@ class ControllerBlocksViewedProducts extends AController
                     array_merge(
                         $result,
                         [
-                            'rating' => $rating,
-                            'stars' => sprintf($this->language->get('text_stars'), $rating),
-                            'price' => $price,
-                            'options' => $options,
-                            'special' => $special,
-                            'thumb' => $thumbnail,
-                            'href' => $this->html->getSEOURL(
+                            'rating'         => $rating,
+                            'stars'          => $this->language->getAndReplace('text_stars', replaces: $rating),
+                            'price'          => $price,
+                            'price_num'      => $priceNum,
+                            'options'        => $options,
+                            'special'        => $special,
+                            'special_num'    => $specialNum,
+                            'thumb'          => $thumbnail,
+                            'href'           => $this->html->getSEOURL(
                                 'product/product',
-                                '&product_id='.$result['product_id'],
+                                '&product_id=' . $productId,
                                 '&encode'
                             ),
-                            'add' => $add,
+                            'add'            => $add,
                             'track_stock'    => $track_stock,
                             'in_stock'       => $in_stock,
                             'no_stock_text'  => $no_stock_text,

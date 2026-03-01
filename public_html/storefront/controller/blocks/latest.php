@@ -1,23 +1,26 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2026 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 
-/*------------------------------------------------------------------------------
-  $Id$
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnused */
 
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -33,23 +36,23 @@ class ControllerBlocksLatest extends AController
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('blocks/latest');
         $this->view->assign('heading_title', $this->language->get('heading_title', 'blocks/latest'));
 
-        $this->loadModel('catalog/product');
+        /** @var ModelCatalogProduct $pMdl */
+        $pMdl = $this->loadModel('catalog/product');
         $this->loadModel('catalog/review');
         $this->loadModel('tool/image');
 
         $this->view->assign('button_add_to_cart', $this->language->get('button_add_to_cart'));
         $this->data['products'] = [];
 
-        $results = $this->model_catalog_product->getLatestProducts($this->config->get('config_latest_limit'));
+        $results = $pMdl->getLatestProducts($this->config->get('config_latest_limit'));
         $product_ids = array_column($results, 'product_id');
-        $products_info = $this->model_catalog_product->getProductsAllInfo($product_ids);
+        $products_info = $pMdl->getProductsAllInfo($product_ids);
 
         //get thumbnails by one pass
         $resource = new AResource('image');
@@ -61,51 +64,44 @@ class ControllerBlocksLatest extends AController
                 $this->config->get('config_image_product_height')
             )
             : [];
-        $stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
+        $stock_info = $pMdl->getProductsStockInfo($product_ids);
 
         foreach ($results as $result) {
-            $thumbnail = $thumbnails[$result['product_id']];
-            $rating = $products_info[$result['product_id']]['rating'];
-            $special = false;
-            $discount = $products_info[$result['product_id']]['discount'];
+            $productId = $result['product_id'];
+            $thumbnail = $thumbnails[$productId];
+            $rating = $products_info[$productId]['rating'];
+            $special = $specialNum = false;
+            $discount = $products_info[$productId]['discount'];
 
             if ($discount) {
-                $price = $this->currency->format(
-                    $this->tax->calculate(
-                        $discount,
-                        $result['tax_class_id'],
-                        $this->config->get('config_tax')
-                    )
-                );
+                $priceNum = $discount;
             } else {
-                $price = $this->currency->format(
-                    $this->tax->calculate(
-                        $result['price'],
+                $priceNum = $result['price'];
+                $special = $products_info[$productId]['special'];
+                if ($special) {
+                    $specialNum = $this->tax->calculate(
+                        $special,
                         $result['tax_class_id'],
                         $this->config->get('config_tax')
-                    )
-                );
-                $special = $products_info[$result['product_id']]['special'];
-                if ($special) {
-                    $special = $this->currency->format(
-                        $this->tax->calculate(
-                            $special,
-                            $result['tax_class_id'],
-                            $this->config->get('config_tax')
-                        )
                     );
+                    $special = $this->currency->format($specialNum);
                 }
             }
+            $priceNum = $this->tax->calculate($priceNum, $result['tax_class_id'], $this->config->get('config_tax'));
+            $price = $this->currency->format($priceNum);
 
-            $options = $products_info[$result['product_id']]['options'];
+            $options = $products_info[$productId]['options'];
 
             if ($options) {
-                $add = $this->html->getSEOURL('product/product', '&product_id='.$result['product_id'], '&encode');
+                $add = $this->html->getSEOURL('product/product', '&product_id=' . $productId, '&encode');
             } else {
                 if ($this->config->get('config_cart_ajax')) {
                     $add = '#';
                 } else {
-                    $add = $this->html->getSecureURL('checkout/cart', '&product_id='.$result['product_id'], '&encode');
+                    $add = $this->html->getSecureURL(
+                        'checkout/cart',
+                        '&product_id=' . $productId,
+                        '&encode');
                 }
             }
 
@@ -117,10 +113,10 @@ class ControllerBlocksLatest extends AController
             $stock_checkout = $result['stock_checkout'] === ''
                 ? $this->config->get('config_stock_checkout')
                 : $result['stock_checkout'];
-            if ($stock_info[$result['product_id']]['subtract']) {
+            if ($stock_info[$productId]['subtract']) {
                 $track_stock = true;
-                $total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
-                //we have stock or out of stock checkout is allowed
+                $total_quantity = $pMdl->hasAnyStock($productId);
+                //we have stock or out-of-stock checkout is allowed
                 if ($total_quantity > 0 || $stock_checkout) {
                     $in_stock = true;
                 }
@@ -131,21 +127,23 @@ class ControllerBlocksLatest extends AController
                     $result,
                     [
                         'rating'         => $rating,
-                        'stars'          => sprintf($this->language->get('text_stars'), $rating),
+                        'stars'          => $this->language->getAndReplace('text_stars', replaces: $rating),
                         'price'          => $price,
+                        'price_num'      => $priceNum,
                         'options'        => $options,
                         'special'        => $special,
+                        'special_num'    => $specialNum,
                         'thumb'          => $thumbnail,
                         'href'           => $this->html->getSEOURL(
                             'product/product',
-                            '&product_id='.$result['product_id'],
+                            '&product_id=' . $productId,
                             '&encode'
                         ),
                         'add'            => $add,
                         'track_stock'    => $track_stock,
                         'in_stock'       => $in_stock,
                         'no_stock_text'  => $no_stock_text,
-                        'total_quantity' => $total_quantity
+                        'total_quantity' => $total_quantity,
                     ]
                 );
         }
