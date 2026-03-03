@@ -422,13 +422,15 @@ class ModelCatalogProduct extends Model
         }
         $update = [];
         foreach ($fields as $f) {
-            $newValue = $data[$f];
-            if(str_starts_with($f, 'date_')){
-                $newValue = "DATE('".$newValue."')";
-            }else{
-                $newValue = "'".$this->db->escape($data[$f])."'";
+            if(isset($data[$f])) {
+                $newValue = $data[$f];
+                if (str_starts_with($f, 'date_')) {
+                    $newValue = "DATE('" . $newValue . "')";
+                } else {
+                    $newValue = "'" . $this->db->escape($data[$f]) . "'";
+                }
+                $update[] = $f . " = " . $newValue;
             }
-            $update[] = $f . " = " . $newValue;
         }
         if (!empty($update)) {
             $this->db->query(
