@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -62,34 +62,31 @@ class ControllerPagesAccountHistory extends AController
             ]
         );
 
-        $this->loadModel('account/order');
+        /** @var ModelAccountOrder $oMdl */
+        $oMdl = $this->loadModel('account/order');
         $this->data['continue'] = $this->html->getSecureURL('account/account');
 
-        $order_total = $this->model_account_order->getTotalOrders();
+        $page = $this->request->get['page'] ? : 1;
 
-        if ($order_total) {
+        if (isset($this->request->get['limit'])) {
+            $limit = (int) $this->request->get['limit'];
+            $limit = min($limit, 50);
+        } else {
+            $limit = (int)$this->config->get('config_catalog_limit');
+        }
+
+        $orders = [];
+        $results = $oMdl->getOrders(($page - 1) * $limit, $limit);
+        if ($results) {
             $this->data['action'] = $this->html->getSecureURL('account/history');
-            $page = $this->request->get['page'] ? : 1;
-
-            if (isset($this->request->get['limit'])) {
-                $limit = (int) $this->request->get['limit'];
-                $limit = min($limit, 50);
-            } else {
-                $limit = $this->config->get('config_catalog_limit');
-            }
-
-            $orders = [];
-
-            $results = $this->model_account_order->getOrders(($page - 1) * $limit, $limit);
-
+            $productTotals = $oMdl->getTotalOrderProductsByOrderId(array_column($results,'order_id'));
             foreach ($results as $result) {
-                $product_total = $this->model_account_order->getTotalOrderProductsByOrderId($result['order_id']);
                 $orders[] = [
                     'order_id'   => $result['order_id'],
                     'name'       => $result['firstname'].' '.$result['lastname'],
                     'status'     => $result['status'],
                     'date_added' => dateISO2Display($result['date_added'], $this->language->get('date_format_short')),
-                    'products'   => $product_total,
+                    'products'   => $productTotals[$result['order_id']],
                     'total'      => $this->currency->format($result['total'], $result['currency'], $result['value']),
                     'href'       => $this->html->getSecureURL('account/order_details', '&order_id='.$result['order_id']),
                     'button'     => $this->html->buildElement(
@@ -114,7 +111,7 @@ class ControllerPagesAccountHistory extends AController
                     'name'       => 'pagination',
                     'text'       => $this->language->get('text_pagination'),
                     'text_limit' => $this->language->get('text_per_page'),
-                    'total'      => $order_total,
+                    'total'      => $results[0]['total_num_rows'],
                     'page'       => $page,
                     'limit'      => $limit,
                     'url'        => $this->html->getSecureURL('account/history', '&limit='.$limit.'&page=--page--'),

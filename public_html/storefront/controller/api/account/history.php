@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2026 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -31,7 +31,7 @@ class ControllerApiAccountHistory extends AControllerAPI
         $request_data = $this->rest->getRequestParams();
 
         if (!$this->customer->isLoggedWithToken($request_data['token'])) {
-            $this->rest->setResponseData(array('error' => 'Not logged in or Login attempt failed!'));
+            $this->rest->setResponseData(['error' => 'Not logged in or Login attempt failed!']);
             $this->rest->sendResponse(401);
             return null;
         }
@@ -51,22 +51,22 @@ class ControllerApiAccountHistory extends AControllerAPI
             if (isset($request_data['limit']) && is_integer($request_data['limit'])) {
                 $this->data['limit'] = (int)$request_data['limit'];
             } else {
-                $this->data['limit'] = $this->config->get('config_catalog_limit');
+                $this->data['limit'] = (int)$this->config->get('config_catalog_limit');
             }
 
-            $orders = array();
+            $orders = [];
             $results = $this->model_account_order->getOrders(($page - 1) * $this->data['limit'], $this->data['limit']);
 
             foreach ($results as $result) {
-                $product_total = $this->model_account_order->getTotalOrderProductsByOrderId($result['order_id']);
-                $orders[] = array(
+                $product_total = $this->model_account_order->getTotalOrderProductsByOrderId((int)$result['order_id']);
+                $orders[] = [
                     'order_id'   => $result['order_id'],
                     'name'       => $result['firstname'].' '.$result['lastname'],
                     'status'     => $result['status'],
                     'date_added' => dateISO2Display($result['date_added'], $this->language->get('date_format_short')),
                     'products'   => $product_total,
                     'total'      => $this->currency->format($result['total'], $result['currency'], $result['value']),
-                );
+                ];
             }
 
             $this->data['orders'] = $orders;
@@ -74,7 +74,7 @@ class ControllerApiAccountHistory extends AControllerAPI
             $this->data['page'] = $page;
 
         } else {
-            $this->data['orders'] = array();
+            $this->data['orders'] = [];
             $this->data['total_orders'] = 0;
         }
 

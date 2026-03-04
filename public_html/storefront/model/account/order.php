@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -106,7 +106,8 @@ class ModelAccountOrder extends Model
             $start = 0;
         }
         $query = $this->db->query(
-            "SELECT	o.order_id,
+            "SELECT	".$this->db->getSqlCalcTotalRows()."
+                    o.order_id,
                     o.firstname, 
                     o.lastname, 
                     os.name as status, 
@@ -122,6 +123,10 @@ class ModelAccountOrder extends Model
                 AND o.order_status_id > '0' 
             ORDER BY o.order_id DESC 
             LIMIT " . (int)$start . "," . (int)$limit);
+        if($query->num_rows) {
+            $totalNumRows = $this->db->getTotalNumRows();
+            $query->rows[0]['total_num_rows'] = $totalNumRows;
+        }
         return $query->rows;
     }
 
@@ -234,10 +239,12 @@ class ModelAccountOrder extends Model
      */
     public function getOrderDownloads($order_id)
     {
-        $query = $this->db->query("SELECT *
-                                    FROM " . $this->db->table("order_downloads") . "
-                                    WHERE order_id = '" . (int)$order_id . "'
-                                    ORDER BY sort_order ASC");
+        $query = $this->db->query(
+            "SELECT *
+            FROM " . $this->db->table("order_downloads") . "
+            WHERE order_id = '" . (int)$order_id . "'
+            ORDER BY sort_order"
+        );
         return $query->rows;
     }
 
@@ -247,24 +254,40 @@ class ModelAccountOrder extends Model
      */
     public function getTotalOrders()
     {
-        $query = $this->db->query("SELECT COUNT(*) AS total
-                                    FROM `" . $this->db->table("orders") . "`
-                                    WHERE customer_id = '" . (int)$this->customer->getId() . "' AND order_status_id > '0'");
+        $query = $this->db->query(
+            "SELECT COUNT(*) AS total
+            FROM `" . $this->db->table("orders") . "`
+            WHERE customer_id = '" . (int)$this->customer->getId() . "' AND order_status_id > '0'"
+        );
         return (int)$query->row['total'];
     }
 
     /**
-     * @param int $order_id
+     * @param int|array $orderId
      *
-     * @return int
+     * @return int|array
      * @throws AException
      */
-    public function getTotalOrderProductsByOrderId($order_id)
+    public function getTotalOrderProductsByOrderId(int|array $orderId)
     {
-        $query = $this->db->query("SELECT COUNT(*) AS total
-                                    FROM " . $this->db->table("order_products") . "
-                                    WHERE order_id = '" . (int)$order_id . "'");
-        return (int)$query->row['total'];
+        if(is_int($orderId)) {
+            $sql = "SELECT COUNT(*) AS total
+                    FROM " . $this->db->table("order_products") . "
+                    WHERE order_id = " . $orderId;
+            $query = $this->db->query( $sql );
+            return (int)$query->row['total'];
+        }else{
+            $orderIds = filterIntegerIdList($orderId);
+            if($orderIds) {
+                $sql = "SELECT COUNT(*) AS total, order_id
+                        FROM " . $this->db->table("order_products") . "
+                        WHERE order_id IN (" . implode(',',$orderIds) . ")
+                        GROUP BY order_id";
+                $query = $this->db->query($sql);
+                return array_column( $query->rows, 'total','order_id' );
+            }
+        }
+        return [];
     }
 
     /**
