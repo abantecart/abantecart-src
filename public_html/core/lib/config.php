@@ -164,6 +164,8 @@ final class AConfig
         }
         //check core version compatibility
         if ($this->cfg['core_version'] && $this->cfg['core_version'] != VERSION) {
+            //clear all cache to avoid caching wrong settings
+            $this->registry?->get('cache')?->flush();
             exit(
                 'Error: Incompatible database version! '
                 . 'Your AbanteCart version is ' . VERSION . ' but database version is ' . $this->cfg['core_version'] . '!'
