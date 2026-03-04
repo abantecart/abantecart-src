@@ -81,25 +81,38 @@ class ControllerPagesAccountHistory extends AController
             $this->data['action'] = $this->html->getSecureURL('account/history');
             $productTotals = $oMdl->getTotalOrderProductsByOrderId(array_column($results,'order_id'));
             foreach ($results as $result) {
-                $orders[] = [
-                    'order_id'   => $result['order_id'],
-                    'name'       => $result['firstname'].' '.$result['lastname'],
-                    'status'     => $result['status'],
-                    'date_added' => dateISO2Display($result['date_added'], $this->language->get('date_format_short')),
-                    'products'   => $productTotals[$result['order_id']],
-                    'total'      => $this->currency->format($result['total'], $result['currency'], $result['value']),
-                    'href'       => $this->html->getSecureURL('account/order_details', '&order_id='.$result['order_id']),
-                    'button'     => $this->html->buildElement(
-                        [
-                            'type'  => 'button',
-                            'name'  => 'button_edit',
-                            'text'  => $this->language->get('button_view'),
-                            'style' => 'btn-default',
-                            'icon'  => 'fa fa-info',
-                            'attr'  => ' onclick = "viewOrder('.$result['order_id'].');" ',
-                        ]
-                    ),
-                ];
+                $orders[] = array_merge(
+                    $result,
+                    [
+                        'name'       => $result['firstname'].' '.$result['lastname'],
+                        'datetime'   => $result['date_added'],
+                        'date_added' => dateISO2Display(
+                            $result['date_added'],
+                            $this->language->get('date_format_short')
+                        ),
+                        'products'   => $productTotals[$result['order_id']],
+                        'total'      => $this->currency->format(
+                            $result['total'],
+                            $result['currency'],
+                            $result['value']
+                        ),
+                        'href'       => $this->html->getSecureURL(
+                            'account/order_details',
+                            '&order_id='.$result['order_id']
+                        ),
+                        'button'     => $this->html->buildElement(
+                            [
+                                'type'  => 'button',
+                                'name'  => 'button_edit',
+                                'text'  => $this->language->get('button_view'),
+                                'style' => 'btn-default',
+                                'icon'  => 'fa fa-info',
+                                'attr'  => 'data-order-id="'.$result['order_id'].'" '
+                                    .' onclick = "viewOrder('.$result['order_id'].');" ',
+                            ]
+                        ),
+                    ]
+                );
             }
 
             $this->data['order_url'] = $this->html->getSecureURL('account/order_details');
