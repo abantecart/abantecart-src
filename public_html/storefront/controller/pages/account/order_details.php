@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -265,14 +265,16 @@ class ControllerPagesAccountOrderDetails extends AController
             $histories = [];
             $results = $mdlOrder->getOrderHistories($orderId);
             foreach ($results as $result) {
-                $histories[] = [
-                    'date_added' => dateISO2Display(
-                        $result['date_added'],
-                        $this->language->get('date_format_short') . ' ' . $this->language->get('time_format')
-                    ),
-                    'status'     => $result['status'],
-                    'comment'    => nl2br(strip_tags(html_entity_decode($result['comment']))),
-                ];
+                $histories[] = array_merge(
+                    $result,
+                    [
+                        'date_added' => dateISO2Display(
+                            $result['date_added'],
+                            $this->language->get('date_format_short') . ' ' . $this->language->get('time_format')
+                        ),
+                        'comment'    => nl2br(strip_tags(html_entity_decode($result['comment']))),
+                    ]
+                );
             }
             $this->data['histories'] = $histories;
             $this->data['continue'] = $guest
