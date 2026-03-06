@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -317,8 +317,11 @@ class ModelSaleOrder extends Model
                 //get number portion together with the sign
                 $number = preformatFloat($text_value, $this->language->get('decimal_point'));
                 //convert it into default currency
-                $number =
-                    $this->currency->convert($number, $orderData['currency'], $this->config->get('config_currency'));
+                $number = $this->currency->convert(
+                    $number,
+                    $orderData['currency'],
+                    $this->config->get('config_currency')
+                );
                 $this->db->query(
                     "UPDATE " . $this->db->table("order_totals") . "
                     SET `text` = '" . $this->db->escape($text_value) . "',
@@ -1098,16 +1101,14 @@ class ModelSaleOrder extends Model
             WHERE order_id = '" . (int)$order_id . "'"
         );
 
-        if ($data['append']) {
-            $this->db->query(
-                "INSERT INTO " . $this->db->table("order_history") . "
-                SET order_id = '" . (int)$order_id . "',
-                    order_status_id = '" . (int)$data['order_status_id'] . "',
-                    notify = '" . (isset($data['notify']) ? (int)$data['notify'] : 0) . "',
-                    comment = '" . $this->db->escape(strip_tags($data['comment'])) . "',
-                    date_added = NOW()"
-            );
-        }
+        $this->db->query(
+            "INSERT INTO " . $this->db->table("order_history") . "
+            SET order_id = '" . (int)$order_id . "',
+                order_status_id = '" . (int)$data['order_status_id'] . "',
+                notify = '" . (isset($data['notify']) ? (int)$data['notify'] : 0) . "',
+                comment = '" . $this->db->escape(strip_tags($data['comment'])) . "',
+                date_added = NOW()"
+        );
 
         /*
          * Send Email with merchant comment.
@@ -1370,7 +1371,7 @@ class ModelSaleOrder extends Model
         if ($mode == 'total_only') {
             $total_sql = 'count(*) as total';
         } else {
-            $total_sql = "o.order_id,
+            $total_sql = $this->db->getSqlCalcTotalRows() . " o.order_id,
                         CONCAT(o.firstname, ' ', o.lastname) AS name,
                         (SELECT os.name
                          FROM " . $this->db->table("order_statuses") . " os
@@ -1514,10 +1515,15 @@ class ModelSaleOrder extends Model
         }
 
         $query = $this->db->query($sql);
+        if( !$query->num_rows) {
+            return[];
+        }
         $result_rows = [];
         foreach ($query->rows as $row) {
             $result_rows[] = $this->dcrypt->decrypt_data($row, 'orders');
         }
+        $totalNumRows = $this->db->getTotalNumRows();
+        $result_rows[0]['total_num_rows'] = $totalNumRows;
         return $result_rows;
     }
 
