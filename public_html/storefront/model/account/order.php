@@ -318,4 +318,29 @@ class ModelAccountOrder extends Model
         }
         return $output;
     }
+
+    /**
+     * @param int $order_id
+     *
+     * @return array
+     * @throws AException
+     */
+    public function getOrderStatusStepper(int $order_id)
+    {
+        if(!$order_id){
+            return [];
+        }
+        $language_id = (int) $this->config->get('storefront_language_id');
+        $query = $this->db->query(
+            "SELECT os.name AS status, oh.order_status_id, max(oh.date_added) AS date_added 
+            FROM " . $this->db->table("order_history") . " oh 
+            LEFT JOIN " . $this->db->table("order_statuses") . " os 
+                ON oh.order_status_id = os.order_status_id 
+            WHERE oh.order_id = '" . $order_id . "' 
+                    AND os.language_id = '" . $language_id . "' 
+            GROUP BY oh.order_status_id, status
+            ORDER BY max(oh.date_added)"
+        );
+        return $query->rows;
+    }
 }
