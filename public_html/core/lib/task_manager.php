@@ -83,6 +83,10 @@ class ATaskManager
             foreach ($allTasks as $t) {
                 if ($t['status'] != static::STATUS_RUNNING) {
                     $this->updateTask((int)$t['task_id'], ['status' => static::STATUS_READY]);
+                    $taskSteps = $this->getTaskSteps($t['task_id']);
+                    foreach ($taskSteps as $step) {
+                        $this->updateStepState($step['step_id'], ['status' => static::STATUS_READY]);
+                    }
                 }
             }
         }
