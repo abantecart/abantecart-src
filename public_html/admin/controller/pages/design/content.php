@@ -359,6 +359,7 @@ class ControllerPagesDesignContent extends AController
             'status',
             'store_id',
             'content_bar',
+            'show_title',
             'author',
             'publish_date',
             'expire_date',
@@ -590,6 +591,16 @@ class ControllerPagesDesignContent extends AController
                 'history'      => $history
             ]
         );
+
+        $this->data['form']['fields']['show_title'] = $form->getFieldHtml(
+            [
+                'type'  => 'checkbox',
+                'name'  => 'show_title',
+                'value' => $this->data['show_title'] ?? 1,
+                'style' => 'btn_switch',
+            ]
+        );
+
         $this->data['form']['fields']['description'] = $form->getFieldHtml(
             [
                 'type'         => 'textarea',
