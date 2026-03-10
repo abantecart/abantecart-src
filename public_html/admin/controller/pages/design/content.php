@@ -636,7 +636,6 @@ class ControllerPagesDesignContent extends AController
                 'type'         => 'texteditor',
                 'name'         => 'content',
                 'value'        => $this->data['content'],
-                'required'     => true,
                 'multilingual' => true,
                 'history'      => $history
             ]
@@ -691,10 +690,6 @@ class ControllerPagesDesignContent extends AController
 
         if (isHtml(html_entity_decode($this->request->post['title']))) {
             $this->error['title'] = $this->language->get('error_title_html');
-        }
-
-        if (mb_strlen($this->request->post['content']) < 2) {
-            $this->error['content'] = $this->language->get('error_content');
         }
 
         $error_text = $this->html->isSEOkeywordExists(
