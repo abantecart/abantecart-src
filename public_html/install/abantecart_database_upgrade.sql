@@ -234,3 +234,6 @@ UPDATE `ac_product_specials` SET date_end = NULL WHERE date_end = '0000-00-00';
 
 alter table `ac_category_descriptions`
     modify `description` longtext NULL COMMENT 'translatable';
+
+alter table `ac_contents`
+    add show_title int default 1 null after content_bar;

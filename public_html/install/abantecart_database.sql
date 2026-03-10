@@ -10330,6 +10330,7 @@ CREATE TABLE `ac_contents` (
     `sort_order` int(3) NOT NULL DEFAULT '0',
     `status` int(1) NOT NULL DEFAULT '0',
     `content_bar` int(1) NOT NULL DEFAULT '0',
+    `show_title` int(1) DEFAULT 1 NULL,
     `author` varchar(128) NOT NULL DEFAULT '',
     `icon_rl_id` int(11),
     `publish_date` timestamp NULL,
