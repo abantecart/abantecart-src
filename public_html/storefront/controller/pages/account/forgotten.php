@@ -1,23 +1,24 @@
 <?php
+/** @noinspection PhpUnused */
 
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2022 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2026 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -43,48 +44,60 @@ class ControllerPagesAccountForgotten extends AController
 
         $this->document->setTitle($this->language->get('heading_title'));
         $this->loadModel('account/customer');
-        $customer_details = [];
+        $customerDetails = [];
         if ($this->request->is_POST()) {
             if (!$this->csrftoken->isTokenValid()) {
                 $this->error['message'] = $this->language->get('error_unknown');
-                return false;
+                return;
             }
 
-            if ($this->_find_customer('password', $customer_details)) {
+            if ($this->_find_customer('password', $customerDetails)) {
                 //extra check that we have customer details
-                if (!empty($customer_details['email'])) {
+                if (!empty($customerDetails['email'])) {
                     $this->loadLanguage('mail/account_forgotten');
-
-                    $customer_id = $customer_details['customer_id'];
+                    $customerId = $customerDetails['customer_id'];
                     $code = genToken(32);
                     //save password reset code
                     $this->model_account_customer->updateOtherData(
-                        $customer_id,
+                        $customerId,
                         ['password_reset' => $code]
                     );
                     //build reset link
                     $enc = new AEncryption($this->config->get('encryption_key'));
-                    $rtoken = $enc->encrypt($customer_id.'::'.$code);
+                    $rToken = $enc->encrypt($customerId . '::' . $code);
 
-                    //do the trick for correct url
-                    $embed_mode = $this->registry->get('config')->get('embed_mode');
+                    //do the trick for the correct url
+                    $embedMode = $this->registry->get('config')->get('embed_mode');
                     $this->registry->get('config')->set('embed_mode', false);
-                    $link = $this->html->getSecureURL('account/forgotten/reset', '&rtoken='.$rtoken);
-                    $this->registry->get('config')->set('embed_mode', $embed_mode);
-                    $subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
+                    $link = $this->html->getSecureURL('account/forgotten/reset', '&rtoken=' . $rToken);
+                    $this->registry->get('config')->set('embed_mode', $embedMode);
+                    $subject = $this->language->getAndReplace(
+                        'text_subject',
+                        replaces: $this->config->get('store_name')
+                    );
                     $mail = new AMail($this->config);
-                    $mail->setTo($customer_details['email']);
+                    $mail->setTo($customerDetails['email']);
                     $mail->setFrom($this->config->get('store_main_email'));
                     $mail->setReplyTo($this->config->get('store_main_email'));
                     $mail->setSender($this->config->get('store_name'));
                     $mail->setSubject($subject);
-                    $mail->setTemplate('storefront_reset_password_link',
+                    $mail->setTemplate(
+                        'storefront_reset_password_link',
                         [
                             'store_name' => $this->config->get('store_name'),
-                            'reset_link' => $link
+                            'reset_link' => $link,
                         ]
                     );
                     $mail->send();
+
+                    $this->extensions->hk_ProcessData(
+                        $this,
+                        __FUNCTION__,
+                        [
+                            'customer_id' => $customerId,
+                            'email'       => $customerDetails['email'],
+                        ]
+                    );
 
                     $this->session->data['success'] = $this->language->get('text_success');
                     redirect($this->html->getSecureURL('account/login'));
@@ -135,14 +148,14 @@ class ControllerPagesAccountForgotten extends AController
             ]
         );
 
-        //verify loginname if non email login used or data encryption is ON
+        //verify loginname if non-email login used or data encryption is ON
         if ($this->config->get('prevent_email_as_login') || $this->dcrypt->active) {
             $this->data['form']['fields']['loginname'] = $form->getFieldHtml(
                 [
-                    'type'  => 'input',
-                    'name'  => 'loginname',
-                    'value' => $this->request->post['loginname'],
-                    'required'=> true
+                    'type'     => 'input',
+                    'name'     => 'loginname',
+                    'value'    => $this->request->post['loginname'],
+                    'required' => true,
                 ]
             );
             $this->data['help_text'] = $this->language->get('text_loginname_email');
@@ -152,10 +165,10 @@ class ControllerPagesAccountForgotten extends AController
 
         $this->data['form']['fields']['email'] = $form->getFieldHtml(
             [
-                'type'  => 'input',
-                'name'  => 'email',
-                'value' => $this->request->post['email'],
-                'required' => true
+                'type'     => 'input',
+                'name'     => 'email',
+                'value'    => $this->request->post['email'],
+                'required' => true,
             ]
         );
 
@@ -191,42 +204,44 @@ class ControllerPagesAccountForgotten extends AController
         $this->document->setTitle($this->language->get('heading_title'));
         $this->loadModel('account/customer');
         //validate token
-        $rtoken = $this->request->get['rtoken'];
+        $rToken = $this->request->get['rtoken'];
         $enc = new AEncryption($this->config->get('encryption_key'));
-        list($customer_id, $code) = explode("::", $enc->decrypt($rtoken));
-        $customer_id = (int)$customer_id;
-        $customer_details = $this->model_account_customer->getCustomer($customer_id);
-        if (empty($customer_id)
-            || empty($customer_details['data']['password_reset'])
-            || $customer_details['data']['password_reset'] != $code
+        list($customerId, $code) = explode("::", $enc->decrypt($rToken));
+        $customerId = (int) $customerId;
+        $customerDetails = $this->model_account_customer->getCustomer($customerId);
+        if (!$customerId
+            || !$customerDetails['data']['password_reset']
+            || $customerDetails['data']['password_reset'] != $code
         ) {
             $this->error['message'] = $this->language->get('error_reset_token');
-            return $this->password();
+            $this->password();
+            return;
         }
 
         if ($this->request->is_POST() && $this->_validatePassword()) {
             if (!$this->csrftoken->isTokenValid()) {
                 $this->error['warning'] = $this->language->get('error_unknown');
-                return false;
+                return;
             }
 
             //extra check that we have customer details
-            if (!empty($customer_details['email'])) {
+            if ($customerDetails['email']) {
                 $this->loadLanguage('mail/account_forgotten');
                 $this->model_account_customer->editPassword(
-                    $customer_details['loginname'],
+                    $customerDetails['loginname'],
                     $this->request->post['password']
                 );
-                $this->customer->deleteActiveSessionsByID($customer_id);
+                $this->customer->deleteActiveSessionsByID($customerId);
 
-                $subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
+                $subject = $this->language->getAndReplace('text_subject', replaces: $this->config->get('store_name'));
                 $mail = new AMail($this->config);
-                $mail->setTo($customer_details['email']);
+                $mail->setTo($customerDetails['email']);
                 $mail->setFrom($this->config->get('store_main_email'));
                 $mail->setReplyTo($this->config->get('store_main_email'));
                 $mail->setSender($this->config->get('store_name'));
                 $mail->setSubject($subject);
-                $mail->setTemplate('storefront_reset_password_notify',
+                $mail->setTemplate(
+                    'storefront_reset_password_notify',
                     [
                         'store_name' => $this->config->get('store_name'),
                     ]
@@ -234,8 +249,16 @@ class ControllerPagesAccountForgotten extends AController
                 $mail->send();
 
                 //update data and remove password_reset code
-                unset($customer_details['data']['password_reset']);
-                $this->model_account_customer->updateOtherData($customer_id, $customer_details['data']);
+                unset($customerDetails['data']['password_reset']);
+                $this->model_account_customer->updateOtherData($customerId, $customerDetails['data']);
+                $this->extensions->hk_ProcessData(
+                    $this,
+                    __FUNCTION__,
+                    [
+                        'customer_id' => $customerId,
+                        'email'       => $customerDetails['email'],
+                    ]
+                );
 
                 $this->session->data['success'] = $this->language->get('text_success');
                 redirect($this->html->getSecureURL('account/login'));
@@ -278,15 +301,15 @@ class ControllerPagesAccountForgotten extends AController
                 'form_name' => 'PasswordFrm',
             ]
         );
-        $form_open = $form->getFieldHtml(
+        $formOpen = $form->getFieldHtml(
             [
                 'type'   => 'form',
                 'name'   => 'PasswordFrm',
-                'action' => $this->html->getSecureURL('account/forgotten/reset', '&rtoken='.$rtoken),
+                'action' => $this->html->getSecureURL('account/forgotten/reset', '&rtoken=' . $rToken),
                 'csrf'   => true,
             ]
         );
-        $this->view->assign('form_open', $form_open);
+        $this->view->assign('form_open', $formOpen);
 
         $password = $form->getFieldHtml(
             [
@@ -341,25 +364,38 @@ class ControllerPagesAccountForgotten extends AController
         }
         $this->document->setTitle($this->language->get('heading_title_loginname'));
         $this->loadModel('account/customer');
-        $customer_details = [];
+        $customerDetails = [];
         if ($this->request->is_POST()) {
-            if ($this->_find_customer('loginname', $customer_details)) {
+            if ($this->_find_customer('loginname', $customerDetails)) {
                 //extra check that we have customer details
-                if (!empty($customer_details['email'])) {
+                if (!empty($customerDetails['email'])) {
                     $this->loadLanguage('mail/account_forgotten_login');
-                    $subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
-                    $message = sprintf($this->language->get('text_greeting'), $this->config->get('store_name'))."\n\n";
-                    $message .= $this->language->get('text_your_loginname')."\n\n";
-                    $message .= $customer_details['loginname'];
+                    $subject =
+                        $this->language->getAndReplace('text_subject', replaces: $this->config->get('store_name'));
+                    $message = $this->language->getAndReplace(
+                                      'text_greeting',
+                            replaces: $this->config->get('store_name')
+                        ) . PHP_EOL . PHP_EOL;
+                    $message .= $this->language->get('text_your_loginname') . PHP_EOL . PHP_EOL;
+                    $message .= $customerDetails['loginname'];
 
                     $mail = new AMail($this->config);
-                    $mail->setTo($customer_details['email']);
+                    $mail->setTo($customerDetails['email']);
                     $mail->setFrom($this->config->get('store_main_email'));
                     $mail->setReplyTo($this->config->get('store_main_email'));
                     $mail->setSender($this->config->get('store_name'));
                     $mail->setSubject($subject);
                     $mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
                     $mail->send();
+
+                    $this->extensions->hk_ProcessData(
+                        $this,
+                        __FUNCTION__,
+                        [
+                            'customer_id' => $customerDetails['customer_id'],
+                            'email'       => $customerDetails['email'],
+                        ]
+                    );
 
                     $this->session->data['success'] = $this->language->get('text_success_loginname');
                     redirect($this->html->getSecureURL('account/login'));
@@ -416,18 +452,18 @@ class ControllerPagesAccountForgotten extends AController
 
         $this->data['form']['fields']['lastname'] = $form->getFieldHtml(
             [
-                'type'  => 'input',
-                'name'  => 'lastname',
-                'value' => $this->request->post['lastname'],
-                'required' => true
+                'type'     => 'input',
+                'name'     => 'lastname',
+                'value'    => $this->request->post['lastname'],
+                'required' => true,
             ]
         );
         $this->data['form']['fields']['email'] = $form->getFieldHtml(
             [
-                'type'  => 'input',
-                'name'  => 'email',
-                'value' => $this->request->post['email'],
-                'required' => true
+                'type'     => 'input',
+                'name'     => 'email',
+                'value'    => $this->request->post['email'],
+                'required' => true,
             ]
         );
 
@@ -454,12 +490,12 @@ class ControllerPagesAccountForgotten extends AController
 
     /**
      * @param string $mode
-     * @param array $customer_details - reference
+     * @param array $customerDetails - reference
      *
      * @return bool
      * @throws AException
      */
-    private function _find_customer($mode, &$customer_details)
+    private function _find_customer($mode, &$customerDetails)
     {
         $email = $this->request->post['email'];
         $loginName = $this->request->post['loginname'];
@@ -470,11 +506,11 @@ class ControllerPagesAccountForgotten extends AController
             return false;
         }
 
-        //locate customer based on login name
+        //locate the customer based on the login name
         if ($this->config->get('prevent_email_as_login') || $this->dcrypt->active) {
             if ($mode == 'password') {
                 if (!empty($loginName)) {
-                    $customer_details = $this->model_account_customer->getCustomerByLoginnameAndEmail(
+                    $customerDetails = $this->model_account_customer->getCustomerByLoginnameAndEmail(
                         $loginName,
                         $email
                     );
@@ -485,7 +521,7 @@ class ControllerPagesAccountForgotten extends AController
             } else {
                 if ($mode == 'loginname') {
                     if (!empty($lastname)) {
-                        $customer_details = $this->model_account_customer->getCustomerByLastnameAndEmail(
+                        $customerDetails = $this->model_account_customer->getCustomerByLastnameAndEmail(
                             $lastname,
                             $email
                         );
@@ -497,10 +533,10 @@ class ControllerPagesAccountForgotten extends AController
             }
         } else {
             //get customer by email
-            $customer_details = $this->model_account_customer->getCustomerByEmail($email);
+            $customerDetails = $this->model_account_customer->getCustomerByEmail($email);
         }
 
-        if (!count($customer_details)) {
+        if (!count($customerDetails)) {
             $this->error['message'] = $this->language->get('error_not_found');
             return false;
         } else {
@@ -513,15 +549,17 @@ class ControllerPagesAccountForgotten extends AController
         $this->loadLanguage('account/password');
         $post = $this->request->post;
 
-        //check password length considering html entities (special case for characters " > < & )
-        $pass_len = mb_strlen(htmlspecialchars_decode($post['password']));
-        if ($pass_len < 4 || $pass_len > 20) {
+        //check password length considering html-entities (special case for characters " > < & )
+        $passLen = mb_strlen(htmlspecialchars_decode($post['password']));
+        if ($passLen < 4 || $passLen > 20) {
             $this->error['password'] = $this->language->get('error_password');
         }
 
         if ($post['confirm'] != $post['password']) {
             $this->error['confirm'] = $this->language->get('error_confirm');
         }
+
+        $this->extensions->hk_ValidateData($this, [__FUNCTION__]);
 
         if (!$this->error) {
             return true;
