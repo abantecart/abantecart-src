@@ -6,21 +6,22 @@ namespace Stripe\Service;
 
 /**
  * @phpstan-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
+ *
  * @psalm-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
  */
-class PayoutService extends \Stripe\Service\AbstractService
+class PayoutService extends AbstractService
 {
     /**
      * Returns a list of existing payouts sent to third-party bank accounts or payouts
      * that Stripe sent to you. The payouts return in sorted order, with the most
      * recently created payouts appearing first.
      *
-     * @param null|array $params
+     * @param null|array{arrival_date?: array|int, created?: array|int, destination?: string, ending_before?: string, expand?: string[], limit?: int, starting_after?: string, status?: string} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Collection<\Stripe\Payout>
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function all($params = null, $opts = null)
     {
@@ -33,12 +34,12 @@ class PayoutService extends \Stripe\Service\AbstractService
      * can’t cancel automatic Stripe payouts.
      *
      * @param string $id
-     * @param null|array $params
+     * @param null|array{expand?: string[]} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Payout
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function cancel($id, $params = null, $opts = null)
     {
@@ -58,12 +59,12 @@ class PayoutService extends \Stripe\Service\AbstractService
      * from. The <a href="#balance_object">balance object</a> details available and
      * pending amounts by source type.
      *
-     * @param null|array $params
+     * @param null|array{amount: int, currency: string, description?: string, destination?: string, expand?: string[], metadata?: array<string, string>, method?: string, payout_method?: string, source_type?: string, statement_descriptor?: string} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Payout
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function create($params = null, $opts = null)
     {
@@ -76,12 +77,12 @@ class PayoutService extends \Stripe\Service\AbstractService
      * corresponding payout information.
      *
      * @param string $id
-     * @param null|array $params
+     * @param null|array{expand?: string[]} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Payout
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function retrieve($id, $params = null, $opts = null)
     {
@@ -90,8 +91,8 @@ class PayoutService extends \Stripe\Service\AbstractService
 
     /**
      * Reverses a payout by debiting the destination bank account. At this time, you
-     * can only reverse payouts for connected accounts to US bank accounts. If the
-     * payout is manual and in the <code>pending</code> status, use
+     * can only reverse payouts for connected accounts to US and Canadian bank
+     * accounts. If the payout is manual and in the <code>pending</code> status, use
      * <code>/v1/payouts/:id/cancel</code> instead.
      *
      * By requesting a reversal through <code>/v1/payouts/:id/reverse</code>, you
@@ -99,12 +100,12 @@ class PayoutService extends \Stripe\Service\AbstractService
      * the debit on the bank account and that no other authorization is required.
      *
      * @param string $id
-     * @param null|array $params
+     * @param null|array{expand?: string[], metadata?: array<string, string>} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Payout
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function reverse($id, $params = null, $opts = null)
     {
@@ -117,12 +118,12 @@ class PayoutService extends \Stripe\Service\AbstractService
      * metadata as arguments.
      *
      * @param string $id
-     * @param null|array $params
+     * @param null|array{expand?: string[], metadata?: null|array<string, string>} $params
      * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Payout
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function update($id, $params = null, $opts = null)
     {
