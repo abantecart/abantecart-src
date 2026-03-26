@@ -399,6 +399,12 @@ class ControllerResponsesExtensionStripe extends AController
             exit('Stripe Webhook ' . $method . ' Error2:' . $e->getMessage());
         }
 
+        $expectedEventType = preg_replace('/_(?=[^_]+$)/', '.', $eventName);
+        if (($payload['type'] ?? '') !== $expectedEventType) {
+            http_response_code(400);
+            exit('Stripe Webhook ' . $method . ' Error: unexpected event type ' . ($payload['type'] ?? 'unknown'));
+        }
+
         if ($payload['data']['object']['object'] != 'payment_intent') {
             http_response_code(400);
             exit('Stripe Webhook ' . $method . ' Error3: ' . 'event object is not Payment Intent');

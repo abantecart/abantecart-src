@@ -23,6 +23,7 @@ use Stripe\Collection;
 use Stripe\Exception\ApiErrorException;
 use Stripe\PaymentIntent;
 use Stripe\Refund;
+use Stripe\StripeClient;
 
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -36,6 +37,8 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ModelExtensionStripe extends Model
 {
     public $error = [];
+    /** @var StripeClient|false */
+    protected $stripeClient = false;
 
     /**
      * @param Registry $registry
@@ -43,7 +46,15 @@ class ModelExtensionStripe extends Model
     public function __construct($registry)
     {
         parent::__construct($registry);
-        grantStripeAccess($this->config);
+        $this->stripeClient = grantStripeAccess($this->config);
+    }
+
+    protected function getStripeClient()
+    {
+        if (!$this->stripeClient) {
+            $this->stripeClient = grantStripeAccess($this->config);
+        }
+        return $this->stripeClient;
     }
 
     /**
@@ -73,11 +84,11 @@ class ModelExtensionStripe extends Model
         }
         try {
             if (is_int(strpos($chargeId, "ch_"))) {
-                return Stripe\Charge::retrieve($chargeId);
+                return $this->getStripeClient()->charges->retrieve($chargeId);
             } elseif (is_int(strpos($chargeId, "pi_"))) {
-                $pi = Stripe\PaymentIntent::retrieve($chargeId);
+                $pi = $this->getStripeClient()->paymentIntents->retrieve($chargeId);
                 $lch = $pi->latest_charge;
-                return Stripe\Charge::retrieve($lch);
+                return $this->getStripeClient()->charges->retrieve($lch);
             }
         } catch (Exception|Error $e) {
             //log in AException
@@ -97,7 +108,7 @@ class ModelExtensionStripe extends Model
             return false;
         }
         try {
-            return Stripe\PaymentIntent::retrieve($intentId);
+            return $this->getStripeClient()->paymentIntents->retrieve($intentId);
         } catch (Exception|Error $e) {
             //log in AException
             $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
@@ -116,8 +127,7 @@ class ModelExtensionStripe extends Model
             return false;
         }
         try {
-            $ch = Stripe\PaymentIntent::retrieve($intentId);
-            return $ch->cancel();
+            return $this->getStripeClient()->paymentIntents->cancel($intentId);
         } catch (Exception|Error $e) {
             //log in AException
             $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
@@ -137,7 +147,7 @@ class ModelExtensionStripe extends Model
             return false;
         }
         try {
-            return Stripe\Refund::create(
+            return $this->getStripeClient()->refunds->create(
                 [
                     'amount' => round($amount, 2) * 100,
                     'charge' => $chargeId,
@@ -162,12 +172,11 @@ class ModelExtensionStripe extends Model
             return false;
         }
         try {
-            $ch = Stripe\Charge::retrieve($chargeId);
             $params = [];
             if ($amount) {
                 $params['amount'] = round($amount, 2) * 100;
             }
-            return $ch->capture($params);
+            return $this->getStripeClient()->charges->capture($chargeId, $params);
         } catch (Exception|Error $e) {
             //log in AException
             $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
@@ -187,12 +196,11 @@ class ModelExtensionStripe extends Model
             return false;
         }
         try {
-            $intent = PaymentIntent::retrieve($intentId);
             $params = [];
             if ($amount) {
                 $params['amount'] = round($amount, 2) * 100;
             }
-            return $intent->capture($params);
+            return $this->getStripeClient()->paymentIntents->capture($intentId, $params);
         } catch (Exception|Error $e) {
             //log in AException
             $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
