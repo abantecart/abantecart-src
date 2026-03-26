@@ -148,6 +148,7 @@ class ControllerPagesExtensionStripeSettings extends AController
         foreach ($this->fields as $f) {
            $this->data[$f] = $this->request->post[$f] ?? $this->config->get($f);
         }
+        $this->data['skip_connect'] = (bool)($this->request->get['skip_connect'] ?? false);
 
         $this->data['disconnect'] = $this->html->getSecureURL(
             'extension/stripe_settings',

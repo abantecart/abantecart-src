@@ -145,6 +145,7 @@ class ControllerResponsesExtensionStripe extends AController
                 break;
             }
         }
+        $cartKey = $this->session->data['fc']['cart_key'] ?: $this->cart->getCartKey();
 
         $cart_products = $this->cart->getProducts() + $this->cart->getVirtualProducts();
         $productNames = array_column($cart_products, 'name');
@@ -170,6 +171,7 @@ class ControllerResponsesExtensionStripe extends AController
             ],
             "metadata"       => [
                 "order_id" => $order_info['order_id'],
+                "cart_key" => (string)$cartKey,
                 "products" => mb_substr(implode('; '.PHP_EOL,$productNames),0,500)
             ],
         ];
@@ -186,7 +188,21 @@ class ControllerResponsesExtensionStripe extends AController
             $piDetails['automatic_payment_methods'] = ['enabled' => true];
         }
 
-        $paymentIntent = $this->model_extension_stripe->createPaymentIntent($piDetails);
+        $idempotencyKey = 'ac_pi_' . md5(
+            implode(
+                '|',
+                [
+                    (string)$order_info['order_id'],
+                    (string)$cartKey,
+                    (string)$this->data['total_amount'],
+                    strtolower((string)$currency),
+                ]
+            )
+        );
+        $paymentIntent = $this->model_extension_stripe->getOrCreatePaymentIntent(
+            $piDetails,
+            ['idempotency_key' => $idempotencyKey]
+        );
         if ($paymentIntent['error']) {
             $this->data['error'] = $paymentIntent['error'];
             $this->messages->saveWarning(
@@ -261,13 +277,20 @@ class ControllerResponsesExtensionStripe extends AController
         /** @var ModelExtensionStripe $mdl */
         $mdl = $this->loadModel('extension/stripe');
         $output = [];
+        $stripeOrderInfo = $mdl->getStripeOrder($orderId);
+        if ($stripeOrderInfo && $stripeOrderInfo['charge_id'] && $stripeOrderInfo['charge_id'] != $piId) {
+            $output['error'] = 'Order already linked to another payment intent.';
+            return $output;
+        }
 
         try {
             $paymentStatus = $mdl->getPaymentIntent($piId)->status;
             if (in_array($paymentStatus, ['processing', 'succeeded', 'requires_capture'])) {
                 $output['paid'] = true;
                 $orderInfo = $mdlOrder->getOrder($orderId);
-                $mdl->recordOrder($orderInfo, ['id' => $piId]);
+                if (!$stripeOrderInfo) {
+                    $mdl->recordOrder($orderInfo, ['id' => $piId]);
+                }
                 $orderStatus = ($paymentStatus == 'processing'
                     ? $this->order_status->getStatusByTextId('processing')
                     : ($this->config->get('stripe_settlement') == 'automatic'

@@ -396,17 +396,65 @@ class ModelExtensionStripe extends Model
      * @return array|PaymentIntent
      */
 
-    public function createPaymentIntent($data)
+    public function createPaymentIntent($data, $requestOptions = [])
     {
         try {
-            $response = PaymentIntent::create($data);
+            $response = PaymentIntent::create($data, $requestOptions);
             $this->session->data['stripe']['pi']['id'] = $response['id'];
+            $this->session->data['stripe']['pi_id'] = $response['id'];
             return $response;
         } catch (Exception|Error $e) {
             return [
                 'error' => $e->getMessage()
             ];
         }
+    }
+
+    protected function isReusableIntentStatus(string $status): bool
+    {
+        return in_array(
+            $status,
+            [
+                'requires_payment_method',
+                'requires_confirmation',
+                'requires_action',
+                'processing',
+                'requires_capture',
+            ],
+            true
+        );
+    }
+
+    protected function doesIntentMatchRequest(PaymentIntent $intent, array $data): bool
+    {
+        $intentOrderId = (string)($intent['metadata']['order_id'] ?? '');
+        $intentCartKey = (string)($intent['metadata']['cart_key'] ?? '');
+        $reqOrderId = (string)($data['metadata']['order_id'] ?? '');
+        $reqCartKey = (string)($data['metadata']['cart_key'] ?? '');
+        $intentAmount = (int)($intent['amount'] ?? 0);
+        $reqAmount = (int)($data['amount'] ?? 0);
+        $intentCurrency = strtolower((string)($intent['currency'] ?? ''));
+        $reqCurrency = strtolower((string)($data['currency'] ?? ''));
+
+        return $intentOrderId === $reqOrderId
+            && $intentCartKey === $reqCartKey
+            && $intentAmount === $reqAmount
+            && $intentCurrency === $reqCurrency;
+    }
+
+    public function getOrCreatePaymentIntent(array $data, array $requestOptions = [])
+    {
+        $existingId = $this->session->data['stripe']['pi_id'] ?: ($this->session->data['stripe']['pi']['id'] ?? '');
+        if ($existingId) {
+            $intent = $this->getPaymentIntent($existingId);
+            if ($intent instanceof PaymentIntent
+                && $this->doesIntentMatchRequest($intent, $data)
+                && $this->isReusableIntentStatus((string)$intent['status'])
+            ) {
+                return $intent;
+            }
+        }
+        return $this->createPaymentIntent($data, $requestOptions);
     }
 
     /**
