@@ -1,11 +1,13 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -56,7 +58,7 @@ class AExtensionManager
 
     public function __construct()
     {
-        if (!IS_ADMIN) { // forbid for non admin calls
+        if (!IS_ADMIN) { // forbid for non-admin calls
             throw new AException (AC_ERR_LOAD, 'Error: permission denied to access extension manager');
         }
         $this->registry = Registry::getInstance();
@@ -138,7 +140,7 @@ class AExtensionManager
     }
 
     /**
-     * Function gets parent extensions id and text id from extension dependencies table
+     * Function gets parent extensions id and text id from the extension dependencies table
      *
      * @param string $extension_txt_id
      *
@@ -260,7 +262,7 @@ class AExtensionManager
     }
 
     /**
-     * Save extension settings into database
+     * Save extension settings into a database
      *
      * @param string $extension_txt_id
      * @param array $data
@@ -313,8 +315,8 @@ class AExtensionManager
             $setting_name = str_replace($extension_txt_id . "_", '', $key);
             //check if setting is multi-value (array) and save serialized value.
             if (is_array($value)) {
-                //validate values in array. If setting is array of all members = 0 save only single value of 0
-                //This is to match standard post format in regular form submit
+                //validate values in an array. If the setting is array of all members = 0, save only a single value of 0;
+                //This is to match a standard post-format in regular form submitting
                 foreach ($value as &$v) {
                     //remove empty value from multiselectbox with empty set of options
                     $v = $v == "''" ? null : $v;
@@ -351,7 +353,7 @@ class AExtensionManager
                             }
                         }
                     } else {
-                        // if all fine with required fields - check children
+                        // if all fine with required fields, check children
                         $parents = $this->getParentsExtensionTextId($extension_txt_id);
                         $enabled = $this->extensions->getEnabledExtensions();
                         foreach ($parents as $parent) {
@@ -368,7 +370,7 @@ class AExtensionManager
                             }
                         }
                     }
-                } else { // When try to disable disable dependants too
+                } else { // When try to disable dependants too
                     if ($this->isExtensionInstalled($extension_txt_id)) {
                         $children_keys = [];
                         $children = $this->getChildrenExtensions($extension_txt_id);
@@ -380,10 +382,12 @@ class AExtensionManager
                         }
                         if ($children_keys) {
                             foreach ($children_keys as $child) {
+
                                 $sql = "UPDATE " . $this->db->table("settings") . " 
                                         SET `value` = 0
                                         WHERE `group` = '" . $child . "'
-                                        AND `key`= '" . $child . "_status'";
+                                            AND `key`= '" . $child . "_status'
+                                            AND `store_id` = '" . (int)$data['store_id'] . "'";
                                 $this->db->query($sql);
                             }
                             $sql = "UPDATE " . $this->db->table("extensions") . " 
@@ -404,13 +408,12 @@ class AExtensionManager
             //skip saving ???
 
             // now re-insert settings
-            $this->db->query(
-                "INSERT INTO " . $this->db->table("settings") . " 
+            $sql = "INSERT INTO " . $this->db->table("settings") . " 
                 SET `store_id` = '" . (int)$data['store_id'] . "',
                   `group` = '" . $this->db->escape($extension_txt_id) . "',
                   `key` = '" . $this->db->escape($key) . "',
-                  `value` = '" . $this->db->escape($value) . "'"
-            );
+                  `value` = '" . $this->db->escape($value) . "'";
+            $this->db->query($sql);
             if (in_array($setting_name, $masks)) {
                 $sql = "UPDATE " . $this->db->table("extensions") . " 
                         SET `" . $setting_name . "` = '" . $this->db->escape($value) . "'
@@ -488,7 +491,7 @@ class AExtensionManager
 
         $settings = array_merge($settings, $default_settings);
 
-        //write info about install into install log
+        //write info about installation into install log
         $install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
         $install_upgrade_history->addRows(
             [
@@ -531,7 +534,7 @@ class AExtensionManager
             $this->load->model('tool/updater');
             $this->model_tool_updater->check4updates(true);
         } catch (Exception|Error $e) {
-            if (INSTALL !== true) {
+            if (!defined('INSTALL') || INSTALL !== true) {
                 $this->log->write(__CLASS__ . ': ' . $e->getMessage());
             }
         }
