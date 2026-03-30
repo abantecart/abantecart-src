@@ -15,6 +15,9 @@
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
+require_once(DIR_EXT . 'usps' . DS . 'core' . DS . 'usps_token_service.php');
+require_once(DIR_EXT . 'usps' . DS . 'core' . DS . 'usps_api_context.php');
+require_once(DIR_EXT . 'usps' . DS . 'core' . DS . 'usps_error_parser.php');
 
 class ControllerResponsesExtensionUsps extends AController
 {
@@ -44,13 +47,18 @@ class ControllerResponsesExtensionUsps extends AController
         }
 
         try {
-            $baseUrl = $this->getUspsApiBaseUrl($this->request->post['usps_api_environment'] ?? 0);
-            $token = $this->requestOauthToken($baseUrl, $clientId, $clientSecret);
-            if ($token === '') {
+            $baseUrl = UspsApiContext::getApiBaseUrl($this->request->post['usps_api_environment'] ?? 0);
+            $tokenData = $this->getOauthToken(
+                $baseUrl,
+                $clientId,
+                $clientSecret,
+                $this->request->post['usps_api_environment'] ?? 0
+            );
+            if ($tokenData['token'] === '') {
                 throw new Exception('USPS OAuth token was not returned.');
             }
         } catch (\Throwable $e) {
-            $message = $this->extractUspsError($e);
+            $message = (new UspsErrorParser())->parseThrowable($e);
             $this->jsonResponse(['error_text' => $message]);
             return;
         }
@@ -90,23 +98,33 @@ class ControllerResponsesExtensionUsps extends AController
             return;
         }
 
+        $oauthFromCache = false;
+        $paymentFromCache = false;
         try {
-            $baseUrl = $this->getUspsApiBaseUrl($this->request->post['usps_api_environment'] ?? 0);
-            $oauthToken = $this->requestOauthToken($baseUrl, $clientId, $clientSecret);
+            $baseUrl = UspsApiContext::getApiBaseUrl($this->request->post['usps_api_environment'] ?? 0);
+            $apiEnvironment = $this->request->post['usps_api_environment'] ?? 0;
+            $oauthData = $this->getOauthToken($baseUrl, $clientId, $clientSecret, $apiEnvironment);
+            $oauthToken = $oauthData['token'];
+            $oauthFromCache = (bool)($oauthData['from_cache'] ?? false);
             if ($oauthToken === '') {
                 throw new Exception('USPS OAuth token was not returned.');
             }
 
-            $paymentToken = $this->requestPaymentAuthorizationToken(
+            $paymentData = $this->getPaymentAuthorizationToken(
                 $baseUrl,
                 $oauthToken,
+                $apiEnvironment,
+                $clientId,
                 $crid,
                 $mid,
                 $manifestMid,
                 $accountNumber
             );
+            $paymentToken = $paymentData['token'];
+            $paymentFromCache = (bool)($paymentData['from_cache'] ?? false);
+            $this->verifyLabelsApiAccess($baseUrl, $oauthToken, $paymentToken);
         } catch (\Throwable $e) {
-            $message = $this->extractUspsError($e);
+            $message = (new UspsErrorParser())->parseThrowable($e);
             $this->jsonResponse(['error_text' => $message]);
             return;
         }
@@ -116,11 +134,13 @@ class ControllerResponsesExtensionUsps extends AController
             return;
         }
 
-        $this->jsonResponse(
-            [
-                'message' => 'Success! USPS Payments token generation test passed.',
-            ]
-        );
+        $mode = ($oauthFromCache && $paymentFromCache)
+            ? 'used cached OAuth and payment tokens'
+            : 'generated/refreshed token(s) as needed';
+
+        $this->jsonResponse([
+            'message' => 'Success! USPS Labels API test passed; ' . $mode . '.',
+        ]);
     }
 
     public function label()
@@ -176,156 +196,99 @@ class ControllerResponsesExtensionUsps extends AController
         exit('Label not found or cannot be shown.');
     }
 
-    private function isDeveloperEnvironment($value)
+    private function getOauthToken($baseUrl, $clientId, $clientSecret, $apiEnvironment)
     {
-        if (is_bool($value)) {
-            return $value;
-        }
-        if (is_numeric($value)) {
-            return (int)$value === 1;
-        }
-        $normalized = strtolower(trim((string)$value));
-        return in_array($normalized, ['1', 'true', 'yes', 'on', 'tem', 'developer', 'test'], true);
-    }
-
-    private function getUspsApiBaseUrl($apiEnvironment)
-    {
-        return $this->isDeveloperEnvironment($apiEnvironment)
-            ? 'https://apis-tem.usps.com'
-            : 'https://apis.usps.com';
-    }
-
-    private function requestOauthToken($baseUrl, $clientId, $clientSecret)
-    {
-        $config = \USPS\OAuthClientCredentials\Configuration::getDefaultConfiguration()
-            ->setHost($baseUrl . '/oauth2/v3');
-        $api = new \USPS\OAuthClientCredentials\Api\ResourcesApi(
-            new \GuzzleHttp\Client(['timeout' => 20]),
-            $config
+        return $this->getTokenService()->getOauthToken(
+            $baseUrl,
+            $clientId,
+            $clientSecret,
+            $this->getOauthTokenCacheKey($apiEnvironment, $clientId)
         );
-        $request = new \USPS\OAuthClientCredentials\Model\ClientCredentials([
-            'grant_type'    => 'client_credentials',
-            'client_id'     => $clientId,
-            'client_secret' => $clientSecret,
-        ]);
-        $response = $api->postToken($request);
-        return (string)$response->getAccessToken();
     }
 
-    private function requestPaymentAuthorizationToken(
+    private function getPaymentAuthorizationToken(
         $baseUrl,
         $oauthToken,
+        $apiEnvironment,
+        $clientId,
         $crid,
         $mid,
         $manifestMid,
         $accountNumber
     ) {
-        $payload = [
-            'roles' => [
-                [
-                    'roleName'      => 'PAYER',
-                    'CRID'          => $crid,
-                    'MID'           => $mid,
-                    'manifestMID'   => $manifestMid,
-                    'accountType'   => 'EPS',
-                    'accountNumber' => $accountNumber,
-                ],
-                [
-                    'roleName'      => 'LABEL_OWNER',
-                    'CRID'          => $crid,
-                    'MID'           => $mid,
-                    'manifestMID'   => $manifestMid,
-                    'accountType'   => 'EPS',
-                    'accountNumber' => $accountNumber,
-                ],
-            ],
-        ];
-
-        $response = (new \GuzzleHttp\Client(['timeout' => 20]))->post(
-            $baseUrl . '/payments/v3/payment-authorization',
-            [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $oauthToken,
-                    'Accept'        => 'application/json',
-                    'Content-Type'  => 'application/json',
-                ],
-                'json'    => $payload,
-            ]
+        $cacheKey = $this->getPaymentTokenCacheKey(
+            $apiEnvironment,
+            $clientId,
+            $crid,
+            $mid,
+            $manifestMid,
+            $accountNumber
         );
 
-        $body = (string)$response->getBody();
-        $json = json_decode($body, true);
-        if (!is_array($json)) {
-            return '';
-        }
-
-        return (string)($json['paymentAuthorizationToken'] ?? '');
+        return $this->getTokenService()->getPaymentAuthorizationToken(
+            $baseUrl,
+            $oauthToken,
+            $crid,
+            $mid,
+            $manifestMid,
+            $accountNumber,
+            $cacheKey
+        );
     }
 
-    private function extractUspsError(\Throwable $e)
+    private function verifyLabelsApiAccess($baseUrl, $oauthToken, $paymentToken)
     {
-        $message = trim((string)$e->getMessage());
-        $statusCode = (int)$e->getCode();
-        $responseBody = '';
+        $config = \USPS\Labels\Configuration::getDefaultConfiguration()
+            ->setHost($baseUrl . '/labels/v3')
+            ->setAccessToken($oauthToken);
+        $api = new \USPS\Labels\Api\ResourcesApi(
+            new \GuzzleHttp\Client(['timeout' => 20]),
+            $config
+        );
 
-        if (method_exists($e, 'getResponseBody')) {
-            $responseBody = $e->getResponseBody();
-            if (is_object($responseBody) && method_exists($responseBody, '__toString')) {
-                $responseBody = (string)$responseBody;
-            }
-        }
+        // Non-destructive labels endpoint to verify token pair really works for labels operations.
+        $api->getListLabelBranding($paymentToken, '1', '0', 'desc', 'createdDateTime');
+    }
 
-        // Guzzle RequestException path (Payments API call uses Guzzle directly).
-        if ($responseBody === '' && method_exists($e, 'getResponse')) {
-            $response = $e->getResponse();
-            if ($response) {
-                $statusCode = (int)$response->getStatusCode();
-                $body = $response->getBody();
-                if (is_object($body) && method_exists($body, '__toString')) {
-                    $responseBody = (string)$body;
-                }
-            }
-        }
+    private function getOauthTokenCacheKey($apiEnvironment, $clientId)
+    {
+        return UspsApiContext::buildHashKey(
+            'usps.admin.oauth_token.',
+            [
+                UspsApiContext::getEnvironmentCode($apiEnvironment),
+                $clientId,
+            ]
+        );
+    }
 
-        if ($responseBody !== '') {
-            $json = json_decode($responseBody, true);
-            if (is_array($json)) {
-                $err = $json['error'] ?? [];
-                $errorText = '';
-                if (is_array($err)) {
-                    $errorText = trim((string)($err['message'] ?? $err['description'] ?? ''));
-                    if ($errorText === '' && isset($err['details']) && is_array($err['details'])) {
-                        $parts = [];
-                        foreach ($err['details'] as $detail) {
-                            if (is_array($detail)) {
-                                $parts[] = (string)($detail['message'] ?? $detail['description'] ?? '');
-                            } elseif (is_scalar($detail)) {
-                                $parts[] = (string)$detail;
-                            }
-                        }
-                        $errorText = trim(implode(' ', array_filter($parts)));
-                    }
-                } elseif (is_scalar($err)) {
-                    $errorText = trim((string)$err);
-                }
+    private function getPaymentTokenCacheKey(
+        $apiEnvironment,
+        $clientId,
+        $crid,
+        $mid,
+        $manifestMid,
+        $accountNumber
+    ) {
+        $storeId = isset($this->request->post['store_id'])
+            ? (int)$this->request->post['store_id']
+            : (int)$this->config->get('config_store_id');
+        return UspsApiContext::buildHashKey(
+            'usps.payment_token.',
+            [
+                $storeId,
+                UspsApiContext::getEnvironmentCode($apiEnvironment),
+                $clientId,
+                $crid,
+                $mid,
+                $manifestMid,
+                $accountNumber,
+            ]
+        );
+    }
 
-                if ($errorText === '' && isset($json['message']) && is_scalar($json['message'])) {
-                    $errorText = trim((string)$json['message']);
-                }
-                if ($errorText === '' && isset($json['error_description']) && is_scalar($json['error_description'])) {
-                    $errorText = trim((string)$json['error_description']);
-                }
-
-                $message = $errorText ?: $message;
-            } else {
-                $message = $responseBody;
-            }
-        }
-
-        if ($statusCode > 0) {
-            return 'HTTP ' . $statusCode . ($message ? ': ' . $message : '');
-        }
-        return $message ?: 'Unknown USPS API error.';
+    private function getTokenService()
+    {
+        return new UspsTokenService($this->cache, 20);
     }
 
     private function jsonResponse(array $payload)

@@ -12,6 +12,7 @@
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  */
+require_once(DIR_EXT . 'usps' . DS . 'core' . DS . 'usps_shipment_service.php');
 
 class ExtensionUsps extends Extension
 {
@@ -167,16 +168,17 @@ class ExtensionUsps extends Extension
         }
 
         if ($this->getManifestOrderStatusId($that) == $order_status_id) {
-            $result = $mdl->createShipment($order_info);
+            $shipmentService = new UspsShipmentService(Registry::getInstance());
+            $result = $shipmentService->createShipment($order_info);
             if (!$result) {
                 $that->messages->saveWarning(
                     'Order ID ' . $order_id . ' USPS Shipment Creation Warning',
-                    implode("\n", (array)$mdl->errors)
+                    implode("\n", (array)$shipmentService->errors)
                 );
                 $that->log->write(
                     'Order ID '
                     . $order_id . ' USPS Shipment Creation Warning: '
-                    . implode("\n", (array)$mdl->errors)
+                    . implode("\n", (array)$shipmentService->errors)
                 );
             }
         }
@@ -195,11 +197,10 @@ class ExtensionUsps extends Extension
         if (!isset($data['usps_data']['shipmentId'])) {
             if ($orderStatusId == $this->getManifestOrderStatusId($that)) {
                 $order_info = $that->model_sale_order->getOrder($orderId);
-                /** @var ModelExtensionUsps $mdl */
-                $mdl = $that->loadModel('extension/usps', 'storefront');
-                $result = $mdl->createShipment($order_info);
+                $shipmentService = new UspsShipmentService(Registry::getInstance());
+                $result = $shipmentService->createShipment($order_info);
                 if (!$result) {
-                    $that->error = (array)$mdl->errors;
+                    $that->error = (array)$shipmentService->errors;
                     $that->session->data['error_warning'] = implode("\n", $that->error);
                 } else {
                     $that->session->data['usps_success'] =
