@@ -198,13 +198,13 @@ class TotalRatesQuery extends InternationalRateListQuery
     public function getExtraServicesAllowableValues()
     {
         return [
-            self::EXTRA_SERVICES__370
-            self::EXTRA_SERVICES__813
-            self::EXTRA_SERVICES__820
-            self::EXTRA_SERVICES__826
-            self::EXTRA_SERVICES__857
-            self::EXTRA_SERVICES__930
-            self::EXTRA_SERVICES__931
+            self::EXTRA_SERVICES__370,
+            self::EXTRA_SERVICES__813,
+            self::EXTRA_SERVICES__820,
+            self::EXTRA_SERVICES__826,
+            self::EXTRA_SERVICES__857,
+            self::EXTRA_SERVICES__930,
+            self::EXTRA_SERVICES__931,
             self::EXTRA_SERVICES__955
         ];
     }

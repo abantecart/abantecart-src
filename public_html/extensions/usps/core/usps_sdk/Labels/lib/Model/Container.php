@@ -183,16 +183,16 @@ class Container implements ModelInterface, ArrayAccess
     public function getSortTypeAllowableValues()
     {
         return [
-            self::SORT_TYPE_TRUCK_BEDLOAD
-            self::SORT_TYPE_OPEN_DISTRIBUTION_FULL_POSTAL_PAKS
-            self::SORT_TYPE_OPEN_DISTRIBUTE_EMM_TRAY_BOX
-            self::SORT_TYPE_OPEN_DISTRIBUTE_FULL_TRAY_BOX
-            self::SORT_TYPE_OPEN_DISTRIBUTE_HALF_TRAY_BOX
-            self::SORT_TYPE_OPEN_DISTRIBUTE_HALF_POSTAL_PAKS
-            self::SORT_TYPE_OPEN_DISTRIBUTE_PALLET
-            self::SORT_TYPE_OPEN_DISTRIBUTE_FLAT_TUB_TRAY_BOX
-            self::SORT_TYPE_PALLET
-            self::SORT_TYPE_RECEPTACLE
+            self::SORT_TYPE_TRUCK_BEDLOAD,
+            self::SORT_TYPE_OPEN_DISTRIBUTION_FULL_POSTAL_PAKS,
+            self::SORT_TYPE_OPEN_DISTRIBUTE_EMM_TRAY_BOX,
+            self::SORT_TYPE_OPEN_DISTRIBUTE_FULL_TRAY_BOX,
+            self::SORT_TYPE_OPEN_DISTRIBUTE_HALF_TRAY_BOX,
+            self::SORT_TYPE_OPEN_DISTRIBUTE_HALF_POSTAL_PAKS,
+            self::SORT_TYPE_OPEN_DISTRIBUTE_PALLET,
+            self::SORT_TYPE_OPEN_DISTRIBUTE_FLAT_TUB_TRAY_BOX,
+            self::SORT_TYPE_PALLET,
+            self::SORT_TYPE_RECEPTACLE,
             self::SORT_TYPE_SACK
         ];
     }

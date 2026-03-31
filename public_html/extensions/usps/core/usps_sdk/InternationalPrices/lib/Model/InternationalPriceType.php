@@ -55,10 +55,10 @@ class InternationalPriceType
     public static function getAllowableEnumValues()
     {
         return [
-            self::RETAIL
-            self::COMMERCIAL
-            self::COMMERCIAL_BASE
-            self::COMMERCIAL_PLUS
+            self::RETAIL,
+            self::COMMERCIAL,
+            self::COMMERCIAL_BASE,
+            self::COMMERCIAL_PLUS,
             self::CONTRACT
         ];
     }

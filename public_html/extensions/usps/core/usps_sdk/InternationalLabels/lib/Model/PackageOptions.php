@@ -175,8 +175,8 @@ class PackageOptions implements ModelInterface, ArrayAccess
     public function getNonDeliveryOptionAllowableValues()
     {
         return [
-            self::NON_DELIVERY_OPTION__RETURN
-            self::NON_DELIVERY_OPTION_REDIRECT
+            self::NON_DELIVERY_OPTION__RETURN,
+            self::NON_DELIVERY_OPTION_REDIRECT,
             self::NON_DELIVERY_OPTION_ABANDON
         ];
     }

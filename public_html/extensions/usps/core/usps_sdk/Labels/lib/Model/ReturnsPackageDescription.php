@@ -189,30 +189,30 @@ class ReturnsPackageDescription extends BaseReturnsPackageDescription
     public function getRateIndicatorAllowableValues()
     {
         return [
-            self::RATE_INDICATOR_CP
-            self::RATE_INDICATOR_DN
-            self::RATE_INDICATOR_DR
-            self::RATE_INDICATOR_E4
-            self::RATE_INDICATOR_E6
-            self::RATE_INDICATOR_FA
-            self::RATE_INDICATOR_FB
-            self::RATE_INDICATOR_FE
-            self::RATE_INDICATOR_FP
-            self::RATE_INDICATOR_FS
-            self::RATE_INDICATOR_OS
-            self::RATE_INDICATOR_P5
-            self::RATE_INDICATOR_P6
-            self::RATE_INDICATOR_P7
-            self::RATE_INDICATOR_P8
-            self::RATE_INDICATOR_P9
-            self::RATE_INDICATOR_PA
-            self::RATE_INDICATOR_PL
-            self::RATE_INDICATOR_PM
-            self::RATE_INDICATOR_Q6
-            self::RATE_INDICATOR_Q7
-            self::RATE_INDICATOR_Q8
-            self::RATE_INDICATOR_Q9
-            self::RATE_INDICATOR_Q0
+            self::RATE_INDICATOR_CP,
+            self::RATE_INDICATOR_DN,
+            self::RATE_INDICATOR_DR,
+            self::RATE_INDICATOR_E4,
+            self::RATE_INDICATOR_E6,
+            self::RATE_INDICATOR_FA,
+            self::RATE_INDICATOR_FB,
+            self::RATE_INDICATOR_FE,
+            self::RATE_INDICATOR_FP,
+            self::RATE_INDICATOR_FS,
+            self::RATE_INDICATOR_OS,
+            self::RATE_INDICATOR_P5,
+            self::RATE_INDICATOR_P6,
+            self::RATE_INDICATOR_P7,
+            self::RATE_INDICATOR_P8,
+            self::RATE_INDICATOR_P9,
+            self::RATE_INDICATOR_PA,
+            self::RATE_INDICATOR_PL,
+            self::RATE_INDICATOR_PM,
+            self::RATE_INDICATOR_Q6,
+            self::RATE_INDICATOR_Q7,
+            self::RATE_INDICATOR_Q8,
+            self::RATE_INDICATOR_Q9,
+            self::RATE_INDICATOR_Q0,
             self::RATE_INDICATOR_SP
         ];
     }

@@ -64,19 +64,19 @@ class MailClassOutboundOnly
     public static function getAllowableEnumValues()
     {
         return [
-            self::PARCEL_SELECT
-            self::PARCEL_SELECT_LIGHTWEIGHT
-            self::PRIORITY_MAIL_EXPRESS
-            self::PRIORITY_MAIL
-            self::FIRST_CLASS_PACKAGE_SERVICE
-            self::LIBRARY_MAIL
-            self::MEDIA_MAIL
-            self::BOUND_PRINTED_MATTER
-            self::USPS_CONNECT_LOCAL
-            self::USPS_CONNECT_MAIL
-            self::USPS_CONNECT_REGIONAL
-            self::USPS_GROUND_ADVANTAGE
-            self::USPS_RETAIL_GROUND
+            self::PARCEL_SELECT,
+            self::PARCEL_SELECT_LIGHTWEIGHT,
+            self::PRIORITY_MAIL_EXPRESS,
+            self::PRIORITY_MAIL,
+            self::FIRST_CLASS_PACKAGE_SERVICE,
+            self::LIBRARY_MAIL,
+            self::MEDIA_MAIL,
+            self::BOUND_PRINTED_MATTER,
+            self::USPS_CONNECT_LOCAL,
+            self::USPS_CONNECT_MAIL,
+            self::USPS_CONNECT_REGIONAL,
+            self::USPS_GROUND_ADVANTAGE,
+            self::USPS_RETAIL_GROUND,
             self::ALL
         ];
     }

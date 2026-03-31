@@ -43,14 +43,14 @@ class IndiciaImbExtraService
     /**
      * Possible values of this enum
      */
-    const 910 = 910;
-    const 911 = 911;
-    const 930 = 930;
-    const 934 = 934;
-    const 940 = 940;
-    const 941 = 941;
-    const 955 = 955;
-    const 957 = 957;
+    const _910 = 910;
+    const _911 = 911;
+    const _930 = 930;
+    const _934 = 934;
+    const _940 = 940;
+    const _941 = 941;
+    const _955 = 955;
+    const _957 = 957;
     /**
      * Gets allowable values of the enum
      * @return string[]
@@ -58,14 +58,14 @@ class IndiciaImbExtraService
     public static function getAllowableEnumValues()
     {
         return [
-            self::910
-            self::911
-            self::930
-            self::934
-            self::940
-            self::941
-            self::955
-            self::957
+            self::_910,
+            self::_911,
+            self::_930,
+            self::_934,
+            self::_940,
+            self::_941,
+            self::_955,
+            self::_957
         ];
     }
 }

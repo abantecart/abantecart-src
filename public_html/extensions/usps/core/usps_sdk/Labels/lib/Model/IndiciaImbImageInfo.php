@@ -215,7 +215,7 @@ class IndiciaImbImageInfo implements ModelInterface, ArrayAccess
     public function getReceiptOptionAllowableValues()
     {
         return [
-            self::RECEIPT_OPTION_SEPARATE_PAGE
+            self::RECEIPT_OPTION_SEPARATE_PAGE,
             self::RECEIPT_OPTION_NONE
         ];
     }
@@ -247,7 +247,7 @@ class IndiciaImbImageInfo implements ModelInterface, ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalidProperties = parent::listInvalidProperties();
+        $invalidProperties = [];
 
         $allowedValues = $this->getImageTypeAllowableValues();
         if (!is_null($this->container['image_type']) && !in_array($this->container['image_type'], $allowedValues, true)) {

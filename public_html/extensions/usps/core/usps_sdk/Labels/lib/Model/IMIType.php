@@ -53,8 +53,8 @@ class IMIType
     public static function getAllowableEnumValues()
     {
         return [
-            self::MIN
-            self::STD
+            self::MIN,
+            self::STD,
             self::MAX
         ];
     }

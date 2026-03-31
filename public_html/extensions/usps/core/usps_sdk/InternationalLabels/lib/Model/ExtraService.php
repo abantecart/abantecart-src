@@ -43,21 +43,21 @@ class ExtraService
     /**
      * Possible values of this enum
      */
-    const 480 = 480;
-    const 481 = 481;
-    const 482 = 482;
-    const 483 = 483;
-    const 484 = 484;
-    const 486 = 486;
-    const 487 = 487;
-    const 488 = 488;
-    const 813 = 813;
-    const 820 = 820;
-    const 826 = 826;
-    const 857 = 857;
-    const 930 = 930;
-    const 931 = 931;
-    const 955 = 955;
+    const _480 = 480;
+    const _481 = 481;
+    const _482 = 482;
+    const _483 = 483;
+    const _484 = 484;
+    const _486 = 486;
+    const _487 = 487;
+    const _488 = 488;
+    const _813 = 813;
+    const _820 = 820;
+    const _826 = 826;
+    const _857 = 857;
+    const _930 = 930;
+    const _931 = 931;
+    const _955 = 955;
     /**
      * Gets allowable values of the enum
      * @return string[]
@@ -65,21 +65,21 @@ class ExtraService
     public static function getAllowableEnumValues()
     {
         return [
-            self::480
-            self::481
-            self::482
-            self::483
-            self::484
-            self::486
-            self::487
-            self::488
-            self::813
-            self::820
-            self::826
-            self::857
-            self::930
-            self::931
-            self::955
+            self::_480,
+            self::_481,
+            self::_482,
+            self::_483,
+            self::_484,
+            self::_486,
+            self::_487,
+            self::_488,
+            self::_813,
+            self::_820,
+            self::_826,
+            self::_857,
+            self::_930,
+            self::_931,
+            self::_955
         ];
     }
 }

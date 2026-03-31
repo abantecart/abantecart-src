@@ -251,7 +251,7 @@ class PackageDescription implements ModelInterface, ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalidProperties = parent::listInvalidProperties();
+        $invalidProperties = [];
 
         $allowedValues = $this->getWeightUomAllowableValues();
         if (!is_null($this->container['weight_uom']) && !in_array($this->container['weight_uom'], $allowedValues, true)) {

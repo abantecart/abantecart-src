@@ -174,7 +174,7 @@ class InternationalPackageOptionsOriginalPackage implements ModelInterface, Arra
     public function getOriginalConstructCodeAllowableValues()
     {
         return [
-            self::ORIGINAL_CONSTRUCT_CODE_G01
+            self::ORIGINAL_CONSTRUCT_CODE_G01,
             self::ORIGINAL_CONSTRUCT_CODE_I01
         ];
     }

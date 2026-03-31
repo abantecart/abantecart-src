@@ -43,72 +43,72 @@ class ExtraService
     /**
      * Possible values of this enum
      */
-    const 415 = 415;
-    const 480 = 480;
-    const 481 = 481;
-    const 482 = 482;
-    const 483 = 483;
-    const 484 = 484;
-    const 485 = 485;
-    const 486 = 486;
-    const 487 = 487;
-    const 488 = 488;
-    const 489 = 489;
-    const 498 = 498;
-    const 500 = 500;
-    const 501 = 501;
-    const 502 = 502;
-    const 810 = 810;
-    const 811 = 811;
-    const 812 = 812;
-    const 813 = 813;
-    const 814 = 814;
-    const 815 = 815;
-    const 816 = 816;
-    const 817 = 817;
-    const 818 = 818;
-    const 819 = 819;
-    const 820 = 820;
-    const 821 = 821;
-    const 822 = 822;
-    const 823 = 823;
-    const 824 = 824;
-    const 825 = 825;
-    const 826 = 826;
-    const 827 = 827;
-    const 828 = 828;
-    const 829 = 829;
-    const 830 = 830;
-    const 831 = 831;
-    const 832 = 832;
-    const 853 = 853;
-    const 856 = 856;
-    const 857 = 857;
-    const 858 = 858;
-    const 910 = 910;
-    const 911 = 911;
-    const 912 = 912;
-    const 913 = 913;
-    const 915 = 915;
-    const 917 = 917;
-    const 920 = 920;
-    const 921 = 921;
-    const 922 = 922;
-    const 923 = 923;
-    const 924 = 924;
-    const 925 = 925;
-    const 930 = 930;
-    const 931 = 931;
-    const 934 = 934;
-    const 940 = 940;
-    const 941 = 941;
-    const 955 = 955;
-    const 957 = 957;
-    const 972 = 972;
-    const 981 = 981;
-    const 984 = 984;
-    const 986 = 986;
-    const 991 = 991;
+    const _415 = 415;
+    const _480 = 480;
+    const _481 = 481;
+    const _482 = 482;
+    const _483 = 483;
+    const _484 = 484;
+    const _485 = 485;
+    const _486 = 486;
+    const _487 = 487;
+    const _488 = 488;
+    const _489 = 489;
+    const _498 = 498;
+    const _500 = 500;
+    const _501 = 501;
+    const _502 = 502;
+    const _810 = 810;
+    const _811 = 811;
+    const _812 = 812;
+    const _813 = 813;
+    const _814 = 814;
+    const _815 = 815;
+    const _816 = 816;
+    const _817 = 817;
+    const _818 = 818;
+    const _819 = 819;
+    const _820 = 820;
+    const _821 = 821;
+    const _822 = 822;
+    const _823 = 823;
+    const _824 = 824;
+    const _825 = 825;
+    const _826 = 826;
+    const _827 = 827;
+    const _828 = 828;
+    const _829 = 829;
+    const _830 = 830;
+    const _831 = 831;
+    const _832 = 832;
+    const _853 = 853;
+    const _856 = 856;
+    const _857 = 857;
+    const _858 = 858;
+    const _910 = 910;
+    const _911 = 911;
+    const _912 = 912;
+    const _913 = 913;
+    const _915 = 915;
+    const _917 = 917;
+    const _920 = 920;
+    const _921 = 921;
+    const _922 = 922;
+    const _923 = 923;
+    const _924 = 924;
+    const _925 = 925;
+    const _930 = 930;
+    const _931 = 931;
+    const _934 = 934;
+    const _940 = 940;
+    const _941 = 941;
+    const _955 = 955;
+    const _957 = 957;
+    const _972 = 972;
+    const _981 = 981;
+    const _984 = 984;
+    const _986 = 986;
+    const _991 = 991;
     /**
      * Gets allowable values of the enum
      * @return string[]
@@ -116,72 +116,72 @@ class ExtraService
     public static function getAllowableEnumValues()
     {
         return [
-            self::415
-            self::480
-            self::481
-            self::482
-            self::483
-            self::484
-            self::485
-            self::486
-            self::487
-            self::488
-            self::489
-            self::498
-            self::500
-            self::501
-            self::502
-            self::810
-            self::811
-            self::812
-            self::813
-            self::814
-            self::815
-            self::816
-            self::817
-            self::818
-            self::819
-            self::820
-            self::821
-            self::822
-            self::823
-            self::824
-            self::825
-            self::826
-            self::827
-            self::828
-            self::829
-            self::830
-            self::831
-            self::832
-            self::853
-            self::856
-            self::857
-            self::858
-            self::910
-            self::911
-            self::912
-            self::913
-            self::915
-            self::917
-            self::920
-            self::921
-            self::922
-            self::923
-            self::924
-            self::925
-            self::930
-            self::931
-            self::934
-            self::940
-            self::941
-            self::955
-            self::957
-            self::972
-            self::981
-            self::984
-            self::986
-            self::991
+            self::_415,
+            self::_480,
+            self::_481,
+            self::_482,
+            self::_483,
+            self::_484,
+            self::_485,
+            self::_486,
+            self::_487,
+            self::_488,
+            self::_489,
+            self::_498,
+            self::_500,
+            self::_501,
+            self::_502,
+            self::_810,
+            self::_811,
+            self::_812,
+            self::_813,
+            self::_814,
+            self::_815,
+            self::_816,
+            self::_817,
+            self::_818,
+            self::_819,
+            self::_820,
+            self::_821,
+            self::_822,
+            self::_823,
+            self::_824,
+            self::_825,
+            self::_826,
+            self::_827,
+            self::_828,
+            self::_829,
+            self::_830,
+            self::_831,
+            self::_832,
+            self::_853,
+            self::_856,
+            self::_857,
+            self::_858,
+            self::_910,
+            self::_911,
+            self::_912,
+            self::_913,
+            self::_915,
+            self::_917,
+            self::_920,
+            self::_921,
+            self::_922,
+            self::_923,
+            self::_924,
+            self::_925,
+            self::_930,
+            self::_931,
+            self::_934,
+            self::_940,
+            self::_941,
+            self::_955,
+            self::_957,
+            self::_972,
+            self::_981,
+            self::_984,
+            self::_986,
+            self::_991
         ];
     }
 }

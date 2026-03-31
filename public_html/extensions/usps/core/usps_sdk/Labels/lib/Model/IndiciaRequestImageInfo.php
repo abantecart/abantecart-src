@@ -215,7 +215,7 @@ class IndiciaRequestImageInfo implements ModelInterface, ArrayAccess
     public function getLabelTypeAllowableValues()
     {
         return [
-            self::LABEL_TYPE__2_X15_LABEL
+            self::LABEL_TYPE__2_X15_LABEL,
             self::LABEL_TYPE_IMI_DATA_ONLY
         ];
     }

@@ -174,7 +174,7 @@ class TokenRevokeRequest implements ModelInterface, ArrayAccess
     public function getTokenTypeHintAllowableValues()
     {
         return [
-            self::TOKEN_TYPE_HINT_ACCESS_TOKEN
+            self::TOKEN_TYPE_HINT_ACCESS_TOKEN,
             self::TOKEN_TYPE_HINT_REFRESH_TOKEN
         ];
     }

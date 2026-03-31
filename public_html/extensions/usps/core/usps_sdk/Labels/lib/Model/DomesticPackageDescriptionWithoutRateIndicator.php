@@ -197,19 +197,19 @@ class DomesticPackageDescriptionWithoutRateIndicator extends BaseDomesticPackage
     public function getPackagingTypeAllowableValues()
     {
         return [
-            self::PACKAGING_TYPE_VARIABLE
-            self::PACKAGING_TYPE__5_DIGIT_PRESORT
-            self::PACKAGING_TYPE_BASIC_PRESORT
-            self::PACKAGING_TYPE_FLAT_RATE_ENVELOPE
-            self::PACKAGING_TYPE_LEGAL_FLAT_RATE_ENVELOPE
-            self::PACKAGING_TYPE_PADDED_FLAT_RATE_ENVELOPE
-            self::PACKAGING_TYPE_SM_FLAT_RATE_BOX
-            self::PACKAGING_TYPE_MD_FLAT_RATE_BOX
-            self::PACKAGING_TYPE_LG_FLAT_RATE_BOX
-            self::PACKAGING_TYPE_CUBIC_PARCELS
-            self::PACKAGING_TYPE_CUBIC_SOFT_PACK
-            self::PACKAGING_TYPE_CONNECT_LOCAL_FLAT_RATE_BOX
-            self::PACKAGING_TYPE_CONNECT_LOCAL_SMALL_FLAT_RATE_BAG
+            self::PACKAGING_TYPE_VARIABLE,
+            self::PACKAGING_TYPE__5_DIGIT_PRESORT,
+            self::PACKAGING_TYPE_BASIC_PRESORT,
+            self::PACKAGING_TYPE_FLAT_RATE_ENVELOPE,
+            self::PACKAGING_TYPE_LEGAL_FLAT_RATE_ENVELOPE,
+            self::PACKAGING_TYPE_PADDED_FLAT_RATE_ENVELOPE,
+            self::PACKAGING_TYPE_SM_FLAT_RATE_BOX,
+            self::PACKAGING_TYPE_MD_FLAT_RATE_BOX,
+            self::PACKAGING_TYPE_LG_FLAT_RATE_BOX,
+            self::PACKAGING_TYPE_CUBIC_PARCELS,
+            self::PACKAGING_TYPE_CUBIC_SOFT_PACK,
+            self::PACKAGING_TYPE_CONNECT_LOCAL_FLAT_RATE_BOX,
+            self::PACKAGING_TYPE_CONNECT_LOCAL_SMALL_FLAT_RATE_BAG,
             self::PACKAGING_TYPE_CONNECT_LOCAL_LARGE_FLAT_RATE_BAG
         ];
     }
