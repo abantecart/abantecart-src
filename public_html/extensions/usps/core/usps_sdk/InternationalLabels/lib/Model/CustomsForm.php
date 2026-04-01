@@ -239,7 +239,7 @@ class CustomsForm implements ModelInterface, ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalidProperties = parent::listInvalidProperties();
+        $invalidProperties = [];
 
         $allowedValues = $this->getRestrictionTypeAllowableValues();
         if (!is_null($this->container['restriction_type']) && !in_array($this->container['restriction_type'], $allowedValues, true)) {

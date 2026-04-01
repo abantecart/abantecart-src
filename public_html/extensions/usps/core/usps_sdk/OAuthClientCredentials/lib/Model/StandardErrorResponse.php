@@ -219,7 +219,7 @@ class StandardErrorResponse implements ModelInterface, ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalidProperties = parent::listInvalidProperties();
+        $invalidProperties = [];
 
         $allowedValues = $this->getErrorAllowableValues();
         if (!is_null($this->container['error']) && !in_array($this->container['error'], $allowedValues, true)) {

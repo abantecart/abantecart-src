@@ -191,7 +191,7 @@ class IndiciaRequest implements ModelInterface, ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalidProperties = parent::listInvalidProperties();
+        $invalidProperties = [];
 
         if ($this->container['indicia_description'] === null) {
             $invalidProperties[] = "'indicia_description' can't be null";

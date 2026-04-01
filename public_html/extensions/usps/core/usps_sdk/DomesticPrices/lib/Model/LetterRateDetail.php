@@ -263,7 +263,7 @@ class LetterRateDetail implements ModelInterface, ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalidProperties = parent::listInvalidProperties();
+        $invalidProperties = [];
 
         $allowedValues = $this->getPriceTypeAllowableValues();
         if (!is_null($this->container['price_type']) && !in_array($this->container['price_type'], $allowedValues, true)) {
