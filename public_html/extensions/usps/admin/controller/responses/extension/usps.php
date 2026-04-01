@@ -184,7 +184,7 @@ class ControllerResponsesExtensionUsps extends AController
                     header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
                     header('Content-Description: File Transfer');
                     header('Content-Type: application/pdf');
-                    header('Content-Disposition: attachment; filename="order_label_' . $order_id . '.' . $tn . '.pdf"');
+                    header('Content-Disposition: inline; filename="order_label_' . $order_id . '.' . $tn . '.pdf"');
                     header('Content-Transfer-Encoding: binary');
                     header('Content-Length: ' . filesize($filename));
                     readfile($filename);

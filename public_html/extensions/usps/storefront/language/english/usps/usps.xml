@@ -26,27 +26,27 @@
 	</definition>
 	<definition>
 		<key>text_domestic_2</key>
-		<value><![CDATA[Express Mail Hold for Pickup]]></value>
+		<value><![CDATA[Priority Mail Express]]></value>
 	</definition>
 	<definition>
 		<key>text_domestic_3</key>
-		<value><![CDATA[Express Mail PO to Addressee]]></value>
+		<value><![CDATA[Parcel Select]]></value>
 	</definition>
 	<definition>
 		<key>text_domestic_4</key>
-		<value><![CDATA[Parcel Post]]></value>
-	</definition>
-	<definition>
-		<key>text_domestic_5</key>
 		<value><![CDATA[Bound Printed Matter]]></value>
 	</definition>
 	<definition>
-		<key>text_domestic_6</key>
+		<key>text_domestic_5</key>
 		<value><![CDATA[Media Mail]]></value>
 	</definition>
 	<definition>
+		<key>text_domestic_6</key>
+		<value><![CDATA[Library Mail]]></value>
+	</definition>
+	<definition>
 		<key>text_domestic_7</key>
-		<value><![CDATA[Library]]></value>
+		<value><![CDATA[USPS Ground Advantage]]></value>
 	</definition>
 	<definition>
 		<key>text_domestic_12</key>
@@ -94,15 +94,19 @@
 	</definition>
 	<definition>
 		<key>text_international_1</key>
-		<value><![CDATA[Express Mail International]]></value>
+		<value><![CDATA[Priority Mail Express International]]></value>
 	</definition>
 	<definition>
 		<key>text_international_2</key>
 		<value><![CDATA[Priority Mail International]]></value>
 	</definition>
 	<definition>
+		<key>text_international_3</key>
+		<value><![CDATA[Global Express Guaranteed (GXG)]]></value>
+	</definition>
+	<definition>
 		<key>text_international_4</key>
-		<value><![CDATA[Global Express Guaranteed (Document and Non-document)]]></value>
+		<value><![CDATA[First-Class Package International Service]]></value>
 	</definition>
 	<definition>
 		<key>text_international_5</key>

@@ -13,7 +13,7 @@
 		<value><![CDATA[USPS Settings]]></value>
 	</definition>
 	<definition>
-		<key>text_success</key>
+		<key>text_usps_success</key>
 		<value><![CDATA[Success: You have modified United States Postal Service!]]></value>
 	</definition>
 	<definition>
@@ -132,22 +132,62 @@
 		<key>usps_client_id</key>
 		<value><![CDATA[API Client ID:<span class="help">You can find it in your application section on https://developers.usps.com</span>]]></value>
 	</definition>
-	<definition>
-		<key>text_client_id_shipping</key>
-		<value><![CDATA[API Client ID]]></value>
-	</definition>
-	<definition>
-		<key>entry_client_secret</key>
-		<value><![CDATA[API Client Secret<br/><span class="help">You can find it in your application section on https://developers.usps.com</span>]]></value>
-	</definition>
-	<definition>
-		<key>usps_generate_payment_token</key>
-		<value><![CDATA[Test Label Generation]]></value>
-	</definition>
-	<definition>
-		<key>usps_payment_crid</key>
-		<value><![CDATA[Customer Registration ID (CRID):<span class="help">Required for USPS label generation. You can find it in your account section on https://developers.usps.com</span>]]></value>
-	</definition>
+		<definition>
+			<key>text_client_id_shipping</key>
+			<value><![CDATA[API Client ID]]></value>
+		</definition>
+		<definition>
+			<key>text_country_shipping</key>
+			<value><![CDATA[Shipper Country &amp; Zone]]></value>
+		</definition>
+		<definition>
+			<key>text_address_shipping</key>
+			<value><![CDATA[Shipper Address]]></value>
+		</definition>
+		<definition>
+			<key>text_city_shipping</key>
+			<value><![CDATA[Shipper City]]></value>
+		</definition>
+		<definition>
+			<key>text_telephone_shipping</key>
+			<value><![CDATA[Shipper Phone Number (10 digits or more)]]></value>
+		</definition>
+		<definition>
+			<key>entry_client_secret</key>
+			<value><![CDATA[API Client Secret<br/><span class="help">You can find it in your application section on https://developers.usps.com</span>]]></value>
+		</definition>
+		<definition>
+			<key>usps_generate_payment_token</key>
+			<value><![CDATA[Test Label Generation:<span class="help">For label generation, USPS may require additional permissions for payment token generation on your account. Contact USPS support to enable this access.</span>]]></value>
+		</definition>
+		<definition>
+			<key>usps_generate_payment_token_button</key>
+			<value><![CDATA[Test Label Generation]]></value>
+		</definition>
+		<definition>
+			<key>usps_country</key>
+			<value><![CDATA[Shipper Country &amp; Zone]]></value>
+		</definition>
+		<definition>
+			<key>usps_telephone</key>
+			<value><![CDATA[Shipper Phone Number (10 digits or more)]]></value>
+		</definition>
+		<definition>
+			<key>usps_address</key>
+			<value><![CDATA[Shipper Address]]></value>
+		</definition>
+		<definition>
+			<key>usps_city</key>
+			<value><![CDATA[Shipper City]]></value>
+		</definition>
+		<definition>
+			<key>usps_postcode</key>
+			<value><![CDATA[Shipper Postal Code]]></value>
+		</definition>
+		<definition>
+			<key>usps_payment_crid</key>
+			<value><![CDATA[Customer Registration ID (CRID):<span class="help">Required for USPS label generation. You can find it in your account section on https://developers.usps.com</span>]]></value>
+		</definition>
 	<definition>
 		<key>usps_payment_mid</key>
 		<value><![CDATA[Mailer ID (MID):<span class="help">Required for USPS label generation. You can find it in your account section on https://developers.usps.com</span>]]></value>
@@ -179,10 +219,6 @@
 		<definition>
 			<key>usps_debug</key>
 			<value><![CDATA[Debug Logging Status]]></value>
-		</definition>
-		<definition>
-			<key>usps_postcode</key>
-			<value><![CDATA[Zip Code]]></value>
 		</definition>
 		<definition>
 			<key>usps_domestic_1</key>
@@ -462,6 +498,6 @@
 	</definition>
 	<definition>
 		<key>usps_shipment_created_success_message</key>
-		<value><![CDATA[USPS Shipment has been successfully created. See more info <a href="%s">here</a>]]></value>
+		<value><![CDATA[USPS Shipment has been successfully created. Tracking number: %s. See more info <a href="%s">here</a>]]></value>
 	</definition>
 </definitions>

@@ -62,7 +62,7 @@ class ControllerPagesExtensionUsps extends AController
 
         if ($this->request->is_POST() && $this->_validate()) {
             $this->model_setting_setting->editSetting('usps', $this->request->post);
-            $this->session->data['success'] = $this->language->get('text_success');
+            $this->session->data['success'] = $this->language->get('text_usps_success');
             redirect($this->html->getSecureURL('extension/usps'));
         }
 
@@ -245,16 +245,16 @@ class ControllerPagesExtensionUsps extends AController
             'options' => $locations,
             'value'   => $this->data['usps_location_id'],
         ]);
-        $this->data['form']['fields']['sort_order'] = $form->getFieldHtml([
-            'type'  => 'input',
-            'name'  => 'usps_sort_order',
-            'value' => $this->data['usps_sort_order'],
-        ]);
         $this->data['form']['fields']['manifest_order_status_id'] = $form->getFieldHtml([
             'type'    => 'selectbox',
             'name'    => 'usps_manifest_order_status_id',
             'options' => $order_statuses,
             'value'   => $this->data['usps_manifest_order_status_id'],
+        ]);
+        $this->data['form']['fields']['sort_order'] = $form->getFieldHtml([
+            'type'  => 'input',
+            'name'  => 'usps_sort_order',
+            'value' => $this->data['usps_sort_order'],
         ]);
 
         //load tabs controller

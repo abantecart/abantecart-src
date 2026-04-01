@@ -99,6 +99,12 @@ class UspsErrorParser
         if ($message !== '') {
             return $message;
         }
+        if (isset($errorField['errors']) && is_array($errorField['errors'])) {
+            $errorsMessage = $this->extractDetailsMessage($errorField['errors']);
+            if ($errorsMessage !== '') {
+                return $errorsMessage;
+            }
+        }
         if (!isset($errorField['details']) || !is_array($errorField['details'])) {
             return '';
         }

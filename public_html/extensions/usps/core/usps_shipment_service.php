@@ -10,16 +10,12 @@ require_once(DIR_EXT . 'usps' . DS . 'core' . DS . 'usps_error_parser.php');
 require_once(DIR_EXT . 'usps' . DS . 'core' . DS . 'usps_token_service.php');
 
 use GuzzleHttp\Client;
-use USPS\InternationalLabels\Api\ResourcesApi as InternationalLabelsApi;
-use USPS\InternationalLabels\Configuration as InternationalLabelsConfiguration;
 use USPS\InternationalLabels\Model\ImageInfo as InternationalImageInfo;
 use USPS\InternationalLabels\Model\InternationalCustomsForm;
 use USPS\InternationalLabels\Model\InternationalLabelAddress;
 use USPS\InternationalLabels\Model\InternationalLabelRequest;
 use USPS\InternationalLabels\Model\InternationalPackageDescription;
 use USPS\InternationalLabels\Model\InternationalShippingContents;
-use USPS\Labels\Api\ResourcesApi as DomesticLabelsApi;
-use USPS\Labels\Configuration as DomesticLabelsConfiguration;
 use USPS\Labels\Model\DomesticLabelAddress;
 use USPS\Labels\Model\DomesticLabelToAddress;
 use USPS\Labels\Model\DomesticPackageDescription;
@@ -29,6 +25,7 @@ use USPS\Labels\Model\LabelRequest as DomesticLabelRequest;
 class UspsShipmentService
 {
     public $errors = [];
+    public $lastShipment = [];
 
     private const USPS_V3_DOMESTIC_CLASS_MAP = [
         1    => ['mailClass' => 'PRIORITY_MAIL', 'processingCategory' => 'MACHINABLE'],
@@ -67,6 +64,7 @@ class UspsShipmentService
     public function createShipment($order_info)
     {
         $this->errors = [];
+        $this->lastShipment = [];
         if (!$order_info || !$order_info['order_id']) {
             return false;
         }
@@ -79,6 +77,11 @@ class UspsShipmentService
             return false;
         }
         if (!empty($savedData['shipmentId'])) {
+            $existingTracking = ($savedData['packages'][0]['tracking_number'] ?? $savedData['shipmentId']);
+            $this->lastShipment = [
+                'shipment_id'      => $savedData['shipmentId'],
+                'tracking_number'  => $existingTracking,
+            ];
             return true;
         }
 
@@ -96,42 +99,56 @@ class UspsShipmentService
         }
         $paymentAuthorizationToken = $paymentTokenData['token'];
 
-        $serviceClassId = $this->extractServiceClassId((string)$order_info['shipping_method_key']);
+        $serviceClassId = $this->extractServiceClassId($order_info['shipping_method_key']);
         if (!$serviceClassId) {
             $this->errors[] = 'Unable to detect USPS service from order shipping method key.';
             return false;
         }
 
-        $isInternational = strtoupper((string)$order_info['shipping_iso_code_2']) !== 'US';
-        $payload = $this->buildLabelPayload($order_info, $serviceClassId, $isInternational, $savedData['usps_parcel_data'] ?? []);
+        $isInternational = $order_info['shipping_iso_code_2'] !== 'US';
+        $payload = $this->buildLabelPayload(
+            $order_info,
+            $serviceClassId,
+            $isInternational,
+            $savedData['usps_parcel_data'] ?? [],
+            $savedData['fromAddress'] ?? []
+        );
         if (!$payload) {
             return false;
         }
 
         try {
+            $compliance = null;
+            if ((bool)$this->config->get('usps_debug')) {
+                $this->log->write(
+                    __METHOD__ . ' order_id=' . $order_id . ' USPS payload: ' . json_encode(
+                        $payload,
+                        JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+                    )
+                );
+            }
             if ($isInternational) {
-                $config = InternationalLabelsConfiguration::getDefaultConfiguration()
-                    ->setHost($baseUrl . '/international-labels/v3')
-                    ->setAccessToken($tokenData['token']);
-                $apiClient = new InternationalLabelsApi(new Client(['timeout' => 30]), $config);
-                $request = $this->buildInternationalLabelRequest($payload);
-                $response = $apiClient->postInternationalLabel($request, $paymentAuthorizationToken);
-                $metadata = $response->getLabelMetadata();
-                $trackingNumber = $metadata ? (string)$metadata->getInternationalTrackingNumber() : '';
-                $imageBase64 = (string)$response->getLabelImage();
+                $compliance = $this->resolveInternationalCompliance($order_info, $savedData);
+                $request = $this->buildInternationalLabelRequest($payload, (string)($compliance['value'] ?? ''));
+                [$trackingNumber, $imageBase64] = $this->requestInternationalLabelRaw(
+                    $baseUrl,
+                    $tokenData['token'],
+                    $paymentAuthorizationToken,
+                    $request
+                );
             } else {
-                $config = DomesticLabelsConfiguration::getDefaultConfiguration()
-                    ->setHost($baseUrl . '/labels/v3')
-                    ->setAccessToken($tokenData['token']);
-                $apiClient = new DomesticLabelsApi(new Client(['timeout' => 30]), $config);
                 $request = $this->buildDomesticLabelRequest($payload);
-                $response = $apiClient->postLabel($request, $paymentAuthorizationToken);
-                $metadata = $response->getLabelMetadata();
-                $trackingNumber = $metadata ? (string)$metadata->getTrackingNumber() : '';
-                $imageBase64 = (string)$response->getLabelImage();
+                [$trackingNumber, $imageBase64] = $this->requestDomesticLabelRaw(
+                    $baseUrl,
+                    $tokenData['token'],
+                    $paymentAuthorizationToken,
+                    $request
+                );
             }
         } catch (\Throwable $e) {
-            $this->errors[] = $this->formatUspsError($e, 'USPS Label API error');
+            $apiError = $this->formatUspsError($e, 'USPS Label API error');
+            $this->log->write(__METHOD__ . ' order_id=' . $order_id . ' ' . $apiError);
+            $this->errors[] = $apiError;
             return false;
         }
 
@@ -151,7 +168,6 @@ class UspsShipmentService
             'packages'   => [
                 [
                     'tracking_number' => $trackingNumber,
-                    'label'           => $imageBase64,
                     'file'            => basename($filename),
                     'image_type'      => 'pdf',
                 ],
@@ -166,8 +182,45 @@ class UspsShipmentService
         if (!empty($savedData['usps_parcel_data'])) {
             $saveData['usps_parcel_data'] = $savedData['usps_parcel_data'];
         }
+        if (!empty($compliance) && is_array($compliance)) {
+            $saveData['compliance'] = [
+                'aesitn' => (string)($compliance['value'] ?? ''),
+                'source' => (string)($compliance['source'] ?? ''),
+                'rule_id' => (string)($compliance['rule_id'] ?? ''),
+            ];
+        }
 
-        return (bool)$this->saveOrderShippingData($order_id, $saveData);
+        $saved = (bool)$this->saveOrderShippingData($order_id, $saveData);
+        if ($saved) {
+            $this->lastShipment = [
+                'shipment_id'      => $trackingNumber,
+                'tracking_number'  => $trackingNumber,
+            ];
+        }
+        return $saved;
+    }
+
+    public static function resolveTrackUrl(array $package, array $uspsData, int $index = 0): string
+    {
+        $trackUrl = ($package['track_url'] ?? '');
+        if ($trackUrl !== '') {
+            return $trackUrl;
+        }
+
+        $trackUrls = (array)($uspsData['track_urls'] ?? []);
+        if (isset($trackUrls[$index])) {
+            $trackUrlFromList = $trackUrls[$index];
+            if ($trackUrlFromList !== '') {
+                return $trackUrlFromList;
+            }
+        }
+
+        $trackingNumber = ($package['tracking_number'] ?? '');
+        if ($trackingNumber === '') {
+            return '';
+        }
+
+        return 'https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=' . urlencode($trackingNumber);
     }
 
     private function saveOrderShippingData($order_id, $data)
@@ -258,12 +311,89 @@ class UspsShipmentService
         return (int)$classId;
     }
 
-    private function normalizeZipCode($zip)
+    private function resolveStoreStateCode()
     {
-        return substr(preg_replace('/[^0-9]/', '', (string)$zip), 0, 5);
+        $zoneId = (int)$this->config->get('usps_country_zone');
+        if ($zoneId > 0) {
+            $result = $this->db->query(
+                "SELECT code
+                 FROM " . $this->db->table('zones') . "
+                 WHERE zone_id = '" . $zoneId . "'
+                 LIMIT 1"
+            );
+            $state = ($result->row['code'] ?? '');
+            if ($state !== '') {
+                return $state;
+            }
+        }
+
+        return '';
     }
 
-    private function buildLabelPayload(array $orderInfo, int $serviceClassId, bool $isInternational, array $parcelData)
+    private function resolveStoreCountryCode()
+    {
+        $countryId = (int)$this->config->get('usps_country');
+        if ($countryId <= 0) {
+            return '';
+        }
+
+        $result = $this->db->query(
+            "SELECT iso_code_2
+             FROM " . $this->db->table('countries') . "
+             WHERE country_id = '" . $countryId . "'
+             LIMIT 1"
+        );
+
+        return ($result->row['iso_code_2'] ?? '');
+    }
+
+    private function getStoreFromAddress(array $savedFromAddress = []): array
+    {
+        return [
+            'name'              => $savedFromAddress['name'] ?? $this->config->get('store_name'),
+            'firm'              => $savedFromAddress['firm'] ?? $this->config->get('store_name'),
+            'street_address'    => $savedFromAddress['street_address'] ?? $this->config->get('usps_address'),
+            'secondary_address' => $savedFromAddress['secondary_address'] ?? '',
+            'city'              => $savedFromAddress['city'] ?? $this->config->get('usps_city'),
+            'state'             => $savedFromAddress['state'] ?? $this->resolveStoreStateCode(),
+            'zip_code'          => $savedFromAddress['zip_code'] ?? $this->config->get('usps_postcode'),
+            'country_code'      => $savedFromAddress['country_code'] ?? $this->resolveStoreCountryCode(),
+            'phone'             => $savedFromAddress['phone'] ?? $this->config->get('usps_telephone'),
+            'email'             => $savedFromAddress['email'] ?? $this->config->get('store_main_email'),
+        ];
+    }
+
+    private function resolveOrderStateCode(array $orderInfo)
+    {
+        $state = ($orderInfo['shipping_zone_code'] ?? '');
+        if ($state !== '') {
+            return $state;
+        }
+
+        $zoneId = (int)($orderInfo['shipping_zone_id'] ?? 0);
+        if ($zoneId > 0) {
+            $result = $this->db->query(
+                "SELECT code
+                 FROM " . $this->db->table('zones') . "
+                 WHERE zone_id = '" . $zoneId . "'
+                 LIMIT 1"
+            );
+            $state = ($result->row['code'] ?? '');
+            if ($state !== '') {
+                return $state;
+            }
+        }
+
+        return '';
+    }
+
+    private function buildLabelPayload(
+        array $orderInfo,
+        int $serviceClassId,
+        bool $isInternational,
+        array $parcelData,
+        array $savedFromAddress = []
+    )
     {
         $serviceMap = $isInternational ? self::USPS_V3_INTL_CLASS_MAP : self::USPS_V3_DOMESTIC_CLASS_MAP;
         if (empty($serviceMap[$serviceClassId])) {
@@ -271,40 +401,50 @@ class UspsShipmentService
             return [];
         }
 
-        $shippingName = trim((string)$orderInfo['shipping_firstname'] . ' ' . (string)$orderInfo['shipping_lastname']);
-        $shipperName = (string)$this->config->get('store_name');
+        $shippingFirstName = $orderInfo['shipping_firstname'];
+        $shippingLastName = $orderInfo['shipping_lastname'];
+        $shippingName = ($shippingFirstName !== '' && $shippingLastName !== '')
+            ? $shippingFirstName . ' ' . $shippingLastName
+            : $shippingFirstName . $shippingLastName;
+        $shipperName = $this->config->get('store_name');
         $weight = max((float)($parcelData['weight'] ?? 1), 0.1);
         $length = max((float)($parcelData['depth'] ?? $this->config->get('usps_length')), 0.1);
         $width = max((float)($parcelData['width'] ?? $this->config->get('usps_width')), 0.1);
         $height = max((float)($parcelData['height'] ?? $this->config->get('usps_height')), 0.1);
+        $fromAddress = $this->getStoreFromAddress($savedFromAddress);
+        $fromState = $fromAddress['state'];
+        $fromCountryCode = $fromAddress['country_code'];
+        $fromCity = $fromAddress['city'];
+        $fromZip = $fromAddress['zip_code'];
+        $toState = $this->resolveOrderStateCode($orderInfo);
 
         return [
             'is_international' => $isInternational,
             'mail_class' => $serviceMap[$serviceClassId]['mailClass'],
             'processing_category' => $serviceMap[$serviceClassId]['processingCategory'],
             'to' => [
-                'name' => $shippingName ?: (string)$orderInfo['shipping_address_1'],
-                'firm' => (string)$orderInfo['shipping_company'],
-                'street_address' => (string)$orderInfo['shipping_address_1'],
-                'secondary_address' => (string)$orderInfo['shipping_address_2'],
-                'city' => (string)$orderInfo['shipping_city'],
-                'state' => (string)$orderInfo['shipping_zone_code'],
-                'zip_code' => $isInternational
-                    ? (string)$orderInfo['shipping_postcode']
-                    : $this->normalizeZipCode($orderInfo['shipping_postcode']),
-                'country_code' => strtoupper((string)$orderInfo['shipping_iso_code_2']),
-                'phone' => preg_replace('/\D+/', '', (string)$orderInfo['telephone']),
+                'name' => $shippingName ?: $orderInfo['shipping_address_1'],
+                'firm' => $orderInfo['shipping_company'] ?: ($shippingName ?: $orderInfo['shipping_address_1']),
+                'street_address' => $orderInfo['shipping_address_1'],
+                'secondary_address' => $orderInfo['shipping_address_2'],
+                'city' => $orderInfo['shipping_city'],
+                'state' => $toState,
+                'zip_code' => $orderInfo['shipping_postcode'],
+                'country_code' => $orderInfo['shipping_iso_code_2'],
+                'country_name' => $orderInfo['shipping_country'],
+                'phone' => $orderInfo['telephone'],
             ],
             'from' => [
-                'name' => $shipperName ?: 'Store',
-                'firm' => $shipperName,
-                'street_address' => (string)$this->config->get('config_address'),
-                'city' => (string)$this->config->get('config_city'),
-                'state' => (string)$this->config->get('config_zone_code'),
-                'zip_code' => $this->normalizeZipCode($this->config->get('usps_postcode') ?: $this->config->get('config_postcode')),
-                'country_code' => strtoupper((string)$this->config->get('config_country_iso_code_2') ?: 'US'),
-                'phone' => preg_replace('/\D+/', '', (string)$this->config->get('config_telephone')),
-                'email' => (string)$this->config->get('store_main_email'),
+                'name' => $fromAddress['name'] ?: ($shipperName ?: 'Store'),
+                'firm' => $fromAddress['firm'] ?: $shipperName,
+                'street_address' => $fromAddress['street_address'],
+                'secondary_address' => $fromAddress['secondary_address'],
+                'city' => $fromCity,
+                'state' => $fromState,
+                'zip_code' => $fromZip,
+                'country_code' => $fromCountryCode,
+                'phone' => $fromAddress['phone'],
+                'email' => $fromAddress['email'],
             ],
             'package' => [
                 'weight' => $weight,
@@ -333,9 +473,11 @@ class UspsShipmentService
                 'first_name'     => $payload['from']['name'],
                 'firm'           => $payload['from']['firm'],
                 'street_address' => $payload['from']['street_address'],
+                'secondary_address' => $payload['from']['secondary_address'],
                 'city'           => $payload['from']['city'],
                 'state'          => $payload['from']['state'],
                 'zip_code'       => $payload['from']['zip_code'],
+                'ignore_bad_address' => true,
             ]
         );
         $packageDescription = new DomesticPackageDescription(
@@ -344,7 +486,7 @@ class UspsShipmentService
                 'processing_category'            => $payload['processing_category'],
                 'destination_entry_facility_type' => 'NONE',
                 'mailing_date'                   => date('Y-m-d'),
-                'rate_indicator'                 => 'SP',
+                'rate_indicator'                 => 'DR',
                 'shape'                          => 'RECTANGLE',
                 'packaging_type'                 => 'VARIABLE',
                 'weight_uom'                     => 'lb',
@@ -366,7 +508,7 @@ class UspsShipmentService
         );
     }
 
-    private function buildInternationalLabelRequest(array $payload)
+    private function buildInternationalLabelRequest(array $payload, string $aesItn)
     {
         $toAddress = new InternationalLabelAddress(
             [
@@ -375,8 +517,9 @@ class UspsShipmentService
                 'street_address'    => $payload['to']['street_address'],
                 'secondary_address' => $payload['to']['secondary_address'],
                 'city'              => $payload['to']['city'],
-                'country'           => $payload['to']['country_code'],
-                'postal_code'       => strtoupper(substr(preg_replace('/\s+/', '', (string)$payload['to']['zip_code']), 0, 10)),
+                'country'           => $payload['to']['country_name'] ?: $payload['to']['country_code'],
+                'country_iso_alpha2_code' => $payload['to']['country_code'],
+                'postal_code'       => $payload['to']['zip_code'],
                 'phone'             => $payload['to']['phone'],
             ]
         );
@@ -385,9 +528,11 @@ class UspsShipmentService
                 'first_name'     => $payload['from']['name'],
                 'firm'           => $payload['from']['firm'],
                 'street_address' => $payload['from']['street_address'],
+                'secondary_address' => $payload['from']['secondary_address'],
                 'city'           => $payload['from']['city'],
                 'state'          => $payload['from']['state'],
                 'zip_code'       => $payload['from']['zip_code'],
+                'ignore_bad_address' => true,
             ]
         );
         $packageDescription = new InternationalPackageDescription(
@@ -397,7 +542,6 @@ class UspsShipmentService
                 'destination_entry_facility_type' => 'NONE',
                 'mailing_date'                   => date('Y-m-d'),
                 'rate_indicator'                 => 'SP',
-                'packaging_type'                 => 'VARIABLE',
                 'weight_uom'                     => 'lb',
                 'weight'                         => $payload['package']['weight'],
                 'dimensions_uom'                 => 'in',
@@ -409,10 +553,11 @@ class UspsShipmentService
         $customsForm = new InternationalCustomsForm(
             [
                 'customs_content_type' => 'MERCHANDISE',
+                'aesitn'               => $aesItn,
                 'contents'             => [
                     new InternationalShippingContents(
                         [
-                            'item_description' => 'Merchandise',
+                            'item_description' => 'Retail goods',
                             'item_quantity'    => 1,
                             'item_total_value' => 1.0,
                             'item_total_weight' => max((float)$payload['package']['weight'], 0.1),
@@ -435,6 +580,33 @@ class UspsShipmentService
         );
     }
 
+    private function resolveInternationalCompliance(array $orderInfo, array $savedData): array
+    {
+        $manualOverride = (string)($savedData['shipment_overrides']['aesitn'] ?? $savedData['aesitn'] ?? '');
+        if ($manualOverride !== '') {
+            return [
+                'value' => $manualOverride,
+                'source' => 'manual_override',
+                'rule_id' => 'manual_override',
+            ];
+        }
+
+        $configured = (string)$this->config->get('usps_international_aesitn');
+        if ($configured !== '') {
+            return [
+                'value' => $configured,
+                'source' => 'config_default',
+                'rule_id' => 'config_default',
+            ];
+        }
+
+        return [
+            'value' => 'NO EEI 30.37(a)',
+            'source' => 'fallback',
+            'rule_id' => 'fallback_default',
+        ];
+    }
+
     private function saveLabelFile($orderId, $trackingNumber, $imageBase64)
     {
         $labelDir = DIR_ROOT . DS . 'admin' . DS . 'system' . DS . 'data' . DS . 'usps_labels';
@@ -452,8 +624,8 @@ class UspsShipmentService
 
     private function getOauthToken($baseUrl)
     {
-        $clientId = (string)$this->config->get('usps_client_id');
-        $clientSecret = (string)$this->config->get('usps_client_secret');
+        $clientId = $this->config->get('usps_client_id');
+        $clientSecret = $this->config->get('usps_client_secret');
         try {
             $tokenData = $this->getTokenService()->getOauthToken(
                 $baseUrl,
@@ -461,7 +633,7 @@ class UspsShipmentService
                 $clientSecret,
                 $this->getOauthTokenCacheKey()
             );
-            return ['token' => (string)$tokenData['token'], 'error' => ''];
+            return ['token' => $tokenData['token'], 'error' => ''];
         } catch (\Throwable $e) {
             return ['token' => '', 'error' => $this->formatUspsError($e, 'USPS OAuth error')];
         }
@@ -469,10 +641,10 @@ class UspsShipmentService
 
     private function getPaymentAuthorizationToken($baseUrl, $oauthToken)
     {
-        $crid = trim((string)$this->config->get('usps_payment_crid'));
-        $mid = trim((string)$this->config->get('usps_payment_mid'));
-        $manifestMid = trim((string)$this->config->get('usps_payment_manifest_mid'));
-        $accountNumber = trim((string)$this->config->get('usps_payment_account_number'));
+        $crid = $this->config->get('usps_payment_crid');
+        $mid = $this->config->get('usps_payment_mid');
+        $manifestMid = $this->config->get('usps_payment_manifest_mid');
+        $accountNumber = $this->config->get('usps_payment_account_number');
 
         if ($crid === '' || $mid === '' || $manifestMid === '' || $accountNumber === '') {
             return [
@@ -491,7 +663,7 @@ class UspsShipmentService
                 $accountNumber,
                 $this->getPaymentAuthorizationTokenCacheKey()
             );
-            return ['token' => (string)$tokenData['token'], 'error' => ''];
+            return ['token' => $tokenData['token'], 'error' => ''];
         } catch (\Throwable $e) {
             return ['token' => '', 'error' => $this->formatUspsError($e, 'USPS Payments API error')];
         }
@@ -504,7 +676,7 @@ class UspsShipmentService
             [
                 (int)$this->config->get('config_store_id'),
                 UspsApiContext::getEnvironmentCode($this->config->get('usps_api_environment')),
-                (string)$this->config->get('usps_client_id'),
+                $this->config->get('usps_client_id'),
             ]
         );
     }
@@ -516,11 +688,11 @@ class UspsShipmentService
             [
                 (int)$this->config->get('config_store_id'),
                 UspsApiContext::getEnvironmentCode($this->config->get('usps_api_environment')),
-                trim((string)$this->config->get('usps_client_id')),
-                trim((string)$this->config->get('usps_payment_crid')),
-                trim((string)$this->config->get('usps_payment_mid')),
-                trim((string)$this->config->get('usps_payment_manifest_mid')),
-                trim((string)$this->config->get('usps_payment_account_number')),
+                $this->config->get('usps_client_id'),
+                $this->config->get('usps_payment_crid'),
+                $this->config->get('usps_payment_mid'),
+                $this->config->get('usps_payment_manifest_mid'),
+                $this->config->get('usps_payment_account_number'),
             ]
         );
     }
@@ -535,4 +707,119 @@ class UspsShipmentService
         $message = (new UspsErrorParser())->parseThrowable($e);
         return $prefix . ': ' . $message;
     }
+
+    private function requestDomesticLabelRaw($baseUrl, $oauthToken, $paymentAuthorizationToken, DomesticLabelRequest $request)
+    {
+        $payload = \USPS\Labels\ObjectSerializer::sanitizeForSerialization($request);
+        $client = new Client(['timeout' => 30]);
+        $response = $client->post(
+            rtrim($baseUrl, '/') . '/labels/v3/label',
+            [
+                'headers' => [
+                    'Authorization'                  => 'Bearer ' . $oauthToken,
+                    'X-Payment-Authorization-Token' => $paymentAuthorizationToken,
+                    'Accept'                         => 'application/vnd.usps.labels+json',
+                    'Content-Type'                   => 'application/json',
+                ],
+                'http_errors' => false,
+                'json' => $payload,
+            ]
+        );
+
+        $statusCode = (int)$response->getStatusCode();
+        $body = $response->getBody()->getContents();
+        if ($statusCode >= 400) {
+            throw new \RuntimeException(
+                'HTTP ' . $statusCode . ': ' . ($body !== '' ? $body : 'USPS Labels API returned empty error response.')
+            );
+        }
+        $json = json_decode($body, true);
+        if (!is_array($json)) {
+            throw new \RuntimeException('USPS Labels raw response is not valid JSON.');
+        }
+
+        $trackingNumber = $json['labelMetadata']['trackingNumber'] ?? '';
+        if ($trackingNumber === '') {
+            $trackingNumber = $json['trackingNumber'] ?? $json['tracking_number'] ?? '';
+        }
+        if ($trackingNumber === '') {
+            $trackingNumber = $this->getHeaderValue($response->getHeaders(), 'X-Tracking-Number');
+        }
+        $labelImage = $json['labelImage'] ?? '';
+        if ($trackingNumber === '' || $labelImage === '') {
+            throw new \RuntimeException(
+                'USPS Labels raw response is missing trackingNumber or labelImage. Body: '
+                . substr(json_encode($json, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), 0, 700)
+            );
+        }
+
+        return [$trackingNumber, $labelImage];
+    }
+
+    private function requestInternationalLabelRaw(
+        $baseUrl,
+        $oauthToken,
+        $paymentAuthorizationToken,
+        InternationalLabelRequest $request
+    ) {
+        $payload = \USPS\InternationalLabels\ObjectSerializer::sanitizeForSerialization($request);
+        $client = new Client(['timeout' => 30]);
+        $response = $client->post(
+            rtrim($baseUrl, '/') . '/international-labels/v3/international-label',
+            [
+                'headers' => [
+                    'Authorization'                  => 'Bearer ' . $oauthToken,
+                    'X-Payment-Authorization-Token' => $paymentAuthorizationToken,
+                    'Accept'                         => 'application/vnd.usps.labels+json',
+                    'Content-Type'                   => 'application/json',
+                ],
+                'http_errors' => false,
+                'json' => $payload,
+            ]
+        );
+
+        $statusCode = (int)$response->getStatusCode();
+        $body = $response->getBody()->getContents();
+        if ($statusCode >= 400) {
+            throw new \RuntimeException(
+                'HTTP ' . $statusCode . ': ' . ($body !== '' ? $body : 'USPS International Labels API returned empty error response.')
+            );
+        }
+        $json = json_decode($body, true);
+        if (!is_array($json)) {
+            throw new \RuntimeException('USPS International Labels raw response is not valid JSON.');
+        }
+
+        $trackingNumber = $json['labelMetadata']['internationalTrackingNumber'] ?? '';
+        if ($trackingNumber === '') {
+            $trackingNumber = $json['internationalTrackingNumber'] ?? $json['trackingNumber'] ?? $json['tracking_number'] ?? '';
+        }
+        if ($trackingNumber === '') {
+            $trackingNumber = $this->getHeaderValue($response->getHeaders(), 'X-Tracking-Number');
+        }
+        $labelImage = $json['labelImage'] ?? '';
+        if ($trackingNumber === '' || $labelImage === '') {
+            throw new \RuntimeException(
+                'USPS International Labels raw response is missing trackingNumber or labelImage. Body: '
+                . substr(json_encode($json, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), 0, 700)
+            );
+        }
+
+        return [$trackingNumber, $labelImage];
+    }
+
+    private function getHeaderValue(array $headers, string $headerName): string
+    {
+        foreach ($headers as $name => $values) {
+            if (strcasecmp($name, $headerName) !== 0) {
+                continue;
+            }
+            if (is_array($values)) {
+                return ($values[0] ?? '');
+            }
+            return $values;
+        }
+        return '';
+    }
+
 }

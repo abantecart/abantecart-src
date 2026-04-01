@@ -40,8 +40,14 @@ class ExtensionUsps extends Extension
     {
         $that = $this->baseObject;
         $that->loadLanguage('usps/usps');
+        if ($this->baseObject_method == 'history') {
+            $this->injectAesItnFieldForHistory($that);
+        }
         if (isset($that->session->data['usps_success'])) {
-            $that->session->data['success'] .= '<br>' . $that->session->data['usps_success'];
+            if (!empty($that->session->data['success'])) {
+                $that->session->data['success'] .= '<br>';
+            }
+            $that->session->data['success'] .= $that->session->data['usps_success'];
             unset($that->session->data['usps_success']);
         }
     }
@@ -97,6 +103,7 @@ class ExtensionUsps extends Extension
             $that->request->get['rt'] == 'sale/order/history'
             && !$that->error
         ) {
+            $this->persistPostedAesItnOverride($that, $that->request->get['order_id']);
             $this->orderStatusChanged($that->request->get['order_id'], $that->request->post['order_status_id']);
         }
     }
@@ -122,21 +129,22 @@ class ExtensionUsps extends Extension
         /** @var ModelExtensionUsps $mdl */
         $mdl = $that->loadModel('extension/usps', 'storefront');
         $shipping_data = $mdl->getOrderShippingData($order_id);
-        $packages = (array)$shipping_data['data']['usps_data']['packages'];
+        $uspsData = (array)($shipping_data['data']['usps_data'] ?? []);
+        $packages = (array)($uspsData['packages'] ?? []);
 
-        foreach ($packages as $package) {
-            if (empty($package['tracking_number'])) {
+        foreach ($packages as $idx => $package) {
+            $trackUrl = UspsShipmentService::resolveTrackUrl((array)$package, $uspsData, (int)$idx);
+            if ($trackUrl === '') {
                 continue;
             }
-            $trackUrl = 'https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=' . urlencode($package['tracking_number']);
             $track_btn = $that->html->buildElement(
                 [
                     'type'  => 'button',
                     'href'  => $trackUrl,
                     'attr'  => 'target="_blank"',
-                    'text'  => $that->language->get('usps_track'),
+                    'text'  => 'Tracking',
                     'icon'  => 'fa fa-search',
-                    'style' => ' btn btn-info pull-right mr10',
+                    'style' => 'btn btn-default pull-right mr10',
                 ]
             );
             $that->view->addHookVar('hk_additional_buttons', $track_btn);
@@ -188,6 +196,7 @@ class ExtensionUsps extends Extension
     {
         /** @var ControllerPagesSaleOrder $that */
         $that = $this->baseObject;
+        $that->loadLanguage('usps/usps');
         $order_data = $this->getOrderShippingData($that, $orderId);
         $data = $order_data['data'];
         if (!isset($data['usps_data'])) {
@@ -203,11 +212,21 @@ class ExtensionUsps extends Extension
                     $that->error = (array)$shipmentService->errors;
                     $that->session->data['error_warning'] = implode("\n", $that->error);
                 } else {
+                    $link = $that->html->getSecureURL('sale/order/address', '&order_id=' . $orderId);
+                    $trackingNumber = ($shipmentService->lastShipment['tracking_number'] ?? '');
                     $that->session->data['usps_success'] =
                         $that->language->getAndReplace(
                             'usps_shipment_created_success_message',
-                            replaces: $that->html->getSecureURL('sale/order/address', '&order_id=' . $orderId)
+                            replaces: [$trackingNumber, $link]
                         );
+                    if ($that->session->data['usps_success'] === 'usps_shipment_created_success_message') {
+                        $that->session->data['usps_success'] =
+                            'USPS Shipment has been successfully created.'
+                            . ($trackingNumber !== '' ? ' Tracking number: ' . $trackingNumber . '.' : '')
+                            . ' See more info <a href="'
+                            . $link
+                            . '">here</a>';
+                    }
                 }
             }
         }
@@ -255,15 +274,29 @@ class ExtensionUsps extends Extension
                     [
                         'type'   => 'button',
                         'href'   => $that->html->getSecureUrl(
-                            'extension/usps/label',
+                            'r/extension/usps/label',
                             '&' . http_build_query(['order_id' => $orderId, 'tn' => $package['tracking_number']])
                         ),
                         'text'   => $that->language->get('usps_text_print_label') . ' ' . $package['tracking_number'],
                         'title'  => $that->language->get('usps_text_print_label_title'),
                         'style'  => 'btn btn-info fa fa-print',
-                        'target' => '_new',
+                        'target' => '_blank',
                     ]
                 );
+
+                $trackUrl = UspsShipmentService::resolveTrackUrl((array)$package, (array)$data['usps_data'], (int)$k);
+                if ($trackUrl !== '') {
+                    $form['shipping_fields']['track' . $k] = $that->html->buildElement(
+                        [
+                            'type'   => 'button',
+                            'href'   => $trackUrl,
+                            'text'   => 'Tracking ' . $package['tracking_number'],
+                            'title'  => 'Tracking',
+                            'style'  => 'btn btn-default fa fa-search',
+                            'target' => '_blank',
+                        ]
+                    );
+                }
             }
         }
         $that->view->assign('form', $form);
@@ -274,5 +307,79 @@ class ExtensionUsps extends Extension
         /** @var ModelExtensionUsps $mdl */
         $mdl = $that->load->model('extension/usps', 'storefront');
         return $mdl->getOrderShippingData($order_id);
+    }
+
+    protected function persistPostedAesItnOverride($that, $orderId): void
+    {
+        if (!$orderId || !$that->request->is_POST()) {
+            return;
+        }
+        $value = ($that->request->post['usps_aesitn'] ?? '');
+        if ($value === '') {
+            return;
+        }
+
+        /** @var ModelExtensionUsps $mdl */
+        $mdl = $that->load->model('extension/usps', 'storefront');
+        $existing = (array)$mdl->getOrderShippingData($orderId);
+        $uspsData = (array)($existing['data']['usps_data'] ?? []);
+        $uspsData['shipment_overrides']['aesitn'] = $value;
+        $mdl->saveOrderShippingData($orderId, $uspsData);
+    }
+
+    protected function injectAesItnFieldForHistory($that): void
+    {
+        $orderId = ($that->request->get['order_id'] ?? '');
+        if (!$orderId) {
+            return;
+        }
+        $that->loadModel('sale/order');
+        $orderInfo = (array)$that->model_sale_order->getOrder($orderId);
+        $isUsps = str_contains(($orderInfo['shipping_method_key'] ?? ''), 'usps.');
+        $shippingIsoCode = ($orderInfo['shipping_iso_code_2'] ?? '');
+        $isInternational = strtoupper($shippingIsoCode) !== 'US';
+        if (!$isUsps || !$isInternational) {
+            return;
+        }
+
+        $manifestStatusId = $this->getManifestOrderStatusId($that);
+        /** @var ModelExtensionUsps $mdl */
+        $mdl = $that->load->model('extension/usps', 'storefront');
+        $shippingData = (array)$mdl->getOrderShippingData($orderId);
+        $uspsData = (array)($shippingData['data']['usps_data'] ?? []);
+        $savedValue = ($uspsData['shipment_overrides']['aesitn'] ?? $uspsData['compliance']['aesitn'] ?? '');
+        $inputValue = htmlspecialchars($savedValue, ENT_QUOTES, 'UTF-8');
+
+        $html = '
+<div class="form-group" id="usps_aesitn_group" style="display:none;">
+    <label class="control-label col-sm-3 col-xs-12" for="orderFrm_usps_aesitn">AES/ITN</label>
+    <div class="input-group afield col-sm-7 col-xs-12">
+        <input type="text"
+               class="form-control large-field"
+               id="orderFrm_usps_aesitn"
+               name="usps_aesitn"
+               value="' . $inputValue . '"
+               placeholder="NO EEI 30.37(a) or ITN value" />
+        <span class="help-block">Required for USPS International Label. Example: NO EEI 30.37(a)</span>
+    </div>
+</div>
+<script>
+(function() {
+    function toggleUspsAesItnField() {
+        var sel = document.getElementById("orderFrm_order_status_id");
+        var group = document.getElementById("usps_aesitn_group");
+        if (!sel || !group) return;
+        group.style.display = (String(sel.value) === "' . (int)$manifestStatusId . '") ? "" : "none";
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+        var sel = document.getElementById("orderFrm_order_status_id");
+        toggleUspsAesItnField();
+        if (sel) {
+            sel.addEventListener("change", toggleUspsAesItnField);
+        }
+    });
+})();
+</script>';
+        $that->view->addHookVar('hk_order_comment_pre', $html);
     }
 }

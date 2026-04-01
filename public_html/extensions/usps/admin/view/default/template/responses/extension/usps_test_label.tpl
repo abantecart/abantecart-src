@@ -1,7 +1,10 @@
 <div class="col-xs-12">
 	<div class="row col-xs-7 input-group afield">
 <?php
-$text_generate = $this->language->get('usps_generate_payment_token', 'usps/usps');
+$text_generate = $this->language->get('usps_generate_payment_token_button', 'usps/usps');
+if ($text_generate === 'usps_generate_payment_token_button') {
+	$text_generate = 'Test Label Generation';
+}
 echo $this->html->buildElement(
 	[
 		'type'  => 'button',

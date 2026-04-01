@@ -199,12 +199,14 @@ class ModelExtensionUsps extends Model
 
         // FOR CASE WHEN ONLY FREE SHIPPING PRODUCTS IN BASKET
         if (!$api_weight_product_ids && $free_shipping_ids) {
+            $freeMethodKey = $address['iso_code_2'] == 'US'
+                ? $this->config->get('usps_free_domestic_method')
+                : $this->config->get('usps_free_international_method');
+            $freeMethodTextKey = 'text_' . preg_replace('/^usps_/', '', $freeMethodKey);
             $quote_data = [
                 'usps' => [
                     'id'           => 'usps.usps',
-                    'title'        => $language->get('text_' . ($address['iso_code_2'] == 'US'
-                        ? $this->config->get('usps_free_domestic_method')
-                        : $this->config->get('usps_free_international_method'))),
+                    'title'        => $language->get($freeMethodTextKey),
                     'cost'         => 0.0,
                     'tax_class_id' => $this->config->get('usps_tax_class_id'),
                     'text'         => $language->get('text_free'),
@@ -269,15 +271,32 @@ class ModelExtensionUsps extends Model
         return (bool)($this->config->get('usps_client_id') && $this->config->get('usps_client_secret'));
     }
 
-    private function normalizeZipCode($zip)
+    private function buildShipperAddress(): array
     {
-        return substr(preg_replace('/[^0-9]/', '', (string)$zip), 0, 5);
+        /** @var ModelLocalisationCountry $countryModel */
+        $countryModel = $this->load->model('localisation/country');
+        $country = $countryModel->getCountry((int)$this->config->get('usps_country'));
+
+        /** @var ModelLocalisationZone $zoneModel */
+        $zoneModel = $this->load->model('localisation/zone');
+        $zone = $zoneModel->getZone((int)$this->config->get('usps_country_zone'));
+
+        return [
+            'name'               => $this->config->get('store_name'),
+            'street_address'     => $this->config->get('usps_address'),
+            'city'               => $this->config->get('usps_city'),
+            'state'              => (string)($zone['code'] ?? ''),
+            'zip_code'           => $this->config->get('usps_postcode'),
+            'country_code'       => (string)($country['iso_code_2'] ?? ''),
+            'phone'              => $this->config->get('usps_telephone'),
+            'email'              => $this->config->get('store_main_email'),
+        ];
     }
 
     private function getOauthToken($baseUrl)
     {
-        $clientId = (string)$this->config->get('usps_client_id');
-        $clientSecret = (string)$this->config->get('usps_client_secret');
+        $clientId = $this->config->get('usps_client_id');
+        $clientSecret = $this->config->get('usps_client_secret');
         try {
             $tokenData = $this->getTokenService()->getOauthToken(
                 $baseUrl,
@@ -294,7 +313,7 @@ class ModelExtensionUsps extends Model
     private function getOauthTokenCacheKey()
     {
         $storeId = (int)$this->config->get('config_store_id');
-        $clientId = (string)$this->config->get('usps_client_id');
+        $clientId = $this->config->get('usps_client_id');
         return UspsApiContext::buildHashKey(
             'usps.oauth_token.',
             [
@@ -320,7 +339,7 @@ class ModelExtensionUsps extends Model
         $width = max((float)$this->config->get('usps_width'), 0.1);
         $height = max((float)$this->config->get('usps_height'), 0.1);
         $this->storeQuoteContext($address, $weight, $length, $width, $height);
-        $originZip = $this->normalizeZipCode($this->config->get('usps_postcode'));
+        $originZip = $this->config->get('usps_postcode');
         if (!$originZip) {
             return ['quote_data' => [], 'error' => 'USPS origin ZIP is not configured.'];
         }
@@ -474,7 +493,7 @@ class ModelExtensionUsps extends Model
     private function getDomesticRequests($originZip, $destinationPostcode, $weight, $length, $width, $height)
     {
         $requests = [];
-        $destinationZip = $this->normalizeZipCode($destinationPostcode);
+        $destinationZip = (string)$destinationPostcode;
         if (!$destinationZip) {
             return $requests;
         }
@@ -508,7 +527,7 @@ class ModelExtensionUsps extends Model
     {
         $requests = [];
         $baseUrl = UspsApiContext::getApiBaseUrl($this->config->get('usps_api_environment'));
-        $foreignPostalCode = strtoupper(substr(preg_replace('/\s+/', '', (string)$destinationPostcode), 0, 10));
+        $foreignPostalCode = (string)$destinationPostcode;
         foreach (self::USPS_V3_INTL_CLASS_MAP as $classId => $service) {
             if (!$this->config->get('usps_international_' . $classId)) {
                 continue;
@@ -621,27 +640,17 @@ class ModelExtensionUsps extends Model
 
     private function storeQuoteContext(array $address, float $weight, float $length, float $width, float $height)
     {
+        $toName = (string)$address['firstname'] . ' ' . (string)$address['lastname'];
         $this->session->data['usps_data']['toAddress'] = [
-            'name'               => trim((string)$address['firstname'] . ' ' . (string)$address['lastname']),
-            'street_address'     => trim((string)$address['address_1']),
-            'secondary_address'  => trim((string)$address['address_2']),
+            'name'               => (string)$toName,
+            'street_address'     => (string)$address['address_1'],
+            'secondary_address'  => (string)$address['address_2'],
             'city'               => (string)$address['city'],
             'state'              => (string)$address['zone_code'],
-            'zip_code'           => $this->normalizeZipCode($address['postcode']),
-            'country_code'       => strtoupper((string)$address['iso_code_2']),
+            'zip_code'           => (string)$address['postcode'],
+            'country_code'       => (string)$address['iso_code_2'],
         ];
-        $this->session->data['usps_data']['fromAddress'] = [
-            'name'               => (string)$this->config->get('store_name'),
-            'street_address'     => (string)$this->config->get('config_address'),
-            'city'               => (string)$this->config->get('config_city'),
-            'state'              => (string)$this->config->get('config_zone_code'),
-            'zip_code'           => $this->normalizeZipCode(
-                $this->config->get('usps_postcode') ?: $this->config->get('config_postcode')
-            ),
-            'country_code'       => strtoupper((string)$this->config->get('config_country_iso_code_2') ?: 'US'),
-            'phone'              => preg_replace('/\D+/', '', (string)$this->config->get('config_telephone')),
-            'email'              => (string)$this->config->get('store_main_email'),
-        ];
+        $this->session->data['usps_data']['fromAddress'] = $this->buildShipperAddress();
         $this->session->data['usps_data']['package'] = [
             'weight' => $weight,
             'length' => $length,
@@ -653,7 +662,7 @@ class ModelExtensionUsps extends Model
 
     private function formatUspsSdkError(\Throwable $e, $prefix = 'USPS API error')
     {
-        $message = trim((string)$e->getMessage());
+        $message = (string)$e->getMessage();
         $statusCode = (int)$e->getCode();
         $responseBody = '';
 
@@ -683,9 +692,9 @@ class ModelExtensionUsps extends Model
                     $err = $json['error'] ?? [];
                     $errorText = '';
                     if (is_array($err)) {
-                        $errorText = trim((string)($err['message'] ?? $err['description'] ?? ''));
+                        $errorText = (string)($err['message'] ?? $err['description'] ?? '');
                     } elseif (is_scalar($err)) {
-                        $errorText = trim((string)$err);
+                        $errorText = (string)$err;
                     }
                     $message = $errorText
                         ?: (string)($json['message'] ?? $json['error_description'] ?? '')
