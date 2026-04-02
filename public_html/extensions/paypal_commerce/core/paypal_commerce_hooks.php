@@ -153,6 +153,7 @@ class ExtensionPaypalCommerce extends Extension
             //see if we are connected yet to paypal
             if ($connected) {
                 $data['connected'] = true;
+                $data['connected_account'] = $that->config->get('paypal_commerce_payer_id');
             }
 
             $that->view->batchAssign($data);
