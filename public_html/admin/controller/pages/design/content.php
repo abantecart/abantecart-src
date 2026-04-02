@@ -377,6 +377,9 @@ class ControllerPagesDesignContent extends AController
         foreach ($allowedFields as $field) {
             $this->data[$field] = $this->request->post[$field] ?? $content_info[$field] ?? '';
         }
+        if (!$contentId && !isset($this->request->post['show_title'])) {
+            $this->data['show_title'] = 1;
+        }
         //if got parent_id - create new content for parent
         if ($this->request->get['parent_content_id']) {
             $this->data['parent_content_id'] = $this->request->get['parent_content_id'];
