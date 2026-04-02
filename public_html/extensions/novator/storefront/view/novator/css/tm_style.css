@@ -2534,6 +2534,12 @@ li#review-set::before {
     background-color: #E9E9E9;
 }
 
+.product-card .prod-img > a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .product-card .prod-img img {
     width: 100%;
     height: auto;
@@ -3035,6 +3041,16 @@ h4 .heading-title:after,
     position: absolute;
     left: 15px;
     top: 15px;
+}
+
+.prod-list-card .flex-shrink-0 a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.prod-list-card .flex-shrink-0 img {
+    display: block;
 }
 
 .product-carousel-indicators {
