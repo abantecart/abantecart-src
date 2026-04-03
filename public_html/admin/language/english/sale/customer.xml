@@ -222,11 +222,11 @@
 	</definition>
 	<definition>
 		<key>tab_transactions</key>
-		<value><![CDATA[Transactions]]></value>
+		<value><![CDATA[Account Balance History]]></value>
 	</definition>
 	<definition>
 		<key>heading_title_transactions</key>
-		<value><![CDATA[Customer's transactions]]></value>
+		<value><![CDATA[Account Balance History]]></value>
 	</definition>
 	<definition>
 		<key>column_create_date</key>

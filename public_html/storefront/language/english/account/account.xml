@@ -42,7 +42,7 @@
 	</definition>
 	<definition>
 		<key>text_transactions</key>
-		<value><![CDATA[Transaction history]]></value>
+		<value><![CDATA[Balance History]]></value>
 	</definition>
 	<definition>
 		<key>text_download</key>
