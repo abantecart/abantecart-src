@@ -32,7 +32,7 @@ class UspsErrorParser
         return $this->formatHttpError($statusCode, $message);
     }
 
-    private function extractResponseBodyFromException(\Throwable $e, &$statusCode)
+    protected function extractResponseBodyFromException(\Throwable $e, &$statusCode)
     {
         $responseBody = $this->extractSdkResponseBody($e);
         if ($responseBody !== '') {
@@ -41,7 +41,7 @@ class UspsErrorParser
         return $this->extractGuzzleResponseBody($e, $statusCode);
     }
 
-    private function extractSdkResponseBody(\Throwable $e)
+    protected function extractSdkResponseBody(\Throwable $e)
     {
         if (!method_exists($e, 'getResponseBody')) {
             return '';
@@ -49,7 +49,7 @@ class UspsErrorParser
         return $this->toStringBody($e->getResponseBody());
     }
 
-    private function extractGuzzleResponseBody(\Throwable $e, &$statusCode)
+    protected function extractGuzzleResponseBody(\Throwable $e, &$statusCode)
     {
         if (!method_exists($e, 'getResponse')) {
             return '';
@@ -62,7 +62,7 @@ class UspsErrorParser
         return $this->toStringBody($response->getBody());
     }
 
-    private function toStringBody($body)
+    protected function toStringBody($body)
     {
         if (is_string($body)) {
             return $body;
@@ -73,7 +73,7 @@ class UspsErrorParser
         return '';
     }
 
-    private function extractMessageFromResponseBody($responseBody, $fallbackMessage)
+    protected function extractMessageFromResponseBody($responseBody, $fallbackMessage)
     {
         if ($responseBody === '') {
             return $fallbackMessage;
@@ -86,7 +86,7 @@ class UspsErrorParser
         return $message !== '' ? $message : $fallbackMessage;
     }
 
-    private function extractMessageFromErrorJson(array $json)
+    protected function extractMessageFromErrorJson(array $json)
     {
         $errorText = $this->extractErrorFieldMessage($json['error'] ?? []);
         if ($errorText !== '') {
@@ -101,7 +101,7 @@ class UspsErrorParser
         return '';
     }
 
-    private function extractErrorFieldMessage($errorField)
+    protected function extractErrorFieldMessage($errorField)
     {
         if (is_scalar($errorField)) {
             return trim((string)$errorField);
@@ -126,7 +126,7 @@ class UspsErrorParser
         return $this->extractDetailsMessage($errorField['details']);
     }
 
-    private function extractDetailsMessage(array $details)
+    protected function extractDetailsMessage(array $details)
     {
         $parts = [];
         foreach ($details as $detail) {
@@ -141,7 +141,7 @@ class UspsErrorParser
         return trim(implode(' ', array_filter($parts)));
     }
 
-    private function formatHttpError($statusCode, $message)
+    protected function formatHttpError($statusCode, $message)
     {
         if ((int)$statusCode > 0) {
             return 'HTTP ' . (int)$statusCode . ($message ? ': ' . $message : '');

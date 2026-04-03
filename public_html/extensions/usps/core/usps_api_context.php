@@ -56,7 +56,7 @@ class UspsApiContext
         return $prefix . md5(implode('|', $normalized));
     }
 
-    private static function normalizeKeyPart($value)
+    protected static function normalizeKeyPart($value)
     {
         if (is_bool($value)) {
             return $value ? '1' : '0';

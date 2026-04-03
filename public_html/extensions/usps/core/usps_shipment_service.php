@@ -238,7 +238,7 @@ class UspsShipmentService
         return 'https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=' . urlencode($trackingNumber);
     }
 
-    private function saveOrderShippingData($order_id, $data)
+    protected function saveOrderShippingData($order_id, $data)
     {
         if (!$order_id || !$data) {
             return false;
@@ -292,7 +292,7 @@ class UspsShipmentService
         return $this->db->query($sql);
     }
 
-    private function getOrderShippingData($order_id)
+    protected function getOrderShippingData($order_id)
     {
         $sql = "SELECT *
                 FROM " . $this->db->table('order_data_types') . "
@@ -317,7 +317,7 @@ class UspsShipmentService
         ];
     }
 
-    private function extractServiceClassId($shippingMethodKey)
+    protected function extractServiceClassId($shippingMethodKey)
     {
         if (!str_contains($shippingMethodKey, '.')) {
             return 0;
@@ -326,7 +326,7 @@ class UspsShipmentService
         return (int)$classId;
     }
 
-    private function resolveStoreStateCode()
+    protected function resolveStoreStateCode()
     {
         $zoneId = (int)$this->config->get('usps_country_zone');
         if ($zoneId > 0) {
@@ -345,7 +345,7 @@ class UspsShipmentService
         return '';
     }
 
-    private function resolveStoreCountryCode()
+    protected function resolveStoreCountryCode()
     {
         $countryId = (int)$this->config->get('usps_country');
         if ($countryId <= 0) {
@@ -362,7 +362,7 @@ class UspsShipmentService
         return ($result->row['iso_code_2'] ?? '');
     }
 
-    private function getStoreFromAddress(array $savedFromAddress = []): array
+    protected function getStoreFromAddress(array $savedFromAddress = []): array
     {
         return [
             'name'              => $savedFromAddress['name'] ?? $this->config->get('store_name'),
@@ -378,7 +378,7 @@ class UspsShipmentService
         ];
     }
 
-    private function resolveOrderStateCode(array $orderInfo)
+    protected function resolveOrderStateCode(array $orderInfo)
     {
         $state = ($orderInfo['shipping_zone_code'] ?? '');
         if ($state !== '') {
@@ -402,7 +402,7 @@ class UspsShipmentService
         return '';
     }
 
-    private function buildLabelPayload(
+    protected function buildLabelPayload(
         array $orderInfo,
         int $serviceClassId,
         bool $isInternational,
@@ -470,7 +470,7 @@ class UspsShipmentService
         ];
     }
 
-    private function buildDomesticLabelRequest(array $payload)
+    protected function buildDomesticLabelRequest(array $payload)
     {
         $toAddress = new DomesticLabelToAddress(
             [
@@ -523,7 +523,7 @@ class UspsShipmentService
         );
     }
 
-    private function buildInternationalLabelRequest(array $payload, string $aesItn)
+    protected function buildInternationalLabelRequest(array $payload, string $aesItn)
     {
         $toAddress = new InternationalLabelAddress(
             [
@@ -595,7 +595,7 @@ class UspsShipmentService
         );
     }
 
-    private function resolveInternationalCompliance(array $orderInfo, array $savedData): array
+    protected function resolveInternationalCompliance(array $orderInfo, array $savedData): array
     {
         $manualOverride = (string)($savedData['shipment_overrides']['aesitn'] ?? $savedData['aesitn'] ?? '');
         if ($manualOverride !== '') {
@@ -622,7 +622,7 @@ class UspsShipmentService
         ];
     }
 
-    private function saveLabelFile($orderId, $trackingNumber, $imageBase64)
+    protected function saveLabelFile($orderId, $trackingNumber, $imageBase64)
     {
         $labelDir = DIR_ROOT . DS . 'admin' . DS . 'system' . DS . 'data' . DS . 'usps_labels';
         if (!is_dir($labelDir) && !mkdir($labelDir, 0775, true) && !is_dir($labelDir)) {
@@ -637,7 +637,7 @@ class UspsShipmentService
         return file_put_contents($filename, $binary) !== false ? $filename : '';
     }
 
-    private function getOauthToken($baseUrl)
+    protected function getOauthToken($baseUrl)
     {
         $clientId = $this->config->get('usps_client_id');
         $clientSecret = $this->config->get('usps_client_secret');
@@ -654,7 +654,7 @@ class UspsShipmentService
         }
     }
 
-    private function getPaymentAuthorizationToken($baseUrl, $oauthToken)
+    protected function getPaymentAuthorizationToken($baseUrl, $oauthToken)
     {
         $crid = $this->config->get('usps_payment_crid');
         $mid = $this->config->get('usps_payment_mid');
@@ -684,7 +684,7 @@ class UspsShipmentService
         }
     }
 
-    private function getOauthTokenCacheKey()
+    protected function getOauthTokenCacheKey()
     {
         return UspsApiContext::buildHashKey(
             'usps.oauth_token.',
@@ -696,7 +696,7 @@ class UspsShipmentService
         );
     }
 
-    private function getPaymentAuthorizationTokenCacheKey()
+    protected function getPaymentAuthorizationTokenCacheKey()
     {
         return UspsApiContext::buildHashKey(
             'usps.payment_token.',
@@ -712,18 +712,18 @@ class UspsShipmentService
         );
     }
 
-    private function getTokenService()
+    protected function getTokenService()
     {
         return new UspsTokenService($this->cache, 20);
     }
 
-    private function formatUspsError(\Throwable $e, $prefix)
+    protected function formatUspsError(\Throwable $e, $prefix)
     {
         $message = (new UspsErrorParser())->parseThrowable($e);
         return $prefix . ': ' . $message;
     }
 
-    private function requestDomesticLabelRaw($baseUrl, $oauthToken, $paymentAuthorizationToken, DomesticLabelRequest $request)
+    protected function requestDomesticLabelRaw($baseUrl, $oauthToken, $paymentAuthorizationToken, DomesticLabelRequest $request)
     {
         $payload = \USPS\Labels\ObjectSerializer::sanitizeForSerialization($request);
         $client = new Client(['timeout' => 30]);
@@ -771,7 +771,7 @@ class UspsShipmentService
         return [$trackingNumber, $labelImage];
     }
 
-    private function requestInternationalLabelRaw(
+    protected function requestInternationalLabelRaw(
         $baseUrl,
         $oauthToken,
         $paymentAuthorizationToken,
@@ -823,7 +823,7 @@ class UspsShipmentService
         return [$trackingNumber, $labelImage];
     }
 
-    private function getHeaderValue(array $headers, string $headerName): string
+    protected function getHeaderValue(array $headers, string $headerName): string
     {
         foreach ($headers as $name => $values) {
             if (strcasecmp($name, $headerName) !== 0) {

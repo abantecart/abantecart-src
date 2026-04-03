@@ -8,11 +8,11 @@
 		<item>1.4</item>
 	</cartversions>
 	<priority>10</priority>
-		<settings>
-			<item id="usps_debug">
-				<type>checkbox</type>
-				<default_value>0</default_value>
-			</item>
+	<settings>
+		<item id="usps_debug">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
 		<item id="usps_api_environment">
 			<type>checkbox</type>
 			<default_value>0</default_value>
@@ -23,14 +23,14 @@
 		<item id="usps_client_secret">
 			<type>input</type>
 		</item>
-			<item id="usps_test_connection">
-				<type>html_template</type>
-				<template>responses/extension/usps_test.tpl</template>
-			</item>
-			<item id="usps_payment_crid">
-				<type>input</type>
-				<note><![CDATA[Customer Registration ID (CRID):<span class="help">Required for USPS label generation.</span>]]></note>
-			</item>
+		<item id="usps_test_connection">
+			<type>html_template</type>
+			<template>responses/extension/usps_test.tpl</template>
+		</item>
+		<item id="usps_payment_crid">
+			<type>input</type>
+			<note><![CDATA[Customer Registration ID (CRID):<span class="help">Required for USPS label generation.</span>]]></note>
+		</item>
 		<item id="usps_payment_mid">
 			<type>input</type>
 			<note><![CDATA[Mailer ID (MID):<span class="help">Required for USPS label generation.</span>]]></note>
@@ -43,34 +43,34 @@
 			<type>input</type>
 			<note><![CDATA[EPS Account Number:<span class="help">Required for USPS label generation.</span>]]></note>
 		</item>
-			<item id="usps_generate_payment_token">
-				<type>html_template</type>
-				<template>responses/extension/usps_test_label.tpl</template>
-				<note><![CDATA[Payment Token Access:<span class="help">For label generation, USPS may require additional permissions for payment token generation on your account. Contact USPS support to enable this access.</span>]]></note>
-			</item>
-			<item id="usps_country">
-				<type required="true">zones</type>
-				<default_value config_key="config_country_id"/>
-			</item>
-			<item id="usps_address">
-				<type required="true">input</type>
-				<default_value config_key="config_address"/>
-			</item>
-			<item id="usps_city">
-				<type required="true">input</type>
-				<default_value config_key="config_city"/>
-			</item>
-			<item id="usps_postcode">
-				<type required="true">input</type>
-				<default_value config_key="config_postcode"/>
-			</item>
-			<item id="usps_telephone">
-				<type required="true">input</type>
-				<default_value config_key="config_telephone"/>
-			</item>
-			<item id="usps_manifest_order_status_id">
-				<type>selectbox</type>
-				<variants>
+		<item id="usps_generate_payment_token">
+			<type>html_template</type>
+			<template>responses/extension/usps_test_label.tpl</template>
+			<note><![CDATA[Payment Token Access:<span class="help">For label generation, USPS may require additional permissions for payment token generation on your account. Contact USPS support to enable this access.</span>]]></note>
+		</item>
+		<item id="usps_country">
+			<type required="true">zones</type>
+			<default_value config_key="config_country_id"/>
+		</item>
+		<item id="usps_address">
+			<type required="true">input</type>
+			<default_value config_key="config_address"/>
+		</item>
+		<item id="usps_city">
+			<type required="true">input</type>
+			<default_value config_key="config_city"/>
+		</item>
+		<item id="usps_postcode">
+			<type required="true">input</type>
+			<default_value config_key="config_postcode"/>
+		</item>
+		<item id="usps_telephone">
+			<type required="true">input</type>
+			<default_value config_key="config_telephone"/>
+		</item>
+		<item id="usps_manifest_order_status_id">
+			<type>selectbox</type>
+			<variants>
 				<data_source>
 					<model_rt>localisation/order_status</model_rt>
 					<method>getOrderStatuses</method>
@@ -79,10 +79,10 @@
 					<field>order_status_id</field>
 					<field>name</field>
 				</fields>
-				</variants>
-				<default_value>3</default_value>
-			</item>
-			<item id="usps_domestic_1">
+			</variants>
+			<default_value>3</default_value>
+		</item>
+		<item id="usps_domestic_1">
 			<type>checkbox</type>
 			<default_value>1</default_value>
 		</item>
@@ -106,10 +106,10 @@
 			<type>checkbox</type>
 			<default_value>1</default_value>
 		</item>
-			<item id="usps_domestic_7">
-				<type>checkbox</type>
-				<default_value>0</default_value>
-			</item>
+		<item id="usps_domestic_7">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
 		<item id="usps_free_domestic_method">
 			<type>selectbox</type>
 			<variants>
@@ -197,5 +197,5 @@
 			<type>input</type>
 			<default_value>0</default_value>
 		</item>
-		</settings>
-	</extension>
+	</settings>
+</extension>

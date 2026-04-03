@@ -145,7 +145,7 @@ class UspsTokenService
         return ['token' => $token, 'from_cache' => false];
     }
 
-    private function buildPaymentAuthorizationPayload($crid, $mid, $manifestMid, $accountNumber)
+    protected function buildPaymentAuthorizationPayload($crid, $mid, $manifestMid, $accountNumber)
     {
         return [
             'roles' => [
@@ -169,12 +169,12 @@ class UspsTokenService
         ];
     }
 
-    private function extractErrorMessage(\Throwable $e)
+    protected function extractErrorMessage(\Throwable $e)
     {
         return $this->getErrorParser()->parseThrowable($e);
     }
 
-    private function getErrorParser()
+    protected function getErrorParser()
     {
         if ($this->errorParser === null) {
             $this->errorParser = new UspsErrorParser();
