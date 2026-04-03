@@ -1371,3 +1371,42 @@ function copyToClipboard(el, target) {
 	}
 	info_alert('Copied!', true, $(target));
 }
+
+// CapsLock warning helper for password fields (reusable across admin pages).
+function enableCapsLockWarnings(container = document) {
+    const passwordFields = container.querySelectorAll('input[type="password"]');
+    passwordFields.forEach(field => {
+        const checkCapsLock = (e) => {
+            const warning = $(field).closest('.form-group').find('.pwdhelp');
+            if (!warning.length) {
+                return;
+            }
+            const capsOn = e.getModifierState && e.getModifierState('CapsLock');
+            if (capsOn) {
+                warning.show();
+            } else {
+                warning.hide();
+            }
+        };
+
+        const attach = () => {
+            window.addEventListener('keydown', checkCapsLock);
+            window.addEventListener('keyup', checkCapsLock);
+        };
+
+        const detach = () => {
+            window.removeEventListener('keydown', checkCapsLock);
+            window.removeEventListener('keyup', checkCapsLock);
+            $(field).closest('.form-group').find('.pwdhelp').hide();
+        };
+
+        field.addEventListener('keydown', checkCapsLock);
+        field.addEventListener('keyup', checkCapsLock);
+        field.addEventListener('focus', (e) => {
+            attach();
+            checkCapsLock(e);
+        });
+        field.addEventListener('blur', detach);
+        $(field).closest('.form-group').find('.pwdhelp').hide();
+    });
+}
