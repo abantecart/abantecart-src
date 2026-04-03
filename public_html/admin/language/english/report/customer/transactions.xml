@@ -2,7 +2,7 @@
 <definitions>
   <definition>
     <key>heading_title</key>
-    <value><![CDATA[Customer Transactions]]></value>
+    <value><![CDATA[Customer Balance History]]></value>
   </definition>
   <definition>
     <key>column_transaction_date</key>
