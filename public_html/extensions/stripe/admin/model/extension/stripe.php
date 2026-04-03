@@ -49,14 +49,6 @@ class ModelExtensionStripe extends Model
         $this->stripeClient = grantStripeAccess($this->config);
     }
 
-    protected function getStripeClient()
-    {
-        if (!$this->stripeClient) {
-            $this->stripeClient = grantStripeAccess($this->config);
-        }
-        return $this->stripeClient;
-    }
-
     /**
      * @param int $orderId
      * @return array
@@ -84,11 +76,11 @@ class ModelExtensionStripe extends Model
         }
         try {
             if (is_int(strpos($chargeId, "ch_"))) {
-                return $this->getStripeClient()->charges->retrieve($chargeId);
+                return $this->stripeClient->charges->retrieve($chargeId);
             } elseif (is_int(strpos($chargeId, "pi_"))) {
-                $pi = $this->getStripeClient()->paymentIntents->retrieve($chargeId);
+                $pi = $this->stripeClient->paymentIntents->retrieve($chargeId);
                 $lch = $pi->latest_charge;
-                return $this->getStripeClient()->charges->retrieve($lch);
+                return $this->stripeClient->charges->retrieve($lch);
             }
         } catch (Exception|Error $e) {
             //log in AException
@@ -108,7 +100,7 @@ class ModelExtensionStripe extends Model
             return false;
         }
         try {
-            return $this->getStripeClient()->paymentIntents->retrieve($intentId);
+            return $this->stripeClient->paymentIntents->retrieve($intentId);
         } catch (Exception|Error $e) {
             //log in AException
             $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
@@ -127,7 +119,7 @@ class ModelExtensionStripe extends Model
             return false;
         }
         try {
-            return $this->getStripeClient()->paymentIntents->cancel($intentId);
+            return $this->stripeClient->paymentIntents->cancel($intentId);
         } catch (Exception|Error $e) {
             //log in AException
             $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
@@ -147,7 +139,7 @@ class ModelExtensionStripe extends Model
             return false;
         }
         try {
-            return $this->getStripeClient()->refunds->create(
+            return $this->stripeClient->refunds->create(
                 [
                     'amount' => round($amount, 2) * 100,
                     'charge' => $chargeId,
@@ -176,7 +168,7 @@ class ModelExtensionStripe extends Model
             if ($amount) {
                 $params['amount'] = round($amount, 2) * 100;
             }
-            return $this->getStripeClient()->charges->capture($chargeId, $params);
+            return $this->stripeClient->charges->capture($chargeId, $params);
         } catch (Exception|Error $e) {
             //log in AException
             $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
@@ -200,7 +192,7 @@ class ModelExtensionStripe extends Model
             if ($amount) {
                 $params['amount'] = round($amount, 2) * 100;
             }
-            return $this->getStripeClient()->paymentIntents->capture($intentId, $params);
+            return $this->stripeClient->paymentIntents->capture($intentId, $params);
         } catch (Exception|Error $e) {
             //log in AException
             $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());

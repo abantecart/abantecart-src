@@ -51,14 +51,6 @@ class ModelExtensionStripe extends Model
         $this->stripeClient = grantStripeAccess($this->config);
     }
 
-    protected function getStripeClient()
-    {
-        if (!$this->stripeClient) {
-            $this->stripeClient = grantStripeAccess($this->config);
-        }
-        return $this->stripeClient;
-    }
-
     public function getMethod($address)
     {
         $this->load->language('stripe/stripe');
@@ -164,7 +156,7 @@ class ModelExtensionStripe extends Model
             return false;
         }
         try {
-            return $this->getStripeClient()->customers->retrieve($customer_stripe_id);
+            return $this->stripeClient->customers->retrieve($customer_stripe_id);
         } catch (Exception|Error $e) {
             //log in AException
             $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
@@ -182,7 +174,7 @@ class ModelExtensionStripe extends Model
     {
 
         try {
-            $stripe_customer = $this->getStripeClient()->customers->create([
+            $stripe_customer = $this->stripeClient->customers->create([
                 "email"       => $customer->getEmail(),
                 "description" => "Customer ID: " . $customer->getId(),
             ]);
@@ -217,7 +209,7 @@ class ModelExtensionStripe extends Model
     public function createPaymentIntent($data, $requestOptions = [])
     {
         try {
-            $response = $this->getStripeClient()->paymentIntents->create($data, $requestOptions);
+            $response = $this->stripeClient->paymentIntents->create($data, $requestOptions);
             $this->session->data['stripe']['pi']['id'] = $response['id'];
             $this->session->data['stripe']['pi_id'] = $response['id'];
             return $response;
@@ -282,7 +274,7 @@ class ModelExtensionStripe extends Model
      */
     public function isPaymentIntentSuccessful($intentId)
     {
-        $intent = $this->getStripeClient()->paymentIntents->retrieve($intentId);
+        $intent = $this->stripeClient->paymentIntents->retrieve($intentId);
         $this->data['pi_statuses'][$intentId] = $intent->status;
         if (in_array($intent->status, ['succeeded', 'requires_capture'])) {
             return true;
@@ -297,7 +289,7 @@ class ModelExtensionStripe extends Model
     public function getPaymentIntent($intentId)
     {
         try {
-            return $this->getStripeClient()->paymentIntents->retrieve($intentId);
+            return $this->stripeClient->paymentIntents->retrieve($intentId);
         } catch (Exception|Error $e) {
             return new stdClass();
         }
@@ -310,6 +302,6 @@ class ModelExtensionStripe extends Model
      */
     public function updatePaymentIntent($intentId, $data)
     {
-        $this->getStripeClient()->paymentIntents->update($intentId, $data);
+        $this->stripeClient->paymentIntents->update($intentId, $data);
     }
 }
