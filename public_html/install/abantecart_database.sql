@@ -11927,7 +11927,7 @@ INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES
 (11,'text_online',214),
 (11,'text_order',215),
-(11,'text_transactions',216);
+(11,'text_balance_history',216);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES

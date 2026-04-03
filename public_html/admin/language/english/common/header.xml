@@ -154,7 +154,11 @@
 	</definition>
 	<definition>
 		<key>text_transactions</key>
-		<value><![CDATA[Transactions]]></value>
+		<value><![CDATA[Balance History]]></value>
+	</definition>
+	<definition>
+		<key>text_balance_history</key>
+		<value><![CDATA[Balance History]]></value>
 	</definition>
 	<definition>
 		<key>text_tax</key>

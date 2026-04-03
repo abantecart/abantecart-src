@@ -7,8 +7,8 @@ class ObjectTypes
     /**
      * @var array Mapping from object types to resource classes
      */
-    const mapping =
-        [
+    const mapping
+        = [
             \Stripe\Collection::OBJECT_NAME => \Stripe\Collection::class,
             \Stripe\Issuing\CardDetails::OBJECT_NAME => \Stripe\Issuing\CardDetails::class,
             \Stripe\SearchResult::OBJECT_NAME => \Stripe\SearchResult::class,
@@ -23,6 +23,7 @@ class ObjectTypes
             \Stripe\ApplicationFeeRefund::OBJECT_NAME => \Stripe\ApplicationFeeRefund::class,
             \Stripe\Apps\Secret::OBJECT_NAME => \Stripe\Apps\Secret::class,
             \Stripe\Balance::OBJECT_NAME => \Stripe\Balance::class,
+            \Stripe\BalanceSettings::OBJECT_NAME => \Stripe\BalanceSettings::class,
             \Stripe\BalanceTransaction::OBJECT_NAME => \Stripe\BalanceTransaction::class,
             \Stripe\BankAccount::OBJECT_NAME => \Stripe\BankAccount::class,
             \Stripe\Billing\Alert::OBJECT_NAME => \Stripe\Billing\Alert::class,
@@ -76,6 +77,7 @@ class ObjectTypes
             \Stripe\Invoice::OBJECT_NAME => \Stripe\Invoice::class,
             \Stripe\InvoiceItem::OBJECT_NAME => \Stripe\InvoiceItem::class,
             \Stripe\InvoiceLineItem::OBJECT_NAME => \Stripe\InvoiceLineItem::class,
+            \Stripe\InvoicePayment::OBJECT_NAME => \Stripe\InvoicePayment::class,
             \Stripe\InvoiceRenderingTemplate::OBJECT_NAME => \Stripe\InvoiceRenderingTemplate::class,
             \Stripe\Issuing\Authorization::OBJECT_NAME => \Stripe\Issuing\Authorization::class,
             \Stripe\Issuing\Card::OBJECT_NAME => \Stripe\Issuing\Card::class,
@@ -88,11 +90,14 @@ class ObjectTypes
             \Stripe\LineItem::OBJECT_NAME => \Stripe\LineItem::class,
             \Stripe\LoginLink::OBJECT_NAME => \Stripe\LoginLink::class,
             \Stripe\Mandate::OBJECT_NAME => \Stripe\Mandate::class,
+            \Stripe\PaymentAttemptRecord::OBJECT_NAME => \Stripe\PaymentAttemptRecord::class,
             \Stripe\PaymentIntent::OBJECT_NAME => \Stripe\PaymentIntent::class,
+            \Stripe\PaymentIntentAmountDetailsLineItem::OBJECT_NAME => \Stripe\PaymentIntentAmountDetailsLineItem::class,
             \Stripe\PaymentLink::OBJECT_NAME => \Stripe\PaymentLink::class,
             \Stripe\PaymentMethod::OBJECT_NAME => \Stripe\PaymentMethod::class,
             \Stripe\PaymentMethodConfiguration::OBJECT_NAME => \Stripe\PaymentMethodConfiguration::class,
             \Stripe\PaymentMethodDomain::OBJECT_NAME => \Stripe\PaymentMethodDomain::class,
+            \Stripe\PaymentRecord::OBJECT_NAME => \Stripe\PaymentRecord::class,
             \Stripe\Payout::OBJECT_NAME => \Stripe\Payout::class,
             \Stripe\Person::OBJECT_NAME => \Stripe\Person::class,
             \Stripe\Plan::OBJECT_NAME => \Stripe\Plan::class,
@@ -102,11 +107,15 @@ class ObjectTypes
             \Stripe\PromotionCode::OBJECT_NAME => \Stripe\PromotionCode::class,
             \Stripe\Quote::OBJECT_NAME => \Stripe\Quote::class,
             \Stripe\Radar\EarlyFraudWarning::OBJECT_NAME => \Stripe\Radar\EarlyFraudWarning::class,
+            \Stripe\Radar\PaymentEvaluation::OBJECT_NAME => \Stripe\Radar\PaymentEvaluation::class,
             \Stripe\Radar\ValueList::OBJECT_NAME => \Stripe\Radar\ValueList::class,
             \Stripe\Radar\ValueListItem::OBJECT_NAME => \Stripe\Radar\ValueListItem::class,
             \Stripe\Refund::OBJECT_NAME => \Stripe\Refund::class,
             \Stripe\Reporting\ReportRun::OBJECT_NAME => \Stripe\Reporting\ReportRun::class,
             \Stripe\Reporting\ReportType::OBJECT_NAME => \Stripe\Reporting\ReportType::class,
+            \Stripe\Reserve\Hold::OBJECT_NAME => \Stripe\Reserve\Hold::class,
+            \Stripe\Reserve\Plan::OBJECT_NAME => \Stripe\Reserve\Plan::class,
+            \Stripe\Reserve\Release::OBJECT_NAME => \Stripe\Reserve\Release::class,
             \Stripe\ReserveTransaction::OBJECT_NAME => \Stripe\ReserveTransaction::class,
             \Stripe\Review::OBJECT_NAME => \Stripe\Review::class,
             \Stripe\SetupAttempt::OBJECT_NAME => \Stripe\SetupAttempt::class,
@@ -119,6 +128,7 @@ class ObjectTypes
             \Stripe\Subscription::OBJECT_NAME => \Stripe\Subscription::class,
             \Stripe\SubscriptionItem::OBJECT_NAME => \Stripe\SubscriptionItem::class,
             \Stripe\SubscriptionSchedule::OBJECT_NAME => \Stripe\SubscriptionSchedule::class,
+            \Stripe\Tax\Association::OBJECT_NAME => \Stripe\Tax\Association::class,
             \Stripe\Tax\Calculation::OBJECT_NAME => \Stripe\Tax\Calculation::class,
             \Stripe\Tax\CalculationLineItem::OBJECT_NAME => \Stripe\Tax\CalculationLineItem::class,
             \Stripe\Tax\Registration::OBJECT_NAME => \Stripe\Tax\Registration::class,
@@ -132,6 +142,7 @@ class ObjectTypes
             \Stripe\Terminal\Configuration::OBJECT_NAME => \Stripe\Terminal\Configuration::class,
             \Stripe\Terminal\ConnectionToken::OBJECT_NAME => \Stripe\Terminal\ConnectionToken::class,
             \Stripe\Terminal\Location::OBJECT_NAME => \Stripe\Terminal\Location::class,
+            \Stripe\Terminal\OnboardingLink::OBJECT_NAME => \Stripe\Terminal\OnboardingLink::class,
             \Stripe\Terminal\Reader::OBJECT_NAME => \Stripe\Terminal\Reader::class,
             \Stripe\TestHelpers\TestClock::OBJECT_NAME => \Stripe\TestHelpers\TestClock::class,
             \Stripe\Token::OBJECT_NAME => \Stripe\Token::class,
@@ -149,8 +160,6 @@ class ObjectTypes
             \Stripe\Treasury\ReceivedDebit::OBJECT_NAME => \Stripe\Treasury\ReceivedDebit::class,
             \Stripe\Treasury\Transaction::OBJECT_NAME => \Stripe\Treasury\Transaction::class,
             \Stripe\Treasury\TransactionEntry::OBJECT_NAME => \Stripe\Treasury\TransactionEntry::class,
-            \Stripe\UsageRecord::OBJECT_NAME => \Stripe\UsageRecord::class,
-            \Stripe\UsageRecordSummary::OBJECT_NAME => \Stripe\UsageRecordSummary::class,
             \Stripe\WebhookEndpoint::OBJECT_NAME => \Stripe\WebhookEndpoint::class,
             // object classes: The end of the section generated from our OpenAPI spec
         ];
@@ -163,8 +172,13 @@ class ObjectTypes
         \Stripe\V2\Billing\MeterEvent::OBJECT_NAME => \Stripe\V2\Billing\MeterEvent::class,
         \Stripe\V2\Billing\MeterEventAdjustment::OBJECT_NAME => \Stripe\V2\Billing\MeterEventAdjustment::class,
         \Stripe\V2\Billing\MeterEventSession::OBJECT_NAME => \Stripe\V2\Billing\MeterEventSession::class,
-        \Stripe\V2\Event::OBJECT_NAME => \Stripe\V2\Event::class,
-        \Stripe\V2\EventDestination::OBJECT_NAME => \Stripe\V2\EventDestination::class,
+        \Stripe\V2\Core\Account::OBJECT_NAME => \Stripe\V2\Core\Account::class,
+        \Stripe\V2\Core\AccountLink::OBJECT_NAME => \Stripe\V2\Core\AccountLink::class,
+        \Stripe\V2\Core\AccountPerson::OBJECT_NAME => \Stripe\V2\Core\AccountPerson::class,
+        \Stripe\V2\Core\AccountPersonToken::OBJECT_NAME => \Stripe\V2\Core\AccountPersonToken::class,
+        \Stripe\V2\Core\AccountToken::OBJECT_NAME => \Stripe\V2\Core\AccountToken::class,
+        \Stripe\V2\Core\Event::OBJECT_NAME => \Stripe\V2\Core\Event::class,
+        \Stripe\V2\Core\EventDestination::OBJECT_NAME => \Stripe\V2\Core\EventDestination::class,
         // v2 object classes: The end of the section generated from our OpenAPI spec
     ];
 }

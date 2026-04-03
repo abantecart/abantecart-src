@@ -274,6 +274,10 @@
 		<value><![CDATA[Cannot connect?]]></value>
 	</definition>
 	<definition>
+		<key>text_connected_account</key>
+		<value><![CDATA[You are connected with the account:]]></value>
+	</definition>
+	<definition>
 		<key>paypal_commerce_error_cannot_connect</key>
 		<value><![CDATA[Connection to Paypal server can not be established.<br>%s<br>Check your server configuration or contact your hosting provider.]]></value>
 	</definition>
