@@ -2037,7 +2037,7 @@ INSERT INTO `ac_tax_rate_descriptions` (`tax_rate_id`, `language_id`, `descripti
 DROP TABLE IF EXISTS `ac_url_aliases`;
 CREATE TABLE `ac_url_aliases` (
   `url_alias_id` int(11) NOT NULL AUTO_INCREMENT,
-  `query` varchar(2048) NOT NULL,
+  `query` varchar(3072) NOT NULL,
   `keyword` varchar(255) NOT NULL COMMENT 'translatable',
   `language_id` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`url_alias_id`)

@@ -237,3 +237,6 @@ alter table `ac_category_descriptions`
 
 alter table `ac_contents`
     add show_title int default 1 null after content_bar;
+
+alter table `ac_url_aliases`
+    modify query varchar(3072) not null;
