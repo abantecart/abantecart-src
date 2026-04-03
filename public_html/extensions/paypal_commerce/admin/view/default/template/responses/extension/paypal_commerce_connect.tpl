@@ -12,6 +12,7 @@
             <span><?php echo $text_connect; ?> (test) </span>
         </a>
     <?php } ?>
+    <p><?php echo $text_connected_account; ?> <strong><?php echo $connected_account; ?></strong></p>
 <?php } else { ?>
     <a href="<?php echo $connect_url; ?>" class="pp-live-btn inblock mr10 ml30">
         <i class="fa fa-paypal mr10"></i>
