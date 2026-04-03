@@ -3,6 +3,7 @@
 namespace Stripe\Util;
 
 use Stripe\StripeObject;
+use Stripe\V2\DeletedObject;
 
 abstract class Util
 {
@@ -39,13 +40,14 @@ abstract class Util
      * @param array                $resp    the response from the Stripe API
      * @param array|RequestOptions $opts
      * @param 'v1'|'v2'            $apiMode whether the response is from a v1 or v2 API
+     * @param bool                 $isV2DeletedObject whether we should ignore the `object` field and treat the response as a v2 deleted object
      *
      * @return array|StripeObject
      */
-    public static function convertToStripeObject($resp, $opts, $apiMode = 'v1')
+    public static function convertToStripeObject($resp, $opts, $apiMode = 'v1', $isV2DeletedObject = false)
     {
-        $types = 'v1' === $apiMode ? \Stripe\Util\ObjectTypes::mapping
-            : \Stripe\Util\ObjectTypes::v2Mapping;
+        $types = 'v1' === $apiMode ? ObjectTypes::mapping
+            : ObjectTypes::v2Mapping;
         if (self::isList($resp)) {
             $mapped = [];
             foreach ($resp as $i) {
@@ -55,16 +57,19 @@ abstract class Util
             return $mapped;
         }
         if (\is_array($resp)) {
-            if (isset($resp['object']) && \is_string($resp['object'])
+            if ($isV2DeletedObject) {
+                $class = DeletedObject::class;
+            } elseif (
+                isset($resp['object']) && \is_string($resp['object'])
                 && isset($types[$resp['object']])
             ) {
                 $class = $types[$resp['object']];
                 if ('v2' === $apiMode && ('v2.core.event' === $resp['object'])) {
-                    $eventTypes = \Stripe\Util\EventTypes::thinEventMapping;
+                    $eventTypes = EventTypes::v2EventMapping;
                     if (\array_key_exists('type', $resp) && \array_key_exists($resp['type'], $eventTypes)) {
                         $class = $eventTypes[$resp['type']];
                     } else {
-                        $class = \Stripe\StripeObject::class;
+                        $class = \Stripe\V2\Core\Event::class;
                     }
                 }
             } elseif (\array_key_exists('data', $resp) && \array_key_exists('next_page_url', $resp)) {
@@ -72,48 +77,13 @@ abstract class Util
                 // to return something for `object` here.
                 $class = \Stripe\V2\Collection::class;
             } else {
-                $class = \Stripe\StripeObject::class;
+                $class = StripeObject::class;
             }
 
             return $class::constructFrom($resp, $opts, $apiMode);
         }
 
         return $resp;
-    }
-
-    /**
-     * @param mixed $json
-     * @param mixed $class
-     *
-     * @throws \ReflectionException
-     */
-    public static function json_decode_thin_event_object($json, $class)
-    {
-        $reflection = new \ReflectionClass($class);
-        $instance = $reflection->newInstanceWithoutConstructor();
-        $json = json_decode($json, true);
-        $properties = $reflection->getProperties();
-        foreach ($properties as $key => $property) {
-            if (\array_key_exists($property->getName(), $json)) {
-                if ('related_object' === $property->getName()) {
-                    $related_object = new \Stripe\RelatedObject();
-                    $related_object->id = $json['related_object']['id'];
-                    $related_object->url = $json['related_object']['url'];
-                    $related_object->type = $json['related_object']['type'];
-                    $property->setValue($instance, $related_object);
-                } elseif ('reason' === $property->getName()) {
-                    $reason = new \Stripe\Reason();
-                    $reason->id = $json['reason']['id'];
-                    $reason->idempotency_key = $json['reason']['idempotency_key'];
-                    $property->setValue($instance, $reason);
-                } else {
-                    $property->setAccessible(true);
-                    $property->setValue($instance, $json[$property->getName()]);
-                }
-            }
-        }
-
-        return $instance;
     }
 
     /**
@@ -130,18 +100,17 @@ abstract class Util
 
             if (!self::$isMbstringAvailable) {
                 \trigger_error(
-                    'It looks like the mbstring extension is not enabled. ' .
-                    'UTF-8 strings will not properly be encoded. Ask your system '
-                    .
-                    'administrator to enable the mbstring extension, or write to '
-                    .
-                    'support@stripe.com if you have any questions.',
+                    'It looks like the mbstring extension is not enabled. '
+                        . 'UTF-8 strings will not properly be encoded. Ask your system '
+                        . 'administrator to enable the mbstring extension, or write to '
+                        . 'support@stripe.com if you have any questions.',
                     \E_USER_WARNING
                 );
             }
         }
 
-        if (\is_string($value) && self::$isMbstringAvailable
+        if (
+            \is_string($value) && self::$isMbstringAvailable
             && 'UTF-8' !== \mb_detect_encoding($value, 'UTF-8', true)
         ) {
             return mb_convert_encoding($value, 'UTF-8', 'ISO-8859-1');
@@ -262,7 +231,7 @@ abstract class Util
                     self::flattenParams($value, $calculatedKey, $apiMode)
                 );
             } else {
-                \array_push($result, [$calculatedKey, $value]);
+                $result[] = [$calculatedKey, $value];
             }
         }
 
@@ -295,11 +264,8 @@ abstract class Util
                     self::flattenParams($elem, "{$calculatedKey}[{$i}]")
                 );
             } else {
-                if ('v2' === $apiMode) {
-                    \array_push($result, ["{$calculatedKey}", $elem]);
-                } else {
-                    \array_push($result, ["{$calculatedKey}[{$i}]", $elem]);
-                }
+                // Always use indexed format for arrays
+                $result[] = ["{$calculatedKey}[{$i}]", $elem];
             }
         }
 
@@ -358,5 +324,18 @@ abstract class Util
         }
 
         return $apiMode;
+    }
+
+    /**
+     * Useful for determining if we should trust the object type when turning a response into a StripeObject.
+     *
+     * @param 'delete'|'get'|'post' $method the HTTP method
+     * @param 'v1'|'v2' $apiMode the API version
+     *
+     * @return bool true if the method is a DELETE request for v2 API, false otherwise
+     */
+    public static function isV2DeleteRequest($method, $apiMode)
+    {
+        return 'delete' === $method && 'v2' === $apiMode;
     }
 }
