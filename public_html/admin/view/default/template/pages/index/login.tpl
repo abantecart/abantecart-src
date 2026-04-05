@@ -16,13 +16,15 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="input-group">
-                <div class="input-group-addon"><i class="fa fa-key fa-fw"></i></div>
-                <?php echo $form['fields']['password']; ?>
-            </div>
-            <div class="pwdhelp text-danger" style="display: none;">
-                <?php echo $this->language->get('warning_capslock'); ?>
-            </div>
+            <capslock-warning warning-selector=".capslock-warning">
+                <div class="input-group">
+                    <div class="input-group-addon"><i class="fa fa-key fa-fw"></i></div>
+                    <?php echo $form['fields']['password']; ?>
+                </div>
+                <div class="capslock-warning text-danger" style="display: none;">
+                    <?php echo $this->language->get('warning_capslock'); ?>
+                </div>
+            </capslock-warning>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary btn-block">
@@ -46,7 +48,6 @@
     $(document).ready( function (){
        $('#loginFrm_username').focus();
        $('.warning.alert-danger').addClass('blink');
-       window.enableCapsLockWarnings();
     });
 
 </script>

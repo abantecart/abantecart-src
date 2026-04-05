@@ -1372,41 +1372,68 @@ function copyToClipboard(el, target) {
 	info_alert('Copied!', true, $(target));
 }
 
-// CapsLock warning helper for password fields (reusable across admin pages).
-function enableCapsLockWarnings(container = document) {
-    const passwordFields = container.querySelectorAll('input[type="password"]');
-    passwordFields.forEach(field => {
-        const checkCapsLock = (e) => {
-            const warning = $(field).closest('.form-group').find('.pwdhelp');
-            if (!warning.length) {
-                return;
-            }
-            const capsOn = e.getModifierState && e.getModifierState('CapsLock');
-            if (capsOn) {
-                warning.show();
-            } else {
-                warning.hide();
-            }
-        };
+// CapsLock warning custom element.
+if (!customElements.get('capslock-warning')) {
+	class CapsLockWarning extends HTMLElement {
+		connectedCallback() {
+			if (this._initialized) {
+				return;
+			}
+			this._initialized = true;
 
-        const attach = () => {
-            window.addEventListener('keydown', checkCapsLock);
-            window.addEventListener('keyup', checkCapsLock);
-        };
+			var fieldSelector = this.getAttribute('field-selector') || 'input, textarea';
+			var warningSelector = this.getAttribute('warning-selector');
+			this._field = this.querySelector(fieldSelector);
+			this._warning = this.querySelector(warningSelector);
 
-        const detach = () => {
-            window.removeEventListener('keydown', checkCapsLock);
-            window.removeEventListener('keyup', checkCapsLock);
-            $(field).closest('.form-group').find('.pwdhelp').hide();
-        };
+			if (!this._field || !this._warning) {
+				return;
+			}
 
-        field.addEventListener('keydown', checkCapsLock);
-        field.addEventListener('keyup', checkCapsLock);
-        field.addEventListener('focus', (e) => {
-            attach();
-            checkCapsLock(e);
-        });
-        field.addEventListener('blur', detach);
-        $(field).closest('.form-group').find('.pwdhelp').hide();
-    });
+			this._onCheck = this._checkCapsLock.bind(this);
+			this._onFocus = this._handleFocus.bind(this);
+			this._onBlur = this._hideWarning.bind(this);
+
+			this._field.addEventListener('keydown', this._onCheck);
+			this._field.addEventListener('keyup', this._onCheck);
+			this._field.addEventListener('focus', this._onFocus);
+			this._field.addEventListener('blur', this._onBlur);
+			this._hideWarning();
+		}
+
+		disconnectedCallback() {
+			if (this._field) {
+				this._field.removeEventListener('keydown', this._onCheck);
+				this._field.removeEventListener('keyup', this._onCheck);
+				this._field.removeEventListener('focus', this._onFocus);
+				this._field.removeEventListener('blur', this._onBlur);
+			}
+			if (this._warning) {
+				this._hideWarning();
+			}
+		}
+
+		_checkCapsLock(e) {
+			var capsOn = !!(e && e.getModifierState && e.getModifierState('CapsLock'));
+			if (capsOn) {
+				this._showWarning();
+			} else {
+				this._hideWarning();
+			}
+		}
+
+		_handleFocus(e) {
+			this._checkCapsLock(e);
+		}
+
+		_showWarning() {
+			this._warning.style.display = '';
+		}
+
+		_hideWarning() {
+			this._warning.style.display = 'none';
+		}
+	}
+
+	window.customElements.define('capslock-warning', CapsLockWarning);
 }
