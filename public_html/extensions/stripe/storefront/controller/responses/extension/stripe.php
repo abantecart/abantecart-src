@@ -32,20 +32,9 @@ use Stripe\Webhook;
  */
 class ControllerResponsesExtensionStripe extends AController
 {
-    protected function sortArrayRecursively(array &$data): void
-    {
-        foreach ($data as &$value) {
-            if (is_array($value)) {
-                $this->sortArrayRecursively($value);
-            }
-        }
-        unset($value);
-        ksort($data);
-    }
-
     protected function buildPaymentIntentIdempotencyKey(array $piDetails): string
     {
-        $this->sortArrayRecursively($piDetails);
+        sortArrayRecursively($piDetails);
         return 'ac_pi_' . md5(
             json_encode($piDetails, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
         );

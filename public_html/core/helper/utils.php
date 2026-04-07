@@ -24,6 +24,23 @@ function isFunctionAvailable($func_name)
 }
 
 /**
+ * Recursively sort array keys to make payload hashing deterministic.
+ *
+ * @param array $data
+ * @return void
+ */
+function sortArrayRecursively(array &$data): void
+{
+    foreach ($data as &$value) {
+        if (is_array($value)) {
+            sortArrayRecursively($value);
+        }
+    }
+    unset($value);
+    ksort($data);
+}
+
+/**
  * prepare prices and other floats for database writing, based on locale settings of number formatting
  * @see moneyDisplayFormat()
  */
