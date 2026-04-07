@@ -1,6 +1,8 @@
+<?php if (empty($content_info['content_id']) || !empty($content_info['show_title'])) { ?>
 <h1 class="ms-3 my-2 heading-title ">
     <?php echo $heading_title; ?>
 </h1>
+<?php } ?>
 <?php if ($content_info && $content_info['content_bar']) { ?>
 <h6 class="m-2 p-2 text-secondary bg-light d-flex justify-content-between">
     <div>

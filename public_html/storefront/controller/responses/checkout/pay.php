@@ -458,6 +458,9 @@ class ControllerResponsesCheckoutPay extends AController
         if (isset($this->error['message'])) {
             $this->data['error'] = $this->error['message'];
         }
+        if (!empty($this->data['error'])) {
+            $this->data['payment_form'] = false;
+        }
 
         //pass cart session to template view
         $this->data['csession'] = $this->fc_session;

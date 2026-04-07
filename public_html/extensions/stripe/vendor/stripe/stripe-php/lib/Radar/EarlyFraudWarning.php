@@ -8,7 +8,7 @@ namespace Stripe\Radar;
  * An early fraud warning indicates that the card issuer has notified us that a
  * charge may be fraudulent.
  *
- * Related guide: <a href="https://stripe.com/docs/disputes/measuring#early-fraud-warnings">Early fraud warnings</a>
+ * Related guide: <a href="https://docs.stripe.com/disputes/measuring#early-fraud-warnings">Early fraud warnings</a>
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
@@ -34,12 +34,12 @@ class EarlyFraudWarning extends \Stripe\ApiResource
     /**
      * Returns a list of early fraud warnings.
      *
-     * @param null|array $params
+     * @param null|array{charge?: string, created?: array|int, ending_before?: string, expand?: string[], limit?: int, payment_intent?: string, starting_after?: string} $params
      * @param null|array|string $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     * @return \Stripe\Collection<EarlyFraudWarning> of ApiResources
      *
-     * @return \Stripe\Collection<\Stripe\Radar\EarlyFraudWarning> of ApiResources
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public static function all($params = null, $opts = null)
     {
@@ -58,9 +58,9 @@ class EarlyFraudWarning extends \Stripe\ApiResource
      * @param array|string $id the ID of the API resource to retrieve, or an options array containing an `id` key
      * @param null|array|string $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     * @return EarlyFraudWarning
      *
-     * @return \Stripe\Radar\EarlyFraudWarning
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public static function retrieve($id, $opts = null)
     {

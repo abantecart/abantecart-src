@@ -2034,18 +2034,18 @@ INSERT INTO `ac_tax_rate_descriptions` (`tax_rate_id`, `language_id`, `descripti
 --
 -- DDL for table `url_alias`
 --
+#NOTE: query_hash needed for unique index!
 DROP TABLE IF EXISTS `ac_url_aliases`;
 CREATE TABLE `ac_url_aliases` (
-  `url_alias_id` int(11) NOT NULL AUTO_INCREMENT,
-  `query` varchar(255) NOT NULL,
-  `keyword` varchar(255) NOT NULL COMMENT 'translatable',
-  `language_id` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`url_alias_id`)
-) ENGINE=InnoDb  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
-CREATE UNIQUE INDEX `ac_url_aliases_idx`
-ON `ac_url_aliases` ( `keyword`, `language_id`);
-CREATE UNIQUE INDEX `ac_url_aliases_idx2`
-ON `ac_url_aliases` ( `query`, `language_id` );
+      `url_alias_id` int(11) NOT NULL AUTO_INCREMENT,
+      `query` varchar(2048) NOT NULL,
+      `query_hash` char(32) GENERATED ALWAYS AS (MD5(`query`)) STORED,
+      `keyword` varchar(255) NOT NULL COMMENT 'translatable',
+      `language_id` int(11) NOT NULL DEFAULT '1',
+      PRIMARY KEY (`url_alias_id`),
+      UNIQUE KEY `ac_url_aliases_idx` (`keyword`, `language_id`),
+      UNIQUE KEY `ac_url_aliases_idx2` (`query_hash`, `language_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
 
 
 --
@@ -11927,7 +11927,7 @@ INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES
 (11,'text_online',214),
 (11,'text_order',215),
-(11,'text_transactions',216);
+(11,'text_balance_history',216);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES

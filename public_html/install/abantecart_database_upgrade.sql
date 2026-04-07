@@ -237,3 +237,12 @@ alter table `ac_category_descriptions`
 
 alter table `ac_contents`
     add show_title int default 1 null after content_bar;
+
+
+ALTER TABLE `ac_url_aliases`
+    DROP INDEX `ac_url_aliases_idx2`,
+    MODIFY COLUMN `query` varchar(2048) NOT NULL,
+    ADD COLUMN `query_hash` char(32) GENERATED ALWAYS AS (MD5(`query`)) STORED;
+
+CREATE UNIQUE INDEX `ac_url_aliases_idx2`
+    ON `ac_url_aliases` (`query_hash`, `language_id`);

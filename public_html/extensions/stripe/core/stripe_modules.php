@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details is bundled with this package in the file LICENSE.txt.
@@ -25,11 +25,14 @@
 function grantStripeAccess($config)
 {
     $apiKey = $config->get('stripe_test_mode') ? $config->get('stripe_sk_test') : $config->get('stripe_sk_live');
-    if(!$apiKey){
+    if (!$apiKey) {
         return false;
     }
-    Stripe\Stripe::setApiKey($apiKey);
-    \Stripe\Stripe::setApiVersion("2024-11-20.acacia");
-    return new Stripe\StripeClient($apiKey);
+    return new Stripe\StripeClient(
+        [
+            'api_key'        => $apiKey,
+            'stripe_version' => '2026-02-25.clover',
+        ]
+    );
 
 }

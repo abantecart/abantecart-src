@@ -66,7 +66,7 @@ if ($show_payment) {
     $readonly = count((array)$csession['shipping_methods']) == 1 ? ' readonly ' : '' ;
 ?>
     <div class="flex-item flex-fill ps-0 pt-0 pb-1">
-        <h4 class="shipping_address_label mt-2"><?php echo $fast_checkout_text_payment_address; ?></h4>
+        <h4 class="shipping_address_label mt-2 mt-lg-0"><?php echo $fast_checkout_text_payment_address; ?></h4>
         <div class="input-group">
             <div class="input-group-text">
                 <i class="fa fa-bank" id="delivery_icon"></i>
