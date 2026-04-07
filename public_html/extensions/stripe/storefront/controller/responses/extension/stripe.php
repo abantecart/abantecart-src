@@ -32,6 +32,14 @@ use Stripe\Webhook;
  */
 class ControllerResponsesExtensionStripe extends AController
 {
+    protected function buildPaymentIntentIdempotencyKey(array $piDetails): string
+    {
+        sortArrayRecursively($piDetails);
+        return 'ac_pi_' . md5(
+            json_encode($piDetails, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+        );
+    }
+
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
@@ -188,17 +196,7 @@ class ControllerResponsesExtensionStripe extends AController
             $piDetails['automatic_payment_methods'] = ['enabled' => true];
         }
 
-        $idempotencyKey = 'ac_pi_' . md5(
-            implode(
-                '|',
-                [
-                    (string)$order_info['order_id'],
-                    (string)$cartKey,
-                    (string)$this->data['total_amount'],
-                    strtolower((string)$currency),
-                ]
-            )
-        );
+        $idempotencyKey = $this->buildPaymentIntentIdempotencyKey($piDetails);
         $paymentIntent = $this->model_extension_stripe->getOrCreatePaymentIntent(
             $piDetails,
             ['idempotency_key' => $idempotencyKey]

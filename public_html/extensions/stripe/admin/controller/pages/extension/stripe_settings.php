@@ -63,6 +63,7 @@ class ControllerPagesExtensionStripeSettings extends AController
             if ($this->request->get['livemode']) {
                 $settings = [
                     'stripe_access_token' => $this->request->get['access_token'],
+                    'stripe_account_id'   => $this->request->get['account_id'],
                     'stripe_sk_live'      => $this->request->get['access_token'],
                     'stripe_pk_live'      => $this->request->get['pub_key'],
                     'stripe_test_mode'    => 0,
@@ -70,6 +71,7 @@ class ControllerPagesExtensionStripeSettings extends AController
             }else{
                 $settings = [
                     'stripe_access_token' => $this->request->get['access_token'],
+                    'stripe_account_id'   => $this->request->get['account_id'],
                     'stripe_sk_test'      => $this->request->get['access_token'],
                     'stripe_pk_test'      => $this->request->get['pub_key'],
                     'stripe_test_mode'    => 1,
@@ -84,6 +86,7 @@ class ControllerPagesExtensionStripeSettings extends AController
                     'stripe',
                     [
                         'stripe_access_token' => '',
+                        'stripe_account_id' => '',
                         'stripe_pk_live' => '',
                         'stripe_sk_live' => '',
                         'stripe_sk_test' => '',
@@ -174,6 +177,7 @@ class ControllerPagesExtensionStripeSettings extends AController
 
         //see if we are connected yet to stripe
         $stripe_code = $settings['stripe_access_token'] ?? '';
+        $this->data['connected_account'] = (string)($settings['stripe_account_id'] ?? '');
         if ($stripe_code) {
             //validate the token
             $this->data['connected'] = true;

@@ -201,6 +201,10 @@
 		<value><![CDATA[Disconnected from Stripe successfully]]></value>
 	</definition>
 	<definition>
+		<key>text_connected_account</key>
+		<value><![CDATA[You connected with account: ]]></value>
+	</definition>
+	<definition>
 		<key>stripe_sort_order</key>
 		<value><![CDATA[Sort Order]]></value>
 	</definition>
