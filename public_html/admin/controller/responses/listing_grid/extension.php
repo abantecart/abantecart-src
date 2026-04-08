@@ -35,7 +35,7 @@ class ControllerResponsesListingGridExtension extends AController
         /** @var ModelToolMPAPI $mpModel */
         $mpModel = $this->loadModel('tool/mp_api');
         $page = max(1,(int)$this->request->post['page']);
-        $limit = (int)$this->request->post['rows']; // get how many rows we want to have into the grid
+        $limit = max(20, (int)$this->request->post['rows']); // get how many rows we want to have into the grid
         $sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
         $sord = $this->request->post['sord']; // get the direction
 
@@ -315,7 +315,6 @@ class ControllerResponsesListingGridExtension extends AController
             }
         }
 
-        $response->rows = array_slice($response->rows, (int)($page - 1) * $limit, $limit);
         $this->data['response'] = $response;
 
         //update controller data
