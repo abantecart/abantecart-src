@@ -35,9 +35,9 @@ class ControllerResponsesListingGridExtension extends AController
         /** @var ModelToolMPAPI $mpModel */
         $mpModel = $this->loadModel('tool/mp_api');
         $page = max(1,(int)$this->request->post['page']);
-        $rows = (int)($this->request->post['rows'] ?? 0);
+        $requested_rows = (int)($this->request->post['rows'] ?? 0);
         $defaultLimit = (int)$this->config->get('config_admin_limit');
-        $limit = max(1, $rows > 0 ? $rows : $defaultLimit); // get how many rows we want to have into the grid
+        $limit = max(1, $requested_rows > 0 ? $requested_rows : $defaultLimit); // get how many rows we want to have into the grid
         $sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
         $sord = $this->request->post['sord']; // get the direction
 
@@ -143,10 +143,7 @@ class ControllerResponsesListingGridExtension extends AController
         $popular = (array)$mpModel->getPopularity();
         $popular_map = array_fill_keys(array_keys((array)$popular), true);
         if ($prepend_popular && $popular_map) {
-            $popular_prepend_rows = $this->getPopularSortedPrependRows($popular, $data);
-            if ($popular_prepend_rows) {
-                $rows = array_merge($popular_prepend_rows, $rows);
-            }
+            $rows = $this->sortPopularRowsWithinCurrentPage($rows, $popular);
         }
 
         foreach ($rows as $row) {
@@ -158,14 +155,11 @@ class ControllerResponsesListingGridExtension extends AController
                 $row['version'] .= '.0';
             }
             $expired = false;
-            $is_popular_prepend = !empty($row['popular_prepend']);
-            $id_prefix = $is_popular_prepend ? 'popular-' : '';
-            $response->rows[$i]['id'] = $id_prefix . str_replace(' ', '-', $row['key']) . '_' . (int)$row['store_id'];
+            $response->rows[$i]['id'] = str_replace(' ', '-', $row['key']) . '_' . (int)$row['store_id'];
             $id = $response->rows[$i]['id'];
 
             $response->userdata->extension_id[$id] = $extension;
             $response->userdata->store_id[$id] = $row['store_id'];
-            $response->userdata->popular_prepend[$id] = $is_popular_prepend;
             $response->userdata->popular[$id] = [
                 'status'      => isset($popular_map[$extension]),
                 'description' => $popular[$extension]
@@ -463,40 +457,30 @@ class ControllerResponsesListingGridExtension extends AController
         return !empty($this->session->data[$prepend_session_key]);
     }
 
-    protected function getPopularSortedPrependRows(array $popular, array $data): array
+    protected function sortPopularRowsWithinCurrentPage(array $rows, array $popular): array
     {
-        if (!$popular) {
-            return [];
+        if (!$popular || !$rows) {
+            return $rows;
         }
 
-        $popular_map = array_fill_keys(array_keys($popular), true);
-        $all_extensions = $this->extension_manager->getExtensionsList(
-            array_diff_key($data, ['page' => true, 'limit' => true]),
-            'force'
-        );
-
-        $popular_prepend_rows = [];
-        $popular_prepend_index = 0;
-        if (!empty($all_extensions->rows)) {
-            foreach ($all_extensions->rows as $row) {
-                if (!isset($popular_map[$row['key']])) {
-                    continue;
-                }
-                $row['popular_prepend'] = true;
-                $row['popular_prepend_index'] = $popular_prepend_index++;
-                $popular_prepend_rows[] = $row;
-            }
+        foreach ($rows as $idx => &$row) {
+            $row['popular_sort_index'] = $idx;
         }
-
-        if (!$popular_prepend_rows) {
-            return [];
-        }
+        unset($row);
 
         usort(
-            $popular_prepend_rows,
-            function ($a, $b) use ($popular) {
+            $rows,
+            static function ($a, $b) use ($popular) {
                 $a_key = (string)$a['key'];
                 $b_key = (string)$b['key'];
+                $a_is_popular = isset($popular[$a_key]);
+                $b_is_popular = isset($popular[$b_key]);
+                if ($a_is_popular !== $b_is_popular) {
+                    return $a_is_popular ? -1 : 1;
+                }
+                if (!$a_is_popular && !$b_is_popular) {
+                    return (int)$a['popular_sort_index'] <=> (int)$b['popular_sort_index'];
+                }
 
                 if ($a_key === 'paypal_commerce' && $b_key !== 'paypal_commerce') {
                     return -1;
@@ -513,10 +497,15 @@ class ControllerResponsesListingGridExtension extends AController
                     return $a_very ? -1 : 1;
                 }
 
-                return (int)$a['popular_prepend_index'] <=> (int)$b['popular_prepend_index'];
+                return (int)$a['popular_sort_index'] <=> (int)$b['popular_sort_index'];
             }
         );
 
-        return $popular_prepend_rows;
+        foreach ($rows as &$row) {
+            unset($row['popular_sort_index']);
+        }
+        unset($row);
+
+        return $rows;
     }
 }
