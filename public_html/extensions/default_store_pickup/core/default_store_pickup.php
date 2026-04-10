@@ -136,6 +136,7 @@ class ExtensionDefaultStorePickup extends Extension
             $sGuest['shipping']['firstname'] = $sGuest['shipping']['firstname'] ?: $sGuest['firstname'];
             $sGuest['shipping']['lastname'] = $sGuest['shipping']['lastname'] ?: $sGuest['lastname'];
             $sGuest['shipping']['address_1'] = $that->config->get('config_address');
+            $sGuest['shipping']['address_2'] = '';
             $sGuest['shipping']['postcode'] = $that->config->get('config_postcode');
             $sGuest['shipping']['city'] = $that->config->get('config_city');
             $sGuest['shipping']['country_id'] = $that->config->get('config_country_id');
