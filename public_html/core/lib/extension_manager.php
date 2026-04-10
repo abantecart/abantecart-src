@@ -134,6 +134,17 @@ class AExtensionManager
                  `date_added` = NOW()"
         );
 
+        // Keeps Avatax visible in first page on the first ext files scan
+        if ($key === 'avatax_integration') {
+            $table = $this->db->table("extensions");
+            $this->db->query("SET @max_ext_date := (SELECT COALESCE(MAX(`date_modified`), NOW()) FROM " . $table . ")");
+            $this->db->query(
+                "UPDATE " . $table . "
+                 SET `date_modified` = @max_ext_date + INTERVAL 1 SECOND
+                 WHERE `key` = 'avatax_integration'"
+            );
+        }
+
         $this->cache->remove('extensions');
 
         return $this->db->getLastId();

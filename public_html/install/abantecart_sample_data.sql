@@ -7,18 +7,18 @@ REPLACE INTO `ac_extensions`
 (`type`, `key`, `category`, `status`, `priority`,`version`, `license_key`, `date_installed`, `support_expiration`,
  `mp_product_url`,`date_modified`, `date_added`)
 VALUES
-('payment','default_cod','payment',1,1,'1.0.1',NULL,NOW(),NULL,'',NOW(),NOW()),
-('shipping','default_flat_rate_shipping','shipping',1,1,'1.0.1',NULL,NOW(),NULL,'',NOW(),NOW()),
-('shipping','default_local_delivery','shipping',1,10,'1.0.0','',NOW(),NULL,'',NOW(),NOW());
+('payment','default_cod','payment',1,1,'1.1.2',NULL,NOW(),NULL,'',NOW() + INTERVAL 1 HOUR,NOW()),
+('shipping','default_flat_rate_shipping','shipping',1,1,'1.1.1',NULL,NOW(),NULL,'',NOW(),NOW()),
+('shipping','default_local_delivery','shipping',1,10,'1.4.3','',NOW(),NULL,'',NOW(),NOW());
 
 INSERT INTO `ac_settings`
 ( `store_id`, `group`,`key`,`value`,`date_added`,`date_modified`)
 VALUES
-(0,'default_cod','default_cod_sort_order','1',NOW(),NOW()),
-(0,'default_cod','default_cod_order_status_id','1',NOW(),NOW()),
-(0,'default_cod','default_cod_status','1',NOW(),NOW()),
-(0,'default_cod','default_cod_location_id','0',NOW(),NOW()),
-(0,'default_cod','default_cod_autoselect','1',NOW(),NOW()),
+(0,'default_cod','default_cod_sort_order','1',NOW(),NOW() + INTERVAL 1 HOUR),
+(0,'default_cod','default_cod_order_status_id','1',NOW(),NOW() + INTERVAL 1 HOUR),
+(0,'default_cod','default_cod_status','1',NOW(),NOW() + INTERVAL 1 HOUR),
+(0,'default_cod','default_cod_location_id','0',NOW(),NOW() + INTERVAL 1 HOUR),
+(0,'default_cod','default_cod_autoselect','1',NOW(),NOW() + INTERVAL 1 HOUR),
 
 (0,'default_flat_rate_shipping','default_flat_rate_shipping_default_status','1',NOW(),NOW()),
 (0,'default_flat_rate_shipping','default_flat_rate_shipping_default_cost','2',NOW(),NOW()),
