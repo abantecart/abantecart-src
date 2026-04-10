@@ -35,6 +35,22 @@ if (!window.hasOwnProperty("search_url")) {
     window.search_url = baseUrl + '?rt=product/search';
 }
 
+function setupGlobalPreloaderReset() {
+    function hideGlobalPreloader() {
+        const preloader = document.getElementById('preloader');
+        if (!preloader) {
+            return;
+        }
+        preloader.style.display = 'none';
+    }
+
+    hideGlobalPreloader();
+    document.addEventListener('DOMContentLoaded', hideGlobalPreloader);
+    window.addEventListener('pageshow', hideGlobalPreloader);
+}
+
+setupGlobalPreloaderReset();
+
 $(document).on('submit','form.needs-validation', function(e){
     if (!$(this)[0].checkValidity()) {
         try {
@@ -47,7 +63,6 @@ $(document).on('submit','form.needs-validation', function(e){
 });
 
 $(document).ready(function(){
-
     //dropdown hovers
     document.querySelectorAll('.dropdown').forEach(function (dropdown) {
         const toggle = dropdown.querySelector('[data-bs-toggle="dropdown"]');
