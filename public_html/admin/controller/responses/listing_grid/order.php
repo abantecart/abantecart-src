@@ -248,8 +248,12 @@ class ControllerResponsesListingGridOrder extends AController
 
         if (isset($this->request->get['id'])) {
             $orderId = (int)$this->request->get['id'];
-            $mdl->addOrderHistory($orderId, $this->request->post);
-        }else {
+            if (isset($this->request->post['order_status_id'])) {
+                $mdl->addOrderHistory($orderId, $this->request->post);
+            } else {
+                $mdl->editOrder($orderId, $this->request->post);
+            }
+        } else {
             //request sent from jGrid. ID is a key of an array
             foreach ($this->request->post as $field => $value) {
                 foreach ($value as $k => $v) {
