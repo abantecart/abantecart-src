@@ -481,6 +481,10 @@
 		<value><![CDATA[Change order status to "%s" to create shipment via USPS API and get parcel labels]]></value>
 	</definition>
 	<definition>
+		<key>usps_text_print_label_missing_settings</key>
+		<value><![CDATA[To generate labels, first complete your USPS account details in Extension Settings.]]></value>
+	</definition>
+	<definition>
 		<key>usps_entry_weight</key>
 		<value><![CDATA[Weight:]]></value>
 	</definition>

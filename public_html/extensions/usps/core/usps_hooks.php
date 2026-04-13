@@ -249,6 +249,18 @@ class ExtensionUsps extends Extension
 
         $pData = (array)$data['usps_data']['usps_parcel_data'];
         if ($pData) {
+            $labelSettingsConfigured = $this->hasUspsLabelSettingsConfigured($that);
+            $suggestionText = $labelSettingsConfigured
+                ? $that->language->getAndReplace(
+                    'usps_text_print_label_suggestion',
+                    replaces: $that->order_status->getStatusById($this->getManifestOrderStatusId($that))
+                )
+                : $that->language->get('usps_text_print_label_missing_settings');
+
+            $suggestionHref = $labelSettingsConfigured
+                ? $that->html->getSecureURL('sale/order/history', '&order_id=' . $orderId)
+                : $that->html->getSecureURL('extension/extensions/edit', '&extension=usps');
+
             $that->view->assign('entry_parcel_info', $that->language->get('usps_entry_parcel_info'));
             $form['shipping_fields']['parcel_info'] = $that->html->buildElement(
                 [
@@ -263,11 +275,8 @@ class ExtensionUsps extends Extension
                             </ul>
                         </div>' .
                         (empty($data['usps_data']['shipmentId'])
-                        ? '<a href="' . $that->html->getSecureURL('sale/order/history', '&order_id=' . $orderId) . '" class="padding10 ">'
-                            . $that->language->getAndReplace(
-                                'usps_text_print_label_suggestion',
-                                replaces: $that->order_status->getStatusById($this->getManifestOrderStatusId($that))
-                            ) . '</a>'
+                        ? '<a href="' . $suggestionHref . '" class="padding10 ">'
+                            . $suggestionText . '</a>'
                             : ''),
                 ]
             );
@@ -312,6 +321,24 @@ class ExtensionUsps extends Extension
         /** @var ModelExtensionUsps $mdl */
         $mdl = $that->load->model('extension/usps', 'storefront');
         return $mdl->getOrderShippingData($order_id);
+    }
+
+    protected function hasUspsLabelSettingsConfigured($that): bool
+    {
+        $requiredKeys = [
+            'usps_payment_crid',
+            'usps_payment_mid',
+            'usps_payment_manifest_mid',
+            'usps_payment_account_number',
+        ];
+
+        foreach ($requiredKeys as $key) {
+            if (trim((string)$that->config->get($key)) === '') {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     protected function persistPostedAesItnOverride($that, $orderId): void
