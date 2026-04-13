@@ -341,6 +341,10 @@
 			<value><![CDATA[Location]]></value>
 		</definition>
 		<definition>
+			<key>usps_location_id_0</key>
+			<value><![CDATA[All Locations]]></value>
+		</definition>
+		<definition>
 			<key>usps_sort_order</key>
 			<value><![CDATA[Sort Order]]></value>
 		</definition>
