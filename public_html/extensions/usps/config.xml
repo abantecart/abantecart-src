@@ -182,6 +182,7 @@
 		<item id="usps_location_id">
 			<type>selectbox</type>
 			<variants>
+				<item>0</item>
 				<data_source>
 					<model_rt>localisation/location</model_rt>
 					<method>getLocations</method>

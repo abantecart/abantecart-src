@@ -104,10 +104,9 @@ class ControllerPagesExtensionUsps extends AController
         /** @var ModelLocalisationLocation $mdl */
         $mdl = $this->load->model('localisation/location');
         $results = $mdl->getLocations();
-        $locations =
-            [0 => $this->language->get('text_all_zones')]
-            +
-            array_column($results, 'name', 'location_id');
+        $locations = array_column($results, 'name', 'location_id');
+        $allLocationsText = $this->language->get('usps_location_id_0');
+        $locations = [0 => $allLocationsText] + $locations;
 
         /** @var ModelLocalisationOrderStatus $mdl */
         $mdl = $this->load->model('localisation/order_status');
