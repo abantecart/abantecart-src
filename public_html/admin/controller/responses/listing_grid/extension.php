@@ -360,6 +360,9 @@ class ControllerResponsesListingGridExtension extends AController
 
         if (empty($this->request->get['id'])) {
             foreach ($this->request->post as $ext => $val) {
+                if (!is_array($val)) {
+                    continue;
+                }
                 $val['store_id'] = $store_id;
                 $this->extension_manager->editSetting($ext, $val);
             }
