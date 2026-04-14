@@ -199,14 +199,10 @@ class ModelExtensionUsps extends Model
 
         // FOR CASE WHEN ONLY FREE SHIPPING PRODUCTS IN BASKET
         if (!$api_weight_product_ids && $free_shipping_ids) {
-            $freeMethodKey = $address['iso_code_2'] == 'US'
-                ? $this->config->get('usps_free_domestic_method')
-                : $this->config->get('usps_free_international_method');
-            $freeMethodTextKey = 'text_' . preg_replace('/^usps_/', '', $freeMethodKey);
             $quote_data = [
                 'usps' => [
                     'id'           => 'usps.usps',
-                    'title'        => $language->get($freeMethodTextKey),
+                    'title'        => $language->get('text_title'),
                     'cost'         => 0.0,
                     'tax_class_id' => $this->config->get('usps_tax_class_id'),
                     'text'         => $language->get('text_free'),

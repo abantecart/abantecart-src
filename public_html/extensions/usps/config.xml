@@ -110,19 +110,6 @@
 			<type>checkbox</type>
 			<default_value>0</default_value>
 		</item>
-		<item id="usps_free_domestic_method">
-			<type>selectbox</type>
-			<variants>
-				<item>usps_domestic_1</item>
-				<item>usps_domestic_2</item>
-				<item>usps_domestic_3</item>
-				<item>usps_domestic_4</item>
-				<item>usps_domestic_5</item>
-				<item>usps_domestic_6</item>
-				<item>usps_domestic_7</item>
-			</variants>
-			<default_value>usps_domestic_1</default_value>
-		</item>
 		<item id="usps_international_1">
 			<type>checkbox</type>
 			<default_value>1</default_value>
@@ -138,16 +125,6 @@
 		<item id="usps_international_4">
 			<type>checkbox</type>
 			<default_value>1</default_value>
-		</item>
-		<item id="usps_free_international_method">
-			<type>selectbox</type>
-			<variants>
-				<item>usps_international_1</item>
-				<item>usps_international_2</item>
-				<item>usps_international_3</item>
-				<item>usps_international_4</item>
-			</variants>
-			<default_value>usps_international_1</default_value>
 		</item>
 		<item id="usps_length">
 			<type>input</type>
@@ -199,4 +176,6 @@
 			<default_value>0</default_value>
 		</item>
 	</settings>
+	<help_file><![CDATA[help.txt]]></help_file>
+	<help_link><![CDATA[https://developers.usps.com/getting-started]]></help_link>
 </extension>
