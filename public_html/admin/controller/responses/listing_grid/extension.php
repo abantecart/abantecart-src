@@ -35,14 +35,15 @@ class ControllerResponsesListingGridExtension extends AController
         /** @var ModelToolMPAPI $mpModel */
         $mpModel = $this->loadModel('tool/mp_api');
         $page = max(1,(int)$this->request->post['page']);
-        $rows = (int)($this->request->post['rows'] ?? 0);
+        $requested_rows = (int)($this->request->post['rows'] ?? 0);
         $defaultLimit = (int)$this->config->get('config_admin_limit');
-        $limit = max(1, $rows > 0 ? $rows : $defaultLimit); // get how many rows we want to have into the grid
+        $limit = max(1, $requested_rows > 0 ? $requested_rows : $defaultLimit); // get how many rows we want to have into the grid
         $sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
         $sord = $this->request->post['sord']; // get the direction
 
         $search_str = '';
-        if (isset($this->request->post['_search']) && $this->request->post['_search'] == 'true') {
+        $is_search_request = isset($this->request->post['_search']) && $this->request->post['_search'] == 'true';
+        if ($is_search_request) {
             $searchData = json_decode(htmlspecialchars_decode($this->request->post['filters']), true);
             $search_str = trim($searchData['rules'][0]['data']);
         }
@@ -136,8 +137,15 @@ class ControllerResponsesListingGridExtension extends AController
         $rows = array_merge($to_install, $extensions->rows);
         $updates = $this->session->data['extensions_updates'];
 
+        $prepend_popular = $this->shouldPrependPopularExtensions($page, $is_search_request, $sidx, $sord);
+
         //get popular extensions
-        $popular = $mpModel->getPopularity();
+        $popular = (array)$mpModel->getPopularity();
+        $popular_map = array_fill_keys(array_keys((array)$popular), true);
+        if ($prepend_popular && $popular_map) {
+            $rows = $this->sortPopularRowsWithinCurrentPage($rows, $popular);
+        }
+
         foreach ($rows as $row) {
             $extension = $row['key'];
             if (!$extension) {
@@ -153,7 +161,7 @@ class ControllerResponsesListingGridExtension extends AController
             $response->userdata->extension_id[$id] = $extension;
             $response->userdata->store_id[$id] = $row['store_id'];
             $response->userdata->popular[$id] = [
-                'status'      => (!empty($popular) && in_array($extension, array_keys($popular))),
+                'status'      => isset($popular_map[$extension]),
                 'description' => $popular[$extension]
             ];
 
@@ -352,6 +360,9 @@ class ControllerResponsesListingGridExtension extends AController
 
         if (empty($this->request->get['id'])) {
             foreach ($this->request->post as $ext => $val) {
+                if (!is_array($val)) {
+                    continue;
+                }
                 $val['store_id'] = $store_id;
                 $this->extension_manager->editSetting($ext, $val);
             }
@@ -427,5 +438,77 @@ class ControllerResponsesListingGridExtension extends AController
             $this->view->batchAssign($this->data);
             $this->processTemplate('responses/extension/extensions_dependants_dialog.tpl');
         }
+    }
+
+    protected function shouldPrependPopularExtensions($page, $is_search_request, $sidx, $sord): bool
+    {
+        if ((int)$page !== 1 || $is_search_request) {
+            return false;
+        }
+
+        $prepend_session_key = 'extension_popular_prepend_once_available';
+        if (!isset($this->session->data[$prepend_session_key])) {
+            $this->session->data[$prepend_session_key] = true;
+        }
+
+        $is_default_sort = $sidx === 'date_modified' && $sord === 'desc';
+        if (!$is_default_sort) {
+            $this->session->data[$prepend_session_key] = false;
+            return false;
+        }
+
+        return !empty($this->session->data[$prepend_session_key]);
+    }
+
+    protected function sortPopularRowsWithinCurrentPage(array $rows, array $popular): array
+    {
+        if (!$popular || !$rows) {
+            return $rows;
+        }
+
+        foreach ($rows as $idx => &$row) {
+            $row['popular_sort_index'] = $idx;
+        }
+        unset($row);
+
+        usort(
+            $rows,
+            static function ($a, $b) use ($popular) {
+                $a_key = (string)$a['key'];
+                $b_key = (string)$b['key'];
+                $a_is_popular = isset($popular[$a_key]);
+                $b_is_popular = isset($popular[$b_key]);
+                if ($a_is_popular !== $b_is_popular) {
+                    return $a_is_popular ? -1 : 1;
+                }
+                if (!$a_is_popular && !$b_is_popular) {
+                    return (int)$a['popular_sort_index'] <=> (int)$b['popular_sort_index'];
+                }
+
+                if ($a_key === 'paypal_commerce' && $b_key !== 'paypal_commerce') {
+                    return -1;
+                }
+                if ($b_key === 'paypal_commerce' && $a_key !== 'paypal_commerce') {
+                    return 1;
+                }
+
+                $a_desc = mb_strtolower((string)$popular[$a_key]);
+                $b_desc = mb_strtolower((string)$popular[$b_key]);
+                $a_very = strpos($a_desc, 'very popular') !== false;
+                $b_very = strpos($b_desc, 'very popular') !== false;
+                if ($a_very !== $b_very) {
+                    return $a_very ? -1 : 1;
+                }
+
+                return (int)$a['popular_sort_index'] <=> (int)$b['popular_sort_index'];
+            }
+        );
+
+        foreach ($rows as &$row) {
+            unset($row['popular_sort_index']);
+        }
+        unset($row);
+
+        return $rows;
     }
 }
