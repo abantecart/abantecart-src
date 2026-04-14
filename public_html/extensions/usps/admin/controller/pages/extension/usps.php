@@ -34,12 +34,10 @@ class ControllerPagesExtensionUsps extends AController
         'usps_domestic_5',
         'usps_domestic_6',
         'usps_domestic_7',
-        'usps_free_domestic_method',
         'usps_international_1',
         'usps_international_2',
         'usps_international_3',
         'usps_international_4',
-        'usps_free_international_method',
         'usps_length',
         'usps_width',
         'usps_height',
@@ -172,15 +170,6 @@ class ControllerPagesExtensionUsps extends AController
             $options[$name] = $this->data['entry_' . $name] = $title;
         }
 
-        $this->data['form']['fields']['free_domestic_method'] = $form->getFieldHtml(
-            [
-                'type'    => 'selectbox',
-                'name'    => 'usps_free_domestic_method',
-                'options' => $options,
-                'value'   => $this->data['usps_free_domestic_method'],
-            ]
-        );
-
         $this->data['form']['fields']['international'] = [];
         $options = [];
         foreach (USPS_CLASSES['international'] as $i => $title) {
@@ -196,16 +185,6 @@ class ControllerPagesExtensionUsps extends AController
             );
             $options[$name] = $this->data['entry_' . $name] = $title;
         }
-
-        //method of usps for products with free shipping
-        $this->data['form']['fields']['free_international_method'] = $form->getFieldHtml(
-            [
-                'type'    => 'selectbox',
-                'name'    => 'usps_free_international_method',
-                'options' => $options,
-                'value'   => $this->data['usps_free_international_method'],
-            ]
-        );
 
         $this->data['form']['fields']['length'] = $form->getFieldHtml([
             'type'  => 'input',

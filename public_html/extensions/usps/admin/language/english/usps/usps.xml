@@ -113,24 +113,20 @@
 		<value><![CDATA[API Developer Mode]]></value>
 	</definition>
 	<definition>
-		<key>usps_api_environment_tem</key>
-		<value><![CDATA[Developer (TEM - test)]]></value>
-	</definition>
-	<definition>
 		<key>usps_api_environment_production</key>
 		<value><![CDATA[Production (live rates)]]></value>
 	</definition>
 	<definition>
 		<key>text_api_environment_shipping</key>
-		<value><![CDATA[API Developer Mode]]></value>
+		<value><![CDATA[Developer Mode]]></value>
 	</definition>
 	<definition>
 		<key>entry_client_id</key>
-		<value><![CDATA[API Client ID<br/><span class="help">You can find it in your application section on https://developers.usps.com</span>]]></value>
+		<value><![CDATA[Consumer Key<br/><span class="help">Create an APP in your https://cop.usps.com. These credentials are required for generating the OAuth Token</span>]]></value>
 	</definition>
 	<definition>
 		<key>usps_client_id</key>
-		<value><![CDATA[API Client ID:<span class="help">You can find it in your application section on https://developers.usps.com</span>]]></value>
+		<value><![CDATA[Consumer Key:<span class="help">You can find it in your application section on https://cop.usps.com. These credentials are required for generating the OAuth Token</span>]]></value>
 	</definition>
 		<definition>
 			<key>text_client_id_shipping</key>
@@ -150,7 +146,7 @@
 		</definition>
 		<definition>
 			<key>text_telephone_shipping</key>
-			<value><![CDATA[Shipper Phone Number (10 digits or more)]]></value>
+			<value><![CDATA[Shipper Phone Number<span class="help">10 digits or more, no spaces or special character</span>]]></value>
 		</definition>
 		<definition>
 			<key>entry_client_secret</key>
@@ -198,16 +194,16 @@
 	</definition>
 	<definition>
 		<key>usps_payment_account_number</key>
-		<value><![CDATA[EPS Account Number:<span class="help">Required for USPS label generation. You can find it in your account section on https://developers.usps.com</span>]]></value>
+		<value><![CDATA[EPS Account Number:<span class="help">Required for USPS label generation. You can find it in your Enterprise Payment System account on https://epay.usps.com/</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_manifest_order_status_id</key>
 		<value><![CDATA[Create Shipment when Order Status becomes]]></value>
 	</definition>
-		<definition>
+	<definition>
 			<key>usps_client_secret</key>
-			<value><![CDATA[API Client Secret:<span class="help">You can find it in your application section on https://developers.usps.com</span>]]></value>
-		</definition>
+			<value><![CDATA[Consumer Secret:<span class="help">You can find it in your application section on https://cop.usps.com. These credentials are required for generating the OAuth Token</span>]]></value>
+	</definition>
 		<definition>
 			<key>usps_manifest_order_status_id</key>
 			<value><![CDATA[Create Shipment when Order Status becomes]]></value>
@@ -265,10 +261,6 @@
 			<value><![CDATA[First-Class Package International Service]]></value>
 		</definition>
 		<definition>
-			<key>usps_free_domestic_method</key>
-			<value><![CDATA[Option for free shipping]]></value>
-		</definition>
-		<definition>
 			<key>usps_free_domestic_method_usps_domestic_1</key>
 			<value><![CDATA[Priority Mail]]></value>
 		</definition>
@@ -295,10 +287,6 @@
 		<definition>
 			<key>usps_free_domestic_method_usps_domestic_7</key>
 			<value><![CDATA[USPS Ground Advantage]]></value>
-		</definition>
-		<definition>
-			<key>usps_free_international_method</key>
-			<value><![CDATA[Option for free shipping of international parcels]]></value>
 		</definition>
 		<definition>
 			<key>usps_free_international_method_usps_international_1</key>
@@ -449,20 +437,8 @@
 		<value><![CDATA[Zip Code Required!]]></value>
 	</definition>
 	<definition>
-		<key>entry_free_domestic_method</key>
-		<value><![CDATA[Option for free shipping <span class="help">Please select what method will chosen for case when cart contains only products with free shipping</span>]]></value>
-	</definition>
-	<definition>
-		<key>entry_free_international_method</key>
-		<value><![CDATA[Option for free shipping of international parcels  <span class="help">Please select what method will chosen for case when cart contains only products with free shipping</span>]]></value>
-	</definition>
-	<definition>
 		<key>usps_debug</key>
 		<value><![CDATA[Debug Logging Status]]></value>
-	</definition>
-	<definition>
-		<key>text_api_environment_tem</key>
-		<value><![CDATA[Developer (TEM - test)]]></value>
 	</definition>
 	<definition>
 		<key>text_api_environment_production</key>
