@@ -1,6 +1,4 @@
-SET @CORE_VERSION = "1.4.4";
-
-INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('system','core_version', @CORE_VERSION);
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('system','core_version', "1.4.4");
 
 alter table `ac_ant_messages`
     modify `start_date` timestamp null;
