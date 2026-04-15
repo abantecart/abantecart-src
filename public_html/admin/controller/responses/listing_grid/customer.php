@@ -5,18 +5,21 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
+
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -31,13 +34,17 @@ class ControllerResponsesListingGridCustomer extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('sale/customer');
-        $this->loadModel('sale/customer');
+        /** @var ModelSaleCustomer $cMdl */
+        $cMdl = $this->loadModel('sale/customer');
         $this->load->library('json');
 
-        $page = $this->request->post['page'];  // get the requested page
-        $limit = $this->request->post['rows']; // get how many rows we want to have into the grid
-        $sidx = $this->request->post['sidx'];  // get index row - i.e. user click to sort
-        $sord = $this->request->post['sord'];  // get the direction
+        $page = (int) $this->request->post['page'] ? : 1;
+        // get how many rows we want to have into the grid
+        $limit = (int) $this->request->post['rows'] ? : $this->config->get('config_admin_limit') ? : 20;
+        // sort by
+        $sidx = $this->request->post['sidx'];
+        //order by
+        $sord = $this->request->post['sord'];
 
         $data = [
             'sort'  => $sidx,
@@ -55,11 +62,13 @@ class ControllerResponsesListingGridCustomer extends AController
             $data['filter']['approved'] = $this->request->get['approved'];
         }
 
-        $allowedFields = array_merge(['customer_id', 'name', 'email'], (array)$this->data['allowed_fields']);
+        $allowedFields = array_merge(
+            ['customer_id', 'name', 'email'],
+            (array) $this->data['allowed_fields']
+        );
 
         if (isset($this->request->post['_search']) && $this->request->post['_search'] == 'true') {
             $searchData = AJson::decode(htmlspecialchars_decode($this->request->post['filters']), true);
-
             foreach ($searchData['rules'] as $rule) {
                 if (!in_array($rule['field'], $allowedFields)) {
                     continue;
@@ -68,7 +77,12 @@ class ControllerResponsesListingGridCustomer extends AController
             }
         }
 
-        $total = $this->model_sale_customer->getTotalCustomers($data);
+        $orders_count = 0;
+        $mode = $sidx == 'orders_count' ? '' : 'quick';
+
+        $results = $cMdl->getCustomers($data, $mode);
+
+        $total = $results[0]['total_num_rows'];
         if ($total > 0) {
             $total_pages = ceil($total / $limit);
         } else {
@@ -77,37 +91,25 @@ class ControllerResponsesListingGridCustomer extends AController
 
         if ($page > $total_pages) {
             $page = $total_pages;
-            $data['start'] = ($page - 1) * $limit;
         }
 
         $response = new stdClass();
         $response->page = $page;
         $response->total = $total_pages;
         $response->records = $total;
-        $orders_count = 0;
 
-        if ($sidx == 'orders_count') {
-            $mode = '';
-        } else {
-            $mode = 'quick';
-        }
-
-        $results = $this->model_sale_customer->getCustomers($data, $mode);
         if ($mode) {
-            //get orders count for customers list by separate request to prevent slow sql issue
-            $customers_ids = [];
-            foreach ($results as $result) {
-                $customers_ids[] = $result['customer_id'];
-            }
+            //get order count for customers' list by separate request to prevent slow SQL issue
+            $customersIds = filterIntegerIdList(array_column($results, 'customer_id'));
             $this->loadModel('sale/order');
-            $orders_count = $this->model_sale_order->getCountOrdersByCustomerIds($customers_ids);
+            $orders_count = $this->model_sale_order->getCountOrdersByCustomerIds($customersIds);
         }
         $i = 0;
         foreach ($results as $result) {
             if ($mode) {
-                $order_cnt = (int)$orders_count[$result['customer_id']];
+                $order_cnt = (int) $orders_count[$result['customer_id']];
             } else {
-                $order_cnt = (int)$result['orders_count'];
+                $order_cnt = (int) $result['orders_count'];
             }
             $response->rows[$i]['id'] = $result['customer_id'];
             $response->rows[$i]['cell'] = [
@@ -130,13 +132,16 @@ class ControllerResponsesListingGridCustomer extends AController
                         'style' => 'btn_switch',
                     ]
                 ),
-                ($order_cnt > 0 ?
+                ($order_cnt > 0
+                    ?
                     $this->html->buildButton(
                         [
                             'name'   => 'view orders',
                             'text'   => $order_cnt,
                             'style'  => 'btn btn-default btn-xs',
-                            'href'   => $this->html->getSecureURL('sale/order', '&customer_id=' . $result['customer_id']),
+                            'href'   => $this->html->getSecureURL(
+                                'sale/order', '&customer_id=' . $result['customer_id']
+                            ),
                             'title'  => $this->language->get('text_view') . ' ' . $this->language->get('tab_history'),
                             'target' => '_blank',
                         ]
@@ -171,7 +176,6 @@ class ControllerResponsesListingGridCustomer extends AController
                     'reset_value' => true,
                 ]
             );
-            return;
         }
         $ids = filterIntegerIdList(explode(',', $this->request->post['id']));
         switch ($this->request->post['oper']) {
@@ -201,12 +205,11 @@ class ControllerResponsesListingGridCustomer extends AController
                                     'reset_value' => false,
                                 ]
                             );
-                            return;
                         }
                         $do_approve = $this->request->post['approved'][$id];
                         $err = $this->_validateForm('approved', $do_approve, $id);
                         if (!$err) {
-                            //if customer is not subscriber - send email
+                            //if customer is not subscriber, send email
                             if ($do_approve && !$this->model_sale_customer->isSubscriber($id)) {
                                 //send email when customer was not approved
                                 $this->model_sale_customer->sendApproveMail($id);
@@ -222,7 +225,6 @@ class ControllerResponsesListingGridCustomer extends AController
                                     'reset_value' => false,
                                 ]
                             );
-                            return;
                         }
                     }
                 }
@@ -238,7 +240,7 @@ class ControllerResponsesListingGridCustomer extends AController
     /**
      * update only one field
      *
-     * @throws AException
+     * @throws AException|TransportExceptionInterface
      */
     public function update_field()
     {
@@ -246,7 +248,8 @@ class ControllerResponsesListingGridCustomer extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('sale/customer');
-        $this->loadModel('sale/customer');
+        /** @var ModelSaleCustomer $cMdl */
+        $cMdl = $this->loadModel('sale/customer');
 
         if (!$this->user->canModify('listing_grid/customer')) {
             $error = new AError('');
@@ -257,10 +260,9 @@ class ControllerResponsesListingGridCustomer extends AController
                     'reset_value' => true,
                 ]
             );
-            return;
         }
-        $customer_id = (int)$this->request->get['id'] ?: null;
-        $address_id = (int)$this->request->get['address_id'] ?: null;
+        $customer_id = (int) $this->request->get['id'] ? : null;
+        $address_id = (int) $this->request->get['address_id'] ? : null;
         $post_data = $this->request->post;
         if (isset($customer_id)) {
             if ($post_data['password'] || $post_data['password_confirm']) {
@@ -273,7 +275,6 @@ class ControllerResponsesListingGridCustomer extends AController
                             'reset_value' => true,
                         ]
                     );
-                    return;
                 }
                 if ($post_data['password'] != $post_data['password_confirm']) {
                     $error->toJSONResponse(
@@ -283,10 +284,9 @@ class ControllerResponsesListingGridCustomer extends AController
                             'reset_value' => true,
                         ]
                     );
-                    return;
                 }
                 //passwords do match, save
-                $this->model_sale_customer->editCustomerField($customer_id, 'password', $post_data['password']);
+                $cMdl->editCustomerField($customer_id, 'password', $post_data['password']);
                 //destroy all active sessions
                 $customer = new ACustomer($this->registry);
                 $customer->deleteActiveSessionsByID($customer_id);
@@ -296,17 +296,17 @@ class ControllerResponsesListingGridCustomer extends AController
                     if (!$err) {
                         if ($field == 'approved') {
                             //send email when customer was not approved
-                            if ($value && !$this->model_sale_customer->isSubscriber($customer_id)) {
-                                $this->model_sale_customer->sendApproveMail($customer_id);
+                            if ($value && !$cMdl->isSubscriber($customer_id)) {
+                                $cMdl->sendApproveMail($customer_id);
                             }
                         }
                         if ($field == 'default' && $address_id) {
-                            $this->model_sale_customer->setDefaultAddress($customer_id, $address_id);
+                            $cMdl->setDefaultAddress($customer_id, $address_id);
                         } else {
                             if (has_value($address_id)) {
-                                $this->model_sale_customer->editAddressField($address_id, $field, $value);
+                                $cMdl->editAddressField($address_id, $field, $value);
                             } else {
-                                $this->model_sale_customer->editCustomerField($customer_id, $field, $value);
+                                $cMdl->editCustomerField($customer_id, $field, $value);
                             }
                         }
                     } else {
@@ -318,7 +318,6 @@ class ControllerResponsesListingGridCustomer extends AController
                                 'reset_value' => false,
                             ]
                         );
-                        return;
                     }
                 }
             }
@@ -327,18 +326,18 @@ class ControllerResponsesListingGridCustomer extends AController
             return;
         }
 
-        //request sent from jGrid. ID is key of array
+        //request sent from jGrid. ID is the key of an array
         foreach ($this->request->post as $field => $value) {
             foreach ($value as $k => $v) {
                 $err = $this->_validateForm($field, $v);
                 if (!$err) {
                     if ($field == 'approved') {
-                        if ($v && !$this->model_sale_customer->isSubscriber($k)) {
+                        if ($v && !$cMdl->isSubscriber($k)) {
                             //send email when customer was not approved
-                            $this->model_sale_customer->sendApproveMail($k);
+                            $cMdl->sendApproveMail($k);
                         }
                     }
-                    $this->model_sale_customer->editCustomerField($k, $field, $v);
+                    $cMdl->editCustomerField($k, $field, $v);
                 } else {
                     $error = new AError('');
                     $error->toJSONResponse(
@@ -348,7 +347,6 @@ class ControllerResponsesListingGridCustomer extends AController
                             'reset_value' => false,
                         ]
                     );
-                    return;
                 }
             }
         }
@@ -369,7 +367,9 @@ class ControllerResponsesListingGridCustomer extends AController
                     $this->error = $this->language->get('error_loginname');
                     //check uniqueness of loginname
                 } else {
-                    if (!$this->model_sale_customer->is_unique_loginname($value, $customer_id)) {
+                    /** @var ModelSaleCustomer $cMdl */
+                    $cMdl = $this->loadModel('sale/customer');
+                    if (!$cMdl->is_unique_loginname($value, $customer_id)) {
                         $this->error = $this->language->get('error_loginname_notunique');
                     }
                 }
@@ -426,7 +426,8 @@ class ControllerResponsesListingGridCustomer extends AController
         $customers_data = [];
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->loadModel('sale/customer');
+        /** @var ModelSaleCustomer $cMdl */
+        $cMdl = $this->loadModel('sale/customer');
         if (isset($this->request->post['term'])) {
             $filter = [
                 'limit'               => 20,
@@ -437,7 +438,7 @@ class ControllerResponsesListingGridCustomer extends AController
                     'only_customers' => 1,
                 ],
             ];
-            $customers = $this->model_sale_customer->getCustomers($filter);
+            $customers = $cMdl->getCustomers($filter);
             foreach ($customers as $cdata) {
                 $customers_data[] = [
                     'id'   => $cdata['customer_id'],
