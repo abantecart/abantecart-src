@@ -60,7 +60,7 @@ class ControllerResponsesListingGridExtension extends AController
                 'name',
                 'category',
                 'date_modified',
-                'e.status',
+                'status',
                 'store_name',
             ],
             (array)$this->data['allowed_sort']
@@ -103,6 +103,10 @@ class ControllerResponsesListingGridExtension extends AController
 
         $i = 0;
         $for_push = $push = [];
+        $promote_updates = (int)$page === 1
+            && !$is_search_request
+            && $sidx === 'date_modified'
+            && $sord === 'desc';
 
         // get extensions for installation
         $ready_to_install = $this->session->data['ready_to_install'];
@@ -256,7 +260,9 @@ class ControllerResponsesListingGridExtension extends AController
                                 $update_now_url
                             )
                             . '</p>';
-                        $push[] = $i;
+                        if ($promote_updates) {
+                            $push[] = $i;
+                        }
                     }
                 }
                 //when a support period expired

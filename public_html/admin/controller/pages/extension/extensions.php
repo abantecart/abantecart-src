@@ -199,7 +199,7 @@ class ControllerPagesExtensionExtensions extends AController
         }
         $grid_settings['colModel'][] = [
             'name'   => 'status',
-            'index'  => 'e.status',
+            'index'  => 'status',
             'width'  => 120,
             'align'  => 'center',
             'search' => false,
