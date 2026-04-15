@@ -9,9 +9,9 @@ REPLACE INTO `ac_extensions`
 (`type`, `key`, `category`, `status`, `priority`,`version`, `license_key`, `date_installed`, `support_expiration`,
  `mp_product_url`,`date_modified`, `date_added`)
 VALUES
-('payment','default_cod','payment',1,1,@CORE_VERSION,NULL,NOW(),NULL,'',NOW(),NOW()),
-('shipping','default_flat_rate_shipping','shipping',1,1,@CORE_VERSION,NULL,NOW(),NULL,'',NOW(),NOW()),
-('shipping','default_local_delivery','shipping',1,10,@CORE_VERSION,'',NOW(),NULL,'',NOW(),NOW());
+('payment','default_cod','payment',1,1,@CORE_VERSION,NULL,NOW(),NULL,'',NOW() + INTERVAL 1 MINUTE,NOW()),
+('shipping','default_flat_rate_shipping','shipping',1,1,@CORE_VERSION,NULL,NOW(),NULL,'',NOW() + INTERVAL 10 SECOND,NOW()),
+('shipping','default_local_delivery','shipping',1,10,@CORE_VERSION,'',NOW(),NULL,'',NOW() + INTERVAL 10 SECOND,NOW());
 
 INSERT INTO `ac_settings`
 ( `store_id`, `group`,`key`,`value`,`date_added`,`date_modified`)
