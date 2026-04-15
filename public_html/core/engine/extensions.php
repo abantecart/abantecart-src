@@ -661,10 +661,16 @@ class ExtensionsApi
         }
 
         if (isset($data['sort_order']) && has_value($data['sort_order']) && $data['sort_order'][0] != 'name') {
-            if ($data['sort_order'][0] == 'key') {
-                $data['sort_order'][0] = '`key`';
+            $sortField = $data['sort_order'][0];
+            if ($sortField == 'key') {
+                $sortField = '`key`';
+            } elseif ($sortField == 'status') {
+                $sortField = "CASE
+                                WHEN s.value IS NULL THEN -1
+                                ELSE CAST(s.value AS SIGNED)
+                              END";
             }
-            $sql .= "\n ORDER BY " . implode(' ', $data['sort_order']) . ", e.priority desc";
+            $sql .= "\n ORDER BY " . $sortField . " " . $data['sort_order'][1] . ", e.priority desc";
         } else {
             //default extension sorting based on priority provided. High number is higher priority
             $sql .= "\n ORDER BY e.priority desc";
