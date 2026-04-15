@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -115,6 +115,12 @@ class ControllerPagesToolCache extends AController
                 'description' => $this->language->get('desc_edits_history'),
                 'keywords'    => 'text_edits_history',
             ],
+            [
+                'id'          => 'text_clear_session_data',
+                'text'        => $this->language->get('text_clear_session_data'),
+                'description' => $this->language->get('desc_clear_session_data'),
+                'keywords'    => 'clear_session_data',
+            ],
         ];
 
         $form = new AForm('ST');
@@ -169,7 +175,6 @@ class ControllerPagesToolCache extends AController
                 $cache_groups = explode(',', $cache_groups_str);
                 array_walk($cache_groups, 'trim');
                 foreach ($cache_groups as $group) {
-
                     switch ($group) {
                         case 'image':
                             $this->deleteThumbnails();
@@ -187,6 +192,9 @@ class ControllerPagesToolCache extends AController
                         case 'text_edits_history':
                             $this->language->clearDescriptionHistory();
                             break;
+                        case 'clear_session_data':
+                            $this->clearSessionData();
+                            break;
                         default:
                             $this->cache->remove($group);
                             foreach ($languages as $lang) {
@@ -202,6 +210,8 @@ class ControllerPagesToolCache extends AController
             if ($this->request->get_or_post('clear_all') == 'all') {
                 //delete entire cache
                 $this->cache->remove('*');
+                $this->clearSessionData();
+                $this->deleteThumbnails();
                 $this->session->data['success'] = $this->language->get('text_success');
             }
         }
@@ -227,6 +237,20 @@ class ControllerPagesToolCache extends AController
         }
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
+    
+    protected function clearSessionData()
+    {
+        $sql = "DELETE FROM ". $this->db->table('user_sessions')." 
+                WHERE user_id <> '".$this->user->getId()."'";
+        $this->db->query($sql);
+
+        $sql = "DELETE FROM ". $this->db->table('customer_sessions');
+        $this->db->query($sql);
+
+        $sql = "DELETE FROM " . $this->db->table('shopping_sessions') . " 
+                WHERE date_modified < DATE_SUB(NOW(), INTERVAL 3 DAY)";
+        $this->db->query($sql);
     }
 
     protected function _validateDelete()

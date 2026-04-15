@@ -1,0 +1,52 @@
+{
+    "name": "abantecart/usps-php",
+    "version": "1.0.0",
+    "description": "USPS PHP SDK based on OAuth",
+    "keywords": [
+        "usps",
+        "api",
+        "php",
+        "sdk",
+        "oauth",
+        "shipping",
+        "rest",
+        "web service"
+    ],
+    "homepage": "https://www.abantecart.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "AbanteCart Team",
+            "email": "help@abantecart.com"
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "wikimedia/composer-merge-plugin": true
+        }
+    },
+    "require": {
+        "php": "^8.2",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "wikimedia/composer-merge-plugin": "^2.1.0",
+        "guzzlehttp/guzzle": "^7.9",
+        "guzzlehttp/psr7": "^2.7"
+    },
+    "extra": {
+        "merge-plugin": {
+            "include": [
+                "OAuthClientCredentials/composer.json",
+                "DomesticPrices/composer.json",
+                "InternationalPrices/composer.json",
+                "Labels/composer.json",
+                "InternationalLabels/composer.json",
+                "vendor/abantecart/usps-php/*/composer.json"
+            ],
+            "recurse": true,
+            "replace": false,
+            "merge-extra": false
+        }
+    }
+}

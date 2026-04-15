@@ -125,6 +125,7 @@ final class SymfonySet extends AbstractRuleSetDefinition
                     'clone',
                     'continue',
                     'echo_print',
+                    'negative_instanceof',
                     'others',
                     'return',
                     'switch_case',
@@ -136,7 +137,9 @@ final class SymfonySet extends AbstractRuleSetDefinition
             'no_unset_cast' => true,
             'no_unused_imports' => true,
             'no_useless_concat_operator' => true,
+            'no_useless_else' => true,
             'no_useless_nullsafe_operator' => true,
+            'no_useless_return' => true,
             'no_whitespace_before_comma_in_array' => ['after_heredoc' => true],
             'normalize_index_brace' => true,
             'nullable_type_declaration_for_default_null_value' => true,
@@ -178,7 +181,19 @@ final class SymfonySet extends AbstractRuleSetDefinition
                 ],
             ],
             'phpdoc_return_self_reference' => true,
-            'phpdoc_scalar' => true,
+            'phpdoc_scalar' => [
+                'types' => [ // @TODO v4 drop custom config with => true, as v4 defaults are same
+                    'boolean',
+                    'callback',
+                    'double',
+                    'integer',
+                    'never-return',
+                    'never-returns',
+                    'no-return',
+                    'real',
+                    'str',
+                ],
+            ],
             'phpdoc_separation' => [
                 'groups' => [
                     ['Annotation', 'NamedArgumentConstructor', 'Target'],
@@ -205,6 +220,7 @@ final class SymfonySet extends AbstractRuleSetDefinition
             ],
             'phpdoc_var_annotation_correct_order' => true,
             'phpdoc_var_without_name' => true,
+            'protected_to_private' => true,
             'semicolon_after_instruction' => true,
             'simple_to_complex_string_variable' => true,
             'single_import_per_statement' => true,
@@ -248,6 +264,6 @@ final class SymfonySet extends AbstractRuleSetDefinition
 
     public function getDescription(): string
     {
-        return 'Rules that follow the official `Symfony Coding Standards <https://symfony.com/doc/current/contributing/code/standards.html>`_.';
+        return 'Rules that follow the official `Symfony Coding Standards <https://symfony.com/doc/current/contributing/code/standards.html>`_. Extends ``@PER-CS``.';
     }
 }

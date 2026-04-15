@@ -467,19 +467,16 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 $chargeData = $mdl->getPaypalCharge($paypalOrder['charge_id']);
                 //validate if captured
                 if ($chargeData) {
-                    $void =
-                        $mdl->void($chargeData->getPurchaseUnits()[0]->getPayments()->getAuthorizations()[0]->getId());
-                    if ($void->getId()) {
-                        $json['msg'] = $this->language->get('text_voided');
-                        // update main order status
-                        $this->loadModel('sale/order');
-                        $this->model_sale_order->addOrderHistory($orderId, [
-                            'order_status_id' => $this->config->get('paypal_commerce_status_void'),
-                            'notify'          => 0,
-                            'append'          => 1,
-                            'comment'         => $this->language->get('text_voided'),
-                        ]);
-                    }
+                    $mdl->void($chargeData->getPurchaseUnits()[0]->getPayments()->getAuthorizations()[0]->getId());
+                    $json['msg'] = $this->language->get('text_voided');
+                    // update main order status
+                    $this->loadModel('sale/order');
+                    $this->model_sale_order->addOrderHistory($orderId, [
+                        'order_status_id' => $this->config->get('paypal_commerce_status_void'),
+                        'notify'          => 0,
+                        'append'          => 1,
+                        'comment'         => $this->language->get('text_voided'),
+                    ]);
                 } else {
                     $json['error'] = true;
                     $json['msg'] = $this->language->get('error_unable_to_void');

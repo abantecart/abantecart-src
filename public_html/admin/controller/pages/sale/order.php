@@ -61,8 +61,18 @@ class ControllerPagesSaleOrder extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
+        $customerId = (int)$this->request->get['customer_id'];
+        $pageTitle = $this->language->get('heading_title');
+        if($customerId) {
+            /** @var ModelSaleCustomer $cMdl */
+            $cMdl = $this->loadModel('sale/customer');
+            $customerInfo = $cMdl->getCustomer($customerId);
+            $pageTitle .= ' - '
+                . $this->language->get('text_customer','sale/customer').': '
+                . $customerInfo['firstname'].' '.$customerInfo['lastname'];
+        }
 
-        $this->document->setTitle($this->language->get('heading_title'));
+        $this->document->setTitle($pageTitle);
         $this->document->initBreadcrumb(
             [
                 'href'      => $this->html->getSecureURL('index/home'),
@@ -73,7 +83,7 @@ class ControllerPagesSaleOrder extends AController
         $this->document->addBreadcrumb(
             [
                 'href'      => $this->html->getSecureURL('sale/order'),
-                'text'      => $this->language->get('heading_title'),
+                'text'      => $pageTitle,
                 'separator' => ' :: ',
                 'current'   => true,
             ]
@@ -101,11 +111,9 @@ class ControllerPagesSaleOrder extends AController
             $this->language->setCurrentContentLanguage($this->language->getLanguageID());
         }
 
-        //outer parameters to filter the result 
-        $extra_params = isset($this->request->get['customer_id'])
-            ? '&customer_id=' . (int)$this->request->get['customer_id']
-            : '';
-        $extra_params .= isset($this->request->get['product_id'])
+        //outer parameters to filter the result
+        $extra_params = $customerId ? '&customer_id=' . $customerId : '';
+        $extra_params .= $this->request->get['product_id']
             ? '&product_id=' . (int)$this->request->get['product_id']
             : '';
 
@@ -221,6 +229,7 @@ class ControllerPagesSaleOrder extends AController
                 'index' => 'name',
                 'width' => 140,
                 'align' => 'center',
+                'search' => (!$customerId && !$this->dcrypt->active),
             ],
             [
                 'name'   => 'status',
@@ -310,8 +319,6 @@ class ControllerPagesSaleOrder extends AController
         $this->view->assign('search_form', $grid_search_form);
         $this->view->assign('help_url', $this->gen_help_url('order_listing'));
         $this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
-
-        $this->document->setTitle($this->language->get('heading_title'));
 
         $this->processTemplate('pages/sale/order_list.tpl');
 

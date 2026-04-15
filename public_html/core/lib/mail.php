@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -68,7 +68,7 @@ class AMail
         $this->transporting = $config->get('config_mail_transporting');
         if ($this->transporting == 'smtp') {
             $host = $config->get('config_smtp_host');
-            $host = substr($host, 0, 6) == 'ssl://' ? substr($host, 6) : $host;
+            $host = str_starts_with($host, 'ssl://') ? substr($host, 6) : $host;
             $dsn = 'smtp://'
                 . urlencode($config->get('config_smtp_username')) . ':' . urlencode($config->get('config_smtp_password'))
                 . '@' . urlencode($host) . ':' . $config->get('config_smtp_port');
@@ -90,9 +90,11 @@ class AMail
         }elseif(str_starts_with($this->transporting, 'mailapi_')){
             $this->mailer = MailApiManager::getInstance()->getCurrentMailApiDriver();
             if(is_bool($this->mailer)){
+                $registry->get('log')->write( 'Mail Transport Driver Class of '. $this->transporting.' not found!');
                 $this->mailer = null;
             }
         }
+
         if (!$dsn) {
             $dsn = 'native://default';
         }
@@ -101,7 +103,6 @@ class AMail
             $registry->set('current_mail_transport', get_class($transport));
             $this->mailer = new Mailer($transport);
         }
-
         $this->log = $registry->get('log');
         $this->messages = $registry->get('messages');
         $this->storeId = (int)($config->get('current_store_id') ?? $config->get('config_store_id'));

@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -41,11 +41,6 @@ class ExtensionUps extends Extension
 
         if ($this->baseObject_method == 'address') {
             $this->orderShippingHook($that, $order_id);
-        } elseif ($this->baseObject_method == 'history') {
-            if (isset($that->session->data['error_warning'])) {
-                $that->view->assign('error_warning', $that->session->data['error_warning']);
-                unset($that->session->data['error_warning']);
-            }
         }
     }
 
@@ -78,10 +73,7 @@ class ExtensionUps extends Extension
 
         if ($this->baseObject_method == 'shipping') {
             $this->orderShippingHook($that, $order_id);
-        } elseif (
-            $that->request->get['rt'] == 'sale/order/history'
-            && !$that->error
-        ) {
+        } elseif ( $that->request->get['rt'] == 'sale/order/history' && !$that->error ) {
             $this->orderStatusChanged($that->request->get['order_id'], $that->request->post['order_status_id']);
         }
     }
@@ -106,7 +98,7 @@ class ExtensionUps extends Extension
                 $result = $mdl->createShipment($order_info);
                 if (!$result) {
                     $that->error = $mdl->errors;
-                    $that->session->data['error_warning'] = implode("\n", $that->error);
+                    $that->session->data['error'] = implode("\n", $that->error);
                 } else {
                     $that->session->data['ups_success'] =
                         $that->language->getAndReplace(

@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -17,6 +17,8 @@
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
+
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -193,7 +195,7 @@ class ControllerResponsesCheckoutPay extends AController
             //was address changed?
             $address_id = $this->customer->getAddressId();
             if ($this->request->get['payment_address_id']) {
-                $address_id = $this->request->get['payment_address_id'];
+                $address_id = (int)$this->request->get['payment_address_id'];
             } else {
                 if ($this->fc_session['payment_address_id']) {
                     if (
@@ -456,6 +458,9 @@ class ControllerResponsesCheckoutPay extends AController
         if (isset($this->error['message'])) {
             $this->data['error'] = $this->error['message'];
         }
+        if (!empty($this->data['error'])) {
+            $this->data['payment_form'] = false;
+        }
 
         //pass cart session to template view
         $this->data['csession'] = $this->fc_session;
@@ -470,7 +475,14 @@ class ControllerResponsesCheckoutPay extends AController
 
         $this->updateOrCreateOrder($this->fc_session, $request);
 
+        //add order checksum when order already created
+        /** @var ModelCheckoutOrder $mdl */
+        $mdl = $this->loadModel('checkout/order');
+        $this->data['order_checksum'] = $mdl->getChecksum((int)$this->session->data['order_id']);
+
         $this->view->batchAssign($this->data);
+        /** @see public_html/storefront/view/default/template/responses/checkout/main.tpl */
+        /** @see public_html/extensions/novator/storefront/view/novator/template/responses/checkout/main.tpl */
         $this->response->setOutput($this->view->fetch('responses/checkout/main.tpl'));
     }
 
@@ -491,8 +503,9 @@ class ControllerResponsesCheckoutPay extends AController
     /**
      * @param array $in_data
      * @param array $request
+     *
      * @return int|false
-     * @throws AException
+     * @throws AException|TransportExceptionInterface
      */
     protected function updateOrCreateOrder($in_data, $request)
     {
@@ -522,8 +535,8 @@ class ControllerResponsesCheckoutPay extends AController
         $order->buildOrderData($in_data);
         $order_id = $order->saveOrder();
 
-        /** @var ModelCheckoutFastCheckout $mdl */
-        $mdl = $this->loadModel('checkout/fast_checkout');
+        /** @var ModelCheckoutOrder $mdl */
+        $mdl = $this->loadModel('checkout/order');
         if ($order_id) {
             if ($request['telephone']) {
                 $mdl->updateOrderDetails(
@@ -951,7 +964,7 @@ class ControllerResponsesCheckoutPay extends AController
     public function success()
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $order_id = $this->request->get['order_id'];
+        $order_id = (int)$this->request->get['order_id'];
         if (!$order_id || !is_numeric($order_id) || $this->session->data['processed_order_id'] != $order_id) {
             $this->error['message'] = $this->language->get('fast_checkout_error_unexpected');
             $this->main();
@@ -1753,16 +1766,15 @@ class ControllerResponsesCheckoutPay extends AController
 
         $selected = $selected ?? $this->request->get_or_post('shipping_method');
 
-        $selected_shipping = [];
+        $shipMethods = $selected_shipping = [];
         if ($selected) {
             $selected_shipping = explode('.', $selected);
         }
 
-        if (!isset($this->fc_session['shipping_methods'])
-            || !$this->config->get('config_shipping_session')
-        ) {
+        if (!isset($this->fc_session['shipping_methods']) || !$this->config->get('config_shipping_session')){
             $quote_data = [];
             $results = $this->model_checkout_extension->getExtensions('shipping');
+
             if ($this->fc_session['shipping_address_id']) {
                 $this->loadModel('account/address');
                 $shipping_address = $this->model_account_address->getAddress(
@@ -1841,6 +1853,10 @@ class ControllerResponsesCheckoutPay extends AController
                     . "Probably, need to check shipping setting!"
                 );
             }
+        }
+
+        if(!in_array($selected_shipping[0], array_keys($shipMethods))){
+            $selected = $selected_shipping = [];
         }
 
         //# If only 1 shipping - set it as default
@@ -2119,5 +2135,25 @@ class ControllerResponsesCheckoutPay extends AController
         return $telephoneField['required'] ? : false;
     }
 
+    public function checkOrderIntegrity()
+    {
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+        $checkSum = $this->request->get['checksum'];
+        $orderId = (int)$this->session->data['order_id'];
+
+        if (!$checkSum || !$orderId) {
+            $this->data['output'] = false;
+        }else{
+            /** @var ModelCheckoutOrder $mdl */
+            $mdl = $this->loadModel('checkout/order');
+            $orderCheckSum = $mdl->getChecksum($orderId);
+            $this->data['output'] = ($checkSum == $orderCheckSum);
+        }
+
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $this->load->library('json');
+        $this->response->addJSONHeader();
+        $this->response->setOutput(AJson::encode(['result' => $this->data['output']]));
+    }
 
 }

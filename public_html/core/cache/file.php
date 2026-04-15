@@ -332,14 +332,13 @@ class ACacheDriverFile extends ACacheDriver
         clearstatcache(true, $dir);
         // If the folder doesn't exist, try to create it
         if (!is_dir($dir)) {
-            clearstatcache(true, $dir);
             if (file_exists($dir)) {
                 $log = Registry::getInstance()->get('log');
                 if ($log) {
                     $file_type = filetype($dir);
                     $log->write(
                         __CLASS__ . ' Error: Tried to create directory ' . $dir
-                        . ' but it exists and not a directory! File type: ' . $file_type
+                        . ' but it exists and not a directory! File type: ' . $file_type.' Permissions: '.fileperms($dir)
                     );
                 }
             } else {

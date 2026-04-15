@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -28,6 +28,8 @@ class AResource
         'products',
         'categories',
         'manufacturers',
+        'contents',
+        'collections',
         'product_option_value',
         'storefront_menu_item',
         'field'
@@ -327,14 +329,14 @@ class AResource
         $extension = $info['extension'] ?? '';
         if (in_array($extension, ['ico', 'svg', 'svgz'])) {
             // returns ico-file as original
-            return $this->buildResourceURL($resourceInfo['resource_path'], 'full');
+            return $this->buildResourceURL($resourceInfo['resource_path']);
         }
 
         $type_image = is_file(DIR_IMAGE . 'icon_resource_' . $this->type . '.png')
             ? 'icon_resource_' . $this->type . '.png'
             : '';
 
-        //is this a resource with code ?
+        //is this a resource with code?
         if (!empty($resourceInfo['resource_code'])) {
             //we have resource code, nothing to do
             return $resourceInfo['resource_code'];
@@ -358,7 +360,7 @@ class AResource
                     $resourceInfo['default_icon'] = $type_image;
                     $origin_path = '';
                 } else {
-                    return $this->buildResourceURL($resourceInfo['resource_path'], 'full');
+                    return $this->buildResourceURL($resourceInfo['resource_path']);
                 }
         }
 
@@ -366,7 +368,7 @@ class AResource
         $height = (int)$height;
         if (!$width || !$height) {
             //if no size, return the original
-            return $this->buildResourceURL($resourceInfo['resource_path'], 'full');
+            return $this->buildResourceURL($resourceInfo['resource_path']);
         }
 
         //resource name MUST be provided here, if missing use resource ID.
@@ -845,9 +847,43 @@ class AResource
             return $output;
         }
 
+        $objSubSql = [
+            'products'    =>
+                [
+                    'name' => 'name',
+                    'sql'  => " LEFT JOIN " . $this->db->table("product_descriptions") . " od 
+                    ON (od.product_id = rm.object_id AND od.language_id = '" . $language_id . "')",
+                ],
+            'categories'  =>
+                [
+                    'name' => 'name',
+                    'sql'  => " LEFT JOIN " . $this->db->table("category_descriptions")
+                        . " od ON (od.category_id = rm.object_id AND od.language_id = '" . $language_id . "')",
+                ],
+            'contents'    =>
+                [
+                    'name' => 'title',
+                    'sql'  => " LEFT JOIN " . $this->db->table("content_descriptions")
+                        . " od ON (od.content_id = rm.object_id AND od.language_id = '" . $language_id . "')",
+                ],
+            'collections' =>
+                [
+                    'name' => 'title',
+                    'sql'  => " LEFT JOIN " . $this->db->table("collection_descriptions")
+                        . " od ON (od.collection_id = rm.object_id AND od.language_id = '" . $language_id . "')",
+                ],
+            'banners'     =>
+                [
+                    'name' => 'name',
+                    'sql'  => " LEFT JOIN " . $this->db->table("banner_descriptions")
+                        . " od ON (od.banner_id = rm.object_id AND od.language_id = '" . $language_id . "')",
+                ],
+        ];
+        $objSubSql = array_merge($objSubSql,(array)$this->data['subsql_array']);
+
         //get resource list
         $sql = "SELECT
-                rm.object_id,
+                rm.object_id, " . ($objSubSql[$object_name] ? "od.".$objSubSql[$object_name]['name']." as base_name, " : '') . "
                 rl.resource_id,
                 COALESCE(rd.name,rdd.name) as name,
                 COALESCE(rd.title,rdd.title) as title,
@@ -864,8 +900,12 @@ class AResource
                     AND rd.language_id = '" . $language_id . "')
             LEFT JOIN " . $this->db->table("resource_descriptions") . " rdd
                 ON (rl.resource_id = rdd.resource_id
-                    AND rdd.language_id = '" . $default_language_id . "')
-            WHERE rm.object_name = '" . $this->db->escape($object_name) . "'
+                    AND rdd.language_id = '" . $default_language_id . "') ";
+        if($objSubSql[$object_name]){
+            $sql .= $objSubSql[$object_name]['sql'] ?: '';
+        }
+
+        $sql .= " WHERE rm.object_name = '" . $this->db->escape($object_name) . "'
                  AND rl.type_id = " . $this->type_id . "
                  AND rm.object_id IN (" . implode(", ", $object_ids) . ")
             ORDER BY rm.object_id ASC, rm.sort_order ASC, rl.resource_id ASC";
@@ -880,10 +920,11 @@ class AResource
             }
 
             $origin = $row['resource_path'] ? 'internal' : 'external';
+            $title = $row['title']?:$row['base_name'];
             $output[$object_id] = [
                 'resource_id' => $row['resource_id'],
                 'origin'      => $origin,
-                'title'       => $row['title'],
+                'title'       => $title,
                 'description' => $row['description'],
                 'width'       => $width,
                 'height'      => $height,
@@ -899,7 +940,7 @@ class AResource
                         'url'    => $thumb_url,
                         'width'  => $width,
                         'height' => $height,
-                        'attr'   => 'alt="' . html2view($row['title']) . '" title="' . html2view($row['title']) . '" ',
+                        'attr'   => 'alt="' . html2view($title) . '" title="' . html2view($title) . '" ',
                     ]
                 );
                 $output[$object_id]['thumb_url'] = $thumb_url;

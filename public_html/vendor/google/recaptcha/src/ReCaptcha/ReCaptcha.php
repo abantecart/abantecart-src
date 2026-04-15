@@ -43,7 +43,7 @@ class ReCaptcha
      * Version of this client library.
      * @const string
      */
-    public const VERSION = 'php_1.3.0';
+    public const VERSION = 'php_1.3.1';
 
     /**
      * URL for reCAPTCHA siteverify API
@@ -136,7 +136,7 @@ class ReCaptcha
      * @param RequestMethod $requestMethod method used to send the request. Defaults to POST.
      * @throws \RuntimeException if $secret is invalid
      */
-    public function __construct($secret, RequestMethod $requestMethod = null)
+    public function __construct($secret, ?RequestMethod $requestMethod = null)
     {
         if (empty($secret)) {
             throw new \RuntimeException('No secret provided');
@@ -264,7 +264,7 @@ class ReCaptcha
     /**
      * Provide a timeout in seconds to test against the challenge timestamp in verify()
      *
-     * @param int $timeoutSeconds Expected hostname
+     * @param int $timeoutSeconds Maximum time (seconds) elapsed since the challenge timestamp
      * @return ReCaptcha Current instance for fluent interface
      */
     public function setChallengeTimeout($timeoutSeconds)

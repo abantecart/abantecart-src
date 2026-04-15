@@ -25,6 +25,7 @@ use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
+use PhpCsFixer\Future;
 use PhpCsFixer\Preg;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\FCT;
@@ -102,7 +103,7 @@ final class BracesPositionFixer extends AbstractFixer implements ConfigurableFix
                         {
                         };
 
-                        PHP
+                        PHP,
                 ),
                 new CodeSample(
                     <<<'PHP'
@@ -112,7 +113,7 @@ final class BracesPositionFixer extends AbstractFixer implements ConfigurableFix
                         }
 
                         PHP,
-                    ['control_structures_opening_brace' => self::NEXT_LINE_UNLESS_NEWLINE_AT_SIGNATURE_END]
+                    ['control_structures_opening_brace' => self::NEXT_LINE_UNLESS_NEWLINE_AT_SIGNATURE_END],
                 ),
                 new CodeSample(
                     <<<'PHP'
@@ -122,7 +123,7 @@ final class BracesPositionFixer extends AbstractFixer implements ConfigurableFix
                         }
 
                         PHP,
-                    ['functions_opening_brace' => self::SAME_LINE]
+                    ['functions_opening_brace' => self::SAME_LINE],
                 ),
                 new CodeSample(
                     <<<'PHP'
@@ -131,7 +132,7 @@ final class BracesPositionFixer extends AbstractFixer implements ConfigurableFix
                         };
 
                         PHP,
-                    ['anonymous_functions_opening_brace' => self::NEXT_LINE_UNLESS_NEWLINE_AT_SIGNATURE_END]
+                    ['anonymous_functions_opening_brace' => self::NEXT_LINE_UNLESS_NEWLINE_AT_SIGNATURE_END],
                 ),
                 new CodeSample(
                     <<<'PHP'
@@ -141,7 +142,7 @@ final class BracesPositionFixer extends AbstractFixer implements ConfigurableFix
                         }
 
                         PHP,
-                    ['classes_opening_brace' => self::SAME_LINE]
+                    ['classes_opening_brace' => self::SAME_LINE],
                 ),
                 new CodeSample(
                     <<<'PHP'
@@ -150,7 +151,7 @@ final class BracesPositionFixer extends AbstractFixer implements ConfigurableFix
                         };
 
                         PHP,
-                    ['anonymous_classes_opening_brace' => self::NEXT_LINE_UNLESS_NEWLINE_AT_SIGNATURE_END]
+                    ['anonymous_classes_opening_brace' => self::NEXT_LINE_UNLESS_NEWLINE_AT_SIGNATURE_END],
                 ),
                 new CodeSample(
                     <<<'PHP'
@@ -159,7 +160,7 @@ final class BracesPositionFixer extends AbstractFixer implements ConfigurableFix
                         $bar = new class { private $baz; };
 
                         PHP,
-                    ['allow_single_line_empty_anonymous_classes' => true]
+                    ['allow_single_line_empty_anonymous_classes' => true],
                 ),
                 new CodeSample(
                     <<<'PHP'
@@ -169,9 +170,9 @@ final class BracesPositionFixer extends AbstractFixer implements ConfigurableFix
                             return $result; };
 
                         PHP,
-                    ['allow_single_line_anonymous_functions' => true]
+                    ['allow_single_line_anonymous_functions' => true],
                 ),
-            ]
+            ],
         );
     }
 
@@ -221,7 +222,7 @@ final class BracesPositionFixer extends AbstractFixer implements ConfigurableFix
                 ->getOption(),
             (new FixerOptionBuilder('allow_single_line_anonymous_functions', 'Allow anonymous functions to have opening and closing braces on the same line.'))
                 ->setAllowedTypes(['bool'])
-                ->setDefault(true)
+                ->setDefault(Future::getV4OrV3(false, true))
                 ->getOption(),
         ]);
     }

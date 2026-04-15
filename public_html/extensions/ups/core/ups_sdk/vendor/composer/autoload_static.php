@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInita550312e7511494e59db5a315109eda3
+class ComposerStaticInitab8cb9e0671be1f0be64cf8f41d4b7bc
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -18,6 +18,7 @@ class ComposerStaticInita550312e7511494e59db5a315109eda3
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '23c18046f52bef3eea034657bafda50f' => __DIR__ . '/..' . '/symfony/polyfill-php81/bootstrap.php',
+        '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
         '9d2b9fc6db0f153a0a149fefb182415e' => __DIR__ . '/..' . '/symfony/polyfill-php84/bootstrap.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
@@ -30,18 +31,31 @@ class ComposerStaticInita550312e7511494e59db5a315109eda3
         ),
         'U' => 
         array (
+            'UPS\\WorldEaseShipmentManagement\\' => 32,
+            'UPS\\UPSTrackAlert\\' => 18,
+            'UPS\\UPSTrackAlertEnhanced\\' => 26,
             'UPS\\Tracking\\' => 13,
+            'UPS\\TimeInTransit\\' => 18,
             'UPS\\Shipping\\' => 13,
             'UPS\\Rating\\' => 11,
+            'UPS\\QuantumView\\' => 16,
+            'UPS\\PreNotification\\' => 20,
             'UPS\\Pickup\\' => 11,
+            'UPS\\Paperless\\' => 14,
             'UPS\\OAuthClientCredentials\\' => 27,
             'UPS\\OAuthAuthCode\\' => 18,
             'UPS\\Locator\\' => 12,
+            'UPS\\LandedCost\\' => 15,
+            'UPS\\GlobalCheckout\\' => 19,
+            'UPS\\DeliveryIntercept\\' => 22,
+            'UPS\\DeliveryDefense\\' => 20,
+            'UPS\\DangerousGoods\\' => 19,
             'UPS\\AddressValidation\\' => 22,
         ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Php84\\' => 23,
+            'Symfony\\Polyfill\\Php83\\' => 23,
             'Symfony\\Polyfill\\Php81\\' => 23,
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
@@ -114,10 +128,30 @@ class ComposerStaticInita550312e7511494e59db5a315109eda3
         array (
             0 => __DIR__ . '/..' . '/wikimedia/composer-merge-plugin/src',
         ),
+        'UPS\\WorldEaseShipmentManagement\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/WorldEaseShipmentManagement/src',
+            1 => __DIR__ . '/../..' . '/WorldEaseShipmentManagement/test',
+        ),
+        'UPS\\UPSTrackAlert\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/UPSTrackAlert/src',
+            1 => __DIR__ . '/../..' . '/UPSTrackAlert/test',
+        ),
+        'UPS\\UPSTrackAlertEnhanced\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/UPSTrackAlertEnhanced/src',
+            1 => __DIR__ . '/../..' . '/UPSTrackAlertEnhanced/test',
+        ),
         'UPS\\Tracking\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Tracking/src',
             1 => __DIR__ . '/../..' . '/Tracking/test',
+        ),
+        'UPS\\TimeInTransit\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/TimeInTransit/src',
+            1 => __DIR__ . '/../..' . '/TimeInTransit/test',
         ),
         'UPS\\Shipping\\' => 
         array (
@@ -129,10 +163,25 @@ class ComposerStaticInita550312e7511494e59db5a315109eda3
             0 => __DIR__ . '/../..' . '/Rating/src',
             1 => __DIR__ . '/../..' . '/Rating/test',
         ),
+        'UPS\\QuantumView\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/QuantumView/src',
+            1 => __DIR__ . '/../..' . '/QuantumView/test',
+        ),
+        'UPS\\PreNotification\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/PreNotification/src',
+            1 => __DIR__ . '/../..' . '/PreNotification/test',
+        ),
         'UPS\\Pickup\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Pickup/src',
             1 => __DIR__ . '/../..' . '/Pickup/test',
+        ),
+        'UPS\\Paperless\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Paperless/src',
+            1 => __DIR__ . '/../..' . '/Paperless/test',
         ),
         'UPS\\OAuthClientCredentials\\' => 
         array (
@@ -149,6 +198,31 @@ class ComposerStaticInita550312e7511494e59db5a315109eda3
             0 => __DIR__ . '/../..' . '/Locator/src',
             1 => __DIR__ . '/../..' . '/Locator/test',
         ),
+        'UPS\\LandedCost\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/LandedCost/src',
+            1 => __DIR__ . '/../..' . '/LandedCost/test',
+        ),
+        'UPS\\GlobalCheckout\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/GlobalCheckout/src',
+            1 => __DIR__ . '/../..' . '/GlobalCheckout/test',
+        ),
+        'UPS\\DeliveryIntercept\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/DeliveryIntercept/src',
+            1 => __DIR__ . '/../..' . '/DeliveryIntercept/test',
+        ),
+        'UPS\\DeliveryDefense\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/DeliveryDefense/src',
+            1 => __DIR__ . '/../..' . '/DeliveryDefense/test',
+        ),
+        'UPS\\DangerousGoods\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/DangerousGoods/src',
+            1 => __DIR__ . '/../..' . '/DangerousGoods/test',
+        ),
         'UPS\\AddressValidation\\' => 
         array (
             0 => __DIR__ . '/../..' . '/AddressValidation/src',
@@ -157,6 +231,10 @@ class ComposerStaticInita550312e7511494e59db5a315109eda3
         'Symfony\\Polyfill\\Php84\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php84',
+        ),
+        'Symfony\\Polyfill\\Php83\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php83',
         ),
         'Symfony\\Polyfill\\Php81\\' => 
         array (
@@ -337,8 +415,18 @@ class ComposerStaticInita550312e7511494e59db5a315109eda3
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'CURLStringFile' => __DIR__ . '/..' . '/symfony/polyfill-php81/Resources/stubs/CURLStringFile.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'DateError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
+        'DateException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateException.php',
+        'DateInvalidOperationException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateInvalidOperationException.php',
+        'DateInvalidTimeZoneException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateInvalidTimeZoneException.php',
+        'DateMalformedIntervalStringException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateMalformedIntervalStringException.php',
+        'DateMalformedPeriodStringException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateMalformedPeriodStringException.php',
+        'DateMalformedStringException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateMalformedStringException.php',
+        'DateObjectError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateObjectError.php',
+        'DateRangeError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateRangeError.php',
         'Deprecated' => __DIR__ . '/..' . '/symfony/polyfill-php84/Resources/stubs/Deprecated.php',
         'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
+        'Override' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/Override.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\ActualValueIsNotAnObjectException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Exception/ActualValueIsNotAnObjectException.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
@@ -763,6 +851,7 @@ class ComposerStaticInita550312e7511494e59db5a315109eda3
         'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
         'ReflectionConstant' => __DIR__ . '/..' . '/symfony/polyfill-php84/Resources/stubs/ReflectionConstant.php',
         'ReturnTypeWillChange' => __DIR__ . '/..' . '/symfony/polyfill-php81/Resources/stubs/ReturnTypeWillChange.php',
+        'SQLite3Exception' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/SQLite3Exception.php',
         'SebastianBergmann\\CliParser\\AmbiguousOptionException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/AmbiguousOptionException.php',
         'SebastianBergmann\\CliParser\\Exception' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/Exception.php',
         'SebastianBergmann\\CliParser\\OptionDoesNotAllowArgumentException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/OptionDoesNotAllowArgumentException.php',
@@ -979,9 +1068,9 @@ class ComposerStaticInita550312e7511494e59db5a315109eda3
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInita550312e7511494e59db5a315109eda3::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInita550312e7511494e59db5a315109eda3::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInita550312e7511494e59db5a315109eda3::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitab8cb9e0671be1f0be64cf8f41d4b7bc::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitab8cb9e0671be1f0be64cf8f41d4b7bc::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitab8cb9e0671be1f0be64cf8f41d4b7bc::$classMap;
 
         }, null, ClassLoader::class);
     }

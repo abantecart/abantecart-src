@@ -78,6 +78,9 @@ final class AmpHttpClient implements HttpClientInterface, LoggerAwareInterface, 
         if (is_subclass_of(Request::class, HttpMessage::class)) {
             $this->multi = new AmpClientStateV5($clientConfigurator, $maxHostConnections, $maxPendingPushes, $this->logger);
         } else {
+            if (\PHP_VERSION_ID >= 80400) {
+                trigger_deprecation('symfony/http-client', '7.4', 'Using amphp/http-client < 5 is deprecated. Try running "composer require amphp/http-client:^5".');
+            }
             $this->multi = new AmpClientStateV4($clientConfigurator, $maxHostConnections, $maxPendingPushes, $this->logger);
         }
     }
@@ -140,10 +143,15 @@ final class AmpHttpClient implements HttpClientInterface, LoggerAwareInterface, 
             $request->addHeader($h[0], $h[1]);
         }
 
-        $coef = $request instanceof HttpMessage ? 1 : 1000;
-        $request->setTcpConnectTimeout($coef * $options['timeout']);
-        $request->setTlsHandshakeTimeout($coef * $options['timeout']);
-        $request->setTransferTimeout($coef * $options['max_duration']);
+        if ($request instanceof HttpMessage) {
+            $request->setTcpConnectTimeout($options['timeout']);
+            $request->setTlsHandshakeTimeout($options['timeout']);
+            $request->setTransferTimeout($options['max_duration']);
+        } else {
+            $request->setTcpConnectTimeout(ceil(1000 * $options['timeout']));
+            $request->setTlsHandshakeTimeout(ceil(1000 * $options['timeout']));
+            $request->setTransferTimeout(ceil(1000 * $options['max_duration']));
+        }
         if (method_exists($request, 'setInactivityTimeout')) {
             $request->setInactivityTimeout(0);
         }

@@ -1,8 +1,10 @@
 <div class="d-flex flex-nowrap title">
     <div class="col-xl-12">
+        <?php if (empty($content_info['content_id']) || !empty($content_info['show_title'])) { ?>
         <h1 class="h4 heading-title">
             <?php echo $heading_title; ?>
         </h1>
+        <?php } ?>
         <?php if ($content_info && $content_info['content_bar']) { ?>
         <h6 class="m-2 p-2 text-secondary bg-body-alt d-flex justify-content-between">
             <div>
@@ -53,4 +55,3 @@
 <?php if ($contents || $mode == 'list') { ?>
     <?php include( $this->templateResource('/template/pages/content/content_listing.tpl') ) ?>
 <?php } ?>
-

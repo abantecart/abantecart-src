@@ -43,6 +43,7 @@ class ControllerPagesExtensionExtensions extends AController
         if (!in_array($this->session->data['extension_filter'], array_keys($ext_type_to_category))) {
             $this->session->data['extension_filter'] = 'extensions';
         }
+        $this->session->data['extension_popular_prepend_once_available'] = true;
         unset($this->session->data['package_info']);
 
         //init controller data

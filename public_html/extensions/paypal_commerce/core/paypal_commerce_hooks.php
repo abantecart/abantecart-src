@@ -38,6 +38,16 @@ class ExtensionPaypalCommerce extends Extension
         return $that->config->get('paypal_commerce_status');
     }
 
+    protected function applyStorePaypalSettings($that, int $storeId): void
+    {
+        /** @var ModelSettingSetting $settingMdl */
+        $settingMdl = $that->loadModel('setting/setting');
+        $settings = $settingMdl->getSetting('paypal_commerce', $storeId);
+        foreach ((array)$settings as $key => $value) {
+            $that->config->set($key, $value);
+        }
+    }
+
     public static function getBnCode()
     {
         return 'QWJhbnRlQ2FydF9TUA==';
@@ -54,6 +64,10 @@ class ExtensionPaypalCommerce extends Extension
         $that = $this->baseObject;
         $current_ext_id = $that->request->get['extension'];
         if (IS_ADMIN === true && $current_ext_id == 'paypal_commerce' && $this->baseObject_method == 'edit') {
+            $storeId = (int)($that->request->get_or_post('store_id')
+                ?: $that->session->data['current_store_id']);
+            $that->session->data['current_store_id'] = $storeId;
+            $this->applyStorePaypalSettings($that, $storeId);
             /** @var ModelExtensionPaypalCommerce $mdl */
             $mdl = $that->loadModel('extension/paypal_commerce');
 
@@ -66,6 +80,12 @@ class ExtensionPaypalCommerce extends Extension
                         'Paypal Commerce Error: Cannot to update webhooks. ' . $e->getMessage(),
                     );
                 }
+                redirect(
+                    $that->html->getSecureURL(
+                        'extension/extensions/edit',
+                        '&extension=paypal_commerce&store_id=' . $storeId
+                    )
+                );
             } else if ($that->request->get['disconnect']) {
                 //delete webhooks before disconnect
                 $mdl->deleteWebHooks();
@@ -81,13 +101,19 @@ class ExtensionPaypalCommerce extends Extension
                 $mdl->editSetting(
                     'paypal_commerce',
                     $settings,
-                    (int)$that->session->data['current_store_id']
+                    $storeId
                 );
                 foreach ($settings as $k => $v) {
                     $that->config->set($k, '');
                 }
 
                 $that->session->data['success'] = $that->language->get('text_disconnect_success');
+                redirect(
+                    $that->html->getSecureURL(
+                        'extension/extensions/edit',
+                        '&extension=paypal_commerce&store_id=' . $storeId
+                    )
+                );
             }
 
             //add gears as background when test mode is enabled
@@ -112,6 +138,10 @@ class ExtensionPaypalCommerce extends Extension
         $current_ext_id = $that->request->get['extension'];
 
         if (IS_ADMIN === true && $current_ext_id == 'paypal_commerce' && $this->baseObject_method == 'edit') {
+            $storeId = (int)($that->request->get_or_post('store_id')
+                ?: $that->session->data['current_store_id']);
+            $that->session->data['current_store_id'] = $storeId;
+            $this->applyStorePaypalSettings($that, $storeId);
             $html = '<a class="btn btn-white tooltips" target="_blank" href="https://www.paypal.com" title="Visit paypal">
                         <i class="fa fa-external-link fa-lg"></i>
                     </a>';
@@ -139,7 +169,10 @@ class ExtensionPaypalCommerce extends Extension
 
             $data = [];
             $data['test_mode'] = $that->config->get('paypal_commerce_test_mode');
-            $data['disconnect_url'] = $that->html->getSecureURL('extension/extensions/edit', '&extension=paypal_commerce&disconnect=true');
+            $data['disconnect_url'] = $that->html->getSecureURL(
+                'extension/extensions/edit',
+                '&extension=paypal_commerce&store_id=' . $storeId . '&disconnect=true'
+            );
             /** @var ModelToolMPAPI $mpMdl */
             $mpMdl = $that->loadModel('tool/mp_api');
             $extConfig = getExtensionConfigXml('paypal_commerce');
@@ -148,11 +181,12 @@ class ExtensionPaypalCommerce extends Extension
                 . '&nonce=' . getNonce(UNIQUE_ID)
                 . '&pp_version= ' . $extConfig->version
                 . '&abc_version= ' . VERSION
-                . '&store_id=' . (int)$that->session->data['current_store_id'];
+                . '&store_id=' . $storeId;
 
             //see if we are connected yet to paypal
             if ($connected) {
                 $data['connected'] = true;
+                $data['connected_account'] = $that->config->get('paypal_commerce_payer_id');
             }
 
             $that->view->batchAssign($data);
@@ -169,6 +203,10 @@ class ExtensionPaypalCommerce extends Extension
         if ($that->error || $that->request->get['extension'] != 'paypal_commerce') {
             return;
         }
+        $storeId = (int)($that->request->get_or_post('store_id')
+            ?: $that->session->data['current_store_id']);
+        $that->session->data['current_store_id'] = $storeId;
+        $this->applyStorePaypalSettings($that, $storeId);
         if (isset($that->request->post['paypal_commerce_status'])) {
             $that->config->set(
                 'paypal_commerce_status',
@@ -198,6 +236,10 @@ class ExtensionPaypalCommerce extends Extension
         if ($that->request->get['id'] == 'paypal_commerce'
             && isset($that->request->post['paypal_commerce_status'])
         ) {
+            $storeId = (int)($that->request->get_or_post('store_id')
+                ?: $that->session->data['current_store_id']);
+            $that->session->data['current_store_id'] = $storeId;
+            $this->applyStorePaypalSettings($that, $storeId);
             $that->config->set(
                 'paypal_commerce_status',
                 $that->request->post['paypal_commerce_status']
@@ -283,23 +325,25 @@ class ExtensionPaypalCommerce extends Extension
             if (!$chargeData) {
                 $view->assign(
                     'error_warning',
-                    "Some error happened!. Check the error log for more details."
+                    "Some error happened. Check the error log for more details."
                 );
             } else {
                 $data['transaction_id'] = $this->r_data['transaction_id'];
                 $data['amount_refunded'] = 0;
                 $amt = 0;
                 $currencyCode = '';
+                $priorCaptures = $chargeData->getPurchaseUnits()[0]->getPayments()->getCaptures();
+                $priorAuthorizations = $chargeData->getPurchaseUnits()[0]->getPayments()->getAuthorizations();
                 if ($chargeData->getIntent() == 'AUTHORIZE') {
-                    foreach ($chargeData->getPurchaseUnits()[0]->getPayments()->getAuthorizations() as $auth) {
+                    foreach ($priorAuthorizations as $auth) {
                         $amt += (float) $auth->getAmount()->getValue();
                         $currencyCode = $auth->getAmount()->getCurrencyCode();
                     }
                     $data['amount_authorized'] = round($amt, 2);
                     $data['amount_authorized_formatted'] = $that->currency->format($amt, $currencyCode, 1);
                     $amt = 0.0;
-                    if ($chargeData->getPurchaseUnits()[0]->getPayments()->getCaptures()) {
-                        foreach ($chargeData->getPurchaseUnits()[0]->getPayments()->getCaptures() as $capt) {
+                    if ($priorCaptures) {
+                        foreach ($priorCaptures as $capt) {
                             if ($capt->getStatus() == 'PARTIALLY_REFUNDED') {
                                 $data['amount_refunded'] += (float) $capt->getAmount()->getValue();
                             } else {
@@ -311,7 +355,7 @@ class ExtensionPaypalCommerce extends Extension
                     $data['amount_captured'] = round($amt, 2);
                     $data['amount_captured_formatted'] = $that->currency->format($amt, $currencyCode, 1);
                 } else {
-                    foreach ($chargeData->getPurchaseUnits()[0]->getPayments()->getCaptures() as $capt) {
+                    foreach ($priorCaptures as $capt) {
                         $amt += (float) $capt->getAmount()->getValue();
                         $currencyCode = $capt->getAmount()->getCurrencyCode();
                     }
@@ -319,10 +363,10 @@ class ExtensionPaypalCommerce extends Extension
                     $data['amount_captured_formatted'] = $that->currency->format($amt, $currencyCode, 1);
                     $data['captured'] = 1;
                 }
-
-                if ($chargeData->getPurchaseUnits()[0]->getPayments()->getRefunds()) {
+                $priorRefunds = $chargeData->getPurchaseUnits()[0]->getPayments()?->getRefunds();
+                if ($priorRefunds) {
                     $amt = 0;
-                    foreach ($chargeData->getPurchaseUnits()[0]->getPayments()->getRefunds() as $refund) {
+                    foreach ($priorRefunds as $refund) {
                         $amt += (float)$refund->getAmount()->getValue();
                         $currencyCode = $refund->getAmount()->getCurrencyCode();
                         $amount = round((float) $refund->getAmount()->getValue(), 2);
@@ -348,9 +392,7 @@ class ExtensionPaypalCommerce extends Extension
                 }
                 //check a void status.
                 //Not captured and refunded
-                if ($data['refunded'] && !$data['captured']
-                    || $chargeData->getPurchaseUnits()[0]->getPayments()->getAuthorizations()[0]->getStatus()
-                    == 'VOIDED') {
+                if ($data['refunded'] && !$data['captured'] || $priorAuthorizations[0]?->getStatus() == 'VOIDED'){
                     $data['void_status'] = 1;
                 }
 
@@ -414,6 +456,8 @@ class ExtensionPaypalCommerce extends Extension
             return;
         }
 
+        //clean cart of checkout process first to avoid amount mismatch
+        unset($that->session->data['fc']['cart']);
         $view = new AView(Registry::getInstance());
         $data['show_buttons'] = $that->config->get('paypal_commerce_show_buttons_product');
         $data['fast_checkout_buy_now_status'] = $that->config->get('fast_checkout_buy_now_status');
@@ -462,9 +506,12 @@ class ExtensionPaypalCommerce extends Extension
     {
         if (IS_ADMIN) { return; }
         $that =& $this->baseObject;
+        //clean cart of checkout process first
+        unset($that->session->data['fc']['cart']);
         $canBuy = true;
         foreach($that->data['products'] as $product){
-            if($product['stock'] <= 0){
+            $stockCheckout = $product['stock_checkout'] ?? $that->config->get('config_stock_checkout');
+            if( $product['stock'] <= 0 && $stockCheckout < 1){
                 $canBuy = false;
             }else{
                 $canBuy = true;

@@ -23,6 +23,38 @@ getUrlParams = function (key, value) {
     return searchParams.toString()
 };
 
+function orderIntegrityCheck() {
+    if (typeof fc_order_checksum_url === 'undefined' && fc_order_checksum_url.length < 1 ){
+        return;
+    }
+
+    $.ajax({
+        type: 'GET',
+        url: fc_order_checksum_url,
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function (data) {
+            if(data.result === false){
+                // Close all child windows
+                if (window.opener && !window.opener.closed) {
+                    window.opener.close();
+                }
+                for (var i = 0; i < window.length; i++) {
+                    if (window[i] && !window[i].closed) {
+                        window[i].close();
+                    }
+                }
+                document.cookie = "order_changed=1; max-age=10";
+                window.location.reload();
+            }
+        },
+    });
+}
+
+$(document).ready(function () {
+    //ask order every 50 seconds (less that minimal crontab period)
+    setInterval(orderIntegrityCheck, 50000);
+});
 function checkCartKey() {
     if ($('body').data('cart_key') && $('body').data('cart_key') !== readCookie('fc_cart_key')) {
         let pKey = $('body').data('product_key');

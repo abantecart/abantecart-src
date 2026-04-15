@@ -20,7 +20,7 @@ use PhpCsFixer\Tokenizer\Analyzer\GotoLabelAnalyzer;
 /**
  * Analyzer of Tokens collection.
  *
- * Its role is to provide the ability to analyze collection.
+ * Its role is to provide the ability to analyse collection.
  *
  * @internal
  *
@@ -669,7 +669,7 @@ final class TokensAnalyzer
             throw new \LogicException(\sprintf(
                 'No T_CASE given at index %d, got %s instead.',
                 $caseIndex,
-                $token->getName() ?? $token->getContent()
+                $token->getName() ?? $token->getContent(),
             ));
         }
 
@@ -817,6 +817,12 @@ final class TokensAnalyzer
 
             if ($token->isGivenKind(CT::T_PROPERTY_HOOK_BRACE_OPEN)) {
                 $index = $this->tokens->getNextTokenOfKind($index, [[CT::T_PROPERTY_HOOK_BRACE_CLOSE]]);
+
+                continue;
+            }
+
+            if ($token->isGivenKind(FCT::T_ATTRIBUTE)) {
+                $index = $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_ATTRIBUTE, $index);
 
                 continue;
             }

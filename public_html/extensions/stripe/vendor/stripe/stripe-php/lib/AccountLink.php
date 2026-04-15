@@ -8,7 +8,7 @@ namespace Stripe;
  * Account Links are the means by which a Connect platform grants a connected account permission to access
  * Stripe-hosted applications, such as Connect Onboarding.
  *
- * Related guide: <a href="https://stripe.com/docs/connect/custom/hosted-onboarding">Connect Onboarding</a>
+ * Related guide: <a href="https://docs.stripe.com/connect/custom/hosted-onboarding">Connect Onboarding</a>
  *
  * @property string $object String representing the object's type. Objects of the same type share the same value.
  * @property int $created Time at which the object was created. Measured in seconds since the Unix epoch.
@@ -24,12 +24,12 @@ class AccountLink extends ApiResource
      * platform can redirect their user to in order to take them through the Connect
      * Onboarding flow.
      *
-     * @param null|array $params
+     * @param null|array{account: string, collect?: string, collection_options?: array{fields?: string, future_requirements?: string}, expand?: string[], refresh_url?: string, return_url?: string, type: string} $params
      * @param null|array|string $options
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     * @return AccountLink the created resource
      *
-     * @return \Stripe\AccountLink the created resource
+     * @throws Exception\ApiErrorException if the request fails
      */
     public static function create($params = null, $options = null)
     {
@@ -37,7 +37,7 @@ class AccountLink extends ApiResource
         $url = static::classUrl();
 
         list($response, $opts) = static::_staticRequest('post', $url, $params, $options);
-        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
+        $obj = Util\Util::convertToStripeObject($response->json, $opts);
         $obj->setLastResponse($response);
 
         return $obj;

@@ -509,16 +509,22 @@
 			//wrapper is a parent div with .afield
 			var $wrapper = $(elem).closest('.afield');
 			$wrapper.find('input, textarea, select').each(function () {
-				var $e = $(this);
+				let $e = $(this);
 				if ($e.is("select")) {
 					//for select data-orgvalue is present in each option regardless of multiselect or single
+                    const currValue= $e.prop('multiple') ? $e.val() : [$e.val()];
 					$e.find('option').each(function () {
-						$(this).attr('data-orgvalue', 'false');
-						if ( $(this).attr('selected') == "selected" ) {
-							$(this).attr('data-orgvalue', "true");
+                        const optValue = $(this).attr('value');
+						if( currValue.includes(optValue)){
+                            $(this).attr('selected',"selected")
+                            .attr('data-orgvalue', "true");
+                        }else{
+                            $(this).removeAttr('selected');
+							$(this).attr('data-orgvalue', "false");
 						}
 					});
-				} else if ($e.is(":radio")) {
+                    $e.attr('data-orgvalue', currValue[0]);
+                } else if ($e.is(":radio")) {
 					$e.attr('data-orgvalue', elem.val());
 					if($e.val() == elem.val()) {
 						$e.attr('checked', 'checked');
@@ -710,13 +716,13 @@
 							$wrapper.parents('form').prop('changed','submit');
 							window.location.reload();
 						}
+
 						updateOriginalValue($field);
 						$field.focus();
 						$wrapper.parent().removeClass('has-error');
 						$field.removeClass('has-error');
 						removeQuickSave($field);
 						remove_alert(growl);
-
 						if (data.length > 0) {
 							success_alert(data, true);
 						}

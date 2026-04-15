@@ -44,6 +44,14 @@ echo $tabs; ?>
         </div>
         <?php
         include_once($tpl_common_dir.'content_buttons.tpl'); ?>
+        <?php if ($connected && $connected_account) { ?>
+            <div class="col-xs-12 mt10">
+                <span>
+                    <?php echo $text_connected_account ?>
+                    <strong><?php echo $connected_account; ?></strong>
+                </span>
+            </div>
+        <?php } ?>
     </div>
     <?php
     if (!$connected && !$skip_connect) { ?>

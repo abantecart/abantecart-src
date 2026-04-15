@@ -30,6 +30,7 @@
                     <a href="tel:<?php echo $telephone; ?>"><?php echo $telephone; ?></a><br />
                 <br />
                 <?php }
+                echo $this->getHookVar('after_telephone');
                 if ($fax) { ?>
                 <b class="mb-2"><?php echo $text_fax; ?></b><br />
                 <?php echo $fax;

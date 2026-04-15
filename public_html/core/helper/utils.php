@@ -24,6 +24,23 @@ function isFunctionAvailable($func_name)
 }
 
 /**
+ * Recursively sort array keys to make payload hashing deterministic.
+ *
+ * @param array $data
+ * @return void
+ */
+function sortArrayRecursively(array &$data): void
+{
+    foreach ($data as &$value) {
+        if (is_array($value)) {
+            sortArrayRecursively($value);
+        }
+    }
+    unset($value);
+    ksort($data);
+}
+
+/**
  * prepare prices and other floats for database writing, based on locale settings of number formatting
  * @see moneyDisplayFormat()
  */
@@ -1740,4 +1757,13 @@ function insert2ArrayAfter(array $array, string $itemKey, $itemValue, string|int
     return array_slice($array, 0, $pos, true) +
         [$itemKey => $itemValue] +
         array_slice($array, $pos, count($array) - $pos, true);
+}
+
+function canBuyProduct(string|int|null $productStockCheckout, int $inStock = 0)
+{
+    $stockCheckout = (bool) (in_array($productStockCheckout, ['0', '1', 0, 1])
+        ? $productStockCheckout
+        : Registry::getInstance()->get('config')->get('config_stock_checkout')
+    );
+    return $inStock || $stockCheckout;
 }

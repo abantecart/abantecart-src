@@ -6,7 +6,7 @@
 	</definition>
 	<definition>
 		<key>text_success</key>
-		<value><![CDATA[Success: You have successfully deleted the cache files!]]></value>
+		<value><![CDATA[Success: You have successfully deleted the cache data!]]></value>
 	</definition>
 	<definition>
 		<key>text_configuration</key>
@@ -111,5 +111,13 @@
 	<definition>
 		<key>desc_edits_history</key>
 		<value><![CDATA[Clear All Text Edits History]]></value>
+	</definition>
+	<definition>
+		<key>text_clear_session_data</key>
+		<value><![CDATA[Clear All Session Data]]></value>
+	</definition>
+	<definition>
+		<key>desc_clear_session_data</key>
+		<value><![CDATA[All session data will be deleted. All users will be logged out of the system, and shopping process session data older than 3 days will be removed.]]></value>
 	</definition>
 </definitions>

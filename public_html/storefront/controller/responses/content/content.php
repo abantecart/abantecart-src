@@ -59,6 +59,7 @@ class ControllerResponsesContentContent extends AController
         }
         $content_info = $this->model_catalog_content->getContent($content_id);
 
+        $this->view->assign('show_title', $content_info['show_title']);
         $this->view->assign('title', $content_info['title']);
         $this->view->assign('description', html_entity_decode($content_info['description']));
         $this->view->assign('content', html_entity_decode($content_info['content']));

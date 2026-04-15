@@ -6,6 +6,7 @@ namespace AsyncAws\Core;
 
 use AsyncAws\AppSync\AppSyncClient;
 use AsyncAws\Athena\AthenaClient;
+use AsyncAws\BedrockAgent\BedrockAgentClient;
 use AsyncAws\BedrockRuntime\BedrockRuntimeClient;
 use AsyncAws\CloudFormation\CloudFormationClient;
 use AsyncAws\CloudFront\CloudFrontClient;
@@ -39,6 +40,7 @@ use AsyncAws\RdsDataService\RdsDataServiceClient;
 use AsyncAws\Rekognition\RekognitionClient;
 use AsyncAws\Route53\Route53Client;
 use AsyncAws\S3\S3Client;
+use AsyncAws\S3Vectors\S3VectorsClient;
 use AsyncAws\Scheduler\SchedulerClient;
 use AsyncAws\SecretsManager\SecretsManagerClient;
 use AsyncAws\Ses\SesClient;
@@ -114,6 +116,19 @@ class AwsClientFactory
 
         if (!isset($this->serviceCache[__METHOD__])) {
             $this->serviceCache[__METHOD__] = new AppSyncClient($this->configuration, $this->credentialProvider, $this->httpClient, $this->logger);
+        }
+
+        return $this->serviceCache[__METHOD__];
+    }
+
+    public function bedrockAgent(): BedrockAgentClient
+    {
+        if (!class_exists(BedrockAgentClient::class)) {
+            throw MissingDependency::create('async-aws/bedrock-agent', 'BedrockAgent');
+        }
+
+        if (!isset($this->serviceCache[__METHOD__])) {
+            $this->serviceCache[__METHOD__] = new BedrockAgentClient($this->configuration, $this->credentialProvider, $this->httpClient, $this->logger);
         }
 
         return $this->serviceCache[__METHOD__];
@@ -452,6 +467,19 @@ class AwsClientFactory
 
         if (!isset($this->serviceCache[__METHOD__])) {
             $this->serviceCache[__METHOD__] = new S3Client($this->configuration, $this->credentialProvider, $this->httpClient, $this->logger);
+        }
+
+        return $this->serviceCache[__METHOD__];
+    }
+
+    public function s3Vectors(): S3VectorsClient
+    {
+        if (!class_exists(S3VectorsClient::class)) {
+            throw MissingDependency::create('async-aws/s3-vectors', 'S3Vectors');
+        }
+
+        if (!isset($this->serviceCache[__METHOD__])) {
+            $this->serviceCache[__METHOD__] = new S3VectorsClient($this->configuration, $this->credentialProvider, $this->httpClient, $this->logger);
         }
 
         return $this->serviceCache[__METHOD__];

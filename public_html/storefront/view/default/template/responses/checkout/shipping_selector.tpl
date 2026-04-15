@@ -29,7 +29,7 @@ if($this->cart->hasShipping()){
                         </div>
                         <label id="<?php echo $quote['id'];?>_title"
                                class="p-2 flex-grow-1 d-flex flex-wrap align-items-center "
-                               for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
+                               for="<?php echo preformatTextID($quote['radio']->element_id.$quote['radio']->id); ?>"
                                title="<?php echo_html2view($quote['description']); ?>">
                             <?php $icon = (array)$quote['icon'] ?: (array)$shipping_method['icon'];
                             if (sizeof($icon)) {

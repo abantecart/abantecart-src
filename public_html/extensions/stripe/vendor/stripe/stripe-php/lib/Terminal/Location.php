@@ -7,15 +7,20 @@ namespace Stripe\Terminal;
 /**
  * A Location represents a grouping of readers.
  *
- * Related guide: <a href="https://stripe.com/docs/terminal/fleet/locations">Fleet management</a>
+ * Related guide: <a href="https://docs.stripe.com/terminal/fleet/locations">Fleet management</a>
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
- * @property \Stripe\StripeObject $address
+ * @property (object{city: null|string, country: null|string, line1: null|string, line2: null|string, postal_code: null|string, state: null|string}&\Stripe\StripeObject) $address
+ * @property null|(object{city: null|string, country: null|string, line1: null|string, line2: null|string, postal_code: null|string, state: null|string, town: null|string}&\Stripe\StripeObject) $address_kana
+ * @property null|(object{city: null|string, country: null|string, line1: null|string, line2: null|string, postal_code: null|string, state: null|string, town: null|string}&\Stripe\StripeObject) $address_kanji
  * @property null|string $configuration_overrides The ID of a configuration that will be used to customize all readers in this location.
  * @property string $display_name The display name of the location.
+ * @property null|string $display_name_kana The Kana variation of the display name of the location.
+ * @property null|string $display_name_kanji The Kanji variation of the display name of the location.
  * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
- * @property \Stripe\StripeObject $metadata Set of <a href="https://stripe.com/docs/api/metadata">key-value pairs</a> that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+ * @property \Stripe\StripeObject $metadata Set of <a href="https://docs.stripe.com/api/metadata">key-value pairs</a> that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+ * @property null|string $phone The phone number of the location.
  */
 class Location extends \Stripe\ApiResource
 {
@@ -28,12 +33,12 @@ class Location extends \Stripe\ApiResource
      * address fields are required in each country, see the <a
      * href="/docs/terminal/fleet/locations">Manage locations</a> guide.
      *
-     * @param null|array $params
+     * @param null|array{address?: array{city?: string, country: string, line1?: string, line2?: string, postal_code?: string, state?: string}, address_kana?: array{city?: string, country?: string, line1?: string, line2?: string, postal_code?: string, state?: string, town?: string}, address_kanji?: array{city?: string, country?: string, line1?: string, line2?: string, postal_code?: string, state?: string, town?: string}, configuration_overrides?: string, display_name?: string, display_name_kana?: string, display_name_kanji?: string, expand?: string[], metadata?: null|array<string, string>, phone?: string} $params
      * @param null|array|string $options
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     * @return Location the created resource
      *
-     * @return \Stripe\Terminal\Location the created resource
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public static function create($params = null, $options = null)
     {
@@ -53,9 +58,9 @@ class Location extends \Stripe\ApiResource
      * @param null|array $params
      * @param null|array|string $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     * @return Location the deleted resource
      *
-     * @return \Stripe\Terminal\Location the deleted resource
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public function delete($params = null, $opts = null)
     {
@@ -71,12 +76,12 @@ class Location extends \Stripe\ApiResource
     /**
      * Returns a list of <code>Location</code> objects.
      *
-     * @param null|array $params
+     * @param null|array{ending_before?: string, expand?: string[], limit?: int, starting_after?: string} $params
      * @param null|array|string $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     * @return \Stripe\Collection<Location> of ApiResources
      *
-     * @return \Stripe\Collection<\Stripe\Terminal\Location> of ApiResources
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public static function all($params = null, $opts = null)
     {
@@ -91,9 +96,9 @@ class Location extends \Stripe\ApiResource
      * @param array|string $id the ID of the API resource to retrieve, or an options array containing an `id` key
      * @param null|array|string $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     * @return Location
      *
-     * @return \Stripe\Terminal\Location
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public static function retrieve($id, $opts = null)
     {
@@ -109,12 +114,12 @@ class Location extends \Stripe\ApiResource
      * passed. Any parameters not provided will be left unchanged.
      *
      * @param string $id the ID of the resource to update
-     * @param null|array $params
+     * @param null|array{address?: array{city?: string, country?: string, line1?: string, line2?: string, postal_code?: string, state?: string}, address_kana?: array{city?: string, country?: string, line1?: string, line2?: string, postal_code?: string, state?: string, town?: string}, address_kanji?: array{city?: string, country?: string, line1?: string, line2?: string, postal_code?: string, state?: string, town?: string}, configuration_overrides?: null|string, display_name?: null|string, display_name_kana?: null|string, display_name_kanji?: null|string, expand?: string[], metadata?: null|array<string, string>, phone?: null|string} $params
      * @param null|array|string $opts
      *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     * @return Location the updated resource
      *
-     * @return \Stripe\Terminal\Location the updated resource
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
     public static function update($id, $params = null, $opts = null)
     {

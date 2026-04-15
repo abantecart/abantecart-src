@@ -106,6 +106,52 @@ class ASupplier
     }
 
     /**
+     * @return array
+     * @throws AException
+     */
+    public static function getSuppliers()
+    {
+        if(IS_ADMIN !== true){
+            return [];
+        }
+        $db = Registry::getInstance()->get('db');
+        if(!$db ){
+            throw new AException(
+                AC_ERR_USER_ERROR,
+                __FUNCTION__.': ADB class not found!'
+            );
+        }
+
+        $result = $db->query( "SELECT * FROM ".$db->table('suppliers')." ORDER BY name;" );
+        return $result->rows;
+    }
+
+    /**
+     * @return array
+     * @throws AException
+     */
+    public static function getSupplierByCode(string $code)
+    {
+        if(!$code){
+            return [];
+        }
+        $db = Registry::getInstance()->get('db');
+        if(!$db ){
+            throw new AException(
+                AC_ERR_USER_ERROR,
+                __FUNCTION__.': ADB class not found!'
+            );
+        }
+
+        $result = $db->query(
+            "SELECT * 
+            FROM ".$db->table('suppliers')." 
+            WHERE code = '".$db->escape($code)."';"
+        );
+        return $result->row;
+    }
+
+    /**
      * @param string $code - supplier text code
      * @return bool
      * @throws AException

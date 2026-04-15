@@ -13,7 +13,7 @@ and v3.
 - reCAPTCHA: https://www.google.com/recaptcha
 - This repo: https://github.com/google/recaptcha
 - Hosted demo: https://recaptcha-demo.appspot.com/
-- Version: 1.3.0
+- Version: 1.3.1
 - License: BSD, see [LICENSE](LICENSE)
 
 ## Installation
@@ -54,7 +54,7 @@ $recaptcha = new \ReCaptcha\ReCaptcha($secret);
 ```
 
 The classes in the project are structured according to the
-[PSR-4](http://www.php-fig.org/psr/psr-4/) standard, so you can also use your
+[PSR-4](https://www.php-fig.org/psr/psr-4/) standard, so you can also use your
 own autoloader or require the needed files directly in your code.
 
 ## Usage

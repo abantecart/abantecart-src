@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit7476172e1d79269d041a58c3a4902bd7
+class ComposerStaticInit6ac9ca81939f07a637ed5d273c13d562
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -12,8 +12,6 @@ class ComposerStaticInit7476172e1d79269d041a58c3a4902bd7
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
-        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
-        '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -23,11 +21,9 @@ class ComposerStaticInit7476172e1d79269d041a58c3a4902bd7
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Intl\\Normalizer\\' => 33,
             'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
-            'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Contracts\\Service\\' => 26,
             'Symfony\\Contracts\\HttpClient\\' => 29,
             'Symfony\\Contracts\\EventDispatcher\\' => 34,
-            'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\Mime\\' => 23,
             'Symfony\\Component\\Mailer\\Bridge\\Sendinblue\\' => 43,
             'Symfony\\Component\\Mailer\\Bridge\\Sendgrid\\' => 41,
@@ -40,49 +36,18 @@ class ComposerStaticInit7476172e1d79269d041a58c3a4902bd7
             'Symfony\\Component\\Mailer\\Bridge\\Amazon\\' => 39,
             'Symfony\\Component\\Mailer\\' => 25,
             'Symfony\\Component\\HttpClient\\' => 29,
-            'Symfony\\Component\\Finder\\' => 25,
             'Symfony\\Component\\EventDispatcher\\' => 34,
         ),
         'R' => 
         array (
-            'Relay\\' => 6,
             'ReCaptcha\\' => 10,
         ),
         'P' => 
         array (
             'Psr\\Log\\' => 8,
-            'Psr\\Http\\Server\\' => 16,
-            'Psr\\Http\\Message\\' => 17,
             'Psr\\EventDispatcher\\' => 20,
             'Psr\\Container\\' => 14,
-            'Psr\\Clock\\' => 10,
             'Psr\\Cache\\' => 10,
-            'PhpParser\\' => 10,
-            'PHPStan\\PhpDocParser\\' => 21,
-        ),
-        'O' => 
-        array (
-            'OpenApi\\' => 8,
-        ),
-        'N' => 
-        array (
-            'Nyholm\\Psr7\\' => 12,
-            'Nyholm\\Psr7Server\\' => 18,
-            'Neomerx\\Cors\\' => 13,
-            'Negotiation\\' => 12,
-        ),
-        'M' => 
-        array (
-            'Middlewares\\Utils\\' => 18,
-            'Middlewares\\' => 12,
-        ),
-        'L' => 
-        array (
-            'Lcobucci\\JWT\\' => 13,
-        ),
-        'F' => 
-        array (
-            'FastRoute\\' => 10,
         ),
         'E' => 
         array (
@@ -116,10 +81,6 @@ class ComposerStaticInit7476172e1d79269d041a58c3a4902bd7
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-intl-idn',
         ),
-        'Symfony\\Polyfill\\Ctype\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
-        ),
         'Symfony\\Contracts\\Service\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/service-contracts',
@@ -131,10 +92,6 @@ class ComposerStaticInit7476172e1d79269d041a58c3a4902bd7
         'Symfony\\Contracts\\EventDispatcher\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/event-dispatcher-contracts',
-        ),
-        'Symfony\\Component\\Yaml\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/yaml',
         ),
         'Symfony\\Component\\Mime\\' => 
         array (
@@ -184,17 +141,9 @@ class ComposerStaticInit7476172e1d79269d041a58c3a4902bd7
         array (
             0 => __DIR__ . '/..' . '/symfony/http-client',
         ),
-        'Symfony\\Component\\Finder\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/finder',
-        ),
         'Symfony\\Component\\EventDispatcher\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/event-dispatcher',
-        ),
-        'Relay\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/relay/relay/src',
         ),
         'ReCaptcha\\' => 
         array (
@@ -204,16 +153,6 @@ class ComposerStaticInit7476172e1d79269d041a58c3a4902bd7
         array (
             0 => __DIR__ . '/..' . '/psr/log/src',
         ),
-        'Psr\\Http\\Server\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/http-server-middleware/src',
-            1 => __DIR__ . '/..' . '/psr/http-server-handler/src',
-        ),
-        'Psr\\Http\\Message\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
-        ),
         'Psr\\EventDispatcher\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/event-dispatcher/src',
@@ -222,60 +161,9 @@ class ComposerStaticInit7476172e1d79269d041a58c3a4902bd7
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
-        'Psr\\Clock\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/clock/src',
-        ),
         'Psr\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
-        ),
-        'PhpParser\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
-        ),
-        'PHPStan\\PhpDocParser\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/phpstan/phpdoc-parser/src',
-        ),
-        'OpenApi\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/zircote/swagger-php/src',
-        ),
-        'Nyholm\\Psr7\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/nyholm/psr7/src',
-        ),
-        'Nyholm\\Psr7Server\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/nyholm/psr7-server/src',
-        ),
-        'Neomerx\\Cors\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/neomerx/cors-psr7/src',
-        ),
-        'Negotiation\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/willdurand/negotiation/src/Negotiation',
-        ),
-        'Middlewares\\Utils\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/middlewares/utils/src',
-        ),
-        'Middlewares\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/middlewares/payload/src',
-            1 => __DIR__ . '/..' . '/middlewares/negotiation/src',
-            2 => __DIR__ . '/..' . '/middlewares/error-handler/src',
-            3 => __DIR__ . '/..' . '/middlewares/cors/src',
-        ),
-        'Lcobucci\\JWT\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/lcobucci/jwt/src',
-        ),
-        'FastRoute\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/nikic/fast-route/src',
         ),
         'Egulias\\EmailValidator\\' => 
         array (
@@ -324,10 +212,10 @@ class ComposerStaticInit7476172e1d79269d041a58c3a4902bd7
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit7476172e1d79269d041a58c3a4902bd7::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit7476172e1d79269d041a58c3a4902bd7::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit7476172e1d79269d041a58c3a4902bd7::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit7476172e1d79269d041a58c3a4902bd7::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit6ac9ca81939f07a637ed5d273c13d562::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit6ac9ca81939f07a637ed5d273c13d562::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit6ac9ca81939f07a637ed5d273c13d562::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit6ac9ca81939f07a637ed5d273c13d562::$classMap;
 
         }, null, ClassLoader::class);
     }
