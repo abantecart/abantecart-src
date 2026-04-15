@@ -41,8 +41,7 @@ class  ControllerCommonHead extends AController
         $this->data['scripts'] = $this->document->getScripts();
         $this->data['notifier_updater_url'] = $this->html->getSecureURL('listing_grid/message_grid/getnotifies');
         $this->data['system_checker_url'] = $this->html->getSecureURL('common/common/checksystem');
-        $autoRefresh = $this->config->get('config_admin_background_autorefresh');
-        $this->data['admin_background_autorefresh_enabled'] = $autoRefresh === null || $autoRefresh === '' || (int)$autoRefresh === 1;
+        $this->data['admin_background_autorefresh_enabled'] = $this->config->get('config_admin_background_autorefresh');
         $this->data['language_code'] = $this->session->data['language'];
         $this->data['language_details'] = $this->language->getCurrentLanguage();
         $locale = explode('.', $this->data['language_details']['locale']);
