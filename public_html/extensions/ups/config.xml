@@ -4,9 +4,9 @@
     <version>1.4.4</version>
     <type>shipping</type>
     <category>Payment &amp;amp; Shipping</category>
-    <cartversions>
-        <item>1.4.1</item>
-    </cartversions>
+	<cartversions>
+		<item>1.4.1</item>
+	</cartversions>
     <priority>10</priority>
     <settings>
         <item id="ups_status">

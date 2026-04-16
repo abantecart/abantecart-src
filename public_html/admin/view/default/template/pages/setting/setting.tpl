@@ -185,6 +185,22 @@ jQuery(function ($) {
     $('#settingFrm_config_storefront_template').change(function () {
         $('#template').load('<?php echo $template_image; ?>&template=' + encodeURIComponent(this.value))
     });
+
+    function toggleSessionTtlAvailability() {
+        const $autoRefresh = $('#settingFrm_config_admin_background_autorefresh');
+        const $sessionTtl = $('#settingFrm_config_session_ttl');
+        if (!$autoRefresh.length || !$sessionTtl.length) {
+            return;
+        }
+        const autoRefreshEnabled = String($autoRefresh.val()) === '1';
+        $sessionTtl.prop('disabled', autoRefreshEnabled);
+    }
+
+    $('#settingFrm_config_admin_background_autorefresh').on('change', toggleSessionTtlAvailability);
+    $('#settingFrm_config_admin_background_autorefresh_layer button').on('click', function () {
+        setTimeout(toggleSessionTtlAvailability, 0);
+    });
+    toggleSessionTtlAvailability();
 });
 <?php if ($active == 'mail') { ?>
 jQuery(function () {

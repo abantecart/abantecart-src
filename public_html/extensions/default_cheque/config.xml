@@ -4,9 +4,9 @@
     <version>1.4.4</version>
 	<type>payment</type>
 	<category>payment</category>
-    <cartversions>
+	<cartversions>
 		<item>1.4</item>
-    </cartversions>
+	</cartversions>
     <priority>10</priority>
     <settings>
 	    <item id="default_cheque_payable">

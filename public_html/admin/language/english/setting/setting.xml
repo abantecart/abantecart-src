@@ -481,16 +481,21 @@
 		<value>
 			<![CDATA[Use SSL:<br /><span class="help">To use SSL check with your host if a SSL certificate is installed.</span>]]></value>
 	</definition>
-	<definition>
-		<key>entry_session_ttl</key>
-		<value>
-			<![CDATA[Control Panel Session Expiration:<br /><span class="help">This value controls time interval in minutes before you will be asked to login again due to no activity.</span>]]></value>
-	</definition>
-	<definition>
-		<key>entry_encryption</key>
-		<value>
-			<![CDATA[Encryption Key:<br /><span class="help">Setting migrated to config file starting in v1.2.1.</span>]]></value>
-	</definition>
+		<definition>
+			<key>entry_session_ttl</key>
+			<value>
+					<![CDATA[Control Panel Session Expiration:<br /><span class="help">This value controls time interval in minutes before you will be asked to login again due to no activity. For strict idle timeout behavior, disable Keep Long Session.</span>]]></value>
+		</definition>
+		<definition>
+			<key>entry_admin_background_autorefresh</key>
+			<value>
+					<![CDATA[Keep Long Session:<br /><span class="help">Enable periodic background requests for admin notifications and system checks. Disable this to prevent background refresh from extending active session.</span>]]></value>
+		</definition>
+		<definition>
+			<key>entry_encryption</key>
+			<value>
+				<![CDATA[Encryption Key:<br /><span class="help">Setting migrated to config file starting in v1.2.1.</span>]]></value>
+		</definition>
 	<definition>
 		<key>entry_seo_url</key>
 		<value>
@@ -952,14 +957,18 @@
 		<value>
 			<![CDATA[Google reCAPTCHA Secret Key:<br /><span class="help">Add <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> to help your visitors with better captcha entry. If you enable reCAPTCHA site/secret keys, Google reCAPTCHA v2 will be activated instead of default AbanteCart captcha image</span>]]></value>
 	</definition>
-	<definition>
-		<key>text_setting_php_exceed</key>
-		<value><![CDATA[This value can not exceed your php.ini directive %s (<=%s)]]></value>
-	</definition>
-	<definition>
-		<key>entry_start_order_id</key>
-		<value><![CDATA[Order Start No.:<br /><span class="help">Set the starting number the orders will begin from.</span>]]></value>
-	</definition>
+		<definition>
+			<key>text_setting_php_exceed</key>
+			<value><![CDATA[This value can not exceed your php.ini directive %s (<=%s)]]></value>
+		</definition>
+		<definition>
+			<key>text_setting_session_ttl_autorefresh_note</key>
+			<value><![CDATA[Idle timeout works as expected when <b>Keep Long Session</b> is turned OFF.]]></value>
+		</definition>
+		<definition>
+			<key>entry_start_order_id</key>
+			<value><![CDATA[Order Start No.:<br /><span class="help">Set the starting number the orders will begin from.</span>]]></value>
+		</definition>
 	<definition>
 		<key>error_start_order_id</key>
 		<value><![CDATA[Order start number must be a numeric!]]></value>

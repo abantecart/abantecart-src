@@ -875,7 +875,7 @@ VALUES
 ('block', 'cart', '', 1, 1, '', null, now(), now(), now() ),
 ('block', 'category', '', 1, 1, '', null, now(), now(), now() ),
 ('block', 'content', '', 1, 1, '', null, now(), now(), now() ),
-('block', 'manufacturer', '', 1, 1, '', null, now(), now(), now() ),
+('block', 'manufacturer', '', 1, 1, '', null, now(), now(), now() ), 
 ('block', 'bestseller', '', 1, 1, '', null, now(), now(), now() ),
 ('block', 'latest', '', 1, 1, '', null, now(), now(), now() ),
 ('block', 'featured', '', 1, 1, '', null, now(), now(), now() ),
