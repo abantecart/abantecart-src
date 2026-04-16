@@ -1,5 +1,9 @@
-let evtName = '';
 //fill default values of common variables if not set
+let isMobile = window.innerWidth < 992;
+window.addEventListener('resize', function() {
+    isMobile = window.innerWidth < 992;
+});
+
 if (!window.hasOwnProperty("baseUrl")) {
     window.baseUrl = window.location.protocol
         + '//'
@@ -221,21 +225,36 @@ $(document).ready(function(){
             return result;
         }
 
-        //event for adding product to cart by ajax
-        $(document).on('click touchstart', 'a.add-to-cart', function (e) {
+        function showCartOnMobile(hasOptions) {
+            if (isMobile && !hasOptions) {
+                setTimeout(function() {
+                    let cartOffcanvas = document.getElementById('cartoffcanvas');
+                    if (cartOffcanvas) {
+                        let bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(cartOffcanvas);
+                        bsOffcanvas.show();
+                    }
+                }, 300);
+            }
+        }
 
+        function shouldPreventCartRedirect() {
+            if (isMobile) {
+                let cartOffcanvas = document.getElementById('cartoffcanvas');
+                return cartOffcanvas && cartOffcanvas.classList.contains('show');
+            }
+            return false;
+        }
+
+        //event for adding product to cart by ajax
+        $(document).on('click', 'a.add-to-cart', function (e) {
             let item = $(this);
             //check if href provided for product details access
             if (item.attr('href') && item.attr('href') !== '#') {
                 return true;
             }
+            
             e.preventDefault();
             e.stopPropagation();
-            if(e.handleObj.type === 'click' && evtName === 'touchstart'){
-                evtName = '';
-                return true;
-            }
-            evtName = e.handleObj.type;
 
             let wrapper = item.parent();
 
@@ -287,15 +306,22 @@ $(document).ready(function(){
 
                     $('.cart_counter').html(data.item_count);
                     item.find('i').addClass('text-success bi-bag-check-fill').removeClass('bi-bag-fill');
+                    
+                    showCartOnMobile(options);
                 }
             }
             return false;
         });
 
-        $(document).on('click touchstart', 'i.bi-bag-check-fill', function (e) {
-            location = cart_url;
+        $(document).on('click', 'i.bi-bag-check-fill', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            if (shouldPreventCartRedirect()) {
+                return false;
             }
-        );
+            location = cart_url;
+        });
         $('#cartoffcanvas').on('shown.bs.offcanvas',function (){
             $('#theme-switcher').removeClass('d-flex').addClass('d-none');
         }).on('hidden.bs.offcanvas',function (){
