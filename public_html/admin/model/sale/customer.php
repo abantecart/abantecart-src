@@ -613,21 +613,12 @@ class ModelSaleCustomer extends Model
         } //if encryption enabled
         else {
             $email = trim($filter['email']);
-            if ($email) {
-                $whereOrArr = [];
-                //as we don't know what key was used for customer we try to find all hashes
-                $activeKeys = $this->dcrypt->getKeys();
-                foreach ($activeKeys as $keyId => $keyName) {
-                    $encryptedValue = $this->dcrypt->encrypt_field($email, $keyId);
-                    $whereOrArr[] = "c.email = '" . $this->db->escape($encryptedValue, true) . "' ";
-                }
-                //if we do not require login name, this means email is loginname and we can search by it
-                if (!$this->config->get('prevent_email_as_login')) {
-                    $whereOrArr[] = "c.loginname LIKE '%" . $this->db->escape($email, true) . "%' ";
-                }
-                if($whereOrArr){
-                    $whereArr[] = "(" . implode(" OR ", $whereOrArr) . ")";
-                }
+            //if we do not require login name, this means email is loginname and we can search by it
+            if ($email
+                && !$this->config->get('prevent_email_as_login')
+                && !in_array('loginname', $this->dcrypt->getEncryptedFields('customers'))
+            ) {
+                $whereArr[] = "c.loginname LIKE '%" . $this->db->escape($email, true) . "%' ";
             }
         }
 
