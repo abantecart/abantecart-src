@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <extension>
     <id>default_fedex</id>
-    <version>1.4.3</version>
+    <version>1.4.4</version>
 	<type>shipping</type>
 	<category>shipping</category>
-    <cartversions>
-        <item>1.4</item>
-    </cartversions>
+	<cartversions>
+		<item>1.4</item>
+	</cartversions>
 	<phpmodules>
 		<item>soap</item>
 	</phpmodules>

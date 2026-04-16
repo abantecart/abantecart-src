@@ -5,7 +5,7 @@
 	<type>extension</type>
 	<category>tools</category>
 	<cartversions>
-        <item>1.4</item>
+		<item>1.4</item>
 	</cartversions>
 	<priority>10000</priority>
 	<settings>

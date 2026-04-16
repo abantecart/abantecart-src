@@ -1909,16 +1909,27 @@ class AConfigManager
     {
         $fields = [];
         //system section
+        $autoRefreshEnabled = (int)($data['config_admin_background_autorefresh'] ?? 1) === 1;
+        $fields['admin_background_autorefresh'] = $form->getFieldHtml(
+            $props[] = [
+                'type'  => 'checkbox',
+                'name'  => 'config_admin_background_autorefresh',
+                'value' => $data['config_admin_background_autorefresh'] ?? 1,
+                'style' => 'btn_switch',
+            ]
+        );
         $fields['session_ttl'] = $form->getFieldHtml(
                 $props[] = [
                     'type'  => 'input',
                     'name'  => 'config_session_ttl',
                     'value' => $data['config_session_ttl'],
+                    'attr'  => $autoRefreshEnabled ? 'disabled' : '',
                 ]
             ) . sprintf(
                 $this->language->get('text_setting_php_exceed'), 'session.gc_maxlifetime',
                 (int)ini_get('session.gc_maxlifetime') / 60
-            );
+            ) . '<br />'
+            . $this->language->get('text_setting_session_ttl_autorefresh_note');
 
         $fields['maintenance'] = $form->getFieldHtml(
             $props[] = [
