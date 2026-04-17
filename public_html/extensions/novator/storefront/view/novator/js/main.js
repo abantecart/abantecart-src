@@ -205,6 +205,8 @@ $(document).ready(function(){
             if(option){
                 senddata['option'] = option;
             }
+            // Always add quantity = 1 to increase cart quantity
+            senddata['quantity'] = 1;
             $.ajax({
                 url: cart_ajax_url,
                 type: 'GET',
@@ -219,14 +221,83 @@ $(document).ready(function(){
                      if (pList) {
                          pList.html(data.cart_details);
                      }
+                     
                     result = data;
                 }
             });
             return result;
         }
+        
+        function disableAddToCartButton(product_id, maximum) {
+            let buttons = $('a.add-to-cart[data-id="' + product_id + '"]');
+            buttons.each(function() {
+                let btn = $(this);
 
-        function showCartOnMobile(hasOptions) {
-            if (isMobile && !hasOptions) {
+                if (btn.hasClass('disabled') && btn.attr('data-max-disabled') === 'true') {
+                    return;
+                }
+
+                if (!btn.data('original-classes')) {
+                    btn.data('original-classes', btn.attr('class'));
+                }
+
+                btn.attr('data-max-disabled', 'true');
+
+                btn.addClass('disabled');
+            });
+        }
+        
+        function enableAddToCartButton(product_id) {
+            let buttons = $('a.add-to-cart[data-id="' + product_id + '"]');
+            buttons.each(function() {
+                let btn = $(this);
+
+                btn.removeAttr('data-max-disabled');
+
+                if (btn.data('original-classes')) {
+                    btn.attr('class', btn.data('original-classes'));
+                }
+            });
+        }
+        
+        function checkMaxQuantityProductsOnLoad() {
+            $.ajax({
+                url: baseUrl + '?rt=r/product/product/getCartContent&fc=1',
+                type: 'GET',
+                dataType: 'json',
+                async: true,
+                success: function (data) {
+                    checkMaxQuantityProducts(data);
+                }
+            });
+        }
+        
+        /**
+         * Cart response payload from getCartContent/cart update endpoints.
+         * @param {{products?: Array<{key: string, maximum: number|string, quantity: number|string}>}} data
+         */
+        function checkMaxQuantityProducts(data) {
+            $('a.add-to-cart').each(function() {
+                let btn = $(this);
+                let productId = btn.attr('data-id');
+                if (productId && btn.attr('data-max-disabled') === 'true') {
+                    enableAddToCartButton(productId);
+                }
+            });
+            
+            if (data.products && Array.isArray(data.products)) {
+                data.products.forEach(function(product) {
+                    let maximum = parseInt(product.maximum);
+                    let quantity = parseInt(product.quantity);
+                    if (maximum > 0 && quantity >= maximum) {
+                        disableAddToCartButton(product.key, maximum);
+                    }
+                });
+            }
+        }
+
+        function showCartOffcanvas(hasOptions) {
+            if (!hasOptions) {
                 setTimeout(function() {
                     let cartOffcanvas = document.getElementById('cartoffcanvas');
                     if (cartOffcanvas) {
@@ -248,11 +319,16 @@ $(document).ready(function(){
         //event for adding product to cart by ajax
         $(document).on('click', 'a.add-to-cart', function (e) {
             let item = $(this);
+
+            if (item.attr('data-max-disabled') === 'true') {
+                return false;
+            }
+
             //check if href provided for product details access
             if (item.attr('href') && item.attr('href') !== '#') {
                 return true;
             }
-            
+
             e.preventDefault();
             e.stopPropagation();
 
@@ -260,8 +336,7 @@ $(document).ready(function(){
 
             if (item.attr('data-id')) {
                 let options;
-                let check_cart = wrapper.find('i').first();
-                let icon_cart = wrapper.find('i').last();
+                let icon_cart = item.find('i');
                 let spinner = wrapper.children('span');
                 spinner.removeClass('visually-hidden');
                 icon_cart.addClass('visually-hidden');
@@ -270,9 +345,6 @@ $(document).ready(function(){
                 }
                 let data = add2CartAjax(item.attr('data-id'), options);
                 if ( data !== false) {
-                    if(!check_cart.is(":visible")) {
-                        check_cart.toggle("slide:left");
-                    }
                     spinner.addClass('visually-hidden');
                     icon_cart.removeClass('visually-hidden');
 
@@ -305,28 +377,23 @@ $(document).ready(function(){
                     }
 
                     $('.cart_counter').html(data.item_count);
-                    item.find('i').addClass('text-success bi-bag-check-fill').removeClass('bi-bag-fill');
                     
-                    showCartOnMobile(options);
+                    checkMaxQuantityProducts(data);
+                    
+                    showCartOffcanvas(options);
                 }
             }
             return false;
-        });
-
-        $(document).on('click', 'i.bi-bag-check-fill', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            if (shouldPreventCartRedirect()) {
-                return false;
-            }
-            location = cart_url;
         });
         $('#cartoffcanvas').on('shown.bs.offcanvas',function (){
             $('#theme-switcher').removeClass('d-flex').addClass('d-none');
         }).on('hidden.bs.offcanvas',function (){
             $('#theme-switcher').removeClass('d-none').addClass('d-flex');
         });
+        
+        checkMaxQuantityProductsOnLoad();
+        
+        window.checkMaxQuantityProducts = checkMaxQuantityProducts;
     }
 
     //dropdown menu fix of parent
@@ -455,6 +522,10 @@ $(document).ready(function(){
                 $('.cart_counter').html(data.item_count);
                 $('.nav.topcart span.cart_total').html(data.total);
                 $('#cartoffcanvas .offcanvas-body').html(data.cart_details);
+                
+                if (typeof window.checkMaxQuantityProducts === 'function') {
+                    window.checkMaxQuantityProducts(data);
+                }
             }
         });
     }
@@ -474,6 +545,10 @@ $(document).ready(function(){
                 $('.cart_counter').html(data.item_count);
                 $('.nav.topcart span.cart_total').html(data.total);
                 $('#cartoffcanvas .offcanvas-body').html(data.cart_details);
+                
+                if (typeof window.checkMaxQuantityProducts === 'function') {
+                    window.checkMaxQuantityProducts(data);
+                }
             }
         });
     });
