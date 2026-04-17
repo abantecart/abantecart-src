@@ -21,6 +21,7 @@
 /** @noinspection PhpUndefinedClassInspection */
 
 use PaypalServerSdkLib\Http\ApiResponse;
+use PaypalServerSdkLib\Models\Order;
 
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -178,9 +179,11 @@ class ModelExtensionPaypalCommerce extends Model
     /**
      * @param string $paypalOrderId
      *
-     * @return PaypalServerSdkLib\Models\Order|false
+     * @return Order|null
+     *
+     * If API result comes as array, it is mapped to Order.
      */
-    public function getOrder(string $paypalOrderId): ?object
+    public function getOrder(string $paypalOrderId): ?Order
     {
         if ($paypalOrderId === '') {
             return null;
@@ -190,7 +193,20 @@ class ModelExtensionPaypalCommerce extends Model
             ->getOrdersController()
             ->getOrder(['id' => $paypalOrderId]);
 
-        return $apiResponse->getResult();
+        $result = $apiResponse->getResult();
+        if ($result instanceof Order) {
+            return $result;
+        }
+        if (is_array($result)) {
+            try {
+                $mappedResult = \PaypalServerSdkLib\ApiHelper::getJsonHelper()->mapClass($result, Order::class);
+                return $mappedResult instanceof Order ? $mappedResult : null;
+            } catch (Exception|Error) {
+                return null;
+            }
+        }
+
+        return null;
     }
 
     /**
