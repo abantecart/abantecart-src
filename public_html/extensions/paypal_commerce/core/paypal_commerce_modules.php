@@ -19,10 +19,12 @@
  */
 
 use PaypalServerSdkLib\Authentication\ClientCredentialsAuthCredentialsBuilder;
+use PaypalServerSdkLib\ApiHelper;
 use PaypalServerSdkLib\Environment;
 use PaypalServerSdkLib\Logging\LoggingConfigurationBuilder;
 use PaypalServerSdkLib\Logging\RequestLoggingConfigurationBuilder;
 use PaypalServerSdkLib\Logging\ResponseLoggingConfigurationBuilder;
+use PaypalServerSdkLib\Models\Order;
 use PaypalServerSdkLib\PaypalServerSdkClient;
 use PaypalServerSdkLib\PaypalServerSdkClientBuilder;
 use Psr\Log\LogLevel;
@@ -83,4 +85,28 @@ function getNonce(string $uniqueID, bool $urlencoded = true)
         $uniqueID = str_pad($uniqueID, 44, '0', STR_PAD_RIGHT);
     }
     return $uniqueID;
+}
+
+/**
+ * Normalize PayPal SDK order result to a typed Order model.
+ *
+ * @param mixed $result
+ *
+ * @return Order|null
+ */
+function paypalNormalizeOrderResult($result): ?Order
+{
+    if ($result instanceof Order) {
+        return $result;
+    }
+    if (!is_array($result)) {
+        return null;
+    }
+
+    try {
+        $mappedResult = ApiHelper::getJsonHelper()->mapClass($result, Order::class);
+        return $mappedResult instanceof Order ? $mappedResult : null;
+    } catch (Exception|Error) {
+        return null;
+    }
 }

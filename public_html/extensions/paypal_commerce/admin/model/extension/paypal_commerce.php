@@ -18,7 +18,6 @@
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
-use PaypalServerSdkLib\ApiHelper;
 use PaypalServerSdkLib\Models\CapturedPayment;
 use PaypalServerSdkLib\Models\CaptureRequest;
 use PaypalServerSdkLib\Models\Money;
@@ -99,20 +98,7 @@ class ModelExtensionPaypalCommerce extends Model
         }
 
         $apiResponse = $this->paypal->getOrdersController()->getOrder(['id'=>$ch_id]);
-        $result = $apiResponse->getResult();
-        if ($result instanceof Order) {
-            return $result;
-        }
-        if (is_array($result)) {
-            try {
-                $mappedResult = ApiHelper::getJsonHelper()->mapClass($result, Order::class);
-                return $mappedResult instanceof Order ? $mappedResult : null;
-            } catch (Exception|Error) {
-                return null;
-            }
-        }
-
-        return null;
+        return paypalNormalizeOrderResult($apiResponse->getResult());
     }
 
     /**

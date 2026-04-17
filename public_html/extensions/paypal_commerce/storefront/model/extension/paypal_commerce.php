@@ -193,20 +193,7 @@ class ModelExtensionPaypalCommerce extends Model
             ->getOrdersController()
             ->getOrder(['id' => $paypalOrderId]);
 
-        $result = $apiResponse->getResult();
-        if ($result instanceof Order) {
-            return $result;
-        }
-        if (is_array($result)) {
-            try {
-                $mappedResult = \PaypalServerSdkLib\ApiHelper::getJsonHelper()->mapClass($result, Order::class);
-                return $mappedResult instanceof Order ? $mappedResult : null;
-            } catch (Exception|Error) {
-                return null;
-            }
-        }
-
-        return null;
+        return paypalNormalizeOrderResult($apiResponse->getResult());
     }
 
     /**
