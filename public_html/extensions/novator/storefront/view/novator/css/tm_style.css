@@ -4099,3 +4099,15 @@ a.share{
     position: relative;
     z-index: 2;
 }
+
+.add-to-cart.disabled,
+.add-to-cart-block .add-to-cart.disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+}
+
+.add-to-cart.disabled:hover,
+.add-to-cart-block .add-to-cart.disabled:hover {
+    opacity: 0.5 !important;
+}
