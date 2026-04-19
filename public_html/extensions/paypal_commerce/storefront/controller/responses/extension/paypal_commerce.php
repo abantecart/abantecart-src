@@ -631,16 +631,19 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 //take the correct shipping address from order
                 $ppO = $mdl->getOrder($ppOrderId);
                 $ppShipping = $ppO->getPurchaseUnits()[0]->getShipping();
-                list($fName, $lName) = explode(' ',$ppShipping->getName()->getFullName());
 
-                $ppAddress = $ppShipping->getAddress();
-                $this->session->data['fc']['guest']['shipping']['firstname'] = $fName;
-                $this->session->data['fc']['guest']['shipping']['lastname'] = $lName;
+                list($fName, $lName) = explode(' ',(string)$ppShipping?->getName()?->getFullName());
+
+                $ppAddress = $ppShipping?->getAddress();
+                $this->session->data['fc']['guest']['shipping']['firstname'] = $fName
+                    ?: $this->session->data['fc']['guest']['firstname'];
+                $this->session->data['fc']['guest']['shipping']['lastname'] = $lName
+                    ?: $this->session->data['fc']['guest']['lastname'];
                 $this->session->data['fc']['guest']['shipping']['company'] = $companyName;
-                $this->session->data['fc']['guest']['shipping']['address_1'] = $ppAddress->getAddressLine1();
-                $this->session->data['fc']['guest']['shipping']['address_2'] = $ppAddress->getAddressLine2();
-                $this->session->data['fc']['guest']['shipping']['city'] = $ppAddress->getAdminArea2();
-                $this->session->data['fc']['guest']['shipping']['postcode'] = $ppAddress->getPostalCode();
+                $this->session->data['fc']['guest']['shipping']['address_1'] = $ppAddress?->getAddressLine1();
+                $this->session->data['fc']['guest']['shipping']['address_2'] = $ppAddress?->getAddressLine2();
+                $this->session->data['fc']['guest']['shipping']['city'] = $ppAddress?->getAdminArea2();
+                $this->session->data['fc']['guest']['shipping']['postcode'] = $ppAddress?->getPostalCode();
                 $this->session->data['fc']['payment_method'] = [
                     'id'    => 'paypal_commerce',
                     'title' => 'Paypal',
