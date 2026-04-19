@@ -249,10 +249,12 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $ppData['purchase_units'] = $this->data['pp']['purchase_units'];
         $this->buildPPItems($order_info);
         $ppData['purchase_units'][0]['items'] = $this->data['pp']['items'];
+        $shippingPreference = $this->cart->hasShipping() ? 'GET_FROM_FILE' : 'NO_SHIPPING';
         $ppData['payment_source']['paypal'] = [
             'experience_context' => [
                 'return_url'            => $this->html->getSecureURL('checkout/fast_checkout'),
                 'cancel_url'            => $this->html->getSecureURL('checkout/fast_checkout'),
+                'shipping_preference'   => $shippingPreference,
                 'app_switch_preference' => [
                     'launch_paypal_app' => true,
                 ],
@@ -882,6 +884,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         ];
 
         $shippingPreference = $this->cart->hasShipping() ? 'GET_FROM_FILE' : 'NO_SHIPPING';
+
         $ppData['payment_source']['paypal'] = [
             'experience_context' => [
                 'return_url'            => $inData['return_url'],
