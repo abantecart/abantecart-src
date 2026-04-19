@@ -24,6 +24,10 @@ getUrlParams = function (key, value) {
 };
 
 function orderIntegrityCheck() {
+    if($('.payment-confirm-buttons').length < 1){
+        return;
+    }
+
     if (typeof fc_order_checksum_url === 'undefined' && fc_order_checksum_url.length < 1 ){
         return;
     }
@@ -90,7 +94,7 @@ function scrollOnTop() {
 }
 
 //show overlay when order confirmed
-$(document).on('submit', '#payment_details form', function(e){
+$(document).on('submit', '.payment-confirm-buttons form', function(e){
     $('.spinner-overlay').fadeIn(100);
 });
 
@@ -259,10 +263,10 @@ $(document).on(
                         $('#fast_checkout_cart').hide().html(data).fadeIn(1000);
                         $('.spinner-overlay').fadeOut(100);
                         checkCartKey();
-                        if($("#payment_details").length>0) {
+                        if($(".payment-confirm-buttons").length>0) {
                             $([document.documentElement, document.body]).animate(
                                 {
-                                    scrollTop: $("#payment_details").offset().top
+                                    scrollTop: $(".payment-confirm-buttons").offset().top
                                 },
                                 1000
                             );
