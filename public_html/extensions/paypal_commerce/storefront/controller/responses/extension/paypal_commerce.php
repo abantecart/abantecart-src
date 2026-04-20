@@ -625,10 +625,10 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 //resave an order into a database
                 $companyName = $result->getPaymentSource()?->getPaypal()?->getBusinessName() ? : '';
                 $ppPayer = $result->getPayer();
-                $this->session->data['fc']['email'] = $ppPayer->getEmailAddress();
-                $this->session->data['fc']['guest']['email'] = $ppPayer->getEmailAddress();
-                $this->session->data['fc']['guest']['firstname'] = $ppPayer->getName()->getGivenName();
-                $this->session->data['fc']['guest']['lastname'] = $ppPayer->getName()->getSurname();
+                $this->session->data['fc']['email'] = $ppPayer?->getEmailAddress();
+                $this->session->data['fc']['guest']['email'] = $ppPayer?->getEmailAddress();
+                $this->session->data['fc']['guest']['firstname'] = $ppPayer?->getName()?->getGivenName();
+                $this->session->data['fc']['guest']['lastname'] = $ppPayer?->getName()?->getSurname();
                 $this->session->data['fc']['guest']['company'] = $companyName;
                 //take the correct shipping address from order
                 $ppO = $mdl->getOrder($ppOrderId);
