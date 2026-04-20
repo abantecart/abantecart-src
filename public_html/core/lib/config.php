@@ -167,8 +167,7 @@ final class AConfig
             // Recheck directly in DB to avoid false mismatch on stale persistent cache.
             $sql = "SELECT `value`
                     FROM " . $db->table("settings") . "
-                    WHERE `store_id` = '0'
-                        AND `key` = 'core_version'
+                    WHERE `key` = 'core_version'
                     LIMIT 1";
             $query = $db->query($sql);
             $dbCoreVersion = $query->row['value'];
