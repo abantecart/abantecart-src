@@ -21,6 +21,7 @@
 use PaypalServerSdkLib\Models\CapturedPayment;
 use PaypalServerSdkLib\Models\CaptureRequest;
 use PaypalServerSdkLib\Models\Money;
+use PaypalServerSdkLib\Models\Order;
 use PaypalServerSdkLib\Models\PaymentAuthorization;
 use PaypalServerSdkLib\Models\Refund;
 use PaypalServerSdkLib\Models\RefundRequest;
@@ -86,16 +87,18 @@ class ModelExtensionPaypalCommerce extends Model
     /**
      * @param string $ch_id
      *
-     * @return PaypalServerSdkLib\Models\Order|null
+     * @return Order|null
+     *
+     * If API result comes as array, it is mapped to Order.
      */
-    public function getPaypalCharge($ch_id): ?object
+    public function getPaypalCharge($ch_id): ?Order
     {
         if (!has_value($ch_id)) {
             return null;
         }
 
         $apiResponse = $this->paypal->getOrdersController()->getOrder(['id'=>$ch_id]);
-        return $apiResponse->getResult();
+        return paypalNormalizeOrderResult($apiResponse->getResult());
     }
 
     /**
