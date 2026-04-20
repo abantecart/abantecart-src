@@ -199,6 +199,11 @@ class AOrderManager extends AOrder
         $this->session->data['currency'] = $order_info['currency'];
         //reload currency
         $this->registry->set('currency', new ACurrency($this->registry));
+        //fix error in admin recalc flow when shopping_data service is missing
+        if (!$this->registry->get('shopping_data')) {
+            $this->registry->set('shopping_data', new AShoppingData($this->registry, (int)$order_info['customer_id']));
+        }
+
         //add cart to registry before working with shipments and payments
         $this->registry->set('cart', new ACart($this->registry, $customer_data));
         // Tax
