@@ -164,12 +164,29 @@ final class AConfig
         }
         //check core version compatibility
         if ($this->cfg['core_version'] && $this->cfg['core_version'] != VERSION) {
-            //clear all cache to avoid caching wrong settings
-            $this->registry?->get('cache')?->flush();
-            exit(
-                'Error: Incompatible database version! '
-                . 'Your AbanteCart version is ' . VERSION . ' but database version is ' . $this->cfg['core_version'] . '!'
-            );
+            // Recheck directly in DB to avoid false mismatch on stale persistent cache.
+            $sql = "SELECT `value`
+                    FROM " . $db->table("settings") . "
+                    WHERE `store_id` = '0'
+                        AND `key` = 'core_version'
+                    LIMIT 1";
+            $query = $db->query($sql);
+            $dbCoreVersion = $query->row['value'];
+            if ($dbCoreVersion !== '') {
+                $this->cfg['core_version'] = $dbCoreVersion;
+            }
+
+            if ($dbCoreVersion && $dbCoreVersion != VERSION) {
+                //clear settings cache to avoid caching wrong core_version value
+                $this->registry?->get('cache')?->remove('settings');
+                exit(
+                    'Error: Incompatible database version! '
+                    . 'Your AbanteCart version is ' . VERSION . ' but database version is ' . $dbCoreVersion . '!'
+                );
+            }
+
+            // cached value is stale, invalidate it and continue startup
+            $this->registry?->get('cache')?->remove('settings');
         }
 
         //set the current store id as default 0 for now. It will be reset if the other store is detected below
