@@ -70,6 +70,21 @@
     width: 50px;
 }
 
+.fc-address-card-wrapper{
+    display: flex;
+}
+
+.fc-address-card{
+    width: 100%;
+    min-height: 100%;
+    border-radius: var(--bs-border-radius) !important;
+    overflow: hidden;
+}
+
+.fc-address-card .card{
+    flex: 1 1 auto;
+}
+
 .prod-option .form-check .form-check-input {
     border: 1px solid #1692e1;
 }
