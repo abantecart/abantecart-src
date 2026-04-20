@@ -59,15 +59,21 @@ echo $this->html->buildElement(
             $i = 1;
             foreach ((array)$data['colModel'] as $m) {
                 $col = ["resizable: false", "searchoptions: { sopt:['cn'] }"];
+                $hasTitleOption = false;
                 foreach ($m as $k => $v) {
+                    if ($k === 'title') {
+                        $hasTitleOption = true;
+                    }
                     if (is_numeric($v)) {
                         $col[] = $k . ": " . (int)($v);
                     } elseif (is_string($v)) {
                         $col[] = $k . ": '" . addslashes($v) . "'";
-                        $col[] = 'title: '.(!isHtml($v) ? 'true' : 'false');
                     } elseif (is_bool($v)) {
                         $col[] = $k . ": " . ($v ? 'true' : 'false');
                     }
+                }
+                if (!$hasTitleOption) {
+                    $col[] = 'title: false';
                 }
                 echo "{" . implode(', ', $col) . "}";
                 if ($i < sizeof((array)$data['colModel'])) {
@@ -79,7 +85,6 @@ echo $this->html->buildElement(
             ?>];
 
         let gridFirstLoad = true;
-
         const updatePerPage = function (records, limit) {
             let html = '';
             const rowList = [<?php echo implode(',', $data['rowList']) ?>];
