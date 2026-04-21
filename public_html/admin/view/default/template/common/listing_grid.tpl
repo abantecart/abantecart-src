@@ -85,6 +85,35 @@ echo $this->html->buildElement(
             ?>];
 
         let gridFirstLoad = true;
+
+        const applyOverflowCellTitles = function () {
+            const $cells = $(table_id + ' tr.jqgrow td[role="gridcell"]');
+            $cells.each(function () {
+                const $cell = $(this);
+                if ($cell.data('bs.tooltip')) {
+                    $cell.tooltip('destroy');
+                }
+                $cell.removeClass('tooltips').removeAttr('title').removeAttr('data-original-title');
+
+                // Skip interactive/action cells.
+                if ($cell.find('input, select, textarea, button, .btn, .btn-group, .afield').length) {
+                    return;
+                }
+
+                const text = $.trim($cell.text());
+                if (!text) {
+                    return;
+                }
+
+                // Show title only when content is actually clipped.
+                if (this.scrollWidth > this.clientWidth || this.scrollHeight > this.clientHeight) {
+                    $cell
+                        .addClass('tooltips')
+                        .attr('data-original-title', text)
+                        .tooltip({container: 'body'});
+                }
+            });
+        };
         const updatePerPage = function (records, limit) {
             let html = '';
             const rowList = [<?php echo implode(',', $data['rowList']) ?>];
@@ -469,6 +498,7 @@ echo $this->html->buildElement(
                 } ?>
                     //rebind events after grid reload
                     bindCustomEvents();
+                    applyOverflowCellTitles();
                 });
                 //end of grid load complete
             },
@@ -796,6 +826,7 @@ echo $this->html->buildElement(
             if (width > 0 && Math.abs(width - $(table_id).width()) > 5) {
                 $(table_id).setGridWidth(width, true);
             }
+            applyOverflowCellTitles();
         };
 
         //resize on load
