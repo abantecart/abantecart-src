@@ -381,7 +381,7 @@ function renderFilterCategoryTreeNV($tree, $level = 0, int|array|null $currentId
 
 function renderNVNestedMenu(array $menu, $options = []): string
 {
-    $maxTextLength = isset($options['max_text_length']) ? (int)$options['max_text_length'] : 0;
+    $maxTextLength = (int) $options['max_text_length'];
     $html = '<ul class="dropdown-menu ' . $options['parent_css'] . '">';
 
     foreach ($menu as $item) {
