@@ -489,7 +489,7 @@
 		<definition>
 			<key>entry_admin_background_autorefresh</key>
 			<value>
-					<![CDATA[Keep Long Session:<br /><span class="help">Enable periodic background requests for admin notifications and system checks. Disable this to prevent background refresh from extending active session.</span>]]></value>
+					<![CDATA[Keep Long Session:<br /><span class="help">Enable periodic background requests for admin notifications and system checks. Disable this to prevent background refresh from extending active session. After changing this setting, you may see a one-time re-login prompt.</span>]]></value>
 		</definition>
 		<definition>
 			<key>entry_encryption</key>
