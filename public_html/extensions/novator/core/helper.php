@@ -381,6 +381,7 @@ function renderFilterCategoryTreeNV($tree, $level = 0, int|array|null $currentId
 
 function renderNVNestedMenu(array $menu, $options = []): string
 {
+    $maxTextLength = isset($options['max_text_length']) ? (int)$options['max_text_length'] : 0;
     $html = '<ul class="dropdown-menu ' . $options['parent_css'] . '">';
 
     foreach ($menu as $item) {
@@ -398,7 +399,13 @@ function renderNVNestedMenu(array $menu, $options = []): string
         $icon = renderMenuItemIconNv($item, $rlId);
 
         $html .= '<a href="' . htmlspecialchars($item['href']) . '" class="' . $aClass . '"' . $aAttrs . '>';
-        $itemTitle = htmlspecialchars(($item['text'] ?: $item['title'] ?: $item['name']));
+        $rawTitle = (string)($item['text'] ?: $item['title'] ?: $item['name']);
+        if ($maxTextLength > 0) {
+            if (strlen($rawTitle) > $maxTextLength) {
+                $rawTitle = rtrim(substr($rawTitle, 0, $maxTextLength)) . '...';
+            }
+        }
+        $itemTitle = htmlspecialchars($rawTitle);
         $html .= '<span class="text-truncate">' . $icon . $itemTitle . '</span>';
         if ($hasChildren) {
             $html .= '<span class="ms-1 dropdown-caret">&#9662;</span>';
@@ -408,7 +415,7 @@ function renderNVNestedMenu(array $menu, $options = []): string
             if ($item['category']) {
                 $html .= renderCategorySubMenuNV($item['children']);
             } else {
-                $html .= renderNVNestedMenu($item['children']);
+                $html .= renderNVNestedMenu($item['children'], $options);
             }
 
         }

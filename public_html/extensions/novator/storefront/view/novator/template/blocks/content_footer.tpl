@@ -21,6 +21,9 @@
             'href' => $cart
     ];
 
-    echo renderNVNestedMenu($contents,['parent_css' => ' parent-ul position-relative border-0 d-flex flex-wrap flex-lg-nowrap mx-auto list-unstyled align-items-start mb-0 justify-content-between px-0' ]);
+    echo renderNVNestedMenu($contents, [
+        'parent_css' => ' parent-ul position-relative border-0 d-flex flex-wrap flex-lg-nowrap mx-auto list-unstyled align-items-start mb-0 justify-content-between px-0',
+        'max_text_length' => 30
+    ]);
 ?>
 </div>
