@@ -2878,6 +2878,14 @@ h4 .heading-title:after,
     background: var(--bs-primary);
 }
 
+/* Prevent horizontal overflow on small screens for long titles. */
+.heading-title,
+.product-card h6 a,
+.product-card .product-name {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
 .list-page-desc-block .table-responsive {
     background: #F6F6F6;
     border-radius: var(--bs-border-radius);
