@@ -31,6 +31,24 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  */
 class ControllerResponsesExtensionPaypalCommerce extends AController
 {
+    protected function applyOrderStorePaypalSettings(int $orderId): void
+    {
+        if ($orderId <= 0) {
+            return;
+        }
+        $this->loadModel('sale/order');
+        $orderInfo = $this->model_sale_order->getOrder($orderId);
+        if (!isset($orderInfo['store_id'])) {
+            return;
+        }
+        /** @var ModelSettingSetting $settingMdl */
+        $settingMdl = $this->loadModel('setting/setting');
+        $settings = $settingMdl->getSetting('paypal_commerce', (int)$orderInfo['store_id']);
+        foreach ((array)$settings as $key => $value) {
+            $this->config->set($key, $value);
+        }
+    }
+
     public function onboard()
     {
         $this->load->library('json');
@@ -280,54 +298,61 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         if (has_value($this->request->post['order_id'])) {
             $order_id = $this->request->post['order_id'];
             $amount = preformatFloat($this->request->post['amount']);
+            $this->applyOrderStorePaypalSettings((int)$order_id);
             $this->loadModel('sale/order');
             /** @var ModelExtensionPaypalCommerce $mdl */
             $mdl = $this->loadModel('extension/paypal_commerce');
+            $mdl->__construct($this->registry);
             $paypalOrder = $mdl->getPaypalOrder($order_id);
             try {
                 //get current order
                 $chargeData = $mdl->getPaypalCharge($paypalOrder['charge_id']);
-                $amt = 0.0;
-                $authId = $currencyCode = '';
-                $authorizations = $chargeData?->getPurchaseUnits()[0]->getPayments()->getAuthorizations();
-                if ($authorizations) {
-                    foreach ($authorizations as $auth) {
-                        $authId = $auth->getId();
-                        $amt += (float) $auth->getAmount()->getValue();
-                        $currencyCode = $auth->getAmount()->getCurrencyCode();
-                    }
-                    $data['amount'] = round($amt, 2);
-                }
-                //if amount not set - take the total amount
-                if (!$amount) {
-                    $amount = $data['amount'];
-                }
-
-                //validate if captured
-                if ($chargeData->getIntent() == 'AUTHORIZE' && $data['amount'] >= $amount) {
-                    try {
-                        $mdl->capture($authId, number_format($amount, 2), $currencyCode);
-                        $json['msg'] = $this->language->get('text_captured_order');
-                        // update main order status
-                        $this->model_sale_order->addOrderHistory($order_id, [
-                            'order_status_id' => $this->config->get('paypal_commerce_status_success_settled'),
-                            'notify'          => 0,
-                            'append'          => 1,
-                            'comment'         => $amount . ' ' . $this->language->get('text_captured_ok'),
-                        ]);
-                    } catch (Exception|Error $e) {
-                        $json['error'] = true;
-                        $json['msg'] = __METHOD_ . ' ' . $e->getMessage();
-                    }
-                } else {
+                if (!$chargeData) {
                     $json['error'] = true;
                     $json['msg'] = $this->language->get('error_unable_to_capture');
+                } else {
+                    $amt = 0.0;
+                    $authId = $currencyCode = '';
+                    $authorizations = $chargeData?->getPurchaseUnits()[0]->getPayments()->getAuthorizations();
+                    if ($authorizations) {
+                        foreach ($authorizations as $auth) {
+                            $authId = $auth->getId();
+                            $amt += (float) $auth->getAmount()->getValue();
+                            $currencyCode = $auth->getAmount()->getCurrencyCode();
+                        }
+                        $data['amount'] = round($amt, 2);
+                    }
+                    //if amount not set - take the total amount
+                    if (!$amount) {
+                        $amount = $data['amount'];
+                    }
+
+                    //validate if captured
+                    if ($chargeData->getIntent() == 'AUTHORIZE' && $data['amount'] >= $amount) {
+                        try {
+                            $mdl->capture($authId, number_format($amount, 2), $currencyCode);
+                            $json['msg'] = $this->language->get('text_captured_order');
+                            // update main order status
+                            $this->model_sale_order->addOrderHistory($order_id, [
+                                'order_status_id' => $this->config->get('paypal_commerce_status_success_settled'),
+                                'notify'          => 0,
+                                'append'          => 1,
+                                'comment'         => $amount . ' ' . $this->language->get('text_captured_ok'),
+                            ]);
+                        } catch (Exception|Error $e) {
+                            $json['error'] = true;
+                            $json['msg'] = __METHOD_ . ' ' . $e->getMessage();
+                        }
+                    } else {
+                        $json['error'] = true;
+                        $json['msg'] = $this->language->get('error_unable_to_capture');
+                    }
                 }
-            } catch (Exception $e) {
+            } catch (Throwable $e) {
                 $json['error'] = true;
                 $message = $e->getMessage();
                 $message = AJson::decode($message, true);
-                $json['msg'] = $message['message'];
+                $json['msg'] = $message['message'] ?? $e->getMessage();
                 if ($message['details']) {
                     foreach ($message['details'] as $det) {
                         $json['msg'] .= ' ' . $det['description'];
@@ -358,66 +383,73 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $this->loadLanguage('paypal_commerce/paypal_commerce');
         $this->load->library('json');
 
-        $json = [];
+        $json = $data = [];
         $orderId = null;
         if ($this->request->post['order_id']) {
             $orderId = (int) $this->request->post['order_id'];
             $amount = preformatFloat($this->request->post['amount']);
+            $this->applyOrderStorePaypalSettings($orderId);
             /** @var ModelExtensionPaypalCommerce $mdl */
             $mdl = $this->loadModel('extension/paypal_commerce');
+            $mdl->__construct($this->registry);
             $paypalOrder = $mdl->getPaypalOrder($orderId);
             $amt = 0.0;
             try {
                 //get current order
                 $chargeData = $mdl->getPaypalCharge($paypalOrder['charge_id']);
-                $allRefunds = $chargeData->getPurchaseUnits()[0]->getPayments()->getRefunds();
-                if ($allRefunds) {
-                    foreach ($allRefunds as $refund) {
-                        $amt += (float) $refund->getAmount()->getValue();
-                    }
-                    $data['refunded'] = true;
-                    $data['amount_refunded'] = round($amt, 2);
-                }
-                $amt = 0.0;
-                $captureId = $currencyCode = '';
-                $allCaptures = $chargeData->getPurchaseUnits()[0]->getPayments()->getCaptures();
-                if ($allCaptures) {
-                    foreach ($allCaptures as $capt) {
-                        $captureId = $capt->getId();
-                        $amt += (float) $capt->getAmount()->getValue();
-                        $currencyCode = $capt->getAmount()->getCurrencyCode();
-                    }
-                }
-                $data['amount'] = round($amt, 2);
-                $remainder = $data['amount'] - $data['amount_refunded'];
-                //in case when amount for refund not set - take reminder
-                if (!$amount) {
-                    $amount = $remainder;
-                }
-
-                //validate if captured
-                if ($remainder >= $amount) {
-                    $refund = $mdl->refund($captureId, number_format($amount, 2), $currencyCode);
-                    if ($refund->getId()) {
-                        $json['msg'] = $this->language->get('text_refund_order');
-                        // update main order status
-                        $this->loadModel('sale/order');
-                        $this->model_sale_order->addOrderHistory($orderId, [
-                            'order_status_id' => $this->config->get('paypal_commerce_status_refund'),
-                            'notify'          => 0,
-                            'append'          => 1,
-                            'comment'         => $amount . ' ' . $this->language->get('text_refunded_ok'),
-                        ]);
-                    }
-                } else {
+                if (!$chargeData) {
                     $json['error'] = true;
                     $json['msg'] = $this->language->get('error_unable_to_refund');
+                } else {
+                    $allRefunds = $chargeData->getPurchaseUnits()[0]->getPayments()->getRefunds();
+                    if ($allRefunds) {
+                        foreach ($allRefunds as $refund) {
+                            $amt += (float) $refund->getAmount()->getValue();
+                        }
+                        $data['refunded'] = true;
+                        $data['amount_refunded'] = round($amt, 2);
+                    }
+                    $amt = 0.0;
+                    $captureId = $currencyCode = '';
+                    $allCaptures = $chargeData->getPurchaseUnits()[0]->getPayments()->getCaptures();
+                    if ($allCaptures) {
+                        foreach ($allCaptures as $capt) {
+                            $captureId = $capt->getId();
+                            $amt += (float) $capt->getAmount()->getValue();
+                            $currencyCode = $capt->getAmount()->getCurrencyCode();
+                        }
+                    }
+                    $data['amount'] = round($amt, 2);
+                    $remainder = $data['amount'] - $data['amount_refunded'];
+                    //in case when amount for refund not set - take reminder
+                    if (!$amount) {
+                        $amount = $remainder;
+                    }
+
+                    //validate if captured
+                    if ($remainder >= $amount) {
+                        $refund = $mdl->refund($captureId, number_format($amount, 2), $currencyCode);
+                        if ($refund->getId()) {
+                            $json['msg'] = $this->language->get('text_refund_order');
+                            // update main order status
+                            $this->loadModel('sale/order');
+                            $this->model_sale_order->addOrderHistory($orderId, [
+                                'order_status_id' => $this->config->get('paypal_commerce_status_refund'),
+                                'notify'          => 0,
+                                'append'          => 1,
+                                'comment'         => $amount . ' ' . $this->language->get('text_refunded_ok'),
+                            ]);
+                        }
+                    } else {
+                        $json['error'] = true;
+                        $json['msg'] = $this->language->get('error_unable_to_refund');
+                    }
                 }
-            } catch (Exception $e) {
+            } catch (Throwable $e) {
                 $json['error'] = true;
                 $message = $e->getMessage();
                 $message = AJson::decode($message, true);
-                $json['msg'] = $message['message'];
+                $json['msg'] = $message['message'] ?? $e->getMessage();
                 if ($message['details']) {
                     foreach ($message['details'] as $det) {
                         $json['msg'] .= ' ' . $det['description'];
@@ -458,8 +490,10 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $orderId = null;
         if (has_value($this->request->post['order_id'])) {
             $orderId = (int) $this->request->post['order_id'];
+            $this->applyOrderStorePaypalSettings($orderId);
             /** @var ModelExtensionPaypalCommerce $mdl */
             $mdl = $this->loadModel('extension/paypal_commerce');
+            $mdl->__construct($this->registry);
             $paypalOrder = $mdl->getPaypalOrder($orderId);
 
             try {
@@ -481,11 +515,11 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                     $json['error'] = true;
                     $json['msg'] = $this->language->get('error_unable_to_void');
                 }
-            } catch (Exception $e) {
+            } catch (Throwable $e) {
                 $json['error'] = true;
                 $message = $e->getMessage();
                 $message = AJson::decode($message, true);
-                $json['msg'] = $message['message'];
+                $json['msg'] = $message['message'] ?? $e->getMessage();
                 if ($message['details']) {
                     foreach ($message['details'] as $det) {
                         $json['msg'] .= ' ' . $det['description'];

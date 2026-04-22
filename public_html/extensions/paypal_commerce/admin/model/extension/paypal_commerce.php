@@ -97,8 +97,16 @@ class ModelExtensionPaypalCommerce extends Model
             return null;
         }
 
-        $apiResponse = $this->paypal->getOrdersController()->getOrder(['id'=>$ch_id]);
-        return paypalNormalizeOrderResult($apiResponse->getResult());
+        try {
+            $apiResponse = $this->paypal->getOrdersController()->getOrder(['id' => $ch_id]);
+            return paypalNormalizeOrderResult($apiResponse->getResult());
+        } catch (Throwable $e) {
+            $this->log->write(
+                __FILE__ . '::' . __METHOD__ . ' PayPal getOrder failed for charge_id '
+                . $ch_id . '. ' . $e->getMessage()
+            );
+            return null;
+        }
     }
 
     /**
