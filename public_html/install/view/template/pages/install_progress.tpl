@@ -62,11 +62,17 @@
     };
     var stop = false;
     function install(step) {
+        if (stop) {
+            return;
+        }
         $.ajax({
         	type:'POST',
             dataType:'JSON',
             url:'<?php echo $url; ?>&runlevel=' + step,
             success:function (response) {
+                if (stop) {
+                    return;
+                }
                 if (response.ret_code == 50) {
                     next_step = 3;
                     update_progress(20);    
@@ -97,6 +103,9 @@
                 }
             },
             error:function (jqXHR, exception) {
+                if (stop || exception === 'abort' || jqXHR.statusText === 'abort') {
+                    return;
+                }
                 console.log(jqXHR);
                 console.log(exception);
                 showError(jqXHR.statusText + ": " + jqXHR.responseText);
@@ -119,19 +128,28 @@
     function progressbarFinish() {
         window.location = '<?php echo $redirect; ?>';
     }
+    function progressbarStateError() {
+        showError('Failed to receive progress updates.');
+    }
     function showError(response) {
         $('#progressbar').hide();
         $('#process_skip').hide();
         $('#process_back').show();
         $('#error').show();
         var text = messages.error;
+        if (typeof response === 'undefined' || response === null || response === '') {
+            response = 'Unknown error';
+        }
         text += response;
         $('#error').html(text);        
     }
 
     $('#process_skip .button').click( function () {
+		stop = true;
+		$.ajaxQ.abortAll();
 		progressbar_skip = true;
 		progressbarFinish();
+        return false;
 
 	});
 
