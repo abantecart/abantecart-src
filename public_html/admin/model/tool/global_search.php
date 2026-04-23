@@ -353,15 +353,17 @@ class ModelToolGlobalSearch extends Model
                 $result = $result->rows;
                 break;
             case "customers" :
-                $customer_needle = '+"' . implode('" +"', explode(' ', $needle)) . '"';
+                $customerNeedle = explode(' ', $needle);
+                $w = [];
+                foreach($customerNeedle as $n) {
+                    $w[] = "(firstname LIKE '%".$this->db->escape($n)."%')";
+                    $w[] = "(lastname LIKE '%".$this->db->escape($n)."%')";
+                }
                 $sql = "SELECT " . $this->db->getSqlCalcTotalRows() . " customer_id, 
                                 CONCAT('" . ($mode == 'listing' ? "customer: " : "") . "', firstname,' ',lastname) as title,
                                 CONCAT(firstname,' ',lastname,' ',email)  as text
                         FROM " . $this->db->table("customers") . " 
-                        WHERE (
-                                MATCH(firstname, lastname) AGAINST ('" . $customer_needle . "' IN BOOLEAN MODE)
-                                OR  (email LIKE '%" . $needle . "%')
-                                )
+                        WHERE ( ".implode(' OR ',$w)." OR  (email LIKE '%" . $needle . "%') )
                         LIMIT " . $offset . "," . $rows_count;
                 $result = $this->db->query($sql);
                 $result = $result->rows;
