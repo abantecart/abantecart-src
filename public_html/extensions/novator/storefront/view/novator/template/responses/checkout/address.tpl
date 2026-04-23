@@ -99,4 +99,11 @@ unset($afUsed,$isPairFields,$pairFields);
 </fieldset>
 </form>
 
-<?php include($this->templateResource('/template/common/google_places.js.tpl')); ?>
+<?php
+$googlePlacesScript = $this->getHookVar('google_places_script');
+if ($googlePlacesScript) {
+    echo $googlePlacesScript;
+} else {
+    include($this->templateResource('/template/common/google_places.js.tpl'));
+}
+?>

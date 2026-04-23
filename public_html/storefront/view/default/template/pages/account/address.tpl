@@ -65,4 +65,11 @@ if ($error_warning) { ?>
     $('select[name="zone_id"]').load('<?php echo $cz_url;?>&country_id=' + $('#AddressFrm_country_id').val());
 </script>
 
-<?php include($this->templateResource('/template/common/google_places.js.tpl')); ?>
+<?php
+$googlePlacesScript = $this->getHookVar('google_places_script');
+if ($googlePlacesScript) {
+    echo $googlePlacesScript;
+} else {
+    include($this->templateResource('/template/common/google_places.js.tpl'));
+}
+?>
