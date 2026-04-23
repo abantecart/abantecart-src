@@ -410,6 +410,7 @@ class ModelSaleOrder extends Model
         $product_info = $this->model_catalog_product->getProduct($product_id);
 
         $order_info = $this->getOrder($order_id);
+        $order_currency_value = (float)$order_info['value'] > 0 ? (float)$order_info['value'] : 1.0;
 
         $elements_with_options = HtmlElementFactory::getElementsWithOptions();
 
@@ -438,13 +439,13 @@ class ModelSaleOrder extends Model
                             preformatFloat(
                                 $product['price'],
                                 $this->language->get('decimal_point')
-                            ) / $order_info['value']
+                            ) / $order_currency_value
                         ) . "',
                                 total = '" . $this->db->escape(
                             preformatFloat(
                                 $product['total'],
                                 $this->language->get('decimal_point')
-                            ) / $order_info['value']
+                            ) / $order_currency_value
                         ) . "'";
                     //change quantity if not stock location quantity provided
                     if (isset($product['quantity'])) {
@@ -498,13 +499,13 @@ class ModelSaleOrder extends Model
                             preformatFloat(
                                 $product['price'],
                                 $this->language->get('decimal_point')
-                            ) / $order_info['value']
+                            ) / $order_currency_value
                         ) . "',
                                 total = '" . $this->db->escape(
                             preformatFloat(
                                 $product['total'],
                                 $this->language->get('decimal_point')
-                            ) / $order_info['value']
+                            ) / $order_currency_value
                         ) . "',
                                 quantity = '" . (int)$product['quantity'] . "'";
                     $this->db->query($sql);

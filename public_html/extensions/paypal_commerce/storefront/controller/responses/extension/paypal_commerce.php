@@ -618,40 +618,49 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 $dd = new ADispatcher(
                     'responses/checkout/pay/select_shipping',
                     [
-                        'selected'=>$this->session->data['fc']['shipping_method']['id']
+                        'selected' => $this->session->data['fc']['shipping_method']['id'],
                     ]
                 );
                 $dd->dispatch();
                 //resave an order into a database
-                $companyName = $result->getPaymentSource()?->getPaypal()?->getBusinessName() ? : '';
+                $companyName = $result->getPaymentSource()?->getPaypal()?->getBusinessName()
+                    ? : $this->session->data['fc']['guest']['company'];
                 $ppPayer = $result->getPayer();
-                $this->session->data['fc']['email'] = $ppPayer?->getEmailAddress();
-                $this->session->data['fc']['guest']['email'] = $ppPayer?->getEmailAddress();
-                $this->session->data['fc']['guest']['firstname'] = $ppPayer?->getName()?->getGivenName();
-                $this->session->data['fc']['guest']['lastname'] = $ppPayer?->getName()?->getSurname();
+                $this->session->data['fc']['email'] = $ppPayer?->getEmailAddress() ?: $this->session->data['fc']['email'];
+                $this->session->data['fc']['guest']['email'] = $ppPayer?->getEmailAddress()
+                    ? : $this->session->data['fc']['guest']['email'];
+                $this->session->data['fc']['guest']['firstname'] = $ppPayer?->getName()?->getGivenName()
+                    ? : $this->session->data['fc']['guest']['firstname'];
+                $this->session->data['fc']['guest']['lastname'] = $ppPayer?->getName()?->getSurname()
+                    ? : $this->session->data['fc']['guest']['lastname'];
                 $this->session->data['fc']['guest']['company'] = $companyName;
                 //take the correct shipping address from order
                 $ppO = $mdl->getOrder($ppOrderId);
                 $ppShipping = $ppO->getPurchaseUnits()[0]->getShipping();
 
-                list($fName, $lName) = explode(' ',(string)$ppShipping?->getName()?->getFullName());
+                list($fName, $lName) = explode(' ', (string) $ppShipping?->getName()?->getFullName());
 
                 $ppAddress = $ppShipping?->getAddress();
                 $this->session->data['fc']['guest']['shipping']['firstname'] = $fName
-                    ?: $this->session->data['fc']['guest']['firstname'];
+                    ? : $this->session->data['fc']['guest']['firstname'];
                 $this->session->data['fc']['guest']['shipping']['lastname'] = $lName
-                    ?: $this->session->data['fc']['guest']['lastname'];
-                $this->session->data['fc']['guest']['shipping']['company'] = $companyName;
-                $this->session->data['fc']['guest']['shipping']['address_1'] = $ppAddress?->getAddressLine1();
-                $this->session->data['fc']['guest']['shipping']['address_2'] = $ppAddress?->getAddressLine2();
-                $this->session->data['fc']['guest']['shipping']['city'] = $ppAddress?->getAdminArea2();
-                $this->session->data['fc']['guest']['shipping']['postcode'] = $ppAddress?->getPostalCode();
+                    ? : $this->session->data['fc']['guest']['lastname'];
+                $this->session->data['fc']['guest']['shipping']['company'] = $companyName
+                    ? : $this->session->data['fc']['guest']['shipping']['company'];
+                $this->session->data['fc']['guest']['shipping']['address_1'] = $ppAddress?->getAddressLine1()
+                    ? : $this->session->data['fc']['guest']['shipping']['address_1'];
+                $this->session->data['fc']['guest']['shipping']['address_2'] = $ppAddress?->getAddressLine2()
+                    ? : $this->session->data['fc']['guest']['shipping']['address_2'];
+                $this->session->data['fc']['guest']['shipping']['city'] = $ppAddress?->getAdminArea2()
+                    ? : $this->session->data['fc']['guest']['shipping']['city'];
+                $this->session->data['fc']['guest']['shipping']['postcode'] = $ppAddress?->getPostalCode()
+                    ? : $this->session->data['fc']['guest']['shipping']['postcode'];
                 $this->session->data['fc']['payment_method'] = [
                     'id'    => 'paypal_commerce',
-                    'title' => 'Paypal',
+                    'title' => 'PayPal',
                 ];
                 $ppData = $this->shopping_data->get('paypal_data', $cartKey);
-                if($ppData['data']['shipping_method']) {
+                if ($ppData['data']['shipping_method']) {
                     $this->session->data['fc']['shipping_method'] = $ppData['data']['shipping_method'];
                 }
 
@@ -997,11 +1006,11 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         }
 
         $ppData = $this->shopping_data->get('paypal_data', $cartKey);
-        if( $this->session->data['fc']['shipping_method'] ){
+        if ($this->session->data['fc']['shipping_method']) {
             $ppData['data']['shipping_method'] = $this->session->data['fc']['shipping_method'];
         }
         $this->shopping_data->save('paypal_data', $cartKey, $ppData['data'], $abcOrderId);
-        $this->shopping_data->save('cart', $cartKey, orderId:  $abcOrderId);
+        $this->shopping_data->save('cart', $cartKey, orderId: $abcOrderId);
 
         //collect all data from order for response
         /** @var ModelCheckoutOrder $oMdl */
@@ -1071,7 +1080,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $fcSession['guest']['firstname'] = 'guest';
         $fcSession['guest']['lastname'] = 'guest';
         $fcSession['guest']['email'] = $ppOrderDetails?->getPayer()?->getEmailAddress();
-        $fcSession['guest']['shipping']['city'] = $inData['shipping_address']['city'] ?: $inData['shipping_address']['admin_area_2'];
+        $fcSession['guest']['shipping']['city'] =
+            $inData['shipping_address']['city'] ? : $inData['shipping_address']['admin_area_2'];
 
         /** @var ModelLocalisationCountry $cMdl */
         $cMdl = $this->loadModel('localisation/country');

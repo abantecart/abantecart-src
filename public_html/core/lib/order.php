@@ -347,7 +347,11 @@ class AOrder
         $order_info['language_id'] = $this->config->get('storefront_language_id');
         $order_info['currency_id'] = $this->currency->getId();
         $order_info['currency'] = $this->currency->getCode();
-        $order_info['value'] = $orderTotalAmount > 0 ? $orderTotalAmountConverted / $orderTotalAmount : 0.0;
+        $order_info['value'] = $this->buildOrderCurrencyRatio(
+            $order_info['currency'],
+            $orderTotalAmount,
+            $orderTotalAmountConverted
+        );
 
         if (isset($inData['coupon'])) {
             $promotion = new APromotion();
@@ -363,6 +367,25 @@ class AOrder
         $this->extensions->hk_ProcessData($this, 'build_order_data', $order_info);
         // merge two arrays. $this-> data can be changed by hooks.
         return $this->data + $this->order_data;
+    }
+
+    /**
+     * Returns orders.value ratio with zero/negative fallback protection.
+     *
+     * @param string $currencyCode
+     * @param float $orderTotalAmount
+     * @param float $orderTotalAmountConverted
+     *
+     * @return float
+     */
+    protected function buildOrderCurrencyRatio($currencyCode, $orderTotalAmount, $orderTotalAmountConverted)
+    {
+        if ($orderTotalAmount > 0) {
+            return $orderTotalAmountConverted / $orderTotalAmount;
+        }
+
+        $orderCurrencyValue = (float)$this->currency->getValue($currencyCode);
+        return $orderCurrencyValue > 0 ? $orderCurrencyValue : 1.0;
     }
 
     public function getOrderData()

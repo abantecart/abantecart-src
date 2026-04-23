@@ -32,9 +32,9 @@ class ControllerResponsesListingGridUser extends AController
         $this->loadModel('user/user');
         $this->loadModel('user/user_group');
 
-        $user_groups = ['' => $this->language->get('text_select_group'),];
+        $user_groups = ['' => $this->language->get('text_select_group')];
         $results = $this->model_user_user_group->getUserGroups();
-        $user_groups = array_merge($user_groups, array_column($results,'name','user_group_id'));
+        $user_groups += array_column($results, 'name', 'user_group_id');
 
         //Prepare filter config
         $filter_params = array_merge(['status', 'user_group_id'], (array)$this->data['filter_params']);
