@@ -10,8 +10,8 @@
 	</div>
 
 	<?php echo $form['form_open']; ?>
+    <input id="clear_all" name="clear_all" type="hidden"/>
 	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
-
 		<label class="h4 heading"><?php echo ${'tab_' . $section}; ?></label>
 
 		<table class="table table-striped">
@@ -57,7 +57,7 @@
 	});
 	$('#clearall').click(function(){
 		$('#checkall').prop('checked','checked');
-		checkAll('selected', true);
+		$('#clear_all').val('all');
 		$('#cacheFrm').submit();
 	});
 

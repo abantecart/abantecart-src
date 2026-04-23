@@ -1,5 +1,4 @@
 <?php
-
 /*
  *   $Id$
  *
@@ -524,7 +523,7 @@ class ACacheDriverFile extends ACacheDriver
         $exclude_filter = ['^\..*']
     ) {
         $output = [];
-
+        $path = rtrim($path, '/');
         if (!is_dir($path)) {
             return [];
         }
