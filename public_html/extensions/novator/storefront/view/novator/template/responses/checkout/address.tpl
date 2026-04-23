@@ -98,3 +98,5 @@ unset($afUsed,$isPairFields,$pairFields);
     <?php echo $this->getHookVar('address_form_bottom'); ?>
 </fieldset>
 </form>
+
+<?php include($this->templateResource('/template/common/google_places.js.tpl')); ?>

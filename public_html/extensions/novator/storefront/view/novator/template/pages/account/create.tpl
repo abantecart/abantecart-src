@@ -110,3 +110,5 @@ foreach($form['fields'] as $group => $fields){
         })
     });
 </script>
+
+<?php include($this->templateResource('/template/common/google_places.js.tpl')); ?>

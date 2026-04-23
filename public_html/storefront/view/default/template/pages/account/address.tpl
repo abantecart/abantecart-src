@@ -64,3 +64,5 @@ if ($error_warning) { ?>
     <?php $cz_url = $this->html->getSecureURL('common/zone', '&zone_id='. $zone_id); ?>
     $('select[name="zone_id"]').load('<?php echo $cz_url;?>&country_id=' + $('#AddressFrm_country_id').val());
 </script>
+
+<?php include($this->templateResource('/template/common/google_places.js.tpl')); ?>

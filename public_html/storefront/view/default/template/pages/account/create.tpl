@@ -105,3 +105,5 @@ if ($error_warning) { ?>
         })
     });
 </script>
+
+<?php include($this->templateResource('/template/common/google_places.js.tpl')); ?>
