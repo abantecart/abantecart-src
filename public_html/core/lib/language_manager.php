@@ -667,7 +667,7 @@ class ALanguageManager extends Alanguage
         $sql = "SELECT * 
             FROM " . $this->db->table('fields_history') . "
             WHERE `table_name` = '" . $this->db->escape($table_name) . "' 
-                AND `record_id` = '" . $this->db->table($record_id) . "' 
+                AND `record_id` = '" . $this->db->escape($record_id) . "' 
                 AND `language_id` = " . (int)$language_id . " 
                 AND `field` = '" . $this->db->escape($field) . "'
             ORDER BY `version` DESC, `date_added` DESC";
