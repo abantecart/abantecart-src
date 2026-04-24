@@ -507,8 +507,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $this->data['pp']['payer'] = [
             'name'          => [
-                'given_name' => $order_info['shipping_firstname'],
-                'surname'    => $order_info['shipping_lastname'],
+                'given_name' => $order_info['payment_firstname'] ?: $order_info['shipping_firstname'] ?: $order_info['firstname'],
+                'surname'    => $order_info['payment_lastname'] ?: $order_info['shipping_lastname'] ?: $order_info['lastname'],
             ],
             'email_address' => $order_info['email'],
         ];
