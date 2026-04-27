@@ -2084,6 +2084,14 @@ li#review-set::before {
     display: none !important;
 }
 
+.footer-content-menu .dropdown-menu[data-popper-placement^="top"] {
+    margin-bottom: 8px !important;
+}
+
+.footer-content-menu .dropdown-menu[data-popper-placement^="bottom"] {
+    margin-top: 8px !important;
+}
+
 .mega-sf-menu .active{
     color: var(--bs-primary);
     font-weight: bold !important;
