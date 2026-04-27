@@ -2089,7 +2089,7 @@ li#review-set::before {
 }
 
 .footer-content-menu .dropdown-menu[data-popper-placement^="bottom"] {
-    margin-top: -6px !important;
+    margin-top: 8px !important;
 }
 
 .mega-sf-menu .active{
