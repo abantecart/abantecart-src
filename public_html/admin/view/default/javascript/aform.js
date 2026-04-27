@@ -252,11 +252,11 @@
 		function doSwitchButton(elem) {
 			var $field = $(elem);
 			var $wrapper = $field.parent('.afield');
-			$wrapper.find('button').not('[readonly]').on( "click" ,function () {
+			$wrapper.off('click.aformSwitch').on('click.aformSwitch', 'button:not([readonly])', function () {
 				if($field.hasClass('disabled')){
 					return false;
 				}
-					flip_aswitch($field);
+				flip_aswitch($field);
 				onChangedAction($field, $field.val(), $field.attr('data-orgvalue'));
 				return false;
 			});
