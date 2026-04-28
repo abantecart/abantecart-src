@@ -4,7 +4,10 @@ function loadPaypalScript(url, callback,formElm) {
     script.type = "text/javascript";
     script.setAttribute("data-client-token", <?php js_echo($client_token)?>);
     script.setAttribute("data-partner-attribution-id", atob(<?php js_echo($bn_code);?>));
-    script.setAttribute("data-page-type", <?php js_echo($pageType);?>);
+    const pageType = <?php js_echo($pageType);?>;
+    if (pageType) {
+        script.setAttribute("data-page-type", pageType);
+    }
     script.addEventListener('error', function (e) {
         formElm.before(
             '<div class="alert alert-warning">' +
