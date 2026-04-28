@@ -494,7 +494,7 @@ class ExtensionPaypalCommerce extends Extension
 
         $data['capture_order_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/captureOrder');
         $data['action'] = $that->html->getSecureURL('r/extension/paypal_commerce/send');
-        $data['pageType'] = "product";
+        $data['pageType'] = "product-details";
         $view->batchAssign($data);
 
         $ppButtons = $view->fetch('responses/paypal_commerce_buy_now.tpl');
