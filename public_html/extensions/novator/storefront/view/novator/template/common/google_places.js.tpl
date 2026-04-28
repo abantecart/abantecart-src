@@ -1,7 +1,11 @@
 <script type="text/javascript">
     (function () {
         const apiKey = <?php js_echo((string)$this->config->get('config_google_api_key')); ?>;
+        const isAutocompleteEnabled = <?php echo $this->config->get('config_google_address_autocomplete') ? 'true' : 'false'; ?>;
         const addressPlaceholder = <?php js_echo((string)$this->language->get('text_google_places_address_placeholder')); ?>;
+        if (!isAutocompleteEnabled) {
+            return;
+        }
 
         const state = window.__googlePlacesState || {
             loading: false,
