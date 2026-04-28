@@ -306,10 +306,20 @@ class ExtensionPaypalCommerce extends Extension
                 return null;
             }
 
+            // Ensure PayPal client is initialized with credentials of the order's store.
+            $that->loadModel('sale/order');
+            $orderInfo = $that->model_sale_order->getOrder($order_id);
+            if (isset($orderInfo['store_id'])) {
+                $this->applyStorePaypalSettings($that, (int)$orderInfo['store_id']);
+            }
+
             //build HTML to show
             $that->loadLanguage('paypal_commerce/paypal_commerce');
             /** @var ModelExtensionPaypalCommerce $mdl */
             $mdl = $that->loadModel('extension/paypal_commerce');
+            // Re-init API client after store-specific settings were applied above.
+            // Model instance can be created earlier in request with another store config.
+            $mdl->__construct($this->registry);
             if (!$this->r_data) {
                 //no local paypal order data yet. load it.
                 $this->_load_paypal_order_data($order_id, $that);

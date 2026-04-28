@@ -379,10 +379,11 @@ function renderFilterCategoryTreeNV($tree, $level = 0, int|array|null $currentId
 }
 
 
-function renderNVNestedMenu(array $menu, $options = []): string
+function renderNVNestedMenu(array $menu, $options = [], int $level = 0): string
 {
     $maxTextLength = (int) $options['max_text_length'];
-    $html = '<ul class="dropdown-menu ' . $options['parent_css'] . '">';
+    $parentCss = $level === 0 ? $options['parent_css'] : '';
+    $html = '<ul class="dropdown-menu ' . $parentCss . '">';
 
     foreach ($menu as $item) {
         $hasChildren = !empty($item['children']);
@@ -415,7 +416,7 @@ function renderNVNestedMenu(array $menu, $options = []): string
             if ($item['category']) {
                 $html .= renderCategorySubMenuNV($item['children']);
             } else {
-                $html .= renderNVNestedMenu($item['children'], $options);
+                $html .= renderNVNestedMenu($item['children'], $options, $level + 1);
             }
 
         }

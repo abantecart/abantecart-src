@@ -45,7 +45,10 @@
             data:"work=do",
             dataType:'JSON',
             success:function (response) {
-                if (response.status != 100) {
+                if (progressbar_skip) {
+                    return;
+                }
+                if (!response || response.status !== 100) {
                     progressbarError(response.errorText);
                     $.ajaxQ.abortAll();
                 } else {

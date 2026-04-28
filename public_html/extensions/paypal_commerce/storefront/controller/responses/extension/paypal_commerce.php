@@ -507,8 +507,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $this->data['pp']['payer'] = [
             'name'          => [
-                'given_name' => $order_info['shipping_firstname'],
-                'surname'    => $order_info['shipping_lastname'],
+                'given_name' => $order_info['payment_firstname'] ?: $order_info['shipping_firstname'] ?: $order_info['firstname'],
+                'surname'    => $order_info['payment_lastname'] ?: $order_info['shipping_lastname'] ?: $order_info['lastname'],
             ],
             'email_address' => $order_info['email'],
         ];
@@ -636,9 +636,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 $this->session->data['fc']['guest']['company'] = $companyName;
                 //take the correct shipping address from order
                 $ppO = $mdl->getOrder($ppOrderId);
-                $ppShipping = $ppO->getPurchaseUnits()[0]->getShipping();
-
-                list($fName, $lName) = explode(' ', (string) $ppShipping?->getName()?->getFullName());
+                $ppShipping = $ppO->getPurchaseUnits()[0]?->getShipping();
+                list($fName, $lName) = $this->splitFullName((string) $ppShipping?->getName()?->getFullName());
 
                 $ppAddress = $ppShipping?->getAddress();
                 $this->session->data['fc']['guest']['shipping']['firstname'] = $fName
@@ -655,6 +654,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                     ? : $this->session->data['fc']['guest']['shipping']['city'];
                 $this->session->data['fc']['guest']['shipping']['postcode'] = $ppAddress?->getPostalCode()
                     ? : $this->session->data['fc']['guest']['shipping']['postcode'];
+                $this->syncFcGuestPaymentFromShipping($this->session->data['fc']);
+                $this->ensureFcAddressIdsForLoggedIn($this->session->data['fc']);
                 $this->session->data['fc']['payment_method'] = [
                     'id'    => 'paypal_commerce',
                     'title' => 'PayPal',
@@ -1077,36 +1078,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             );
         }
 
-        $fcSession['guest']['firstname'] = 'guest';
-        $fcSession['guest']['lastname'] = 'guest';
-        $fcSession['guest']['email'] = $ppOrderDetails?->getPayer()?->getEmailAddress();
-        $fcSession['guest']['shipping']['city'] =
-            $inData['shipping_address']['city'] ? : $inData['shipping_address']['admin_area_2'];
-
-        /** @var ModelLocalisationCountry $cMdl */
-        $cMdl = $this->loadModel('localisation/country');
-        $countryInfo = $cMdl->getCountryByCode((string) $inData['shipping_address']['country_code'], 2);
-        $fcSession['guest']['shipping']['country_id'] = (int) $countryInfo['country_id'];
-        $fcSession['guest']['shipping']['country'] = $countryInfo['name'];
-        $fcSession['guest']['shipping']['iso_code_2'] = $countryInfo['iso_code_2'];
-        $fcSession['guest']['shipping']['iso_code_3'] = $countryInfo['iso_code_3'];
-        $fcSession['guest']['shipping']['address_format'] = $countryInfo['address_format'];
-
-        /** @var ModelLocalisationZone $zMdl */
-        $zMdl = $this->loadModel('localisation/zone');
-        $zoneInfo = $zMdl->getZoneByCode(
-            (string) $inData['shipping_address']['admin_area_1'],
-            (int) $countryInfo['country_id']
-        );
-        $fcSession['guest']['shipping']['zone'] = $zoneInfo['name'];
-        $fcSession['guest']['shipping']['zone_id'] = (int) $zoneInfo['zone_id'];
-        $fcSession['guest']['shipping']['postcode'] = $inData['shipping_address']['postal_code'];
-
-        $fcSession['guest'] = array_merge($fcSession['guest'], $fcSession['guest']['shipping']);
-
-        //$shNames = explode(' ', $ppOrderDetails->purchase_units[0]->shipping->name->full_name);
-        $fcSession['guest']['shipping']['firstname'] = 'guest';
-        $fcSession['guest']['shipping']['lastname'] = 'guest';
+        $this->hydrateFcGuestFromPaypalOrder($fcSession, $ppOrderDetails, $inData);
+        $this->ensureFcAddressIdsForLoggedIn($fcSession);
         $fcSession['payment_method_key'] = 'paypal_commerce';
         $fcSession['payment_method'] = 'Paypal';
 
@@ -1318,6 +1291,110 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             options: ['sort' => 'order_id', 'order' => 'desc']
         );
         return (int) $result[0]['order_id'];
+    }
+
+    protected function hydrateFcGuestFromPaypalOrder(array &$fcSession, ?object $ppOrderDetails, array $inData = []): void
+    {
+        $ppPayer = $ppOrderDetails?->getPayer();
+        $ppShipping = $ppOrderDetails?->getPurchaseUnits()[0]?->getShipping();
+        $shippingAddress = (array) ($inData['shipping_address'] ?? []);
+        if (!$shippingAddress) {
+            $ppAddress = $ppShipping?->getAddress();
+            $shippingAddress = [
+                'address_line_1' => (string) $ppAddress?->getAddressLine1(),
+                'address_line_2' => (string) $ppAddress?->getAddressLine2(),
+                'city'           => (string) $ppAddress?->getAdminArea2(),
+                'admin_area_2'   => (string) $ppAddress?->getAdminArea2(),
+                'admin_area_1'   => (string) $ppAddress?->getAdminArea1(),
+                'postal_code'    => (string) $ppAddress?->getPostalCode(),
+                'country_code'   => (string) $ppAddress?->getCountryCode(),
+            ];
+        }
+
+        list($parsedFirstName, $parsedLastName) = $this->splitFullName((string) $ppShipping?->getName()?->getFullName());
+        $shippingFirstName = $parsedFirstName
+            ?: (string) $ppPayer?->getName()?->getGivenName()
+            ?: 'guest';
+        $shippingLastName = $parsedLastName
+            ?: (string) $ppPayer?->getName()?->getSurname()
+            ?: 'guest';
+
+        $fcSession['guest']['firstname'] = (string) $ppPayer?->getName()?->getGivenName() ?: $shippingFirstName;
+        $fcSession['guest']['lastname'] = (string) $ppPayer?->getName()?->getSurname() ?: $shippingLastName;
+        $fcSession['guest']['email'] = (string) $ppPayer?->getEmailAddress();
+        $fcSession['guest']['shipping']['firstname'] = $shippingFirstName;
+        $fcSession['guest']['shipping']['lastname'] = $shippingLastName;
+        $fcSession['guest']['shipping']['address_1'] = (string) ($shippingAddress['address_line_1'] ?? '')
+            ?: (string) ($shippingAddress['line1'] ?? '')
+            ?: $fcSession['guest']['shipping']['address_1'];
+        $fcSession['guest']['shipping']['address_2'] = (string) ($shippingAddress['address_line_2'] ?? '')
+            ?: (string) ($shippingAddress['line2'] ?? '')
+            ?: $fcSession['guest']['shipping']['address_2'];
+        $fcSession['guest']['shipping']['city'] =
+            (string) ($shippingAddress['city'] ?? '') ?: (string) ($shippingAddress['admin_area_2'] ?? '');
+
+        /** @var ModelLocalisationCountry $cMdl */
+        $cMdl = $this->loadModel('localisation/country');
+        $countryInfo = $cMdl->getCountryByCode((string) ($shippingAddress['country_code'] ?? ''), 2);
+        if ($countryInfo) {
+            $fcSession['guest']['shipping']['country_id'] = (int) $countryInfo['country_id'];
+            $fcSession['guest']['shipping']['country'] = $countryInfo['name'];
+            $fcSession['guest']['shipping']['iso_code_2'] = $countryInfo['iso_code_2'];
+            $fcSession['guest']['shipping']['iso_code_3'] = $countryInfo['iso_code_3'];
+            $fcSession['guest']['shipping']['address_format'] = $countryInfo['address_format'];
+        }
+
+        /** @var ModelLocalisationZone $zMdl */
+        $zMdl = $this->loadModel('localisation/zone');
+        $zoneInfo = $zMdl->getZoneByCode(
+            (string) ($shippingAddress['admin_area_1'] ?? ''),
+            (int) ($countryInfo['country_id'] ?? 0)
+        );
+        if ($zoneInfo) {
+            $fcSession['guest']['shipping']['zone'] = $zoneInfo['name'];
+            $fcSession['guest']['shipping']['zone_id'] = (int) $zoneInfo['zone_id'];
+        } else {
+            $fcSession['guest']['shipping']['zone'] = (string) ($shippingAddress['admin_area_1'] ?? '');
+            $fcSession['guest']['shipping']['zone_id'] = 0;
+        }
+        $fcSession['guest']['shipping']['postcode'] = (string) ($shippingAddress['postal_code'] ?? '');
+
+        $this->syncFcGuestPaymentFromShipping($fcSession);
+    }
+
+    protected function syncFcGuestPaymentFromShipping(array &$fcSession): void
+    {
+        $fcSession['guest'] = array_merge(
+            (array) $fcSession['guest'],
+            (array) $fcSession['guest']['shipping']
+        );
+    }
+
+    protected function ensureFcAddressIdsForLoggedIn(array &$fcSession): void
+    {
+        if (!$this->customer->isLogged()) {
+            return;
+        }
+        $defaultAddressId = (int) $this->customer->getAddressId();
+        if (!$fcSession['payment_address_id']) {
+            $fcSession['payment_address_id'] = $defaultAddressId;
+        }
+        if ($this->cart->hasShipping() && !$fcSession['shipping_address_id']) {
+            $fcSession['shipping_address_id'] = (int) ($fcSession['payment_address_id'] ?: $defaultAddressId);
+        }
+    }
+
+    protected function splitFullName(?string $fullName): array
+    {
+        $fullName = trim((string) $fullName);
+        if ($fullName === '') {
+            return ['', ''];
+        }
+        $nameParts = preg_split('/\s+/', $fullName, 2);
+        return [
+            (string) ($nameParts[0] ?? ''),
+            (string) ($nameParts[1] ?? ''),
+        ];
     }
 
 }

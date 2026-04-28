@@ -256,6 +256,7 @@ class AOrder
                         $value = '';
                     }
                 }
+                unset($value);
             }
 
             $paymentAddressId = (int)$inData['payment_address_id'];

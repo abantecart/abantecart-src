@@ -10,14 +10,14 @@
 	</div>
 
 	<?php echo $form['form_open']; ?>
+    <input id="clear_all" name="clear_all" type="hidden"/>
 	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
-
 		<label class="h4 heading"><?php echo ${'tab_' . $section}; ?></label>
 
 		<table class="table table-striped">
 			<thead>
 			<tr>
-				<td class="center"><input id="checkall" type='checkbox'/></td>
+				<td class="center"></td>
 				<td class="panel-title"><?php echo $column_type; ?></td>
 				<td class="panel-title"><?php echo $column_description; ?></td>
 			</tr>
@@ -49,18 +49,13 @@
 		</div>
 	</div>
 	</form>
-</div><!-- <div class="tab-content"> -->
+</div>
 
 <script type="text/javascript">
-	$('#checkall').click(function(){
-		checkAll('selected', $(this).prop('checked'));
-	});
 	$('#clearall').click(function(){
-		$('#checkall').prop('checked','checked');
-		checkAll('selected', true);
+		$('#clear_all').val('all');
 		$('#cacheFrm').submit();
 	});
-
 </script>
 
 
