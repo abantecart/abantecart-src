@@ -887,7 +887,11 @@
 	<definition>
 		<key>entry_google_api_key</key>
 		<value>
-			<![CDATA[Google API Key (to enable google maps):<br /><span class="help">You can see address on the map. To enable google maps add your Google maps API key <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Google Credentials Page</a>. Important: this key is used on storefront pages and is exposed client-side, so restrict its usage by allowed domain(s) and/or IP address in Google Cloud Console.</span>]]></value>
+			<![CDATA[Google Maps and Places API Key:<br /><span class="help">Enter your Google Maps and Places API key to show addresses on the map and enable address autocomplete in storefront address forms. This key is used on storefront pages and is exposed client-side, so restrict it by allowed domain(s) and/or IP address in Google Cloud Console.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_google_address_autocomplete</key>
+		<value><![CDATA[Address Autocomplete (Google Places):<br /><span class="help">Enable or disable Google Places API address autocomplete in storefront address forms. Requires Google API Key.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_viewed_products_limit</key>

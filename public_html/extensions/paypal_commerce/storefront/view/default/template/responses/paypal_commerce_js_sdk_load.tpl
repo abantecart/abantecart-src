@@ -4,7 +4,10 @@ function loadPaypalScript(url, callback,formElm) {
     script.type = "text/javascript";
     script.setAttribute("data-client-token", <?php js_echo($client_token)?>);
     script.setAttribute("data-partner-attribution-id", atob(<?php js_echo($bn_code);?>));
-    script.setAttribute("data-page-type", <?php js_echo($pageType);?>);
+    const pageType = <?php js_echo($pageType);?>;
+    if (pageType) {
+        script.setAttribute("data-page-type", pageType);
+    }
     script.addEventListener('error', function (e) {
         formElm.before(
             '<div class="alert alert-warning">' +
@@ -38,8 +41,13 @@ function loadPaypalScript(url, callback,formElm) {
 
 function parsePayPalErrorMessage(errMessage) {
     try {
+        if (!errMessage) return null;
         const jsonStart = errMessage.indexOf('{');
-        if (jsonStart === -1) return null;
+        if (jsonStart === -1) {
+            return {
+                description: String(errMessage)
+            };
+        }
 
         const rawJson = errMessage.slice(jsonStart);
         const parsed = JSON.parse(rawJson);
@@ -54,7 +62,11 @@ function parsePayPalErrorMessage(errMessage) {
             raw: parsed
         };
     } catch (e) {
-        return { error: 'Failed to parse PayPal error JSON', rawMessage: errMessage };
+        return {
+            error: 'Failed to parse PayPal error JSON',
+            description: String(errMessage || 'An unknown error occurred.'),
+            rawMessage: errMessage
+        };
     }
 }
 </script>

@@ -850,6 +850,14 @@ class AConfigManager
                 'style' => 'medium-field',
             ]
         );
+        $fields['google_address_autocomplete'] = $form->getFieldHtml(
+            $props[] = [
+                'type'  => 'checkbox',
+                'name'  => 'config_google_address_autocomplete',
+                'value' => $data['config_google_address_autocomplete'],
+                'style' => 'btn_switch',
+            ]
+        );
 
         $fields['google_analytics'] = $form->getFieldHtml(
             $props[] = [
