@@ -161,8 +161,8 @@ if ($error) { ?>
                                 });
                         },
                         onError: function (err) {
-                            const message = parsePayPalErrorMessage(err.message)
-                            showPPError( message.description || "An unknown error occurred." );
+                            const message = parsePayPalErrorMessage(err?.message);
+                            showPPError(message?.description || err?.message || "An unknown error occurred.");
                         }
                     });
 
@@ -312,8 +312,8 @@ if ($error) { ?>
                         },
                         onError: function (err) {
                             console.log(err);
-                            const message = parsePayPalErrorMessage(err.message)
-                            showPPError( message ? message.description :"An unknown error occurred." );
+                            const message = parsePayPalErrorMessage(err?.message);
+                            showPPError(message?.description || err?.message || "An unknown error occurred.");
                         }
                     });
 
