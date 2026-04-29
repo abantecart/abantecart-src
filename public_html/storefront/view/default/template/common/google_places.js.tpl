@@ -330,6 +330,10 @@
             initGooglePlacesIfReady();
         };
 
-        document.addEventListener('DOMContentLoaded', initGooglePlacesAddressAutocomplete);
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initGooglePlacesAddressAutocomplete);
+        } else {
+            initGooglePlacesAddressAutocomplete();
+        }
     })();
 </script>
