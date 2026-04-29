@@ -309,7 +309,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 406,
                 [
                     'error'   => true,
-                    'message' => $output['error'],
+                    'message' => 'PaypalCommerce order creation error.',
                 ]
             );
             return;
@@ -694,7 +694,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                     406,
                     [
                         'error'   => $output['error'],
-                        'message' => $output['error'],
+                        'message' => 'Paypal Capture order error',
                     ]
                 );
                 return;
@@ -732,7 +732,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $cartKey = (string) $this->cart->getCartKey();
 
         $ppData = $this->shopping_data->get('paypal_data', $cartKey);
-        if (!$orderId) {
+        if (!$orderId && !$this->cart->hasShipping()) {
             $cartData = $this->shopping_data->get('cart', $cartKey);
             if (!$cartData['data']) {
                 $error = new AError('Cart data not found!');
