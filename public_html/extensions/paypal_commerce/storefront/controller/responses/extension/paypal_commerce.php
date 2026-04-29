@@ -238,17 +238,25 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $this->data['pp']['intent'] = $this->config->get('paypal_commerce_transaction_type');
         $ppData['intent'] = strtoupper($this->data['pp']['intent']);
+        if (!(int) $this->session->data['order_id']) {
+            // Ensure checkout order exists before building PayPal order payload.
+            $dd = new ADispatcher('responses/checkout/pay/updateOrderData');
+            $dd->dispatch();
+        }
         //need an order detail
         /** @var ModelCheckoutOrder $oMdl */
         $oMdl = $this->loadModel('checkout/order');
         $order_info = $oMdl->getOrder((int) $this->session->data['order_id']);
-
         $this->prepareOrderData($order_info);
 
         $ppData['payer'] = $this->data['pp']['payer'];
         $ppData['purchase_units'] = $this->data['pp']['purchase_units'];
         $this->buildPPItems($order_info);
-        $ppData['purchase_units'][0]['items'] = $this->data['pp']['items'];
+        // PayPal requires amount.breakdown.item_total when item lines are sent.
+        // Keep items only when amount breakdown is present in payload.
+        if (!empty($ppData['purchase_units'][0]['amount']['breakdown'])) {
+            $ppData['purchase_units'][0]['items'] = $this->data['pp']['items'];
+        }
         $shippingPreference = $this->cart->hasShipping() ? 'GET_FROM_FILE' : 'NO_SHIPPING';
         $ppData['payment_source']['paypal'] = [
             'experience_context' => [
@@ -260,8 +268,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 ],
             ],
         ];
-        $_3ds_policy = $this->config->get('paypal_commerce_3ds_policy');
-        if ($_3ds_policy && $this->request->get['card'] == 'true') {
+        $_3ds_policy = (string) $this->config->get('paypal_commerce_3ds_policy');
+        $allowed3dsPolicies = ['SCA_WHEN_REQUIRED', 'SCA_ALWAYS'];
+        if (in_array($_3ds_policy, $allowed3dsPolicies, true) && $this->request->get['card'] == 'true') {
             $ppData['payment_source']['card']['attributes'] = [
                 'verification' => [
                     'method' => $_3ds_policy,
@@ -300,9 +309,10 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 406,
                 [
                     'error'   => true,
-                    'message' => 'PaypalCommerce order creation error.',
+                    'message' => $output['error'],
                 ]
             );
+            return;
         }
 
         $csrftoken = $this->registry->get('csrftoken');
@@ -373,6 +383,10 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $i++;
         }
         $this->data['pp']['items'] = $items;
+        if (!$orderProducts) {
+            $this->data['pp']['order_description'] = '';
+            return;
+        }
 
         // cut description (paypal api requirements. See Order->create->purchase_units->description)
         $charsPerItem = round(120 / count($orderProducts));
@@ -680,9 +694,10 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                     406,
                     [
                         'error'   => $output['error'],
-                        'message' => $output['Paypal Capture order error'],
+                        'message' => $output['error'],
                     ]
                 );
+                return;
             }
         }
 
@@ -717,7 +732,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $cartKey = (string) $this->cart->getCartKey();
 
         $ppData = $this->shopping_data->get('paypal_data', $cartKey);
-        if (!$orderId && !$this->cart->hasShipping()) {
+        if (!$orderId) {
             $cartData = $this->shopping_data->get('cart', $cartKey);
             if (!$cartData['data']) {
                 $error = new AError('Cart data not found!');
@@ -750,7 +765,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             return $output;
         }
 
-        $orderTotalAmt = "" . round($order_info['total'] * $order_info['value'], 2);
+        $orderTotalAmt = (float) round((float) $order_info['total'] * (float) $order_info['value'], 2);
+        $actualTotalAmt = (float) $response?->getPurchaseUnits()[0]?->getAmount()?->getValue();
+        $totalsMismatch = $this->isTotalsMismatch($actualTotalAmt, $orderTotalAmt);
 
         if (!$response) {
             $output['error'] = 'Cannot establish a connection to the server OR transaction Id is unknown';
@@ -763,7 +780,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         elseif (
             $response->getPurchaseUnits()[0]->getReferenceId() != $ppData['data']['reference_id']
             || $response->getPurchaseUnits()[0]->getAmount()->getCurrencyCode() != $order_info['currency']
-            || $response->getPurchaseUnits()[0]->getAmount()->getValue() != $orderTotalAmt
+            || $totalsMismatch
         ) {
             $output['error'] = $this->language->get('error_unknown');
             $err = new AError(
@@ -808,6 +825,14 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         }
 
         return $output;
+    }
+
+    protected function isTotalsMismatch(float $actualTotalAmt, float $orderTotalAmt): bool
+    {
+        $actualCents = (int) round($actualTotalAmt * 100);
+        $orderCents = (int) round($orderTotalAmt * 100);
+        // Allow 1 cent delta to absorb currency conversion/rounding differences.
+        return abs($actualCents - $orderCents) > 1;
     }
 
     /**
