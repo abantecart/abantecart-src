@@ -177,12 +177,7 @@ class ModelSaleCoupon extends Model
                     $this->language->replaceDescriptions(
                         'coupon_descriptions',
                         ['coupon_id' => (int) $coupon_id],
-                        [
-                            $language_id => [
-                                'name'        => $value['name'],
-                                'description' => $value['description'],
-                            ],
-                        ]
+                        [$language_id => $update]
                     );
                 }
             }
