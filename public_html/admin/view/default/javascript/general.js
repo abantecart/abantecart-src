@@ -10,13 +10,13 @@ jQuery(window).load(function() {
 
 jQuery(document).ready(function() {
 	//Process selected menu on page load
-	URL = String(document.location);
-	var route = getURLVar(URL, 'rt');
+	const currentUrl = String(document.location);
+	var route = getURLVar(currentUrl, 'rt');
 	if (!route) {
 		$('#menu_dashboard').addClass('active').addClass('nav-active');
 	} else {
 		var part = route.split('/');
-		url = part[0];
+		let url = part[0];
 		if (part[1]) {
 			url += '/' + part[1];
 		}
