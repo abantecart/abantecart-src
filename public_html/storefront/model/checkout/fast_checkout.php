@@ -154,10 +154,17 @@ class ModelCheckoutFastCheckout extends Model
 
         //notify admin
         $language = new ALanguage($this->registry);
+        $language->load($language->language_details['directory']);
         $language->load('common/im');
         $message_arr = [
             1 => [
-                'message' => sprintf($language->get('im_new_customer_text_to_admin'), $customer_id),
+                'message' => $language->getAndReplace(
+                    'im_new_customer_text_to_admin',
+                    replaces: [
+                        $customer_id,
+                        $data['firstname'] . ' ' . $data['lastname'],
+                    ]
+                ),
             ],
         ];
         $this->im->send('new_customer', $message_arr);
