@@ -24,7 +24,7 @@ require_once('paypal_commerce_js_sdk_load.tpl');
         $(document).ready(function () {
             const wrapper = $('#ppBuyNow');
             <?php
-            $cmpList = implode(",",array_unique(array_merge((array)$enabled_components,['buttons','messages'])));
+            $cmpList = implode(",", (array)$enabled_components);
             $fundingList = implode(",",(array)$enabled_funding);
             $payerId = $this->config->get('paypal_commerce_payer_id');
             ?>
