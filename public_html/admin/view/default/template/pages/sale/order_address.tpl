@@ -146,18 +146,23 @@
 	var geocoder;
 	var map;
 	var minZoom = 18;
+	var geocodeErrorLogged = false;
 
 	function initMap() {
-		var bounds = new google.maps.LatLngBounds();
-		map = new google.maps.Map(
-			document.getElementById("google_map"), {
-				center: new google.maps.LatLng(37.4419, -122.1419),
-				zoom: minZoom,
-				mapTypeId: google.maps.MapTypeId.ROADMAP
-			});
-		geocoder = new google.maps.Geocoder();
-		for (i = 0; i < locations.length; i++) {
-			geocodeAddress(locations[i], i, bounds);
+		try {
+			var bounds = new google.maps.LatLngBounds();
+			map = new google.maps.Map(
+				document.getElementById("google_map"), {
+					center: new google.maps.LatLng(37.4419, -122.1419),
+					zoom: minZoom,
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				});
+			geocoder = new google.maps.Geocoder();
+			for (i = 0; i < locations.length; i++) {
+				geocodeAddress(locations[i], i, bounds);
+			}
+		} catch (e) {
+			console.error('Map initialization failed.', e);
 		}
 	}
 
@@ -182,7 +187,13 @@
 					var zoom = map.getZoom();
 					map.setZoom(zoom > minZoom ? minZoom : zoom);
 				} else {
-					alert("geocode of " + address + " failed:" + status);
+					if (!geocodeErrorLogged) {
+						geocodeErrorLogged = true;
+						console.error('Geocode failed.', {
+							address: address,
+							status: status
+						});
+					}
 				}
 			});
 	}

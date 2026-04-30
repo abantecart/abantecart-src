@@ -1,11 +1,17 @@
 <script type="text/javascript">
     (function () {
         const apiKey = <?php js_echo((string)$this->config->get('config_google_api_key')); ?>;
+        const isAutocompleteEnabled = <?php echo $this->config->get('config_google_address_autocomplete') ? 'true' : 'false'; ?>;
         const addressPlaceholder = <?php js_echo((string)$this->language->get('text_google_places_address_placeholder')); ?>;
+        if (!isAutocompleteEnabled) {
+            return;
+        }
 
         const state = window.__googlePlacesState || {
             loading: false,
             loaded: false,
+            failed: false,
+            loadPromise: null,
             countryMap: null
         };
         window.__googlePlacesState = state;
@@ -239,6 +245,23 @@
                 return;
             }
 
+            const fields = getFieldsForAddress(address1Field);
+            let autocomplete = null;
+            try {
+                autocomplete = new google.maps.places.Autocomplete(address1Field, {
+                    types: ['address'],
+                    fields: ['address_components', 'formatted_address', 'name']
+                });
+            } catch (e) {
+                state.failed = true;
+                return;
+            }
+
+            if (typeof address1Field.dataset.googlePlacesOriginalPlaceholder === 'undefined') {
+                address1Field.dataset.googlePlacesOriginalPlaceholder =
+                    address1Field.getAttribute('placeholder') || address1Field.placeholder || '';
+            }
+
             address1Field.placeholder = addressPlaceholder;
             address1Field.setAttribute('autocomplete', 'new-password');
             address1Field.setAttribute('autocorrect', 'off');
@@ -248,12 +271,6 @@
             if (form) {
                 form.setAttribute('autocomplete', 'off');
             }
-
-            const fields = getFieldsForAddress(address1Field);
-            const autocomplete = new google.maps.places.Autocomplete(address1Field, {
-                types: ['address'],
-                fields: ['address_components', 'formatted_address', 'name']
-            });
 
             applyCountryRestriction(autocomplete, fields);
 
@@ -271,6 +288,53 @@
             address1Field.dataset.googlePlacesBound = '1';
         }
 
+        function fallbackToPlainInputs(reason) {
+            const fields = getAddressFields();
+
+            for (let i = 0; i < fields.length; i++) {
+                const field = fields[i];
+                const clone = field.cloneNode(true);
+
+                const originalPlaceholder = field.dataset.googlePlacesOriginalPlaceholder || '';
+                clone.placeholder = originalPlaceholder;
+                if (originalPlaceholder) {
+                    clone.setAttribute('placeholder', originalPlaceholder);
+                } else {
+                    clone.removeAttribute('placeholder');
+                }
+                clone.removeAttribute('autocomplete');
+                clone.removeAttribute('autocorrect');
+                clone.removeAttribute('autocapitalize');
+                clone.removeAttribute('spellcheck');
+
+                clone.disabled = false;
+                clone.readOnly = false;
+                clone.removeAttribute('disabled');
+                clone.removeAttribute('readonly');
+                clone.removeAttribute('aria-disabled');
+                clone.removeAttribute('aria-invalid');
+                if (clone.style) {
+                    clone.style.backgroundImage = '';
+                    clone.style.backgroundPosition = '';
+                    clone.style.backgroundRepeat = '';
+                    clone.style.paddingRight = '';
+                }
+                clone.classList.remove('pac-target-input');
+
+                delete clone.dataset.googlePlacesBound;
+                delete clone.dataset.googlePlacesRestrictionBound;
+
+                if (field.parentNode) {
+                    field.parentNode.replaceChild(clone, field);
+                }
+            }
+
+            const forms = document.querySelectorAll('form[autocomplete="off"]');
+            for (let j = 0; j < forms.length; j++) {
+                forms[j].removeAttribute('autocomplete');
+            }
+        }
+
         function getAddressFields() {
             const nodes = document.querySelectorAll(addressSelector);
             const result = [];
@@ -285,47 +349,89 @@
         function initGooglePlacesIfReady() {
             const fields = getAddressFields();
             for (let i = 0; i < fields.length; i++) {
-                if (!fields[i].getAttribute('placeholder')) {
-                    fields[i].setAttribute('placeholder', addressPlaceholder);
-                }
                 bindAddressField(fields[i]);
             }
         }
 
         function ensureGooglePlacesScript() {
-            if (state.loaded || state.loading || !apiKey) {
-                return;
+            if (state.failed || !apiKey) {
+                return Promise.reject(new Error('Google Places API is not available'));
+            }
+
+            if (state.loaded || (typeof google !== 'undefined' && google.maps && google.maps.places)) {
+                state.loaded = true;
+                return Promise.resolve();
+            }
+
+            if (state.loadPromise) {
+                return state.loadPromise;
             }
 
             state.loading = true;
-            const script = document.createElement('script');
-            script.async = true;
-            script.src = 'https://maps.googleapis.com/maps/api/js?key='
-                + encodeURIComponent(apiKey)
-                + '&loading=async&libraries=places&callback=abantecartInitGooglePlaces';
-            script.onerror = function () {
-                state.loading = false;
-            };
-            document.head.appendChild(script);
+
+            state.loadPromise = new Promise(function (resolve, reject) {
+                const timeoutId = setTimeout(function () {
+                    state.loading = false;
+                    state.failed = true;
+                    state.loadPromise = null;
+                    reject(new Error('Google Places API load timeout'));
+                }, 10000);
+
+                window.abantecartInitGooglePlaces = function () {
+                    clearTimeout(timeoutId);
+                    state.loading = false;
+                    state.loaded = true;
+                    state.failed = false;
+                    resolve();
+                };
+
+                window.gm_authFailure = function () {
+                    clearTimeout(timeoutId);
+                    state.loading = false;
+                    state.failed = true;
+                    state.loadPromise = null;
+                    fallbackToPlainInputs('gm_authFailure');
+                    reject(new Error('Google Maps authentication failed'));
+                };
+
+                const script = document.createElement('script');
+                script.async = true;
+                script.src = 'https://maps.googleapis.com/maps/api/js?key='
+                    + encodeURIComponent(apiKey)
+                    + '&loading=async&libraries=places&callback=abantecartInitGooglePlaces';
+                script.onerror = function () {
+                    clearTimeout(timeoutId);
+                    state.loading = false;
+                    state.failed = true;
+                    state.loadPromise = null;
+                    reject(new Error('Google Places API script failed to load'));
+                };
+                document.head.appendChild(script);
+            });
+
+            return state.loadPromise;
         }
 
         function initGooglePlacesAddressAutocomplete() {
-            if (typeof google !== 'undefined' && google.maps && google.maps.places) {
-                state.loaded = true;
-                initGooglePlacesIfReady();
+            const fields = getAddressFields();
+            if (state.failed || !fields.length) {
                 return;
             }
-            if (getAddressFields().length) {
-                ensureGooglePlacesScript();
-            }
+
+            ensureGooglePlacesScript()
+                .then(function () {
+                    if (!state.failed) {
+                        initGooglePlacesIfReady();
+                    }
+                })
+                .catch(function (err) {
+                });
         }
 
-        window.abantecartInitGooglePlaces = function () {
-            state.loading = false;
-            state.loaded = true;
-            initGooglePlacesIfReady();
-        };
-
-        document.addEventListener('DOMContentLoaded', initGooglePlacesAddressAutocomplete);
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initGooglePlacesAddressAutocomplete);
+        } else {
+            initGooglePlacesAddressAutocomplete();
+        }
     })();
 </script>

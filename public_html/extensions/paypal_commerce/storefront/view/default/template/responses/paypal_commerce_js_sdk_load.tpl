@@ -41,8 +41,13 @@ function loadPaypalScript(url, callback,formElm) {
 
 function parsePayPalErrorMessage(errMessage) {
     try {
+        if (!errMessage) return null;
         const jsonStart = errMessage.indexOf('{');
-        if (jsonStart === -1) return null;
+        if (jsonStart === -1) {
+            return {
+                description: String(errMessage)
+            };
+        }
 
         const rawJson = errMessage.slice(jsonStart);
         const parsed = JSON.parse(rawJson);
@@ -57,7 +62,11 @@ function parsePayPalErrorMessage(errMessage) {
             raw: parsed
         };
     } catch (e) {
-        return { error: 'Failed to parse PayPal error JSON', rawMessage: errMessage };
+        return {
+            error: 'Failed to parse PayPal error JSON',
+            description: String(errMessage || 'An unknown error occurred.'),
+            rawMessage: errMessage
+        };
     }
 }
 </script>
