@@ -111,10 +111,17 @@ if ($error) { ?>
                                 .then(function (order) {
                                     $('input[name=csrftoken]').val(order.csrftoken);
                                     $('input[name=csrfinstance]').val(order.csrfinstance);
+                                    if (order?.error) {
+                                        throw new Error(order?.message || order?.error || 'Unable to create PayPal order.');
+                                    }
+                                    if (!order?.id) {
+                                        throw new Error('Unable to create PayPal order.');
+                                    }
                                     return order.id; // Return the PayPal order ID
                                 })
                                 .catch(function (error) {
                                     console.error('Error creating order:', error);
+                                    throw error;
                                 });
                         },
                         onApprove: function (data) {
@@ -161,8 +168,8 @@ if ($error) { ?>
                                 });
                         },
                         onError: function (err) {
-                            const message = parsePayPalErrorMessage(err.message)
-                            showPPError( message.description || "An unknown error occurred." );
+                            const message = parsePayPalErrorMessage(err?.message);
+                            showPPError(message?.description || err?.message || "An unknown error occurred.");
                         }
                     });
 
@@ -262,9 +269,18 @@ if ($error) { ?>
                                 .then(function (order) {
                                     $('input[name=csrftoken]').val(order.csrftoken);
                                     $('input[name=csrfinstance]').val(order.csrfinstance);
+                                    if (order?.error) {
+                                        throw new Error(order?.message || order?.error || 'Unable to create PayPal order.');
+                                    }
+                                    if (!order?.id) {
+                                        throw new Error('Unable to create PayPal order.');
+                                    }
                                     return order.id;
                                 })
-                                .catch(showPPError)
+                                .catch(function (error) {
+                                    showPPError(error);
+                                    throw error;
+                                })
                             );
                         },
                         onCancel: function (data) {
@@ -312,8 +328,8 @@ if ($error) { ?>
                         },
                         onError: function (err) {
                             console.log(err);
-                            const message = parsePayPalErrorMessage(err.message)
-                            showPPError( message ? message.description :"An unknown error occurred." );
+                            const message = parsePayPalErrorMessage(err?.message);
+                            showPPError(message?.description || err?.message || "An unknown error occurred.");
                         }
                     });
 
@@ -332,9 +348,13 @@ if ($error) { ?>
             }
             <?php } ?>
             function showPPError(text) {
+                const msg = <?php js_echo($this->language->get('paypal_commerce_error_transaction'));?>;
+                $('.paypal-error-block').remove();
                 $('#paypalFrm').before(
-                    '<div class="alert alert-danger"><i class="fa fa-exclamation fa-fw"></i> ' + text + '</div>'
+                    '<div class="paypal-error-block">'
+                    + '<div class="alert alert-danger"><i class="fa fa-exclamation fa-fw"></i> ' + msg + '</div>'
                     + '<button class="btn btn-info" onclick="location.reload();" type="button">Try again</button>'
+                    + '</div>'
                 );
                 $('div.spinner-overlay').hide();
                 $('#paypalFrm .action-buttons').hide();

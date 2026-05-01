@@ -48,6 +48,21 @@ class ExtensionPaypalCommerce extends Extension
         }
     }
 
+    protected function getBuyNowEnabledComponents($that): array
+    {
+        $components = (array)(unserialize($that->config->get('paypal_commerce_enabled_components')) ?: ['buttons']);
+        $components[] = 'buttons';
+        $components = array_values(array_unique($components));
+
+        if (strtoupper((string)$that->currency->getCode()) !== 'USD') {
+            $components = array_values(array_filter($components, static function ($component) {
+                return $component !== 'messages';
+            }));
+        }
+
+        return $components;
+    }
+
     public static function getBnCode()
     {
         return 'QWJhbnRlQ2FydF9TUA==';
@@ -479,7 +494,7 @@ class ExtensionPaypalCommerce extends Extension
         $data['client_token'] = $mdl->getClientToken();
         $data['bn_code'] = ExtensionPaypalCommerce::getBnCode();
         $data['intent'] = $that->config->get('paypal_commerce_transaction_type');
-        $data['enabled_components'] = unserialize($that->config->get('paypal_commerce_enabled_components')) ?: ['buttons'];
+        $data['enabled_components'] = $this->getBuyNowEnabledComponents($that);
         $data['enabled_funding'] = unserialize($that->config->get('paypal_commerce_enabled_funding')) ?: [];
         $data['create_quick_order_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/createQuickOrder');
         $data['prepare_checkout_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/prepareCheckout');
@@ -494,7 +509,7 @@ class ExtensionPaypalCommerce extends Extension
 
         $data['capture_order_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/captureOrder');
         $data['action'] = $that->html->getSecureURL('r/extension/paypal_commerce/send');
-        $data['pageType'] = "product";
+        $data['pageType'] = "product-details";
         $view->batchAssign($data);
 
         $ppButtons = $view->fetch('responses/paypal_commerce_buy_now.tpl');
@@ -540,7 +555,7 @@ class ExtensionPaypalCommerce extends Extension
         $data['client_token'] = $mdl->getClientToken();
         $data['bn_code'] = ExtensionPaypalCommerce::getBnCode();
         $data['intent'] = $that->config->get('paypal_commerce_transaction_type');
-        $data['enabled_components'] = unserialize($that->config->get('paypal_commerce_enabled_components')) ?: ['buttons'];
+        $data['enabled_components'] = $this->getBuyNowEnabledComponents($that);
         $data['enabled_funding'] = unserialize($that->config->get('paypal_commerce_enabled_funding')) ?: [];
         $data['create_quick_order_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/createQuickOrder');
         $data['prepare_checkout_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/prepareCheckout');

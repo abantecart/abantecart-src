@@ -390,13 +390,8 @@ echo $order_tabs;
         <div class="list-inline input-group afield col-sm-7 col-xs-9">
             <?php echo $add_product;?>
         </div>
-        <div class="list-inline input-group afield col-sm-offset-0 col-sm-3 col-xs-1">
-            <a class="add btn btn-success tooltips"
-               data-original-title="<?php echo_html2view($text_add); ?>">
-                <i class="fa fa-plus-circle fa-lg"></i></a>
-        </div>
     </div>
-	<?php } ?>
+		<?php } ?>
 	</div>
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
@@ -469,14 +464,9 @@ echo $order_tabs;
 			return false;
 		});
 
-		$('a.add').click(function () {
-			addProduct();
-			return false;
-		});
-
-		$('a.edit_product').click(function () {
-			addProduct($(this).attr('data-order-product-id'));
-			return false;
+			$('a.edit_product').click(function () {
+				addProduct($(this).attr('data-order-product-id'));
+				return false;
 		});
 
 		$(document).on('keyup', '#products input', function () {

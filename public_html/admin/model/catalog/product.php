@@ -36,6 +36,7 @@ class ModelCatalogProduct extends Model
             'quantity'               => 'int',
             'minimum'                => 'int',
             'maximum'                => 'int',
+            'call_to_order'          => 'int',
             'subtract'               => 'int',
             'stock_checkout'         => 'string',
             'stock_status_id'        => 'int',

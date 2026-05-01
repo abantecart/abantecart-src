@@ -17,7 +17,7 @@
 		<table class="table table-striped">
 			<thead>
 			<tr>
-				<td class="center"><input id="checkall" type='checkbox'/></td>
+				<td class="center"></td>
 				<td class="panel-title"><?php echo $column_type; ?></td>
 				<td class="panel-title"><?php echo $column_description; ?></td>
 			</tr>
@@ -49,18 +49,13 @@
 		</div>
 	</div>
 	</form>
-</div><!-- <div class="tab-content"> -->
+</div>
 
 <script type="text/javascript">
-	$('#checkall').click(function(){
-		checkAll('selected', $(this).prop('checked'));
-	});
 	$('#clearall').click(function(){
-		$('#checkall').prop('checked','checked');
 		$('#clear_all').val('all');
 		$('#cacheFrm').submit();
 	});
-
 </script>
 
 
