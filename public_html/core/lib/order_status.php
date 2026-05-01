@@ -1,21 +1,22 @@
 <?php
+
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -24,19 +25,14 @@ if (!defined('DIR_CORE')) {
 /**
  * Class AOrderStatus
  *
- * @property ADB    $db
+ * @property ADB $db
  * @property ACache $cache
  */
 class AOrderStatus
 {
-    /**
-     * @var Registry
-     */
+    /** @var Registry */
     protected $registry;
-    /**
-     * @var array
-     */
-    protected $base_statuses = array(
+    protected $base_statuses = [
         0  => 'incomplete',
         1  => 'pending',
         2  => 'processing',
@@ -50,16 +46,15 @@ class AOrderStatus
         12 => 'reversed',
         13 => 'chargeback',
         14 => 'canceled_by_customer',
-    );
-    /**
-     * @var array
-     */
-    protected $statuses = array();
+    ];
+
+    protected $statuses = [];
 
     /**
      * AOrderStatus constructor.
      *
      * @param Registry $registry
+     *
      * @throws AException
      */
     public function __construct($registry = null)
@@ -70,14 +65,14 @@ class AOrderStatus
         $cache_key = 'localization.order_status.list';
         $order_statuses = $this->cache->pull($cache_key);
         if ($order_statuses === false) {
-            $order_statuses = $this->db->query("SELECT * FROM ".$this->db->table('order_status_ids'));
+            $order_statuses = $this->db->query("SELECT * FROM " . $this->db->table('order_status_ids'));
             foreach ($order_statuses->rows as $s) {
                 if (!isset($this->statuses[$s['order_status_id']]) && $s['status_text_id']) {
                     $this->statuses[$s['order_status_id']] = $s['status_text_id'];
                 }
             }
             $this->cache->push($cache_key, $this->statuses);
-        }else{
+        } else {
             $this->statuses = $order_statuses;
         }
     }
@@ -88,26 +83,28 @@ class AOrderStatus
     }
 
     /**
-     * @param int    $order_status_id
+     * @param int $order_status_id
      * @param string $status_text_id
      *
      * @return bool
      */
     public function addStatus($order_status_id, $status_text_id)
     {
-        $order_status_id = (int)$order_status_id;
+        $order_status_id = (int) $order_status_id;
         //preformat text_id at first
         $status_text_id = preformatTextID($status_text_id);
 
         if (in_array($order_status_id, array_keys($this->statuses)) || in_array($status_text_id, $this->statuses)) {
-            $error_text = 'Error: Cannot add new order status with id '.$order_status_id.' and text id '.$status_text_id.' into AOrderStatus class.';
+            $error_text =
+                'Error: Cannot add new order status with id ' . $order_status_id . ' and text id ' . $status_text_id
+                . ' into AOrderStatus class.';
             $e = new AError($error_text);
             $e->toLog()->toDebug();
             return false;
         }
 
         if (!$status_text_id) {
-            $error_text = 'Error: Cannot add new order status with id '.$order_status_id.' and empty text id';
+            $error_text = 'Error: Cannot add new order status with id ' . $order_status_id . ' and empty text id';
             $e = new AError($error_text);
             $e->toLog()->toDebug();
             return false;
@@ -154,4 +151,41 @@ class AOrderStatus
         return $this->base_statuses;
     }
 
+    /**
+     * Retrieves the name of the order status based on the given order status ID and language ID.
+     *
+     * @param int $orderStatusId The ID of the order status.
+     * @param int $languageId The ID of the language.
+     *
+     * @return string The name of the order status.
+     * If the name is not found for the specified language, an alternative language is used if available.
+     * @throws AException
+     */
+    public function getName(int $orderStatusId, int $languageId): string
+    {
+        $result = $this->db->query(
+            "SELECT *
+            FROM " . $this->db->table("order_statuses") . "
+            WHERE order_status_id = '" . $orderStatusId . "'
+                AND language_id = '" . $languageId . "'"
+        );
+        $output = (string) $result->row['name'];
+        //When name for language not found, take first
+        if (!$output) {
+            $result = $this->db->query(
+                "SELECT *
+                FROM " . $this->db->table("order_statuses") . "
+                WHERE order_status_id = '" . $orderStatusId . "'
+                ORDER BY language_id"
+            );
+            $output = (string) $result->row['name'];
+        }
+        if (!$output) {
+            $this->registry->get('log')->write(
+                'Order status name not found for order_status_id: '
+                . $orderStatusId . ' and language_id: ' . $languageId
+            );
+        }
+        return $output;
+    }
 }

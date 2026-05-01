@@ -1074,108 +1074,104 @@ class ModelCheckoutOrder extends Model
     }
 
     /**
-     * @param int $order_id
-     * @param int $order_status_id
+     * @param int $orderId
+     * @param int $orderStatusId
      * @param string $comment
      * @param bool $notify
      *
      * @throws AException|TransportExceptionInterface
      */
-    public function _update($order_id, $order_status_id, $comment = '', $notify = false)
+    public function _update($orderId, $orderStatusId, $comment = '', $notify = false)
     {
-        $order_query = $this->db->query(
+        $orderId = (int)$orderId;
+        $orderStatusId = (int)$orderStatusId;
+        $result = $this->db->query(
             "SELECT *
-            FROM `" . $this->db->table("orders") . "` o
+            FROM " . $this->db->table("orders") . " o
             LEFT JOIN " . $this->db->table("languages") . " l 
                 ON (o.language_id = l.language_id)
-            WHERE o.order_id = '" . (int) $order_id . "' 
+            WHERE o.order_id = '" . $orderId . "' 
                 AND o.order_status_id > '0'"
         );
 
-        if ($order_query->num_rows) {
-            $order_row = $this->dcrypt->decrypt_data($order_query->row, 'orders');
+        if (!$result->num_rows) {
+            return;
+        }
+        if(!$orderStatusId){
+            $this->log->write('Order #'.$orderId.' cannot be updated with status "Incomplete"!');
+            return;
+        }
 
-            $this->db->query(
-                "UPDATE `" . $this->db->table("orders") . "`
-                SET order_status_id = '" . (int) $order_status_id . "',
-                    date_modified = NOW()
-                WHERE order_id = '" . (int) $order_id . "'"
-            );
+        $orderData = $this->dcrypt->decrypt_data($result->row, 'orders');
+        $this->db->query(
+            "UPDATE `" . $this->db->table("orders") . "`
+            SET order_status_id = '" . $orderStatusId . "'
+            WHERE order_id = '" . $orderId . "'"
+        );
 
-            $this->db->query(
-                "INSERT INTO " . $this->db->table("order_history") . "
-                SET order_id = '" . (int) $order_id . "',
-                    order_status_id = '" . (int) $order_status_id . "',
-                    notify = '" . (int) $notify . "',
-                    comment = '" . $this->db->escape($comment) . "',
-                    date_added = NOW()"
-            );
+        $this->db->query(
+            "INSERT INTO " . $this->db->table("order_history") . "
+            SET order_id = '" . $orderId . "',
+                order_status_id = '" . $orderStatusId . "',
+                notify = '" . (int) $notify . "',
+                comment = '" . $this->db->escape($comment) . "'"
+        );
 
-            //send notifications
-            $language = new ALanguage($this->registry, $order_row['code']);
-            $language->load($order_row['filename']);
-            $language->load('mail/order_update');
+        //send notifications
+        $language = new ALanguage($this->registry, $orderData['code']);
+        $language->load($orderData['filename']);
+        $language->load('mail/order_update');
 
-            $order_status_query = $this->db->query(
-                "SELECT *
-                FROM " . $this->db->table("order_statuses") . "
-                WHERE order_status_id = '" . (int) $order_status_id . "'
-                    AND language_id = '" . (int) $order_row['language_id'] . "'"
-            );
+        $statusName = $this->order_status->getName($orderStatusId, (int)$orderData['language_id']);
 
-            $language_im = new ALanguage($this->registry);
-            $language->load($language->language_details['directory']);
-            $language_im->load('common/im');
-            $status_name = '';
-            if ($order_status_query->row['name']) {
-                $status_name = $order_status_query->row['name'];
+        $language_im = new ALanguage($this->registry);
+        $language->load($language->language_details['directory']);
+        $language_im->load('common/im');
+
+        $invoiceUrl = '';
+        if (!$orderData['customer_id'] && $this->config->get('config_guest_checkout') && $orderData['email']) {
+            $order_token = generateOrderToken($orderId, $orderData['email']);
+            if ($order_token) {
+                $invoiceUrl = $orderData['store_url'] . 'index.php?rt=account/order_details&ot=' . $order_token;
             }
+        }
 
-            $invoiceUrl = '';
-            if (!$order_row['customer_id'] && $this->config->get('config_guest_checkout') && $order_row['email']) {
-                $order_token = generateOrderToken($order_id, $order_row['email']);
-                if ($order_token) {
-                    $invoiceUrl = $order_row['store_url'] . 'index.php?rt=account/order_details&ot=' . $order_token;
-                }
-            }
+        $data = [
+            'store_name'       => $orderData['store_name'],
+            'order_id'         => $orderId,
+            'order_date_added' => dateISO2Display($orderData['date_added'], $language->get('date_format_short')),
+            'order_status'     => $statusName,
+            'invoice'          => $orderData['customer_id']
+                ? $orderData['store_url'] . 'index.php?rt=account/order_details&order_id=' . $orderId
+                : $invoiceUrl,
+            'comment'          => $comment ? : '',
+        ];
 
-            $data = [
-                'store_name'       => $order_row['store_name'],
-                'order_id'         => $order_id,
-                'order_date_added' => dateISO2Display($order_row['date_added'], $language->get('date_format_short')),
-                'order_status'     => $order_status_query->num_rows ? $order_status_query->row['name'] : '',
-                'invoice'          => $order_row['customer_id']
-                    ? $order_row['store_url'] . 'index.php?rt=account/order_details&order_id=' . $order_id
-                    : $invoiceUrl,
-                'comment'          => $comment ? : '',
-            ];
+        $message_arr = [
+            0 => [
+                'message' => $language_im->getAndReplace(
+                              'im_order_update_text_to_customer',
+                    replaces: [$orderId, $statusName]
+                ),
+            ],
+            1 => [
+                'message' => $language_im->getAndReplace(
+                              'im_order_update_text_to_admin',
+                    replaces: [$orderId, $statusName]
+                ),
+            ],
+        ];
+        $this->im->send('order_update', $message_arr, 'admin_order_status_notify', $data);
 
-            $message_arr = [
-                0 => [
-                    'message' => $language_im->getAndReplace(
-                                  'im_order_update_text_to_customer',
-                        replaces: [$order_id, $status_name]
-                    ),
-                ],
-                1 => [
-                    'message' => $language_im->getAndReplace(
-                                  'im_order_update_text_to_admin',
-                        replaces: [$order_id, $status_name]
-                    ),
-                ],
-            ];
-            $this->im->send('order_update', $message_arr, 'admin_order_status_notify', $data);
-
-            //notify via email
-            if ($notify) {
-                $mail = new AMail($this->config);
-                $mail->setTo($order_row['email']);
-                $mail->setFrom($this->config->get('store_main_email'));
-                $mail->setReplyTo($this->config->get('store_main_email'));
-                $mail->setSender($order_row['store_name']);
-                $mail->setTemplate('admin_order_status_notify', $data);
-                $mail->send(true);
-            }
+        //notify via email
+        if ($notify) {
+            $mail = new AMail($this->config);
+            $mail->setTo($orderData['email']);
+            $mail->setFrom($this->config->get('store_main_email'));
+            $mail->setReplyTo($this->config->get('store_main_email'));
+            $mail->setSender($orderData['store_name']);
+            $mail->setTemplate('admin_order_status_notify', $data);
+            $mail->send(true);
         }
     }
 
