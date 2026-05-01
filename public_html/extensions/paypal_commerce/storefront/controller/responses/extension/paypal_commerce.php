@@ -765,7 +765,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             return $output;
         }
 
-        $orderTotalAmt = (float) round((float) $order_info['total'] * (float) $order_info['value'], 2);
+        $orderTotalAmt = (float) round((float) $order_info['total'], 2);
         $actualTotalAmt = (float) $response?->getPurchaseUnits()[0]?->getAmount()?->getValue();
         $totalsMismatch = $this->isTotalsMismatch($actualTotalAmt, $orderTotalAmt);
 
