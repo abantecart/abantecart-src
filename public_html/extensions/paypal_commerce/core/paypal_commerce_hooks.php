@@ -509,6 +509,7 @@ class ExtensionPaypalCommerce extends Extension
 
         $data['capture_order_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/captureOrder');
         $data['action'] = $that->html->getSecureURL('r/extension/paypal_commerce/send');
+        $data['required_options_warning'] = $that->language->get('paypal_commerce_required_options_warning');
         $data['pageType'] = "product-details";
         $view->batchAssign($data);
 
@@ -562,6 +563,7 @@ class ExtensionPaypalCommerce extends Extension
         $data['return_url'] = $data['cancel_url'] = $that->html->getSEOURL('checkout/cart');
         $data['capture_order_url'] = $that->html->getSecureURL('r/extension/paypal_commerce/captureOrder');
         $data['action'] = $that->html->getSecureURL('r/extension/paypal_commerce/send');
+        $data['required_options_warning'] = $that->language->get('paypal_commerce_required_options_warning');
         $data['pageType'] = $data['placement'] = 'cart';
         $view->batchAssign($data);
         /** @see public_html/extensions/paypal_commerce/storefront/view/default/template/responses/paypal_commerce_buy_now.tpl */

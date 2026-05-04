@@ -107,6 +107,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $data['action'] = $this->html->getSecureURL('r/extension/paypal_commerce/send');
         $data['create_order_url'] = $this->html->getSecureURL('r/extension/paypal_commerce/createOrder');
         $data['capture_order_url'] = $this->html->getSecureURL('r/extension/paypal_commerce/captureOrder');
+        $data['required_options_warning'] = $this->language->get('paypal_commerce_required_options_warning');
 
         //build submit form
         $form = new AForm();

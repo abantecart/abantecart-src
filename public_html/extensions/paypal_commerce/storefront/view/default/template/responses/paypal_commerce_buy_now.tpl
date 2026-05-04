@@ -23,6 +23,8 @@ require_once('paypal_commerce_js_sdk_load.tpl');
     <script type="text/javascript">
         $(document).ready(function () {
             const wrapper = $('#ppBuyNow');
+            const warningClass = 'paypal-option-warning';
+            const warningText = <?php js_echo($required_options_warning); ?>;
             <?php
             $cmpList = implode(",", (array)$enabled_components);
             $fundingList = implode(",",(array)$enabled_funding);
@@ -39,6 +41,168 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                 initButtons,
                 wrapper
             );
+
+            function getProductForm() {
+                return $('form#product');
+            }
+
+            function getProductOptionFields(productFrm) {
+                return productFrm.find(':input[name^="option["]');
+            }
+
+            function clearValidationWarning() {
+                wrapper.prev('.' + warningClass).remove();
+            }
+
+            function showValidationWarning(text) {
+                clearValidationWarning();
+                wrapper.before(
+                    '<div class="alert alert-warning ' + warningClass + '">'
+                    + '<i class="fa fa-exclamation fa-fw"></i> ' + text + '</div>'
+                );
+            }
+
+            function hasRequiredMarker(group) {
+                return group.find('.text-danger').filter(function () {
+                    return $(this).text().trim() === '*';
+                }).length > 0;
+            }
+
+            function getFirstInvalidNativeField(productFrm) {
+                const nativeInvalid = getProductOptionFields(productFrm)
+                    .filter(':enabled')
+                    .filter(function () {
+                        return typeof this.checkValidity === 'function' && !this.checkValidity();
+                    })
+                    .first();
+
+                return nativeInvalid.length ? nativeInvalid : $();
+            }
+
+            function getFirstInvalidChoiceField(productFrm) {
+                const groups = {};
+                let invalidField = $();
+
+                getProductOptionFields(productFrm)
+                    .filter(function () {
+                        return this.type === 'radio' || this.type === 'checkbox';
+                    })
+                    .each(function () {
+                        const field = $(this);
+                        const fieldName = field.attr('name');
+                        const group = field.closest('.form-group');
+
+                        if (!fieldName || !group.length || !hasRequiredMarker(group)) {
+                            return;
+                        }
+
+                        if (!groups[fieldName]) {
+                            groups[fieldName] = productFrm.find(':input[name="' + fieldName.replace(/"/g, '\\"') + '"]')
+                                .filter(':enabled');
+                        }
+                    });
+
+                $.each(groups, function (fieldName, fields) {
+                    if (!fields.filter(':checked').length) {
+                        invalidField = fields.first();
+                        return false;
+                    }
+                });
+
+                return invalidField;
+            }
+
+            function focusInvalidField(field) {
+                if (!field || !field.length) {
+                    return;
+                }
+
+                field.trigger('focus');
+            }
+
+            function validateProductOptions(productFrm, showWarning) {
+                if (!productFrm.length) {
+                    return true;
+                }
+
+                const nativeInvalidField = getFirstInvalidNativeField(productFrm);
+                const choiceInvalidField = getFirstInvalidChoiceField(productFrm);
+                const invalidField = nativeInvalidField.length ? nativeInvalidField : choiceInvalidField;
+
+                if (!invalidField.length) {
+                    clearValidationWarning();
+                    return true;
+                }
+
+                if (showWarning) {
+                    showValidationWarning(warningText);
+                    focusInvalidField(invalidField);
+                }
+
+                return false;
+            }
+
+            function bindProductOptionValidation(actions) {
+                const productFrm = getProductForm();
+                if (!productFrm.length) {
+                    actions.enable();
+                    return;
+                }
+
+                const optionFields = getProductOptionFields(productFrm);
+                const updateState = function () {
+                    if (validateProductOptions(productFrm, false)) {
+                        actions.enable();
+                    } else {
+                        actions.disable();
+                    }
+                };
+
+                optionFields.off('.paypalOptionGate');
+                optionFields.on('change.paypalOptionGate input.paypalOptionGate', function () {
+                    updateState();
+                });
+
+                updateState();
+            }
+
+            function isPayPalPopupCloseError(err) {
+                const message = String(
+                    err?.message
+                    || err?.description
+                    || err?.error_description
+                    || err?.error
+                    || err
+                    || ''
+                ).toLowerCase();
+
+                if (!message) {
+                    return false;
+                }
+
+                return (
+                    (message.includes('popup') && (message.includes('close') || message.includes('closed')))
+                    || (message.includes('window') && (message.includes('close') || message.includes('closed')))
+                    || message.includes('user cancelled')
+                    || message.includes('user canceled')
+                    || message.includes('cancelled by user')
+                    || message.includes('canceled by user')
+                    || message.includes('buyer cancelled')
+                    || message.includes('buyer canceled')
+                    || message.includes('aborterror')
+                    || message.includes('aborted')
+                );
+            }
+
+            function handlePayPalDismissal(err) {
+                if (!isPayPalPopupCloseError(err)) {
+                    return false;
+                }
+
+                $('#preloader').css('display', 'none');
+                return true;
+            }
+
             function initButtons() {
                 <?php if(!$show_buttons){ echo 'return;'; }?>
                 if (paypal === undefined) { return; }
@@ -48,20 +212,32 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                     let ppBtns = paypal.Buttons({
                         appSwitchWhenAvailable: true,
                         commit: false,
-                        onClick: function () {
-                            $('#preloader').css('display', 'block');
+                        onInit: function (data, actions) {
+                            bindProductOptionValidation(actions);
+                        },
+                        onClick: function (data, actions) {
                             const productFrm = $('form#product');
-                            if( productFrm.length>0) {
+                            if (productFrm.length > 0) {
+                                if (!validateProductOptions(productFrm, true)) {
+                                    $('#preloader').css('display', 'none');
+                                    return actions.reject();
+                                }
+
+                                clearValidationWarning();
+                                $('#preloader').css('display', 'block');
                                 <?php // post single-checkout product into fast-checkout to create fc-cart in session?>
-                                fetch('index.php?rt=checkout/fast_checkout&single_checkout=1&pp=1', {
-                                    method: "POST",
-                                    headers: {
-                                        'Content-Type': productFrm.attr('enctype')
-                                    },
-                                    body: productFrm.serialize()
+                                return fetch('index.php?rt=checkout/fast_checkout&single_checkout=1&pp=1', {
+                                    method: 'POST',
+                                    body: new FormData(productFrm.get(0))
+                                }).then(function () {
+                                    return actions.resolve();
+                                }).catch(function (err) {
+                                    $('#preloader').css('display', 'none');
+                                    showPPError(err);
+                                    return actions.reject();
                                 });
                             }
-                            return true;
+                            return actions.resolve();
                         },
                         onCancel: function () {
                             $('#preloader').css('display', 'none');
@@ -87,8 +263,17 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                                 }).then((response) => response.json())
                                 // return the PayPal Order ID that you received from the PayPal backend
                                 .then(function (order) {
+                                    if (order?.error || !order?.id) {
+                                        console.error('PayPal createQuickOrder failed', order);
+                                        throw new Error(order?.message || order?.error || 'PayPal order creation failed.');
+                                    }
                                     return order.id;
-                                }).catch(showPPError)
+                                }).catch(function (err) {
+                                    if (handlePayPalDismissal(err)) {
+                                        return;
+                                    }
+                                    showPPError(err);
+                                })
                             );
                         },
                         onApprove: function (data, actions) {
@@ -101,6 +286,11 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                             })
                                 .then((response) => response.json())
                                 .then(function (orderData) {
+                                    if (orderData?.error) {
+                                        console.error('PayPal captureOrder failed', orderData);
+                                        showPPError(orderData.error || orderData.message || 'PayPal capture failed.');
+                                        return;
+                                    }
                                     // Three cases to handle:
                                     //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
                                     //   (2) Other non-recoverable errors -> Show a failure message
@@ -128,9 +318,17 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                                     $('input[name=transaction_details]').val(JSON.stringify(orderData));
                                     confirmSubmit($('#paypalFrm'), '<?php echo $action; ?>');
                                 })
-                                .catch(showPPError);
+                                .catch(function (err) {
+                                    if (handlePayPalDismissal(err)) {
+                                        return;
+                                    }
+                                    showPPError(err);
+                                });
                         },
                         onError: function (err) {
+                            if (handlePayPalDismissal(err)) {
+                                return;
+                            }
                             const message = parsePayPalErrorMessage(err.message);
                             showPPError( message ? message.description :"An unknown error occurred.");
                         },
@@ -144,8 +342,11 @@ require_once('paypal_commerce_js_sdk_load.tpl');
             }
 
             function showPPError(text) {
+                const errorText = typeof text === 'string'
+                    ? text
+                    : (text?.message || 'An unknown error occurred.');
                 wrapper.before(
-                    '<div class="alert alert-warning"><i class="fa fa-exclamation fa-fw"></i> ' + text + '</div>'
+                    '<div class="alert alert-warning"><i class="fa fa-exclamation fa-fw"></i> ' + errorText + '</div>'
                 );
                 $('#preloader').css('display', 'none');
                 wrapper.hide();
