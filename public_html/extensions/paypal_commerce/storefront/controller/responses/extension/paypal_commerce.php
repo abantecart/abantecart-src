@@ -107,6 +107,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $data['action'] = $this->html->getSecureURL('r/extension/paypal_commerce/send');
         $data['create_order_url'] = $this->html->getSecureURL('r/extension/paypal_commerce/createOrder');
         $data['capture_order_url'] = $this->html->getSecureURL('r/extension/paypal_commerce/captureOrder');
+        $data['required_options_warning'] = $this->language->get('paypal_commerce_required_options_warning');
 
         //build submit form
         $form = new AForm();
@@ -765,7 +766,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             return $output;
         }
 
-        $orderTotalAmt = (float) round((float) $order_info['total'] * (float) $order_info['value'], 2);
+        $orderTotalAmt = (float) round((float) $order_info['total'], 2);
         $actualTotalAmt = (float) $response?->getPurchaseUnits()[0]?->getAmount()?->getValue();
         $totalsMismatch = $this->isTotalsMismatch($actualTotalAmt, $orderTotalAmt);
 
