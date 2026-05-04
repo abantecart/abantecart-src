@@ -180,18 +180,10 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                     return false;
                 }
 
-                return (
-                    (message.includes('popup') && (message.includes('close') || message.includes('closed')))
-                    || (message.includes('window') && (message.includes('close') || message.includes('closed')))
-                    || message.includes('user cancelled')
-                    || message.includes('user canceled')
-                    || message.includes('cancelled by user')
-                    || message.includes('canceled by user')
-                    || message.includes('buyer cancelled')
-                    || message.includes('buyer canceled')
+                return message.includes('window is closed, can not determine type')
+                    || message.includes('detected popup close')
                     || message.includes('aborterror')
-                    || message.includes('aborted')
-                );
+                    || message.includes('aborted');
             }
 
             function handlePayPalDismissal(err) {
