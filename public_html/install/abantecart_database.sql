@@ -56,7 +56,7 @@ CREATE TABLE `ac_category_descriptions` (
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `meta_keywords` varchar(255) NOT NULL COMMENT 'translatable',
   `meta_description` varchar(255) NOT NULL COMMENT 'translatable',
-  `description` longtext NOT NULL COMMENT 'translatable',
+  `description` longtext NULL COMMENT 'translatable',
   PRIMARY KEY (`category_id`,`language_id`),
   KEY `name` (`name`)
 ) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

@@ -13,7 +13,7 @@ alter table `ac_banners`
     modify `date_added` timestamp default current_timestamp() null;
 
 alter table `ac_block_descriptions`
-    modify `date_added` timestamp default current_timestamp() not null;
+    modify `date_added` timestamp default current_timestamp() null;
 
 alter table `ac_block_descriptions`
     modify `date_modified` timestamp default current_timestamp() not null on update current_timestamp();
@@ -47,7 +47,7 @@ alter table `ac_coupons`
     modify `date_added` timestamp default current_timestamp() null;
 
 alter table `ac_coupons_categories`
-    charset = utf8mb4;
+    charset = utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 alter table `ac_custom_blocks`
     modify `date_added` timestamp default current_timestamp() null;
@@ -236,13 +236,13 @@ alter table `ac_category_descriptions`
     modify `description` longtext NULL COMMENT 'translatable';
 
 alter table `ac_contents`
-    add show_title int default 1 null after content_bar;
+    add show_title int(1) default 1 null after content_bar;
 
 
 ALTER TABLE `ac_url_aliases`
     DROP INDEX `ac_url_aliases_idx2`,
     MODIFY COLUMN `query` varchar(2048) NOT NULL,
-    ADD COLUMN `query_hash` char(32) GENERATED ALWAYS AS (MD5(`query`)) STORED;
+    ADD COLUMN `query_hash` char(32) GENERATED ALWAYS AS (MD5(`query`)) STORED AFTER `query`;
 
 CREATE UNIQUE INDEX `ac_url_aliases_idx2`
     ON `ac_url_aliases` (`query_hash`, `language_id`);
