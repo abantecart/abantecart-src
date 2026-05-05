@@ -475,9 +475,9 @@ class ModelExtensionPaypalCommerce extends Model
     /**
      * @param array $data
      *
-     * @return PaypalServerSdkLib\Models\Order|array|null
+     * @return PaypalServerSdkLib\Models\Order|null
      */
-    public function createPPOrder(array $data)
+    public function createPPOrder(array $data): ?Order
     {
         $apiResponse = $this->paypal
             ->getOrdersController()
@@ -485,7 +485,8 @@ class ModelExtensionPaypalCommerce extends Model
                 'paypalPartnerAttributionId' => base64_decode(ExtensionPaypalCommerce::getBnCode()),
                 'body' => $data,
             ]);
-        return $apiResponse->getResult();
+
+        return paypalNormalizeOrderResult($apiResponse->getResult());
     }
 
 
