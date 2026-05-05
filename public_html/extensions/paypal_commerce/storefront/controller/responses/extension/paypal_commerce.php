@@ -189,7 +189,6 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             unset($this->session->data['used_balance']);
             $this->session->data['cart_key'] = 'paypal_cart';
         }
-
         $output = $this->processGenericOrder();
 
         if (isset($output['error'])) {
@@ -766,9 +765,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             return $output;
         }
 
-        $orderTotalAmt = (float) round((float) $order_info['total'], 2);
-        $actualTotalAmt = (float) $response?->getPurchaseUnits()[0]?->getAmount()?->getValue();
-        $totalsMismatch = $this->isTotalsMismatch($actualTotalAmt, $orderTotalAmt);
+        $totalsMismatch = $this->isTotalsMismatch($response, $order_info);
 
         if (!$response) {
             $output['error'] = 'Cannot establish a connection to the server OR transaction Id is unknown';
@@ -828,8 +825,15 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         return $output;
     }
 
-    protected function isTotalsMismatch(float $actualTotalAmt, float $orderTotalAmt): bool
+    protected function isTotalsMismatch($response, array $order_info): bool
     {
+        $actualTotalAmt = (float) $response?->getPurchaseUnits()[0]?->getAmount()?->getValue();
+        $orderTotalRaw = (float) $order_info['total'];
+        $orderCurrency = (string) $order_info['currency'];
+        $storeCurrency = (string) $this->config->get('config_currency');
+        $orderTotalAmt = $orderCurrency && $storeCurrency && $orderCurrency !== $storeCurrency
+            ? (float) round((float) $this->currency->convert($orderTotalRaw, $storeCurrency, $orderCurrency), 2)
+            : (float) round($orderTotalRaw, 2);
         $actualCents = (int) round($actualTotalAmt * 100);
         $orderCents = (int) round($orderTotalAmt * 100);
         // Allow 1 cent delta to absorb currency conversion/rounding differences.
@@ -906,7 +910,13 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         );
         /** @var ModelExtensionPaypalCommerce $mdl */
         $mdl = $this->loadModel('extension/paypal_commerce');
-        $orderTotal = "" . round($this->cart->getFinalTotal(true), 2);
+        $orderTotalBase = (float) $this->cart->getFinalTotal(true);
+        $orderTotal = (float) $this->currency->convert(
+            $orderTotalBase,
+            $this->config->get('config_currency'),
+            $this->data['currencyCode']
+        );
+        $orderTotal = preformatFloat(round($orderTotal, 2));
 
         $ppData['intent'] = strtoupper($this->config->get('paypal_commerce_transaction_type'));
 
