@@ -280,8 +280,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         try {
             $ppOrder = $mdl->createPPOrder($ppData);
-            if (is_array($ppOrder)) {
-                throw new Exception(json_encode($ppOrder));
+            if (!$ppOrder) {
+                throw new Exception('PayPal createOrder returned an unexpected response.');
             }
             $output['id'] = $ppOrder->getId();
             $this->shopping_data->save(
@@ -530,7 +530,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $this->data['pp']['purchase_units'][0] = [
             'reference_id' => $ppOrderData['data']['reference_id'] ? : $this->session->data['reference_id'],
             'amount'       => [
-                'value'         => $this->data['pp']['orderTotal'],
+                'value'         => $this->formatPaypalAmount($this->data['pp']['orderTotal']),
                 'currency_code' => $this->data['currencyCode'],
             ],
         ];
@@ -923,7 +923,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $ppData['purchase_units'][0] = [
             'reference_id' => $this->session->data['reference_id'],
             'amount'       => [
-                'value'         => $orderTotal ? : 0.01,
+                'value'         => $this->formatPaypalAmount(($orderTotal ?: 0.01)),
                 'currency_code' => $this->data['currencyCode'],
             ],
             'description'  => $inData['product_name'] ? substr($inData['product_name'], 0, 127) : '',
@@ -961,6 +961,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         try {
             $ppOrder = $mdl->createPPOrder($ppData);
+            if (!$ppOrder) {
+                throw new Exception('PayPal createOrder returned an unexpected response.');
+            }
             $output['id'] = $ppOrder->getId();
             $this->shopping_data->save(
                 'paypal_data',
@@ -1146,6 +1149,11 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $shippingArgs
         );
         $dd->dispatch();
+    }
+
+    protected function formatPaypalAmount($amount): string
+    {
+        return number_format(round((float)$amount, 2), 2, '.', '');
     }
 
     /*
