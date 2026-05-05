@@ -70,7 +70,7 @@ class ControllerResponsesExtensionDefaultCheque extends AController
         $comment = "\n\n".$this->language->get('text_payable')."\n";
         $comment .= $this->config->get('default_cheque_payable')."\n\n";
         $comment .= $this->language->get('text_address')."\n";
-        $comment .= $this->config->get('default_cheque_address') ?: $this->config->get('config_address').PHP_EOL.PHP_EOL;
+        $comment .= ($this->config->get('default_cheque_address') ?: $this->config->get('config_address')).PHP_EOL.PHP_EOL;
         $comment .= $this->language->get('text_payment')."\n";
         $this->data['comment'] = html_entity_decode($comment,ENT_QUOTES,'UTF-8');
 
