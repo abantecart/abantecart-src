@@ -1153,7 +1153,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
     protected function formatPaypalAmount($amount): string
     {
-        return number_format(round((float)$amount, 2), 2, '.', '');
+        $cents = (int) round(((float) $amount) * 100);
+        return sprintf('%.2f', $cents / 100);
     }
 
     /*
