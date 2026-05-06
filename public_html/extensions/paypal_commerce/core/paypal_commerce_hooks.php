@@ -52,15 +52,8 @@ class ExtensionPaypalCommerce extends Extension
     {
         $components = (array)(unserialize($that->config->get('paypal_commerce_enabled_components')) ?: ['buttons']);
         $components[] = 'buttons';
-        $components = array_values(array_unique($components));
-
-        if (strtoupper((string)$that->currency->getCode()) !== 'USD') {
-            $components = array_values(array_filter($components, static function ($component) {
-                return $component !== 'messages';
-            }));
-        }
-
-        return $components;
+        $components[] = 'messages';
+        return array_values(array_unique($components));
     }
 
     public static function getBnCode()
@@ -521,10 +514,14 @@ class ExtensionPaypalCommerce extends Extension
         if(!str_contains($payLaterMessage,'%s')){
             return;
         }
-        $payLaterMessage = sprintf(
-            $payLaterMessage,
-            $that->data['price_num'] * ($that->request->get['quantity'] ?: $that->data['minimum'] ?: 1)
+        $productQty = (int)($that->request->get['quantity'] ?: $that->data['minimum'] ?: 1);
+        $productPrice = (float)($that->data['special_num'] ?? $that->data['price_num']);
+        $displayPrice = (float)$that->currency->convert(
+            $productPrice,
+            $that->config->get('config_currency'),
+            $that->currency->getCode()
         );
+        $payLaterMessage = sprintf($payLaterMessage, round($displayPrice * $productQty, 2));
         $that->view->addHookVar('extended_product_options', '<div style="margin: auto">' . $payLaterMessage.'</div>');
     }
 

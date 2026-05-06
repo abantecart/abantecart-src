@@ -46,6 +46,66 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                 return $('form#product');
             }
 
+            function getPayLaterAmount() {
+                const totalField = $('#product_total_num');
+                const priceField = $('#product_price_num');
+                const quantityField = $('input[name=quantity]');
+                const totalValue = Number(totalField.val());
+
+                if (Number.isFinite(totalValue) && totalValue > 0) {
+                    return totalValue;
+                }
+
+                const priceValue = Number(priceField.val());
+                const quantityValue = Number(quantityField.val()) || 1;
+                if (Number.isFinite(priceValue) && priceValue > 0) {
+                    return priceValue * quantityValue;
+                }
+
+                return 0;
+            }
+
+            function updateStandalonePayLaterMessage(amount) {
+                const nextAmount = Number(amount);
+                if (!Number.isFinite(nextAmount) || nextAmount <= 0) {
+                    return;
+                }
+                document.querySelectorAll('[data-pp-message]').forEach(function (node) {
+                    node.setAttribute('data-pp-amount', nextAmount.toFixed(2));
+                });
+            }
+
+            function bindPayLaterAmountSync() {
+                const productFrm = getProductForm();
+                if (!productFrm.length) {
+                    return;
+                }
+                const syncAmount = function () {
+                    const amount = getPayLaterAmount();
+                    updateStandalonePayLaterMessage(amount);
+                };
+                const delayedSync = function () {
+                    window.setTimeout(syncAmount, 180);
+                };
+                productFrm.find('input[name="quantity"]').off('.paypalPayLaterSync')
+                    .on('change.paypalPayLaterSync keyup.paypalPayLaterSync input.paypalPayLaterSync', delayedSync);
+                productFrm.find(':input[name^="option["]').off('.paypalPayLaterSync')
+                    .on('change.paypalPayLaterSync input.paypalPayLaterSync', delayedSync);
+
+                const totalPriceNode = document.querySelector('.total-price');
+                if (totalPriceNode && !totalPriceNode._paypalPayLaterSyncObserver) {
+                    const observer = new MutationObserver(function () {
+                        delayedSync();
+                    });
+                    observer.observe(totalPriceNode, {
+                        childList: true,
+                        characterData: true,
+                        subtree: true
+                    });
+                    totalPriceNode._paypalPayLaterSyncObserver = observer;
+                }
+            }
+
             function getProductOptionFields(productFrm) {
                 return productFrm.find(':input[name^="option["]');
             }
@@ -198,6 +258,11 @@ require_once('paypal_commerce_js_sdk_load.tpl');
             function initButtons() {
                 <?php if(!$show_buttons){ echo 'return;'; }?>
                 if (paypal === undefined) { return; }
+                window.abPayLaterRefresh = function (amount) {
+                    updateStandalonePayLaterMessage(amount);
+                };
+                updateStandalonePayLaterMessage(getPayLaterAmount());
+                bindPayLaterAmountSync();
 
                 // Initialize Buttons component
                 try {
@@ -325,7 +390,6 @@ require_once('paypal_commerce_js_sdk_load.tpl');
                             showPPError( message ? message.description :"An unknown error occurred.");
                         },
                     });
-
                     ppBtns.render('#paypal-button-container');
                 } catch (e) {
                     console.log(e);
