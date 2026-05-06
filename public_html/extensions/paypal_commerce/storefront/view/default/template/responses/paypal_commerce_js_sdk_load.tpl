@@ -1,6 +1,30 @@
 <script type="text/javascript">
 function loadPaypalScript(url, callback,formElm) {
-    const script = document.createElement("script");
+    window.__abPaypalSdkLoaders = window.__abPaypalSdkLoaders || {};
+    const loaders = window.__abPaypalSdkLoaders;
+    const scriptExists = document.querySelector('script[src="' + url + '"]');
+
+    if (window.paypal && scriptExists) {
+        callback();
+        return;
+    }
+
+    if (loaders[url] && loaders[url].state === 'loading') {
+        loaders[url].callbacks.push(callback);
+        return;
+    }
+
+    if (loaders[url] && loaders[url].state === 'loaded') {
+        callback();
+        return;
+    }
+
+    loaders[url] = {
+        state: 'loading',
+        callbacks: [callback]
+    };
+
+    const script = scriptExists || document.createElement("script");
     script.type = "text/javascript";
     script.setAttribute("data-client-token", <?php js_echo($client_token)?>);
     script.setAttribute("data-partner-attribution-id", atob(<?php js_echo($bn_code);?>));
@@ -8,32 +32,29 @@ function loadPaypalScript(url, callback,formElm) {
     if (pageType) {
         script.setAttribute("data-page-type", pageType);
     }
-    script.addEventListener('error', function (e) {
+    script.addEventListener('error', function () {
+        loaders[url].state = 'error';
         formElm.before(
             '<div class="alert alert-warning">' +
             '<i class="fa fa-exclamation fa-fw">' +
             '</i> Apologies, unable to load the PayPal script. Please try later or choose another payment method.</div>');
         $('#div-preloader').hide();
     });
-    if (script.readyState) {
-        // For IE
-        script.onreadystatechange = function () {
-            if (script.readyState === "loaded" ||
-                script.readyState === "complete") {
-                script.onreadystatechange = null;
-                callback();
-            }
-        };
-    } else {
-        // For other browsers
-        script.onload = function () {
-            callback();
-        };
-    }
+
+    script.onload = function () {
+        loaders[url].state = 'loaded';
+        const queued = loaders[url].callbacks.slice();
+        loaders[url].callbacks = [];
+        queued.forEach(function (cb) {
+            try { cb(); } catch (e) { console.log(e); }
+        });
+    };
 
     script.src = url;
     try {
-        document.getElementsByTagName('head')[0].appendChild(script);
+        if (!scriptExists) {
+            document.getElementsByTagName('head')[0].appendChild(script);
+        }
     } catch (e) {
         console.log(e);
     }

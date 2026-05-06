@@ -333,10 +333,7 @@ if ($error) { ?>
                         }
                     });
 
-                    // if return from PayPal mobile app
-                    if (ppBtns.hasReturned()) {
-                        ppBtns.resume();
-                    } else {
+                    if (document.getElementById('paypal-button-container')) {
                         ppBtns.render('#paypal-button-container');
                     }
                 } catch (e) {
