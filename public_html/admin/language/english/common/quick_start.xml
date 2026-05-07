@@ -38,13 +38,6 @@
   </definition>
 
   <definition>
-    <key>text_quick_start_paypal</key>
-    <value><![CDATA[
-    	PayPal should be configured as your preferred payment option.
-    ]]></value>
-  </definition>
-
-  <definition>
     <key>text_quick_start_appearance</key>
     <value><![CDATA[
     	Below are most common settings for storefront appearance. 
