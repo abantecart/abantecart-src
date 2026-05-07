@@ -1,0 +1,38 @@
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
+
+<div id="offer_paypal_title" class="modal-header">
+    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
+    <h4 class="modal-title"><?php echo $title; ?></h4>
+</div>
+
+<div id="setting_form" class="tab-content">
+    <?php echo $form['form_open']; ?>
+    <div id="offer_paypal_content" class="panel-body panel-body-nopadding">
+        <?php echo $html; ?>
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            <div class="center">
+                <?php if (!empty($help_url)) { ?>
+                    <div class="btn-group">
+                        <a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="_ext_help"
+                           data-toggle="tooltip" data-original-title="<?php echo_html2view($text_external_help); ?>">
+                            <i class="fa fa-question-circle fa-lg"></i>
+                        </a>
+                    </div>
+                <?php }
+                if ($back) { ?>
+                    <div class="btn-group">
+                        <button class="btn btn-white step_back" data-href="<?php echo $back; ?>">
+                            <i class="fa fa-arrow-left"></i> <?php echo $button_back; ?>
+                        </button>
+                    </div>
+                <?php } ?>
+                <button id="offer_paypal_next" class="btn btn-primary">
+                    <i class="fa fa-save"></i> <?php echo $text_next; ?> <i class="fa fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>

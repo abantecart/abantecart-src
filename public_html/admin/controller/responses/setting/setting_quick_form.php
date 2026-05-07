@@ -232,6 +232,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController
         //save settings
         if ($group && $this->request->is_POST()) {
             if ($this->validateForm($group)) {
+
                 /** @var ModelSettingSetting $sMdl */
                 $sMdl = $this->loadModel('setting/setting');
                 $this->loadLanguage('setting/setting');
@@ -352,7 +353,10 @@ class ControllerResponsesSettingSettingQuickForm extends AController
         $stepName = (string)$this->session->data['quick_start_step'];
         //if offers - try to get data first
         $offer_response = [];
-        if (str_starts_with($stepName, 'offer')) {
+        if ($stepName == 'offer_paypal') {
+            $this->data['title'] = $this->language->get('text_quick_start');
+            $this->data['html'] = $this->html->convertLinks($this->language->get('paypal_selection'));
+        } elseif (str_starts_with($stepName, 'offer')) {
             $offer_response = $this->messages->getANTMessageByPlaceholder(
                 'quick_start',
                 'quick_start_' . $stepName
@@ -372,7 +376,11 @@ class ControllerResponsesSettingSettingQuickForm extends AController
         }
 
         $template = 'responses/setting/quick_start.tpl';
-        if (str_starts_with($stepName, 'offer')) {
+        if ($stepName == 'offer_paypal') {
+            $this->getOfferButtons($stepName);
+            $this->data['quick_start_note'] = '';
+            $template = "responses/setting/offer_paypal.tpl";
+        } elseif (str_starts_with($stepName, 'offer')) {
             $this->getOfferButtons($stepName);
             $this->data['quick_start_note'] = '';
             /** @see public_html/admin/view/default/template/responses/setting/offer1.tpl */
@@ -583,8 +591,8 @@ class ControllerResponsesSettingSettingQuickForm extends AController
     protected function _next_step(string $current_step)
     {
         $steps = [
-            'details'    => 'offer1',
-            'offer1'     => 'general',
+            'details'    => 'offer_paypal',
+            'offer_paypal' => 'general',
             'general'    => 'offer2',
             'offer2'     => 'checkout',
             'checkout'   => 'offer3',
@@ -605,8 +613,8 @@ class ControllerResponsesSettingSettingQuickForm extends AController
     {
         $steps = [
             'details'    => '',
-            'offer1'     => 'details',
-            'general'    => 'offer1',
+            'offer_paypal' => 'details',
+            'general'    => 'offer_paypal',
             'offer2'     => 'general',
             'checkout'   => 'offer2',
             'offer3'     => 'checkout',
