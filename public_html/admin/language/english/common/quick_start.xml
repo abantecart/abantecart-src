@@ -10,7 +10,7 @@
     	Welcome to AbanteCart administration.<br />
     	This is a wizard to help you quickly set up your shopping cart with most common settings.
 		<br />
-    ]]>    </value>
+    ]]></value>
   </definition>
 
   <definition>
@@ -18,7 +18,7 @@
     <value><![CDATA[
     	Below are most common general settings. 
     	More settings are available <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>
-    ]]>    </value>
+    ]]></value>
   </definition>
 
   <definition>
@@ -26,7 +26,7 @@
     <value><![CDATA[
     	Below are most common settings about your store. 
     	More settings are available <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>
-    ]]>    </value>
+    ]]></value>
   </definition>
 
   <definition>
@@ -34,14 +34,14 @@
     <value><![CDATA[
     	Below are most common settings for checkout process. 
     	More settings are available <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>
-    ]]>    </value>
+    ]]></value>
   </definition>
 
   <definition>
     <key>text_quick_start_paypal</key>
     <value><![CDATA[
     	PayPal should be configured as your preferred payment option.
-    ]]>    </value>
+    ]]></value>
   </definition>
 
   <definition>
@@ -49,7 +49,7 @@
     <value><![CDATA[
     	Below are most common settings for storefront appearance. 
     	More settings are available <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>
-    ]]>    </value>
+    ]]></value>
   </definition>
 
   <definition>
@@ -57,7 +57,7 @@
     <value><![CDATA[
     	Below are most common settings to enable email. If you use external email server (google, etc) to send emails, you need to use SMTP option. For emails to be sent from this server use Mail option. 
     	More settings are available <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>
-    ]]>    </value>
+    ]]></value>
   </definition>
 
   <definition>
@@ -65,7 +65,7 @@
     <value><![CDATA[
     	Bellow you can select desired payments and shipping methods, additional languages and many other features to extend your eCommerce functionality.
     	Remember to check a selection of extensions on <a href="#admin#rt=extension/extensions_store" target="_extension">AbanteCart marketplace</a> offered by community of professional developers.
-    ]]>    </value>
+    ]]></value>
   </definition>
 
   <definition>
@@ -73,7 +73,7 @@
     <value><![CDATA[
     	You have completed quick starter wizard. <br /><br /> 
     	You can locate all the settings <a href="%s">this link <i class="fa fa-link fa-fw"></i></a>
-    ]]>    </value>
+    ]]></value>
   </definition>
 
   <definition>
@@ -100,7 +100,7 @@
 	        <img src="admin/view/default/image/default_extension.png"><br><p class="mt10">More Payments</p></a>
 	    </div>
     </div>
-    ]]>    </value>
+    ]]></value>
   </definition>
   <definition>
     <key>payments_selection_paypal_first</key>
@@ -126,7 +126,7 @@
 	        <img src="admin/view/default/image/default_extension.png"><br><p class="mt10">More Payments</p></a>
 	    </div>
     </div>
-    ]]>    </value>
+    ]]></value>
   </definition>
   <definition>
     <key>shipping_selection</key>
@@ -152,7 +152,7 @@
 	        <img src="admin/view/default/image/default_extension.png"><br><p class="mt10">More Shippings</p></a>
 	    </div>
     </div>
-    ]]>    </value>
+    ]]></value>
   </definition>
   <definition>
     <key>paypal_selection</key>
@@ -182,7 +182,7 @@
             </div>
         </div>
     </div>
-    ]]>    </value>
+    ]]></value>
   </definition>
   <definition>
     <key>language_selection</key>
@@ -195,7 +195,7 @@
 	        %s
 	    </div>
     </div>
-    ]]>    </value>
+    ]]></value>
   </definition>
 
   <definition>
@@ -211,7 +211,7 @@
 		    </a>
 		</div>
     </div>
-    ]]>    </value>
+    ]]></value>
   </definition>
 
 </definitions>
