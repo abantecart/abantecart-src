@@ -77,10 +77,6 @@
     </div>
     <div class="row">
 	    <div class="col-sm-3 h5 center">
-	        <a href="#admin#rt=extension/extensions/install&extension=paypal_commerce" target="_extension">
-	        <img style="width: 94px; height: 94px;" src="extensions/paypal_commerce/image/icon.png"><br><p class="mt10">Paypal Commerce</p></a>
-	    </div>
-	    <div class="col-sm-3 h5 center">
 	        <a href="#admin#rt=extension/extensions/install&extension=stripe" target="_extension">
 	        <img style="width: 94px; height: 94px;" src="extensions/stripe/image/icon.png"><br><p class="mt10">Stripe</p></a>
 	    </div>
@@ -89,30 +85,8 @@
 	        <img style="height: 94px;" src="extensions/sola/image/icon.webp"><br><p class="mt10">Sola</p></a>
 	    </div>
 	    <div class="col-sm-3 h5 center">
-	        <a style="margin-top: 36px; display: block;" href="#admin#rt=extension/extensions/payment" target="_extension">
-	        <img src="admin/view/default/image/default_extension.png"><br><p class="mt10">More Payments</p></a>
-	    </div>
-    </div>
-    ]]></value>
-  </definition>
-  <definition>
-    <key>payments_selection_paypal_first</key>
-    <value><![CDATA[
-    <div class="info alert alert-info">
-    <i class="fa fa-money fa-fw"></i> Select your payment methods.
-    </div>
-    <div class="row">
-	    <div class="col-sm-3 h5 center">
-	        <a href="#admin#rt=extension/extensions/install&extension=stripe" target="_extension">
-	        <img style="width: 94px; height: 94px;" src="extensions/stripe/image/icon.png"><br><p class="mt10">Stripe</p></a>
-	    </div>
-      <div class="col-sm-3 h5 center">
 	        <a href="#admin#rt=extension/extensions/install&extension=paypal_commerce" target="_extension">
 	        <img style="width: 94px; height: 94px;" src="extensions/paypal_commerce/image/icon.png"><br><p class="mt10">Paypal Commerce</p></a>
-	    </div>
-	    <div class="col-sm-3 h5 center">
-	        <a href="#admin#rt=extension/extensions/install&extension=sola" target="_extension">
-	        <img style="height: 94px;" src="extensions/sola/image/icon.webp"><br><p class="mt10">Sola</p></a>
 	    </div>
 	    <div class="col-sm-3 h5 center">
 	        <a style="margin-top: 36px; display: block;" href="#admin#rt=extension/extensions/payment" target="_extension">
@@ -144,36 +118,6 @@
 	        <a style="margin-top: 36px; display: block;" href="#admin#rt=extension/extensions/shipping" target="_extension">
 	        <img src="admin/view/default/image/default_extension.png"><br><p class="mt10">More Shippings</p></a>
 	    </div>
-    </div>
-    ]]></value>
-  </definition>
-  <definition>
-    <key>paypal_selection</key>
-    <value><![CDATA[
-    <div class="col-md-12">
-        <div class="text-center">
-            <h1>Accept Payments from <br/>customers with PayPal.</h1>
-            <p>
-                <img alt="PayPal + AbanteCart" src="extensions/paypal_commerce/image/paypal_step.png" class="mcnImage" style="max-width:600px; padding-bottom: 0; display: inline !important; vertical-align: bottom; width:570px; align:middle;">
-            </p>
-        </div>
-
-        <div style="padding: 10px 60px 30px 60px">
-            <h1>PayPal: The all-in-one checkout solution</h1>
-            <ul style="font-size: 14px; line-height: 1.7; margin: 0; padding-left: 24px;">
-                <li>Help drive conversion by offering customers a seamless checkout experience with no setup or monthly fee</li>
-                <li>Provide Buy Now Pay Later solutions to your customers</li>
-                <li>Securely accept all major credit/debit cards and local payment methods with the strength of the PayPal network</li>
-            </ul>
-        </div>
-
-        <div class="text-center">
-            <div class="btn-group">
-                <a class="btn btn-white" href="#admin#rt=extension/extensions/install&extension=paypal_commerce" target="_blank">
-                    <i class="fa fa-arrow-right"></i> Learn More
-                </a>
-            </div>
-        </div>
     </div>
     ]]></value>
   </definition>
