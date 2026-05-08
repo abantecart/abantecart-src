@@ -2602,6 +2602,15 @@ li#review-set::before {
 
 }
 
+.product-card h6.my-3,
+.product-card .my-3.h6 {
+    margin-bottom: 0.5rem !important;
+}
+
+.product_cell_grid .product-sec .row.g-4 {
+    --bs-gutter-y: 2rem;
+}
+
 .product-card:hover .prod-img {
     box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.1215686275);
 }
@@ -2613,15 +2622,6 @@ li#review-set::before {
 .product-card:hover .overlay .bottom-bar {
     opacity: 1;
 }
-
-.product-card h6 {
-    min-height: 33px;
-}
-
-.product_cell_grid .product-card h6 {
-    min-height: 50px;
-}
-
 
 .cta .cta-data {
     position: absolute;
