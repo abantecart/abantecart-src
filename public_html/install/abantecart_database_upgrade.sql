@@ -1,104 +1,248 @@
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('system','core_version', "1.4.4");
+
 alter table `ac_ant_messages`
-    add `placeholder` varchar(128) null after `priority`;
+    modify `start_date` timestamp null;
 
-alter table `ac_email_templates`
-    modify subject varchar(255) collate utf8mb3_unicode_ci not null comment 'translatable';
+alter table `ac_ant_messages`
+    modify `viewed_date` timestamp null;
 
-alter table `ac_email_templates`
-    modify html_body text collate utf8mb3_unicode_ci not null comment 'translatable';
+alter table `ac_banner_descriptions`
+    modify `date_added` timestamp default current_timestamp() null;
 
-alter table `ac_email_templates`
-    modify text_body text collate utf8mb3_unicode_ci not null comment 'translatable';
+alter table `ac_banners`
+    modify `date_added` timestamp default current_timestamp() null;
 
-alter table `ac_product_option_values`
-add column IF NOT EXISTS require_shipping smallint default 0 not null comment 'depends on "shipping" column of table "products" ' after prefix;
+alter table `ac_block_descriptions`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_block_descriptions`
+    modify `date_modified` timestamp default current_timestamp() not null on update current_timestamp();
+
+alter table `ac_block_templates`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_blocks`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_categories`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_collections`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_content_descriptions`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_contents`
+    drop primary key,
+    MODIFY COLUMN `content_id` INT AUTO_INCREMENT PRIMARY KEY;
 
 alter table `ac_coupons`
-    modify code varchar(255) not null;
+    modify `date_start` date null;
 
-INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('checkout','config_unauth_customer',1);
+alter table `ac_coupons`
+    modify `date_end` date null;
 
-alter table `ac_orders`
-    modify `shipping_company` varchar(255) NULL,
-    modify `payment_company` varchar(255) NULL,
-    add `ext_fields` json null after `ip`,
-    modify `payment_method_data` text NOT NULL DEFAULT '' after `payment_method_key`;
+alter table `ac_coupons`
+    modify `date_added` timestamp default current_timestamp() null;
 
-alter table `ac_addresses`
-    modify `company` varchar(255) NULL,
-    add `ext_fields` json null,
-    add `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-    add `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+alter table `ac_coupons_categories`
+    charset = utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+alter table `ac_custom_blocks`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_custom_lists`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_customer_notifications`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_customer_transactions`
+    modify `date_added` timestamp default current_timestamp() null;
 
 alter table `ac_customers`
-    add `ext_fields` json null after data;
-#forms
-DROP TABLE IF EXISTS `ac_field_groups`;
-CREATE TABLE `ac_field_groups`
+    modify `telephone` varchar(32) default '' not null,
+    modify `date_added` timestamp default current_timestamp() null,
+    modify `last_login` timestamp null;
+update `ac_customers` SET `date_added` = `date_modified` WHERE `date_added` = '0000-00-00 00:00:00';
+
+alter table `ac_downloads`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_email_templates`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_extensions`
+    modify `date_installed` timestamp null;
+
+alter table `ac_extensions`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_global_attributes_type_descriptions`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_language_definitions`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_layouts`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_length_classes`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_locations`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_messages`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_online_customers`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_order_data`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_order_data_types`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_order_downloads`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_order_history`
+    modify `date_added` timestamp default current_timestamp() null;
+
+ALTER TABLE `ac_orders` MODIFY date_added timestamp default current_timestamp();
+update `ac_orders` SET date_added = date_modified WHERE date_added = '0000-00-00 00:00:00';
+
+alter table `ac_page_descriptions`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_pages`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_product_discounts`
+    modify `date_start` date null;
+
+alter table `ac_product_discounts`
+    modify `date_end` date null;
+
+alter table `ac_product_discounts`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_product_specials`
+    modify `date_start` date null;
+
+alter table `ac_product_specials`
+    modify `date_end` date null;
+
+alter table `ac_product_specials`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_products`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_resource_descriptions`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_resource_library`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_resource_map`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_reviews`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_settings`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_task_details`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_task_steps`
+    modify `last_time_run` timestamp null;
+
+alter table `ac_task_steps`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_task_steps`
+    engine = InnoDB;
+
+alter table `ac_tasks`
+    modify `last_time_run` timestamp null;
+
+alter table `ac_tasks`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_tax_classes`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_tax_rates`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_user_groups`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_user_notifications`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_users`
+    modify `last_login` datetime null;
+
+alter table `ac_users`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_weight_classes`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_zones_to_locations`
+    modify `date_added` timestamp default current_timestamp() null;
+
+alter table `ac_stock_statuses`
+    modify `name` varchar(128) NOT NULL COMMENT 'translatable';
+
+create index `ac_orders_date_idx`
+    on `ac_orders` (`date_added` desc, `date_modified` desc);
+
+--
+-- Table structure for table `ac_shopping_sessions`
+--
+DROP TABLE IF EXISTS `ac_shopping_sessions`;
+create table `ac_shopping_sessions`
 (
-    `group_id` int(11) NOT NULL AUTO_INCREMENT,
-    `group_txt_id` varchar(40) DEFAULT NULL,
-    PRIMARY KEY (`group_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `customer_id`   int                                 null,
+    `order_id`      int                                 null,
+    `type`          varchar(255)                        not null,
+    `key`           varchar(255)                        not null,
+    `data`          json                                not null,
+    `date_added`    timestamp default CURRENT_TIMESTAMP not null,
+    `date_modified` timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
+    constraint `ac_shopping_sessions_customer_fk`
+        foreign key (`customer_id`) references `ac_customers` (`customer_id`)
+            on update cascade on delete cascade
+);
+create index `ac_shopping_sessions_int_idx`
+    on `ac_shopping_sessions` (`customer_id` desc, `order_id` desc);
+create unique index `ac_shopping_sessions_text_idx`
+    on `ac_shopping_sessions` (`type`, `key`);
 
-DROP TABLE IF EXISTS `ac_field_group_descriptions`;
-CREATE TABLE `ac_field_group_descriptions`
-(
-    `group_id` int(11) NOT NULL DEFAULT 0,
-    `name` varchar(255) NOT NULL COMMENT 'translatable',
-    `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
-    `language_id` int(11) NOT NULL,
-    PRIMARY KEY (`group_id`,`language_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+UPDATE `ac_product_discounts` SET date_start = NULL WHERE date_start = '0000-00-00';
+UPDATE `ac_product_discounts` SET date_end = NULL WHERE date_end = '0000-00-00';
+UPDATE `ac_product_specials` SET date_start = NULL WHERE date_start = '0000-00-00';
+UPDATE `ac_product_specials` SET date_end = NULL WHERE date_end = '0000-00-00';
 
-DROP TABLE IF EXISTS `ac_field_group_to_form`;
-CREATE TABLE `ac_field_group_to_form`
-(
-  `group_id` int(11) DEFAULT NULL,
-  `form_id` int(11) DEFAULT NULL,
-  `sort_order` int(3) DEFAULT NULL,
-  KEY `ac_field_group_to_form_fk` (`form_id`),
-  KEY `ac_field_group_to_group_fk` (`group_id`),
-  CONSTRAINT `ac_field_group_to_form_fk` FOREIGN KEY (`form_id`) REFERENCES `ac_forms` (`form_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `ac_field_group_to_group_fk` FOREIGN KEY (`group_id`) REFERENCES `ac_field_groups` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+alter table `ac_category_descriptions`
+    modify `description` longtext NULL COMMENT 'translatable';
 
-alter table `ac_fields`
-    add `group_id` int null after `form_id`,
-    add `resource_id` int null,
-    add `locked` int(1) default 0 not null,
-    add `date_added` timestamp default current_timestamp() null,
-    add `date_modified` timestamp default current_timestamp() not null on update current_timestamp(),
-    add constraint `ac_field_group_fk`
-        foreign key (`group_id`) references `ac_field_groups` (`group_id`)
-            on delete set null;
+alter table `ac_contents`
+    add show_title int(1) default 1 null after content_bar;
 
-delete from `ac_field_descriptions` where `field_id` not in (select `field_id` from `ac_fields`);
-alter table `ac_field_descriptions`
-    add constraint `ac_fields_fk`
-        foreign key (`field_id`) references `ac_fields` (`field_id`)
-            on update cascade on delete cascade;
 
-drop table `ac_fields_group_descriptions`;
-drop table `ac_fields_groups`;
-drop table `ac_form_groups`;
+ALTER TABLE `ac_url_aliases`
+    DROP INDEX `ac_url_aliases_idx2`,
+    MODIFY COLUMN `query` varchar(2048) NOT NULL,
+    ADD COLUMN `query_hash` char(32) GENERATED ALWAYS AS (MD5(`query`)) STORED AFTER `query`;
 
-alter table `ac_forms`
-    add `locked` int(1) default 0 not null,
-    add `date_added` timestamp default current_timestamp() null,
-    add `date_modified` timestamp default current_timestamp() not null on update current_timestamp();
-
-delete from `ac_form_descriptions` where `form_id` not in (select `form_id` from `ac_forms`);
-alter table `ac_form_descriptions`
-    add constraint `ac_form_descriptions_fk`
-        foreign key (`form_id`) references `ac_forms` (`form_id`)
-            on update cascade on delete cascade;
-
-alter table `ac_global_attributes`
-    modify attribute_parent_id int null,
-    modify attribute_group_id int null;
-
-UPDATE `ac_global_attributes` SET attribute_parent_id=NULL WHERE attribute_parent_id='0';
-UPDATE `ac_global_attributes` SET attribute_group_id=NULL WHERE attribute_group_id='0';
-
-alter table `ac_order_data_types` modify name varchar(64) default '' not null;
+CREATE UNIQUE INDEX `ac_url_aliases_idx2`
+    ON `ac_url_aliases` (`query_hash`, `language_id`);

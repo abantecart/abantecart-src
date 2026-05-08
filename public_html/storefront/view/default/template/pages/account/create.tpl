@@ -62,7 +62,7 @@ if ($error_warning) { ?>
         <?php } ?>
         <button id="submit_button" type="submit"
                 role="button"
-                class="btn btn-primary ms-auto disabled mt-3 mt-md-0"
+                class="btn btn-primary ms-auto<?php echo $text_agree ? ' disabled' : ''; ?> mt-3 mt-md-0"
                 title="<?php echo_html2view($form['continue']->name); ?>">
             <i class="fa fa-check"></i>
             <?php echo $form['continue']->name ?>
@@ -88,13 +88,16 @@ if ($error_warning) { ?>
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#<?php echo ControllerPagesAccountCreate::formTxtId?>_agree').on('click', function () {
-            if ($(this).is(':checked')) {
-                $('#submit_button').removeClass('disabled');
-            } else {
-                $('#submit_button').addClass('disabled');
-            }
-        });
+        const agreeCheckbox = $('#<?php echo ControllerPagesAccountCreate::formTxtId?>_agree');
+        if (agreeCheckbox.length) {
+            agreeCheckbox.on('click', function () {
+                if ($(this).is(':checked')) {
+                    $('#submit_button').removeClass('disabled');
+                } else {
+                    $('#submit_button').addClass('disabled');
+                }
+            });
+        }
 
         $('#policyLink').on('click', (e) => {
             e.preventDefault();
@@ -102,3 +105,12 @@ if ($error_warning) { ?>
         })
     });
 </script>
+
+<?php
+$googlePlacesScript = $this->getHookVar('google_places_script');
+if ($googlePlacesScript) {
+    echo $googlePlacesScript;
+} else {
+    include($this->templateResource('/template/common/google_places.js.tpl'));
+}
+?>

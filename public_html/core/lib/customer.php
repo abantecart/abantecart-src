@@ -1,24 +1,24 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
-/** @noinspection PhpUndefinedClassInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -69,7 +69,10 @@ class ACustomer
     protected $extensions;
     /** @var ALoader */
     protected $load;
-
+    /** @var ACart */
+    protected $cart;
+    /** @var AShoppingData */
+    protected $shopping_data;
     /** @var array (unauthenticated customer details) */
     protected $unauth_customer = [];
 
@@ -78,7 +81,7 @@ class ACustomer
      *
      * @throws AException
      */
-    public function __construct($registry)
+    public function __construct(protected Registry $registry)
     {
         $this->cache = $registry->get('cache');
         $this->config = $registry->get('config');
@@ -88,6 +91,7 @@ class ACustomer
         $this->dcrypt = $registry->get('dcrypt');
         $this->load = $registry->get('load');
         $this->extensions = $registry->get('extensions');
+        $this->cart &= $registry->get('cart');
 
         if (isset($this->session->data['customer_id'])) {
             $customer_data = $this->db->query(
@@ -107,10 +111,10 @@ class ACustomer
                 $this->logout();
             }
         } elseif (isset($this->request->cookie['customer'])) {
-            //we have unauthenticated customer
+            //we have an unauthenticated customer
             $encryption = new AEncryption($this->config->get('encryption_key'));
             $this->unauth_customer = unserialize($encryption->decrypt($this->request->cookie['customer']));
-            //customer is not valid or not from the same store (under the same domain)
+            //the customer is not valid or not from the same store (under the same domain)
             if (
                 $this->unauth_customer['script_name'] != $this->request->server['SCRIPT_NAME']
                 || !$this->isValidEnabledCustomer()
@@ -170,7 +174,7 @@ class ACustomer
             '',
             [
                 'lifetime' => time() - 3600,
-                'path'     => dirname($this->request->server['PHP_SELF']),
+                'path' => dirname($this->request->server['PHP_SELF']),
             ]
         );
     }
@@ -209,18 +213,23 @@ class ACustomer
         if ($customer_data->num_rows) {
             $this->_customer_init($customer_data->row);
             $this->session->data['customer_id'] = $this->customer_id;
-            //load customer saved cart and merge with session cart before login
-            $cart = $this->getCustomerCart();
-            $this->mergeCustomerCart($cart);
+            //load a customer saved cart and merge with a session cart before login
+            $cartData = $this->getCustomerCart();
+            $cartData = $this->mergeCustomerCart($cartData);
             //save merged cart
             $this->saveCustomerCart();
+            //remove guest cart saved before login
+            /** @var AShoppingData $shoppingData */
+            $shoppingData = $this->registry->get('shopping_data');
+            $shoppingData->setCustomerId($this->customer_id);
+            $shoppingData->save('cart', $this->registry->get('cart')->getCartKey(), $cartData);
 
             //set cookie for unauthenticated user (expire in 1 year)
             $encryption = new AEncryption($this->config->get('encryption_key'));
             $customer_data = $encryption->encrypt(
                 serialize(
                     [
-                        'first_name'  => $this->firstname,
+                        'first_name' => $this->firstname,
                         'customer_id' => $this->customer_id,
                         'script_name' => $this->request->server['SCRIPT_NAME'],
                     ]
@@ -232,8 +241,8 @@ class ACustomer
                 $customer_data,
                 [
                     'lifetime' => time() + 60 * 60 * 24 * 365,
-                    'path'     => dirname($this->request->server['PHP_SELF']),
-                    'secure'   => (defined('HTTPS') && HTTPS),
+                    'path' => dirname($this->request->server['PHP_SELF']),
+                    'secure' => (defined('HTTPS') && HTTPS),
                     'httponly' => true,
                     'samesite' => ((defined('HTTPS') && HTTPS) ? 'None' : 'lax'),
                 ]
@@ -264,15 +273,15 @@ class ACustomer
         $this->firstname = $data['firstname'];
         $this->lastname = $data['lastname'];
         if ($this->dcrypt->active) {
-            $this->email = $this->dcrypt->decrypt_field($data['email'], $data['key_id']);
-            $this->telephone = $this->dcrypt->decrypt_field($data['telephone'], $data['key_id']);
-            $this->fax = $this->dcrypt->decrypt_field($data['fax'], $data['key_id']);
+            $data['email'] = $this->email = $this->dcrypt->decrypt_field($data['email'], $data['key_id']);
+            $data['telephone'] = $this->telephone = $this->dcrypt->decrypt_field($data['telephone'], $data['key_id']);
+            $data['fax'] = $this->fax = $this->dcrypt->decrypt_field($data['fax'], $data['key_id']);
         } else {
             $this->email = $data['email'];
             $this->telephone = $data['telephone'];
             $this->fax = $data['fax'];
         }
-        $this->newsletter = (int)$data['newsletter'];
+        $this->newsletter = (int) $data['newsletter'];
 
         $this->customer_group_id = (int)$data['customer_group_id'];
         //save it to use in APromotion class
@@ -287,6 +296,7 @@ class ACustomer
         $this->address_id = (int)$data['address_id'];
 
         $this->db->query("SET @CUSTOMER_ID = '" . (int)$this->customer_id . "'");
+        $this->extensions->hk_ProcessData($this, 'init', $data);
     }
 
     public function setLastLogin($customer_id)
@@ -296,7 +306,7 @@ class ACustomer
             return false;
         }
 
-        //insert new record
+        //insert a new record
         $this->db->query(
             "UPDATE `" . $this->db->table("customers") . "`
             SET `last_login` = NOW()
@@ -307,6 +317,7 @@ class ACustomer
 
     /**
      * @param string $sessID
+     *
      * @void
      * @throws AException
      */
@@ -315,24 +326,29 @@ class ACustomer
         //first clear all expired tokens
         $customerSesTbl = $this->db->table("customer_sessions");
         $session_ttl = $this->config->get('config_session_ttl');
-        $this->db->query("DELETE FROM " . $customerSesTbl . " 
-            WHERE customer_id = '" . $this->customer_id . "' 
-            AND last_active < DATE_SUB(NOW(), INTERVAL " . $session_ttl . " MINUTE)");
+        $this->db->query(
+            "DELETE FROM ".$customerSesTbl." 
+                WHERE customer_id = '".$this->customer_id."' 
+                AND last_active < DATE_SUB(NOW(), INTERVAL ".$session_ttl." MINUTE)"
+        );
 
         //set or update token
-        $this->db->query("INSERT INTO " . $customerSesTbl . " 
+        $this->db->query(
+            "INSERT INTO ".$customerSesTbl." 
              VALUES (
-                '" . $this->customer_id . "',
-                '" . $this->db->escape($sessID) . "',
-                '" . $this->db->escape($this->request->getRemoteIP()) . "',
+                '".$this->customer_id."',
+                '".$this->db->escape($sessID)."',
+                '".$this->db->escape($this->request->getRemoteIP())."',
                 NOW(),
                 NOW()
             )
-            ON DUPLICATE KEY UPDATE last_active = NOW()");
+            ON DUPLICATE KEY UPDATE last_active = NOW()"
+        );
     }
 
     /**
      * @param string $sessionId
+     *
      * @return bool
      * @throws AException
      */
@@ -341,9 +357,9 @@ class ACustomer
         $customerSesTbl = $this->db->table("customer_sessions");
         $user_query = $this->db->query(
             "SELECT * 
-            FROM " . $customerSesTbl . " 
-            WHERE customer_id = '" . $this->customer_id . "'  
-                AND session_id = '" . $this->db->escape($sessionId) . "'"
+            FROM ".$customerSesTbl." 
+            WHERE customer_id = '".$this->customer_id."'  
+                AND session_id = '".$this->db->escape($sessionId)."'"
         );
         if ($user_query->num_rows) {
             return true;
@@ -356,18 +372,21 @@ class ACustomer
      * Delete all or specific active sessions for the customer
      *
      * @param string $sessionId
+     *
      * @return void
      * @throws AException
      */
     public function deleteActiveSessions(string $sessionId = '')
     {
-        $this->deleteActiveSessionsByID((int)$this->customer_id, (string)$sessionId);
+        $this->deleteActiveSessionsByID((int)$this->customer_id, $sessionId);
     }
 
     /**
      * Delete all or specific active sessions for the customer by customer ID
+     *
      * @param int $customerId
      * @param string $sessionId
+     *
      * @void
      * @throws AException
      */
@@ -478,7 +497,7 @@ class ACustomer
     }
 
     /**
-     * Validate if loginname is the same as email.
+     * Validate if the loginname is the same as email.
      *
      * @return bool
      */
@@ -505,6 +524,15 @@ class ACustomer
     public function getLastName()
     {
         return $this->lastname;
+    }
+
+    /**
+     * @return string
+     * @since 1.4.4
+     */
+    public function getFullName()
+    {
+        return $this->firstname . ' ' . $this->lastname;
     }
 
     /**
@@ -694,7 +722,7 @@ class ACustomer
     }
 
     /**
-     * Confirm that current customer is valid
+     * Confirm that the current customer is valid
      *
      *
      * @return bool
@@ -789,7 +817,6 @@ class ACustomer
     public function mergeCustomerCart($cart)
     {
         $cart = !is_array($cart) ? [] : $cart;
-
         if ($cart && !is_array($this->session->data['cart'])) {
             $this->session->data['cart'] = [];
         }
@@ -798,9 +825,11 @@ class ACustomer
                 $this->session->data['cart'][$key] = $value;
             }
         }
-        if (!$this->session->data['fc']['cart']) {
+        //in case when a customer logged-in from checkout
+        if ($this->session->data['fc']['cart_key']) {
             $this->session->data['fc']['cart'] = $this->session->data['cart'];
         }
+        return $this->session->data['cart'];
     }
 
     /**
@@ -829,7 +858,7 @@ class ACustomer
     }
 
     /**
-     * Add item to wishlist
+     * Add item to the wishlist
      *
      * @param int $product_id
      *
@@ -846,7 +875,7 @@ class ACustomer
     }
 
     /**
-     * Remove item from wish list
+     * Remove item from a wishlist
      *
      * @param int $product_id
      *
@@ -897,7 +926,7 @@ class ACustomer
      */
     public function getWishList()
     {
-        $customerId = $this->customer_id ?: $this->unauth_customer['customer_id'];
+        $customerId = $this->customer_id ? : $this->unauth_customer['customer_id'];
         if (!$customerId) {
             return [];
         }
@@ -960,5 +989,4 @@ class ACustomer
         }
         return false;
     }
-
 }

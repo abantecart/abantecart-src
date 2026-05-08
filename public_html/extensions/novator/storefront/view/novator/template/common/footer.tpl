@@ -1,7 +1,7 @@
 <?php /* Footer */ ?>
 <!-- footer bottom starts -->
         <div class="container">
-                <div class="row">
+                <div class="row clearfix">
                 <?php
                     $shown = [];
                     $count = count($children_blocks);
@@ -18,28 +18,28 @@
                     }
                 ?>
                 </div> 
-            <div class="row mt-4 bottom-footer-block">
-                <div class="col-lg-12">
-                    <ul class="list-inline d-inline-block">
-                        <li class="list-inline-item">
-                            <?php
-                            $i = 0;
-                            foreach($children_blocks as $k => $instanceName){
-                                $i++;
-                                if(in_array($i, $shown)){ continue; }
-                            ?>
-                                <div class="block_<?php echo $k; ?>">
-                                    <?php echo $$instanceName; ?>
-                                </div>
-                            <?php
-                            } ?>
-                        </li>
-                    </ul>
-                    <div class="w-100 d-flex text-white text-opacity-50 my-4 justify-content-between footer-notes">
-                        <div class="d-flex flex-nowrap"><?php echo $text_copy; ?></div>
-                        <div class="d-flex flex-nowrap"><?php echo $text_project_label ?></div>
-                    </div>
-                </div>
+            <div class="row mt-4 bottom-footer-block clearfix">
+                <ul class="col-lg-12 list-inline d-block d-md-inline-block">
+                    <li class="list-md-inline-item">
+                        <?php
+                        $i = 0;
+                        foreach($children_blocks as $k => $instanceName){
+                            $i++;
+                            if(in_array($i, $shown)){ continue; }
+                        ?>
+                            <div class="block_<?php echo $k; ?>">
+                                <?php echo $$instanceName; ?>
+                            </div>
+                        <?php
+                        } ?>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="container pb-0 mb-0">
+            <div class="w-100 d-flex text-white text-opacity-50 py-4 justify-content-between footer-notes">
+                <div class="d-flex flex-nowrap"><?php echo $text_copy; ?></div>
+                <div class="d-flex flex-nowrap"><?php echo $text_project_label ?></div>
             </div>
         </div>
 <!-- footer bottom ends -->

@@ -270,6 +270,7 @@ class ControllerResponsesListingGridContent extends AController
         }
         $allowedFields = array_merge(
             [
+                'show_title',
                 'title',
                 'description',
                 'keyword',

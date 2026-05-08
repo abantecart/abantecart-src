@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details is bundled with this package in the file LICENSE.txt.
@@ -32,6 +32,14 @@ use Stripe\Webhook;
  */
 class ControllerResponsesExtensionStripe extends AController
 {
+    protected function buildPaymentIntentIdempotencyKey(array $piDetails): string
+    {
+        sortArrayRecursively($piDetails);
+        return 'ac_pi_' . md5(
+            json_encode($piDetails, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+        );
+    }
+
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
@@ -145,6 +153,10 @@ class ControllerResponsesExtensionStripe extends AController
                 break;
             }
         }
+        $cartKey = $this->session->data['fc']['cart_key'] ?: $this->cart->getCartKey();
+
+        $cart_products = $this->cart->getProducts() + $this->cart->getVirtualProducts();
+        $productNames = array_column($cart_products, 'name');
 
         $piDetails = [
             'capture_method' => $this->config->get('stripe_settlement'),
@@ -167,8 +179,12 @@ class ControllerResponsesExtensionStripe extends AController
             ],
             "metadata"       => [
                 "order_id" => $order_info['order_id'],
+                "cart_key" => (string)$cartKey,
+                "products" => mb_substr(implode('; '.PHP_EOL,$productNames),0,500)
             ],
         ];
+
+
         if($customer_stripe_id){
             $piDetails['customer'] = $customer_stripe_id;
         }
@@ -180,7 +196,11 @@ class ControllerResponsesExtensionStripe extends AController
             $piDetails['automatic_payment_methods'] = ['enabled' => true];
         }
 
-        $paymentIntent = $this->model_extension_stripe->createPaymentIntent($piDetails);
+        $idempotencyKey = $this->buildPaymentIntentIdempotencyKey($piDetails);
+        $paymentIntent = $this->model_extension_stripe->getOrCreatePaymentIntent(
+            $piDetails,
+            ['idempotency_key' => $idempotencyKey]
+        );
         if ($paymentIntent['error']) {
             $this->data['error'] = $paymentIntent['error'];
             $this->messages->saveWarning(
@@ -255,13 +275,20 @@ class ControllerResponsesExtensionStripe extends AController
         /** @var ModelExtensionStripe $mdl */
         $mdl = $this->loadModel('extension/stripe');
         $output = [];
+        $stripeOrderInfo = $mdl->getStripeOrder($orderId);
+        if ($stripeOrderInfo && $stripeOrderInfo['charge_id'] && $stripeOrderInfo['charge_id'] != $piId) {
+            $output['error'] = 'Order already linked to another payment intent.';
+            return $output;
+        }
 
         try {
             $paymentStatus = $mdl->getPaymentIntent($piId)->status;
             if (in_array($paymentStatus, ['processing', 'succeeded', 'requires_capture'])) {
                 $output['paid'] = true;
                 $orderInfo = $mdlOrder->getOrder($orderId);
-                $mdl->recordOrder($orderInfo, ['id' => $piId]);
+                if (!$stripeOrderInfo) {
+                    $mdl->recordOrder($orderInfo, ['id' => $piId]);
+                }
                 $orderStatus = ($paymentStatus == 'processing'
                     ? $this->order_status->getStatusByTextId('processing')
                     : ($this->config->get('stripe_settlement') == 'automatic'
@@ -368,6 +395,12 @@ class ControllerResponsesExtensionStripe extends AController
             // Invalid signature
             http_response_code(401);
             exit('Stripe Webhook ' . $method . ' Error2:' . $e->getMessage());
+        }
+
+        $expectedEventType = preg_replace('/_(?=[^_]+$)/', '.', $eventName);
+        if (($payload['type'] ?? '') !== $expectedEventType) {
+            http_response_code(400);
+            exit('Stripe Webhook ' . $method . ' Error: unexpected event type ' . ($payload['type'] ?? 'unknown'));
         }
 
         if ($payload['data']['object']['object'] != 'payment_intent') {

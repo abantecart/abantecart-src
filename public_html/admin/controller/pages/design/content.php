@@ -359,6 +359,7 @@ class ControllerPagesDesignContent extends AController
             'status',
             'store_id',
             'content_bar',
+            'show_title',
             'author',
             'publish_date',
             'expire_date',
@@ -375,6 +376,9 @@ class ControllerPagesDesignContent extends AController
         ];
         foreach ($allowedFields as $field) {
             $this->data[$field] = $this->request->post[$field] ?? $content_info[$field] ?? '';
+        }
+        if (!$contentId && !isset($this->request->post['show_title'])) {
+            $this->data['show_title'] = 1;
         }
         //if got parent_id - create new content for parent
         if ($this->request->get['parent_content_id']) {
@@ -590,6 +594,16 @@ class ControllerPagesDesignContent extends AController
                 'history'      => $history
             ]
         );
+
+        $this->data['form']['fields']['show_title'] = $form->getFieldHtml(
+            [
+                'type'  => 'checkbox',
+                'name'  => 'show_title',
+                'value' => $this->data['show_title'] ?? 1,
+                'style' => 'btn_switch',
+            ]
+        );
+
         $this->data['form']['fields']['description'] = $form->getFieldHtml(
             [
                 'type'         => 'textarea',
@@ -625,7 +639,6 @@ class ControllerPagesDesignContent extends AController
                 'type'         => 'texteditor',
                 'name'         => 'content',
                 'value'        => $this->data['content'],
-                'required'     => true,
                 'multilingual' => true,
                 'history'      => $history
             ]
@@ -680,10 +693,6 @@ class ControllerPagesDesignContent extends AController
 
         if (isHtml(html_entity_decode($this->request->post['title']))) {
             $this->error['title'] = $this->language->get('error_title_html');
-        }
-
-        if (mb_strlen($this->request->post['content']) < 2) {
-            $this->error['content'] = $this->language->get('error_content');
         }
 
         $error_text = $this->html->isSEOkeywordExists(

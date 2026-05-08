@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -34,17 +34,16 @@ class ControllerResponsesListingGridExtension extends AController
         $this->loadLanguage('extension/extensions');
         /** @var ModelToolMPAPI $mpModel */
         $mpModel = $this->loadModel('tool/mp_api');
-
-        $page = $this->request->post['page']; // get the requested page
-        if ((int)$page < 0) {
-            $page = 0;
-        }
-        $limit = $this->request->post['rows']; // get how many rows we want to have into the grid
+        $page = max(1,(int)$this->request->post['page']);
+        $requested_rows = (int)($this->request->post['rows'] ?? 0);
+        $defaultLimit = (int)$this->config->get('config_admin_limit');
+        $limit = max(1, $requested_rows > 0 ? $requested_rows : $defaultLimit); // get how many rows we want to have into the grid
         $sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
         $sord = $this->request->post['sord']; // get the direction
 
         $search_str = '';
-        if (isset($this->request->post['_search']) && $this->request->post['_search'] == 'true') {
+        $is_search_request = isset($this->request->post['_search']) && $this->request->post['_search'] == 'true';
+        if ($is_search_request) {
             $searchData = json_decode(htmlspecialchars_decode($this->request->post['filters']), true);
             $search_str = trim($searchData['rules'][0]['data']);
         }
@@ -61,7 +60,7 @@ class ControllerResponsesListingGridExtension extends AController
                 'name',
                 'category',
                 'date_modified',
-                'e.status',
+                'status',
                 'store_name',
             ],
             (array)$this->data['allowed_sort']
@@ -75,7 +74,7 @@ class ControllerResponsesListingGridExtension extends AController
             $sord = 'asc';
         }
 
-        //extensions that has record in DB but missing files
+        //extensions that have a record in DB but missing files
         $missing_extensions = $this->extensions->getMissingExtensions();
 
         $data = [
@@ -83,19 +82,17 @@ class ControllerResponsesListingGridExtension extends AController
             'search'     => $search_str,
             'filter'     => $this->session->data['extension_filter'],
             'sort_order' => [$sidx, $sord],
+            'page'       => $page,
+            'limit'      => $limit,
         ];
         if ($this->config->get('current_store_id')) {
             $data['store_id'] = (int)$this->config->get('current_store_id');
         }
-        //extensions list. NOTE: set "force" mode to get data from db
+        //an extension list. NOTE: set "force" mode to get data from db
         $extensions = $this->extension_manager->getExtensionsList($data, 'force');
 
         $total = $extensions->total;
-        if ($total > 0) {
-            $total_pages = ceil($total / $limit);
-        } else {
-            $total_pages = 0;
-        }
+        $total_pages = $total > 0 ? (int)ceil($total / $limit) : 0;
 
         $response = new stdClass();
         $response->rows = [];
@@ -106,8 +103,12 @@ class ControllerResponsesListingGridExtension extends AController
 
         $i = 0;
         $for_push = $push = [];
+        $promote_updates = (int)$page === 1
+            && !$is_search_request
+            && $sidx === 'date_modified'
+            && $sord === 'desc';
 
-        // get extensions for install
+        // get extensions for installation
         $ready_to_install = $this->session->data['ready_to_install'];
         $to_install = $to_inst_keys = [];
 
@@ -130,7 +131,7 @@ class ControllerResponsesListingGridExtension extends AController
             }
         }
 
-        //filter already installed from remote list (ignores new versions too)
+        //filter already installed from a remote list (ignores new versions too)
         foreach ($extensions->rows as $row) {
             if (in_array($row['key'], $to_inst_keys)) {
                 unset($to_install[$row['key']]);
@@ -140,8 +141,15 @@ class ControllerResponsesListingGridExtension extends AController
         $rows = array_merge($to_install, $extensions->rows);
         $updates = $this->session->data['extensions_updates'];
 
+        $prepend_popular = $this->shouldPrependPopularExtensions($page, $is_search_request, $sidx, $sord);
+
         //get popular extensions
-        $popular = $mpModel->getPopularity();
+        $popular = (array)$mpModel->getPopularity();
+        $popular_map = array_fill_keys(array_keys((array)$popular), true);
+        if ($prepend_popular && $popular_map) {
+            $rows = $this->sortPopularRowsWithinCurrentPage($rows, $popular);
+        }
+
         foreach ($rows as $row) {
             $extension = $row['key'];
             if (!$extension) {
@@ -157,7 +165,7 @@ class ControllerResponsesListingGridExtension extends AController
             $response->userdata->extension_id[$id] = $extension;
             $response->userdata->store_id[$id] = $row['store_id'];
             $response->userdata->popular[$id] = [
-                'status'      => (!empty($popular) && in_array($extension, array_keys($popular))),
+                'status'      => isset($popular_map[$extension]),
                 'description' => $popular[$extension]
             ];
 
@@ -179,7 +187,7 @@ class ControllerResponsesListingGridExtension extends AController
                 $icon = '<img src="' . RDIR_TEMPLATE . 'image/default_extension.png' . '" alt="' . $extension . '" />';
                 $name = sprintf($this->language->get('text_missing_extension'), $extension);
                 $category = $status = '';
-                // change it for show it in list first by default sorting
+                // change it to show it in a list first by default sorting
                 $row['date_modified'] = date('Y-m-d H:i:s', time());
             } //corrupted extension
             elseif (!file_exists(DIR_EXT . $extension . DS . 'main.php') || !file_exists(DIR_EXT . $extension . DS . 'config.xml')) {
@@ -188,7 +196,7 @@ class ControllerResponsesListingGridExtension extends AController
                 $icon = '<img src="' . RDIR_TEMPLATE . 'image/default_extension.png' . '" alt="' . $extension . '" />';
                 $name = sprintf($this->language->get('text_broken_extension'), $extension);
                 $category = $status = '';
-                // change it for show it in list first by default sorting
+                // change it to show it in a list first by default sorting
                 $row['date_modified'] = date('Y-m-d H:i:s', time());
             } else {
                 if (!$this->config->has($extension . '_status')) {
@@ -252,10 +260,12 @@ class ControllerResponsesListingGridExtension extends AController
                                 $update_now_url
                             )
                             . '</p>';
-                        $push[] = $i;
+                        if ($promote_updates) {
+                            $push[] = $i;
+                        }
                     }
                 }
-                //when support period expired
+                //when a support period expired
                 if (($updates
                         && isset($updates[$extension]['support_expiration'])
                         && $updates[$extension]['support_expiration']
@@ -268,7 +278,7 @@ class ControllerResponsesListingGridExtension extends AController
                     $expired = true;
                     $response->userdata->classes[$id] = 'expired ' . $response->userdata->classes[$id];
                 }
-                //check of minor cart version
+                //check of a minor cart version
                 if (!is_null($this->config->get($extension . "_status"))) {
                     $cfg = getExtensionConfigXml($extension);
                     if ($cfg->cartversions->item) {
@@ -289,7 +299,7 @@ class ControllerResponsesListingGridExtension extends AController
                 $response->userdata->classes[$id] .= ' disable-expired ';
             }
             $response->userdata->mp_product_url[$id] = $row['mp_product_url'] ?: $updates[$extension]['url'];
-            //if url of product page still empty - send to search result page
+            //if url of product page still empty - send to the search result page
             if (!$response->userdata->mp_product_url[$id]) {
                 $response->userdata->mp_product_url[$id] = $mpModel->getMPURL()
                     . '?rt=product/search&keyword=' . $extension;
@@ -321,7 +331,6 @@ class ControllerResponsesListingGridExtension extends AController
             }
         }
 
-        $response->rows = array_slice($response->rows, (int)($page - 1) * $limit, $limit);
         $this->data['response'] = $response;
 
         //update controller data
@@ -347,7 +356,6 @@ class ControllerResponsesListingGridExtension extends AController
                     'reset_value' => true,
                 ]
             );
-            return;
         }
 
         $this->loadLanguage('extension/extensions');
@@ -358,6 +366,9 @@ class ControllerResponsesListingGridExtension extends AController
 
         if (empty($this->request->get['id'])) {
             foreach ($this->request->post as $ext => $val) {
+                if (!is_array($val)) {
+                    continue;
+                }
                 $val['store_id'] = $store_id;
                 $this->extension_manager->editSetting($ext, $val);
             }
@@ -389,7 +400,7 @@ class ControllerResponsesListingGridExtension extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('extension/extensions');
 
-        // first of all we need check dependencies
+        // first we need to check dependencies
         $config = getExtensionConfigXml($this->request->get['extension']);
         $result = $this->extension_manager->validateDependencies($this->request->get['extension'], $config);
         $this->data = ['license_text' => '', 'error_text' => ''];
@@ -433,5 +444,77 @@ class ControllerResponsesListingGridExtension extends AController
             $this->view->batchAssign($this->data);
             $this->processTemplate('responses/extension/extensions_dependants_dialog.tpl');
         }
+    }
+
+    protected function shouldPrependPopularExtensions($page, $is_search_request, $sidx, $sord): bool
+    {
+        if ((int)$page !== 1 || $is_search_request) {
+            return false;
+        }
+
+        $prepend_session_key = 'extension_popular_prepend_once_available';
+        if (!isset($this->session->data[$prepend_session_key])) {
+            $this->session->data[$prepend_session_key] = true;
+        }
+
+        $is_default_sort = $sidx === 'date_modified' && $sord === 'desc';
+        if (!$is_default_sort) {
+            $this->session->data[$prepend_session_key] = false;
+            return false;
+        }
+
+        return !empty($this->session->data[$prepend_session_key]);
+    }
+
+    protected function sortPopularRowsWithinCurrentPage(array $rows, array $popular): array
+    {
+        if (!$popular || !$rows) {
+            return $rows;
+        }
+
+        foreach ($rows as $idx => &$row) {
+            $row['popular_sort_index'] = $idx;
+        }
+        unset($row);
+
+        usort(
+            $rows,
+            static function ($a, $b) use ($popular) {
+                $a_key = (string)$a['key'];
+                $b_key = (string)$b['key'];
+                $a_is_popular = isset($popular[$a_key]);
+                $b_is_popular = isset($popular[$b_key]);
+                if ($a_is_popular !== $b_is_popular) {
+                    return $a_is_popular ? -1 : 1;
+                }
+                if (!$a_is_popular && !$b_is_popular) {
+                    return (int)$a['popular_sort_index'] <=> (int)$b['popular_sort_index'];
+                }
+
+                if ($a_key === 'paypal_commerce' && $b_key !== 'paypal_commerce') {
+                    return -1;
+                }
+                if ($b_key === 'paypal_commerce' && $a_key !== 'paypal_commerce') {
+                    return 1;
+                }
+
+                $a_desc = mb_strtolower((string)$popular[$a_key]);
+                $b_desc = mb_strtolower((string)$popular[$b_key]);
+                $a_very = strpos($a_desc, 'very popular') !== false;
+                $b_very = strpos($b_desc, 'very popular') !== false;
+                if ($a_very !== $b_very) {
+                    return $a_very ? -1 : 1;
+                }
+
+                return (int)$a['popular_sort_index'] <=> (int)$b['popular_sort_index'];
+            }
+        );
+
+        foreach ($rows as &$row) {
+            unset($row['popular_sort_index']);
+        }
+        unset($row);
+
+        return $rows;
     }
 }

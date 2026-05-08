@@ -54,6 +54,7 @@ final class TypeExpression
      * - and https://github.com/phpstan/phpdoc-parser/blob/1.26.0/src/Parser/PhpDocParser.php parser impl.
      */
     private const REGEX_TYPE = '(?<type>(?x) # single type
+            (?:co(ntra)?variant\h+)?
             (?<nullable>\??\h*)
             (?:
                 (?<array_shape>
@@ -328,7 +329,7 @@ final class TypeExpression
                     $value,
                     $inner->value,
                     $startIndexOrig + $startIndexOffset,
-                    \strlen($innerValueOrig)
+                    \strlen($innerValueOrig),
                 );
 
                 $startIndexOffset += \strlen($inner->value) - \strlen($innerValueOrig);
@@ -362,24 +363,57 @@ final class TypeExpression
     public function sortTypes(\Closure $compareCallback): self
     {
         return $this->mapTypes(function (self $type) use ($compareCallback): self {
-            if ($type->isCompositeType) {
-                $innerTypeExpressions = Utils::stableSort(
-                    $type->innerTypeExpressions,
-                    static fn (array $v): self => $v['expression'],
-                    $compareCallback,
+            if (!$type->isCompositeType) {
+                return $type;
+            }
+
+            $innerTypeExpressions = Utils::stableSort(
+                $type->innerTypeExpressions,
+                static fn (array $v): self => $v['expression'],
+                $compareCallback,
+            );
+
+            if ($innerTypeExpressions !== $type->innerTypeExpressions) {
+                $value = implode(
+                    $type->getTypesGlue(),
+                    array_map(static fn (array $v): string => $v['expression']->toString(), $innerTypeExpressions),
                 );
 
-                if ($innerTypeExpressions !== $type->innerTypeExpressions) {
-                    $value = implode(
-                        $type->getTypesGlue(),
-                        array_map(static fn (array $v): string => $v['expression']->toString(), $innerTypeExpressions)
-                    );
-
-                    return $this->inner($value);
-                }
+                return $this->inner($value);
             }
 
             return $type;
+        });
+    }
+
+    public function removeDuplicateTypes(): self
+    {
+        return $this->mapTypes(function (self $type): self {
+            if (!$type->isCompositeType) {
+                return $type;
+            }
+
+            $seenNormalized = [];
+            $uniqueTypeExpressions = [];
+
+            foreach ($type->innerTypeExpressions as $innerType) {
+                $normalized = $innerType['expression']
+                    ->sortTypes(static fn (self $a, self $b): int => $a->toString() <=> $b->toString())
+                    ->toString()
+                ;
+
+                if (!\in_array($normalized, $seenNormalized, true)) {
+                    $seenNormalized[] = $normalized;
+                    $uniqueTypeExpressions[] = $innerType['expression'];
+                }
+            }
+
+            $value = implode(
+                $type->getTypesGlue(),
+                array_map(static fn (self $expr): string => $expr->toString(), $uniqueTypeExpressions),
+            );
+
+            return $this->inner($value);
         });
     }
 
@@ -445,7 +479,7 @@ final class TypeExpression
                 $this->value,
                 $matches,
                 \PREG_OFFSET_CAPTURE,
-                $index
+                $index,
             );
 
             if ([] === $matches) {
@@ -505,6 +539,7 @@ final class TypeExpression
                             $innerValue .= $innerValues[$i]['next_glue_raw'];
 
                             ++$i;
+                            \assert(isset($innerValues[$i])); // for PHPStan
                         }
 
                         $this->innerTypeExpressions[] = [
@@ -538,7 +573,7 @@ final class TypeExpression
 
             $this->parseCommaSeparatedInnerTypes(
                 \strlen($matches['generic_name'][0]) + \strlen($matches['generic_start'][0]),
-                $matches['generic_types'][0]
+                $matches['generic_types'][0],
             );
         } elseif ('' !== ($matches['callable'][0] ?? '') && 0 === $matches['callable'][1]) {
             $this->innerTypeExpressions[] = [
@@ -549,14 +584,14 @@ final class TypeExpression
             $this->parseCallableTemplateInnerTypes(
                 \strlen($matches['callable_name'][0])
                     + \strlen($matches['callable_template_start'][0]),
-                $matches['callable_template_inners'][0]
+                $matches['callable_template_inners'][0],
             );
 
             $this->parseCallableArgumentTypes(
                 \strlen($matches['callable_name'][0])
                     + \strlen($matches['callable_template'][0])
                     + \strlen($matches['callable_start'][0]),
-                $matches['callable_arguments'][0]
+                $matches['callable_arguments'][0],
             );
 
             if ('' !== ($matches['callable_return'][0] ?? '')) {
@@ -575,7 +610,7 @@ final class TypeExpression
 
             $this->parseArrayShapeInnerTypes(
                 $nextIndex,
-                $matches['array_shape_inners'][0]
+                $matches['array_shape_inners'][0],
             );
 
             if ('' !== ($matches['array_shape_unsealed_type'][0] ?? '')) {
@@ -652,7 +687,7 @@ final class TypeExpression
                 $value,
                 $matches,
                 0,
-                $index
+                $index,
             );
 
             $this->innerTypeExpressions[] = [
@@ -673,7 +708,7 @@ final class TypeExpression
                 $value,
                 $prematches,
                 0,
-                $index
+                $index,
             );
             $consumedValue = $prematches['_callable_template_inner'];
             $consumedValueLength = \strlen($consumedValue);
@@ -684,7 +719,7 @@ final class TypeExpression
                 '{^'.self::REGEX_TYPES.'$}',
                 $addedPrefix.$consumedValue.'>(): void',
                 $matches,
-                \PREG_OFFSET_CAPTURE
+                \PREG_OFFSET_CAPTURE,
             );
 
             if ('' !== $matches['callable_template_inner_b'][0]) {
@@ -716,7 +751,7 @@ final class TypeExpression
                 $value,
                 $prematches,
                 0,
-                $index
+                $index,
             );
             $consumedValue = $prematches['_callable_argument'];
             $consumedValueLength = \strlen($consumedValue);
@@ -727,7 +762,7 @@ final class TypeExpression
                 '{^'.self::REGEX_TYPES.'$}',
                 $addedPrefix.$consumedValue.'): void',
                 $matches,
-                \PREG_OFFSET_CAPTURE
+                \PREG_OFFSET_CAPTURE,
             );
 
             $this->innerTypeExpressions[] = [
@@ -748,7 +783,7 @@ final class TypeExpression
                 $value,
                 $prematches,
                 0,
-                $index
+                $index,
             );
             $consumedValue = $prematches['_array_shape_inner'];
             $consumedValueLength = \strlen($consumedValue);
@@ -759,7 +794,7 @@ final class TypeExpression
                 '{^'.self::REGEX_TYPES.'$}',
                 $addedPrefix.$consumedValue.'}',
                 $matches,
-                \PREG_OFFSET_CAPTURE
+                \PREG_OFFSET_CAPTURE,
             );
 
             $this->innerTypeExpressions[] = [

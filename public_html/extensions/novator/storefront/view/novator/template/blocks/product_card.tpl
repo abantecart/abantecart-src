@@ -96,13 +96,15 @@
                                     echo $this->getHookVar('product_add_to_cart_html_'.$product['product_id']);
                                 }else{ ?>
                                     <a class="add-to-cart"
-                                       title="<?php
-                                       $inCart
-                                           ? echo_html2view($text_items_in_the_cart)
-                                           : echo_html2view($this->language->get('button_add_to_cart')); ?>"
+                                       title="<?php echo_html2view($this->language->get('button_add_to_cart')); ?>"
                                        data-id="<?php echo $product['product_id']; ?>"
-                                       href="<?php echo $inCart ? $cartUrl : $item['buy_url']; ?>">
-                                        <i class="bi <?php echo $inCart ? 'bi-bag-check-fill text-success' :'bi-bag-fill';?>"></i>
+                                       <?php if (!empty($product['options'])) { ?>
+                                       href="<?php echo $item['info_url']; ?>"
+                                       <?php } else { ?>
+                                       href="#"
+                                       <?php } ?>
+                                       >
+                                        <i class="bi bi-bag-fill"></i>
                                         <?php echo_html2view($button_add_to_cart); ?>
                                     </a>
                                     <?php
@@ -146,6 +148,7 @@
                         <?php } else { ?>
                             <div class="mb-0 prod-price text-muted fw-semibold"><?php echo $product['price'] . $tax_message; ?></div>
                         <?php } ?>
+                        <?php echo $this->getHookVar('product_listing_details_price_' . $product['product_id']); ?>
                     </div>
                 <?php }
                 echo $this->getHookVar('product_price_hook_var_' . $product['product_id']);

@@ -97,6 +97,10 @@
 		<value><![CDATA[Content Details Bar:<br /><span class="help">Enable this setting to show the bar with the author and publish date on the content page</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_show_title</key>
+		<value><![CDATA[Show Content Title:<br /><span class="help">Enable this setting to show the title on the content page</span>]]></value>
+	</definition>
+	<definition>
 		<key>entry_icon</key>
 		<value><![CDATA[Main Image or Icon:]]></value>
 	</definition>

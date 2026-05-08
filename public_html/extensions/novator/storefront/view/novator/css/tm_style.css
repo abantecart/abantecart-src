@@ -2084,6 +2084,14 @@ li#review-set::before {
     display: none !important;
 }
 
+.footer-content-menu .dropdown-menu[data-popper-placement^="top"] {
+    margin-bottom: 8px !important;
+}
+
+.footer-content-menu .dropdown-menu[data-popper-placement^="bottom"] {
+    margin-top: 8px !important;
+}
+
 .mega-sf-menu .active{
     color: var(--bs-primary);
     font-weight: bold !important;
@@ -2309,9 +2317,7 @@ li#review-set::before {
     overflow: visible;
 }
 
-.menu-offcanvas .offcanvas-body {
-    overflow: visible;
-}
+
 
 .offcanvas [data-bs-dismiss="offcanvas"] {
     margin-left: -40px;
@@ -2534,6 +2540,12 @@ li#review-set::before {
 .product-card .prod-img {
     border-radius: 12px;
     background-color: #E9E9E9;
+}
+
+.product-card .prod-img > a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .product-card .prod-img img {
@@ -2874,6 +2886,14 @@ h4 .heading-title:after,
     background: var(--bs-primary);
 }
 
+/* Prevent horizontal overflow on small screens for long titles. */
+.heading-title,
+.product-card h6 a,
+.product-card .product-name {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
 .list-page-desc-block .table-responsive {
     background: #F6F6F6;
     border-radius: var(--bs-border-radius);
@@ -3037,6 +3057,16 @@ h4 .heading-title:after,
     position: absolute;
     left: 15px;
     top: 15px;
+}
+
+.prod-list-card .flex-shrink-0 a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.prod-list-card .flex-shrink-0 img {
+    display: block;
 }
 
 .product-carousel-indicators {
@@ -3727,11 +3757,7 @@ h4 .heading-title:after,
     }
 
     .offcanvas.menu-offcanvas {
-        --bs-offcanvas-width: 300px;
-    }
-
-    .offcanvas.menu-offcanvas .offcanvas-body {
-        padding: 10px;
+        --bs-offcanvas-width: 95%;
     }
 
     .offcanvas.menu-offcanvas .menu-top-btn {
@@ -4071,11 +4097,33 @@ a.share{
     color: var(--bs-body-color);
 }
 
-.footer-content-menu>ul>li + li{
-    /* gap */
-    margin-left: 15px;
+.footer-content-menu>ul>li{
+    margin-right: 15px;
 }
 
 .account-login .form-check{
     border: 0 !important;
+}
+
+.bottom-footer-block {
+    position: relative;
+    overflow: visible;
+    z-index: 1;
+}
+
+.footer-notes {
+    position: relative;
+    z-index: 2;
+}
+
+.add-to-cart.disabled,
+.add-to-cart-block .add-to-cart.disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+}
+
+.add-to-cart.disabled:hover,
+.add-to-cart-block .add-to-cart.disabled:hover {
+    opacity: 0.5 !important;
 }

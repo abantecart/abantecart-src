@@ -120,7 +120,8 @@ if (!$mp_connected) {
     /* run after grid load */
     var extension_grid_ready = function (data) {
 
-        var userdata = data.userdata;
+        const userdata = data.userdata;
+
         //add label for popular extensions
         $('#extension_grid').find('[aria-describedby="extension_grid_icon"]').each(
             function(){

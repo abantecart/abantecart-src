@@ -102,8 +102,8 @@ const SEO_URL_SEPARATOR = '-';
 const ROOT_CATEGORY_ID = 0;
 
 // EMAIL REGEXP PATTERN
-const EMAIL_REGEX_PATTERN = '/^[A-Z0-9._%-]+@[A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i';
-const DEFAULT_PHONE_REGEX_PATTERN = '/^[0-9\+\(\)\.\s\-,]+$/';
+const EMAIL_REGEX_PATTERN = '/^[A-Z0-9._%-+]+@[A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i';
+const DEFAULT_PHONE_REGEX_PATTERN = '/^[0-9\+\(\)\.\s\-,]*$/';
 const DEFAULT_ADDRESS_FORMAT =
     '{firstname} {lastname}' . PHP_EOL
     . '{company}' . PHP_EOL
@@ -298,6 +298,10 @@ try {
     require_once(DIR_CORE . 'lib' . DS . 'document.php');
     require_once(DIR_CORE . 'lib' . DS . 'image.php');
     require_once(DIR_CORE . 'lib' . DS . 'log.php');
+
+    require_once(DIR_CORE . 'lib' . DS . 'contracts' . DS . 'MailApi.php');
+    require_once(DIR_CORE . 'lib' . DS . 'MailApiManager.php');
+    require_once(DIR_CORE . 'lib' . DS . 'MailApiResponse.php');
     require_once(DIR_CORE . 'lib' . DS . 'mail.php');
     require_once(DIR_CORE . 'lib' . DS . 'message.php');
     require_once(DIR_CORE . 'lib' . DS . 'pagination.php');
@@ -331,6 +335,7 @@ try {
     require_once(DIR_CORE . 'lib' . DS . 'im.php');
     require_once(DIR_CORE . 'lib' . DS . 'csrf_token.php');
     require_once(DIR_CORE . 'lib' . DS . 'ASupplier.php');
+    require_once(DIR_CORE . 'lib' . DS . 'AShoppingData.php');
 
 //Admin manager classes
     if (IS_ADMIN === true) {

@@ -1,100 +1,117 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
 class ModelLocalisationStockStatus extends Model
 {
-    public function addStockStatus($data)
+    /**
+     * @param array $data
+     * @return int
+     * @throws AException
+     */
+    public function addStockStatus(array $data)
     {
-
-        $result = $this->db->query("SELECT MAX(stock_status_id) as max_id FROM ".$this->db->table("stock_statuses")." ");
-        $stock_status_id = (int)$result->row['max_id'] + 1;
-
-        foreach ($data['stock_status'] as $language_id => $value) {
-
-            $this->language->replaceDescriptions('stock_statuses',
-                array(
-                    'stock_status_id' => (int)$stock_status_id,
-                    'language_id'     => (int)$language_id,
-                ),
-                array(
-                    $language_id => array(
-                        'name' => $value['name'],
-                    ),
-                ));
+        if (!$data['stock_status']['name']) {
+            return false;
         }
-
+        $data['language_id'] = (int)$data['language_id'] ?: $this->language->getContentLanguageID();
+        $result = $this->db->query(
+            "SELECT MAX(stock_status_id) as max_id 
+            FROM " . $this->db->table("stock_statuses")
+        );
+        $stockStatusId = (int)$result->row['max_id'] + 1;
+        $this->language->replaceDescriptions('stock_statuses',
+            [
+                'stock_status_id' => $stockStatusId,
+                'language_id'     => $data['language_id'],
+            ],
+            [
+                $data['language_id'] => [
+                    'name' => $data['stock_status']['name'],
+                ],
+            ]);
         $this->cache->remove('localization');
 
-        return $stock_status_id;
+        return $stockStatusId;
     }
 
-    public function editStockStatus($stock_status_id, $data)
+    public function editStockStatus($stockStatusId, $data)
     {
-        foreach ($data['stock_status'] as $language_id => $value) {
+        $data['language_id'] = (int)$data['language_id'] ?: $this->language->getContentLanguageID();
+        $this->language->replaceDescriptions('stock_statuses',
+            [
+                'stock_status_id' => (int)$stockStatusId,
+                'language_id'     => $data['language_id'],
+            ],
+            [
+                $data['language_id'] => [
+                    'name' => $data['stock_status']['name'],
+                ],
+            ]
+        );
 
-            $this->language->replaceDescriptions('stock_statuses',
-                array(
-                    'stock_status_id' => (int)$stock_status_id,
-                    'language_id'     => (int)$language_id,
-                ),
-                array(
-                    $language_id => array(
-                        'name' => $value['name'],
-                    ),
-                ));
-
-        }
         $this->cache->remove('localization');
     }
 
-    public function deleteStockStatus($stock_status_id)
+    /**
+     * @param int $stockStatusId
+     * @return void
+     * @throws AException
+     */
+    public function deleteStockStatus($stockStatusId = 0)
     {
-        $this->db->query("DELETE FROM ".$this->db->table("stock_statuses")." 
-						WHERE stock_status_id = '".(int)$stock_status_id."'");
+        $this->db->query(
+            "DELETE FROM " . $this->db->table("stock_statuses") . " 
+			WHERE stock_status_id = '" . (int)$stockStatusId . "'"
+        );
         $this->cache->remove('localization');
     }
 
-    public function getStockStatus($stock_status_id)
+    /**
+     * @param int $stockStatusId
+     * @param int $languageId
+     * @return array
+     * @throws AException
+     */
+    public function getStockStatus($stockStatusId, int $languageId = 0)
     {
-        $query = $this->db->query("SELECT *
-									FROM ".$this->db->table("stock_statuses")." 
-									WHERE stock_status_id = '".(int)$stock_status_id."'
-										AND language_id = '".(int)$this->config->get('storefront_language_id')."'");
+        $languageId = $languageId ?: (int)$this->config->get('storefront_language_id');
+        $query = $this->db->query(
+            "SELECT *
+            FROM " . $this->db->table("stock_statuses") . " 
+            WHERE stock_status_id = '" . (int)$stockStatusId . "'
+                AND language_id = '" . $languageId . "'"
+        );
 
         return $query->row;
     }
 
-    public function getStockStatuses($data = array())
+    public function getStockStatuses($data = [])
     {
 
-        if (!empty($data['content_language_id'])) {
-            $language_id = ( int )$data['content_language_id'];
-        } else {
-            $language_id = (int)$this->session->data['content_language_id'];
-        }
+        $language_id = (int)$data['content_language_id'] ?: $this->language->getContentLanguageID();
 
         if ($data) {
-            $sql = "SELECT * FROM ".$this->db->table("stock_statuses")." WHERE language_id = '".$language_id."'";
+            $sql = "SELECT * FROM " . $this->db->table("stock_statuses") . " WHERE language_id = '" . $language_id . "'";
 
             $sql .= " ORDER BY name";
 
@@ -113,20 +130,18 @@ class ModelLocalisationStockStatus extends Model
                     $data['limit'] = 20;
                 }
 
-                $sql .= " LIMIT ".(int)$data['start'].",".(int)$data['limit'];
+                $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
             }
-
             $query = $this->db->query($sql);
-
             return $query->rows;
         } else {
-            $cache_key = 'localization.stock_status.lang_'.$language_id;
+            $cache_key = 'localization.stock_status.lang_' . $language_id;
             $stock_status_data = $this->cache->pull($cache_key);
 
             if ($stock_status_data === false) {
                 $query = $this->db->query("SELECT stock_status_id, name
-											FROM ".$this->db->table("stock_statuses")." 
-											WHERE language_id = '".$language_id."'
+											FROM " . $this->db->table("stock_statuses") . " 
+											WHERE language_id = '" . $language_id . "'
 											ORDER BY name");
                 $stock_status_data = $query->rows;
                 $this->cache->push($cache_key, $stock_status_data);
@@ -136,25 +151,28 @@ class ModelLocalisationStockStatus extends Model
         }
     }
 
-    public function getStockStatusDescriptions($stock_status_id)
+    /**
+     * @param int $stock_status_id
+     * @param int $language_id
+     * @return array
+     * @throws AException
+     */
+    public function getStockStatusDescriptions(int $stock_status_id, int $language_id)
     {
-        $stock_status_data = array();
-
-        $query = $this->db->query("SELECT * FROM ".$this->db->table("stock_statuses")." WHERE stock_status_id = '".(int)$stock_status_id."'");
-
-        foreach ($query->rows as $result) {
-            $stock_status_data[$result['language_id']] = array('name' => $result['name']);
-        }
-
-        return $stock_status_data;
+        $query = $this->db->query(
+            "SELECT * 
+            FROM " . $this->db->table("stock_statuses") . " 
+            WHERE stock_status_id = '" . $stock_status_id . "' AND language_id = '" . $language_id . "' "
+        );
+        return $query->row;
     }
 
     public function getTotalStockStatuses()
     {
-        $query = $this->db->query("SELECT COUNT(*) AS total FROM ".$this->db->table("stock_statuses")." WHERE language_id = '".(int)$this->config->get('storefront_language_id')."'");
-
-        return $query->row['total'];
+        $query = $this->db->query(
+            "SELECT COUNT(DISTINCT stock_status_id) AS total 
+            FROM " . $this->db->table("stock_statuses")
+        );
+        return (int)$query->row['total'];
     }
 }
-
-?>

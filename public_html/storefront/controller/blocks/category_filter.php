@@ -8,21 +8,21 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
-
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 class ControllerBlocksCategoryFilter extends AController
 {
     /** @var array  list of category IDs */
     protected $selectedCategories = [];
-    /** @var bool sign when show only categories with parent Id 0  to prevent display of all categories. */
+    /** @var bool sign when show only categories with parent ID 0 to prevent display of all categories. */
     protected $root_level = false;
 
     /** @var array filtered category list based on other parameters (brands and rates) */
@@ -66,19 +66,23 @@ class ControllerBlocksCategoryFilter extends AController
             /** @var ModelCatalogManufacturer $mdl */
             $mdl = $this->loadModel('catalog/manufacturer');
             if (!$this->selectedCategories) {
+                $filter = array_merge(
+                    [
+                        'manufacturer_id' => $this->selectedBrands,
+                        'rating'          => $this->selectedRatings
+                    ],
+                    (array)$this->data['additional_filters']
+                );
                 $this->selectedCategories = $mdl->getCategories(
                     [
-                        'filter' => [
-                            'manufacturer_id' => $this->selectedBrands,
-                            'rating'          => $this->selectedRatings
-                        ]
+                        'filter' => $filter
                     ]
                 );
             }
         }
 
         if (str_starts_with($parentRoute, 'pages/product/category')) {
-            $this->root_level = !(bool)$this->selectedCategories;
+            $this->root_level = !($this->selectedCategories);
         }
     }
 
@@ -86,11 +90,12 @@ class ControllerBlocksCategoryFilter extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->loadLanguage('novator/novator');
+
         $get = $this->request->get;
 
         $this->buildTrees();
 
+        $this->data['selected_categories'] = $this->selectedCategories;
         $this->data['selected_brand'] = $this->selectedBrands;
         $this->data['selected_rating'] = $this->selectedRatings;
 
@@ -102,6 +107,8 @@ class ControllerBlocksCategoryFilter extends AController
         $httpQuery['keyword'] = $get['keyword'];
         $httpQuery['description'] = $get['description'];
 
+        //remove the page number to reset page to "1" when some filter changed
+        unset($httpQuery['page']);
         $this->data['page_url'] = $this->html->getSEOURL($this->request->get['rt'], '&' . http_build_query($httpQuery));
         $this->view->batchAssign($this->data);
         if (!$this->data['category_details']['tree'] && !$this->data['ratings'] && !$this->data['brands']) {
@@ -129,18 +136,22 @@ class ControllerBlocksCategoryFilter extends AController
         } elseif ($this->data['data_sources'][$parentRoute]) {
             $this->buildTreesForProductListingPage($parentRoute);
         }
-        //if list not taken from main controller result like a search page
+        //if the list not taken from the main controller, results like a search page
         $this->getCategoryList();
 
-        //call to build inner list in the model state ($data['all_categories'])
+        //call to build an inner list in the model state ($data['all_categories'])
+        $filter = array_merge(
+            [
+                'rating'          => $this->selectedRatings,
+                'manufacturer_id' => $this->selectedBrands
+            ],
+            (array)$this->data['additional_filters']
+        );
         $categoryTree = $categoryMdl->buildCategoryTree(
             $this->categoryList,
             [
                 'store_id'   => (int)$this->config->get('config_store_id'),
-                'filter'     => [
-                    'rating'          => $this->selectedRatings,
-                    'manufacturer_id' => $this->selectedBrands
-                ],
+                'filter'     => $filter,
                 'root_level' => !$this->selectedCategories
             ]
         );
@@ -156,12 +167,16 @@ class ControllerBlocksCategoryFilter extends AController
     {
         /** @var ModelCatalogManufacturer $mdl */
         $mdl = $this->loadModel('catalog/manufacturer');
+        $filter = array_merge(
+            [
+                'manufacturer_id' => $this->selectedBrands,
+                'rating'          => $this->selectedRatings
+            ],
+            (array)$this->data['additional_filters']
+        );
         $this->data['brands'] = $mdl->getManufacturersData(
             [
-                'filter' => [
-                    'manufacturer_id' => $this->selectedBrands,
-                    'rating'          => $this->selectedRatings
-                ]
+                'filter' => $filter
             ]
         );
         if ($this->config->get('display_reviews')) {
@@ -180,21 +195,26 @@ class ControllerBlocksCategoryFilter extends AController
     {
         /** @var ModelCatalogCategory $categoryMdl */
         $categoryMdl = $this->loadModel('catalog/category');
-        $filter = [
-            'filter' => [
+        $filter = array_merge(
+            [
                 'rating'          => $this->selectedRatings,
                 'manufacturer_id' => $this->selectedBrands
-            ]
-        ];
+            ],
+            (array)$this->data['additional_filters']
+        );
 
         $this->data['brands'] = $categoryMdl->getCategoriesBrands(
             ($this->root_level ? [] : $this->selectedCategories),
-            $filter
+            [
+                'filter' => $filter
+            ]
         );
         if ($this->config->get('display_reviews')) {
             $this->data['ratings'] = $this->model_catalog_review->getCategoriesAVGRatings(
                 $this->selectedCategories,
-                $filter
+                [
+                    'filter' => $filter
+                ]
             );
         }
     }
@@ -278,7 +298,7 @@ class ControllerBlocksCategoryFilter extends AController
         }
     }
 
-    // get category list with all children regardless of selected
+    // get a category list with all children regardless of selected
     protected function getCategoryList()
     {
         /** @var ModelCatalogCategory $mdl */
@@ -291,14 +311,18 @@ class ControllerBlocksCategoryFilter extends AController
         } else {
             $fullCatList = $mdl->getChildrenIDs(0, 'active_only', false);
         }
-
+        //allow affecting on category list filter from hooks
+        $filter = array_merge(
+            [
+                'category_id'     => array_unique($fullCatList),
+                'rating'          => $this->selectedRatings,
+                'manufacturer_id' => $this->selectedBrands
+            ],
+            (array)$this->data['additional_filters']
+        );
         $output = $mdl->getAllCategories(
             [
-                'filter'     => [
-                    'category_id'     => array_unique($fullCatList),
-                    'rating'          => $this->selectedRatings,
-                    'manufacturer_id' => $this->selectedBrands
-                ],
+                'filter'     => $filter,
                 'root_level' => $this->root_level
             ]
         );

@@ -9,47 +9,46 @@
             <div class="multiactions pull-right <?php echo $data['multiaction_class']; ?>"
                  id="<?php echo $data['table_id'] ?>_multiactions">
                 <select id="<?php echo $data['table_id'] ?>_selected_action"
-                        name="<?php echo $data['table_id'] ?>_action">
+                        name="<?php echo $data['table_id'] ?>_action"
+                        aria-label="multi_action_selectbox">
                     <?php
-                    if (sizeof((array) $multiaction_options) > 1) {
-                        echo '<option value="">'.$text_choose_action.'</option>';
+                    if (sizeof((array)$multiaction_options) > 1) {
+                        echo '<option value="">' . $text_choose_action . '</option>';
                     }
                     foreach ($multiaction_options as $value => $text) {
-                        echo '<option value="'.$value.'">'.$text.'</option>';
+                        echo '<option value="' . $value . '">' . $text . '</option>';
                     } ?>
                 </select>
                 <a id="<?php echo $data['table_id'] ?>_go" class="btn btn-xs btn-default">
                     <?php echo $text_go; ?>
                 </a>
             </div>
-        <?php
+            <?php
         } ?>
     </form>
 </div>
 <?php
 //load quick view port modal
 echo $this->html->buildElement(
-    [
-        'type'        => 'modal',
-        'id'          => 'viewport_modal',
-        'modal_type'  => 'lg',
-        'data_source' => 'ajax',
-        'js_onload'   => " 
+        [
+                'type'        => 'modal',
+                'id'          => 'viewport_modal',
+                'modal_type'  => 'lg',
+                'data_source' => 'ajax',
+                'js_onload'   => " 
                         var url = $(this).data('bs.modal').options.fullmodeHref;
                         $('#viewport_modal .modal-header a.btn').attr('href',url); ",
-        'js_onclose'  => "$('#".$data['table_id']."').trigger('reloadGrid',[{current:true}]);",
-    ]
+                'js_onclose'  => "$('#" . $data['table_id'] . "').trigger('reloadGrid',[{current:true}]);",
+        ]
 );
 ?>
-
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
 <script type="text/javascript">
 
     let initGrid_<?php echo $data['table_id'] ?> = function ($) {
-
         let text_choose_action = <?php js_echo($text_choose_action);?>;
         const _table_id = '<?php echo $data['table_id'] ?>';
-        const table_id = '#<?php echo $data['table_id'] ?>';
+        const table_id = '#' + _table_id;
         const jq_names = [<?php
             foreach ($data['colNames'] as $col_name) {
                 js_echo($col_name);
@@ -58,23 +57,26 @@ echo $this->html->buildElement(
             ?>];
         const jq_model = [<?php
             $i = 1;
-            foreach ((array) $data['colModel'] as $m) {
-                $col = ['resizable: false', 'title: false', 'searchoptions: { sopt:[\'cn\'] }'];
+            foreach ((array)$data['colModel'] as $m) {
+                $col = ["resizable: false", "searchoptions: { sopt:['cn'] }"];
+                $hasTitleOption = false;
                 foreach ($m as $k => $v) {
-                    if (is_string($v)) {
-                        $col[] = "$k: '".addslashes($v)."'";
-                    } else {
-                        if (is_int($v)) {
-                            $col[] = "$k: ".(int) ($v);
-                        } else {
-                            if (is_bool($v)) {
-                                $col[] = "$k: ".($v ? 'true' : 'false');
-                            }
-                        }
+                    if ($k === 'title') {
+                        $hasTitleOption = true;
+                    }
+                    if (is_numeric($v)) {
+                        $col[] = $k . ": " . (int)($v);
+                    } elseif (is_string($v)) {
+                        $col[] = $k . ": '" . addslashes($v) . "'";
+                    } elseif (is_bool($v)) {
+                        $col[] = $k . ": " . ($v ? 'true' : 'false');
                     }
                 }
-                echo "{".implode(',', $col)."}";
-                if ($i < sizeof((array) $data['colModel'])) {
+                if (!$hasTitleOption) {
+                    $col[] = 'title: false';
+                }
+                echo "{" . implode(', ', $col) . "}";
+                if ($i < sizeof((array)$data['colModel'])) {
                     echo ',';
                     $i++;
                 }
@@ -84,6 +86,34 @@ echo $this->html->buildElement(
 
         let gridFirstLoad = true;
 
+        const applyOverflowCellTitles = function () {
+            const $cells = $(table_id + ' tr.jqgrow td[role="gridcell"]');
+            $cells.each(function () {
+                const $cell = $(this);
+                if ($cell.data('bs.tooltip')) {
+                    $cell.tooltip('destroy');
+                }
+                $cell.removeClass('tooltips').removeAttr('title').removeAttr('data-original-title');
+
+                // Skip interactive/action cells.
+                if ($cell.find('input, select, textarea, button, .btn, .btn-group, .afield').length) {
+                    return;
+                }
+
+                const text = $.trim($cell.text());
+                if (!text) {
+                    return;
+                }
+
+                // Show title only when content is actually clipped.
+                if (this.scrollWidth > this.clientWidth || this.scrollHeight > this.clientHeight) {
+                    $cell
+                        .addClass('tooltips')
+                        .attr('data-original-title', text)
+                        .tooltip({container: 'body'});
+                }
+            });
+        };
         const updatePerPage = function (records, limit) {
             let html = '';
             const rowList = [<?php echo implode(',', $data['rowList']) ?>];
@@ -113,7 +143,7 @@ echo $this->html->buildElement(
                 const rows = table.tBodies[0].rows;
                 const draged_id = row.id;
                 const newpos = $('#' + row.id).position();
-                //slip if row was not moved (single click of incomplete drag fix)
+                //slip if the row was not moved (single click of incomplete drag fix)
                 if (newpos.top == startpos.top && newpos.left == startpos.left) {
                     return false;
                 }
@@ -209,12 +239,14 @@ echo $this->html->buildElement(
                 const reccount = $(table_id).jqGrid('getGridParam', 'reccount');
                 const records = $(table_id).jqGrid('getGridParam', 'records');
                 const rowNum = $(table_id).jqGrid('getGridParam', 'rowNum');
+                const pager = $(table_id + '_pager');
+                const noResults = $(table_id + '_wrapper .no_results');
                 if (!reccount) {
-                    $(table_id + '_pager').hide();
-                    $(table_id + '_wrapper .no_results').show();
+                    pager.hide();
+                    noResults.show();
                 } else {
-                    $(table_id + '_pager').show();
-                    $(table_id + '_wrapper .no_results').hide();
+                    pager.show();
+                    noResults.hide();
                 }
 
                 //add wrappers to the fields
@@ -229,7 +261,7 @@ echo $this->html->buildElement(
                     d.datepicker({dateFormat: 'yy-mm-dd'});
                 }
 
-                //uncheck multiselect checkbox
+                //uncheck the multiselect checkbox
                 $('#cb_' + _table_id).change();
 
                 // apply form transformation to all elements except grid row checkboxes
@@ -246,7 +278,7 @@ echo $this->html->buildElement(
                     triggerChanged: false
                 });
 
-                //add grid filter fields for saved state
+                //add grid filter fields for the saved state
                 const gridInfo = JSON.parse(localStorage.getItem('grid_params'));
                 if (gridInfo && gridInfo.postData && gridInfo.postData.filters) {
                     const $filters = JSON.parse(gridInfo.postData.filters);
@@ -261,84 +293,80 @@ echo $this->html->buildElement(
                 if (!empty($data['actions'])) {
                     foreach ($data['actions'] as $type => $action) {
                         $html_string = '';
-                        $href = 'href="'.(has_value($action['href']) ? $action['href'] : '#').'"';
-
-                        $html_string .= "actions_urls['".$type."'] = '".$href."';\n";
+                        $href = 'href="' . ($action['href'] ?: '#') . '"';
+                        $html_string .= "actions_urls['" . $type . "'] = '" . $href . "';\n";
                         $html_string .= ' actions += \'';
-                        $has_children = sizeof((array) $action['children']);
-                        $html_btn =
-                            '<a class="btn btn-xs btn_grid tooltips grid_action_'.$type.'" title="'.htmlentities(
-                                $action['text'], ENT_QUOTES, 'UTF-8'
-                            ).'" data-action-type="'.$type.'"';
+                        $has_children = sizeof((array)$action['children']);
+                        $html_btn = '<a class="btn btn-xs btn_grid tooltips grid_action_' . $type
+                                . '" title="' . html2view($action['text']) . '" data-action-type="' . $type . '"';
                         if ($has_children) {
                             $html_btn .= ' data-toggle="dropdown" aria-expanded="false"';
                         }
                         switch ($type) {
                             case 'expired':
-                                $html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-exclamation-triangle fa-lg"></i>';
+                                $html_btn .= ' ' . $href . ' rel="%ID%"><i class="fa fa-exclamation-triangle fa-lg"></i>';
                                 break;
                             case 'dropdown':
-                                $html_btn .= ' '.$href.' rel="%ID%"><i class="width12 fa fa-ellipsis-v fa-lg"></i>';
+                                $html_btn .= ' ' . $href . ' rel="%ID%"><i class="width12 fa fa-ellipsis-v fa-lg"></i>';
                                 break;
                             case 'edit':
-                                $html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-edit fa-lg"></i>';
+                                $html_btn .= ' ' . $href . ' rel="%ID%"><i class="fa fa-edit fa-lg"></i>';
                                 break;
                             case 'delete':
                                 if ($href != 'href="#"') {
-                                    $html_btn .= ' '.$href
-                                        .' rel="%ID%" data-confirmation="delete"><i class="fa fa-trash-o fa-lg"></i>';
+                                    $html_btn .= ' ' . $href
+                                            . ' rel="%ID%" data-confirmation="delete"><i class="fa fa-trash-o fa-lg"></i>';
                                 } else {
-                                    $html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-trash-o fa-lg"></i>';
+                                    $html_btn .= ' ' . $href . ' rel="%ID%"><i class="fa fa-trash-o fa-lg"></i>';
                                 }
                                 break;
                             case 'save':
-                                $html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-save fa-lg"></i>';
+                                $html_btn .= ' ' . $href . ' rel="%ID%"><i class="fa fa-save fa-lg"></i>';
                                 break;
                             case 'expand':
-                                $html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-plus-square-o fa-lg"></i>';
+                                $html_btn .= ' ' . $href . ' rel="%ID%"><i class="fa fa-plus-square-o fa-lg"></i>';
                                 break;
                             case 'restart':
-                                $html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-repeat fa-lg"></i>';
+                                $html_btn .= ' ' . $href . ' rel="%ID%"><i class="fa fa-repeat fa-lg"></i>';
                                 break;
                             case 'continue':
-                                $html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-forward fa-lg"></i>';
+                                $html_btn .= ' ' . $href . ' rel="%ID%"><i class="fa fa-forward fa-lg"></i>';
                                 break;
                             case 'approve':
-                                $html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-check-square-o fa-lg"></i>';
+                                $html_btn .= ' ' . $href . ' rel="%ID%"><i class="fa fa-check-square-o fa-lg"></i>';
                                 break;
                             case 'actonbehalfof':
-                                $html_btn .= ' '.$href.' target="_blank" rel="%ID%"><i class="fa fa-male fa-lg"></i>';
+                                $html_btn .= ' ' . $href . ' target="_blank" rel="%ID%"><i class="fa fa-male fa-lg"></i>';
                                 break;
                             case 'clone':
-                                $html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-clone fa-lg"></i>';
+                                $html_btn .= ' ' . $href . ' rel="%ID%"><i class="fa fa-clone fa-lg"></i>';
                                 break;
                             case 'run':
                             case 'remote_install':
                             case 'install':
-                                $html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-play fa-lg"></i>';
+                                $html_btn .= ' ' . $href . ' rel="%ID%"><i class="fa fa-play fa-lg"></i>';
                                 break;
                             case 'uninstall':
-                                $html_btn .= ' '.$href
-                                    .' rel="%ID%" data-confirmation="delete"><i class="fa fa-times fa-lg"></i>';
+                                $html_btn .= ' ' . $href . ' rel="%ID%" data-confirmation="delete"><i class="fa fa-times fa-lg"></i>';
                                 break;
                             case 'view':
-                                $html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-eye fa-lg"></i>';
+                                $html_btn .= ' ' . $href . ' rel="%ID%"><i class="fa fa-eye fa-lg"></i>';
                                 break;
                             default:
-                                $html_btn .= ' '.$href
-                                    .' id="action_'.$type.'_%ID%"  '
-                                    .(!empty($action['target']) ? 'target="'.$action['target'].'"' : '')
-                                    .'><i class="fa fa-'.$type.' fa-lg"></i>';
+                                $html_btn .= ' ' . $href
+                                        . ' id="action_' . $type . '_%ID%"  '
+                                        . (!empty($action['target']) ? 'target="' . $action['target'] . '"' : '')
+                                        . '><i class="fa fa-' . $type . ' fa-lg"></i>';
                         }
                         $html_btn .= '</a>';
 
                         //for dropdown
                         if ($action['children']) {
                             $html_children = '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" '
-                                .'role="menu">'
-                                    .'<h5 class="title">'
-                                    .htmlentities($text_select_from_list, ENT_QUOTES, 'UTF-8')
-                                    .'</h5><ul class="dropdown-list grid-dropdown">';
+                                    . 'role="menu">'
+                                    . '<h5 class="title">'
+                                    . htmlentities($text_select_from_list, ENT_QUOTES, 'UTF-8')
+                                    . '</h5><ul class="dropdown-list grid-dropdown">';
 
                             foreach ($action['children'] as $child) {
                                 $li_class = '';
@@ -346,25 +374,25 @@ echo $this->html->buildElement(
                                 //for viewport mode
                                 if ($child['vhref']) {
                                     $href = 'data-toggle="modal" data-target="#viewport_modal"'
-                                        .' href="'.$child['vhref'].'" data-fullmode-href="'.$href.'"';
+                                            . ' href="' . $child['vhref'] . '" data-fullmode-href="' . $href . '"';
                                 } else {
-                                    $href = 'href="'.$href.'"';
+                                    $href = 'href="' . $href . '"';
                                 }
-                                $html_children .= '<li class="'.$li_class.'"><a '.$href.' rel="%ID%">'
-                                    .htmlentities( $child['text'], ENT_QUOTES, 'UTF-8' )
-                                    .'</a></li>';
+                                $html_children .= '<li class="' . $li_class . '"><a ' . $href . ' rel="%ID%">'
+                                        . htmlentities($child['text'], ENT_QUOTES, 'UTF-8')
+                                        . '</a></li>';
                             }
                             $html_children .= '</ul></div>';
-                            $html_btn = '<div class="btn-group">'.$html_btn.''.$html_children.'</div>';
+                            $html_btn = '<div class="btn-group">' . $html_btn . $html_children . '</div>';
                         }
 
-                        echo $html_string.$html_btn."'; \r\n";
+                        echo $html_string . $html_btn . "'; \r\n";
                     }
                 } // end of action
                 ?>
                 if (actions !== '') {
                     const ids = jQuery(table_id).jqGrid('getDataIDs');
-                    for (var i = 0; i < ids.length; i++) {
+                    for (let i = 0; i < ids.length; i++) {
                         if (ids[i] !== 'null') {
                             const _a = actions.replace(/%ID%/g, ids[i]);
                             jQuery(table_id).jqGrid('setRowData', ids[i], {action: _a});
@@ -442,7 +470,7 @@ echo $this->html->buildElement(
                     const sortColumnName = $(table_id).jqGrid('getGridParam', 'sortname');
                     if (sortColumnName) {
                         const colModel = $(table_id).jqGrid('getGridParam', 'colModel');
-                        for (var i = 0; i < colModel.length; i++) {
+                        for (let i = 0; i < colModel.length; i++) {
                             if (colModel[i].index === sortColumnName) {
                                 $(table_id + '_wrapper tr.ui-jqgrid-labels th:eq(' + i + ')').addClass('ui-state-highlight');
                                 $(table_id + '_wrapper tr.ui-search-toolbar th:eq(' + i + ')').addClass('ui-state-highlight');
@@ -454,10 +482,9 @@ echo $this->html->buildElement(
 
                 updatePerPage(records, rowNum);
 
-                // select rows after load by user data array
+                // select rows after a load by user data array
                 if ($(table_id).getGridParam('datatype') === "json") {
                     const userdata = $(table_id).getGridParam('userData');
-                    const curPage = $(table_id).getGridParam('page');
                     if (userdata.selId) {
                         $.each(userdata.selId, function (k, row_id) {
                             $(table_id).setSelection(row_id, true);
@@ -471,6 +498,7 @@ echo $this->html->buildElement(
                 } ?>
                     //rebind events after grid reload
                     bindCustomEvents();
+                    applyOverflowCellTitles();
                 });
                 //end of grid load complete
             },
@@ -509,14 +537,16 @@ echo $this->html->buildElement(
             },
             ondblClickRow: function (row_id) {
                 // quickview modal
-                let lnk = $('#' + row_id).find("td[aria-describedby$='_action']").find('[data-fullmode-href]');
+                const Row = $('#' + row_id);
+                const actionTd = Row.find("td[aria-describedby$='_action']");
+                let lnk = actionTd.find('[data-fullmode-href]');
                 //edit link
                 if (lnk.length === 0) {
-                    lnk = $('#' + row_id).find("td[aria-describedby$='_action']").find('.dropdown-menu [data-action-type="edit"]');
+                    lnk = actionTd.find('.dropdown-menu [data-action-type="edit"]');
                 }
                 //view link
                 if (lnk.length === 0) {
-                    lnk = $('#' + row_id).find("td[aria-describedby$='_action']").find('.dropdown-menu [data-action-type="view"]');
+                    lnk = actionTd.find('.dropdown-menu [data-action-type="view"]');
                 }
 
                 if (lnk.length > 0) {
@@ -537,7 +567,7 @@ echo $this->html->buildElement(
             },
             beforeRequest: function () {
                 <?php if($this->request->get['saved_list'] == $data['table_id']) { ?>
-                //apply saved grid for initial grid load only
+                //apply saved grid for an initial grid load only
                 const grid = $(table_id);
                 if (gridFirstLoad === true) {
                     const gridInfo = JSON.parse(localStorage.getItem('grid_params'));
@@ -553,7 +583,7 @@ echo $this->html->buildElement(
                         grid.jqGrid('setGridParam', {postData: gridInfo.postData});
                         grid.jqGrid('setGridParam', {search: gridInfo.search});
 
-                        //do we have external search form?
+                        //do we have an external search form?
                         const search_data = JSON.parse(localStorage.getItem('grid_search_form'));
                         if (search_data != null && search_data.table_id === _table_id) {
                             const $form = $(table_id + '_search');
@@ -565,9 +595,9 @@ echo $this->html->buildElement(
                     save_grid_parameters($(table_id));
                 }
                 <?php } else { ?>
-                //reset grid search for initial load only
+                //reset grid search for an initial load only
                 if (gridFirstLoad === true) {
-                    localStorage.setItem('grid_search_form',null);
+                    localStorage.setItem('grid_search_form', null);
                 }
                 save_grid_parameters($(table_id));
                 <?php } ?>
@@ -606,11 +636,15 @@ echo $this->html->buildElement(
         <?php } ?>
 
         <?php if ($data['search_form']) { ?>
-        //process grid search from submit
+        //process grid search from submitting
+        if($(table_id + '_search').length < 1) {
+            console.log('Error! ' + table_id + '_search' + ' search form not found!')
+        }
+
         $(table_id + '_search').submit(function () {
             const params = $(this).serialize();
             const new_url = '<?php echo $data["url"] ?>&' + params;
-            //save search request
+            //save a search request
             save_grid_search_form_parameters();
             $(table_id)
                 .jqGrid('setGridParam', {url: new_url, page: 1})
@@ -630,8 +664,9 @@ echo $this->html->buildElement(
                         $(this).removeAttr('selected');
                     }
                     //reset chosen if any
-                    if ($s.parent().find(".chosen-select").length > 0) {
-                        $s.parent().find(".chosen-select").find('option:first-child').prop('selected', true).end().trigger('chosen:updated');
+                    let chosen = $s.parent().find(".chosen-select");
+                    if (chosen.length > 0) {
+                        chosen.find('option:first-child').prop('selected', true).end().trigger('chosen:updated');
                     }
                 });
             });
@@ -646,21 +681,20 @@ echo $this->html->buildElement(
         if ($data['multiselect'] == 'true') { ?>
         $(table_id + '_multiactions').appendTo($(table_id + '_pager_right'));
         $(table_id + "_go").click(function () {
-            let ids = [];
+            let ids;
             //get all selected rows based on multi-select
-            if($(table_id).jqGrid('getGridParam','multiselect')) {
+            if ($(table_id).jqGrid('getGridParam', 'multiselect')) {
                 ids = $(table_id).jqGrid('getGridParam', 'selarrrow');
-            }else{
+            } else {
                 ids = $(table_id).jqGrid('getGridParam', 'selrow');
             }
-            if(ids instanceof Array)
-            {
+            if (ids instanceof Array) {
                 ids = ids.filter(Boolean);
             }
-            if (ids.length<1) {
+            if (ids.length < 1) {
                 return false;
             }
-            var bulkAction = $(table_id + '_selected_action').val();
+            let bulkAction = $(table_id + '_selected_action').val();
             switch (bulkAction) {
                 case 'delete':
                     $(table_id).jqGrid(
@@ -679,7 +713,7 @@ echo $this->html->buildElement(
                                 dlgDiv.css('left', Math.round((parentDiv.width() - dlgDiv.width()) / 2) + "px");
                             },
                             afterSubmit: function (response) {
-                                if (response.responseText !== '' && response.responseJSON.status !=='ok') {
+                                if (response.responseText !== '' && response.responseJSON.status !== 'ok') {
                                     const dlgDiv = $("#delmod" + _table_id);
                                     $('#dData', dlgDiv).hide();
                                     return [false, response.responseText];
@@ -700,7 +734,7 @@ echo $this->html->buildElement(
                 case 'disable':
                 case 'enable':
                 case 'save':
-                    var form_data = $(table_id + '_form')
+                    let form_data = $(table_id + '_form')
                         .find('tr>td>input[role=checkbox]:checked')
                         .parents('tr').find('input, select')
                         .serializeArray();
@@ -723,7 +757,7 @@ echo $this->html->buildElement(
                     alert(text_choose_action);
                     return;
                 default:
-                    console.log('unknown grid bulk action: '+bulkAction);
+                    console.log('unknown grid bulk action: ' + bulkAction);
                     break;
             }
         });
@@ -769,7 +803,7 @@ echo $this->html->buildElement(
             gridInfo.rowNum = $grid.jqGrid('getGridParam', 'rowNum');
             gridInfo.postData = $grid.jqGrid('getGridParam', 'postData');
             gridInfo.search = $grid.jqGrid('getGridParam', 'search');
-            localStorage.setItem('grid_params',JSON.stringify(gridInfo));
+            localStorage.setItem('grid_params', JSON.stringify(gridInfo));
         }
 
         function save_grid_search_form_parameters() {
@@ -782,16 +816,17 @@ echo $this->html->buildElement(
 
         //resize jqgrid
         const resize_the_grid = function () {
-            // Get width of parent contentpanel
-            var $targetContainer = $(table_id).closest('.contentpanel');
+            const minWidth = 750; //px
+            // Get width of the parent content panel
+            let $targetContainer = $(table_id).closest('.contentpanel');
             let width = $targetContainer.width() - 20;
-            if (width < 750) {
-                //min grid width is 750px;
-                width = 750;
+            if (width < minWidth) {
+                width = minWidth;
             }
             if (width > 0 && Math.abs(width - $(table_id).width()) > 5) {
                 $(table_id).setGridWidth(width, true);
             }
+            applyOverflowCellTitles();
         };
 
         //resize on load
@@ -800,7 +835,7 @@ echo $this->html->buildElement(
             //resize grid width on window resize
             resize_the_grid();
         }).trigger('resize');
-        //resize on left panel
+        //resize on the left panel
         $('body').bind('leftpanelChanged', function () {
             resize_the_grid();
         });
@@ -826,7 +861,7 @@ echo $this->html->buildElement(
             <?php if ($data['multiselect'] == 'true') { ?>
             index--;
             <?php } ?>
-            let align = '';
+            let align;
             if (!jq_model[index]) {
                 align = 'middle';
             } else {
@@ -835,15 +870,15 @@ echo $this->html->buildElement(
             $(this).parent().css('text-align', align);
             $.aform.styleGridForm(this);
         });
-        //remove reset button in search
+        //remove the reset button in search
         tb.find(".ui-search-clear").remove();
 
     };
     <?php
-    //run initialization if initialization on load enabled
-if ($init_onload) { ?>
+    //run initialization if initialization on a load enabled
+    if ($init_onload) { ?>
     initGrid_<?php echo $data['table_id'] ?>($);
-<?php } ?>
+    <?php } ?>
 
     //adjust grid pager:
     $('#<?php echo $data['table_id'] ?>_pager_center').css({width: ''});

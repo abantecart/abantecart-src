@@ -27,8 +27,9 @@ class ModelToolInstallUpgradeHistory extends Model
      * @param array $data
      *
      * @return array
+     * @throws AException
      */
-    public function getLog($data = array())
+    public function getLog($data = [])
     {
 
         if (!isset($data['sort'])) {
@@ -43,31 +44,29 @@ class ModelToolInstallUpgradeHistory extends Model
             $data['limit'] = 10;
         }
         $dataset = new ADataset('install_upgrade_history', 'admin');
-        $rows = $dataset->getRows(array(), $data['sort'], $data['limit'], $data['offset']);
-
-        return $rows;
+        return $dataset->searchRows($data['filter'], $data['sort'], $data['limit'], $data['offset']);
     }
 
     /**
      * @param array $filter
      *
      * @return int
+     * @throws AException
      */
-    public function getTotalRows($filter = array())
+    public function getTotalRows($filter = [])
     {
-
-        if ($filter) {
+        if (!$filter['column_name']) {
             $filter['column_name'] = 'name';
             $filter['operator'] = 'like';
         }
 
         $dataset = new ADataset('install_upgrade_history', 'admin');
-        $rows = $dataset->getTotalRows($filter);
-        return $rows;
+        return $dataset->getTotalRows($filter);
     }
 
     /**
      * @return bool
+     * @throws AException
      */
     public function deleteData()
     {

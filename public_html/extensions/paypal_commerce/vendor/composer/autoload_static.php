@@ -4,32 +4,81 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc2776317d02307705e1a04b3eb7fcfb3
+class ComposerStaticInitaf5ee0f8c31b4044da5d9e679c019c09
 {
+    public static $files = array (
+        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
+        'a' => 
+        array (
+            'apimatic\\jsonmapper\\' => 20,
+        ),
+        'U' => 
+        array (
+            'Unirest\\' => 8,
+        ),
         'S' => 
         array (
-            'Sample\\' => 7,
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Component\\HttpFoundation\\' => 33,
         ),
         'P' => 
         array (
-            'PayPalHttp\\' => 11,
-            'PayPalCheckoutSdk\\' => 18,
+            'Psr\\Log\\' => 8,
+            'PaypalServerSdkLib\\' => 19,
+        ),
+        'C' => 
+        array (
+            'Core\\' => 5,
+            'CoreInterfaces\\' => 15,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Sample\\' => 
+        'apimatic\\jsonmapper\\' => 
         array (
-            0 => __DIR__ . '/..' . '/paypal/paypal-checkout-sdk/samples',
+            0 => __DIR__ . '/..' . '/apimatic/jsonmapper/src',
         ),
-        'PayPalHttp\\' => 
+        'Unirest\\' => 
         array (
-            0 => __DIR__ . '/..' . '/paypal/paypalhttp/lib/PayPalHttp',
+            0 => __DIR__ . '/..' . '/apimatic/unirest-php/src',
         ),
-        'PayPalCheckoutSdk\\' => 
+        'Symfony\\Polyfill\\Mbstring\\' => 
         array (
-            0 => __DIR__ . '/..' . '/paypal/paypal-checkout-sdk/lib/PayPalCheckoutSdk',
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Component\\HttpFoundation\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/http-foundation',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/src',
+        ),
+        'PaypalServerSdkLib\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/paypal/paypal-server-sdk/src',
+        ),
+        'Core\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/apimatic/core/src',
+        ),
+        'CoreInterfaces\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/apimatic/core-interfaces/src',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'R' => 
+        array (
+            'Rs\\Json' => 
+            array (
+                0 => __DIR__ . '/..' . '/php-jsonpointer/php-jsonpointer/src',
+            ),
         ),
     );
 
@@ -40,9 +89,10 @@ class ComposerStaticInitc2776317d02307705e1a04b3eb7fcfb3
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc2776317d02307705e1a04b3eb7fcfb3::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc2776317d02307705e1a04b3eb7fcfb3::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitc2776317d02307705e1a04b3eb7fcfb3::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitaf5ee0f8c31b4044da5d9e679c019c09::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitaf5ee0f8c31b4044da5d9e679c019c09::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitaf5ee0f8c31b4044da5d9e679c019c09::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitaf5ee0f8c31b4044da5d9e679c019c09::$classMap;
 
         }, null, ClassLoader::class);
     }

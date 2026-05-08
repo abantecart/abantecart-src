@@ -278,9 +278,13 @@ class ControllerPagesLocalisationOrderStatus extends AController
             $this->error['name'] = $this->language->get('error_name');
         }
         if (array_key_exists('status_text_id', $this->request->post)) {
+            $statuses = $this->order_status->getStatuses();
+            if (isset($this->request->get['order_status_id'])) {
+                unset($statuses[$this->request->get['order_status_id']]);
+            }
             if (mb_strlen($this->request->post['status_text_id']) < 3
                 || mb_strlen($this->request->post['status_text_id']) > 32
-                || in_array($this->request->post['status_text_id'], $this->order_status->getStatuses())
+                || in_array($this->request->post['status_text_id'], $statuses)
                 || !preformatTextID($this->request->post['status_text_id'])
             ) {
                 $this->error['text_id'] = $this->language->get('error_status_text_id');

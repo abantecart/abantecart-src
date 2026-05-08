@@ -1,29 +1,31 @@
 <?php
 
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2026 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
 /**
  * Class ControllerResponsesCheckoutFastCheckoutSummary
+ *
+ * @property AWeight $weight
  *
  */
 class ControllerResponsesCheckoutFastCheckoutSummary extends AController
@@ -53,13 +55,15 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
                 $tax_country_id = $guestSessionData['shipping']['country_id'] ?? $guestSessionData['country_id'];
                 $tax_zone_id = $guestSessionData['shipping']['zone_id'] ?? $guestSessionData['zone_id'];
             }
-        }else{
+        } else {
             if ($this->config->get('config_tax_customer')) {
                 $tax_country_id = $this->session->data['fc']['country_id'];
                 $tax_zone_id = $this->session->data['fc']['zone_id'];
             } else {
-                $tax_country_id = $this->session->data['fc']['shipping']['country_id'] ?? $this->session->data['fc']['country_id'];
-                $tax_zone_id = $this->session->data['fc']['shipping']['zone_id'] ?? $this->session->data['fc']['zone_id'];
+                $tax_country_id =
+                    $this->session->data['fc']['shipping']['country_id'] ?? $this->session->data['fc']['country_id'];
+                $tax_zone_id =
+                    $this->session->data['fc']['shipping']['zone_id'] ?? $this->session->data['fc']['zone_id'];
             }
         }
 
@@ -88,9 +92,8 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
 
     protected function buildCartProductDetails()
     {
-        $qty = 0;
         $resource = new AResource('image');
-        $products = [];
+        $products = $main_image = [];
         $mSizes = [
             'main'  =>
                 [
@@ -104,9 +107,8 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
         ];
 
         foreach ($this->cart->getProducts() as $result) {
-            $option_data = [];
-            $option = [];
-            foreach ($result['option'] as $option) {
+            $optionData = [];
+            foreach ((array) $result['option'] as $option) {
                 if ($option['element_type'] == 'H') {
                     continue;
                 } //skip hidden options
@@ -123,18 +125,17 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
 
                     $value = str_replace('\r\n', "\n", $value);
                     if (mb_strlen($value) > 64) {
-                        $value = mb_substr($value, 0, 64).'...';
+                        $value = mb_substr($value, 0, 64) . '...';
                     }
                 }
 
-                $option_data[] = [
-                    'name'  => $option['name'],
-                    'value' => $value,
-                    'title' => $title,
+                $optionData[] = [
+                    'option_value_id' => $option['option_value_id'],
+                    'name'            => $option['name'],
+                    'value'           => $value,
+                    'title'           => $title,
                 ];
             }
-
-            $qty += $result['quantity'];
 
             //get main image
             $thumbnail = $resource->getMainImage(
@@ -144,15 +145,18 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
                 $this->config->get('config_image_grid_height')
             );
 
-            $main_image = $resource->getResourceAllObjects(
-                'product_option_value',
-                $option['product_option_value_id'],
-                $mSizes,
-                1,
-                false
-            );
+            $optValId = array_column($optionData, 'product_option_value_id')[0];
+            if ($optValId) {
+                $main_image = $resource->getResourceAllObjects(
+                    'product_option_value',
+                    (int) $optValId,
+                    $mSizes,
+                    1,
+                    false
+                );
+            }
 
-            if (!empty($main_image)) {
+            if ($main_image) {
                 $thumbnail['origin'] = $main_image['origin'];
                 $thumbnail['title'] = $main_image['title'];
                 $thumbnail['description'] = $main_image['description'];
@@ -161,44 +165,45 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
                 $thumbnail['main_url'] = $main_image['main_url'];
             }
 
-            $products[] = [
-                'key'       => $result['key'],
-                'name'      => $result['name'],
-                'thumbnail' => $thumbnail,
-                'option'    => $option_data,
-                'quantity'  => $result['quantity'],
-                'stock'     => $result['stock'],
-                'price'     => $this->currency->format(
-                    $this->tax->calculate(
-                        $result['price'],
-                        $result['tax_class_id'],
-                        $this->config->get('config_tax')
-                    )
-                ),
-                'href'      => $this->html->getSEOURL(
-                    'product/product',
-                    '&product_id='.$result['product_id'],
-                    true
-                ),
-            ];
+            $products[] = array_merge(
+                $result,
+                [
+                    'thumbnail' => $thumbnail,
+                    'option'    => $optionData,
+                    'price'     => $this->currency->format(
+                        $this->tax->calculate(
+                            $result['price'],
+                            $result['tax_class_id'],
+                            $this->config->get('config_tax')
+                        )
+                    ),
+                    'href'      => $this->html->getSEOURL(
+                        'product/product',
+                        '&product_id=' . $result['product_id'],
+                        true
+                    ),
+                ]
+            );
         }
 
-        //check for virtual product such as gift certificate, account credit etc
+        //check for virtual product such as gift certificate, account credit, e.t.c.
         $virtual_products = $this->cart->getVirtualProducts();
         if ($virtual_products) {
             foreach ($virtual_products as $virtual) {
-                $products[] = [
-                    'name'     => ($virtual['name'] ? : 'Virtual Product'),
-                    'model'    => $virtual['model'],
-                    'price'    => $this->currency->format(
-                                        $virtual['amount'],
-                                        $this->currency->getCode()
-                                  ),
-                    'quantity' => ($virtual['quantity'] ? : 1),
-                    'option'   => [],
-                    'weight'   => (float)$virtual['weight'],
-                    'thumbnail'   => $virtual['thumb'] ?: $virtual['thumbnail']
-                ];
+                $products[] = array_merge(
+                    $virtual,
+                    [
+                        'name'      => ($virtual['name'] ? : 'Virtual Product'),
+                        'price'     => $this->currency->format(
+                            $virtual['amount'],
+                            $this->currency->getCode()
+                        ),
+                        'quantity'  => ($virtual['quantity'] ? : 1),
+                        'option'    => [],
+                        'weight'    => (float) $virtual['weight'],
+                        'thumbnail' => $virtual['thumb'] ? : $virtual['thumbnail'],
+                    ]
+                );
                 $this->data['items_total'] += ($virtual['quantity'] ? : 1)
                     * $this->currency->format(
                         $virtual['amount'],
@@ -210,12 +215,12 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
         }
 
         $this->data['products'] = $products;
-        $display_totals = $this->cart->buildTotalDisplay(true);
+        $displayTotals = $this->cart->buildTotalDisplay(true);
 
-        $this->data['totals'] = $display_totals['total_data'];
-        $this->data['total'] = $display_totals['total'];
-        $this->data['total_string'] = $this->currency->format($display_totals['total']);
-        if($this->config->get('config_cart_weight')){
+        $this->data['totals'] = $displayTotals['total_data'];
+        $this->data['total'] = $displayTotals['total'];
+        $this->data['total_string'] = $this->currency->format($displayTotals['total']);
+        if ($this->config->get('config_cart_weight')) {
             $this->data['cart_weight'] = $this->weight->format(
                 $this->cart->getWeight(),
                 $this->config->get('config_weight_class')

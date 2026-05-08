@@ -58,13 +58,14 @@ ADebug::checkpoint('init end');
 if (!defined('IS_ADMIN') || !IS_ADMIN) { // storefront load
 
     // Relative paths and directories
-    define('RDIR_TEMPLATE', 'storefront/view/'.$config->get('config_storefront_template').'/');
+    define('RDIR_TEMPLATE', 'storefront/view/'.($config?->get('config_storefront_template')?:'default').'/');
 
     $registry->set('customer', new ACustomer($registry));
     $registry->set('tax', new ATax($registry));
     $registry->set('weight', new AWeight($registry));
     $registry->set('length', new ALength($registry));
     $registry->set('cart', new ACart($registry));
+    $registry->set('shopping_data', new AShoppingData($registry, (int)$registry->get('customer')->getId()));
 
 } else {
     // Admin template load
@@ -74,7 +75,7 @@ if (!defined('IS_ADMIN') || !IS_ADMIN) { // storefront load
 }// end admin load
 
 $registry->set('currency', new ACurrency($registry));
-
+$hook->hk_IndexProcess();
 //Route to request process
 $router = new ARouter($registry);
 $registry->set('router', $router);

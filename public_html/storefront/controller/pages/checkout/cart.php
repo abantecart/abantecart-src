@@ -122,12 +122,12 @@ class ControllerPagesCheckoutCart extends AController
 
                                     $file_data = [
                                         'option_id' => $id,
-                                        'name'      => $file_path_info['name'],
-                                        'path'      => $file_path_info['path'],
-                                        'type'      => $this->request->files['option']['type'][$id],
-                                        'tmp_name'  => $this->request->files['option']['tmp_name'][$id],
-                                        'error'     => $this->request->files['option']['error'][$id],
-                                        'size'      => $this->request->files['option']['size'][$id],
+                                        'name' => $file_path_info['name'],
+                                        'path' => $file_path_info['path'],
+                                        'type' => $this->request->files['option']['type'][$id],
+                                        'tmp_name' => $this->request->files['option']['tmp_name'][$id],
+                                        'error' => $this->request->files['option']['error'][$id],
+                                        'size' => $this->request->files['option']['size'][$id],
                                     ];
 
                                     $file_errors = $fm->validateFileOption($attribute_data['settings'], $file_data);
@@ -139,7 +139,7 @@ class ControllerPagesCheckoutCart extends AController
                                         $result = move_uploaded_file($file_data['tmp_name'], $file_path_info['path']);
                                         if (!$result || $this->request->files['package_file']['error']) {
                                             $this->session->data['error'] .= '<br>Error: '
-                                                .getTextUploadError(
+                                                . getTextUploadError(
                                                     $this->request->files['option']['error'][$id]
                                                 );
                                             redirect($_SERVER['HTTP_REFERER']);
@@ -150,26 +150,26 @@ class ControllerPagesCheckoutCart extends AController
                                     $dataset->addRows(
                                         [
                                             'date_added' => date("Y-m-d H:i:s", time()),
-                                            'name'       => $file_path_info['name'],
-                                            'type'       => $file_data['type'],
-                                            'section'    => 'product_option',
+                                            'name' => $file_path_info['name'],
+                                            'type' => $file_data['type'],
+                                            'section' => 'product_option',
                                             'section_id' => $attribute_data['attribute_id'],
-                                            'path'       => $file_path_info['path'],
+                                            'path' => $file_path_info['path'],
                                         ]
                                     );
                                 }
                             }
 
                             if (
-                            $text_errors = $this->model_catalog_product->validateProductOptions($product_id, $options)
+                                $text_errors = $this->model_catalog_product->validateProductOptions($product_id, $options)
                             ) {
                                 $this->session->data['error'] = $text_errors;
                                 //send options values back via _GET
-                                $url = '&'.http_build_query(['option' => $post['option']]);
+                                $url = '&' . http_build_query(['option' => $post['option']]);
                                 redirect(
                                     $this->html->getSecureURL(
                                         $product_rt,
-                                        '&product_id='.$post['product_id'].$url
+                                        '&product_id=' . $post['product_id'] . $url
                                     )
                                 );
                             }
@@ -217,16 +217,16 @@ class ControllerPagesCheckoutCart extends AController
 
         $this->document->addBreadcrumb(
             [
-                'href'      => $this->html->getHomeURL(),
-                'text'      => $this->language->get('text_home'),
+                'href' => $this->html->getHomeURL(),
+                'text' => $this->language->get('text_home'),
                 'separator' => false,
             ]
         );
 
         $this->document->addBreadcrumb(
             [
-                'href'      => $this->html->getSecureURL('checkout/cart'),
-                'text'      => $this->language->get('text_basket'),
+                'href' => $this->html->getSecureURL('checkout/cart'),
+                'text' => $this->language->get('text_basket'),
                 'separator' => $this->language->get('text_separator'),
             ]
         );
@@ -242,8 +242,8 @@ class ControllerPagesCheckoutCart extends AController
             $form->setForm(['form_name' => 'cart']);
             $this->data['form']['form_open'] = $form->getFieldHtml(
                 [
-                    'type'   => 'form',
-                    'name'   => 'cart',
+                    'type' => 'form',
+                    'name' => 'cart',
                     'action' => $this->html->getSecureURL($cart_rt),
                 ]
             );
@@ -284,24 +284,24 @@ class ControllerPagesCheckoutCart extends AController
 
                         $value = str_replace('\r\n', "\n", $value);
                         if (mb_strlen($value) > 64) {
-                            $value = mb_substr($value, 0, 64).'...';
+                            $value = mb_substr($value, 0, 64) . '...';
                         }
                     }
 
                     $option_data[] = [
-                        'name'  => $option['name'],
+                        'name' => $option['name'],
                         'value' => $value,
                         'title' => $title,
                     ];
                     // product image by option value
                     $mSizes = [
-                        'main'  =>
+                        'main' =>
                             [
-                                'width'  => $this->config->get('config_image_cart_width'),
+                                'width' => $this->config->get('config_image_cart_width'),
                                 'height' => $this->config->get('config_image_cart_height'),
                             ],
                         'thumb' => [
-                            'width'  => $this->config->get('config_image_cart_width'),
+                            'width' => $this->config->get('config_image_cart_width'),
                             'height' => $this->config->get('config_image_cart_height'),
                         ],
                     ];
@@ -322,52 +322,48 @@ class ControllerPagesCheckoutCart extends AController
                         $thumbnail['thumb_url'] = $main_image['thumb_url'];
                     }
                 }
-
+                $result['price_num'] = $result['price'] ?: $result['amount'];
                 $price_with_tax = $this->tax->calculate(
-                    $result['price'] ?: $result['amount'],
+                    $result['price_num'],
                     $result['tax_class_id'],
                     $this->config->get('config_tax')
                 );
-                $products[] = [
-                    'remove'       => $form->getFieldHtml(
-                        [
-                            'type' => 'checkbox',
-                            'name' => 'remove['.$result['key'].']',
-                        ]
-                    ),
-                    'remove_url'   => $this->html->getSecureURL($cart_rt, '&remove='.$result['key']),
-                    'key'          => $result['key'],
-                    'name'         => $result['name'],
-                    'model'        => $result['model'],
-                    'sku'          => $result['sku'],
-                    'thumb'        => $thumbnail,
-                    'option'       => $option_data,
-                    'quantity'     => $form->getFieldHtml(
-                        [
-                            'type'  => 'input',
-                            'name'  => 'quantity['.$result['key'].']',
-                            'value' => $result['quantity'],
-                            'style' => 'short',
-                            'attr'  => ' size="6" '
-                                .( (int)$result['maximum'] ? 'max="'.(int)$result['maximum'].'"' : '')
-                                   .( ' min="'.(int)$result['minimum'].'"'),
-                            'size'  => 6,
-                            'max'   => (int)$result['maximum'],
-                            'min'   => (int)$result['minimum']
-                        ]
-                    ),
-                    'stock'        => $result['stock'],
-                    'tax_class_id' => $result['tax_class_id'],
-                    'price'        => $this->currency->format($price_with_tax),
-                    'total'        => $this->currency->format_total($price_with_tax, $result['quantity']),
-                    'href'         => $this->html->getSEOURL(
-                        $product_rt,
-                        '&product_id='.$result['product_id'].'&key='.$result['key'],
-                        true
-                    ),
-                    'minimum'       => $result['minimum']?:1,
-                    'maximum'       => $result['maximum']
-                ];
+                $products[] = array_merge(
+                    $result,
+                    [
+                        'remove' => $form->getFieldHtml(
+                            [
+                                'type' => 'checkbox',
+                                'name' => 'remove[' . $result['key'] . ']',
+                            ]
+                        ),
+                        'remove_url' => $this->html->getSecureURL($cart_rt, '&remove=' . $result['key']),
+                        'thumb' => $thumbnail,
+                        'option' => $option_data,
+                        'quantity' => $form->getFieldHtml(
+                            [
+                                'type' => 'input',
+                                'name' => 'quantity[' . $result['key'] . ']',
+                                'value' => $result['quantity'],
+                                'style' => 'short',
+                                'attr' => ' size="6" '
+                                    . ((int)$result['maximum'] ? 'max="' . (int)$result['maximum'] . '"' : '')
+                                    . (' min="' . (int)$result['minimum'] . '"'),
+                                'size' => 6,
+                                'max' => (int)$result['maximum'],
+                                'min' => (int)$result['minimum']
+                            ]
+                        ),
+                        'price' => $this->currency->format($price_with_tax),
+                        'total' => $this->currency->format_total($price_with_tax, $result['quantity']),
+                        'href' => $this->html->getSEOURL(
+                            $product_rt,
+                            '&product_id=' . $result['product_id'] . '&key=' . $result['key'],
+                            true
+                        ),
+                        'minimum' => $result['minimum'] ?: 1,
+                    ]
+                );
             }
             $this->data['products'] = $products;
             $this->data['form']['update'] = $form->getFieldHtml(
@@ -379,9 +375,9 @@ class ControllerPagesCheckoutCart extends AController
 
             $this->data['form']['checkout'] = $form->getFieldHtml(
                 [
-                    'type'  => 'button',
-                    'name'  => 'checkout',
-                    'text'  => $this->language->get('button_checkout'),
+                    'type' => 'button',
+                    'name' => 'checkout',
+                    'text' => $this->language->get('button_checkout'),
                     'style' => 'button',
                 ]
             );
@@ -406,11 +402,11 @@ class ControllerPagesCheckoutCart extends AController
             }
             $this->data['form']['continue_shopping'] = $form->getFieldHtml(
                 [
-                    'type'  => 'button',
-                    'name'  => 'continue_shopping',
-                    'text'  => $this->language->get('button_shopping'),
+                    'type' => 'button',
+                    'name' => 'continue_shopping',
+                    'text' => $this->language->get('button_shopping'),
                     'style' => 'button',
-                    'href'  => $this->data['continue'],
+                    'href' => $this->data['continue'],
                 ]
             );
 
@@ -422,16 +418,16 @@ class ControllerPagesCheckoutCart extends AController
             $cf_total_max = $this->config->get('total_order_maximum');
             if (!$this->cart->hasMinRequirement()) {
                 $this->data['form']['checkout'] = '';
-                $error_msg[] = sprintf(
-                    $this->language->get('error_order_minimum'),
-                    $this->currency->format($cf_total_min)
+                $error_msg[] = $this->language->getAndReplace(
+                    'error_order_minimum',
+                    replaces: $this->currency->format($cf_total_min)
                 );
             }
             if (!$this->cart->hasMaxRequirement()) {
                 $this->data['form']['checkout'] = '';
-                $error_msg[] = sprintf(
-                    $this->language->get('error_order_maximum'),
-                    $this->currency->format($cf_total_max)
+                $error_msg[] = $this->language->getAndReplace(
+                    'error_order_maximum',
+                    replaces: $this->currency->format($cf_total_max)
                 );
             }
 
@@ -448,8 +444,8 @@ class ControllerPagesCheckoutCart extends AController
                 $form->setForm(['form_name' => 'estimate']);
                 $this->data['form_estimate']['form_open'] = $form->getFieldHtml(
                     [
-                        'type'   => 'form',
-                        'name'   => 'estimate',
+                        'type' => 'form',
+                        'name' => 'estimate',
                         'action' => $this->html->getSecureURL($cart_rt),
                     ]
                 );
@@ -493,8 +489,8 @@ class ControllerPagesCheckoutCart extends AController
 
             $this->data['form_estimate']['postcode'] = $form->getFieldHtml(
                 [
-                    'type'  => 'input',
-                    'name'  => 'postcode',
+                    'type' => 'input',
+                    'name' => 'postcode',
                     'value' => $postcode,
                     'style' => 'short',
                 ]
@@ -502,13 +498,13 @@ class ControllerPagesCheckoutCart extends AController
 
             $this->data['form_estimate']['country_zones'] = $form->getFieldHtml(
                 [
-                    'type'            => 'zones',
-                    'name'            => 'country',
-                    'submit_mode'     => 'id',
-                    'value'           => $country_id,
+                    'type' => 'zones',
+                    'name' => 'country',
+                    'submit_mode' => 'id',
+                    'value' => $country_id,
                     'zone_field_name' => 'estimate_zone',
-                    'zone_name'       => $zone_data['name'],
-                    'zone_value'      => $zone_id,
+                    'zone_name' => $zone_data['name'],
+                    'zone_value' => $zone_id,
                 ]
             );
 
@@ -536,10 +532,10 @@ class ControllerPagesCheckoutCart extends AController
 
             $this->data['button_continue'] = $this->html->buildElement(
                 [
-                    'name'  => 'continue',
-                    'type'  => 'button',
-                    'text'  => $this->language->get('button_continue'),
-                    'href'  => $this->html->getHomeURL(),
+                    'name' => 'continue',
+                    'type' => 'button',
+                    'text' => $this->language->get('button_continue'),
+                    'href' => $this->html->getHomeURL(),
                     'style' => 'button',
                 ]
             );
@@ -600,7 +596,7 @@ class ControllerPagesCheckoutCart extends AController
         //if balance enough to cover order amount
         if ($session['used_balance_full']) {
             $session['payment_method'] = [
-                'id'    => 'no_payment_required',
+                'id' => 'no_payment_required',
                 'title' => $this->language->get('no_payment_required'),
             ];
         }
@@ -610,9 +606,7 @@ class ControllerPagesCheckoutCart extends AController
     {
         unset(
             $this->session->data['shipping_methods'],
-            $this->session->data['shipping_method'],
             $this->session->data['payment_methods'],
-            $this->session->data['payment_method']
         );
     }
 }

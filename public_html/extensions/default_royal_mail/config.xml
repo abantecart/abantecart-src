@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <extension>
     <id>default_royal_mail</id>
-    <version>1.4.3</version>
+    <version>1.4.4</version>
     <type>shipping</type>
     <category>shipping</category>
-    <cartversions>
-        <item>1.4</item>
-    </cartversions>
+	<cartversions>
+		<item>1.4</item>
+	</cartversions>
     <priority>10</priority>
     <settings>
         <item id="default_royal_mail_1st_class">

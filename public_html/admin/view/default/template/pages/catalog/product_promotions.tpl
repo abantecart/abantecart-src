@@ -10,7 +10,7 @@ echo $product_tabs ?>
 	</div>
 	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 		<div class="panel-heading">
-			<h4 class="panel-title"><?php echo $tab_discount; ?></h4>
+			<h4 class="panel-title"><?php echo $text_quantity_discount; ?></h4>
 		</div>
 		<?php echo $form['form_open']; ?>
 		<div class="panel-body panel-body-nopadding">
@@ -35,9 +35,15 @@ echo $product_tabs ?>
 						<td class="left"><?php echo $product_discount['quantity']; ?></td>
 						<td class="left"><?php echo $product_discount['priority']; ?></td>
 						<td class="left"><?php
-                            echo $product_discount['price_prefix'] == '%'
-                            ? round($product_discount['price'],2).'%'
-                            : $this->currency->format($product_discount['price']);
+                            $discountValue = round($product_discount['price'],2);
+                            if($product_discount['price_prefix'] == '%'){
+                                $discountValue = $discountValue.'%';
+                            }elseif($product_discount['price_prefix'] == 'Δ'){
+                                $discountValue = 'Δ '.$this->currency->format($discountValue);
+                            }else {
+                                $discountValue = $this->currency->format($discountValue);
+                            }
+                            echo $discountValue;
                             ?></td>
 						<td class="left"><?php echo $product_discount['date_start']; ?></td>
 						<td class="left"><?php echo $product_discount['date_end']; ?></td>
@@ -84,16 +90,22 @@ echo $product_tabs ?>
 					<td></td>
 				</tr>
 				</thead>
-				<?php $discount_row = 0; ?>
-				<?php foreach ($product_specials as $item) { ?>
+				<?php $discount_row = 0;
+                foreach ($product_specials as $item) { ?>
 					<tbody>
 					<tr>
 						<td class="left col-sm-6"><?php echo $customer_groups[$item['customer_group_id']]; ?></td>
 						<td class="left"><?php echo $item['priority']; ?></td>
 						<td class="left"><?php
-                            echo $item['price_prefix'] == '%'
-                            ? round($item['price'],2).'%'
-                            : $this->currency->format($item['price']);
+                            $discountValue = round($item['price'],2);
+                            if($item['price_prefix'] == '%'){
+                                $discountValue = $discountValue.'%';
+                            }elseif($item['price_prefix'] == 'Δ'){
+                                $discountValue = 'Δ '.$this->currency->format($discountValue);
+                            }else {
+                                $discountValue = $this->currency->format($discountValue);
+                            }
+                            echo $discountValue;
                         ?></td>
 						<td class="left"><?php echo $item['date_start']; ?></td>
 						<td class="left"><?php echo $item['date_end']; ?></td>

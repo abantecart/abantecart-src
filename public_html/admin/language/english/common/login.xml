@@ -25,6 +25,10 @@
     <value><![CDATA[Forgot Password?]]></value>
   </definition>
   <definition>
+    <key>warning_capslock</key>
+    <value><![CDATA[CapsLock is On!]]></value>
+  </definition>
+  <definition>
     <key>button_login</key>
     <value><![CDATA[Login]]></value>
   </definition>

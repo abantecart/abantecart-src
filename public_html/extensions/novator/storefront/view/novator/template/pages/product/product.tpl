@@ -78,7 +78,8 @@ if ($error){ ?>
         <div class="col-md-12 col-lg-6  col-xxl-7 position-relative product-page-preset-box mt-4 mt-md-0">
             <div class="row g-1">
                 <div class="col-sm-9" >
-                    <h1 class="h4 heading-title" style="width: 100%;"><?php echo $heading_title; ?></h1>
+                    <h1 class="h4 heading-title"><?php echo $heading_title; ?></h1>
+                    <?php echo $this->getHookVar('after_product_name');?>
                     <?php if($manufacturer){?>
                         <h6 class="my-2 text-warning"><u><a class="my-2 text-warning" href="<?php echo $manufacturers;  ?>"><?php echo $manufacturer; ?></a></u></h6>
                     <?php }?>
@@ -252,7 +253,7 @@ if ($error){ ?>
                                         <?php echo $form['product_id'] . $form['redirect']; ?>
                                     </div>
 
-                                    <div class="d-flex flex-column flex-lg-row align-items-center justify-content-lg-between">
+                                    <div class="d-flex flex-column flex-lg-row align-items-center justify-content-center">
                                         <?php
                                         if(!$product_info['call_to_order']){
                                             if (!$can_buy) { ?>
@@ -286,8 +287,8 @@ if ($error){ ?>
                                             </div>
                                             <?php }
                                         } ?>
-                                        <div><?php echo $this->getHookVar('buttons'); ?></div>
                                     </div>
+                                    <div class="col-12"><?php echo $this->getHookVar('buttons'); ?></div>
                                     <?php
                                      if($product_info['free_shipping'] && $product_info['shipping_price'] <= 0) { ?>
                                          <div class="mt-3 mb-0">

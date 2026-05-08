@@ -1,21 +1,22 @@
 <?php
+
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -41,7 +42,7 @@ class AContentManager
 
     public function __construct()
     {
-        if (!IS_ADMIN) { // forbid for non admin calls
+        if (!IS_ADMIN) { // forbid for non-admin calls
             throw new AException (AC_ERR_LOAD, 'Error: permission denied to change custom content');
         }
         $this->registry = Registry::getInstance();
@@ -69,19 +70,17 @@ class AContentManager
             return false;
         }
         $sql = "INSERT INTO " . $this->db->table("contents") . " 
-               SET parent_content_id = '" . (int)$data['parent_content_id'] . "',
-                    sort_order = '" . (int)$data ['sort_order'] . "',
-                    status = '" . (int)$data['status'] . "',
-                    icon_rl_id = '" . (int)$data['icon_rl_id'] . "',
-                    content_bar = '" . (int)$data['content_bar'] . "',
+               SET parent_content_id = '" . (int) $data['parent_content_id'] . "',
+                    sort_order = '" . (int) $data ['sort_order'] . "',
+                    status = '" . (int) $data['status'] . "',
+                    icon_rl_id = '" . (int) $data['icon_rl_id'] . "',
+                    content_bar = '" . (int) $data['content_bar'] . "',
+                    show_title = '" . (int) $data['show_title'] . "',
                     author = '" . $this->db->escape($data['author']) . "',
-                    publish_date = " . ($data['publish_date'] ? "'" . $this->db->escape($data['publish_date']) . "'" : "NULL") . ",
-                    expire_date = " . ($data['expire_date'] ? "'" . $this->db->escape($data['expire_date']) . "'" : "NULL") . ",
-                    date_modified = NOW(),
-                    date_added = NOW()";
-
+                    publish_date = " . $this->db->stringOrNull($data['publish_date']) . ",
+                    expire_date = " . $this->db->stringOrNull($data['expire_date']);
         $this->db->query($sql);
-        $content_id = (int)$this->db->getLastId();
+        $content_id = (int) $this->db->getLastId();
 
         //save multilingual language content
         $mlData = [];
@@ -98,14 +97,14 @@ class AContentManager
                     'content'          => $data['content'],
                     'tags'             => $data['tags'],
                     # if keyword is not set it will be generated based on the title
-                    'keyword'          => $data['keyword'] ?: $data['title'],
+                    'keyword'          => $data['keyword'] ? : $data['title'],
                 ];
             }
         }
 
         $this->saveMLData($content_id, $mlData);
         $this->saveStores($content_id, $data['store_id']);
-        $this->cache->remove(['content','storefront_menu']);
+        $this->cache->remove(['content', 'storefront_menu']);
         return $content_id;
     }
 
@@ -123,19 +122,31 @@ class AContentManager
         }
         $language_id = $this->language->getContentLanguageID();
 
-        $update = [
-            "parent_content_id = " . (int)$data['parent_content_id'],
-            "status = " . (int)$data['status'],
-            "sort_order = " . (int)$data['sort_order'],
-            "icon_rl_id = " . (int)$data['icon_rl_id'],
-            "content_bar = " . (int)$data['content_bar'],
-            "author = '" . $this->db->escape($data['author']) . "'",
-            "publish_date = " . ($data['publish_date'] ? "'" . $this->db->escape($data['publish_date']) . "'" : "NULL"),
-            "expire_date = " . ($data['expire_date'] ? "'" . $this->db->escape($data['expire_date']) . "'" : "NULL"),
-            "date_modified = NOW()",
+        $columns = [
+            'parent_content_id' => 'int',
+            'status'            => 'int',
+            'sort_order'        => 'int',
+            'icon_rl_id'        => 'int',
+            'content_bar'       => 'int',
+            'show_title'        => 'int',
+            'author'            => 'string',
+            'publish_date'      => 'datetime',
+            'expire_date'       => 'datetime',
         ];
+        $update = [];
+        foreach ($columns as $column => $type) {
+            if (isset($data[$column])) {
+                if ($type == 'int') {
+                    $update[$column] = $column . " = " . (int) $data[$column];
+                } elseif ($type == 'string') {
+                    $update[$column] = $column . " = '" . $this->db->escape($data[$column]) . "'";
+                } elseif ($type == 'datetime') {
+                    $update[$column] = $column . " = " . $this->db->stringOrNull($data[$column]);
+                }
+            }
+        }
 
-        if (!empty($update)) {
+        if ($update) {
             $this->db->query(
                 "UPDATE `" . $this->db->table("contents`")
                 . " SET " . implode(',', $update)
@@ -164,7 +175,7 @@ class AContentManager
             $this->saveStores($content_id, $data['store_id']);
         }
 
-        $this->cache->remove(['content','storefront_menu']);
+        $this->cache->remove(['content', 'storefront_menu']);
         return true;
     }
 
@@ -189,29 +200,34 @@ class AContentManager
         switch ($field) {
             case 'status' :
             case 'content_bar' :
+            case 'show_title' :
             case 'sort_order' :
             case 'parent_content_id':
                 $this->db->query(
                     "UPDATE " . $this->db->table("contents") . " 
-                    SET `" . $field . "`= '" . (int)$value . "'
+                    SET `" . $field . "`= '" . (int) $value . "'
                     WHERE content_id = '" . $content_id . "'"
                 );
                 break;
             case 'author' :
             case 'publish_date' :
             case 'expire_date' :
-                $this->db->query("UPDATE " . $this->db->table("contents") . " 
+                $this->db->query(
+                    "UPDATE " . $this->db->table("contents") . " 
                                     SET `" . $field . "` = '" . $this->db->escape($value) . "'
-                                    WHERE content_id = '" . $content_id . "'");
+                                    WHERE content_id = '" . $content_id . "'"
+                );
                 break;
             case 'title' :
             case 'description' :
             case 'meta_description' :
             case 'meta_keywords' :
             case 'content' :
-                $this->language->replaceDescriptions('content_descriptions',
+                $this->language->replaceDescriptions(
+                    'content_descriptions',
                     ['content_id' => $content_id],
-                    [$language_id => [$field => $value]]);
+                    [$language_id => [$field => $value]]
+                );
 
                 break;
             case 'keyword' :
@@ -221,7 +237,7 @@ class AContentManager
                 $this->saveStores($content_id, $value);
                 break;
             case 'tags' :
-                $value = (string)$value;
+                $value = (string) $value;
                 $this->language->saveTags(
                     'content_tags',
                     ['content_id' => $content_id],
@@ -230,12 +246,13 @@ class AContentManager
                 );
         }
 
-        $this->cache->remove(['content','storefront_menu']);
+        $this->cache->remove(['content', 'storefront_menu']);
         return true;
     }
 
     /**
      * @param int $content_id
+     *
      * @throws AException
      */
     public function deleteContent(int $content_id)
@@ -243,17 +260,26 @@ class AContentManager
         $lm = new ALayoutManager();
         $lm->deletePageLayout('pages/content/content', 'content_id', $content_id);
 
-        $this->db->query("DELETE FROM " . $this->db->table("content_descriptions") . " WHERE content_id = '" . $content_id . "'");
-        $this->db->query("DELETE FROM " . $this->db->table("contents_to_stores") . " WHERE content_id = '" . $content_id . "'");
-        $this->db->query("DELETE FROM " . $this->db->table("url_aliases") . " WHERE `query` = 'content_id=" . $content_id . "'");
-        $this->db->query("DELETE FROM " . $this->db->table("content_tags") . " WHERE content_id = '" . $content_id . "'");
+        $this->db->query(
+            "DELETE FROM " . $this->db->table("content_descriptions") . " WHERE content_id = '" . $content_id . "'"
+        );
+        $this->db->query(
+            "DELETE FROM " . $this->db->table("contents_to_stores") . " WHERE content_id = '" . $content_id . "'"
+        );
+        $this->db->query(
+            "DELETE FROM " . $this->db->table("url_aliases") . " WHERE `query` = 'content_id=" . $content_id . "'"
+        );
+        $this->db->query(
+            "DELETE FROM " . $this->db->table("content_tags") . " WHERE content_id = '" . $content_id . "'"
+        );
         $this->db->query("DELETE FROM " . $this->db->table("contents") . " WHERE content_id = '" . $content_id . "'");
 
-        $this->cache->remove(['content','storefront_menu']);
+        $this->cache->remove(['content', 'storefront_menu']);
     }
 
     /**
      * @param int $content_id
+     *
      * @return array|false
      * @throws AException
      */
@@ -265,9 +291,9 @@ class AContentManager
         $languages = $this->language->getAvailableLanguages();
         $mlData = [];
         foreach ($languages as $language) {
-            $data = $this->getContent($content_id, (int)$language['language_id']);
+            $data = $this->getContent($content_id, (int) $language['language_id']);
             unset($data['content_id']);
-            //set status to off for cloned product
+            //set status to off for a cloned product
             $data['status'] = 0;
             $mlData[$language['language_id']] = [
                 'title'            => $data['title'] . ' ( Copy )',
@@ -278,18 +304,19 @@ class AContentManager
                 'tags'             => $data['tags'],
                 'keyword'          => '',
             ];
-
         }
         $data['languages'] = $mlData;
 
-        $query = "SELECT store_id FROM " . $this->db->table("contents_to_stores") . " WHERE content_id = " . $content_id;
+        $query = "SELECT store_id 
+                FROM " . $this->db->table("contents_to_stores") . " 
+                WHERE content_id = " . $content_id;
         $result = $this->db->query($query);
         if ($result->num_rows) {
             $data['store_id'] = array_column($result->rows, 'store_id');
         }
 
         $new_content_id = $this->addContent($data);
-        $this->cache->remove(['content','storefront_menu']);
+        $this->cache->remove(['content', 'storefront_menu']);
         $layout_clone_result = $this->cloneProductLayout($content_id, $new_content_id);
         return [
             'name'         => $data['title'],
@@ -350,14 +377,14 @@ class AContentManager
      */
     public function getContentTags($content_id, $language_id = 0)
     {
-        $language_id = (int)$language_id;
+        $language_id = (int) $language_id;
         $tag_data = [];
         $tagStr = [];
 
         $query = $this->db->query(
             "SELECT *
             FROM " . $this->db->table("content_tags") . " 
-            WHERE content_id = '" . (int)$content_id . "'"
+            WHERE content_id = '" . (int) $content_id . "'"
         );
 
         foreach ($query->rows as $result) {
@@ -399,9 +426,9 @@ class AContentManager
         $filter = $data['filter'] ?? [];
 
         if ($data['store_id']) {
-            $store_id = (int)$data['store_id'];
+            $store_id = (int) $data['store_id'];
         } else {
-            $store_id = $store_id !== null ? $store_id : (int)$this->config->get('current_store_id');
+            $store_id = $store_id !== null ? $store_id : (int) $this->config->get('current_store_id');
         }
 
         if ($mode == 'total_only') {
@@ -418,10 +445,10 @@ class AContentManager
                 FROM " . $this->db->table("contents") . " i
                 LEFT JOIN " . $this->db->table("content_descriptions") . " id
                     ON (i.content_id = id.content_id
-                        AND id.language_id = '" . ( int )$this->language->getContentLanguageID() . "')
+                        AND id.language_id = '" . ( int ) $this->language->getContentLanguageID() . "')
                 LEFT JOIN " . $this->db->table("content_descriptions") . " cd
                     ON (cd.content_id = i.parent_content_id
-                        AND cd.language_id = '" . ( int )$this->language->getContentLanguageID() . "')
+                        AND cd.language_id = '" . ( int ) $this->language->getContentLanguageID() . "')
                 LEFT JOIN " . $this->db->table('contents_to_stores') . " cs
                     ON i.content_id = cs.content_id
                 ";
@@ -433,13 +460,13 @@ class AContentManager
         }
 
         if (isset($filter['id.title']) && !is_null($filter['id.title'])) {
-            $sql .= " AND id.title LIKE '%" . (float)$filter['pfrom'] . "%' ";
+            $sql .= " AND id.title LIKE '%" . (float) $filter['pfrom'] . "%' ";
         }
         if (isset($filter['status'])) {
-            $sql .= " AND i.status = '" . (int)$filter['status'] . "'";
+            $sql .= " AND i.status = '" . (int) $filter['status'] . "'";
         }
         if (isset($filter['parent_id'])) {
-            $sql .= " AND i.parent_content_id = '" . (int)$filter['parent_id'] . "'";
+            $sql .= " AND i.parent_content_id = '" . (int) $filter['parent_id'] . "'";
         }
 
         //If for total, we're done building the query
@@ -476,7 +503,7 @@ class AContentManager
                 $data ['limit'] = 20;
             }
 
-            $sql .= " LIMIT " . ( int )$data ['start'] . "," . ( int )$data ['limit'];
+            $sql .= " LIMIT " . ( int ) $data ['start'] . "," . ( int ) $data ['limit'];
         }
 
         $query = $this->db->query($sql);
@@ -486,7 +513,7 @@ class AContentManager
         if (!$parent_only) {
             if ($query->num_rows) {
                 foreach ($query->rows as $row) {
-                    $output[(int)$row['content_id']] = $row;
+                    $output[(int) $row['content_id']] = $row;
                 }
             }
         } else {
@@ -506,7 +533,8 @@ class AContentManager
                  FROM " . $this->db->table("contents") . " AS t1
                  LEFT JOIN " . $this->db->table("contents") . " as t2
                     ON t1.content_id = t2.parent_content_id
-                 WHERE t2.content_id IS NULL");
+                 WHERE t2.content_id IS NULL"
+        );
         $result = [];
         foreach ($query->rows as $r) {
             $result[$r['content_id']] = $r['content_id'];
@@ -516,6 +544,7 @@ class AContentManager
 
     /**
      * @param $contentID
+     *
      * @return bool
      * @throws AException
      */
@@ -524,11 +553,12 @@ class AContentManager
         $query = $this->db->query(
             "SELECT content_id as content_id
                  FROM " . $this->db->table("contents") . "
-                 WHERE parent_content_id = '".(int)$contentID."'");
+                 WHERE parent_content_id = '" . (int) $contentID . "'"
+        );
         if (sizeof($query->rows) > 0) {
             return true;
         } else {
-            return  false;
+            return false;
         }
     }
 
@@ -558,30 +588,32 @@ class AContentManager
     /**
      * @param int $store_id
      * @param bool $only_enabled
+     *
      * @return array
      * @throws AException
      */
     public function getContentsForSelect($store_id = 0, $only_enabled = false)
     {
-        $all = $this->getContents(['sort' => 'parent_content_id', 'order'=> 'ASC'], null, $store_id, false);
-        return  [
-            '0' => [
-                'content_id' => 0,
-                'title' => $this->language->get('text_top_level'),
-                'children' => [],
+        $all = $this->getContents(['sort' => 'parent_content_id', 'order' => 'ASC'], null, $store_id, false);
+        return [
+                '0' => [
+                    'content_id' => 0,
+                    'title'      => $this->language->get('text_top_level'),
+                    'children'   => [],
                 ],
             ]
             + $this->buildContentTree($all, 0, 1, $only_enabled);
     }
 
     /**
-     * Recursive function for building tree of content.
-     * Note that same content can have two parents!
+     * Recursive function for building a tree of content.
+     * Note that the same content can have two parents!
      *
-     * @param  array $all
+     * @param array $all
      * @param int|null $parent_id
      * @param int|null $level
      * @param bool|null $only_enabled
+     *
      * @return array
      */
     public function buildContentTree(array $all, ?int $parent_id = 0, ?int $level = 0, ?bool $only_enabled = false)
@@ -593,14 +625,14 @@ class AContentManager
                 continue;
             }
 
-            if($content['parent_content_id'] == $parent_id) {
+            if ($content['parent_content_id'] == $parent_id) {
                 $output[$content['content_id']] = [
                     'content_id' => $content['content_id'],
-                    'title' => str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) . $content['title'],
-                    'children' => [],
+                    'title'      => str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) . $content['title'],
+                    'children'   => [],
                 ];
-                $children = $this->buildContentTree($all, (int)$content['content_id'], $level + 1, $only_enabled);
-                if($children){
+                $children = $this->buildContentTree($all, (int) $content['content_id'], $level + 1, $only_enabled);
+                if ($children) {
                     $output[$content['content_id']]['children'] = array_column($children, 'content_id');
                 }
                 $output += $children;
@@ -610,7 +642,7 @@ class AContentManager
     }
 
     /**
-     * method returns store list for selectbox for edit form of Content page
+     * method returns the store list for selectbox for an edit form of Content page
      *
      * @return array
      * @throws AException
@@ -692,7 +724,7 @@ class AContentManager
         foreach ($storeIds as $store_id) {
             if (has_value($store_id)) {
                 $sql = "INSERT INTO " . $this->db->table("contents_to_stores") . " (content_id, store_id)
-                    VALUES ('" . $content_id . "','" . (int)$store_id . "')";
+                    VALUES ('" . $content_id . "','" . (int) $store_id . "')";
                 $this->db->query($sql);
             }
         }
@@ -702,28 +734,34 @@ class AContentManager
     /**
      * Method to save or generate SEO URL for content
      *
-     * @param $content_id
-     * @param $keyword
+     * @param int $content_id
+     * @param string $keyword
+     * @param int $languageID
      *
      * @return void
+     * @throws AException
      */
-    protected function saveSEOURL ($content_id, $keyword, $languageID)
+    protected function saveSEOURL($content_id, $keyword, $languageID)
     {
         $keyword = SEOEncode($keyword, 'content_id', $content_id);
         if ($keyword) {
-            $this->language->replaceDescriptions('url_aliases',
+            $this->language->replaceDescriptions(
+                'url_aliases',
                 ['query' => "content_id=" . $content_id],
-                [$languageID => ['keyword' => $keyword]]);
+                [$languageID => ['keyword' => $keyword]]
+            );
         } else {
-            $this->db->query("DELETE
+            $this->db->query(
+                "DELETE
                                     FROM " . $this->db->table("url_aliases") . " 
                                     WHERE query = 'content_id=" . $content_id . "'
-                                        AND language_id = '" . $languageID . "'");
+                                        AND language_id = '" . $languageID . "'"
+            );
         }
     }
 
     /**
-     * Method to clone layout for the content page
+     * Method to clone the layout for the content page
      *
      * @param int $content_id
      * @param int $new_content_id
@@ -744,19 +782,19 @@ class AContentManager
             $tmpl_id = $this->config->get('config_storefront_template');
             $src_layout_id = $pages[0]['layout_id'];
             $src_page_id = $pages[0]['page_id'];
-            //create instance for source layout
+            //create an instance for source layout
             $lm = new ALayoutManager($tmpl_id, $src_page_id, $src_layout_id);
-            //create new page
+            //create a new page
             $page_info = [
                 'controller' => 'pages/content/content',
                 'key_param'  => 'content_id',
                 'key_value'  => $new_content_id,
             ];
-            //save new page
+            //save a new page
             $new_page_id = $lm->savePage($page_info);
 
             $layout_name = 'Content page ID: ' . $new_content_id;
-            //create instance for new layout
+            //create an instance for the new layout
             $lm = new ALayoutManager($tmpl_id, $new_page_id, '');
             return $lm->clonePageLayout($src_layout_id, '', $layout_name);
         }

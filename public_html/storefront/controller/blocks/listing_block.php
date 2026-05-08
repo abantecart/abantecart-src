@@ -5,18 +5,22 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
+
+/** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -32,7 +36,7 @@ class ControllerBlocksListingBlock extends AController
 
     public function main($instance_id = 0, $custom_block_id = 0)
     {
-        //set default template first for case singleton usage
+        //set the default template first for case singleton usage
         if (!$this->view->getTemplate()) {
             $this->view->setTemplate('blocks/listing_block.tpl');
         }
@@ -78,7 +82,7 @@ class ControllerBlocksListingBlock extends AController
                 } else {
                     $block_data['content'] = $this->_prepareItems($block_data['content']);
                 }
-                $this->view->assign('block_framed', (int)$block_data['block_framed']);
+                $this->view->assign('block_framed', (int) $block_data['block_framed']);
                 $this->view->assign('content', $block_data['content']);
                 $this->view->assign('heading_title', $block_data['title']);
             } else {
@@ -86,7 +90,7 @@ class ControllerBlocksListingBlock extends AController
                 $this->view->setOutput($override->dispatchGetOutput());
             }
 
-            // need to set wrapper for non products listing blocks
+            // need to set a wrapper for non-products listing blocks
             if ($this->view->isTemplateExists($block_data['block_wrapper']) && !$templateOverridden) {
                 $this->view->setTemplate($block_data['block_wrapper']);
             }
@@ -106,47 +110,57 @@ class ControllerBlocksListingBlock extends AController
      */
     protected function _prepareProducts(&$data, $block_wrapper = '')
     {
-        $this->loadModel('catalog/product');
+        $data_source = [];
+        /** @var ModelCatalogProduct $mdl */
+        $mdl = $this->loadModel('catalog/product');
         $this->loadModel('catalog/review');
         $this->loadLanguage('product/product');
-        $productIds = $products = [];
-        foreach ($data as $result) {
-            $productIds[] = (int)$result['product_id'];
-        }
-        $products_info = $this->model_catalog_product->getProductsAllInfo($productIds);
-        $stock_info = $this->model_catalog_product->getProductsStockInfo($productIds);
+        $products = [];
+        $productIds = filterIntegerIdList(array_column($data, 'product_id'));
+        $products_info = $mdl->getProductsAllInfo($productIds);
+        $stock_info = $mdl->getProductsStockInfo($productIds);
 
         foreach ($data as $result) {
-            $rating = $products_info[$result['product_id']]['rating'];
+            $productId = $result['product_id'];
+            $rating = $products_info[$productId]['rating'];
+            $special = $specialNum = false;
 
-            $options = $products_info[$result['product_id']]['options'];
+            $discount = $products_info[$productId]['discount'];
+
+            if ($discount) {
+                $priceNum = $discount;
+            } else {
+                $priceNum = $result['price_num'];
+                $special = $products_info[$productId]['special'];
+                if ($special) {
+                    $specialNum = $this->tax->calculate(
+                        $special,
+                        $result['tax_class_id'],
+                        $this->config->get('config_tax')
+                    );
+                    $special = $this->currency->format($specialNum);
+                }
+            }
+            $priceNum = $this->tax->calculate($priceNum, $result['tax_class_id'], $this->config->get('config_tax'));
+            $price = $this->currency->format($priceNum);
+
+            $options = $products_info[$productId]['options'];
             if ($options) {
-                $add_to_cart = $this->html->getSEOURL(
+                $add = $this->html->getSEOURL(
                     'product/product',
-                    '&product_id=' . $result['product_id'],
+                    '&product_id=' . $productId,
                     '&encode'
                 );
             } else {
                 if ($this->config->get('config_cart_ajax')) {
-                    $add_to_cart = '#';
+                    $add = '#';
                 } else {
-                    $add_to_cart = $this->html->getSecureURL(
+                    $add = $this->html->getSecureURL(
                         'checkout/cart',
-                        '&product_id=' . $result['product_id'],
+                        '&product_id=' . $productId,
                         '&encode'
                     );
                 }
-            }
-
-            if ($products_info[$result['product_id']]['special']) {
-                $special_price = $this->currency->format(
-                    $this->tax->calculate(
-                        $products_info[$result['product_id']]['special'], $result['tax_class_id'],
-                        $this->config->get('config_tax')
-                    )
-                );
-            } else {
-                $special_price = null;
             }
 
             //check for stock status, availability and config
@@ -157,41 +171,38 @@ class ControllerBlocksListingBlock extends AController
             $stock_checkout = $result['stock_checkout'] === ''
                 ? $this->config->get('config_stock_checkout')
                 : $result['stock_checkout'];
-            if ($stock_info[$result['product_id']]['subtract']) {
+            if ($stock_info[$productId]['subtract']) {
                 $track_stock = true;
-                $total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
-                //we have stock or out of stock checkout is allowed
+                $total_quantity = $mdl->hasAnyStock($productId);
+                //we have stock or out-of-stock checkout is allowed
                 if ($total_quantity > 0 || $stock_checkout) {
                     $in_stock = true;
                 }
             }
 
-            $products[] = [
-                'product_id'     => $result['product_id'],
-                'name'           => $result['name'],
-                'model'          => $result['model'],
-                'rating'         => $rating,
-                'stars'          => sprintf($this->language->get('text_stars'), $rating),
-                'price'          => $result['price'],
-                'options'        => $result['options'],
-                'call_to_order'  => $result['call_to_order'],
-                'special'        => $special_price,
-                'thumb'          => $result['image'],
-                'image'          => $result['image'],
-                'href'           => $this->html->getSEOURL(
-                    'product/product',
-                    '&product_id=' . $result['product_id'],
-                    '&encode'
-                ),
-                'add'            => $add_to_cart,
-                'item_name'      => 'product',
-                'track_stock'    => $track_stock,
-                'blurb'          => $result['blurb'],
-                'in_stock'       => $in_stock,
-                'no_stock_text'  => $no_stock_text,
-                'total_quantity' => $total_quantity,
-                'tax_class_id'   => $result['tax_class_id'],
-            ];
+            $products[] = array_merge(
+                $result,
+                [
+                    'rating'         => $rating,
+                    'stars'          => $this->language->getAndReplace('text_stars', replaces: $rating),
+                    'price'          => $price,
+                    'price_num'      => $priceNum,
+                    'special'        => $special,
+                    'special_num'    => $specialNum,
+                    'thumb'          => $result['image'],
+                    'href'           => $this->html->getSEOURL(
+                        'product/product',
+                        '&product_id=' . $productId,
+                        true
+                    ),
+                    'add'            => $add,
+                    'item_name'      => 'product',
+                    'track_stock'    => $track_stock,
+                    'in_stock'       => $in_stock,
+                    'no_stock_text'  => $no_stock_text,
+                    'total_quantity' => $total_quantity,
+                ]
+            );
         }
 
         if (!current($products)['thumb']) {
@@ -199,13 +210,21 @@ class ControllerBlocksListingBlock extends AController
                 'rl_object_name' => 'products',
                 'data_type'      => 'product_id',
             ];
-            //add thumbnails to list of products. 1 thumbnail per product
+            //add thumbnails to a list of products. 1 thumbnail per product
             $products = $this->_prepareCustomItems($data_source, $products);
         }
         //need to override reference (see params)
-        $data = $products;
+        $this->data['products'] = $products;
+        $this->extensions->hk_ProcessData(
+            $this,
+            __FUNCTION__,
+            [
+                'data_source'   => $data_source,
+                'block_wrapper' => $block_wrapper,
+            ]
+        );
 
-        // set sign of displaying prices on storefront
+        // set sign of displaying prices on the storefront
         if ($this->config->get('config_customer_price')) {
             $display_price = true;
         } elseif ($this->customer->isLogged()) {
@@ -216,7 +235,7 @@ class ControllerBlocksListingBlock extends AController
         $this->view->assign('display_price', $display_price);
         $this->view->assign('review_status', $this->config->get('display_reviews'));
 
-        $this->view->assign('products', $products);
+        $this->view->assign('products', $this->data['products']);
         $vertical_tpl = [
             'blocks/listing_block_column_left.tpl',
             'blocks/listing_block_column_right.tpl',
@@ -241,12 +260,12 @@ class ControllerBlocksListingBlock extends AController
     protected function _prepareItems($content = [])
     {
         $item2Name = [
-            'category_id'     => 'category',
-            'manufacturer_id' => 'manufacturer',
-            'product_id'      => 'product',
-            'resource_id'     => 'resource',
-            'content_id'      => 'content',
-        ];
+                'category_id'     => 'category',
+                'manufacturer_id' => 'manufacturer',
+                'product_id'      => 'product',
+                'resource_id'     => 'resource',
+                'content_id'      => 'content',
+            ] + (array) $this->data['item_map_list'];
         $item_name = $item2Name[key(current($content))];
 
         foreach ($content as &$cn) {
@@ -273,6 +292,8 @@ class ControllerBlocksListingBlock extends AController
                         '&encode'
                     );
                     break;
+                default:
+                    $this->extensions->hk_ProcessData($this, __FUNCTION__, ['content' => $cn]);
             }
         }
         return $content;
@@ -435,17 +456,19 @@ class ControllerBlocksListingBlock extends AController
                     }
                 }
             } else {
-                // otherwise -  select list from method
+                // otherwise, select a list from a method
                 if ($route) {
                     $lineArg = [
                         'product_id' => $this->request->get['product_id'],
-                        'limit'      => $limit
+                        'limit'      => $limit,
                     ];
                     $args = array_merge(['data' => $lineArg], $lineArg);
                     if ($route == 'collection' && $content['collection_id']) {
                         $args['collection_id'] = $content['collection_id'];
-                    } else if ($route == 'selected_content') {
-                        $args['content_ids'] = $content['content_ids'];
+                    } else {
+                        if ($route == 'selected_content') {
+                            $args['content_ids'] = $content['content_ids'];
+                        }
                     }
                     $this->loadModel($data_source['storefront_model']);
                     $result = call_user_func_array(
@@ -488,12 +511,12 @@ class ControllerBlocksListingBlock extends AController
                 );
             }
 
-            // Skip if data source is vanished but still set in the listing.
+            // Skip if a data source is vanished but still set in the listing.
             $result = array_filter($result);
         }
 
         if ($result && !current($result)['thumb']) {
-            //add thumbnails to custom list of items. 1 thumbnail per item
+            //add thumbnails to a custom list of items. 1 thumbnail per item
             if ($data_source['data_type'] == 'content_id') {
                 $result = $this->_addThumbsToContent($result);
             } else {
@@ -522,8 +545,8 @@ class ControllerBlocksListingBlock extends AController
                 } else {
                     $result[$k]['icon_url'] = $rl->getResourceThumb(
                         $item['icon_rl_id'],
-                        (int)$this->config->get('config_image_cart_width'),
-                        (int)$this->config->get('config_image_cart_height')
+                        (int) $this->config->get('config_image_cart_width'),
+                        (int) $this->config->get('config_image_cart_height')
                     );
                 }
             }
@@ -595,9 +618,12 @@ class ControllerBlocksListingBlock extends AController
                 $thumbnail = $thumbnails[$item[$data_source['data_type']]];
                 $result[$k]['image'] = $result[$k]['thumb'] = $thumbnail;
                 if (isset($item['price']) && preg_match('/^[0-9.]/', $item['price'])) {
-                    $result[$k]['price'] = $this->currency->format(
-                        $this->tax->calculate($item['price'], $item['tax_class_id'], $this->config->get('config_tax'))
+                    $result[$k]['price_num'] = $this->tax->calculate(
+                        $item['price'],
+                        $item['tax_class_id'],
+                        $this->config->get('config_tax')
                     );
+                    $result[$k]['price'] = $this->currency->format( $result[$k]['price_num'] );
                 }
             }
         }

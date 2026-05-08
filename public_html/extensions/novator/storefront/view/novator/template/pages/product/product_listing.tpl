@@ -1,21 +1,13 @@
-<div class="d-sm-flex align-items-center sorting mb-4 prod-list-filter">
-    <ul class="list-inline me-auto my-1">
-        <li class="list-inline-item">
-            <nav>
-                <div class="nav nav-pills">
-                <button class="nav-link active" id="grid_view_btn"><i class="bi bi-grid"></i></button>
-                <button class="nav-link" id="list_view_btn"><i class="bi bi-list"></i></button>
-                </div>
-            </nav>
-        </li>
-    </ul>
-    <ul class="list-inline ms-auto my-1">
-        <li class="list-inline-item">
-            <form class="form-inline d-flex text-nowrap p-0 align-items-center">
-                <?php echo $sorting; ?>
-            </form>
-        </li>
-    </ul>
+<div class="d-flex align-items-center justify-content-evenly justify-content-sm-between sorting mb-4 prod-list-filter">
+    <nav class="d-flex p-0 m-0 min-w-0 flex-shrink-1">
+        <div class="nav nav-pills">
+        <button class="nav-link active" id="grid_view_btn"><i class="bi bi-grid"></i></button>
+        <button class="nav-link" id="list_view_btn"><i class="bi bi-list"></i></button>
+        </div>
+    </nav>
+    <form class="form-inline d-flex p-0 m-0 min-w-0 flex-shrink-1">
+        <?php echo $sorting; ?>
+    </form>
 </div>
 <div id="product_cell_grid" class="product_cell_grid">
     <?php

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension>
     <id>ups</id>
-    <version>1.4.3</version>
+    <version>1.4.4</version>
     <type>shipping</type>
     <category>Payment &amp;amp; Shipping</category>
-    <cartversions>
-        <item>1.4.1</item>
-    </cartversions>
+	<cartversions>
+		<item>1.4.1</item>
+	</cartversions>
     <priority>10</priority>
     <settings>
         <item id="ups_status">
@@ -21,6 +21,10 @@
         </item>
         <item id="ups_password">
             <type required="true">input</type>
+        </item>
+        <item id="ups_test_mode">
+            <type>checkbox</type>
+            <default_value>0</default_value>
         </item>
         <item id="ups_validate_address">
             <type>checkbox</type>
@@ -156,9 +160,6 @@
     <install>
         <trigger>install.php</trigger>
     </install>
-    <uninstall>
-        <trigger>uninstall.php</trigger>
-    </uninstall>
     <help_file><![CDATA[help.txt]]></help_file>
     <help_link><![CDATA[https://developer.ups.com]]></help_link>
 </extension>

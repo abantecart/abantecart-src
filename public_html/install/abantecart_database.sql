@@ -1,3 +1,4 @@
+SET @CORE_VERSION = "1.4.4";
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET CHARSET "utf8mb4";
 START TRANSACTION;
@@ -55,7 +56,7 @@ CREATE TABLE `ac_category_descriptions` (
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `meta_keywords` varchar(255) NOT NULL COMMENT 'translatable',
   `meta_description` varchar(255) NOT NULL COMMENT 'translatable',
-  `description` text NOT NULL COMMENT 'translatable',
+  `description` longtext NULL COMMENT 'translatable',
   PRIMARY KEY (`category_id`,`language_id`),
   KEY `name` (`name`)
 ) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -874,17 +875,17 @@ VALUES
 ('block', 'cart', '', 1, 1, '', null, now(), now(), now() ),
 ('block', 'category', '', 1, 1, '', null, now(), now(), now() ),
 ('block', 'content', '', 1, 1, '', null, now(), now(), now() ),
-('block', 'manufacturer', '', 1, 1, '', null, now(), now(), now() ),
+('block', 'manufacturer', '', 1, 1, '', null, now(), now(), now() ), 
 ('block', 'bestseller', '', 1, 1, '', null, now(), now(), now() ),
 ('block', 'latest', '', 1, 1, '', null, now(), now(), now() ),
 ('block', 'featured', '', 1, 1, '', null, now(), now(), now() ),
 
 ('extensions', 'banner_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
 ('extensions', 'forms_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
-('template', 'novator', 'template', 0, 1, '1.0.0', null, NOW(), now() + INTERVAL 4 MINUTE , now() ),
-('extensions', 'page_builder', 'tools', 1, 10000, '1.4.0', null, NOW(), NOW(), NOW())
+('template', 'novator', 'template', 0, 1, '1.0.4', null, NOW(), now() + INTERVAL 4 MINUTE , now() ),
+('extensions', 'page_builder', 'tools', 1, 10000, @CORE_VERSION, null, NOW(), NOW(), NOW()),
+('payment', 'paypal_commerce', 'payment', 0, 100, @CORE_VERSION, null, NOW(), now() + INTERVAL 4 MINUTE , now() )
 ;
-
 --
 -- DDL for tables of banner manager
 --
@@ -1134,6 +1135,9 @@ ON `ac_orders` (
     `language_id`,
     `currency_id`,
     `coupon_id`);
+create index `ac_orders_date_idx`
+    on `ac_orders` (`date_added` desc, `date_modified` desc);
+
 --
 -- DDL for table `order_downloads`
 --
@@ -1818,6 +1822,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('im', 'config_im_guest_sms_status', '1'),
 
 -- system
+('system','core_version', @CORE_VERSION),
 ('system','config_session_ttl',120),
 ('system','config_maintenance',0),
 ('system','encryption_key',12345),
@@ -1911,7 +1916,7 @@ DROP TABLE IF EXISTS `ac_stock_statuses`;
 CREATE TABLE `ac_stock_statuses` (
   `stock_status_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(32) NOT NULL COMMENT 'translatable',
+  `name` varchar(128) NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`stock_status_id`,`language_id`)
 ) ENGINE=InnoDb  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -2029,18 +2034,18 @@ INSERT INTO `ac_tax_rate_descriptions` (`tax_rate_id`, `language_id`, `descripti
 --
 -- DDL for table `url_alias`
 --
+#NOTE: query_hash needed for unique index!
 DROP TABLE IF EXISTS `ac_url_aliases`;
 CREATE TABLE `ac_url_aliases` (
-  `url_alias_id` int(11) NOT NULL AUTO_INCREMENT,
-  `query` varchar(255) NOT NULL,
-  `keyword` varchar(255) NOT NULL COMMENT 'translatable',
-  `language_id` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`url_alias_id`)
-) ENGINE=InnoDb  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
-CREATE UNIQUE INDEX `ac_url_aliases_idx`
-ON `ac_url_aliases` ( `keyword`, `language_id`);
-CREATE UNIQUE INDEX `ac_url_aliases_idx2`
-ON `ac_url_aliases` ( `query`, `language_id` );
+      `url_alias_id` int(11) NOT NULL AUTO_INCREMENT,
+      `query` varchar(2048) NOT NULL,
+      `query_hash` char(32) GENERATED ALWAYS AS (MD5(`query`)) STORED,
+      `keyword` varchar(255) NOT NULL COMMENT 'translatable',
+      `language_id` int(11) NOT NULL DEFAULT '1',
+      PRIMARY KEY (`url_alias_id`),
+      UNIQUE KEY `ac_url_aliases_idx` (`keyword`, `language_id`),
+      UNIQUE KEY `ac_url_aliases_idx2` (`query_hash`, `language_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
 
 
 --
@@ -10325,6 +10330,7 @@ CREATE TABLE `ac_contents` (
     `sort_order` int(3) NOT NULL DEFAULT '0',
     `status` int(1) NOT NULL DEFAULT '0',
     `content_bar` int(1) NOT NULL DEFAULT '0',
+    `show_title` int(1) DEFAULT 1 NULL,
     `author` varchar(128) NOT NULL DEFAULT '',
     `icon_rl_id` int(11),
     `publish_date` timestamp NULL,
@@ -11921,7 +11927,7 @@ INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES
 (11,'text_online',214),
 (11,'text_order',215),
-(11,'text_transactions',216);
+(11,'text_balance_history',216);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES
@@ -12050,7 +12056,7 @@ VALUES  (20, NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (21,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (22,'1.4.3','1');
+VALUES  (22,@CORE_VERSION,'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (23,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
@@ -13040,3 +13046,25 @@ VALUES
     (4,7,4);
 
 COMMIT;
+
+--
+-- Table structure for table `ac_shopping_sessions`
+--
+DROP TABLE IF EXISTS `ac_shopping_sessions`;
+create table `ac_shopping_sessions`
+(
+    `customer_id`   int                                 null,
+    `order_id`      int                                 null,
+    `type`          varchar(255)                        not null,
+    `key`           varchar(255)                        not null,
+    `data`          json                                not null,
+    `date_added`    timestamp default CURRENT_TIMESTAMP not null,
+    `date_modified` timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
+    constraint `ac_shopping_sessions_customer_fk`
+        foreign key (`customer_id`) references `ac_customers` (`customer_id`)
+            on update cascade on delete cascade
+);
+create index `ac_shopping_sessions_int_idx`
+    on `ac_shopping_sessions` (`customer_id` desc, `order_id` desc);
+create unique index `ac_shopping_sessions_text_idx`
+    on `ac_shopping_sessions` (`type`, `key`);

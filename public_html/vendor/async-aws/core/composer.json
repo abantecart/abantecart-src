@@ -11,9 +11,8 @@
         "sts"
     ],
     "require": {
-        "php": "^7.2.5 || ^8.0",
+        "php": "^8.2",
         "ext-hash": "*",
-        "ext-json": "*",
         "ext-simplexml": "*",
         "psr/cache": "^1.0 || ^2.0 || ^3.0",
         "psr/log": "^1.0 || ^2.0 || ^3.0",
@@ -21,6 +20,11 @@
         "symfony/http-client": "^4.4.16 || ^5.1.7 || ^6.0 || ^7.0 || ^8.0",
         "symfony/http-client-contracts": "^1.1.8 || ^2.0 || ^3.0",
         "symfony/service-contracts": "^1.0 || ^2.0 || ^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.5.42",
+        "symfony/error-handler": "^7.3.2 || ^8.0",
+        "symfony/phpunit-bridge": "^7.3.2 || ^8.0"
     },
     "conflict": {
         "async-aws/s3": "<1.1",
@@ -38,7 +42,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.27-dev"
+            "dev-master": "1.28-dev"
         }
     }
 }

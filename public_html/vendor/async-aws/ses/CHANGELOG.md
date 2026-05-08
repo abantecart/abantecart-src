@@ -2,6 +2,29 @@
 
 ## NOT RELEASED
 
+## 1.14.1
+
+### Changed
+
+- Remove redundant ext-json requirement
+
+## 1.14.0
+
+### Added
+
+- AWS api-change: Update Mail Manager Archive ARN validation
+- AWS api-change: Added `eusc-de-east-1` region
+- Add `UNKNOWN_TO_SDK` value to enums that is used when the API returns an value that is not (or not yet) known by the AsyncAws
+
+### Dependency bumped
+
+- Drop support for PHP versions lower than 8.2
+
+### Changed
+
+- Apply new CodingStandard from latest php-cs-fixer.
+- Remove unnecessary `use` statements
+
 ## 1.13.0
 
 ### Added

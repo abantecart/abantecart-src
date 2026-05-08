@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /*
  *   $Id$
@@ -6,7 +7,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -56,8 +57,8 @@ class ControllerResponsesCatalogProductDiscountForm extends AController
         /** @var ModelCatalogProduct $mdl */
         $mdl = $this->loadModel('catalog/product');
         $view = new AView($this->registry, 0);
-        $productId = (int)$this->request->get['product_id'];
-        $discountId = (int)$this->request->get['product_discount_id'];
+        $productId = (int) $this->request->get['product_id'];
+        $discountId = (int) $this->request->get['product_discount_id'];
 
         $view->batchAssign($this->language->getASet('catalog/product'));
 
@@ -85,19 +86,13 @@ class ControllerResponsesCatalogProductDiscountForm extends AController
 
         if ($discountId && $this->request->is_GET()) {
             $discount_info = $mdl->getProductDiscount($discountId);
-            if ($discount_info['date_start'] == '0000-00-00') {
-                $discount_info['date_start'] = '';
-            }
-            if ($discount_info['date_end'] == '0000-00-00') {
-                $discount_info['date_end'] = '';
-            }
         }
 
         $this->loadModel('sale/customer_group');
         $results = $this->model_sale_customer_group->getCustomerGroups();
         $this->data['customer_groups'] = array_column($results, 'name', 'customer_group_id');
 
-        $fields = ['customer_group_id', 'quantity', 'priority', 'price_prefix', 'price', 'date_start', 'date_end',];
+        $fields = ['customer_group_id', 'quantity', 'priority', 'price_prefix', 'price', 'date_start', 'date_end'];
         foreach ($fields as $f) {
             if (isset ($this->request->post [$f])) {
                 $this->data [$f] = $this->request->post [$f];
@@ -197,30 +192,28 @@ class ControllerResponsesCatalogProductDiscountForm extends AController
 
         $this->data['form']['fields']['quantity'] = $form->getFieldHtml(
             [
-                'type'  => 'input',
+                'type'  => 'number',
                 'name'  => 'quantity',
-                'value' => $this->data['quantity'],
-                'style' => 'small-field',
+                'value' => $this->data['quantity'] ? : 2,
             ]
         );
         $this->data['form']['fields']['priority'] = $form->getFieldHtml(
             [
                 'type'  => 'input',
                 'name'  => 'priority',
-                'value' => $this->data['priority'],
-                'style' => 'small-field',
+                'value' => $this->data['priority'] ? : 1,
             ]
         );
-        $currencyInfo = $this->currency->getCurrency($this->config->get('config_currency'));
         $this->data['form']['fields']['price_prefix'] = $form->getFieldHtml(
             [
                 'type'    => 'selectbox',
                 'name'    => 'price_prefix',
                 'value'   => $this->data['price_prefix'],
                 'options' => [
-                    '$' => $currencyInfo['symbol_left'] . $currencyInfo['symbol_right'],
-                    '%' => '%'
-                ]
+                    '$' => $this->language->get('text_new_price'),
+                    '%' => $this->language->get('text_prc_off'),
+                    'Δ' => $this->language->get('text_fixed_amount_off'),
+                ],
             ]
         );
         $this->data['form']['fields']['price'] = $form->getFieldHtml(
@@ -228,7 +221,6 @@ class ControllerResponsesCatalogProductDiscountForm extends AController
                 'type'  => 'input',
                 'name'  => 'price',
                 'value' => moneyDisplayFormat($this->data['price']),
-                'style' => 'tiny-field',
             ]
         );
 
@@ -262,8 +254,8 @@ class ControllerResponsesCatalogProductDiscountForm extends AController
 
         $view->assign('help_url', $this->gen_help_url('product_discount_edit'));
         $view->batchAssign($this->data);
+        /** @see public_html/admin/view/default/template/responses/catalog/product_promotion_form.tpl */
         $this->data['response'] = $view->fetch('responses/catalog/product_promotion_form.tpl');
         $this->response->setOutput($this->data['response']);
     }
-
 }

@@ -658,4 +658,17 @@
 		<key>entry_html_attributes</key>
 		<value><![CDATA[html-attributes:<br /><span class="help">You can add your custom html-attributes for option element. Example: data-some-attribute="some value"</span>]]></value>
 	</definition>
+
+	<definition>
+		<key>text_new_price</key>
+		<value><![CDATA[New Price]]></value>
+	</definition>
+	<definition>
+		<key>text_prc_off</key>
+		<value><![CDATA[% Off]]></value>
+	</definition>
+	<definition>
+		<key>text_fixed_amount_off</key>
+		<value><![CDATA[Fixed Amount Off]]></value>
+	</definition>
 </definitions>

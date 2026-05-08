@@ -1,11 +1,11 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -18,74 +18,99 @@
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 /**
  * @property ModelCatalogDownload $model_catalog_download
  */
 class ModelCatalogProduct extends Model
 {
     public $errors = [];
-    const TAG_REGEX_PATTERN = '/[^\\d\s\p{L}\-_]/u';
+
+    public function __construct($registry)
+    {
+        parent::__construct($registry);
+        $this->data['product_columns'] = [
+            'model'                  => 'string',
+            'sku'                    => 'string',
+            'location'               => 'string',
+            'quantity'               => 'int',
+            'minimum'                => 'int',
+            'maximum'                => 'int',
+            'call_to_order'          => 'int',
+            'subtract'               => 'int',
+            'stock_checkout'         => 'string',
+            'stock_status_id'        => 'int',
+            'date_available'         => 'string',
+            'manufacturer_id'        => 'int',
+            'shipping'               => 'int',
+            'ship_individually'      => 'int',
+            'free_shipping'          => 'int',
+            'shipping_price'         => 'float',
+            'price'                  => 'float',
+            'cost'                   => 'float',
+            'weight'                 => 'float',
+            'weight_class_id'        => 'int',
+            'length'                 => 'float',
+            'width'                  => 'float',
+            'height'                 => 'float',
+            'length_class_id'        => 'int',
+            'status'                 => 'int',
+            'tax_class_id'           => 'int',
+            'sort_order'             => 'int',
+            'settings'               => 'string',
+            'supplier_code'          => 'string',
+            'supplier_id'            => 'string'
+        ];
+        $this->extensions->hk_ProcessData($this,__FUNCTION__);
+    }
 
     /** @param array $data
      * @return int
      * @throws AException
      */
-    public function addProduct($data)
+    public function addProduct($data, $cloning = false)
     {
         $language_id = $this->language->getContentLanguageID();
 
-        $this->db->query(
-            "INSERT INTO " . $this->db->table("products") . " 
-            SET model = '" . $this->db->escape($data['model']) . "',
-                sku = '" . $this->db->escape($data['sku']) . "',
-                location = '" . $this->db->escape($data['location']) . "',
-                quantity = '" . preformatInteger($data['quantity']) . "',
-                minimum = '" . preformatInteger($data['minimum']) . "',
-                maximum = '" . preformatInteger($data['maximum']) . "',
-                subtract = '" . (int)$data['subtract'] . "',
-                stock_checkout = '" . $this->db->escape($data['stock_checkout']) . "',
-                stock_status_id = '" . (int)$data['stock_status_id'] . "',
-                date_available = '" . $this->db->escape($data['date_available']) . "',
-                manufacturer_id = '" . (int)$data['manufacturer_id'] . "',
-                shipping = '" . (int)$data['shipping'] . "',
-                ship_individually = '" . (int)$data['ship_individually'] . "',
-                free_shipping = '" . (int)$data['free_shipping'] . "',
-                shipping_price = '" . preformatFloat($data['shipping_price'], $this->language->get('decimal_point')) . "',
-                price = '" . preformatFloat($data['price'], $this->language->get('decimal_point')) . "',
-                cost = '" . preformatFloat($data['cost'], $this->language->get('decimal_point')) . "',
-                weight = '" . preformatFloat($data['weight'], $this->language->get('decimal_point')) . "',
-                weight_class_id = '" . (int)$data['weight_class_id'] . "',
-                length = '" . preformatFloat($data['length'], $this->language->get('decimal_point')) . "',
-                width = '" . preformatFloat($data['width'], $this->language->get('decimal_point')) . "',
-                height = '" . preformatFloat($data['height'], $this->language->get('decimal_point')) . "',
-                length_class_id = '" . (int)$data['length_class_id'] . "',
-                status = '" . (int)$data['status'] . "',
-                tax_class_id = '" . (int)$data['tax_class_id'] . "',
-                sort_order = '" . (int)$data['sort_order'] . "',                    
-                settings = '" . $this->db->escape(serialize($data['settings'])) . "',
-                supplier_code = " . $this->db->stringOrNull($data['supplier_code']) . ",
-                supplier_id = " . $this->db->stringOrNull($data['supplier_id']) . ",
-                date_added = NOW()"
-        );
+
+        // add extra columns via hooks
+        $this->extensions->hk_processData($this, __FUNCTION__);
+            
+        $updArray = [];
+        foreach ($this->data['product_columns'] as $column => $type) {
+            if (isset($data[$column])) {
+                $value = '';
+                if ($type == 'int') {
+                    $value = (int)$data[$column];
+                } elseif ($type == 'string') {
+                    if (in_array($column, ['supplier_code', 'supplier_id'])) {
+                        $value = $this->db->stringOrNull($data[$column]);
+                    } else {
+                        $value = "'" . $this->db->escape($data[$column]) . "'";
+                    }
+                } elseif ($type == 'float') {
+                    if (in_array($column, ['shipping_price', 'price', 'cost', 'weight', 'length', 'width', 'height'])) {
+                        $data[$column] = preformatFloat($data[$column], $this->language->get('decimal_point'));
+                    }
+                    $value = "'" . (float)$data[$column] . "'";
+                }
+                $updArray[] = "`" . $column . "` = " . $value;
+            }
+        }
+            
+        if (!empty($updArray)) {
+            $this->db->query( "INSERT INTO " . $this->db->table("products") . " SET " . implode(",\n", $updArray) );
+        }
 
         $product_id = $this->db->getLastId();
-        // if new product
-        if (!is_int(key($data['product_description']))) {
-            $update = [];
-            foreach ($data['product_description'] as $field => $value) {
-                $update[$language_id][$field] = $value;
-            }
-            $this->language->replaceDescriptions(
-                'product_descriptions',
-                ['product_id' => $product_id],
-                $update
-            );
-        } else { // if cloning
-            foreach ($data['product_description'] as $language_id => $value) {
+
+        // if cloning
+        if($cloning){
+            foreach ($data['product_description'] as $lang_id => $value) {
                 $this->db->query(
                     "INSERT INTO " . $this->db->table("product_descriptions") . " 
                     SET product_id = '" . $product_id . "',
-                        language_id = '" . (int)$language_id . "',
+                        language_id = '" . (int)$lang_id . "',
                         name = '" . $this->db->escape($value['name']) . "',
                         meta_keywords = '" . $this->db->escape($value['meta_keywords']) . "',
                         meta_description = '" . $this->db->escape($value['meta_description']) . "',
@@ -95,6 +120,18 @@ class ModelCatalogProduct extends Model
             }
             reset($data['product_description']);
         }
+        // if new product
+        elseif (!is_int(key($data['product_description']))) {
+            $update = [];
+            foreach ($data['product_description'] as $field => $value) {
+                $update[$language_id][$field] = $value;
+            }
+            $this->language->replaceDescriptions(
+                'product_descriptions',
+                ['product_id' => $product_id],
+                $update
+            );
+        }
 
         if ($data['featured']) {
             $this->setFeatured($product_id, true);
@@ -102,20 +139,11 @@ class ModelCatalogProduct extends Model
 
         $seo_keys = [];
         if ($data['keyword']) {
-            if (is_string($data['keyword'])) {
-                $seo_keys = [
-                    $language_id => [
-                        'keyword' => SEOEncode($data['keyword'], 'product_id', $product_id),
-                    ],
-                ];
-            } //when cloning
-            else {
+            //when cloning
+            if($cloning){
                 if (is_array($data['keyword'])) {
                     $all_languages = $this->language->getAvailableLanguages();
-                    $all_ids = [];
-                    foreach ($all_languages as $l) {
-                        $all_ids[] = $l['language_id'];
-                    }
+                    $all_ids = array_column($all_languages,'language_id');
                     foreach ($data['keyword'] as $lang_id => $seo_key) {
                         if (!in_array($lang_id, $all_ids)) {
                             continue;
@@ -126,23 +154,20 @@ class ModelCatalogProduct extends Model
                     }
                 }
             }
-        } else {
-            //Default behavior to save SEO URL keyword from product name in default language
-            // when new product
-            if (!is_int(key($data['product_description']))) {
+            //when new product
+            elseif (is_string($data['keyword'])) {
                 $seo_keys = [
                     $language_id => [
-                        'keyword' => SEOEncode($data['product_description']['name'], 'product_id', $product_id),
+                        'keyword' => SEOEncode($data['keyword'], 'product_id', $product_id),
                     ],
                 ];
-            } else { // when clones
+            }
+        } else {
+            //Default behavior to save SEO URL keyword from product name in default language
+            if($cloning){
                 $product_seo_keys = $this->getProductSEOKeywords($product_id);
-
                 $all_languages = $this->language->getAvailableLanguages();
-                $all_ids = [];
-                foreach ($all_languages as $l) {
-                    $all_ids[] = $l['language_id'];
-                }
+                $all_ids = array_column($all_languages,'language_id');
                 foreach ($product_seo_keys as $lang_id => $seo_key) {
                     if (!in_array($lang_id, $all_ids)) {
                         continue;
@@ -152,10 +177,18 @@ class ModelCatalogProduct extends Model
                     ];
                 }
             }
+            // when new product
+            elseif (!is_int(key($data['product_description']))) {
+                $seo_keys = [
+                    $language_id => [
+                        'keyword' => SEOEncode($data['product_description']['name'], 'product_id', $product_id),
+                    ],
+                ];
+            }
         }
         if ($seo_keys) {
             foreach ($seo_keys as $lang_id => $seo_key) {
-                //if seo-key of new clone more than 255 characters - just do hash
+                //if seo-key of new clone more than 255 characters, just do hash
                 if (mb_strlen($seo_key['keyword']) > 250) {
                     $seo_key['keyword'] = md5($seo_key['keyword'] . time());
                 }
@@ -209,8 +242,8 @@ class ModelCatalogProduct extends Model
                 priority = '" . (int)$data['priority'] . "',
                 price_prefix = '" . $this->db->escape($data['price_prefix']) . "',
                 price = '" . preformatFloat($data['price']) . "',
-                date_start = '" . $this->db->escape($data['date_start']) . "',
-                date_end = '" . $this->db->escape($data['date_end']) . "'"
+                date_start = DATE('" . $this->db->escape($data['date_start']) . "'),
+                date_end = DATE('" . $this->db->escape($data['date_end']) . "')"
         );
         $id = $this->db->getLastId();
         $this->_touch_product($product_id);
@@ -227,12 +260,6 @@ class ModelCatalogProduct extends Model
     public function addProductSpecial($product_id, $data)
     {
         $data['price'] = str_replace(" ", "", $data['price']);
-        if (!empty($data['date_start']) && !$data['iso_date']) {
-            $data['date_start'] = dateDisplay2ISO($data['date_start'], $this->language->get('date_format_short'));
-        }
-        if (!empty($data['date_end']) && !$data['iso_date']) {
-            $data['date_end'] = dateDisplay2ISO($data['date_end'], $this->language->get('date_format_short'));
-        }
 
         $this->db->query(
             "INSERT INTO " . $this->db->table("product_specials") . "
@@ -241,8 +268,8 @@ class ModelCatalogProduct extends Model
                 priority = '" . (int)$data['priority'] . "',
                 price_prefix = '" . $this->db->escape($data['price_prefix']) . "',
                 price = '" . preformatFloat($data['price'], $this->language->get('decimal_point')) . "',
-                date_start = '" . $this->db->escape($data['date_start']) . "',
-                date_end = '" . $this->db->escape($data['date_end']) . "'"
+                date_start = DATE('" . $this->db->escape($data['date_start']) . "'),
+                date_end = DATE('" . $this->db->escape($data['date_end']) . "')"
         );
         $id = $this->db->getLastId();
         $this->_touch_product($product_id);
@@ -260,38 +287,6 @@ class ModelCatalogProduct extends Model
         $language_id = $this->language->getContentLanguageID();
         $product_id = (int)$product_id;
 
-        $fields = [
-            "model",
-            "sku",
-            "location",
-            "quantity",
-            "minimum",
-            "maximum",
-            "subtract",
-            "stock_checkout",
-            "stock_status_id",
-            "date_available",
-            "manufacturer_id",
-            "shipping",
-            "ship_individually",
-            "free_shipping",
-            "shipping_price",
-            "call_to_order",
-            "price",
-            "cost",
-            "weight",
-            "weight_class_id",
-            "length",
-            "width",
-            "height",
-            "length_class_id",
-            "status",
-            "tax_class_id",
-            "sort_order",
-            "settings",
-            "supplier_code",
-            "supplier_id"
-        ];
         $preformat_fields = [
             "shipping_price",
             "price",
@@ -302,8 +297,8 @@ class ModelCatalogProduct extends Model
             "height",
         ];
 
-        $update = ['date_modified = NOW()'];
-        foreach ($fields as $f) {
+        $update = [];
+        foreach ($this->data['product_columns'] as $f => $type) {
             if (isset($data[$f])) {
                 if (in_array($f, $preformat_fields)) {
                     $data[$f] = preformatFloat($data[$f], $this->language->get('decimal_point'));
@@ -312,7 +307,7 @@ class ModelCatalogProduct extends Model
             }
         }
 
-        if (!empty($update)) {
+        if ($update) {
             $this->db->query(
                 "UPDATE `" . $this->db->table("products`")
                 . " SET " . implode(',', $update)
@@ -353,7 +348,7 @@ class ModelCatalogProduct extends Model
         if (isset($data['keyword'])) {
             $data['keyword'] = SEOEncode($data['keyword'], 'product_id', $product_id);
             if ($data['keyword']) {
-                //if seo-key of new clone more than 255 characters - just do hash
+                //if seo-key of new clone more than 255 characters, just do hash
                 if (mb_strlen($data['keyword']) > 250) {
                     $data['keyword'] = md5($data['keyword'] . time());
                 }
@@ -432,8 +427,14 @@ class ModelCatalogProduct extends Model
         }
         $update = [];
         foreach ($fields as $f) {
-            if (isset($data[$f])) {
-                $update[] = $f . " = '" . $this->db->escape($data[$f]) . "'";
+            if(isset($data[$f])) {
+                $newValue = $data[$f];
+                if (str_starts_with($f, 'date_')) {
+                    $newValue = "DATE('" . $newValue . "')";
+                } else {
+                    $newValue = "'" . $this->db->escape($data[$f]) . "'";
+                }
+                $update[] = $f . " = " . $newValue;
             }
         }
         if (!empty($update)) {
@@ -464,7 +465,13 @@ class ModelCatalogProduct extends Model
         $update = [];
         foreach ($fields as $f) {
             if (isset($data[$f])) {
-                $update[] = $f . " = '" . $this->db->escape($data[$f]) . "'";
+                $newValue = $data[$f];
+                if(str_starts_with($f, 'date_')){
+                    $newValue = "DATE('".$newValue."')";
+                }else{
+                    $newValue = "'".$this->db->escape($data[$f])."'";
+                }
+                $update[] = $f . " = " . $newValue;
             }
         }
         if (!empty($update)) {
@@ -783,7 +790,7 @@ class ModelCatalogProduct extends Model
         if (is_array($data['attribute_value_id'])) {
             //add children option values description from global attributes
             $group_description = [];
-            $descr_names = [];
+            $descNames = [];
             foreach ($data['attribute_value_id'] as $attribute_value_id) {
                 #special insert for grouped options
                 foreach ($am->getAttributeValueDescriptions($attribute_value_id) as $language_id => $name) {
@@ -791,13 +798,13 @@ class ModelCatalogProduct extends Model
                         'attr_v_id' => $attribute_value_id,
                         'name'      => $name
                     ];
-                    $descr_names[$language_id][] = $name;
+                    $descNames[$language_id][] = $name;
                 }
             }
 
             // Insert generic merged name
             $grouped_names = null;
-            foreach ($descr_names as $language_id => $name) {
+            foreach ($descNames as $language_id => $name) {
                 if (count($group_description[$language_id])) {
                     $grouped_names = serialize($group_description[$language_id]);
                 }
@@ -991,7 +998,7 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     *  Update singe product option value
+     *  Update single product option value
      *
      * @param int $pd_opt_val_id
      * @param int $attribute_value_id
@@ -1096,7 +1103,7 @@ class ModelCatalogProduct extends Model
         if (is_array($data['attribute_value_id'])) {
             //update children option values description from global attributes
             $group_description = [];
-            $descr_names = [];
+            $descNames = [];
             foreach ($data['attribute_value_id'] as $attr_val_id) {
                 #special insert for grouped options
                 foreach ($am->getAttributeValueDescriptions($attr_val_id) as $lang_id => $name) {
@@ -1105,12 +1112,12 @@ class ModelCatalogProduct extends Model
                             'attr_v_id' => $attr_val_id,
                             'name'      => $name
                         ];
-                        $descr_names[$language_id][] = $name;
+                        $descNames[$language_id][] = $name;
                     }
                 }
             }
             // Insert generic merged name
-            foreach ($descr_names as $lang_id => $name) {
+            foreach ($descNames as $lang_id => $name) {
                 if ($language_id == $lang_id && count($group_description[$language_id])) {
                     $group_description[$language_id][] = $name;
                     $grouped_names = serialize($group_description[$language_id]);
@@ -1287,7 +1294,7 @@ class ModelCatalogProduct extends Model
             ]
         );
 
-        $new_product_id = $this->addProduct($data);
+        $new_product_id = $this->addProduct($data, true);
 
         foreach ($data['product_discount'] as $item) {
             $this->addProductDiscount($new_product_id, $item);
@@ -1539,7 +1546,7 @@ class ModelCatalogProduct extends Model
                 $product_id,
                 $r['resource_id']
             );
-            //if resource becomes orphan - delete it
+            //if resource becomes orphan, delete it
             if (!$rm->isMapped($r['resource_id'])) {
                 $rm->deleteResource($r['resource_id']);
             }
@@ -2903,14 +2910,14 @@ class ModelCatalogProduct extends Model
         if ($query->num_rows) {
             $notrack_qnt = 0;
             foreach ($query->rows as $row) {
-                //if tracking of stock disabled - set quantity as big
+                //if tracking of stock disabled, set quantity as big
                 if (!$row['subtract']) {
                     $notrack_qnt += 10000000;
                     continue;
                 }
                 $total_quantity += max($row['quantity'], 0);
             }
-            //if any of the option value have "subtract" NO - think product is available
+            //if any of the option value have "subtract" "NO", think product is available
             if ($total_quantity == 0 && $notrack_qnt) {
                 $total_quantity = true;
             }

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <extension>
 	<id>paypal_commerce</id>
-	<version>1.4.3</version>
+	<version>1.4.4</version>
 	<type>payment</type>
 	<category>payment</category>
 	<cartversions>
@@ -17,6 +17,10 @@
 		<item id="paypal_commerce_test_connection">
 			<type>html_template</type>
 			<template>responses/extension/paypal_commerce_test.tpl</template>
+		</item>
+		<item id="paypal_commerce_debug_logging">
+			<type>checkbox</type>
+			<default_value>0</default_value>
 		</item>
 		<item id="paypal_commerce_transaction_type">
             <type>selectbox</type>
@@ -34,6 +38,66 @@
 			</variants>
 			<default_value>buttons</default_value>
 		</item>
+        <item id="paypal_commerce_3ds_policy">
+            <type>selectbox</type>
+            <variants>
+                <item>0</item>
+                <item>SCA_WHEN_REQUIRED</item>
+                <item>SCA_ALWAYS</item>
+            </variants>
+            <default_value>0</default_value>
+        </item>
+        <item id="paypal_commerce_enabled_funding">
+            <type required="true">checkboxgroup</type>
+            <variants>
+                <item>venmo</item>
+                <item>paylater</item>
+                <item>credit</item>
+                <item>bancontact</item>
+                <item>blik</item>
+                <item>eps</item>
+                <item>giropay</item>
+                <item>ideal</item>
+                <item>mybank</item>
+                <item>p24</item>
+                <item>sepa</item>
+                <item>sofort</item>
+                <item>trustly</item>
+                <item>mercadopago</item>
+                <item>oxxo</item>
+                <item>boleto</item>
+                <item>wechatpay</item>
+            </variants>
+            <default_value>venmo</default_value>
+        </item>
+        <item id="paypal_commerce_show_buttons_product">
+            <type>checkbox</type>
+            <default_value>0</default_value>
+        </item>
+        <item id="paypal_commerce_show_buttons_cart">
+            <type>checkbox</type>
+            <default_value>1</default_value>
+        </item>
+        <item id="paypal_commerce_pay_later_message_configurator">
+            <type>html_template</type>
+            <template>responses/extension/paylater_configurator.tpl</template>
+        </item>
+        <item id="paypal_commerce_pay_later_product_message">
+            <type>hidden</type>
+            <default_value><![CDATA[<div data-pp-message data-pp-style-layout="text" data-pp-style-logo-type="inline" data-pp-style-text-color="black" data-pp-style-text-size="12" data-pp-amount=ENTER_VALUE_HERE data-pp-placement=product></div>]]></default_value>
+        </item>
+        <item id="paypal_commerce_pay_later_cart_message">
+            <type>hidden</type>
+            <default_value><![CDATA[<div data-pp-message data-pp-style-layout="text" data-pp-style-logo-type="inline" data-pp-style-text-color="black" data-pp-style-text-size="12" data-pp-amount=ENTER_VALUE_HERE data-pp-placement=cart></div>]]></default_value>
+        </item>
+        <item id="paypal_commerce_pay_later_checkout_message">
+            <type>hidden</type>
+            <default_value><![CDATA[<div data-pp-message data-pp-style-layout="text" data-pp-style-logo-type="inline" data-pp-style-text-color="black" data-pp-style-text-size="12" data-pp-amount=ENTER_VALUE_HERE data-pp-placement=payment></div>]]></default_value>
+        </item>
+        <item id="paypal_commerce_pay_later_message_config">
+            <type>hidden</type>
+            <default_value><![CDATA[]]></default_value>
+        </item>
 		<item id="paypal_commerce_autoselect">
 			<type>checkbox</type>
 			<default_value>0</default_value>

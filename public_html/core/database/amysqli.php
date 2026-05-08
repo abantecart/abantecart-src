@@ -56,7 +56,8 @@ final class AMySQLi
         try {
             $connection = new mysqli($hostname, $username, $password, $database, $port);
         }catch(Exception|Error $e) {
-            $excMessage = 'Error '.$e->getCode().' ('.$e?->getSqlState().'): '. $e->getMessage().PHP_EOL
+            $sqlState = method_exists($e, 'getSqlState') ? '('.$e->getSqlState().')' : null;
+            $excMessage = 'Error '.$e->getCode().' '.$sqlState.': '. $e->getMessage().PHP_EOL
                 .'Cannot establish database connection. Check your database connection settings';
             throw new AException($e->getCode(), $excMessage);
         }
@@ -96,9 +97,7 @@ final class AMySQLi
                 $timezone = $timezone == 'UTC' ? 'Europe/London' : $timezone;
                 $connection->query("SET time_zone='".$timezone."';");
             }
-        } catch (\Exception $e) {
-            error_log($e->getMessage());
-        }
+        } catch (\Exception $e) {}
 
         $this->registry = Registry::getInstance();
         $this->connection = $connection;

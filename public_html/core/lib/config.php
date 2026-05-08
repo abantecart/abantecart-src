@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -25,7 +24,7 @@ if (!defined('DIR_CORE')) {
 final class AConfig
 {
     public $data;
-    private $cnfg = [];
+    private $cfg = [];
     /**
      * @var Registry
      */
@@ -43,11 +42,11 @@ final class AConfig
      *
      * @param $key - data key
      *
-     * @return mixed - requested data; null if no data wit such key
+     * @return mixed - requested data; null if no data with such a key
      */
     public function get($key)
     {
-        return ($this->cnfg[$key] ?? null);
+        return ($this->cfg[$key] ?? null);
     }
 
     /**
@@ -60,7 +59,7 @@ final class AConfig
      */
     public function set($key, $value)
     {
-        $this->cnfg[$key] = $value;
+        $this->cfg[$key] = $value;
     }
 
     /**
@@ -72,11 +71,11 @@ final class AConfig
      */
     public function has($key)
     {
-        return isset($this->cnfg[$key]);
+        return isset($this->cfg[$key]);
     }
 
     /**
-     * load data from config and merge with current data set
+     * load data from config and merge with the current data set
      *
      * @param $filename
      *
@@ -86,7 +85,7 @@ final class AConfig
      */
     public function load($filename)
     {
-        $file = DIR_CONFIG.$filename.'.php';
+        $file = DIR_CONFIG . $filename . '.php';
 
         if (file_exists($file)) {
             $cfg = [];
@@ -96,36 +95,32 @@ final class AConfig
 
             $this->data = array_merge($this->data, $cfg);
         } else {
-            throw new AException(AC_ERR_LOAD, 'Error: Could not load config '.$filename.'!');
+            throw new AException(AC_ERR_LOAD, 'Error: Could not load config ' . $filename . '!');
         }
     }
 
     private function _load_settings()
     {
-        /**
-         * @var ACache $cache
-         */
+        /** @var ACache $cache */
         $cache = $this->registry->get('cache');
-        /**
-         * @var ADB
-         */
+        /** @var ADB $db */
         $db = $this->registry->get('db');
 
         //detect URL for the store
-        $url = str_replace('www.', '', $_SERVER['HTTP_HOST']).get_url_path($_SERVER['REQUEST_URI']);
+        $url = str_replace('www.', '', $_SERVER['HTTP_HOST']) . get_url_path($_SERVER['REQUEST_URI']);
         if (defined('INSTALL')) {
             $url = str_replace('install/', '', $url);
         }
 
         //enable cache storage based on configuration
         $cache->enableCache();
-        //set configured driver.
+        //set a configured driver.
         $cache_driver = 'file';
         if (defined('CACHE_DRIVER')) {
             $cache_driver = CACHE_DRIVER;
         }
         if (!$cache->setCacheStorageDriver($cache_driver)) {
-            $error = new AError ('Cache storage driver '.$cache_driver.' can not be loaded!');
+            $error = new AError ('Cache storage driver ' . $cache_driver . ' can not be loaded!');
             $error->toLog()->toDebug()->toMessages();
         }
 
@@ -134,9 +129,9 @@ final class AConfig
         if (empty($settings)) {
             // set global settings (without extensions settings)
             $sql = "SELECT se.*
-                    FROM ".$db->table("settings")." se
+                    FROM " . $db->table("settings") . " se
                     WHERE se.store_id = '0'
-                        AND se.`group` NOT IN (SELECT `key` FROM ".$db->table("extensions").")";
+                        AND se.`group` NOT IN (SELECT `key` FROM " . $db->table("extensions") . ")";
             $query = $db->query($sql);
             $settings = $query->rows;
             foreach ($settings as &$setting) {
@@ -145,172 +140,197 @@ final class AConfig
                     if (empty($parsed_url['scheme'])) {
                         $parsed_url['scheme'] = "http";
                     }
-                    $setting['value'] = $parsed_url['scheme'].'://'.$parsed_url['host'].$parsed_url['path'];
+                    $setting['value'] = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $parsed_url['path'];
                 }
                 if ($setting['key'] == 'config_ssl_url' && $setting['value']) {
                     $parsed_url = parse_url($setting['value']);
                     if (empty($parsed_url['scheme'])) {
                         $parsed_url['scheme'] = "https";
                     }
-                    $setting['value'] = $parsed_url['scheme'].'://'.$parsed_url['host'].$parsed_url['path'];
+                    $setting['value'] = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $parsed_url['path'];
                 }
-                $this->cnfg[$setting['key']] = $setting['value'];
+                $this->cfg[$setting['key']] = $setting['value'];
             }
             unset($setting); //unset temp reference
 
             //fix for rare issue on a database and creation of empty cache
-            if (!empty($settings) && $this->cnfg['config_cache_enable']) {
+            if (!empty($settings) && $this->cfg['config_cache_enable']) {
                 $cache->push('settings', $settings);
             }
         } else {
             foreach ($settings as $setting) {
-                $this->cnfg[$setting['key']] = $setting['value'];
+                $this->cfg[$setting['key']] = $setting['value'];
             }
         }
-        //set current store id as default 0 for now. It will be reset if other store detected below
-        $this->cnfg['config_store_id'] = 0;
+        //check core version compatibility
+        if ($this->cfg['core_version'] && $this->cfg['core_version'] != VERSION) {
+            // Recheck directly in DB to avoid false mismatch on stale persistent cache.
+            $sql = "SELECT `value`
+                    FROM " . $db->table("settings") . "
+                    WHERE `key` = 'core_version'
+                    LIMIT 1";
+            $query = $db->query($sql);
+            $dbCoreVersion = $query->row['value'];
+            if ($dbCoreVersion !== '') {
+                $this->cfg['core_version'] = $dbCoreVersion;
+            }
 
-        // if storefront and not default store try to load setting for given URL
+            if ($dbCoreVersion && $dbCoreVersion != VERSION) {
+                //clear settings cache to avoid caching wrong core_version value
+                $this->registry?->get('cache')?->remove('settings');
+                exit(
+                    'Error: Incompatible database version! '
+                    . 'Your AbanteCart version is ' . VERSION . ' but database version is ' . $dbCoreVersion . '!'
+                );
+            }
+
+            // cached value is stale, invalidate it and continue startup
+            $this->registry?->get('cache')?->remove('settings');
+        }
+
+        //set the current store id as default 0 for now. It will be reset if the other store is detected below
+        $this->cfg['config_store_id'] = 0;
+
+        // if storefront and not default store try to load setting for the given URL
         /* Example:
             Specific store config -> http://localhost/abantecart123
             Generic config -> http://localhost
         */
-        $config_url = preg_replace("(^https?://)", "", $this->cnfg['config_url']);
+        $config_url = preg_replace("(^https?://)", "", $this->cfg['config_url']);
         $config_url = preg_replace("(^://)", "", $config_url);
 
         $domain = str_replace('www.', '', $_SERVER['HTTP_HOST']);
         if ($url != $config_url) {
             // if requested url not a default store URL - do check other stores.
-                $foundStoreId = null;
-                $subPath = '/'.trim($_SERVER['REQUEST_URI'], "/");
-                $subPath = $subPath ? explode("/", $subPath) : [''];
+            $foundStoreId = null;
+            $subPath = '/' . trim($_SERVER['REQUEST_URI'], "/");
+            $subPath = $subPath ? explode("/", $subPath) : [''];
 
-                //get all store IDs by domain name
-                $sql = "SELECT DISTINCT `store_id`, REPLACE(REPLACE(`value`,'http://',''),'https://','') as uri 
-                        FROM ".$db->table('settings')."
+            //get all store IDs by domain name
+            $sql = "SELECT DISTINCT `store_id`, REPLACE(REPLACE(`value`,'http://',''),'https://','') as uri 
+                        FROM " . $db->table('settings') . "
                         WHERE `group`='details'
                             AND
-                                ( (`key` = 'config_url' AND (`value` LIKE '%".$db->escape($domain)."%'))
-                            XOR (`key` = 'config_ssl_url' AND (`value` LIKE '%".$db->escape($domain)."%')) ) 
+                                ( (`key` = 'config_url' AND (`value` LIKE '%" . $db->escape($domain) . "%'))
+                            XOR (`key` = 'config_ssl_url' AND (`value` LIKE '%" . $db->escape($domain) . "%')) ) 
                         ORDER BY LENGTH(`value`) DESC";
-                $result = $db->query($sql);
+            $result = $db->query($sql);
 
-                // seek by full path first (index page of store)
+            // seek by full path first (index page of store)
+            foreach ($result->rows as $row) {
+                $sp = '';
+                foreach ($subPath as $sPath) {
+                    $sp .= $sPath . '/';
+                    $testUri = $domain . '/' . $sp;
+                    $testUri = str_replace('//', '/', $testUri);
+                    if (str_replace('www.', '', $row['uri']) == $testUri) {
+                        $foundStoreId = (int)$row['store_id'];
+                        break 2;
+                    }
+                }
+            }
+            //if a path not found in the list - seek by path parts (index page and seo-keyword)
+            if (is_null($foundStoreId)) {
                 foreach ($result->rows as $row) {
-                    $sp = '';
-                    foreach($subPath as $sPath) {
-                        $sp .= $sPath.'/';
-                        $testUri = $domain.'/'.$sp;
-                        $testUri = str_replace('//', '/', $testUri);
-                        if (str_replace('www.', '', $row['uri']) == $testUri) {
-                            $foundStoreId = (int) $row['store_id'];
+                    $tmp = $subPath;
+                    while (count($tmp) > 0) {
+                        $testUri = $domain . '/' . implode("/", $tmp) . '/';
+                        if (strlen($row['uri']) > strlen($testUri)) {
+                            //do not allow digging too deep into uri subfolders
+                            break 1;
+                        }
+                        if (is_int(strpos($row['uri'], $testUri))) {
+                            $foundStoreId = (int)$row['store_id'];
                             break 2;
                         }
+                        array_pop($tmp);
                     }
                 }
-                //if path not found in list - seek by path parts (index page + seo-keyword)
-                if (is_null($foundStoreId)) {
-                    foreach ($result->rows as $row) {
-                        $tmp = $subPath;
-                        while (count($tmp) > 0) {
-                            $testUri = $domain.'/'.implode("/", $tmp).'/';
-                            if (strlen($row['uri']) > strlen($testUri)) {
-                                //do not allow dig too deep into uri subfolders
-                                break 1;
-                            }
-                            if (is_int(strpos($row['uri'], $testUri))) {
-                                $foundStoreId = (int) $row['store_id'];
-                                break 2;
-                            }
-                            array_pop($tmp);
-                        }
-                    }
-                }
+            }
 
-                //get all settings for specific store
-                $sql = "SELECT se.`key`, se.`value`, st.store_id
-                      FROM ".$db->table('settings')." se
-                      RIGHT JOIN ".$db->table('stores')." st ON se.store_id = st.store_id
-                      WHERE se.store_id = ".(int) $foundStoreId."
+            //get all settings for a specific store
+            $sql = "SELECT se.`key`, se.`value`, st.store_id
+                      FROM " . $db->table('settings') . " se
+                      RIGHT JOIN " . $db->table('stores') . " st ON se.store_id = st.store_id
+                      WHERE se.store_id = " . (int)$foundStoreId . "
                             AND st.status = 1
                             AND TRIM(se.`group`) NOT IN
                                                     (SELECT TRIM(`key`) as `key`
-                                                    FROM ".$db->table("extensions").")";
-                $query = $db->query($sql);
-                $store_settings = [];
-                if ($query->num_rows) {
-                    $store_settings = array_column($query->rows, 'value', 'key');
-                    $store_settings['store_id'] = $foundStoreId;
-                }
-                if ($store_settings) {
-                    $this->prepareSettings($domain, $store_settings);
-                }
+                                                    FROM " . $db->table("extensions") . ")";
+            $query = $db->query($sql);
+            $store_settings = [];
+            if ($query->num_rows) {
+                $store_settings = array_column($query->rows, 'value', 'key');
+                $store_settings['store_id'] = $foundStoreId;
+            }
+            if ($store_settings) {
+                $this->prepareSettings($domain, $store_settings);
+            }
             if ($store_settings) {
                 //store found by URL, load settings
-                $this->cnfg = array_merge($this->cnfg, $store_settings);
-                $this->cnfg['config_store_id'] = (int) $store_settings['store_id'];
+                $this->cfg = array_merge($this->cfg, $store_settings);
+                $this->cfg['config_store_id'] = (int)$store_settings['store_id'];
             } else {
                 //write to log when system check enabled
                 if (php_sapi_name() != 'cli'
-                    && ($this->cnfg['config_system_check'] == 0
-                        || ($this->cnfg['config_system_check'] == 1 && IS_ADMIN === true)
-                        || ($this->cnfg['config_system_check'] == 2 && IS_ADMIN !== true))
+                    && ($this->cfg['config_system_check'] == 0
+                        || ($this->cfg['config_system_check'] == 1 && IS_ADMIN === true)
+                        || ($this->cfg['config_system_check'] == 2 && IS_ADMIN !== true))
                 ) {
                     $warning = new AWarning(
-                        'Warning: Accessing store with non-configured or unknown domain ( '.$url.' ).'."\n"
-                        .' Check setting of your store domain URL in System Settings.'
-                        .' Loading default store configuration for now.'
+                        'Warning: Accessing store with non-configured or unknown domain ( ' . $url . ' ).' . "\n"
+                        . ' Check setting of your store domain URL in System Settings.'
+                        . ' Loading default store configuration for now.'
                     );
                     $warning->toLog();
                 }
                 //set config url to current domain
-                $this->cnfg['config_url'] = 'http://'.REAL_HOST.get_url_path($_SERVER['PHP_SELF']);
+                $this->cfg['config_url'] = 'http://' . REAL_HOST . get_url_path($_SERVER['PHP_SELF']);
             }
 
-            if (!$this->cnfg['config_url']) {
-                $this->cnfg['config_url'] = 'http://'.REAL_HOST.get_url_path($_SERVER['PHP_SELF']);
+            if (!$this->cfg['config_url']) {
+                $this->cfg['config_url'] = 'http://' . REAL_HOST . get_url_path($_SERVER['PHP_SELF']);
             }
         }
 
-        //load specific store if admin and set current_store_id for admin operation on store
+        //load a specific store if admin and set current_store_id for admin operation on store
         if (IS_ADMIN) {
-            //Check if admin has specific store in session or selected
-            $session = $this->registry->get('session');
+            //Check if admin has a specific store in session or selected
             $store_id = $this->registry->get('request')->get['store_id'];
             if (isset($store_id)) {
-                $this->cnfg['current_store_id'] = (int) $store_id;
+                $this->cfg['current_store_id'] = (int)$store_id;
             }
             //reload store settings if not what is loaded now
 //???needed for settings page
-            if (isset($this->cnfg['current_store_id'])) {
-                $this->reloadSettings($this->cnfg['current_store_id']);
-                $this->cnfg['config_store_id'] = $this->cnfg['current_store_id'];
+            if (isset($this->cfg['current_store_id'])) {
+                $this->reloadSettings($this->cfg['current_store_id']);
+                $this->cfg['config_store_id'] = $this->cfg['current_store_id'];
             }
         }
 
         //get template for storefront
-        $tmpl_id = $this->cnfg['config_storefront_template'];
+        $tmpl_id = $this->cfg['config_storefront_template'];
 
         //disable cache when it disabled in settings
-        if (!$this->cnfg['config_cache_enable']) {
+        if (!$this->cfg['config_cache_enable']) {
             $cache->disableCache();
         }
 
         // load extension settings
-        $cache_suffix = IS_ADMIN ? 'admin' : $this->cnfg['config_store_id'];
-        $settings = $cache->pull('settings.extension.'.$cache_suffix);
+        $cache_suffix = IS_ADMIN ? 'admin' : $this->cfg['config_store_id'];
+        $settings = $cache->pull('settings.extension.' . $cache_suffix);
         if (empty($settings)) {
             // all extensions settings of store
             $sql = "SELECT se.*, e.type as extension_type, e.key as extension_txt_id
-                    FROM ".$db->table('settings')." se
-                    LEFT JOIN ".$db->table('extensions')." e ON se.`group` = e.`key`
-                    WHERE se.store_id='".(int) $this->cnfg['config_store_id']."' AND e.extension_id IS NOT NULL
+                    FROM " . $db->table('settings') . " se
+                    LEFT JOIN " . $db->table('extensions') . " e ON se.`group` = e.`key`
+                    WHERE se.store_id='" . (int)$this->cfg['config_store_id'] . "' AND e.extension_id IS NOT NULL
                     ORDER BY se.store_id ASC, se.group ASC";
             $query = $db->query($sql);
             foreach ($query->rows as $row) {
-                //skip settings for non-active template except status (needed for extensions list in admin)
+                //skip settings for non-active template except status (needed for an extension list in admin)
                 if ($row['extension_type'] == 'template' && $tmpl_id != $row['group']
-                    && $row['key'] != $row['extension_txt_id'].'_status'
+                    && $row['key'] != $row['extension_txt_id'] . '_status'
                 ) {
                     continue;
                 }
@@ -318,22 +338,22 @@ final class AConfig
             }
             //fix for rare issue on a database and creation of empty cache
             if (!empty($settings)) {
-                $cache->push('settings.extension.'.$cache_suffix, $settings);
+                $cache->push('settings.extension.' . $cache_suffix, $settings);
             }
         }
 
-        //add encryption key to settings, otherwise use from database (backwards compatibility)
+        //add an encryption key to settings, otherwise use from a database (backwards compatibility)
         if (defined('ENCRYPTION_KEY')) {
             $setting['encryption_key'] = ENCRYPTION_KEY;
         }
 
         foreach ($settings as $setting) {
-            $this->cnfg[$setting['key']] = $setting['value'];
+            $this->cfg[$setting['key']] = $setting['value'];
         }
     }
 
     /**
-     * function prepares config for work with sub-path based multistore
+     * function prepares config for work with sub-path-based multistore
      *
      * @param $domain
      * @param $store_settings
@@ -341,47 +361,52 @@ final class AConfig
     private function prepareSettings($domain, &$store_settings)
     {
         //replace base url with url without fake(store-alias-path) subfolder
-        $autoUri = rtrim($domain.dirname($_SERVER['SCRIPT_NAME']), '/');
+        $autoUri = rtrim($domain . dirname($_SERVER['SCRIPT_NAME']), '/');
         $autoUri .= $autoUri ? '/' : '';
         foreach (['config_url', 'config_ssl_url'] as $confUrl) {
             $get =& $this->registry->get('request')->get;
             if ($store_settings[$confUrl]) {
                 $parsed = parse_url($store_settings[$confUrl]);
                 $protocol = $parsed['scheme'];
-                if (str_replace('www.', '', $store_settings[$confUrl]) != $protocol.'://'.$autoUri) {
-                    //remove fake(store-alias-path) prefix from seo-key which we got from .htaccess (_route_)
+                if (str_replace('www.', '', $store_settings[$confUrl]) != $protocol . '://' . $autoUri) {
+                    //remove fake(store-alias-path) prefix from the seo-key which we got from .htaccess (_route_)
                     $diff =
-                        substr(str_replace('www.', '', $store_settings[$confUrl]), strlen($protocol.'://'.$autoUri));
+                        substr(str_replace('www.', '', $store_settings[$confUrl]), strlen($protocol . '://' . $autoUri));
                     $store_settings['seo_prefix'] = $diff;
                     if (isset($get['_route_'])) {
-                        //this covers both cases (when store url with slash at the end of url and without)
+                        //this covers both cases (when store url with slash at the end of the url and without)
                         $get['_route_'] = str_replace(INDEX_FILE, '', $get['_route_']);
-                        $get['_route_'] = str_replace($diff, '', rtrim($get['_route_'], '/').'/');
+                        $get['_route_'] = str_replace($diff, '', rtrim($get['_route_'], '/') . '/');
                         if (!$get['_route_']) {
                             unset($get['_route_']);
                         }
                     }
-                    $store_settings[$confUrl] = $protocol.'://'.$autoUri;
+                    $store_settings[$confUrl] = $protocol . '://' . $autoUri;
                 }
             }
         }
     }
 
+    /**
+     * @param int $store_id
+     * @return void
+     * @throws AException
+     */
     public function reloadSettings($store_id = 0)
     {
-        //we don't use cache here cause domain may be different and we cannot change cache from control panel
+        //we don't use cache here cause the domain may be different, and we cannot change cache from a control panel
         $db = $this->registry->get('db');
         $sql = "SELECT se.`key`, se.`value`, st.store_id
-                    FROM ".$db->table('settings')." se
-                    RIGHT JOIN ".$db->table('stores')." st 
+                    FROM " . $db->table('settings') . " se
+                    RIGHT JOIN " . $db->table('stores') . " st 
                             ON se.store_id = st.store_id
-                    WHERE se.store_id = ".(int) $store_id." AND st.status = 1
-                    AND se.`group` NOT IN (SELECT `key` FROM ".$db->table("extensions").");";
+                    WHERE se.store_id = " . (int)$store_id . " AND st.status = 1
+                    AND se.`group` NOT IN (SELECT `key` FROM " . $db->table("extensions") . ");";
         $query = $db->query($sql);
         $store_settings = $query->rows;
         foreach ($store_settings as $row) {
             if ($row['key'] != 'config_url') {
-                $this->cnfg[$row['key']] = $row['value'];
+                $this->cfg[$row['key']] = $row['value'];
             }
         }
     }

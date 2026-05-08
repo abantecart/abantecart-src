@@ -1,32 +1,33 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2026 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
+
 /** @noinspection SqlDialectInspection */
 
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
 class ModelToolTableRelationships extends Model
 {
-    private $tables_data = [];
-    private $sections = [];
+    protected $tables_data = [];
+    protected $sections = [];
 
     public function __construct($registry)
     {
@@ -265,7 +266,7 @@ class ModelToolTableRelationships extends Model
     }
 
     /**
-     * check if requested table exist and return its array
+     * check if the requested table exists and return its array
      *
      * @param string $table_name
      * @param array $search_in_input
@@ -287,12 +288,10 @@ class ModelToolTableRelationships extends Model
         foreach ($search_section as $sectionName => $section) {
             if ($table_name == $sectionName) {
                 return $section;
-            } else {
-                if (is_array($section['children']) && count($section['children']) > 0) {
-                    $found_arr = $this->find_table_cfg($table_name, $section);
-                    if ($found_arr) {
-                        return $found_arr;
-                    }
+            } else if (is_array($section['children']) && count($section['children']) > 0) {
+                $found_arr = $this->find_table_cfg($table_name, $section);
+                if ($found_arr) {
+                    return $found_arr;
                 }
             }
         }
@@ -332,7 +331,8 @@ class ModelToolTableRelationships extends Model
         if (!$this->tables_data) {
             $sql = "SELECT table_name, column_name, extra 
                     FROM information_schema.columns 
-                    WHERE table_schema='".DB_DATABASE."' group by table_name";
+                    WHERE table_schema='" . $this->db->dbName() . "' 
+                    GROUP BY table_name";
             $load_sql = $this->db->query($sql);
             $tables = $load_sql->rows;
 
@@ -341,12 +341,12 @@ class ModelToolTableRelationships extends Model
                     continue;
                 }
                 //get primary keys
-                $pkeys = [];
-                $sql = "SHOW INDEX FROM ".$table['table_name']."
+                $pKeys = [];
+                $sql = "SHOW INDEX FROM " . $table['table_name'] . "
                         WHERE Key_name = 'PRIMARY'";
                 $primary_query = $this->db->query($sql);
                 foreach ($primary_query->rows as $value) {
-                    $pkeys[] = $value['Column_name'];
+                    $pKeys[] = $value['Column_name'];
                 }
 
                 $table_name = $table['table_name'];
@@ -357,7 +357,7 @@ class ModelToolTableRelationships extends Model
                 } else {
                     $this->tables_data[$table_name]['id'] = null;
                 }
-                $this->tables_data[$table_name]['relation_ids'] = $pkeys;
+                $this->tables_data[$table_name]['relation_ids'] = $pKeys;
             }
             $this->_build_relationship();
             $this->_apply_special_cases();
@@ -372,14 +372,14 @@ class ModelToolTableRelationships extends Model
     {
         //Need to connect tables with relationship IDs.
         //NOT IMPLEMENTED. Issue with logic to detect id and content. Slow and unreliable solution.
-        // Looking for better solution to automate or us TRUE relational DB with Postgres ot InnoDB with mysql
+        // Looking for a better solution to automate or us TRUE relational DB with Postgres ot InnoDB with mysql
     }
 
     private function _apply_special_cases()
     {
         //Need to connect tables with relationship IDs.
         //NOT IMPLEMENTED. Issue with logic to detect id and content. Slow and unreliable solution.
-        // Looking for better solution to automate or us TRUE relational DB with Postgres ot InnoDB with mysql
+        // Looking for a better solution to automate or us TRUE relational DB with Postgres ot InnoDB with mysql
     }
 
     /**
@@ -398,8 +398,8 @@ class ModelToolTableRelationships extends Model
             $this->_build_table_relationship();
         }
 
-        if ($this->tables_data[DB_PREFIX.$table_name]) {
-            return $this->tables_data[DB_PREFIX.$table_name];
+        if ($this->tables_data[$this->db->table($table_name)]) {
+            return $this->tables_data[$this->db->table($table_name)];
         } else {
             return null;
         }
@@ -413,10 +413,12 @@ class ModelToolTableRelationships extends Model
      */
     public function get_table_columns($table_name)
     {
-        $sql = 'SHOW COLUMNS FROM `'.$this->db->escape(DB_PREFIX.$table_name).'` FROM `'.DB_DATABASE.'`';
+        $table_name = $this->db->escape($table_name);
+        $sql = 'SHOW COLUMNS 
+                FROM `' . $this->db->table($table_name) . '` 
+                FROM `' . $this->db->dbName() . '`';
 
         $results = $this->db->query($sql);
         return $results->rows;
     }
-
 }

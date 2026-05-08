@@ -21,6 +21,7 @@
 if (!class_exists('ExtensionPaypalCommerce')) {
     require_once(__DIR__ . DS . 'vendor' . DS . 'autoload.php');
     require_once(__DIR__ . DS . 'core' . DS . 'paypal_commerce_hooks.php');
+    require_once(__DIR__ . DS . 'core' . DS . 'DebugPayPalFileLogger.php');
     require_once(__DIR__ . DS . 'core' . DS . 'paypal_commerce_modules.php');
 }
 
@@ -65,13 +66,15 @@ $languages = [
 
 $templates = [
     'storefront' => [
-        'responses/paypal_commerce_confirm.tpl'
+        'responses/paypal_commerce_confirm.tpl',
+        'responses/paypal_commerce_buy_now.tpl'
     ],
     'admin'      => [
         'pages/sale/paypal_commerce_payment_details.tpl',
         'responses/extension/paypal_commerce_connect.tpl',
         'responses/extension/paypal_commerce_test.tpl',
         'responses/extension/paypal_commerce_manual_connect.tpl',
-        'responses/extension/paypal_commerce_note_wrapper.tpl'
+        'responses/extension/paypal_commerce_note_wrapper.tpl',
+        'responses/extension/paylater_configurator.tpl'
     ]
 ];

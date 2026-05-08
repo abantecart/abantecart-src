@@ -2,7 +2,7 @@
 <definitions>
   <definition>
     <key>heading_title</key>
-    <value><![CDATA[My Transactions]]></value>
+    <value><![CDATA[Balance History]]></value>
   </definition>
   <definition>
     <key>text_account</key>
@@ -10,7 +10,7 @@
   </definition>
   <definition>
     <key>text_transactions</key>
-    <value><![CDATA[Transactions History]]></value>
+    <value><![CDATA[Balance History]]></value>
   </definition>
   <definition>
     <key>text_order</key>
@@ -46,6 +46,6 @@
   </definition>
   <definition>
     <key>text_error</key>
-    <value><![CDATA[You have no transactions recorded on your account!]]></value>
+    <value><![CDATA[You have no balance history yet.]]></value>
   </definition>
 </definitions>

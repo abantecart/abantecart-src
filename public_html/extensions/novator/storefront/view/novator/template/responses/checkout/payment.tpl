@@ -61,7 +61,7 @@ $guest_data = $this->session->data['fc']['guest'];
         <input id="telephone" type="text" aria-label="telephone" name="telephone" inputmode="tel"
                class="form-control <?php echo $invalid_phone ? 'is-invalid' : ''; ?>"
                placeholder="<?php echo_html2view($fast_checkout_text_telephone_placeholder); ?>"
-               pattern="<?php echo regexForHtmlPattern($phone_pattern);?>"
+               <?php echo $phone_pattern ? 'pattern="'.regexForHtmlPattern($phone_pattern).'"' : ''; ?>
                value="<?php echo $customer_telephone; ?>" <?php echo $requiredPhone; ?>>
         <span class="input-group-text">
             <button class="btn btn-outline-secondary btn-lg btn-telephone" type="button"
@@ -163,7 +163,7 @@ if ($show_payment == true) {
                 </div>
             </div>
         </div>
-        <div class="text-end"><?php echo $text_accept_agree ?>&nbsp;
+        <div class="text-center"><?php echo $text_accept_agree ?>&nbsp;
             <a onclick="openModalRemote('#returnPolicyModal', '<?php echo $text_accept_agree_href; ?>'); return false;"
                href="<?php echo $text_accept_agree_href; ?>"><b><?php echo $text_accept_agree_href_link; ?></b></a>
         </div>
@@ -178,7 +178,7 @@ if ($show_payment == true) {
 
 
 <?php if ($payment_form) { ?>
-    <div id="payment_details" class="mt-4">
+    <div class="mt-4 payment-confirm-buttons">
         <?php include($this->templateResource('/template/responses/checkout/payment_form.tpl')); ?>
     </div>
 <?php } ?>

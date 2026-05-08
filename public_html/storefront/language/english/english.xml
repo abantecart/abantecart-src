@@ -222,6 +222,10 @@
 		<value><![CDATA[Date New &gt; Old]]></value>
 	</definition>
 	<definition>
+		<key>text_google_places_address_placeholder</key>
+		<value><![CDATA[Start typing your address]]></value>
+	</definition>
+	<definition>
 		<key>text_add_cart_confirm</key>
 		<value><![CDATA[Added to cart]]></value>
 	</definition>

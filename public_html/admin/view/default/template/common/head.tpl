@@ -138,7 +138,11 @@ $(document).ready(function () {
 //periodical updater of new message notifier
 var growl = null;
 var alertcount = 3;
+var admin_background_autorefresh_enabled = <?php echo $admin_background_autorefresh_enabled ? 'true' : 'false'; ?>;
 var system_checker = function () {
+    if (!admin_background_autorefresh_enabled) {
+        return;
+    }
     if(alertcount <= 0) {
         return;
     }
@@ -157,7 +161,9 @@ var system_checker = function () {
         complete: function() {
             // Schedule the next request when the current one's complete
             alertcount--;
-            setTimeout(system_checker, 600000);
+            if (admin_background_autorefresh_enabled) {
+                setTimeout(system_checker, 600000);
+            }
         }
     });
 };
@@ -217,12 +223,17 @@ $(document).on('change', wrapConfirmDelete);
 
 //periodical updater of new message notifier
 var notifier_updater = function () {
+    if (!admin_background_autorefresh_enabled) {
+        return;
+    }
     $.ajax({
         url: '<?php echo $notifier_updater_url?>',
         success: buildNotifier,
         complete: function() {
           // Schedule the next request when the current one's complete
-          setTimeout(notifier_updater, 60000);
+          if (admin_background_autorefresh_enabled) {
+              setTimeout(notifier_updater, 50000);
+          }
         }
     });
 }
@@ -257,9 +268,11 @@ var buildNotifier = function(data){
 }
 <?php if($this->user->isLogged()){?>
 $(document).ready(function(){
-    notifier_updater();
-    system_checker();
-    $('#message_modal').on('hide.bs.modal', notifier_updater );
+    if (admin_background_autorefresh_enabled) {
+        notifier_updater();
+        system_checker();
+        $('#message_modal').on('hide.bs.modal', notifier_updater );
+    }
 <?php
     //do ajax call to check extension updates
     if($check_updates_url ?? ''){ ?>

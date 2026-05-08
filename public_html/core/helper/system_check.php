@@ -416,6 +416,23 @@ function check_server_configuration($registry)
         }
     }
 
+    //check database timezone support
+    try {
+        $timezone = date_default_timezone_get();
+        if ($timezone) {
+            $timezone = $timezone == 'UTC' ? 'Europe/London' : $timezone;
+            $registry->get('db')->query("SET time_zone='".$timezone."';");
+        }
+    } catch (\Exception $e) {
+        $output[] = [
+            'title' => 'Database does not support timezone '.$timezone,
+            'body'  => "Looks like your database does not support timezone(s). "
+                ."Check the manual for your database-server to setup the correct timezone. "
+                ."For testing just run sql-query \"SET time_zone='".$timezone."';\"",
+            'type'  => 'W',
+        ];
+    }
+
     return $output;
 }
 

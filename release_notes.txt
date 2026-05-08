@@ -1,3 +1,211 @@
+# AbanteCart v1.4.4 — Release Notes
+
+> AbanteCart 1.4.4 is a focused maintenance and feature release. It improves checkout reliability, updates PayPal Commerce and Stripe, replaces the legacy USPS extension with a new USPS API v3/OAuth extension, adds Google Places address autocomplete, new discount type, introduces persistent shopping data, hardens data-at-rest encryption flows for stores using the Encryption Data Manager extension, and includes many admin, storefront, database, and extension fixes.
+
+---
+
+## Highlights
+
+* **Google Places address autocomplete.** Optional address suggestions can be enabled in admin with a Google Maps and Places API key. The integration is included in storefront address forms for the default theme and Novator, and falls back to regular address input if the Google script or API key fails.
+* **PayPal Commerce update.** PayPal Commerce now uses the updated `paypal/paypal-server-sdk`. The extension allows Pay Later messaging/configuration, product and cart checkout buttons, configurable funding sources, 3D Secure policy support for card payments, safer debug logging, and many checkout fixes.
+* **Stripe SDK update.** Stripe is updated from `stripe/stripe-php` v16.4.0 to v19.4.0. Payment Intent creation now uses deterministic idempotency keys, stores order/cart/product metadata, can reuse a matching in-flight intent, and includes Stripe Connect setup/disconnect UI. Thanks to [@handoyo](https://github.com/handoyo) for raising the Stripe concerns in [#1758](https://github.com/abantecart/abantecart-src/issues/1758) that informed several of these changes.
+* **New USPS extension.** The old `default_usps` extension is removed and replaced by a new `usps` extension using USPS API v3/OAuth for live domestic/international rates and label generation.
+* **Persistent shopping data.** A new `AShoppingData` class and `ac_shopping_sessions` table store shopping/session data used by checkout and customer flows.
+* **Fixed-amount-off promotions.** Product discounts and product specials now support a fixed amount off price prefix (`Δ`) in addition to percent-off and fixed-price behavior.
+* **Data encryption hardening.** Stores using the Encryption Data Manager extension get a more correct insert/update flow for `customers`, `addresses`, and `orders`, an encryption-aware admin customer search, hidden plaintext search on the order grid when encryption is active, a back-fill of decrypted values into the customer init array, plus internal fixes in `ADataEncryption` (lazy key loading, `isEncryptedField` index guard, new `getKeys()`).
+* **Developer extension points.** 1.4.4 adds Mail API support, more hooks, new helper functions, extension model loading improvements, and storefront/admin template hook variables.
+
+---
+
+## Data Encryption
+
+These changes apply to stores that use the **Encryption Data Manager** extension to encrypt sensitive customer, address, and order data at rest. The release tightens up several rough edges in how encrypted records are saved, read, and searched.
+
+* **More reliable saves for customer, address, and order records.** The save flow now encrypts only the fields that actually need encryption (email, telephone, etc.) instead of pushing the entire record through encryption and then having to work around the non-encrypted fields. Cleaner SQL, fewer subtle bugs around fields like store ID, customer group, or extension data. Stores without encryption are unaffected.
+* **Email duplicate-check on registration works correctly with encryption on.** When a new customer signs up, the "is this email already in use?" check now compares the encrypted email against the encrypted column, so it actually finds existing matches and behaves the way you'd expect.
+* **Customer data is decrypted everywhere it should be.** When a customer is loaded, the decrypted email, phone, and fax values are now exposed both on the customer object and in the customer data array. Previously, a few downstream places read the array and saw the encrypted string instead of the real value.
+* **Smarter admin search when encryption is on.** Two related improvements:
+  * On the order list, the customer-name search is hidden — plaintext input can't match an encrypted name, so the field is no longer shown rather than offering a search that always returns nothing.
+  * On the customer list, the system now checks which fields are actually encrypted before deciding what it can search by, so login-name and email searches only run when they can actually return results.
+* **Internal hardening of the encryption library.** A handful of small fixes that don't change behavior end-users see but make the code more robust: encryption keys are loaded once per request instead of being re-fetched on every check, asking about a table that isn't registered for encryption no longer raises a PHP notice, and a new helper makes it easier for extensions to inspect the loaded keys.
+
+---
+
+## New Features
+
+* **Google Places address autocomplete** with `config_google_address_autocomplete` and `config_google_api_key` settings.
+* **Persistent shopping sessions** backed by the new `ac_shopping_sessions` table and `AShoppingData` core class.
+* **Pluggable Mail API support.** `MailApiManager`, `MailApiResponse`, and `contracts\MailApi` allow extensions to register custom `mailapi_*` mail transports.
+* **New USPS extension** using USPS API v3/OAuth for live rate requests and label generation.
+* **USPS label generation** for configured USPS accounts, including CRID, MID, Manifest MID, and EPS Account Number settings, admin label testing, and label links in admin order shipping fields.
+* **Fixed amount off** price prefix for product discounts and product specials.
+* **Fast Checkout order integrity check** using an order checksum before payment submission.
+* **Order data exposed to storefront account pages**, including order totals, order products, order status, and order status stepper/history data.
+* **Caps Lock warning** on the admin login form.
+* **Database/core compatibility checks** for core version and database/PHP version compatibility.
+* **Email validation update** allowing `+` in default email validation patterns.
+* **Show Title setting** for content pages, with new content defaulting to show the title.
+* **Clear Session Data** action in System -> Cache.
+* **Admin background auto-refresh setting** for control panel session behavior.
+* **Error Log subfolder support** for reading log files from immediate subdirectories, with safer filename handling.
+* **HTML5 pattern support** through `regexForHtmlPattern()` and form `error_text` data for JavaScript validation.
+* **Install/upgrade history filtering** by message type, and error entries for failed core upgrade events.
+* **Additional category filter data** through `additional_filters` in product/category/search/special/collection flows and category filter blocks.
+* **Product cloning support for extension-added columns** through the shared `product_columns` dictionary.
+* **New hooks** in bank transfer, cheque, forgotten password, Contact Us, listing block, cart page, product template, `ACustomer`, pre-route processing, admin order/order summary, and common admin templates.
+
+## For Developers and Extensions
+
+* `ALoader` can resolve extension model classes that share core model paths under extension namespaces.
+* New `contracts\MailApi` interface and Mail API manager classes support extension-provided mail transports.
+* `insert2ArrayAfter()` includes a PHP 8.4 compatibility fix.
+* New `ALanguage::getAndReplace()` helper for language placeholder replacement.
+* New storefront `ModelLocalisationStockStatus` with cached stock-status lookup.
+* New `ASupplier::getSuppliers()` and `ASupplier::getSupplierByCode()` helpers.
+* `ALayoutManager::getTemplateList(?bool $enabledOnly = null)` was added.
+* `AResource` returns mapped object title data.
+* `AForm` exposes `error_text` for JavaScript validation.
+* `AOrder::loadOrderData()` was extended with a mode parameter and can restore order context from database data.
+* Storefront catalog `getProductSpecials()` is treated as legacy/deprecated in favor of the newer promotion data flow.
+
+## Improvements
+
+* **PayPal Commerce**
+  * Migrated to updated `paypal/paypal-server-sdk`.
+  * Added checkout buttons on the product page.
+  * Added configurable funding sources.
+  * Improved 3D Secure policy configuration for card payments.
+  * Added debug logging with masking for sensitive tokens, authorization values, and secrets.
+  * Improved PayPal onboarding URL data by passing extension and core versions.
+  * Applied multistore settings and fixed multistore crashes in order payment actions.
+
+* **Stripe**
+  * Upgraded `stripe/stripe-php` from v16.4.0 to v19.4.0.
+  * Added connected account handling.
+  * Added deterministic idempotency keys for Payment Intent creation.
+  * Reuses a matching in-flight Payment Intent when order ID, cart key, amount, and currency still match.
+  * Prevents an order from being linked to another Payment Intent.
+  * Validates expected webhook payload object/event data before updating order state.
+
+* **USPS**
+  * Replaced `default_usps` with the new `usps` extension.
+  * Uses USPS API v3/OAuth for live domestic and international rate requests.
+  * Adds admin connection testing and label API testing.
+  * Adds warnings when USPS label settings are missing.
+  * Adds order-status-triggered USPS shipment creation and label links in admin order shipping fields for configured USPS accounts.
+
+* **Admin and control panel**
+  * Admin header/home order statistics were optimized for faster loading.
+  * Install/upgrade history supports filtering by message type.
+  * System -> Cache can clear session data.
+  * Clear All Cache now removes cache subdirectories.
+  * Error Log can read immediate subfolders and handles filenames more safely.
+  * Admin users grid preserves `user_group_id` keys.
+  * Extension grid pagination, status sorting, and tooltip behavior were fixed.
+  * Global search model index handling was fixed.
+  * Field history behavior was fixed.
+  * Category status toggle works after expanding parent categories.
+  * Content pages now have a `show_title` setting.
+
+* **Storefront and checkout**
+  * Fast Checkout encrypted-data handling was fixed.
+  * Telephone validation pattern handling was fixed in Fast Checkout and Novator checkout.
+  * Preselected payment and shipping method behavior was fixed.
+  * Shipping selector behavior was fixed.
+  * Cart merge behavior was fixed when a guest signs in during checkout.
+  * Registered customer address validation was fixed.
+  * Guest checkout address card layout was improved.
+  * Product/listing block templates receive custom data more consistently.
+  * Numeric price variants and product data were added to the product page/block controller output.
+
+* **Themes**
+  * Default and Novator address templates include the Google Places hook/script integration.
+  * Novator received mobile cart, offcanvas, footer, preloader, iOS/Safari horizontal-scroll, not-found redirect, and footer menu fixes.
+  * Novator opens the cart after add-to-cart from mobile product listings.
+  * Default theme product detail scroll on iPhone was fixed.
+
+* **Other extensions**
+  * UPS extension adds test mode support and includes a third-party dependency security fix.
+  * Banner Manager honors configured target URLs.
+  * Authorize.Net includes bill-to and ship-to data in acceptance data.
+  * Bank transfer, cheque, flat-rate shipping, AvaTax integration, Extension Manager, and default free shipping received targeted fixes, hooks, or multistore improvements.
+
+## Bug Fixes
+
+* PayPal Commerce button display, amount handling, digital-product checkout, PayPal SDK page type, guest card checkout errors, and cart-button cases were fixed.
+* PayPal Card Fields payer name handling was improved.
+* PayPal Pay Later callback address reading was improved.
+* PayPal Venmo checkout cases were fixed.
+* PayPal `getPaypalCharge()` return type issue was fixed.
+* Stripe payment form no longer displays when an error is present.
+* Order history saving from the admin grid was fixed.
+* Order address quick-save was fixed.
+* Order status validation and order edit handling were fixed.
+* Fax corruption on no-shipping order admin flows was fixed.
+* Order grid customer-name search is disabled when data encryption is enabled.
+* Product specials date saving was fixed
+* Product promotion forms received fixed-amount-off pricing and improved quantity/default handling.
+* Customer grid/email search fixes were applied.
+* Account registration Continue button works when account terms are disabled in default and Novator themes.
+* Undefined Add Address text was fixed
+* Stale `address_2` is cleared when Pickup From Store is selected during guest checkout.
+* `ACache` file driver issues were fixed.
+* MySQL timezone support checks were fixed.
+* `AOrder` division-by-zero handling was fixed.
+* `ATaskManager` force-run behavior was fixed.
+* ADB/AMysqli minor issues, AHook formatting, and DB table prefix usage were fixed.
+
+## Security / Hardening
+
+* PayPal debug logging masks bearer tokens, authorization values, client secrets, and other sensitive values.
+* Stripe Payment Intent creation uses deterministic idempotency keys to reduce duplicate-intent/duplicate-submit risk.
+* Stripe webhook handlers validate expected payload object/event data before updating order state.
+* Fast Checkout adds an order checksum integrity check before payment submission.
+* Customer order restore logic includes a customer-ownership guard.
+* Admin Error Log filename handling was hardened against unsafe path input.
+* UPS bundled dependency security fix was applied.
+* Vendor package security updates were applied.
+
+## Database / Migration
+
+* Adds `ac_shopping_sessions`.
+* Expands `ac_stock_statuses.name` to 128 characters.
+* Adds date indexes for orders.
+* Adds nullable `date_start` / `date_end` handling for product discounts and specials and normalizes legacy `0000-00-00` values.
+* Expands `ac_category_descriptions.description` to `LONGTEXT`.
+* Adds `ac_contents.show_title`.
+* Updates `ac_url_aliases.query` length and adds generated `query_hash` with a unique `(query_hash, language_id)` index.
+* Updates customer telephone length/default handling.
+* Updates `ac_coupons_categories` collation to `utf8mb4`.
+* Adds runtime database/core version compatibility checks and clearer cache flushing after version mismatch messages.
+
+## Dependencies
+
+* PayPal Commerce: `paypal/paypal-server-sdk` 2.2.0.
+* Stripe: `stripe/stripe-php` v19.4.0.
+* Google reCAPTCHA: 1.3.1.
+* Symfony Mailer packages updated to the 7.4 line, with `symfony/sendinblue-mailer` at v6.4.24.
+* Vendor package security updates were applied.
+
+## Removed / Deprecated
+
+* Removed `extensions/default_usps`; use the new `extensions/usps` extension.
+* Removed the legacy Stripe core library under `extensions/stripe/core/lib`.
+* Removed legacy admin template `pages/catalog/product_special_list.tpl`.
+
+## Upgrade Notes
+
+1. Back up files and database before upgrading.
+2. Run the upgrade script to apply schema changes and data cleanup.
+3. If your store used `default_usps`, configure the new `usps` extension after upgrade. The new extension uses different USPS API/OAuth and label account settings.
+4. Review PayPal Commerce settings per store, including funding sources, 3D Secure policy, Pay Later messaging, and product/cart buttons.
+5. Review Stripe Connect/direct configuration and payment method settings.
+6. Review Google Maps and Places API key restrictions before enabling address autocomplete.
+
+---
+
+Thanks to everyone who reported issues, contributed pull requests, tested fixes, and supported AbanteCart 1.4.4.
+
 
 # AbanteCart v1.4.3 — Release Notes
 

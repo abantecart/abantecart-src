@@ -1,7 +1,9 @@
 <div class="common_content_actions pull-right">
 <?php
+    /** @var AView|AController $this */
+    echo $this->getHookVar('before_common_content_buttons');
     if($common_content_buttons){
-    $common_content_buttons = !is_array($common_content_buttons) ? [$common_content_buttons] : $common_content_buttons;
+        $common_content_buttons = !is_array($common_content_buttons) ? [$common_content_buttons] : $common_content_buttons;
         foreach($common_content_buttons as $cbb){ ?>
             <div class="btn-group"><?php echo $cbb; ?></div>
         <?php }
@@ -65,11 +67,13 @@
             <i class="fa fa-question-circle fa-lg"></i>
         </a>
     </div>
-    <?php } ?>
+    <?php }
+    echo $this->getHookVar('after_common_content_buttons');
+    ?>
 </div>
 
 <?php
-//place modals outside div by css reason
+//place modals outside div by css-reason
 if ($quick_start_url) {
     echo $this->html->buildElement(
         [

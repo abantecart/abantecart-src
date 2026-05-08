@@ -1,4 +1,4 @@
-<div class="<?php echo $active ? 'dropdown' : ''?> d-none d-md-block" id="customer_menu_top">
+<div class="d-none d-md-block" id="customer_menu_top">
 <?php if ($active) { ?>
             <a id="customerMenuDropdown"
                href="<?php echo $account; ?>" title="<?php echo_html2view($text_welcome.' '.$name);?>"
@@ -59,7 +59,7 @@
                         'text' => $text_my_notifications
                     ];
                 foreach($list as $key=>$item){ ?>
-                    <li class="dropdown ">
+                    <li>
                         <a class="dropdown-item <?php echo $item['href'] == $current ? 'text-primary' : ''; ?>"
                            href="<?php echo $item['href']; ?>">
                             <i class="bi <?php echo $item['icon_class']; ?> me-2"></i><?php echo $item['text']; ?>

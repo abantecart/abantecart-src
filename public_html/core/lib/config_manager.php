@@ -850,6 +850,14 @@ class AConfigManager
                 'style' => 'medium-field',
             ]
         );
+        $fields['google_address_autocomplete'] = $form->getFieldHtml(
+            $props[] = [
+                'type'  => 'checkbox',
+                'name'  => 'config_google_address_autocomplete',
+                'value' => $data['config_google_address_autocomplete'],
+                'style' => 'btn_switch',
+            ]
+        );
 
         $fields['google_analytics'] = $form->getFieldHtml(
             $props[] = [
@@ -1120,14 +1128,6 @@ class AConfigManager
                 'type'  => 'checkbox',
                 'name'  => 'fast_checkout_allow_coupon',
                 'value' => $data['fast_checkout_allow_coupon'],
-                'style' => 'btn_switch',
-            ]
-        );
-        $fields['fast_checkout_require_phone_number'] = $form->getFieldHtml(
-            $props[] = [
-                'type'  => 'checkbox',
-                'name'  => 'fast_checkout_require_phone_number',
-                'value' => $data['fast_checkout_require_phone_number'],
                 'style' => 'btn_switch',
             ]
         );
@@ -1680,17 +1680,23 @@ class AConfigManager
     {
         $fields = [];
         //mail section
+        $options = [
+            'mail' => $this->language->get('text_mail'),
+            'smtp' => $this->language->get('text_smtp'),
+            'dsn'  => $this->language->get('text_dsn'),
+        ];
+
+        $mailExtensions = MailApiManager::getInstance()->getMailDriversList();
+        foreach ($mailExtensions as $txtId => $name) {
+            $options['mailapi_' . $txtId] = $name;
+        }
 
         $fields['mail_transporting'] = $form->getFieldHtml(
             $props[] = [
                 'type'    => 'selectbox',
                 'name'    => 'config_mail_transporting',
                 'value'   => $data['config_mail_transporting'],
-                'options' => [
-                    'mail' => $this->language->get('text_mail'),
-                    'smtp' => $this->language->get('text_smtp'),
-                    'dsn'  => $this->language->get('text_dsn'),
-                ],
+                'options' => $options,
                 'style'   => "no-save",
             ]
         );
@@ -1911,16 +1917,27 @@ class AConfigManager
     {
         $fields = [];
         //system section
+        $autoRefreshEnabled = (int)($data['config_admin_background_autorefresh'] ?? 1) === 1;
+        $fields['admin_background_autorefresh'] = $form->getFieldHtml(
+            $props[] = [
+                'type'  => 'checkbox',
+                'name'  => 'config_admin_background_autorefresh',
+                'value' => $data['config_admin_background_autorefresh'] ?? 1,
+                'style' => 'btn_switch',
+            ]
+        );
         $fields['session_ttl'] = $form->getFieldHtml(
                 $props[] = [
                     'type'  => 'input',
                     'name'  => 'config_session_ttl',
                     'value' => $data['config_session_ttl'],
+                    'attr'  => $autoRefreshEnabled ? 'disabled' : '',
                 ]
             ) . sprintf(
                 $this->language->get('text_setting_php_exceed'), 'session.gc_maxlifetime',
                 (int)ini_get('session.gc_maxlifetime') / 60
-            );
+            ) . '<br />'
+            . $this->language->get('text_setting_session_ttl_autorefresh_note');
 
         $fields['maintenance'] = $form->getFieldHtml(
             $props[] = [

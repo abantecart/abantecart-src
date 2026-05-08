@@ -185,10 +185,31 @@ jQuery(function ($) {
     $('#settingFrm_config_storefront_template').change(function () {
         $('#template').load('<?php echo $template_image; ?>&template=' + encodeURIComponent(this.value))
     });
+
+    function toggleSessionTtlAvailability() {
+        const $autoRefresh = $('#settingFrm_config_admin_background_autorefresh');
+        const $sessionTtl = $('#settingFrm_config_session_ttl');
+        if (!$autoRefresh.length || !$sessionTtl.length) {
+            return;
+        }
+        const autoRefreshEnabled = String($autoRefresh.val()) === '1';
+        $sessionTtl.prop('disabled', autoRefreshEnabled);
+    }
+
+    $('#settingFrm_config_admin_background_autorefresh').on('change', toggleSessionTtlAvailability);
+    $('#settingFrm_config_admin_background_autorefresh_layer button').on('click', function () {
+        setTimeout(toggleSessionTtlAvailability, 0);
+    });
+    toggleSessionTtlAvailability();
 });
 <?php if ($active == 'mail') { ?>
 jQuery(function () {
-    $(document).ready(mail_toggle);
+    $(document).ready(function(){
+        <?php if($this->request->post['config_mail_transporting']){ ?>
+        $('#settingFrm_config_mail_transporting').val(<?php js_echo($this->request->post['config_mail_transporting']); ?>);
+        <?php } ?>
+        mail_toggle();
+    });
     $('#settingFrm_config_mail_transporting').change(mail_toggle);
 
     function mail_toggle() {
@@ -199,7 +220,7 @@ jQuery(function () {
         field_list.smtp[2] = 'smtp_password';
         field_list.smtp[3] = 'smtp_port';
         field_list.smtp[4] = 'smtp_timeout';
-        field_list.dsn[0] = 'dsn_entry';
+        field_list.dsn[0]  = 'dsn_entry';
 
         var f, hide = [], show = $('#settingFrm_config_mail_transporting').val();
         if (show === 'mail') {
@@ -208,7 +229,10 @@ jQuery(function () {
             hide = ['mail', 'dsn'];
         } else if (show === 'dsn') {
             hide = ['mail', 'smtp'];
+        }else{
+            hide = ['mail', 'smtp', 'dsn'];
         }
+
         for (var h in hide) {
             for (f in field_list[hide[h]]) {
                 $('#settingFrm_config_' + field_list[hide[h]][f] + '_fld').fadeOut();

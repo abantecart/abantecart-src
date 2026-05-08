@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -39,7 +38,7 @@ final class ADataset
      */
     private $dataset_id = 0;
     /**
-     * array with dataset definition (column names, types etc)
+     * array with dataset definition (column names, types, etc.)
      *
      * @var array
      */
@@ -58,7 +57,7 @@ final class ADataset
     private $check_column_set = [];
     /**
      * string search condition for methods getRows, updateRows, deleteRows.
-     * If it's not empty getRows returns filtered dataset rows.
+     * If it's not empty, getRows returns filtered dataset rows.
      *
      * @var string
      */
@@ -96,10 +95,10 @@ final class ADataset
                 . " LIMIT 1"
             );
 
-            $this->dataset_id = $result->row ['dataset_id'] ? $result->row ['dataset_id'] : 0;
+            $this->dataset_id = $result->row ['dataset_id'] ?: 0;
             // if dataset already exists - extract it's column definitions
             if ($this->dataset_id) {
-                $this->_getColumnSet();
+                $this->_pullColumnSet();
             } else {
                 if ($mode != 'silent') {
                     throw new AException (
@@ -144,10 +143,9 @@ final class ADataset
 
     /**
      * Function for creating new columns in dataset tables.
-     * If key "dataset_column_old_name" presents in array and not empty function updates existing column definition
+     * If the key "dataset_column_old_name" presents in an array and not empty function updates existing column definition
      *
-     * @param array $new_column_set
-     *                                  array (
+     * @param array $new_column_set   array (
      *                                        "dataset_column_name"=>"",
      *                                        "dataset_column_type"=>"",
      *                                        "dataset_column_sort_order"=>""
@@ -164,14 +162,14 @@ final class ADataset
 
         $column_checklist = ['name', 'type'];
         /*if $new_column_set[] contain array key 'old_name' this means
-        column must be update (functional for future,
+        column must be updated (functional for future,
         for example for upgrading extension dataset) */
         // write column set definitions
         $existing_column_names = [];
         if ($new_column_set) {
             if ($this->column_set) {
                 foreach ($this->column_set as $id => $columns) {
-                    $existing_column_names [$id] = $columns ['dataset_column_name'];
+                    $existing_column_names[$id] = $columns['dataset_column_name'];
                 }
             }
             $i = 0;
@@ -189,36 +187,34 @@ final class ADataset
                     );
                 }
                 // check column type
-                if (!in_array($column_definition ['type'], $this->column_type_checklist)) {
+                if (!in_array($column_definition['type'], $this->column_type_checklist)) {
                     throw new AException (
                         AC_ERR_LOAD, 'Error: Could not update dataset column definition! Column type error. Type: '
-                        . $column_definition ['type']
+                        . $column_definition['type']
                     );
                 }
 
-                $column_definition ['name'] = $this->db->escape($column_definition ['name']);
-                $column_definition ['sort_order'] =
-                    isset($column_definition ['sort_order']) ? ( int )$column_definition ['sort_order'] : $i;
+                $column_definition['name'] = $this->db->escape($column_definition['name']);
+                $column_definition['sort_order'] = (int)($column_definition['sort_order'] ?? $i);
 
                 // insert new column
-                if (!in_array($column_definition ['name'], $existing_column_names)
-                    && empty ($column_definition ['old_name'])) {
-                    unset ($column_definition ['old_name']);
+                if (!in_array($column_definition['name'], $existing_column_names) && !$column_definition['old_name']){
+                    unset ($column_definition['old_name']);
                     $sql_query = "INSERT INTO " . $this->db->table("dataset_definition") . " 
                                (dataset_id, dataset_column_name, dataset_column_type, dataset_column_sort_order)
                             VALUES ('" . $this->dataset_id . "',
-                                    '" . $column_definition['name'] . "',
-                                    '" . $column_definition['type'] . "',
-                                    '" . $column_definition['sort_order'] . "' );\n";
+                                    '" . $this->db->escape($column_definition['name']) . "',
+                                    '" . $this->db->escape($column_definition['type']) . "',
+                                    '" . $column_definition['sort_order'] . "')";
                     $this->db->query($sql_query);
                     $dataset_column_id = $this->db->getLastId();
 
-                    //after insert of column need to insert empty values for data consistency
+                    //after insert of the column need to insert empty values for data consistency
                     $sql_query = "SELECT DISTINCT dv.row_id
                                   FROM " . $this->db->table('dataset_values') . " dv
                                   INNER JOIN " . $this->db->table('dataset_definition') . " dd 
                                     ON dd.dataset_column_id = dv.dataset_column_id
-                                  WHERE dd.dataset_id = '" . $this->dataset_id . "' AND dv.row_id>0";
+                                  WHERE dd.dataset_id = '" . $this->dataset_id . "' AND dv.row_id > 0";
                     $res = $this->db->query($sql_query);
                     if ($res->num_rows) {
                         foreach ($res->rows as $r) {
@@ -231,33 +227,31 @@ final class ADataset
                     // update new column
                 } else {
                     // if old name present - update column definition.
-                    //if column type will change - just change it, old values will not move to another column of dataset_values. User need update it by himself.
-                    if (!empty ($column_definition ['old_name']) && !empty ($column_definition ['name'])) {
-                        $column_id = ( int )array_search(
-                            (!isset ($column_definition ['old_name']) ? $column_definition ['name']
-                                : $column_definition ['old_name']), $existing_column_names
-                        );
-                        $sql_query = "UPDATE " . $this->db->table("dataset_definition") . " ";
-                        $sql_query .= "SET dataset_column_name= '" . $column_definition ['name'] . "', ";
-                        $sql_query .= "dataset_column_type= '" . $column_definition ['type'] . "', ";
-                        $sql_query .= "dataset_column_sort_order= '" . $column_definition ['sort_order'] . "'";
-                        $sql_query .= "WHERE dataset_column_id=" . $column_id . ";";
+                    //if a column type will change - just change it,
+                    // old values will not move to another column of dataset_values. User needs to update it by himself.
+                    if ($column_definition ['old_name'] && $column_definition ['name']) {
+                        $column_id = (int) array_search($column_definition['old_name'],$existing_column_names);
+                        $sql_query = "UPDATE " . $this->db->table("dataset_definition") . "
+                                        SET dataset_column_name= '" . $this->db->escape($column_definition['name']) . "',
+                                            dataset_column_type= '" . $this->db->escape($column_definition['type']) . "',
+                                            dataset_column_sort_order= '" . $column_definition ['sort_order'] . "'
+                                        WHERE dataset_column_id=" . $column_id . ";";
                         $this->db->query($sql_query);
                     }
                 }//if new name is empty do nothing
                 $i++;
             }
-            $this->_getColumnSet();
+            $this->_pullColumnSet();
         }
         return true;
     }
 
-    /** Function gets columns definitions and writes to public var $column_set
+    /** Function gets column definitions and writes to public var $column_set
      *
      * @return bool
      * @throws AException
      */
-    private function _getColumnSet()
+    protected function _pullColumnSet()
     {
         if (!$this->dataset_id) {
             return false;
@@ -273,16 +267,16 @@ final class ADataset
 
         if ($result->num_rows) {
             foreach ($result->rows as $row) {
-                $this->column_set [$row ['dataset_column_id']] = $row;
+                $this->column_set[ $row['dataset_column_id'] ] = $row;
             }
         }
         return true;
     }
 
     /**
-     * Function adds new dataset rows to the end of dataset table
+     * Function adds new dataset rows to the end of the dataset table
      *
-     * parameter $row_values looks like array (array("some_column_name"=>"some_value", "some_column_name"=>"some_value"),
+     * parameter $row_values looks like an array (array("some_column_name"=>"some_value", "some_column_name"=>"some_value"),
      * array("some_column_name"=>"some_value", "some_column_name"=>"some_value"))
      *
      * @param array $row_values
@@ -305,7 +299,7 @@ final class ADataset
         foreach ($this->column_set as $columns) {
             $this->check_column_set [$columns ['dataset_column_name']] = $columns;
         }
-        // if need to add one row
+        // if you need to add one row
         if (!is_array(current($row_values))) {
             $row_values = [$row_values];
         }
@@ -402,8 +396,8 @@ final class ADataset
         $result = $this->db->query($query);
         $rows = $result->rows;
         if ($rows) {
-            foreach ($rows as $row) {
-                $output [$row ['dataset_property_name']] = $row ['dataset_property_value'];
+            foreach($rows as $row) {
+                $output[$row['dataset_property_name']] = $row['dataset_property_value'];
             }
         }
         return $output;
@@ -548,8 +542,8 @@ final class ADataset
                 LEFT JOIN  " . $this->db->table("dataset_definition") . " dd 
                     ON dd.dataset_column_id = dv.dataset_column_id
                 WHERE dd.dataset_id = '" . $this->dataset_id . "' "
-            . ($sort_column_id ? "AND dv.dataset_column_id = '" . $sort_column_id . "'" : '') . " 
-                    " . ($this->search_condition ? " AND " . $this->search_condition : '');
+            //. ($sort_column_id ? "AND dv.dataset_column_id = '" . $sort_column_id . "'" : '')
+            . " " . ($this->search_condition ? " AND " . $this->search_condition : '');
 
         $sql = $this->db->query($query);
         $result = $sql->rows;
@@ -835,15 +829,18 @@ final class ADataset
      *
      * @param array $condition array("column_name"=>string, "operator"=>string,"value"=>string )
      *
-     * @return string
+     * @void
      * @throws AException
      */
-    private function _buildSQLSearch($condition = [])
+    protected function _buildSQLSearch($condition = [])
     {
+        if (!$condition) {
+            return;
+        }
         $condition ['operator'] = strtoupper($condition ['operator']);
         //check column name
-        $column_id = ( int )$this->_getColumnIdByName($condition ['column_name']);
-        switch ($this->column_set [$column_id] ['dataset_column_type']) {
+        $column_id = (int)$this->_getColumnIdByName($condition['column_name']);
+        switch ($this->column_set[$column_id]['dataset_column_type']) {
             case 'integer' :
                 $condition ['value'] = ( int )$condition ['value'];
                 break;
@@ -854,16 +851,15 @@ final class ADataset
             case 'text' :
                 $condition ['value'] = !in_array($condition ['operator'], ['=', 'LIKE'])
                     ? false
-                    : $this->db->escape(
-                        $condition ['value']
-                    );
-                $condition ['value'] =
-                    $condition ['operator'] == 'LIKE' ? "%" . $condition ['value'] . "%" : $condition ['value'];
-
+                    : $this->db->escape($condition ['value']);
+                $condition ['value'] = $condition ['operator'] == 'LIKE'
+                    ? "%" . $condition ['value'] . "%"
+                    : $condition ['value'];
                 break;
             case 'boolean' :
-                $condition ['value'] =
-                    !in_array($condition ['operator'], ['=', '<>']) ? false : ($condition ['value'] ? '1' : '0');
+                $condition ['value'] = !in_array($condition ['operator'], ['=', '<>'])
+                    ? false
+                    : ($condition ['value'] ? '1' : '0');
                 break;
             case 'timestamp' :
                 $date = date_parse($condition ['value']);
@@ -889,7 +885,6 @@ final class ADataset
         $this->search_condition = " ( dv.dataset_column_id = '" . $column_id . "' AND dv.value_"
             . $this->column_set [$column_id] ['dataset_column_type'] . " " . $condition ['operator'] . " '"
             . $condition ['value'] . "') ";
-        return true;
     }
 
     /**
@@ -982,7 +977,7 @@ final class ADataset
     {
         if ($this->dataset_id) {
             if (!$this->column_set) {
-                $this->_getColumnSet();
+                $this->_pullColumnSet();
                 return $this->column_set;
             } else {
                 return $this->column_set;

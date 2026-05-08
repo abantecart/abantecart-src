@@ -5,22 +5,21 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
+/** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
-/**
- * Class ControllerPagesProductSearch
- */
 class ControllerPagesProductSearch extends AController
 {
     protected $category;
@@ -34,10 +33,11 @@ class ControllerPagesProductSearch extends AController
 
     public function main()
     {
+        /** @var ModelCatalogProduct $pMdl */
+        $pMdl = $this->loadModel('catalog/product');
 
         $get = $this->request->get;
         $get['category_id'] = is_string($get['category_id']) ? explode(',', $get['category_id']) : $get['category_id'];
-        //is this an embed mode
         $this->data['cart_rt'] = $this->config->get('embed_mode')
             ? 'r/checkout/cart/embed'
             : 'checkout/cart';
@@ -58,6 +58,7 @@ class ControllerPagesProductSearch extends AController
         $httpQuery = $this->prepareProductSortingParameters();
         extract($httpQuery);
         unset($httpQuery['raw_sort']);
+
         if (isset($get['keyword'])) {
             $httpQuery['keyword'] = (string)$get['keyword'];
         }
@@ -70,6 +71,7 @@ class ControllerPagesProductSearch extends AController
         if (isset($get['category_id'])) {
             $httpQuery['category_id'] = (array)$get['category_id'];
         }
+        $httpQuery = array_merge($httpQuery, (array)$this->data['additional_filters']);
 
         $this->document->addBreadcrumb(
             [
@@ -134,10 +136,8 @@ class ControllerPagesProductSearch extends AController
         );
 
         if (isset($get['keyword'])) {
-            $this->loadModel('catalog/product');
             $promotion = new APromotion();
-
-            $this->data['raw_data'] = $products_result = $this->model_catalog_product->getFilteredProducts(
+            $this->data['raw_data'] = $products_result = $pMdl->getFilteredProducts(
                 [
                     'filter' => $get,
                     'sort'   => $sort,
@@ -149,7 +149,7 @@ class ControllerPagesProductSearch extends AController
 
             $product_total = current($products_result)['total_num_rows'];
 
-            //if single result, redirect to the product
+            //if a single result, redirect to the product
             if (count($products_result) == 1 && $product_total == 1) {
                 redirect(
                     $this->html->getSEOURL(
@@ -177,46 +177,40 @@ class ControllerPagesProductSearch extends AController
                             $this->config->get('config_image_product_height')
                         )
                         : [];
-                    $stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
+                    $stock_info = $pMdl->getProductsStockInfo($product_ids);
 
                     foreach ($products_result as $result) {
-                        $thumbnail = $thumbnails[$result['product_id']];
+                        $productId = $result['product_id'];
+                        $thumbnail = $thumbnails[$productId];
 
                         $rating = $this->config->get('display_reviews')
-                            ? $this->model_catalog_review->getAverageRating($result['product_id'])
+                            ? $this->model_catalog_review->getAverageRating($productId)
                             : false;
                         $special = false;
-                        $discount = $promotion->getProductDiscount($result['product_id']);
+                        $discount = $promotion->getProductDiscount($productId);
 
                         if ($discount) {
                             $priceNum = $discount;
                         } else {
                             $priceNum = $result['price'];
-                            $special = $promotion->getProductSpecial($result['product_id']);
+                            $special = $promotion->getProductSpecial($productId);
                             if ($special) {
-                                $special = $this->currency->format(
-                                    $this->tax->calculate(
-                                        $special,
-                                        $result['tax_class_id'],
-                                        $this->config->get('config_tax')
-                                    )
+                                $specialNum = $this->tax->calculate(
+                                    $special,
+                                    $result['tax_class_id'],
+                                    $this->config->get('config_tax')
                                 );
+                                $special = $this->currency->format($specialNum);
                             }
                         }
+                        $priceNum = $this->tax->calculate($priceNum, $result['tax_class_id'], $this->config->get('config_tax'));
+                        $price = $this->currency->format($priceNum);
 
-                        $price = $this->currency->format(
-                            $this->tax->calculate(
-                                $priceNum,
-                                $result['tax_class_id'],
-                                $this->config->get('config_tax')
-                            )
-                        );
-
-                        $options = $this->model_catalog_product->getProductOptions($result['product_id']);
+                        $options = $pMdl->getProductOptions($productId);
                         if ($options) {
                             $add = $this->html->getSEOURL(
                                 'product/product',
-                                '&product_id=' . $result['product_id'],
+                                '&product_id=' . $productId,
                                 '&encode'
                             );
                         } else {
@@ -225,7 +219,7 @@ class ControllerPagesProductSearch extends AController
                             } else {
                                 $add = $this->html->getSecureURL(
                                     $this->data['cart_rt'],
-                                    '&product_id=' . $result['product_id'],
+                                    '&product_id=' . $productId,
                                     '&encode'
                                 );
                             }
@@ -239,10 +233,10 @@ class ControllerPagesProductSearch extends AController
                             ? $this->config->get('config_stock_checkout')
                             : $result['stock_checkout'];
                         $total_quantity = 0;
-                        if ($stock_info[$result['product_id']]['subtract']) {
+                        if ($stock_info[$productId]['subtract']) {
                             $track_stock = true;
-                            $total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
-                            //we have stock or out of stock checkout is allowed
+                            $total_quantity = $pMdl->hasAnyStock($productId);
+                            //we have stock or out-of-stock checkout is allowed
                             if ($total_quantity > 0 || $stock_checkout) {
                                 $in_stock = true;
                             }
@@ -251,22 +245,25 @@ class ControllerPagesProductSearch extends AController
                         $products[] = array_merge(
                             $result,
                             [
-                                'product_id'     => $result['product_id'],
+                                'product_id'     => $productId,
                                 'name'           => $result['name'],
                                 'blurb'          => $result['blurb'],
                                 'model'          => $result['model'],
                                 'rating'         => $rating,
-                                'stars'          => sprintf($this->language->get('text_stars'), $rating),
+                                'stars'          => $this->language->getAndReplace('text_stars', replaces: $rating),
                                 'thumb'          => $thumbnail,
                                 'price'          => $price,
-                                'raw_price'      => $result['price'],
+                                //todo: remove in the future as deprecated
+                                'raw_price'      => $priceNum,
+                                'price_num'      => $priceNum,
                                 'call_to_order'  => $result['call_to_order'],
                                 'options'        => $options,
                                 'special'        => $special,
+                                'special_num'    => $specialNum,
                                 'href'           =>
                                     $this->html->getSEOURL(
                                         'product/product',
-                                        '&' . http_build_query(['keyword' => $get['keyword'], 'product_id' => $result['product_id']]),
+                                        '&' . http_build_query(['keyword' => $get['keyword'], 'product_id' => $productId]),
                                         '&encode'
                                     ),
                                 'add'            => $add,

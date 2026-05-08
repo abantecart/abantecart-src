@@ -1,22 +1,23 @@
-<?php
-/*------------------------------------------------------------------------------
-  $Id$
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2024 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2026 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -236,8 +237,11 @@ class ModelCatalogCollection extends Model
         $customer_group_id = (int)$this?->customer->getCustomerGroupId()
             ?: (int)$this?->config->get('config_customer_group_id');
         $p = $this->db->table('products');
-        $sql = " ( SELECT CASE WHEN p2sp.price_prefix='%' THEN " . $p . ".price - (p2sp.price * (" . $p . ".price/100)) 
-                            ELSE p2sp.price END as special_price
+        $sql = " ( SELECT CASE WHEN p2sp.price_prefix='%' 
+                            THEN " . $p . ".price - (p2sp.price * (" . $p . ".price/100))
+                        WHEN p2sp.price_prefix='Δ' 
+                            THEN " . $p . ".price - p2sp.price 
+                        ELSE p2sp.price END as special_price
                     FROM " . $this->db->table("product_specials") . " p2sp
                     WHERE p2sp.product_id = " . $p . ".product_id
                             AND p2sp.customer_group_id = '" . $customer_group_id . "'

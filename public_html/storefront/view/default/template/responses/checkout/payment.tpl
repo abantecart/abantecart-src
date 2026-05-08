@@ -165,7 +165,7 @@ if ($show_payment == true) {
                 </div>
             </div>
         </div>
-        <div class="text-end"><?php echo $text_accept_agree ?>&nbsp;
+        <div class="text-center"><?php echo $text_accept_agree ?>&nbsp;
             <a onclick="openModalRemote('#returnPolicyModal', '<?php echo $text_accept_agree_href; ?>'); return false;"
                href="<?php echo $text_accept_agree_href; ?>"><b><?php echo $text_accept_agree_href_link; ?></b></a>
         </div>
@@ -180,7 +180,7 @@ if ($show_payment == true) {
 
 
 <?php if ($payment_form) { ?>
-    <div id="payment_details" class="mt-4">
+    <div class="mt-4 payment-confirm-buttons">
         <?php include($this->templateResource('/template/responses/checkout/payment_form.tpl')); ?>
     </div>
 <?php } ?>

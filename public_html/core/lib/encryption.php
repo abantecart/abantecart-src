@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -48,8 +48,8 @@ final class AEncryption
             //non openssl basic encryption
             for ($i = 0; $i < strlen($str); $i++) {
                 $char = substr($str, $i, 1);
-                $keychar = substr($this->key, ($i % strlen($this->key)) - 1, 1);
-                $char = chr(ord($char) + ord($keychar));
+                $keyChar = substr($this->key, ($i % strlen($this->key)) - 1, 1);
+                $char = chr(ord($char) + ord($keyChar));
                 $enc_str .= $char;
             }
             $enc_str = base64_encode($enc_str);
@@ -79,8 +79,8 @@ final class AEncryption
             //non openssl basic decryption
             for ($i = 0; $i < strlen($enc_str); $i++) {
                 $char = substr($enc_str, $i, 1);
-                $keychar = substr($this->key, ($i % strlen($this->key)) - 1, 1);
-                $char = chr(ord($char) - ord($keychar));
+                $keyChar = substr($this->key, ($i % strlen($this->key)) - 1, 1);
+                $char = chr(ord($char) - ord($keyChar));
                 $str .= $char;
             }
         } else {
@@ -122,10 +122,8 @@ final class AEncryption
     }
 }
 
-// SSL Based encryption class PHP 5.3 >
 // Manual Configuration is required
 /*
-Requirement: PHP => 5.3 and openSSL enabled
 
 NOTE: Do not confuse SSL data encryption with signed SSL certificates (HTTPS) used for browser access to sites
 
@@ -204,7 +202,7 @@ final class ASSLEncryption
 
         //construct key storage path
         //NOTE: ENCRYPTION_KEYS_DIR needs to be added into configuration file
-        //Suggested:  Directory to be secured for read a writing ONLY for users root and apache (web server).
+        //Suggested: Directory to be secured for read and writing ONLY for users root and apache (web server).
         if (defined('ENCRYPTION_KEYS_DIR')) {
             $this->key_path = ENCRYPTION_KEYS_DIR;
         } else {
@@ -318,7 +316,7 @@ final class ASSLEncryption
     }
 
     /**
-     * Get public key based on key name provided. It is loaded if not yet loaded
+     * Get a public key based on the key name provided. It is loaded if not yet loaded
      * Key's are stored in the path based on the configuration
      *
      * @param string $key_name
@@ -334,10 +332,10 @@ final class ASSLEncryption
     }
 
     /**
-     * Load private key based on key name provided.
-     * Input : Key name and passphrase (if used)
+     * Load a private key based on the key name provided.
+     * Input: Key name and passphrase (if used)
      * Key's are stored in the path based on the configuration
-     * NOTE: Private key value never returned back
+     * NOTE: Private key value never returned
      *
      * @param string $key_name
      * @param string $passphrase
@@ -357,18 +355,18 @@ final class ASSLEncryption
     /**
      * Decrypt value based on private key ONLY
      *
-     * @param string $crypttext
+     * @param string $encryptedText
      *
      * @return string
      */
-    public function decrypt($crypttext)
+    public function decrypt($encryptedText)
     {
-        if (empty($crypttext)) {
+        if (empty($encryptedText)) {
             return '';
         }
         //check if encryption is off or this is not an encrypted string
-        if (!$this->active || !base64_decode($crypttext, true)) {
-            return $crypttext;
+        if (!$this->active || !base64_decode($encryptedText, true)) {
+            return $encryptedText;
         }
 
         $cleartext = '';
@@ -378,7 +376,7 @@ final class ASSLEncryption
             return $this->failed_str;
         }
 
-        if ((openssl_private_decrypt(base64_decode($crypttext), $cleartext, $this->prkey)) === true) {
+        if ((openssl_private_decrypt(base64_decode($encryptedText), $cleartext, $this->prkey)) === true) {
             return $cleartext;
         } else {
             $error = "Error: SSL Decryption based on private key has failed! "
@@ -405,15 +403,15 @@ final class ASSLEncryption
             return $cleartext;
         }
 
-        $crypttext = '';
+        $encryptedText = '';
         if (empty($this->pubKey)) {
             $error = "Error: SSL Encryption failed! Missing public key";
             $this->log->write($error);
             return '';
         }
 
-        if ((openssl_public_encrypt($cleartext, $crypttext, $this->pubKey)) === true) {
-            return base64_encode($crypttext);
+        if ((openssl_public_encrypt($cleartext, $encryptedText, $this->pubKey)) === true) {
+            return base64_encode($encryptedText);
         } else {
             $error = "Error: SSL Encryption based on public key has failed! Possibly encryption error or wrong key!";
             $this->log->write($error);
@@ -451,7 +449,7 @@ final class ASSLEncryption
  * New tables need to be created with provided SQL.
  * Encryption Data Manager extension runs SQL on installation
  *
- * Limitation: passphrase is not supported to data encryption.
+ * Limitation: passphrase is not supported by data encryption.
  **/
 final class ADataEncryption
 {
@@ -542,6 +540,14 @@ final class ADataEncryption
     }
 
     /**
+     * @return array
+     */
+    public function getKeys()
+    {
+        return $this->keys;
+    }
+
+    /**
      * Get postfix used to extend tables storing encrypted data
      * This is only for tables that require encryption
      * This is set in ENCRYPTED_POSTFIX configuration
@@ -582,7 +588,7 @@ final class ADataEncryption
      */
     public function getEncryptedTableID($table)
     {
-        if (has_value($this->enc_data)) {
+        if (has_value($this->enc_data) && isset($this->enc_data[$table])) {
             return $this->enc_data[$table]['id'];
         }
         return '';
@@ -800,11 +806,10 @@ final class ADataEncryption
     {
         $config = $this->registry->get('config');
         $cache = $this->registry->get('cache');
-
-        $this->keys = [];
         $cache_key = 'encryption.keys.store_' . (int)$config->get('config_store_id');
         $this->keys = $cache->pull($cache_key);
-        if (empty($this->keys)) {
+        if ($this->keys === false) {
+            $this->keys = [];
             $db = $this->registry->get('db');
             $query = $db->query("SELECT * FROM " . $db->table('encryption_keys') . " WHERE status = 1");
             if (!$query->num_rows) {

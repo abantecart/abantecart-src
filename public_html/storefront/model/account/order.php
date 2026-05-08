@@ -1,11 +1,13 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -30,7 +32,7 @@ class ModelAccountOrder extends Model
      */
     public function getOrder($orderId, $orderStatusId = '', $mode = '')
     {
-        $orderId = (int)$orderId;
+        $orderId = (int) $orderId;
         if (!$orderId) {
             return [];
         }
@@ -44,15 +46,15 @@ class ModelAccountOrder extends Model
                 $status_check = "";
             } else {
                 //only specific status
-                $status_check = " AND order_status_id = '" . (int)$orderStatusId . "'";
+                $status_check = " AND order_status_id = '" . (int) $orderStatusId . "'";
             }
         }
 
         $sql = "SELECT *
                 FROM `" . $this->db->table("orders") . "`
-                WHERE order_id = '" . (int)$orderId . "' ";
+                WHERE order_id = '" . (int) $orderId . "' ";
         if ($mode == '') {
-            $sql .= " AND customer_id = '" . (int)$this->customer->getId() . "'";
+            $sql .= " AND customer_id = '" . (int) $this->customer->getId() . "'";
         }
         $sql .= $status_check;
         $result = $this->db->query($sql);
@@ -66,16 +68,16 @@ class ModelAccountOrder extends Model
         /** @var ModelLocalisationZone $zMdl */
         $zMdl = $this->load->model('localisation/zone');
         $countryInfo = $cMdl->getCountry($orderRow['shipping_country_id']);
-        $shippingIsoCode2 = $countryInfo['iso_code_2'] ?: '';
-        $shippingIsoCode3 = $countryInfo['iso_code_3'] ?: '';
+        $shippingIsoCode2 = $countryInfo['iso_code_2'] ? : '';
+        $shippingIsoCode3 = $countryInfo['iso_code_3'] ? : '';
         $zoneInfo = $zMdl->getZone($orderRow['shipping_zone_id']);
-        $shippingZoneCode = $zoneInfo['code'] ?: '';
+        $shippingZoneCode = $zoneInfo['code'] ? : '';
 
         $countryInfo = $cMdl->getCountry($orderRow['payment_country_id']);
-        $paymentIsoCode2 = $countryInfo['iso_code_2'] ?: '';
-        $paymentIsoCode3 = $countryInfo['iso_code_3'] ?: '';
+        $paymentIsoCode2 = $countryInfo['iso_code_2'] ? : '';
+        $paymentIsoCode3 = $countryInfo['iso_code_3'] ? : '';
         $zoneInfo = $zMdl->getZone($orderRow['payment_zone_id']);
-        $payment_zone_code = $zoneInfo['code'] ?: '';
+        $payment_zone_code = $zoneInfo['code'] ? : '';
 
         $orderRow['ext_fields'] = $orderRow['ext_fields']
             ? json_decode($orderRow['ext_fields'], true)
@@ -83,12 +85,12 @@ class ModelAccountOrder extends Model
         return
             $orderRow +
             [
-                'shipping_zone_code'  => $shippingZoneCode,
+                'shipping_zone_code' => $shippingZoneCode,
                 'shipping_iso_code_2' => $shippingIsoCode2,
                 'shipping_iso_code_3' => $shippingIsoCode3,
-                'payment_zone_code'   => $payment_zone_code,
-                'payment_iso_code_2'  => $paymentIsoCode2,
-                'payment_iso_code_3'  => $paymentIsoCode3,
+                'payment_zone_code' => $payment_zone_code,
+                'payment_iso_code_2' => $paymentIsoCode2,
+                'payment_iso_code_3' => $paymentIsoCode3,
             ];
     }
 
@@ -101,12 +103,13 @@ class ModelAccountOrder extends Model
      */
     public function getOrders($start = 0, $limit = 20)
     {
-        $language_id = (int)$this->config->get('storefront_language_id');
+        $language_id = (int) $this->config->get('storefront_language_id');
         if ($start < 0) {
             $start = 0;
         }
         $query = $this->db->query(
-            "SELECT	o.order_id,
+            "SELECT	" . $this->db->getSqlCalcTotalRows() . "
+                    o.order_id,
                     o.firstname, 
                     o.lastname, 
                     os.name as status, 
@@ -117,11 +120,16 @@ class ModelAccountOrder extends Model
             FROM `" . $this->db->table("orders") . "` o 
             LEFT JOIN " . $this->db->table("order_statuses") . " os 
                 ON (o.order_status_id = os.order_status_id 
-                        AND os.language_id = '" . (int)$language_id . "')
-            WHERE customer_id = '" . (int)$this->customer->getId() . "' 
+                        AND os.language_id = '" . $language_id . "')
+            WHERE customer_id = '" . (int) $this->customer->getId() . "' 
                 AND o.order_status_id > '0' 
             ORDER BY o.order_id DESC 
-            LIMIT " . (int)$start . "," . (int)$limit);
+            LIMIT " . (int) $start . "," . (int) $limit
+        );
+        if ($query->num_rows) {
+            $totalNumRows = $this->db->getTotalNumRows();
+            $query->rows[0]['total_num_rows'] = $totalNumRows;
+        }
         return $query->rows;
     }
 
@@ -136,7 +144,7 @@ class ModelAccountOrder extends Model
         $query = $this->db->query(
             "SELECT *
             FROM " . $this->db->table("order_products") . "
-            WHERE order_id = '" . (int)$order_id . "'"
+            WHERE order_id = '" . (int) $order_id . "'"
         );
         return $query->rows;
     }
@@ -157,8 +165,8 @@ class ModelAccountOrder extends Model
                 ON pov.product_option_value_id = oo.product_option_value_id
             LEFT JOIN " . $this->db->table('product_options') . " po 
                 ON po.product_option_id = pov.product_option_id
-            WHERE oo.order_id = '" . (int)$order_id . "' 
-                AND oo.order_product_id = '" . (int)$order_product_id . "'
+            WHERE oo.order_id = '" . (int) $order_id . "' 
+                AND oo.order_product_id = '" . (int) $order_product_id . "'
             ORDER BY po.sort_order"
         );
         return $query->rows;
@@ -175,7 +183,7 @@ class ModelAccountOrder extends Model
         $query = $this->db->query(
             "SELECT *
             FROM " . $this->db->table("order_totals") . "
-            WHERE order_id = '" . (int)$order_id . "'
+            WHERE order_id = '" . (int) $order_id . "'
             ORDER BY sort_order"
         );
         return $query->rows;
@@ -189,14 +197,14 @@ class ModelAccountOrder extends Model
      */
     public function getOrderStatus($order_id)
     {
-        $language_id = (int)$this->config->get('storefront_language_id');
+        $language_id = (int) $this->config->get('storefront_language_id');
         $query = $this->db->query(
             "SELECT os.name AS status
             FROM " . $this->db->table("orders") . " o, 
             " . $this->db->table("order_statuses") . " os
-            WHERE o.order_id = '" . (int)$order_id . "' 
+            WHERE o.order_id = '" . (int) $order_id . "' 
                 AND o.order_status_id = os.order_status_id 
-                AND os.language_id = '" . (int)$language_id . "'"
+                AND os.language_id = '" . $language_id . "'"
         );
         return $query->row['status'];
     }
@@ -209,18 +217,15 @@ class ModelAccountOrder extends Model
      */
     public function getOrderHistories($order_id)
     {
-        $language_id = (int)$this->config->get('storefront_language_id');
+        $language_id = (int) $this->config->get('storefront_language_id');
         $query = $this->db->query(
-            "SELECT date_added, 
-                    os.name AS status, 
-                    oh.comment, 
-                    oh.notify 
+            "SELECT os.name AS status, oh.* 
             FROM " . $this->db->table("order_history") . " oh 
             LEFT JOIN " . $this->db->table("order_statuses") . " os 
                 ON oh.order_status_id = os.order_status_id 
-            WHERE oh.order_id = '" . (int)$order_id . "' 
+            WHERE oh.order_id = '" . (int) $order_id . "' 
                     AND oh.notify = '1' 
-                    AND os.language_id = '" . (int)$language_id . "' 
+                    AND os.language_id = '" . $language_id . "' 
             ORDER BY oh.date_added"
         );
         return $query->rows;
@@ -234,10 +239,12 @@ class ModelAccountOrder extends Model
      */
     public function getOrderDownloads($order_id)
     {
-        $query = $this->db->query("SELECT *
-                                    FROM " . $this->db->table("order_downloads") . "
-                                    WHERE order_id = '" . (int)$order_id . "'
-                                    ORDER BY sort_order ASC");
+        $query = $this->db->query(
+            "SELECT *
+            FROM " . $this->db->table("order_downloads") . "
+            WHERE order_id = '" . (int) $order_id . "'
+            ORDER BY sort_order"
+        );
         return $query->rows;
     }
 
@@ -247,28 +254,45 @@ class ModelAccountOrder extends Model
      */
     public function getTotalOrders()
     {
-        $query = $this->db->query("SELECT COUNT(*) AS total
-                                    FROM `" . $this->db->table("orders") . "`
-                                    WHERE customer_id = '" . (int)$this->customer->getId() . "' AND order_status_id > '0'");
-        return (int)$query->row['total'];
+        $query = $this->db->query(
+            "SELECT COUNT(*) AS total
+            FROM `" . $this->db->table("orders") . "`
+            WHERE customer_id = '" . (int) $this->customer->getId() . "' AND order_status_id > '0'"
+        );
+        return (int) $query->row['total'];
     }
 
     /**
-     * @param int $order_id
+     * @param int|array $orderId
      *
-     * @return int
+     * @return int|array
      * @throws AException
      */
-    public function getTotalOrderProductsByOrderId($order_id)
+    public function getTotalOrderProductsByOrderId(int|array $orderId)
     {
-        $query = $this->db->query("SELECT COUNT(*) AS total
-                                    FROM " . $this->db->table("order_products") . "
-                                    WHERE order_id = '" . (int)$order_id . "'");
-        return (int)$query->row['total'];
+        if (is_int($orderId)) {
+            $sql = "SELECT COUNT(*) AS total
+                    FROM " . $this->db->table("order_products") . "
+                    WHERE order_id = " . $orderId;
+            $query = $this->db->query($sql);
+            return (int) $query->row['total'];
+        } else {
+            $orderIds = filterIntegerIdList($orderId);
+            if ($orderIds) {
+                $sql = "SELECT COUNT(*) AS total, order_id
+                        FROM " . $this->db->table("order_products") . "
+                        WHERE order_id IN (" . implode(',', $orderIds) . ")
+                        GROUP BY order_id";
+                $query = $this->db->query($sql);
+                return array_column($query->rows, 'total', 'order_id');
+            }
+        }
+        return [];
     }
 
     /**
      * @param array $list
+     *
      * @return array
      * @throws AException
      */
@@ -281,7 +305,9 @@ class ModelAccountOrder extends Model
         $sql = "SELECT * 
                 FROM " . $this->db->table('fields') . " f
                 LEFT JOIN " . $this->db->table('field_descriptions') . " fd
-                    ON fd.field_id = f.field_id AND fd.language_id = '" . (int)$this->config->get('storefront_language_id') . "'
+                    ON fd.field_id = f.field_id AND fd.language_id = '" . (int) $this->config->get(
+                'storefront_language_id'
+            ) . "'
                 WHERE f.field_name IN ('" . implode("','", $names) . "')";
         $result = $this->db->query($sql);
         $output = [];
@@ -291,5 +317,30 @@ class ModelAccountOrder extends Model
             }
         }
         return $output;
+    }
+
+    /**
+     * @param int $order_id
+     *
+     * @return array
+     * @throws AException
+     */
+    public function getOrderStatusStepper(int $order_id)
+    {
+        if(!$order_id){
+            return [];
+        }
+        $language_id = (int) $this->config->get('storefront_language_id');
+        $query = $this->db->query(
+            "SELECT os.name AS status, oh.order_status_id, max(oh.date_added) AS date_added 
+            FROM " . $this->db->table("order_history") . " oh 
+            LEFT JOIN " . $this->db->table("order_statuses") . " os 
+                ON oh.order_status_id = os.order_status_id 
+            WHERE oh.order_id = '" . $order_id . "' 
+                    AND os.language_id = '" . $language_id . "' 
+            GROUP BY oh.order_status_id, status
+            ORDER BY max(oh.date_added)"
+        );
+        return $query->rows;
     }
 }

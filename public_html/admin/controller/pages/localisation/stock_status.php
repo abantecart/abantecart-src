@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -23,8 +23,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerPagesLocalisationStockStatus extends AController
 {
-    public $data = array();
-    public $error = array();
+    public $error = [];
 
     public function main()
     {
@@ -40,19 +39,19 @@ class ControllerPagesLocalisationStockStatus extends AController
             unset($this->session->data['success']);
         }
 
-        $this->document->initBreadcrumb(array(
+        $this->document->initBreadcrumb([
             'href'      => $this->html->getSecureURL('index/home'),
             'text'      => $this->language->get('text_home'),
             'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
+        ]);
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getSecureURL('localisation/stock_status'),
             'text'      => $this->language->get('heading_title'),
             'separator' => ' :: ',
             'current'   => true,
-        ));
+        ]);
 
-        $grid_settings = array(
+        $grid_settings = [
             'table_id'       => 'stock_grid',
             'url'            => $this->html->getSecureURL('listing_grid/stock_status'),
             'editurl'        => $this->html->getSecureURL('listing_grid/stock_status/update'),
@@ -60,33 +59,33 @@ class ControllerPagesLocalisationStockStatus extends AController
             'sortname'       => 'name',
             'sortorder'      => 'asc',
             'columns_search' => false,
-            'actions'        => array(
-                'edit'   => array(
+            'actions'        => [
+                'edit'   => [
                     'text' => $this->language->get('text_edit'),
                     'href' => $this->html->getSecureURL('localisation/stock_status/update', '&stock_status_id=%ID%'),
-                ),
-                'save'   => array(
+                ],
+                'save'   => [
                     'text' => $this->language->get('button_save'),
-                ),
-                'delete' => array(
+                ],
+                'delete' => [
                     'text' => $this->language->get('button_delete'),
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
-        $grid_settings['colNames'] = array(
+        $grid_settings['colNames'] = [
             $this->language->get('column_name'),
-        );
-        $grid_settings['colModel'] = array(
-            array(
+        ];
+        $grid_settings['colModel'] = [
+            [
                 'name'  => 'name',
                 'index' => 'name',
                 'width' => 600,
                 'align' => 'left',
-            ),
-        );
+            ],
+        ];
 
-        $grid = $this->dispatch('common/listing_grid', array($grid_settings));
+        $grid = $this->dispatch('common/listing_grid', [$grid_settings]);
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
 
         $this->view->assign('insert', $this->html->getSecureURL('localisation/stock_status/insert'));
@@ -101,27 +100,29 @@ class ControllerPagesLocalisationStockStatus extends AController
 
     public function insert()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
         $this->document->setTitle($this->language->get('heading_title'));
-
-        if ($this->request->is_POST() && $this->_validateForm()) {
-
-            $stock_status_id = $this->model_localisation_stock_status->addStockStatus($this->request->post);
+        $post = $this->request->post;
+        if ($this->request->is_POST() && $this->_validateForm($post)) {
+            $post['language_id'] = $this->language->getContentLanguageID();
+            $this->data['stock_status_id'] = $this->model_localisation_stock_status->addStockStatus($post);
+            $this->extensions->hk_ProcessData($this, __FUNCTION__, ['stock_status_id' => $this->data['stock_status_id']]);
             $this->session->data['success'] = $this->language->get('text_success');
-            redirect($this->html->getSecureURL('localisation/stock_status/update', '&stock_status_id='.$stock_status_id));
+            redirect(
+                $this->html->getSecureURL(
+                    'localisation/stock_status/update',
+                    '&stock_status_id=' . $this->data['stock_status_id']
+                )
+            );
         }
         $this->_getForm();
-
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
     public function update()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -131,123 +132,121 @@ class ControllerPagesLocalisationStockStatus extends AController
         }
 
         $this->document->setTitle($this->language->get('heading_title'));
-
-        if ($this->request->is_POST() && $this->_validateForm()) {
-            $this->model_localisation_stock_status->editStockStatus($this->request->get['stock_status_id'], $this->request->post);
+        $stockStatusId = (int)$this->request->get['stock_status_id'];
+        if ($this->request->is_POST() && $this->_validateForm($this->request->post)) {
+            $this->model_localisation_stock_status->editStockStatus($stockStatusId, $this->request->post);
+            $this->extensions->hk_ProcessData($this, __FUNCTION__, ['stock_status_id' => $stockStatusId]);
             $this->session->data['success'] = $this->language->get('text_success');
-            redirect($this->html->getSecureURL('localisation/stock_status/update', '&stock_status_id='.$this->request->get['stock_status_id']));
+            redirect($this->html->getSecureURL('localisation/stock_status/update', '&stock_status_id=' . $stockStatusId));
         }
         $this->_getForm();
-
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _getForm()
+    protected function _getForm()
     {
-
-        $this->data = array();
+        $this->data = [];
         $this->data['error'] = $this->error;
         $this->data['cancel'] = $this->html->getSecureURL('localisation/stock_status');
 
-        $this->document->initBreadcrumb(array(
+        $this->document->initBreadcrumb([
             'href'      => $this->html->getSecureURL('index/home'),
             'text'      => $this->language->get('text_home'),
             'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
+        ]);
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getSecureURL('localisation/stock_status'),
             'text'      => $this->language->get('heading_title'),
             'separator' => ' :: ',
-        ));
+        ]);
+
+        $stockStatusId = (int)$this->request->get['stock_status_id'];
 
         if (isset($this->request->post['stock_status'])) {
             $this->data['stock_status'] = $this->request->post['stock_status'];
-        } elseif (isset($this->request->get['stock_status_id'])) {
-            $this->data['stock_status'] = $this->model_localisation_stock_status->getStockStatusDescriptions($this->request->get['stock_status_id']);
+        } elseif ($stockStatusId) {
+            $this->data['stock_status'] = $this->model_localisation_stock_status->getStockStatusDescriptions(
+                $stockStatusId,
+                $this->language->getContentLanguageID()
+            );
         } else {
-            $this->data['stock_status'] = array();
+            $this->data['stock_status'] = [];
         }
 
-        if (!isset($this->request->get['stock_status_id'])) {
+        if (!$stockStatusId) {
             $this->data['action'] = $this->html->getSecureURL('localisation/stock_status/insert');
-            $this->data['heading_title'] = $this->language->get('text_insert').' '.$this->language->get('text_status');
+            $this->data['heading_title'] = $this->language->get('text_insert') . ' ' . $this->language->get('text_status');
             $this->data['update'] = '';
             $form = new AForm('ST');
         } else {
-            $this->data['action'] = $this->html->getSecureURL('localisation/stock_status/update', '&stock_status_id='.$this->request->get['stock_status_id']);
-            $this->data['heading_title'] = $this->language->get('text_edit').' '.$this->language->get('text_status');
-            $this->data['update'] = $this->html->getSecureURL('listing_grid/stock_status/update_field', '&id='.$this->request->get['stock_status_id']);
+            $this->data['action'] = $this->html->getSecureURL(
+                'localisation/stock_status/update',
+                '&stock_status_id=' . $stockStatusId
+            );
+            $this->data['heading_title'] = $this->language->get('text_edit') . ' ' . $this->language->get('text_status');
+            $this->data['update'] = $this->html->getSecureURL(
+                'listing_grid/stock_status/update_field', '&id=' . $stockStatusId
+            );
             $form = new AForm('HS');
         }
 
-        $this->document->addBreadcrumb(array(
+        $this->document->addBreadcrumb([
             'href'      => $this->data['action'],
             'text'      => $this->data['heading_title'],
             'separator' => ' :: ',
             'current'   => true,
-        ));
+        ]);
 
-        $form->setForm(array(
+        $form->setForm([
             'form_name' => 'editFrm',
             'update'    => $this->data['update'],
-        ));
+        ]);
 
         $this->data['form']['id'] = 'editFrm';
-        $this->data['form']['form_open'] = $form->getFieldHtml(array(
+        $this->data['form']['form_open'] = $form->getFieldHtml([
             'type'   => 'form',
             'name'   => 'editFrm',
             'action' => $this->data['action'],
             'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
-        ));
-        $this->data['form']['submit'] = $form->getFieldHtml(array(
-            'type'  => 'button',
-            'name'  => 'submit',
-            'text'  => $this->language->get('button_save'),
-            'style' => 'button1',
-        ));
-        $this->data['form']['cancel'] = $form->getFieldHtml(array(
-            'type'  => 'button',
-            'name'  => 'cancel',
-            'text'  => $this->language->get('button_cancel'),
-            'style' => 'button2',
-        ));
-
-        $this->data['form']['fields']['name'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['submit'] = $form->getFieldHtml([
+            'type' => 'button',
+            'name' => 'submit',
+            'text' => $this->language->get('button_save'),
+        ]);
+        $this->data['form']['cancel'] = $form->getFieldHtml([
+            'type' => 'button',
+            'name' => 'cancel',
+            'text' => $this->language->get('button_cancel'),
+        ]);
+        $languageId = $this->language->getContentLanguageId();
+        $this->data['form']['fields']['name'] = $form->getFieldHtml([
             'type'         => 'input',
-            'name'         => 'stock_status['.$this->session->data['content_language_id'].'][name]',
-            'value'        => $this->data['stock_status'][$this->session->data['content_language_id']]['name'],
+            'name'         => 'stock_status[name]',
+            'value'        => $this->data['stock_status']['name'],
             'required'     => true,
-            'style'        => 'large-field',
             'multilingual' => true,
-        ));
+        ]);
 
         $this->view->batchAssign($this->data);
         $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
-        $this->view->assign('language_id', $this->session->data['content_language_id']);
+        $this->view->assign('language_id', $languageId);
         $this->view->assign('help_url', $this->gen_help_url('stock_status_edit'));
         $this->processTemplate('pages/localisation/stock_status_form.tpl');
     }
 
-    private function _validateForm()
+    protected function _validateForm($post)
     {
         if (!$this->user->canModify('localisation/stock_status')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 
-        foreach ($this->request->post['stock_status'] as $language_id => $value) {
-            if (mb_strlen($value['name']) < 2 || mb_strlen($value['name']) > 32) {
-                $this->error['name'][$language_id] = $this->language->get('error_name');
-            }
+        if (mb_strlen($post['stock_status']['name']) < 2 || mb_strlen($post['stock_status']['name']) > 128) {
+            $this->error['name'] = $this->language->get('error_name');
         }
 
-        $this->extensions->hk_ValidateData($this);
-
-        if (!$this->error) {
-            return true;
-        } else {
-            return false;
-        }
+        $this->extensions->hk_ValidateData($this, ['post' => $this->request->post]);
+        return (!$this->error);
     }
-
 }

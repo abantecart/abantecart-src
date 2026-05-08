@@ -23,6 +23,7 @@ if (sizeof((array) $error_warning) > 0) {
 <?php
     }
 } ?>
+<?php echo $this->getHookVar('pre_cart_content'); ?>
 <div class="container-fluid">
     <?php echo $form['form_open']; ?>
     <div class="d-flex flex-wrap w-100 py-3 rounded">
@@ -104,7 +105,7 @@ if (sizeof((array) $error_warning) > 0) {
         <?php echo $this->getHookVar('list_more_product_last'); ?>
     </div>
     <div class="container-fluid cart-info product-list">
-        <div class="ps-4 p-3 col-12 d-flex flex-wrap justify-content-end">
+        <div class="ps-4 p-3 col-12 d-flex flex-wrap justify-content-end align-items-start">
             <?php
             echo $this->getHookVar('pre_top_cart_buttons'); ?>
             <button id="submit_button" type="submit"
@@ -124,8 +125,8 @@ if (sizeof((array) $error_warning) > 0) {
                 <?php echo $button_checkout; ?>
             </a>
             <?php } ?>
-            <?php echo $this->getHookVar('post_top_cart_buttons'); ?>
         </div>
+        <?php echo $this->getHookVar('post_top_cart_buttons'); ?>
     </div>
 </form>
 

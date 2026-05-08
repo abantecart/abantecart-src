@@ -161,7 +161,7 @@ class ExtensionCollection
             // If another extension needs to access the dispatching extension,
             //   it can use $this->ExtensionsApi->extensionName.
             if (($baseObject instanceof Extension) === false) {
-                $extension->loadBaseObject($baseObject, $args[0]);
+                $extension->loadBaseObject($baseObject, $args[0] ?? 'main');
                 $extension->loadExtensionsApi($baseObject->ExtensionsApi);
             }
 
@@ -447,7 +447,7 @@ class ExtensionsApi
 
                 $controllers = $languages = $models = $templates = [
                     'storefront' => [],
-                    'admin'      => [],
+                    'admin' => [],
                 ];
                 if (is_file(DIR_EXT . $ext . DS . 'main.php')) {
                     /** @noinspection PhpIncludeInspection */
@@ -657,15 +657,20 @@ class ExtensionsApi
         if (isset($data['store_id']) && has_value($data['store_id'])) {
             $sql .= " AND COALESCE(s.`store_id`,0) = '" . (int)$data['store_id'] . "' ";
         } else {
-            $sql .= " AND COALESCE(s.`store_id`,0) = '" . (int)$this->registry->get('config')->get('config_store_id')
-                . "' ";
+            $sql .= " AND COALESCE(s.`store_id`,0) = '" . (int)$this->registry->get('config')->get('config_store_id'). "' ";
         }
 
         if (isset($data['sort_order']) && has_value($data['sort_order']) && $data['sort_order'][0] != 'name') {
-            if ($data['sort_order'][0] == 'key') {
-                $data['sort_order'][0] = '`key`';
+            $sortField = $data['sort_order'][0];
+            if ($sortField == 'key') {
+                $sortField = '`key`';
+            } elseif ($sortField == 'status') {
+                $sortField = "CASE
+                                WHEN s.value IS NULL THEN -1
+                                ELSE CAST(s.value AS SIGNED)
+                              END";
             }
-            $sql .= "\n ORDER BY " . implode(' ', $data['sort_order']) . ", e.priority desc";
+            $sql .= "\n ORDER BY " . $sortField . " " . $data['sort_order'][1] . ", e.priority desc";
         } else {
             //default extension sorting based on priority provided. High number is higher priority
             $sql .= "\n ORDER BY e.priority desc";
@@ -681,18 +686,16 @@ class ExtensionsApi
         }
 
         $result = $this->db->query($sql);
-
-        if (isset($data['sort_order']) && has_value($data['sort_order']) && $data['sort_order'][0] == 'name') {
-            if ($result->rows) {
-                foreach ($result->rows as &$row) {
-                    if (trim($row['key']) == '') {
-                        unset($row);
-                        continue;
-                    }
-                    $names[] = mb_strtolower(trim($this->getExtensionName($row['key'])));
-                    $row['name'] = trim($this->getExtensionName($row['key']));
+        if ($result->rows) {
+            foreach ($result->rows as &$row) {
+                if (trim($row['key']) == '') {
+                    unset($row);
+                    continue;
                 }
-
+                $names[] = mb_strtolower(trim($this->getExtensionName($row['key'])));
+                $row['name'] = trim($this->getExtensionName($row['key']));
+            }
+            if (isset($data['sort_order']) && has_value($data['sort_order']) && $data['sort_order'][0] == 'name') {
                 array_multisort(
                     $names,
                     ($data['sort_order'][1] == 'asc' ? SORT_ASC : SORT_DESC),
@@ -701,6 +704,7 @@ class ExtensionsApi
                 );
             }
         }
+
         if ($result->rows) {
             foreach ($result->rows as &$row) {
                 if ($row['support_expiration'] === '0000-00-00 00:00:00') {
@@ -905,7 +909,7 @@ class ExtensionsApi
             $f = DIR_EXT . $ext . $file;
             if (is_file($f)) {
                 return [
-                    'file'      => $f,
+                    'file' => $f,
                     'extension' => $ext,
                 ];
             }
@@ -988,7 +992,7 @@ class ExtensionsApi
             ) {
                 if (is_file($f)) {
                     return [
-                        'file'      => $f,
+                        'file' => $f,
                         'extension' => $ext,
                         'base_path' => $file,
                     ];
@@ -998,7 +1002,7 @@ class ExtensionsApi
                     $f = DIR_EXT . $ext . $ext_section . DIR_EXT_TEMPLATE . 'default' . DS . 'template' . DS . str_replace('/', DS, $route);
                     if (is_file($f)) {
                         return [
-                            'file'      => $f,
+                            'file' => $f,
                             'extension' => $ext,
                             'base_path' => $ext_section . DIR_EXT_TEMPLATE . 'default' . DS . 'template' . DS . str_replace('/', DS, $route),
                         ];
@@ -1013,7 +1017,7 @@ class ExtensionsApi
                 $f = DIR_EXT . $ext . $file;
                 if (is_file($f)) {
                     return [
-                        'file'      => $f,
+                        'file' => $f,
                         'extension' => $ext,
                     ];
                 }
@@ -1057,7 +1061,7 @@ class ExtensionsApi
             if (in_array($route, $ext_tpls)) {
                 if (is_file($f)) {
                     $output[$ext] = [
-                        'file'      => $f,
+                        'file' => $f,
                         'extension' => $ext,
                         'base_path' => $file,
                     ];
@@ -1068,7 +1072,7 @@ class ExtensionsApi
                     $f = DIR_EXT . $ext . $ext_section . DIR_EXT_TEMPLATE . 'default' . DS . 'template' . DS . str_replace('/', DS, $route);
                     if (is_file($f)) {
                         $output[] = [
-                            'file'      => $f,
+                            'file' => $f,
                             'extension' => $ext,
                             'base_path' => $ext_section . DIR_EXT_TEMPLATE . 'default/template/' . $route,
                         ];
@@ -1114,11 +1118,11 @@ class ExtensionsApi
                     }
 
                     return [
-                        'route'     => $path_build,
+                        'route' => $path_build,
                         'extension' => $ext,
-                        'file'      => $file,
-                        'class'     => 'Controller' . preg_replace('/[^a-zA-Z0-9]/', '', $path_build),
-                        'method'    => $method,
+                        'file' => $file,
+                        'class' => 'Controller' . preg_replace('/[^a-zA-Z0-9]/', '', $path_build),
+                        'method' => $method,
                     ];
                 }
             }
@@ -1153,7 +1157,9 @@ class ExtensionsApi
 
         $method = strtolower($method[0]) . substr($method, 1);
 
-        $extension_method = ucfirst(get_class($baseObject)) . ucfirst($method);
+        $baseClassName = basename(str_replace('\\', '/', get_class($baseObject)));
+
+        $extension_method = ucfirst($baseClassName) . ucfirst($method);
 
         // before hook - runs before method; allows parameters to be changed
         $before_args = $args;
@@ -1184,7 +1190,7 @@ class ExtensionsApi
                 /** @see ADispatcher::dispatch() */
                 throw new AException(
                     AC_HOOK_OVERRIDE,
-                    'Class ' . get_class($baseObject) . ' overridden by extension hook ' . 'override' . $extension_method . '.',
+                    'Class ' . $baseClassName . ' overridden by extension hook ' . 'override' . $extension_method . '.',
                     '',
                     '',
                     $result
@@ -1287,24 +1293,24 @@ class ExtensionUtils
         //load extensions resources
         $controllers = $languages = $models = $templates = [
             'storefront' => [],
-            'admin'      => [],
+            'admin' => [],
         ];
         /** @noinspection PhpIncludeInspection */
         include($filename);
         $validate_resources = [
             'controllers' => $controllers,
-            'languages'   => $languages,
-            'models'      => $models,
-            'templates'   => $templates,
+            'languages' => $languages,
+            'models' => $models,
+            'templates' => $templates,
         ];
 
         //extensions resources
         $extensions = $this->registry->get('extensions');
         $ext_resources = [
             'controllers' => $extensions->getExtensionControllers(),
-            'languages'   => $extensions->getExtensionLanguages(),
-            'models'      => $extensions->getExtensionModels(),
-            'templates'   => $extensions->getExtensionTemplates(),
+            'languages' => $extensions->getExtensionLanguages(),
+            'models' => $extensions->getExtensionModels(),
+            'templates' => $extensions->getExtensionTemplates(),
         ];
 
         $conflict_resources = [];

@@ -1,11 +1,5 @@
 {
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/abolabo/Checkout-PHP-SDK"
-        }
-    ],
-    "require": {
-        "paypal/paypal-checkout-sdk": "dev-dev-products"
-    }
+  "require": {
+    "paypal/paypal-server-sdk": "2.2.0"
+  }
 }

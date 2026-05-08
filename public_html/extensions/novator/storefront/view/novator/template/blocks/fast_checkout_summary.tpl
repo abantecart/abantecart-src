@@ -21,8 +21,7 @@
 		});
 	}
     $(document).ready(function(){
-        $('#fast_checkout_summary_block').on('reload', loadFCBlockSummaryContent);
-        loadFCBlockSummaryContent();
+        $('#fast_checkout_summary_block').off('reload').on('reload', loadFCBlockSummaryContent);
     });
     <?php } ?>
 </script>

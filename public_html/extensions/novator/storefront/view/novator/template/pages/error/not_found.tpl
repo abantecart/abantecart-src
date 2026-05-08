@@ -19,3 +19,9 @@
         </a>
     </section>
 </div>
+<script>
+    setTimeout(function () {
+        var baseUrl = document.querySelector('base').href;
+        window.location.href = baseUrl;
+    }, 3000);
+</script>

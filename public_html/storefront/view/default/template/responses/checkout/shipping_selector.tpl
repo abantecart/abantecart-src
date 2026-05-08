@@ -12,6 +12,7 @@ if($this->cart->hasShipping()){
             $readonly = ' readonly ';
         } ?>
         <div class="d-flex w-100 border flex-column mb-3 shipping-selectors">
+            <?php echo $this->getHookVar('pre_shipping_methods');?>
 <?php   foreach ($csession['shipping_methods'] as $shipping_method) { ?>
              <h6 class="fw-bold p-3 bg-gradient bg-secondary bg-opacity-10 text-dark">
                  <?php echo $shipping_method['title']; ?>
@@ -28,7 +29,7 @@ if($this->cart->hasShipping()){
                         </div>
                         <label id="<?php echo $quote['id'];?>_title"
                                class="p-2 flex-grow-1 d-flex flex-wrap align-items-center "
-                               for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
+                               for="<?php echo preformatTextID($quote['radio']->element_id.$quote['radio']->id); ?>"
                                title="<?php echo_html2view($quote['description']); ?>">
                             <?php $icon = (array)$quote['icon'] ?: (array)$shipping_method['icon'];
                             if (sizeof($icon)) {

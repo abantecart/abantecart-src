@@ -15,6 +15,7 @@ use AsyncAws\Core\Exception\InvalidArgument;
 use AsyncAws\Core\Exception\LogicException;
 use AsyncAws\Core\Exception\RuntimeException;
 use AsyncAws\Core\HttpClient\AwsRetryStrategy;
+use AsyncAws\Core\HttpClient\BuildHttpQueryTrait;
 use AsyncAws\Core\Signer\Signer;
 use AsyncAws\Core\Signer\SignerV4;
 use AsyncAws\Core\Stream\StringStream;
@@ -32,6 +33,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 abstract class AbstractApi
 {
+    use BuildHttpQueryTrait;
+
     /**
      * @var HttpClientInterface
      */
@@ -230,9 +233,9 @@ abstract class AbstractApi
     /**
      * Build the endpoint full uri.
      *
-     * @param string                $uri    or path
-     * @param array<string, string> $query  parameters that should go in the query string
-     * @param ?string               $region region provided by the user in the `@region` parameter of the Input
+     * @param string                         $uri    or path
+     * @param array<string, string|string[]> $query  parameters that should go in the query string
+     * @param ?string                        $region region provided by the user in the `@region` parameter of the Input
      */
     protected function getEndpoint(string $uri, array $query, ?string $region): string
     {
@@ -260,7 +263,7 @@ abstract class AbstractApi
             return $endpoint;
         }
 
-        return $endpoint . (false === strpos($endpoint, '?') ? '?' : '&') . http_build_query($query, '', '&', \PHP_QUERY_RFC3986);
+        return $endpoint . (false === strpos($endpoint, '?') ? '?' : '&') . $this->buildHttpQuery($query);
     }
 
     /**
@@ -272,7 +275,7 @@ abstract class AbstractApi
     }
 
     /**
-     * @param array<string, string> $query
+     * @param array<string, string|string[]> $query
      *
      * @return string
      */
@@ -316,7 +319,7 @@ abstract class AbstractApi
             return $endpoint;
         }
 
-        return $endpoint . (false === strpos($endpoint, '?') ? '?' : '&') . http_build_query($query);
+        return $endpoint . (false === strpos($endpoint, '?') ? '?' : '&') . $this->buildHttpQuery($query);
     }
 
     /**
@@ -324,14 +327,14 @@ abstract class AbstractApi
      */
     private function getSigner(?string $region): Signer
     {
-        /** @var string $region */
         $region = $region ?? ($this->configuration->isDefault('region') ? null : $this->configuration->get('region'));
-        if (!isset($this->signers[$region])) {
+        if (!isset($this->signers[$region ?? ''])) {
             $factories = $this->getSignerFactories();
             $factory = null;
             if ($this->configuration->isDefault('endpoint') || $this->configuration->isDefault('region')) {
                 $metadata = $this->getEndpointMetadata($region);
             } else {
+                \assert(null !== $region);
                 // Allow non-aws region with custom endpoint
                 $metadata = $this->getEndpointMetadata(Configuration::DEFAULT_REGION);
                 $metadata['signRegion'] = $region;
@@ -349,10 +352,9 @@ abstract class AbstractApi
                 throw new InvalidArgument(\sprintf('None of the signatures "%s" is implemented.', implode(', ', $metadata['signVersions'])));
             }
 
-            $this->signers[$region] = $factory($metadata['signService'], $metadata['signRegion']);
+            $this->signers[$region ?? ''] = $factory($metadata['signService'], $metadata['signRegion']);
         }
 
-        /** @psalm-suppress PossiblyNullArrayOffset */
-        return $this->signers[$region];
+        return $this->signers[$region ?? ''];
     }
 }

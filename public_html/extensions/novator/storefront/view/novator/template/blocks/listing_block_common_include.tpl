@@ -25,7 +25,7 @@ if( isset(current((array)$products)['product_id']) ){
                         </div>
                         <div class="col-sm-10">
                             <a href="<?php echo $item['href']; ?>">
-                                <p class="w-"><?php echo $item['title']; ?> dafdfdas  ds f ads f dsa f</p>
+                                <p class="w-"><?php echo $item['title']; ?></p>
                             </a>
                         </div>
                     <?php } else { ?>

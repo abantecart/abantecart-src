@@ -8,21 +8,24 @@
 		</thead>
 		<tbody>
 		<?php
-		$data = array (
-						'store_id'   => $store_id,
-						'filter'     => 'shipping',
-						'status'	 => 1,
-						'sort_order' => array('name')
-				);
-		if ($this->config->get('config_store_id')){
-			$data['store_id'] = (int)$this->config->get('config_store_id');
-		}
+        $store_id = (int)$this->session->data['current_store_id'];
+		$data = [
+            'store_id'   => $store_id,
+            'filter'     => 'shipping',
+            'status'	 => 1,
+            'sort_order' => ['name']
+        ];
+
+        /** @var ModelSettingSetting $mdl */
+        $mdl = $this->load->model('setting/setting');
+        $settings = $mdl->getSetting('avatax_integration',$store_id);
+
 		//extensions list. NOTE: set "force" mode to get data from db
 		$extensions = $this->extension_manager->getExtensionsList($data, 'force');
 		foreach ($extensions->rows as $ext) {
 			$key = $ext['key'];
 			$setting_name = 'avatax_integration_shipping_taxcode_'.$key;
-			$taxcode = $this->config->get($setting_name); ?>
+			$taxcode = $settings[$setting_name]; ?>
 			<tr>
 				<td class="text-left"><?php echo $ext['name']; ?></td>
 				<td class="text-right">

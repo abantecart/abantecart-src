@@ -1,23 +1,24 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
-
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 class ControllerPagesProductCategory extends AController
 {
     public function __construct(Registry $registry, $instance_id, $controller, $parent_controller = '')
@@ -26,14 +27,14 @@ class ControllerPagesProductCategory extends AController
         $this->prepareProductListingParameters();
         $this->data['thumb_no_image'] = [
             'category' => true,
-            'product'  => true
+            'product'  => true,
         ];
     }
 
     public function main()
     {
         $request = $this->request->get;
-        //is this an embed mode
+
         $this->data['cart_rt'] = $this->config->get('embed_mode')
             ? 'r/checkout/cart/embed'
             : 'checkout/cart';
@@ -65,6 +66,8 @@ class ControllerPagesProductCategory extends AController
             $httpQuery['rating'] = $ratings;
         }
 
+        $httpQuery = array_merge($httpQuery, (array) $this->data['additional_filters']);
+
         /** @var ModelCatalogCategory $mdl */
         $mdl = $this->loadModel('catalog/category');
         $this->loadModel('tool/seo_url');
@@ -77,7 +80,7 @@ class ControllerPagesProductCategory extends AController
             $path = '';
             $parts = explode('_', $request['path']);
             if (count($parts) == 1) {
-                //see if this is a category ID to sub category, need to build full path
+                //if this is a category ID to subcategory, need to build a full path
                 $parts = explode('_', $mdl->buildPath($request['path']));
             }
             $currentId = end($parts);
@@ -93,7 +96,7 @@ class ControllerPagesProductCategory extends AController
                 }
                 // include subdirectories into result product list
                 if ($path_id == $currentId) {
-                    $category_id = array_merge($category_id, $mdl->getChildrenIDs((int)$path_id));
+                    $category_id = array_merge($category_id, $mdl->getChildrenIDs((int) $path_id));
                 }
                 $this->document->addBreadcrumb(
                     [
@@ -133,12 +136,16 @@ class ControllerPagesProductCategory extends AController
                     [
                         'href'      => $this->html->getSEOURL(
                             'product/category',
-                            '&' . http_build_query($httpQuery)),
-                        'text'      => $category_info['name'],
-                        'separator' => $this->language->get('text_separator')
+                            '&' . http_build_query($httpQuery)
+                        ),
+                        'text'      => mb_strlen($category_info['name'], 'UTF-8') > 150
+                            ? mb_substr($category_info['name'], 0, 150, 'UTF-8') . '...'
+                            : $category_info['name'],
+                        'separator' => $this->language->get('text_separator'),
                     ]
                 );
-                $this->data['filter_url'] = $this->html->getSEOURL('product/category', '&' . http_build_query($httpQuery));
+                $this->data['filter_url'] =
+                    $this->html->getSEOURL('product/category', '&' . http_build_query($httpQuery));
             } else {
                 $category_id = [0];
                 $category_info['category_id'] = 0;
@@ -148,7 +155,7 @@ class ControllerPagesProductCategory extends AController
             $category_info['category_id'] = 0;
         }
 
-        //if category not set but brands are selected
+        //if a category isn't set but brands are selected
         if (!$category_id && $httpQuery['manufacturer_id']) {
             redirect($this->html->getSecureURL('product/manufacturer', '&' . http_build_query($httpQuery)));
         }
@@ -167,16 +174,18 @@ class ControllerPagesProductCategory extends AController
             }
             $this->data['text_sort'] = $this->language->get('text_sort');
 
-            $this->loadModel('catalog/product');
+            /** @var ModelCatalogProduct $pMdl */
+            $pMdl = $this->loadModel('catalog/product');
             $category_total = isset($category_info['category_id'])
                 ? $mdl->getTotalCategoriesByCategoryId($category_info['category_id'])
                 : 0;
 
             $productFilter = [
-                'sort'  => $sort,
-                'order' => $order,
-                'limit' => $limit,
-                'start' => ($page - 1) * $limit,
+                'sort'   => $sort,
+                'order'  => $order,
+                'limit'  => $limit,
+                'start'  => ($page - 1) * $limit,
+                'filter' => [],
             ];
 
             if (isset($this->request->get['manufacturer_id'])) {
@@ -186,13 +195,18 @@ class ControllerPagesProductCategory extends AController
                 $productFilter['filter']['rating'] = $this->request->get['rating'];
             }
 
-            $products_result = $this->model_catalog_product->getProductsByCategoryId(
+            $productFilter['filter'] = array_merge(
+                $productFilter['filter'],
+                (array) $this->data['additional_filters']
+            );
+
+            $products_result = $pMdl->getProductsByCategoryId(
                 $category_id,
                 $productFilter
             );
             $product_total = $products_result[0]['total_num_rows'];
 
-            //if requested page does not exist
+            //if the requested page does not exist
             if ($product_total < ($page - 1) * $limit && $page > 1) {
                 $httpQuery['page'] = 1;
                 redirect($this->html->getSEOURL('product/category', '&' . http_build_query($httpQuery)));
@@ -235,7 +249,7 @@ class ControllerPagesProductCategory extends AController
                 $product_ids = array_column($products_result, 'product_id');
                 $products = [];
 
-                $products_info = $this->model_catalog_product->getProductsAllInfo($product_ids);
+                $products_info = $pMdl->getProductsAllInfo($product_ids);
                 $thumbnails = $product_ids
                     ? $resource->getMainThumbList(
                         'products',
@@ -245,44 +259,36 @@ class ControllerPagesProductCategory extends AController
                         $this->data['thumb_no_image']['product']
                     )
                     : [];
-                $stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
+                $stock_info = $pMdl->getProductsStockInfo($product_ids);
                 foreach ($products_result as $result) {
-                    $thumbnail = $thumbnails[$result['product_id']];
-                    $rating = $products_info[$result['product_id']]['rating'];
-                    $special = false;
-                    $discount = $products_info[$result['product_id']]['discount'];
+                    $productId = $result['product_id'];
+                    $thumbnail = $thumbnails[$productId];
+                    $rating = $products_info[$productId]['rating'];
+                    $special = $specialNum = false;
+                    $discount = $products_info[$productId]['discount'];
+
                     if ($discount) {
-                        $price = $this->currency->format(
-                            $this->tax->calculate(
-                                $discount,
-                                $result['tax_class_id'],
-                                $this->config->get('config_tax')
-                            )
-                        );
+                        $priceNum = $discount;
                     } else {
-                        $price = $this->currency->format(
-                            $this->tax->calculate(
-                                $result['price'],
+                        $priceNum = $result['price'];
+                        $special = $products_info[$productId]['special'];
+                        if ($special) {
+                            $specialNum = $this->tax->calculate(
+                                $special,
                                 $result['tax_class_id'],
                                 $this->config->get('config_tax')
-                            )
-                        );
-                        $special = $products_info[$result['product_id']]['special'];
-                        if ($special) {
-                            $special = $this->currency->format(
-                                $this->tax->calculate(
-                                    $special,
-                                    $result['tax_class_id'],
-                                    $this->config->get('config_tax')
-                                )
                             );
+                            $special = $this->currency->format($specialNum);
                         }
                     }
+                    $priceNum =
+                        $this->tax->calculate($priceNum, $result['tax_class_id'], $this->config->get('config_tax'));
+                    $price = $this->currency->format($priceNum);
 
-                    if ($products_info[$result['product_id']]['options']) {
+                    if ($products_info[$productId]['options']) {
                         $add = $this->html->getSEOURL(
                             'product/product',
-                            '&product_id=' . $result['product_id'],
+                            '&product_id=' . $productId,
                             '&encode'
                         );
                     } else {
@@ -290,7 +296,7 @@ class ControllerPagesProductCategory extends AController
                             ? '#'
                             : $this->html->getSecureURL(
                                 $this->data['cart_rt'],
-                                '&product_id=' . $result['product_id'],
+                                '&product_id=' . $productId,
                                 '&encode'
                             );
                     }
@@ -302,10 +308,10 @@ class ControllerPagesProductCategory extends AController
                     $stock_checkout = $result['stock_checkout'] === ''
                         ? $this->config->get('config_stock_checkout')
                         : $result['stock_checkout'];
-                    if ($stock_info[$result['product_id']]['subtract']) {
+                    if ($stock_info[$productId]['subtract']) {
                         $track_stock = true;
-                        $total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
-                        //we have stock or out of stock checkout is allowed
+                        $total_quantity = $pMdl->hasAnyStock($productId);
+                        //we have stock or out-of-stock checkout is allowed
                         if ($total_quantity > 0 || $stock_checkout) {
                             $in_stock = true;
                         }
@@ -315,23 +321,26 @@ class ControllerPagesProductCategory extends AController
                     if ($request['path']) {
                         $productHttpQuery['path'] = $request['path'];
                     }
-                    $productHttpQuery['product_id'] = $result['product_id'];
+                    $productHttpQuery['product_id'] = $productId;
 
                     $products[] = array_merge(
                         $result,
                         [
-                            'product_id'     => $result['product_id'],
+                            'product_id'     => $productId,
                             'name'           => $result['name'],
                             'blurb'          => $result['blurb'],
                             'model'          => $result['model'],
                             'rating'         => $rating,
-                            'stars'          => sprintf($this->language->get('text_stars'), $rating),
+                            'stars'          => $this->language->getAndReplace('text_stars', replaces: $rating),
                             'thumb'          => $thumbnail,
                             'price'          => $price,
-                            'raw_price'      => $result['price'],
+                            //todo: remove in the future as deprecated
+                            'raw_price'      => $priceNum,
+                            'price_num'      => $priceNum,
                             'call_to_order'  => $result['call_to_order'],
-                            'options'        => $products_info[$result['product_id']]['options'],
+                            'options'        => $products_info[$productId]['options'],
                             'special'        => $special,
+                            'special_num'    => $specialNum,
                             'href'           => $this->html->getSEOURL(
                                 'product/product',
                                 '&' . http_build_query($productHttpQuery),
@@ -373,7 +382,7 @@ class ControllerPagesProductCategory extends AController
                 unset($pQuery['page'], $pQuery['order']);
                 $pagination_url = $this->html->getSEOURL(
                     'product/category',
-                    '&page=--page--&' . http_build_query($pQuery, '', null, PHP_QUERY_RFC3986),
+                    '&page=--page--&' . http_build_query($pQuery),
                 );
 
                 $rQuery = $httpQuery;

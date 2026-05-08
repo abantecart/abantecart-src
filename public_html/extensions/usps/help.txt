@@ -1,0 +1,36 @@
+<h2>USPS Extension Quick Guide</h2>
+
+<p>This guide is for the AbanteCart USPS extension that uses USPS API v3 for live rates and label generation.</p>
+
+<h2>Storefront Rates Only</h2>
+<p>To show live USPS rates to customers at checkout, the only USPS API credentials required by this extension are the App Consumer Key and App Consumer Secret.</p>
+<p>Get these values from your USPS app:</p>
+<ol>
+<li>Sign in or create a <a href="https://developers.usps.com/getting-started" target="_blank">USPS Business Account through the USPS Customer Onboarding Portal</a>.</li>
+<li>Within COP create an app from <a href="https://cop.usps.com/" target="_blank">My Apps</a> on the top of the COP Business Portal page.</li>
+<li>Open the app and copy the Consumer Key and Consumer Secret from the Credentials section.</li>
+<li>Paste them into AbanteCart USPS extension.</li>
+</ol>
+<p>The extension uses these two values to request an OAuth token and then call the USPS Domestic Prices and International Prices APIs. <br />For storefront rate lookup, no USPS payment or label account details are needed (CRID, MID, Manifest MID, and EPS Account Number). You still need to configure the shipper ZIP/address, package dimensions, and enabled USPS services.</p>
+
+<h2>Shipping Labels</h2>
+<p>To generate USPS shipping labels from AbanteCart, the extension also needs payment and mailer identifiers:</p>
+<ul>
+<li><strong>Customer Registration ID (CRID):</strong> USPS-generated number that identifies a business location. It is created with the USPS Business Customer Gateway or USPS business account and is visible in the account page.</li>
+<li><strong>Mailer ID (MID):</strong> USPS-assigned mailer identifier. Use the Mailer ID service in the Business Customer Gateway, or ask USPS/API support if the correct MID is not visible.</li>
+<li><strong>Manifest MID:</strong> the MID USPS approved for shipment manifesting and USPS Ship label files. It may be shown as a Master MID or Manifest MID. Use the value tied to the same CRID and label account; confirm with USPS if unsure.</li>
+<li><strong>EPS Account Number:</strong> Enterprise Payment System account number used to pay postage. Obtain or verify it at <a href="https://epay.usps.com/">https://epay.usps.com/</a>. The EPS account must be Active and usable for postage payment.</li>
+</ul>
+
+<p>Label generation is triggered when an administrator manually changes the order status to the status configured in this USPS extension. If label generation fails, check the AbanteCart Error Log for the USPS error message. The shipping address must be valid for label creation. An address can be accepted during checkout for rate lookup, but USPS label generation may require a more complete or more strictly validated address.</p>
+
+<p>USPS label generation usually requires additional USPS approval and configuration for the app, including label-related products or scopes and an Enterprise Payment Account. If Label Generation fails with access, permission, or scope errors, contact USPS API Support and request access for Payments, Labels for your USPS app.</p>
+
+<h2>Useful USPS Links</h2>
+<ul>
+<li><a href="https://developers.usps.com/getting-started">USPS API Getting Started</a></li>
+<li><a href="https://epay.usps.com/">USPS EPS Account Management</a></li>
+<li><a href="https://cop.usps.com/">USPS Customer Onboarding Portal</a></li>
+</ul>
+
+<p>USPS API onboarding, labels approval, EPS account workflow, and portal names may change. Always confirm the current requirements in the official USPS documentation before going live.</p>

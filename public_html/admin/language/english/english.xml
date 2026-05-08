@@ -257,8 +257,8 @@
 		<value><![CDATA[Data]]></value>
 	</definition>
 	<definition>
-		<key>tab_discount</key>
-		<value><![CDATA[Discounts]]></value>
+		<key>text_quantity_discount</key>
+		<value><![CDATA[Quantity Discounts]]></value>
 	</definition>
 	<definition>
 		<key>tab_details</key>

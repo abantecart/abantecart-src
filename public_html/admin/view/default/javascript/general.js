@@ -10,13 +10,13 @@ jQuery(window).load(function() {
 
 jQuery(document).ready(function() {
 	//Process selected menu on page load
-	URL = String(document.location);
-	var route = getURLVar(URL, 'rt');
+	const currentUrl = String(document.location);
+	var route = getURLVar(currentUrl, 'rt');
 	if (!route) {
 		$('#menu_dashboard').addClass('active').addClass('nav-active');
 	} else {
 		var part = route.split('/');
-		url = part[0];
+		let url = part[0];
 		if (part[1]) {
 			url += '/' + part[1];
 		}
@@ -1370,4 +1370,70 @@ function copyToClipboard(el, target) {
 		$temp.remove();
 	}
 	info_alert('Copied!', true, $(target));
+}
+
+// CapsLock warning custom element.
+if (!customElements.get('capslock-warning')) {
+	class CapsLockWarning extends HTMLElement {
+		connectedCallback() {
+			if (this._initialized) {
+				return;
+			}
+			this._initialized = true;
+
+			var fieldSelector = this.getAttribute('field-selector') || 'input, textarea';
+			var warningSelector = this.getAttribute('warning-selector');
+			this._field = this.querySelector(fieldSelector);
+			this._warning = this.querySelector(warningSelector);
+
+			if (!this._field || !this._warning) {
+				return;
+			}
+
+			this._onCheck = this._checkCapsLock.bind(this);
+			this._onFocus = this._handleFocus.bind(this);
+			this._onBlur = this._hideWarning.bind(this);
+
+			this._field.addEventListener('keydown', this._onCheck);
+			this._field.addEventListener('keyup', this._onCheck);
+			this._field.addEventListener('focus', this._onFocus);
+			this._field.addEventListener('blur', this._onBlur);
+			this._hideWarning();
+		}
+
+		disconnectedCallback() {
+			if (this._field) {
+				this._field.removeEventListener('keydown', this._onCheck);
+				this._field.removeEventListener('keyup', this._onCheck);
+				this._field.removeEventListener('focus', this._onFocus);
+				this._field.removeEventListener('blur', this._onBlur);
+			}
+			if (this._warning) {
+				this._hideWarning();
+			}
+		}
+
+		_checkCapsLock(e) {
+			var capsOn = !!(e && e.getModifierState && e.getModifierState('CapsLock'));
+			if (capsOn) {
+				this._showWarning();
+			} else {
+				this._hideWarning();
+			}
+		}
+
+		_handleFocus(e) {
+			this._checkCapsLock(e);
+		}
+
+		_showWarning() {
+			this._warning.style.display = '';
+		}
+
+		_hideWarning() {
+			this._warning.style.display = 'none';
+		}
+	}
+
+	window.customElements.define('capslock-warning', CapsLockWarning);
 }

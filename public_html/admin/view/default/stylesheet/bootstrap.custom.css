@@ -753,7 +753,7 @@ h4, .h4 {
 }
 @media (min-width: 992px) {
 	.modal-xlg {
-    	width: 980px;
+    	width: 98%;
 	}
 }
 @media (min-width: 1200px) {

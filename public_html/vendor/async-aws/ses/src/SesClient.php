@@ -97,18 +97,18 @@ class SesClient extends AbstractApi
      * @see https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-email-2019-09-27.html#sendemail
      *
      * @param array{
-     *   FromEmailAddress?: null|string,
-     *   FromEmailAddressIdentityArn?: null|string,
-     *   Destination?: null|Destination|array,
-     *   ReplyToAddresses?: null|string[],
-     *   FeedbackForwardingEmailAddress?: null|string,
-     *   FeedbackForwardingEmailAddressIdentityArn?: null|string,
+     *   FromEmailAddress?: string|null,
+     *   FromEmailAddressIdentityArn?: string|null,
+     *   Destination?: Destination|array|null,
+     *   ReplyToAddresses?: string[]|null,
+     *   FeedbackForwardingEmailAddress?: string|null,
+     *   FeedbackForwardingEmailAddressIdentityArn?: string|null,
      *   Content: EmailContent|array,
-     *   EmailTags?: null|array<MessageTag|array>,
-     *   ConfigurationSetName?: null|string,
-     *   EndpointId?: null|string,
-     *   TenantName?: null|string,
-     *   ListManagementOptions?: null|ListManagementOptions|array,
+     *   EmailTags?: array<MessageTag|array>|null,
+     *   ConfigurationSetName?: string|null,
+     *   EndpointId?: string|null,
+     *   TenantName?: string|null,
+     *   ListManagementOptions?: ListManagementOptions|array|null,
      *   '@region'?: string|null,
      * }|SendEmailRequest $input
      *
@@ -150,6 +150,13 @@ class SesClient extends AbstractApi
         }
 
         switch ($region) {
+            case 'eusc-de-east-1':
+                return [
+                    'endpoint' => 'https://email.eusc-de-east-1.amazonaws.eu',
+                    'signRegion' => 'eusc-de-east-1',
+                    'signService' => 'ses',
+                    'signVersions' => ['v4'],
+                ];
             case 'fips-ca-central-1':
                 return [
                     'endpoint' => 'https://email-fips.ca-central-1.amazonaws.com',

@@ -5,18 +5,19 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -30,9 +31,10 @@ class ControllerPagesCatalogProductPromotions extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $productId = (int)$this->request->get['product_id'];
+        $productId = (int) $this->request->get['product_id'];
         $this->loadLanguage('catalog/product');
-        $this->loadModel('catalog/product');
+        /** @var ModelCatalogProduct $mdl */
+        $mdl = $this->loadModel('catalog/product');
 
         if ($productId && $this->request->is_GET()) {
             $product_info = $this->model_catalog_product->getProduct($productId);
@@ -46,36 +48,26 @@ class ControllerPagesCatalogProductPromotions extends AController
             $post = $this->request->post;
             foreach (['date_start', 'date_end'] as $datetime) {
                 if ($post[$datetime]) {
-                    $post[$datetime] = dateDisplay2ISO(
-                        $post[$datetime],
-                        $this->language->get('date_format_short')
-                    );
+                    $post[$datetime] = dateDisplay2ISO($post[$datetime], $this->language->get('date_format_short'));
                 }
             }
 
             if ($post['promotion_type'] == 'discount') {
-                if (has_value($this->request->get['product_discount_id'])) { //update
-                    $this->model_catalog_product->updateProductDiscount(
-                        $this->request->get['product_discount_id'],
-                        $post
-                    );
-                } else { //insert
-                    $this->data['product_discount_id'] = $this->model_catalog_product->addProductDiscount(
-                        $productId,
-                        $post
-                    );
+                $post['quantity'] = max((int) $post['quantity'], 2);
+                //update
+                if (has_value($this->request->get['product_discount_id'])) {
+                    $mdl->updateProductDiscount((int) $this->request->get['product_discount_id'], $post);
+                } //insert
+                else {
+                    $this->data['product_discount_id'] = $mdl->addProductDiscount($productId, $post);
                 }
             } elseif ($post['promotion_type'] == 'special') {
-                if (has_value($this->request->get['product_special_id'])) { //update
-                    $this->model_catalog_product->updateProductSpecial(
-                        $this->request->get['product_special_id'],
-                        $post
-                    );
-                } else { //insert
-                    $this->data['product_special_id'] = $this->model_catalog_product->addProductSpecial(
-                        $productId,
-                        $post
-                    );
+                //update
+                if (has_value($this->request->get['product_special_id'])) {
+                    $mdl->updateProductSpecial((int) $this->request->get['product_special_id'], $post);
+                } //insert
+                else {
+                    $this->data['product_special_id'] = $mdl->addProductSpecial($productId, $post);
                 }
             }
             $this->session->data['success'] = $this->language->get('text_success');
@@ -88,7 +80,7 @@ class ControllerPagesCatalogProductPromotions extends AController
             );
         }
 
-        $this->data['product_description'] = $this->model_catalog_product->getProductDescriptions(
+        $this->data['product_description'] = $mdl->getProductDescriptions(
             $productId,
             $this->language->getContentLanguageID()
         );
@@ -146,7 +138,7 @@ class ControllerPagesCatalogProductPromotions extends AController
         $this->data['form_title'] = $this->language->get('text_edit')
             . '&nbsp;'
             . $this->language->get('text_product');
-        $this->data['product_discounts'] = $this->model_catalog_product->getProductDiscounts(
+        $this->data['product_discounts'] = $mdl->getProductDiscounts(
             $productId
         );
         $this->data['delete_discount'] = $this->html->getSecureURL(
@@ -158,9 +150,7 @@ class ControllerPagesCatalogProductPromotions extends AController
             '&product_id=' . $productId . '&product_discount_id=%ID%'
         );
 
-        $this->data['product_specials'] = $this->model_catalog_product->getProductSpecials(
-            $productId
-        );
+        $this->data['product_specials'] = $mdl->getProductSpecials($productId);
         $this->data['delete_special'] = $this->html->getSecureURL(
             'catalog/product_promotions/delete',
             '&product_id=' . $productId . '&product_special_id=%ID%'
@@ -183,13 +173,13 @@ class ControllerPagesCatalogProductPromotions extends AController
         $this->data['button_remove'] = $this->html->buildElement(
             [
                 'type' => 'button',
-                'text' => $this->language->get('button_remove')
+                'text' => $this->language->get('button_remove'),
             ]
         );
         $this->data['button_edit'] = $this->html->buildElement(
             [
                 'type' => 'button',
-                'text' => $this->language->get('button_edit')
+                'text' => $this->language->get('button_edit'),
             ]
         );
         $this->data['button_add_discount'] = $this->html->buildElement(
@@ -199,7 +189,7 @@ class ControllerPagesCatalogProductPromotions extends AController
                 'href' => $this->html->getSecureURL(
                     'catalog/product_discount_form/insert',
                     '&product_id=' . $productId
-                )
+                ),
             ]
         );
         $this->data['button_add_special'] = $this->html->buildElement(
@@ -223,7 +213,7 @@ class ControllerPagesCatalogProductPromotions extends AController
 
         $this->view->assign('help_url', $this->gen_help_url('product_promotions'));
         if ($this->config->get('config_embed_status')) {
-            $this->data['product_store'] = $this->model_catalog_product->getProductStores($productId);
+            $this->data['product_store'] = $mdl->getProductStores($productId);
             $btnData = getEmbedButtonsData(
                 'common/do_embed/product',
                 ['product_id' => $productId],
@@ -245,17 +235,18 @@ class ControllerPagesCatalogProductPromotions extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('catalog/product');
-        $this->loadModel('catalog/product');
+        /** @var ModelCatalogProduct $mdl */
+        $mdl = $this->loadModel('catalog/product');
         if (has_value($this->request->get['product_discount_id'])) {
-            $this->model_catalog_product->deleteProductDiscount($this->request->get['product_discount_id']);
+            $mdl->deleteProductDiscount((int) $this->request->get['product_discount_id']);
         } elseif (has_value($this->request->get['product_special_id'])) {
-            $this->model_catalog_product->deleteProductSpecial($this->request->get['product_special_id']);
+            $mdl->deleteProductSpecial((int) $this->request->get['product_special_id']);
         }
         $this->session->data['success'] = $this->language->get('text_success');
         redirect(
             $this->html->getSecureURL(
                 'catalog/product_promotions',
-                '&product_id=' . (int)$this->request->get['product_id']
+                '&product_id=' . (int) $this->request->get['product_id']
             )
         );
 
@@ -270,10 +261,11 @@ class ControllerPagesCatalogProductPromotions extends AController
         }
 
         if (has_value($this->request->post['promotion_type'])) {
-            $start = $this->request->post['date_start'];
-            $end = $this->request->post['date_end'];
+            $start = (string) $this->request->post['date_start'];
+            $end = (string) $this->request->post['date_end'];
 
-            if ($start != '0000-00-00' && $end != '0000-00-00' && $start != '' && $end != ''
+            if ($start != ''
+                && $end != ''
                 && dateFromFormat($start, $this->language->get('date_format_short'))
                 > dateFromFormat($end, $this->language->get('date_format_short'))
             ) {
@@ -282,7 +274,6 @@ class ControllerPagesCatalogProductPromotions extends AController
         }
 
         $this->extensions->hk_ValidateData($this, [__FUNCTION__]);
-
         return (!$this->error);
     }
 }

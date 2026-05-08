@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details is bundled with this package in the file LICENSE.txt.
@@ -47,6 +47,7 @@ class ControllerPagesExtensionStripeSettings extends AController
         $this->loadLanguage('stripe/stripe');
         $this->document->setTitle($this->language->get('stripe_name'));
         $this->load->model('setting/setting');
+        $store_id = $this->session->data['current_store_id'];
 
         $this->document->addStyle(
             [
@@ -62,6 +63,7 @@ class ControllerPagesExtensionStripeSettings extends AController
             if ($this->request->get['livemode']) {
                 $settings = [
                     'stripe_access_token' => $this->request->get['access_token'],
+                    'stripe_account_id'   => $this->request->get['account_id'],
                     'stripe_sk_live'      => $this->request->get['access_token'],
                     'stripe_pk_live'      => $this->request->get['pub_key'],
                     'stripe_test_mode'    => 0,
@@ -69,12 +71,13 @@ class ControllerPagesExtensionStripeSettings extends AController
             }else{
                 $settings = [
                     'stripe_access_token' => $this->request->get['access_token'],
+                    'stripe_account_id'   => $this->request->get['account_id'],
                     'stripe_sk_test'      => $this->request->get['access_token'],
                     'stripe_pk_test'      => $this->request->get['pub_key'],
                     'stripe_test_mode'    => 1,
                 ];
             }
-            $this->model_setting_setting->editSetting('stripe', $settings);
+            $this->model_setting_setting->editSetting('stripe', $settings, $store_id);
             $this->session->data['success'] = $this->language->get('text_connect_success');
             redirect($this->html->getSecureURL('extension/stripe_settings'));
         } else {
@@ -83,12 +86,14 @@ class ControllerPagesExtensionStripeSettings extends AController
                     'stripe',
                     [
                         'stripe_access_token' => '',
+                        'stripe_account_id' => '',
                         'stripe_pk_live' => '',
                         'stripe_sk_live' => '',
                         'stripe_sk_test' => '',
                         'stripe_pk_test' => '',
                         'stripe_webhook_secret_payment_intent_succeeded' => '',
-                    ]
+                    ],
+                    $store_id
                 );
                 $this->session->data['success'] = $this->language->get('text_disconnect_success');
                 redirect($this->html->getSecureURL('extension/stripe_settings'));
@@ -96,7 +101,7 @@ class ControllerPagesExtensionStripeSettings extends AController
         }
 
         if ($this->request->is_POST() && $this->_validate()) {
-            $this->model_setting_setting->editSetting('stripe', $this->request->post);
+            $this->model_setting_setting->editSetting('stripe', $this->request->post, $store_id);
             $this->session->data['success'] = $this->language->get('text_success');
             redirect($this->html->getSecureURL('extension/stripe_settings'));
         }
@@ -145,9 +150,11 @@ class ControllerPagesExtensionStripeSettings extends AController
             ]
         );
 
+        $settings = $this->model_setting_setting->getSetting('stripe', $store_id);
         foreach ($this->fields as $f) {
-           $this->data[$f] = $this->request->post[$f] ?? $this->config->get($f);
+           $this->data[$f] = $this->request->post[$f] ?? ($settings[$f] ?? '');
         }
+        $this->data['skip_connect'] = (bool)($this->request->get['skip_connect'] ?? false);
 
         $this->data['disconnect'] = $this->html->getSecureURL(
             'extension/stripe_settings',
@@ -169,7 +176,8 @@ class ControllerPagesExtensionStripeSettings extends AController
         $this->data['connect_url'] .= '&ret='.$url;
 
         //see if we are connected yet to stripe
-        $stripe_code = $this->config->get('stripe_access_token');
+        $stripe_code = $settings['stripe_access_token'] ?? '';
+        $this->data['connected_account'] = (string)($settings['stripe_account_id'] ?? '');
         if ($stripe_code) {
             //validate the token
             $this->data['connected'] = true;

@@ -120,10 +120,12 @@ class ControllerResponsesSaleInvoice extends AController
                 $thumbnailUrl = is_file($imgFile)
                     ? 'data:' . mime_content_type($imgFile) . ';base64,' . base64_encode(file_get_contents($imgFile))
                     : '';
+                $thumbnailRemoteUrl = str_replace(AUTO_SERVER,HTTPS_SERVER,$thumbnails[(int)$product['product_id']]['thumb_url']);
 
                 $product_data[] = [
                     'name'          => $product['name'],
                     'thumbnail_url' => $thumbnailUrl,
+                    'thumbnail_remote_url' => $thumbnailRemoteUrl,
                     'model'         => $product['model'],
                     'option'        => $option_data,
                     'quantity'      => $product['quantity'],

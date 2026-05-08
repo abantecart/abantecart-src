@@ -63,7 +63,7 @@
                     }
                     $inCart = in_array((int)$product['product_id'], $cartProductIds);
 					?>
-					<div class="col-6 col-lg-3">
+					<div class="col-12 col-sm-6 col-lg-3">
                         <?php
                         //render one card of product. It can be used by other tpls!
                         /** @see  public_html/extensions/novator/storefront/view/novator/template/blocks/product_card.tpl */

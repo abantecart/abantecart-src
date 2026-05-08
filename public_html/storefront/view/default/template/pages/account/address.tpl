@@ -16,7 +16,7 @@ if ($error_warning) { ?>
 <?php } ?>
 <div class="container">
 	<?php
-    //$form['form_open']->style .= ' needs-validation';
+    $form['form_open']->style .= ' needs-validation';
     $form['form_open']->attr .= ' novalidate';
     echo $form['form_open'];
     foreach($form['fields'] as $group => $fields){
@@ -64,3 +64,12 @@ if ($error_warning) { ?>
     <?php $cz_url = $this->html->getSecureURL('common/zone', '&zone_id='. $zone_id); ?>
     $('select[name="zone_id"]').load('<?php echo $cz_url;?>&country_id=' + $('#AddressFrm_country_id').val());
 </script>
+
+<?php
+$googlePlacesScript = $this->getHookVar('google_places_script');
+if ($googlePlacesScript) {
+    echo $googlePlacesScript;
+} else {
+    include($this->templateResource('/template/common/google_places.js.tpl'));
+}
+?>

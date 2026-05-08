@@ -56,4 +56,12 @@
 		<key>paypal_commerce_error_declined</key>
 		<value><![CDATA[Payment declined]]></value>
 	</definition>
+	<definition>
+		<key>paypal_commerce_required_options_warning</key>
+		<value><![CDATA[Please select all required product options before using PayPal.]]></value>
+	</definition>
+    <definition>
+        <key>paypal_commerce_3ds_failed</key>
+        <value>3D Secure authentication failed or is unavailable. Payment not captured.</value>
+    </definition>
 </definitions>

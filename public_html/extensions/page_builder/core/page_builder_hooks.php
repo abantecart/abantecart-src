@@ -377,7 +377,9 @@ class ExtensionPageBuilder extends Extension
         $keyValue = (int)$pageData['key_value'];
 
         $execController = $pageData['controller'];
-        if(!$keyParam) {
+        // Only derive keyParam from controller if we have a valid keyValue
+        // This prevents errors with legacy layouts that have neither key_param nor key_value set
+        if(!$keyParam && $keyValue) {
             $templateTxtId = preformatTextID($that->request->get['tmpl_id'])
                 ?: Registry::getInstance()->get('config')->get('config_storefront_template');
             $l = new ALayout(Registry::getInstance(), $templateTxtId);
@@ -402,7 +404,9 @@ class ExtensionPageBuilder extends Extension
         $templateTxtId = preformatTextID($that->request->get['tmpl_id'])
             ?: Registry::getInstance()->get('config')->get('config_storefront_template');
         $layout = new ALayout(Registry::getInstance(), $templateTxtId);
-        if(!$keyParam) {
+        // Only derive keyParam from controller if we have a valid keyValue
+        // This prevents errors with legacy layouts that have neither key_param nor key_value set
+        if(!$keyParam && $keyValue) {
             $keyParam = $layout->getKeyParamByController($rt);
         }
         $pages = $layout->getPages(
