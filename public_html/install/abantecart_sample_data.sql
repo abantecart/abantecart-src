@@ -3,7 +3,7 @@ SET CHARSET "utf8mb4";
 
 START TRANSACTION;
 
-SET @CORE_VERSION = "1.4.4";
+SET @CORE_VERSION = "1.4.5";
 
 REPLACE INTO `ac_extensions`
 (`type`, `key`, `category`, `status`, `priority`,`version`, `license_key`, `date_installed`, `support_expiration`,
