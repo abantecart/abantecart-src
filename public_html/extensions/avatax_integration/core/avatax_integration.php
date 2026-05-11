@@ -374,6 +374,7 @@ class ExtensionAvataxIntegration extends Extension
             $order_data = $order->loadOrderData($order_id, 'any');
         }
 
+        $docHash = null;
         if ($order_id) {
             if ($order_data['date_added'] && !$return) {
                 $date = (new DateTime($order_data['date_added']))->format('Y-m-d');
@@ -383,13 +384,19 @@ class ExtensionAvataxIntegration extends Extension
 
             $docCode = $order_id . '-' . date("dmy", strtotime($date));
             $products = $customerData['cart'];
+            $shipTo = [
+                'address_1' => $customerAddress['address_1'] ?? $order_data['address_1'] ?? '',
+                'address_2' => $customerAddress['address_2'] ?? $order_data['address_2'] ?? '',
+                'city'      => $customerAddress['city'] ?? $order_data['city'] ?? '',
+                'zone'      => $customerAddress['zone_code'] ?? $order_data['payment_zone_code'] ?? '',
+                'postcode'  => $customerAddress['postcode'] ?? $order_data['postcode'] ?? '',
+                'country'   => $customerAddress['iso_code_2'] ?? $order_data['iso_code_2'] ?? '',
+            ];
             $docHash = md5(
                 $docCode
-                . $customerData['cart_key']
+                . ($customerData['cart_key'] ?? '')
                 . var_export($products, true)
-                . $session['payment_address_id']
-                . $session['shipping_address_id']
-                . $session['guest']
+                . json_encode($shipTo, JSON_UNESCAPED_SLASHES)
             );
 
             if (isset($session['avatax']['getTax'][$docHash])) {
@@ -555,7 +562,9 @@ class ExtensionAvataxIntegration extends Extension
             }
 
             if (isset($response->totalTax)) {
-                $session['avatax']['getTax'][$docHash] = $response->totalTax;
+                if ($docHash) {
+                    $session['avatax']['getTax'][$docHash] = $response->totalTax;
+                }
                 foreach ($response->lines as $line) {
                     $lineNumber = $line->lineNumber;
                     $session['avatax']['getTaxLines'][$lineNumber]['tax_amount'] = $line->tax;
@@ -660,7 +669,7 @@ class ExtensionAvataxIntegration extends Extension
     public function onControllerResponsesCheckoutCart_InitData()
     {
         $that =& $this->baseObject;
-        if (!$that->customer->isLogged() && !$that->session->data['guest']) {
+        if (!$that->customer->isLogged() && !$that->session->data['guest'] && !$that->session->data['fc']['guest']) {
             $that->config->set('avatax_integration_total_status', 0);
         }
     }
