@@ -589,11 +589,13 @@ class ALayoutManager
                 . "b.block_txt_id as block_txt_id, "
                 . "COALESCE(cb.custom_block_id,0) as custom_block_id, "
                 . "COALESCE(bd.name,'') as block_name, "
-                . "(SELECT MAX(status) AS status
+                . "COALESCE((
+                    SELECT MAX(status) AS status
                     FROM " . $this->db->table("block_layouts") . " bl
-                    WHERE bl.custom_block_id = cb.custom_block_id)  
-                  as status, "
-                . "b.date_added as block_date_added ";
+                    WHERE bl.custom_block_id = cb.custom_block_id
+                  ), 0) as status, "
+                . "b.date_added as block_date_added, "
+                . "COALESCE(cb.date_modified, b.date_added) as block_date_modified ";
         } else {
             $sql = "SELECT COUNT(*) as total ";
         }
@@ -603,15 +605,16 @@ class ALayoutManager
                 ON (b.block_id = cb.block_id ) "
             . "LEFT JOIN " . $this->db->table("block_descriptions") . " as bd
                 ON (bd.custom_block_id = cb.custom_block_id AND  bd.language_id = '" . $language_id . "') ";
+        if ($data['subsql_filter']) {
+            $sql .= 'WHERE ' . $data['subsql_filter'] . ' ';
+        }
         if ($mode != 'total_only') {
-            if ($data['subsql_filter']) {
-                $sql .= 'WHERE ' . $data['subsql_filter'] . ' ';
-            }
-
             $sort_data = [
                 'name'         => ' block_name',
                 'block_txt_id' => 'b.block_txt_id',
                 'status'       => 'status',
+                'date_modified' => 'COALESCE(cb.date_modified, b.date_added)',
+                'block_date_added' => 'b.date_added',
             ];
 
             if (isset($data['sort']) && in_array($data['sort'], array_keys($sort_data))) {
@@ -1622,6 +1625,11 @@ class ALayoutManager
                     'block_descriptions',
                     ['custom_block_id' => (int) $custom_block_id],
                     [(int) $description['language_id'] => $update]
+                );
+                $this->db->query(
+                    "UPDATE " . $this->db->table("custom_blocks") . "
+                     SET date_modified = NOW()
+                     WHERE custom_block_id = '" . (int) $custom_block_id . "'"
                 );
             }
         } else {

@@ -25,6 +25,10 @@
 		<value><![CDATA[Create block]]></value>
 	</definition>
 	<definition>
+		<key>text_all_block_types</key>
+		<value><![CDATA[All block types]]></value>
+	</definition>
+	<definition>
 		<key>text_success</key>
 		<value><![CDATA[Success: You have modified block!]]></value>
 	</definition>
@@ -43,6 +47,10 @@
 	<definition>
 		<key>column_date_added</key>
 		<value><![CDATA[Date Added]]></value>
+	</definition>
+	<definition>
+		<key>column_date_modified</key>
+		<value><![CDATA[Date Modified]]></value>
 	</definition>
 	<definition>
 		<key>column_block_type</key>
