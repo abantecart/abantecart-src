@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 if (!defined('DIR_CORE') || !IS_ADMIN) {
@@ -87,13 +87,12 @@ class ControllerResponsesListingGridCollections extends AController
                     'reset_value' => true,
                 ]
             );
-            return;
         }
         $collectionId = $this->request->get['id'];
         if ($this->request->is_POST()) {
             $post = $this->request->post;
             if (is_array($post['status'])) {
-                foreach ((array)$post['status'] as $key => $value) {
+                foreach ($post['status'] as $key => $value) {
                     $this->model_catalog_collection->update($key, ['status' => (int)$value]);
                 }
             } elseif ($collectionId && $this->validate($post)) {
@@ -101,7 +100,6 @@ class ControllerResponsesListingGridCollections extends AController
             } else {
                 $error = new AError('');
                 $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $this->error]);
-                return;
             }
         }
 
@@ -144,7 +142,7 @@ class ControllerResponsesListingGridCollections extends AController
                 if (!is_array($post['status'])) {
                     return;
                 }
-                foreach ((array)$post['status'] as $key => $value) {
+                foreach ($post['status'] as $key => $value) {
                     $this->model_catalog_collection->update(
                         $key,
                         [
@@ -264,6 +262,7 @@ class ControllerResponsesListingGridCollections extends AController
                 'name'        => 'conditions[conditions][' . $this->request->post['idx'] . '][value][]',
                 'value'       => !$value ? '' : $value['value'],
                 'options'     => $listing_data,
+                'sortable'    => true,
                 'style'       => 'chosen',
                 'ajax_url'    => $this->html->getSecureURL('r/product/product/products'),
                 'placeholder' => $this->language->get('text_select_from_lookup'),

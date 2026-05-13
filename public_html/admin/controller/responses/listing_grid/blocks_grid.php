@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -48,7 +48,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController
         $blocks = $layout->getBlocksList($filter_grid->getFilterData());
 
         $tmp = [];
-        // prepare block list (delete template duplicates)
+        // prepare list (delete template duplicates)
         foreach ($blocks as $block) {
             // skip base custom blocks
             if (!$block['custom_block_id'] && in_array($block['block_txt_id'], $custom_block_types)) {
@@ -125,7 +125,6 @@ class ControllerResponsesListingGridBlocksGrid extends AController
                     'reset_value' => true,
                 ]
             );
-            return;
         }
 
         $this->loadLanguage('design/blocks');
@@ -164,7 +163,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController
                     $listing_manager->saveCustomListItem(
                         [
                             'id'         => $id,
-                            'sort_order' => (int)$k,
+                            'sort_order' => $k,
                             'store_id'   => $this->config->get('current_store_id'),
                         ]
                     );
@@ -192,7 +191,6 @@ class ControllerResponsesListingGridBlocksGrid extends AController
                             'reset_value' => true,
                         ]
                     );
-                    return;
                 }
             }
         }
@@ -218,7 +216,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController
             return null;
         }
 
-        if (strpos($listing_datasource, 'custom_') !== false) {
+        if (str_starts_with($listing_datasource, 'custom_')) {
             $this->getCustomListingSubForm();
         } elseif ($listing_datasource == 'media') {
             $this->getMediaListingSubForm();
@@ -376,9 +374,10 @@ class ControllerResponsesListingGridBlocksGrid extends AController
 
         $multivalue_html = $form->getFieldHtml(
             [
-                'type'             => 'multiSelectbox',
+                'type'             => 'multiselectbox',
                 'name'             => 'content_ids[]',
                 'options'          => array_column($selectTree, 'title', 'content_id'),
+                'sortable'         => true,
                 'value'            => $selected_parent,
                 'disabled_options' => $disabled_parent,
                 'attr'             => 'size = "' . min(sizeof($selectTree), 20) . '"',
@@ -583,6 +582,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController
                 'name'        => 'selected[]',
                 'value'       => $ids,
                 'options'     => $options_list,
+                'sortable'    => true,
                 'style'       => 'chosen',
                 'ajax_url'    => $ajax_url,
                 'placeholder' => $this->language->get('text_select_from_lookup'),

@@ -56,8 +56,41 @@ if(str_contains((string)$style,'chosen')) { ?>
                 }
             }
         } ?>
-        $("#<?php echo $id ?>").chosen({'width':'100%'});
+        let $select = $("#<?php echo $id ?>").chosen({'width':'100%'});
+        <?php if($sortable){ ?>
+        let $chosenContainer = $select.next('.chosen-container');
+        let $choicesList = $chosenContainer.find('.chosen-choices');
+        $choicesList.sortable({
+            items: 'li.search-choice',
+            placeholder: 'ui-state-highlight search-choice',
+            forcePlaceholderSize: true,
+            tolerance: 'pointer',
+
+            stop: function(event, ui) {
+                let reorderedValues = [];
+                $choicesList.find('li.search-choice').each(function() {
+                    let optionIndex = $(this).find('.search-choice-close').data('option-array-index');
+                    let value = $select.find('option').eq(optionIndex).val();
+                    reorderedValues.push(value);
+                });
+                reorderSelectOptions($select, reorderedValues);
+            }
+        });
+        function reorderSelectOptions($select, valueOrder) {
+            let $options = $select.find('option');
+            $options.sort(function(a, b) {
+                let indexA = valueOrder.indexOf($(a).val());
+                let indexB = valueOrder.indexOf($(b).val());
+                if (indexA === -1) return 1;
+                if (indexB === -1) return -1;
+
+                return indexA - indexB;
+            });
+            $select.empty().append($options).trigger('chosen:updated');
+        }
+        <?php } ?>
     });
+
 </script>
 <?php }
 //for chosen we populate data from ajax
