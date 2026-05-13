@@ -1984,6 +1984,7 @@ class FileHtmlElement extends HtmlElement
                 'text_browse'  => $this->language->get('text_browse'),
                 'placeholder'  => $this->placeholder,
                 'help_url'     => $this->help_url,
+                'value'        => $this->value,
             ]
         );
         return $this->view->fetch($this->template ?: 'form/file.tpl');
