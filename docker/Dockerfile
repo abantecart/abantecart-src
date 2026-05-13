@@ -46,4 +46,4 @@ RUN apt-get clean
 
 EXPOSE 80 3306
 
-ENTRYPOINT service mariadb start && service nginx start && php-fpm
+ENTRYPOINT bash -c "service mariadb start && until mysqladmin ping -h 127.0.0.1 -u admin -ppass --silent; do sleep 1; done && service nginx start && php-fpm"
