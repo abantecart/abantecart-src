@@ -815,7 +815,7 @@ class AForm
             if ($field['element_type'] == 'U' && ($this->request->files[$fieldName]['tmp_name'] || $isRequired)) {
                 $fm = new AFile();
                 $file_path_info = $fm->getUploadFilePath(
-                    $data['settings']['directory'],
+                    $field['settings']['directory'],
                     $this->request->files[$fieldName]['name']
                 );
                 $file_data = [
@@ -830,11 +830,10 @@ class AForm
                 $file_errors = $fm->validateFileOption($field['settings'], $file_data);
 
                 if ($file_errors) {
-                    $errors[$fieldName] .= implode(' ', $file_errors);
+                    $errors[$fieldName] = ($errors[$fieldName] ?? '') . implode(' ', $file_errors);
                 }
             }
         }
-
         return $errors;
     }
 
