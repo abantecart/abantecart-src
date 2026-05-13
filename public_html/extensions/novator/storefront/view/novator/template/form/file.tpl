@@ -14,7 +14,7 @@ if(!$no_wrapper){?>
     </div>
 <?php }
 if (is_array($value) && !empty($value['path'])) {
-    $fileUrl = HTTP_SERVER . ltrim(str_replace(DIR_ROOT, '', $value['path']), '/');
+    $fileUrl = HTTPS_SERVER . ltrim(str_replace(DIR_ROOT, '', $value['path']), '/');
     $fileName = basename($value['path']);
 ?>
 <div class="w-100 mt-1">
