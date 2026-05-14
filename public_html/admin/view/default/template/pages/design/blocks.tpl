@@ -4,6 +4,7 @@
 
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
+			<?php include($tpl_common_dir . 'grid_search_form.tpl'); ?>
 			<div class="dropdown dropdown-toggle">
 			    <a data-toggle="dropdown"
 			       href="#" class="btn btn-primary dropdown-toggle tooltips"

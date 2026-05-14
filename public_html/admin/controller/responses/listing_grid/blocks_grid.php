@@ -42,10 +42,17 @@ class ControllerResponsesListingGridBlocksGrid extends AController
         $custom_block_types = array_merge(['html_block', 'listing_block'], (array)$this->data['custom_block_types']);
 
         $filter_grid = new AFilter(['method' => 'post', 'grid_filter_params' => $grid_filter_params]);
+        $filter_data = $filter_grid->getFilterData();
+        $block_type = $this->request->get['block_txt_id'] ?? '';
+        if ($block_type !== '') {
+            $subsql = $filter_data['subsql_filter'] ?? '';
+            $subsql .= ($subsql ? ' AND ' : '') . "b.block_txt_id = '" . $this->db->escape($block_type) . "'";
+            $filter_data['subsql_filter'] = $subsql;
+        }
 
         $layout = new ALayoutManager();
-        $total = $layout->getBlocksList($filter_grid->getFilterData(), 'total_only');
-        $blocks = $layout->getBlocksList($filter_grid->getFilterData());
+        $total = $layout->getBlocksList($filter_data, 'total_only');
+        $blocks = $layout->getBlocksList($filter_data);
 
         $tmp = [];
         // prepare list (delete template duplicates)
@@ -95,7 +102,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController
                         ]
                     )
                     : ''),
-                $result['block_date_added'],
+                $result['block_date_modified'],
             ];
             $i++;
         }

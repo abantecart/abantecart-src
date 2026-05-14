@@ -55,7 +55,7 @@ class ControllerPagesDesignBlocks extends AController
             'url'            => $this->html->getSecureURL('listing_grid/blocks_grid'),
             'editurl'        => $this->html->getSecureURL('listing_grid/blocks/edit'),
             'update_field'   => $this->html->getSecureURL('listing_grid/blocks/update_field'),
-            'sortname'       => 'date_added',
+            'sortname'       => 'date_modified',
             'sortorder'      => 'desc',
             'columns_search' => true,
             'multiselect'    => 'false',
@@ -75,13 +75,14 @@ class ControllerPagesDesignBlocks extends AController
                 ],
             ],
         ];
+        $grid_settings['search_form'] = true;
 
         $grid_settings['colNames'] = [
             $this->language->get('column_block_id'),
             $this->language->get('column_block_txt_id'),
             $this->language->get('column_block_name'),
             $this->language->get('column_status'),
-            $this->language->get('column_date_added'),
+            $this->language->get('column_date_modified'),
         ];
 
         $grid_settings['colModel'] = [
@@ -114,16 +115,71 @@ class ControllerPagesDesignBlocks extends AController
                 'search' => false,
             ],
             [
-                'name'   => 'block_date_added',
-                'index'  => 'block_date_added',
+                'name'   => 'block_date_modified',
+                'index'  => 'date_modified',
                 'align'  => 'center',
                 'width'  => 100,
                 'search' => false,
             ],
         ];
 
+        $form = new AForm();
+        $form->setForm(
+            [
+                'form_name' => 'block_grid_search',
+            ]
+        );
+
+        $blockTypeOptions = [
+            '' => $this->language->get('text_all_block_types') ?: 'All block types',
+        ];
+        $existingTypes = [];
+        foreach ((new ALayoutManager())->getBlocksList() as $block) {
+            if (!$block['block_txt_id']) {
+                continue;
+            }
+            $existingTypes[$block['block_txt_id']] = $block['block_txt_id'];
+        }
+        ksort($existingTypes);
+        $blockTypeOptions += $existingTypes;
+
+        $grid_search_form = [];
+        $grid_search_form['id'] = 'block_grid_search';
+        $grid_search_form['form_open'] = $form->getFieldHtml(
+            [
+                'type'   => 'form',
+                'name'   => 'block_grid_search',
+                'action' => '',
+            ]
+        );
+        $grid_search_form['submit'] = $form->getFieldHtml(
+            [
+                'type'  => 'button',
+                'name'  => 'submit',
+                'text'  => $this->language->get('button_go'),
+                'style' => 'button1',
+            ]
+        );
+        $grid_search_form['reset'] = $form->getFieldHtml(
+            [
+                'type'  => 'button',
+                'name'  => 'reset',
+                'text'  => $this->language->get('button_reset'),
+                'style' => 'button2',
+            ]
+        );
+        $grid_search_form['fields']['block_txt_id'] = $form->getFieldHtml(
+            [
+                'type'    => 'selectbox',
+                'name'    => 'block_txt_id',
+                'options' => $blockTypeOptions,
+                'value'   => $this->request->get['block_txt_id'] ?? '',
+            ]
+        );
+
         $grid = $this->dispatch('common/listing_grid', [$grid_settings]);
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
+        $this->view->assign('search_form', $grid_search_form);
 
         $this->view->assign(
             'popup_title', 'Information about block'
