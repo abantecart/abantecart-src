@@ -414,7 +414,7 @@ class ControllerPagesExtensionExtensions extends AController
                     $new_text_key = str_replace($extension . '_', 'text_', $data['name']);
                     $note_text = $this->language->get($new_text_key, 'extension/extensions');
                     //add length and weight units to fields descriptions
-                    if (is_int(strpos($data['name'], '_volume'))) {
+                    if (str_contains($data['name'], '_volume')) {
                         /** @var ModelLocalisationLengthClass $mdl */
                         $mdl = $this->load->model('localisation/length_class');
                         $lengthClass = $mdl->getLengthClassDescriptionByUnit($this->config->get('config_length_class'));
@@ -422,7 +422,7 @@ class ControllerPagesExtensionExtensions extends AController
                             $note_text = sprintf($note_text, $lengthClass['title']);
                         }
                     }
-                    if (is_int(strpos($data['name'], '_weight'))) {
+                    if (str_contains($data['name'], '_weight')) {
                         /** @var ModelLocalisationWeightClass $mdl */
                         $mdl = $this->load->model('localisation/weight_class');
                         $weightClass = $mdl->getWeightClassDescriptionByUnit($this->config->get('config_weight_class'));
@@ -455,6 +455,35 @@ class ControllerPagesExtensionExtensions extends AController
             switch ($data['type']) {
                 case 'selectbox':
                 case 'multiselectbox':
+                    if($item['ajax_url']->rt){
+                        $data['sortable'] = (bool)$item['ajax_url'];
+                        $data['ajax_url'] = $this->html->getSecureURL(
+                            (string)$item['ajax_url']->rt,
+                            (string)$item['ajax_url']->query_string
+                        );
+                        if($item['preview_model'] && (string)$item['preview_model']->rt){
+                            //force loading of models even before the extension is enabled
+                            $model = $this->loadModel((string)$item['preview_model']->rt, 'force');
+                            $method_name = (string)$item['preview_model']->method;
+                            $defaultOptionSet = array_combine($data['value'], $data['value']);
+                            if (method_exists($model, $method_name)) {
+                                try{
+                                    $res = call_user_func([$model, $method_name], $data['value']);
+                                    if ($res) {
+                                        $item['options'] = $res;
+                                    }
+                                }catch (Throwable $e){
+                                    $this->log->write($e->getMessage().PHP_EOL.$e->getTraceAsString());
+                                    $item['options'] = $defaultOptionSet;
+                                }
+                            }else{
+                                $item['options'] = $defaultOptionSet;
+                            }
+                        }else {
+                            $item['options'] = $defaultOptionSet;
+                        }
+                        $data['placeholder'] = $this->language->get('text_select_from_lookup');
+                    }
                 case 'checkboxgroup':
                     // if options need to extract from db
                     $data['options'] = $item['options'];
@@ -463,16 +492,20 @@ class ControllerPagesExtensionExtensions extends AController
                         $model = $this->loadModel($item['model_rt'], 'force');
                         $method_name = $item['method'];
                         if (method_exists($model, $method_name)) {
-                            $res = call_user_func([$model, $method_name]);
-                            if ($res) {
-                                $field1 = $item['field1'];
-                                $field2 = $item['field2'];
-                                foreach ($res as $opt) {
-                                    if ($item['allowed'] && !in_array($opt[$field1], $item['allowed'])) {
-                                        continue;
+                            try {
+                                $res = call_user_func([$model, $method_name]);
+                                if ($res) {
+                                    $field1 = $item['field1'];
+                                    $field2 = $item['field2'];
+                                    foreach ($res as $opt) {
+                                        if ($item['allowed'] && !in_array($opt[$field1], $item['allowed'])) {
+                                            continue;
+                                        }
+                                        $data['options'][$opt[$field1]] = $opt[$field2];
                                     }
-                                    $data['options'][$opt[$field1]] = $opt[$field2];
                                 }
+                            }catch (Throwable $e){
+                                $this->log->write($e->getMessage().PHP_EOL.$e->getTraceAsString());
                             }
                         }
                     }
