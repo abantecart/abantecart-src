@@ -465,7 +465,7 @@ class ControllerPagesExtensionExtensions extends AController
                             //force loading of models even before the extension is enabled
                             $model = $this->loadModel((string)$item['preview_model']->rt, 'force');
                             $method_name = (string)$item['preview_model']->method;
-                            $defaultOptionSet = array_combine($data['value'], $data['value']);
+                            $defaultOptionSet = array_combine((array)$data['value'], (array)$data['value']);
                             if (method_exists($model, $method_name)) {
                                 try{
                                     $res = call_user_func([$model, $method_name], $data['value']);
