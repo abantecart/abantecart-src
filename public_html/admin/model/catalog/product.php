@@ -3126,6 +3126,7 @@ class ModelCatalogProduct extends Model
         $output = [];
         $ids = filterIntegerIdList($ids);
         $filter = [
+            'store_id' => $options['store_id'] ?? $this->config->get('config_store_id'),
             'content_language_id' => $this->language->getContentLanguageID(),
             'filter'              => [
                 'match'   => 'all',

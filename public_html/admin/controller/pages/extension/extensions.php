@@ -461,14 +461,23 @@ class ControllerPagesExtensionExtensions extends AController
                             (string)$item['ajax_url']->rt,
                             (string)$item['ajax_url']->query_string
                         );
-                        if($item['preview_model'] && (string)$item['preview_model']->rt){
+                        if($item['preview_model'] && (string)$item['preview_model']->rt && $data['value']){
                             //force loading of models even before the extension is enabled
                             $model = $this->loadModel((string)$item['preview_model']->rt, 'force');
                             $method_name = (string)$item['preview_model']->method;
                             $defaultOptionSet = array_combine((array)$data['value'], (array)$data['value']);
                             if (method_exists($model, $method_name)) {
                                 try{
-                                    $res = call_user_func([$model, $method_name], $data['value']);
+                                    $modelArgs = [];
+                                    foreach($item['preview_model']->method->attributes() as $n=>$v) {
+                                        $modelArgs[(string) $n] = (string) $v;
+                                    }
+                                    /** @see  \ModelCatalogProduct::getPreviewProductList() as example */
+                                    $res = call_user_func(
+                                        [$model, $method_name],
+                                        $data['value'],
+                                        array_merge( ['store_id' => $store_id ], $modelArgs )
+                                    );
                                     if ($res) {
                                         $item['options'] = $res;
                                     }
