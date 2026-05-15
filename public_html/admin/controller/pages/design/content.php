@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -463,7 +463,7 @@ class ControllerPagesDesignContent extends AController
                 [
                     'type'      => 'checkboxgroup',
                     'name'      => 'store_id[]',
-                    'value'     => $store_selected,
+                    'value'     => $this->request->post['store_id'] ?? $store_selected,
                     'options'   => $store_values,
                     'scrollbox' => true,
                     'style'     => 'chosen'
@@ -475,7 +475,7 @@ class ControllerPagesDesignContent extends AController
                 [
                     'type'  => 'hidden',
                     'name'  => 'store_id[]',
-                    'value' => 0,
+                    'value' => $this->request->post['store_id'] ?? 0,
                 ]
             );
         }

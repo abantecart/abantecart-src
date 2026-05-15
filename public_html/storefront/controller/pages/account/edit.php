@@ -71,7 +71,18 @@ class ControllerPagesAccountEdit extends AController
                     $post['csrftoken'],
                     $post['csrfinstance']
                 );
+
+                $uploadForm = new AForm();
+                $uploadForm->loadFromDb(static::$formTxtId);
+
+                $uploadedFiles = $uploadForm->processFileUploads($this->request->files);
+
+                foreach ($uploadedFiles as $fieldName => $fileData) {
+                    $post[$fieldName] = $fileData;
+                }
+
                 $mdl->editCustomer($post);
+
                 $mdl->editCustomerNotifications($post);
                 $this->session->data['success'] = $this->language->get('text_success');
                 $this->extensions->hk_ProcessData($this);
@@ -130,6 +141,15 @@ class ControllerPagesAccountEdit extends AController
 
         $form->loadFromDb(static::$formTxtId);
         $formElements = $form->getFormElements();
+
+        foreach ($formElements as $elements) {
+            foreach ($elements as $element) {
+                if ($element->type == 'file') {
+                    $this->data['form']['form_open']->enctype = 'multipart/form-data';
+                    break 2;
+                }
+            }
+        }
         $this->data['error_warning'] = $this->error['warning'];
         $countryId = $this->request->post['country_id']
             ?? $customerInfo['country_id']

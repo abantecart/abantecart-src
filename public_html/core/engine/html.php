@@ -1,10 +1,11 @@
-<?php /*
+<?php
+/*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -1769,6 +1770,7 @@ class SelectboxHtmlElement extends HtmlElement
  * @property string $style
  * @property string $placeholder
  * @property array $options
+ * @property bool $sortable - sign of sorting options, dragging allowed
  * @property array $disabled_options
  * @property string $filter_params - some additional parameters
  * @property string $ajax_url
@@ -1794,6 +1796,7 @@ class MultiSelectBoxHtmlElement extends HtmlElement
             'id'               => $this->element_id,
             'value'            => $this->value,
             'options'          => $this->options,
+            'sortable'         => (bool)$this->sortable,
             'disabled_options' => $this->disabled_options,
             'disabled'         => $this->disabled,
             'attr'             => $this->attr . ' multiple="multiple" ',
@@ -1981,6 +1984,7 @@ class FileHtmlElement extends HtmlElement
                 'text_browse'  => $this->language->get('text_browse'),
                 'placeholder'  => $this->placeholder,
                 'help_url'     => $this->help_url,
+                'value'        => $this->value,
             ]
         );
         return $this->view->fetch($this->template ?: 'form/file.tpl');

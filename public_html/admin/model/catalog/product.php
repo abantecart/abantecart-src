@@ -75,7 +75,7 @@ class ModelCatalogProduct extends Model
 
         // add extra columns via hooks
         $this->extensions->hk_processData($this, __FUNCTION__);
-            
+
         $updArray = [];
         foreach ($this->data['product_columns'] as $column => $type) {
             if (isset($data[$column])) {
@@ -97,7 +97,7 @@ class ModelCatalogProduct extends Model
                 $updArray[] = "`" . $column . "` = " . $value;
             }
         }
-            
+
         if (!empty($updArray)) {
             $this->db->query( "INSERT INTO " . $this->db->table("products") . " SET " . implode(",\n", $updArray) );
         }
@@ -1728,25 +1728,6 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param array $data
-     *
-     * @throws AException
-     */
-    public function addFeatured($data)
-    {
-        $this->db->query("DELETE FROM " . $this->db->table("products_featured"));
-        if (isset($data['featured_product'])) {
-            foreach ($data['featured_product'] as $product_id) {
-                $this->db->query(
-                    "INSERT INTO " . $this->db->table("products_featured") . " 
-                    SET product_id = '" . (int)$product_id . "'"
-                );
-            }
-        }
-        $this->cache->remove(['product', 'category', 'collection', 'storefront_menu']);
-    }
-
-    /**
      * @return array
      * @throws AException
      */
@@ -2411,6 +2392,13 @@ class ModelCatalogProduct extends Model
 
                 if ($excludes) {
                     $sql .= " AND p.product_id NOT IN (" . implode(',', $excludes) . ") ";
+                }
+            }
+            if (isset($filter['include']['product_id'])) {
+                $include = (array)$filter['include']['product_id'];
+                $includes = filterIntegerIdList($include);
+                if ($includes) {
+                    $sql .= " AND p.product_id IN (" . implode(',', $includes) . ") ";
                 }
             }
 
@@ -3122,5 +3110,59 @@ class ModelCatalogProduct extends Model
 
         $this->extensions->hk_ValidateData($this, [__FUNCTION__]);
         return $this->errors;
+    }
+
+    /**
+     * Method used by multiselect chosen form element for preview of selected options.
+     *
+     * @param array $ids - product id list
+     * @param array $options - extra options for filtering
+     *
+     * @return array
+     * @throws AException
+     */
+    public function getPreviewProductList(array $ids, array $options = [])
+    {
+        $output = [];
+        $ids = filterIntegerIdList($ids);
+        $filter = [
+            'store_id' => $options['store_id'] ?? $this->config->get('config_store_id'),
+            'content_language_id' => $this->language->getContentLanguageID(),
+            'filter'              => [
+                'match'   => 'all',
+                'include' => ['product_id' => $ids]
+            ],
+        ];
+        //when need to show only available products
+        if ($options['filter'] == 'enabled_only') {
+            $filter['filter']['status'] = 1;
+            $filter['subsql_filter'] = 'date_available<=NOW()';
+        }
+        $products = $this->getProducts($filter);
+        $resource = new AResource('image');
+        $thumbnails = $ids
+            ? $resource->getMainThumbList(
+                'products',
+                $ids,
+                $this->config->get('config_image_grid_width'),
+                $this->config->get('config_image_grid_height')
+            )
+            : [];
+
+        foreach ($products as $productData) {
+            $thumbnail = $thumbnails[$productData['product_id']];
+            $output[(int)$productData['product_id']] = [
+                'image'      => $thumbnail['thumb_html'],
+                'id'         => (int)$productData['product_id'],
+                'name'       => $productData['name'],
+                'meta'       => $productData['model'],
+                'sort_order' => (int)$productData['sort_order'],
+                'url'        => $this->html->getSecureURL(
+                    'catalog/product/update',
+                    '&product_id=' . $productData['product_id']
+                )
+            ];
+        }
+        return $output;
     }
 }
