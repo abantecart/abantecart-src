@@ -44,7 +44,7 @@ if (!defined('DB_DATABASE')) {
     if(is_dir(DIR_ABANTECART.'install')) {
         header('Location: ../install/index.php');
     }
-    exit('Fatal Error: configuration not found!');
+    exit('Fatal Error: web-application configuration not found!');
 }
 session_start();
 $message = 'This feature or page is not available in the demo mode. We apologize for this inconvenience. <br> You can install full version of AbanteCart and get it fully functional.';

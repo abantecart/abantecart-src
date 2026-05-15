@@ -38,7 +38,7 @@ const RDIR_TEMPLATE = 'admin/view/default/';
 if (is_file(DIR_ROOT . DIRECTORY_SEPARATOR . 'system' . DIRECTORY_SEPARATOR . 'config.php')) {
     require_once(DIR_ROOT . DIRECTORY_SEPARATOR . 'system' . DIRECTORY_SEPARATOR . 'config.php');
 } else {
-    exit('Fatal Error: configuration not found!');
+    exit('Fatal Error: web-application configuration not found!');
 }
 
 //set server name for correct email sending
@@ -51,7 +51,7 @@ if (!defined('DB_DATABASE')) {
     if (is_dir(DIR_ROOT . DIRECTORY_SEPARATOR . 'install')) {
         header('Location: install/index.php');
     }
-    exit('Fatal Error: configuration not found!');
+    exit('Fatal Error: web-application configuration not found!');
 }
 
 // sign of admin side for controllers run from dispatcher

@@ -45,7 +45,7 @@ if (!defined('DB_DATABASE')) {
     if(is_dir(DIR_ROOT.DIRECTORY_SEPARATOR.'install')) {
         header('Location: install/index.php');
     }
-    exit('Fatal Error: configuration not found!');
+    exit('Fatal Error: web-application configuration not found!');
 }
 
 // Load all initial set up

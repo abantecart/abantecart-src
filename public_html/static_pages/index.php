@@ -45,7 +45,7 @@ if (!defined('DB_DATABASE')) {
     if(is_dir(DIR_ABANTECART.'install')) {
         header('Location: ../install/index.php');
     }
-    exit('Fatal Error: configuration not found!');
+    exit('Fatal Error: web-application configuration not found!');
 }
 
 //check if this is admin and show option to report this issue 
