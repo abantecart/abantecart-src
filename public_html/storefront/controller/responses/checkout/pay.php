@@ -427,7 +427,11 @@ class ControllerResponsesCheckoutPay extends AController
             $form->loadFromDb('CustomerFrm');
             $telephoneField = $form->getField('telephone');
             $this->data['phone_pattern'] = $telephoneField['regexp_pattern'] ?: DEFAULT_PHONE_REGEX_PATTERN;
-            if (mb_strlen($phone) < 3 || mb_strlen($phone) > 32 || !preg_match($this->data['phone_pattern'], $phone)) {
+            $isPhoneRequired = (bool)$telephoneField['required'];
+            $hasPhone = trim($phone) !== '';
+            if (($isPhoneRequired || $hasPhone)
+                && (mb_strlen($phone) < 3 || mb_strlen($phone) > 32 || !preg_match($this->data['phone_pattern'], $phone))
+            ) {
                 //hide payment form when phone number required and incorrect
                 $this->data['show_payment'] = false;
                 $this->data['invalid_phone'] = true;
