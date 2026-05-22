@@ -346,6 +346,7 @@ class ControllerResponsesFormsManagerFields extends AController
         $this->data['button_reset'] = $this->html->buildElement(
             [
                 'type' => 'button',
+                'href' => '#',
                 'text' => $this->language->get('button_reset'),
             ]
         );

@@ -241,7 +241,7 @@ echo $this->html->buildElement([
 		editFieldDetails();
 	});
 
-	$(document).on('click', '#reset_option', function () {
+	$(document).on('click', '#reset_option, #reset_field', function () {
 		$('#new_fieldFrm_field_id').change();
 		return false;
 	});
