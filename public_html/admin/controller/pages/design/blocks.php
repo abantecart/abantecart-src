@@ -26,6 +26,13 @@ class ControllerPagesDesignBlocks extends AController
 {
     public $data = ['custom_block_types' => ['html_block', 'listing_block']];
     public $error = [];
+    private const GRID_BLOCK_TYPE_OTHER = '__other__';
+    private const GRID_BLOCK_TYPE_OPTIONS = [
+        'banner_block'      => 'text_banner_block',
+        'custom_form_block' => 'text_custom_form_block',
+        'html_block'        => 'text_html_blocks',
+        'listing_block'     => 'text_listing_blocks',
+    ];
 
     public function main()
     {
@@ -133,15 +140,10 @@ class ControllerPagesDesignBlocks extends AController
         $blockTypeOptions = [
             '' => $this->language->get('text_all_block_types') ?: 'All block types',
         ];
-        $existingTypes = [];
-        foreach ((new ALayoutManager())->getBlocksList() as $block) {
-            if (!$block['block_txt_id']) {
-                continue;
-            }
-            $existingTypes[$block['block_txt_id']] = $block['block_txt_id'];
+        foreach (self::GRID_BLOCK_TYPE_OPTIONS as $blockType => $languageKey) {
+            $blockTypeOptions[$blockType] = $this->language->get($languageKey);
         }
-        ksort($existingTypes);
-        $blockTypeOptions += $existingTypes;
+        $blockTypeOptions[self::GRID_BLOCK_TYPE_OTHER] = $this->language->get('text_other_blocks');
 
         $grid_search_form = [];
         $grid_search_form['id'] = 'block_grid_search';

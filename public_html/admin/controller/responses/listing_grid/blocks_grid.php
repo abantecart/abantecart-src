@@ -23,6 +23,13 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerResponsesListingGridBlocksGrid extends AController
 {
+    private const GRID_BLOCK_TYPE_OTHER = '__other__';
+    private const GRID_PRIMARY_BLOCK_TYPES = [
+        'banner_block',
+        'custom_form_block',
+        'html_block',
+        'listing_block',
+    ];
 
     public function main()
     {
@@ -46,7 +53,16 @@ class ControllerResponsesListingGridBlocksGrid extends AController
         $block_type = $this->request->get['block_txt_id'] ?? '';
         if ($block_type !== '') {
             $subsql = $filter_data['subsql_filter'] ?? '';
-            $subsql .= ($subsql ? ' AND ' : '') . "b.block_txt_id = '" . $this->db->escape($block_type) . "'";
+            if ($block_type === self::GRID_BLOCK_TYPE_OTHER) {
+                $escapedTypes = array_map(
+                    fn($type) => "'" . $this->db->escape($type) . "'",
+                    self::GRID_PRIMARY_BLOCK_TYPES
+                );
+                $subsql .= ($subsql ? ' AND ' : '')
+                    . "b.block_txt_id NOT IN (" . implode(', ', $escapedTypes) . ")";
+            } else {
+                $subsql .= ($subsql ? ' AND ' : '') . "b.block_txt_id = '" . $this->db->escape($block_type) . "'";
+            }
             $filter_data['subsql_filter'] = $subsql;
         }
 

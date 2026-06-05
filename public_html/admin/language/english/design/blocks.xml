@@ -26,7 +26,27 @@
 	</definition>
 	<definition>
 		<key>text_all_block_types</key>
-		<value><![CDATA[All block types]]></value>
+		<value><![CDATA[All types]]></value>
+	</definition>
+	<definition>
+		<key>text_banner_block</key>
+		<value><![CDATA[Banner blocks]]></value>
+	</definition>
+	<definition>
+		<key>text_custom_form_block</key>
+		<value><![CDATA[Custom forms block]]></value>
+	</definition>
+	<definition>
+		<key>text_html_blocks</key>
+		<value><![CDATA[HTML blocks]]></value>
+	</definition>
+	<definition>
+		<key>text_listing_blocks</key>
+		<value><![CDATA[Data listing blocks]]></value>
+	</definition>
+	<definition>
+		<key>text_other_blocks</key>
+		<value><![CDATA[Others]]></value>
 	</definition>
 	<definition>
 		<key>text_success</key>
