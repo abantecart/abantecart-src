@@ -260,6 +260,7 @@ class ModelExtensionBannerManager extends Model
         }
 
         $sort_data = [
+            'banner_id'     => 'b.banner_id',
             'name'          => 'bd.name',
             'status'        => 'b.status',
             'sort_order'    => 'b.sort_order',
