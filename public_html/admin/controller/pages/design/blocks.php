@@ -79,7 +79,7 @@ class ControllerPagesDesignBlocks extends AController
 
         $grid_settings['colNames'] = [
             $this->language->get('column_block_id'),
-            $this->language->get('column_block_txt_id'),
+            $this->language->get('column_block_type'),
             $this->language->get('column_block_name'),
             $this->language->get('column_status'),
             $this->language->get('column_date_modified'),
