@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<definitions>
+    <definition>
+        <key>heading_title</key>
+        <value><![CDATA[SEO URLs]]></value>
+    </definition>
+    <definition>
+        <key>column_seo_keyword</key>
+        <value><![CDATA[SEO Keyword]]></value>
+    </definition>
+    <definition>
+        <key>column_route</key>
+        <value><![CDATA[Route]]></value>
+    </definition>
+    <definition>
+        <key>column_query</key>
+        <value><![CDATA[Query]]></value>
+    </definition>
+    <definition>
+        <key>text_seo_urls</key>
+        <value><![CDATA[SEO URLs]]></value>
+    </definition>
+    <definition>
+        <key>text_add_seo_url</key>
+        <value><![CDATA[Add SEO URL]]></value>
+    </definition>
+    <definition>
+        <key>text_edit_seo_url</key>
+        <value><![CDATA[Edit SEO URL]]></value>
+    </definition>
+    <definition>
+        <key>text_success</key>
+        <value><![CDATA[Success: SEO URL has been saved!]]></value>
+    </definition>
+    <definition>
+        <key>entry_seo_keyword</key>
+        <value><![CDATA[SEO Keyword]]></value>
+    </definition>
+    <definition>
+        <key>entry_route</key>
+        <value><![CDATA[Route]]></value>
+    </definition>
+    <definition>
+        <key>entry_query</key>
+        <value><![CDATA[Query]]></value>
+    </definition>
+    <definition>
+        <key>error_permission</key>
+        <value><![CDATA[Warning: You do not have permission to modify SEO URLs!]]></value>
+    </definition>
+    <definition>
+        <key>error_not_found</key>
+        <value><![CDATA[SEO URL was not found.]]></value>
+    </definition>
+    <definition>
+        <key>error_seo_keyword</key>
+        <value><![CDATA[SEO Keyword must be between 1 and 255 characters!]]></value>
+    </definition>
+    <definition>
+        <key>error_route</key>
+        <value><![CDATA[Route is required.]]></value>
+    </definition>
+    <definition>
+        <key>error_query_length</key>
+        <value><![CDATA[The complete route and query must not exceed 2048 characters.]]></value>
+    </definition>
+    <definition>
+        <key>error_seo_keyword_exists</key>
+        <value><![CDATA[This SEO Keyword already exists for the selected language.]]></value>
+    </definition>
+    <definition>
+        <key>error_query_exists</key>
+        <value><![CDATA[This route and query combination already exists for the selected language.]]></value>
+    </definition>
+</definitions>
