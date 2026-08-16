@@ -11040,28 +11040,31 @@ INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (10,'catalog',1),
         (10,'sale',2),
         (10,'design',3),
-        (10,'extension',4),
-        (10,'system',5),
-        (10,'reports',6),
-        (10,'help',7);
+        (10,'seo',4),
+        (10,'extension',5),
+        (10,'system',6),
+        (10,'reports',7),
+        (10,'help',8);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (11,'text_catalog',1),
         (11,'text_sale',2),
         (11,'text_design',3),
-        (11,'text_extension',4),
-        (11,'text_system',5),
-        (11,'text_reports',6),
-        (11,'text_help',7);
+        (11,'text_seo',4),
+        (11,'text_extension',5),
+        (11,'text_system',6),
+        (11,'text_reports',7),
+        (11,'text_help',8);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (12,'catalog/category',1),
         (12,'sale/order',2),
         (12,'design/template',3),
-        (12,'extension/extensions/extensions',4),
-        (12,'setting/setting',5),
-        (12,'report/sale/orders',6),
-        (12,'',7);
+        (12,'tool/seo_url',4),
+        (12,'extension/extensions/extensions',5),
+        (12,'setting/setting',6),
+        (12,'report/sale/orders',7),
+        (12,'',8);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (13,'',1),
@@ -11070,7 +11073,8 @@ VALUES  (13,'',1),
         (13,'',4),
         (13,'',5),
         (13,'',6),
-        (13,'',7);
+        (13,'',7),
+        (13,'',8);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES  (14,1,1),
@@ -11079,7 +11083,8 @@ VALUES  (14,1,1),
         (14,4,4),
         (14,5,5),
         (14,6,6),
-        (14,7,7);
+        (14,7,7),
+        (14,7,8);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (15,'core',1),
@@ -11088,16 +11093,19 @@ VALUES  (15,'core',1),
         (15,'core',4),
         (15,'core',5),
         (15,'core',6),
-        (15,'core',7);
+        (15,'core',7),
+        (15,'core',8);
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (40,'200',1),
         (40,'201',2),
         (40,'202',3),
-        (40,'203',4),
-        (40,'204',5),
-        (40,'205',6),
-        (40,'206',7);
+        (40,'283',4),
+        (40,'283',4),
+        (40,'203',5),
+        (40,'204',6),
+        (40,'205',7),
+        (40,'206',8);
 
 --
 -- SUBMENU CATALOG
@@ -11546,6 +11554,37 @@ VALUES  (40,'241',131),
         (40,'246',136),
         (40,'280',137),
         (40,'248',200);
+
+--
+-- SUBMENU SEO
+-- ITEM_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (10,'seo_url',222),
+        (10,'redirect',223);
+-- ITEM_TEXT
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (11,'text_seo_url',222),
+        (11,'text_redirect',223);
+-- ITEM_URL
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (12,'tool/seo_url',222),
+        (12,'tool/redirect',223);
+-- PARENT_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (13,'seo',222),
+        (13,'seo',223);
+-- SORT_ORDER
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
+VALUES  (14,1,222),
+        (14,2,223);
+-- ITEM_TYPE
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (15,'core',222),
+        (15,'core',223);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'284',222),
+        (40,'285',223);
 
 --
 -- SUBMENU SYSTEM->SETTINGS
@@ -12224,7 +12263,10 @@ VALUES
   ( 278, 1, NOW() ),
   ( 279, 1, NOW() ),
   ( 280, 1, NOW() ),
-  ( 281, 1, NOW() );
+  ( 281, 1, NOW() ),
+  ( 283, 1, NOW() ),
+  ( 284, 1, NOW() ),
+  ( 285, 1, NOW() );
 
 
 INSERT INTO `ac_resource_descriptions`
@@ -12312,7 +12354,10 @@ VALUES
   ( 279,1,'Icon Collections', '', '', '', '<i class="fa fa-paste"></i>&nbsp;', NOW() ),
   ( 280,1,'Icon Email Templates', '', '', '', '<i class="fa fa-envelope-open-o"></i>&nbsp;', NOW() ),
   ( 281,1,'abc-logo-white','abc-logo-white','abc-logo-white.png','18/7a/logo.png','', NOW() ),
-  ( 282,1,'Icon Menu Checkout', '', '', '', '<i class="fa fa-money-bill"></i>&nbsp;', NOW() )
+  ( 282,1,'Icon Menu Checkout', '', '', '', '<i class="fa fa-money-bill"></i>&nbsp;', NOW() ),
+  ( 283,1,'Icon Menu Seo', '', '', '', '<i class="fa fa-rss"></i>&nbsp;', NOW() ),
+  ( 284,1,'Icon Menu Seo Url', '', '', '', '<i class="fa fa-key"></i>&nbsp;', NOW() ),
+  ( 285,1,'Icon Menu Redirect', '', '', '', '<i class="fa fa-random"></i>&nbsp;', NOW() )
   ;
 
 --

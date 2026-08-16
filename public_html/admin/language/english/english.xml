@@ -805,4 +805,16 @@
 		<key>text_advanced_settings</key>
 		<value><![CDATA[Advanced]]></value>
 	</definition>
+	<definition>
+		<key>text_seo</key>
+		<value><![CDATA[SEO]]></value>
+	</definition>
+	<definition>
+		<key>text_seo_url</key>
+		<value><![CDATA[URL Aliases]]></value>
+	</definition>
+	<definition>
+		<key>text_redirect</key>
+		<value><![CDATA[Redirects]]></value>
+	</definition>
 </definitions>

@@ -183,7 +183,7 @@ class ModelToolSeoUrl extends Model
         $query = ltrim(trim((string)($data['query'] ?? '')), '?&');
         parse_str($query, $parts);
         $firstKey = (string)array_key_first($parts);
-?????
+//?????
         if ((self::ROUTES[$firstKey] ?? null) === $route) {
             return $query;
         }
