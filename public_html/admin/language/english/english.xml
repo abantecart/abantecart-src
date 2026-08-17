@@ -94,7 +94,7 @@
 	</definition>
 	<definition>
 		<key>text_no_results</key>
-		<value><![CDATA[No result found.]]></value>
+		<value><![CDATA[No result was found.]]></value>
 	</definition>
 	<definition>
 		<key>text_separator</key>
@@ -363,7 +363,7 @@
 	</definition>
 	<definition>
 		<key>error_upload_7</key>
-		<value><![CDATA[Warning: Failed to write file to disk!]]></value>
+		<value><![CDATA[Warning: Failed to write the file to disk!]]></value>
 	</definition>
 	<definition>
 		<key>error_upload_8</key>
@@ -503,7 +503,7 @@
 	</definition>
 	<definition>
 		<key>text_click_to_change</key>
-		<value><![CDATA[Click image to change it]]></value>
+		<value><![CDATA[Click the image to change it]]></value>
 	</definition>
 	<definition>
 		<key>text_select_from_list</key>
@@ -515,7 +515,7 @@
 	</definition>
 	<definition>
 		<key>text_delete_confirm</key>
-		<value><![CDATA[Please, confirm delete]]></value>
+		<value><![CDATA[Please confirm delete]]></value>
 	</definition>
 	<definition>
 		<key>text_save_edit</key>
@@ -559,7 +559,7 @@
 	</definition>
 	<definition>
 		<key>text_click_browse_file</key>
-		<value><![CDATA[Click to browse file]]></value>
+		<value><![CDATA[Click to browse the file]]></value>
 	</definition>
 	<definition>
 		<key>text_browse</key>
@@ -571,7 +571,7 @@
 	</definition>
 	<definition>
 		<key>error_seo_keyword</key>
-		<value><![CDATA[SEO keyword <a target="_blank" href="%s">"%s"</a> is already exists!]]></value>
+		<value><![CDATA[SEO keyword <a target="_blank" href="%s">"%s"</a> already exists!]]></value>
 	</definition>
 	<definition>
 		<key>column_update_date</key>
@@ -659,7 +659,7 @@
 	</definition>
 	<definition>
 		<key>text_select_from_lookup</key>
-		<value><![CDATA[Start typing (name, model, sku, etc.) to look up and select result]]></value>
+		<value><![CDATA[Start typing (name, model, sku, etc.) to look up and select the result]]></value>
 	</definition>
 	<definition>
 		<key>text_continue_typing</key>
@@ -687,11 +687,11 @@
 	</definition>
 	<definition>
 		<key>text_copy_embed_code</key>
-		<value><![CDATA[Сopy and paste this into your HTML-code where you'd like to sell]]></value>
+		<value><![CDATA[Copy and paste this into your HTML code where you'd like to sell]]></value>
 	</definition>
 	<definition>
 		<key>text_copy_embed_url</key>
-		<value><![CDATA[Сopy and paste this URL into your another site where you'd like to sell]]></value>
+		<value><![CDATA[Copy and paste this URL into your another site where you'd like to sell]]></value>
 	</definition>
 	<definition>
 		<key>button_retry</key>
@@ -775,7 +775,7 @@
 	</definition>
 	<definition>
 		<key>warning_extensions_with_layouts</key>
-		<value><![CDATA[ Following extensions <br> %s <br> includes pages or layouts that are not present in the selected template. To include features from these extensions you will need to reinstall extensions after you enable new template. If reinstallation does not help, contact original developers of the above extensions for help.  ]]></value>
+		<value><![CDATA[ Following extensions <br> %s <br> includes pages or layouts that are not present in the selected template. To include features from these extensions, you will need to reinstall extensions after you enable a new template. If reinstallation does not help, contact the original developers of the above extensions for help.  ]]></value>
 	</definition>
 	<definition>
 		<key>column_sku</key>
