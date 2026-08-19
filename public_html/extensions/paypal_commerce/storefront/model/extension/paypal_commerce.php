@@ -548,4 +548,157 @@ class ModelExtensionPaypalCommerce extends Model
             return null;
         }
     }
+
+    /**
+     * Verify a PayPal webhook with POST /v1/notifications/verify-webhook-signature.
+     * Fail-closed when headers, webhook id, or verification_status are missing.
+     *
+     * @param string $rawBody
+     * @param array{auth_algo:string,cert_url:string,transmission_id:string,transmission_sig:string,transmission_time:string} $headers
+     * @param string $eventName
+     *
+     * @return bool
+     */
+    public function verifyWebhookSignature(string $rawBody, array $headers, string $eventName): bool
+    {
+        $webhookEvent = json_decode($rawBody);
+        if (!is_object($webhookEvent)) {
+            $this->log->write(__FILE__ . '::' . __METHOD__ . ' Webhook body is not JSON.');
+            return false;
+        }
+
+        $webhookId = $this->getWebhookIdForEvent($eventName);
+        if ($webhookId === '') {
+            $this->log->write(
+                __FILE__ . '::' . __METHOD__ . ' No PayPal webhook id for event ' . $eventName
+            );
+            return false;
+        }
+
+        try {
+            $token = $this->paypal->getClientCredentialsAuth()->fetchToken();
+            $accessToken = (string)$token->getAccessToken();
+            if ($accessToken === '') {
+                $this->log->write(__FILE__ . '::' . __METHOD__ . ' Empty access token.');
+                return false;
+            }
+
+            $baseUri = rtrim($this->paypal->getBaseUri(), '/');
+            $url = $baseUri . '/v1/notifications/verify-webhook-signature';
+            $payload = [
+                'auth_algo'         => $headers['auth_algo'],
+                'cert_url'          => $headers['cert_url'],
+                'transmission_id'   => $headers['transmission_id'],
+                'transmission_sig'  => $headers['transmission_sig'],
+                'transmission_time' => $headers['transmission_time'],
+                'webhook_id'        => $webhookId,
+                'webhook_event'     => $webhookEvent,
+            ];
+            $bodyJson = json_encode($payload, JSON_UNESCAPED_SLASHES);
+            if (!is_string($bodyJson) || $bodyJson === '') {
+                return false;
+            }
+
+            $ch = curl_init($url);
+            if ($ch === false) {
+                return false;
+            }
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST           => true,
+                CURLOPT_HTTPHEADER     => [
+                    'Authorization: Bearer ' . $accessToken,
+                    'Content-Type: application/json',
+                    'Accept: application/json',
+                ],
+                CURLOPT_POSTFIELDS     => $bodyJson,
+                CURLOPT_TIMEOUT        => 30,
+            ]);
+            $raw = curl_exec($ch);
+            $httpCode = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $curlErr = (string)curl_error($ch);
+            curl_close($ch);
+
+            if ($curlErr !== '' || !is_string($raw) || $raw === '' || $httpCode < 200 || $httpCode >= 300) {
+                $this->log->write(
+                    __FILE__ . '::' . __METHOD__ . ' Verify request failed. HTTP ' . $httpCode
+                    . ' ' . $curlErr . ' ' . (is_string($raw) ? $raw : '')
+                );
+                return false;
+            }
+
+            $decoded = json_decode($raw, true);
+            $status = is_array($decoded) ? (string)($decoded['verification_status'] ?? '') : '';
+            if (!paypalCommerceWebhookVerificationIsSuccess($status)) {
+                $this->log->write(
+                    __FILE__ . '::' . __METHOD__ . ' PayPal rejected webhook signature: ' . $status
+                );
+                return false;
+            }
+            return true;
+        } catch (Exception|Error $e) {
+            $this->log->write(__FILE__ . '::' . __METHOD__ . ' Exception: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * @return string webhook id or empty string
+     */
+    public function getWebhookIdForEvent(string $eventName): string
+    {
+        if ($eventName === '') {
+            return '';
+        }
+
+        try {
+            $token = $this->paypal->getClientCredentialsAuth()->fetchToken();
+            $accessToken = (string)$token->getAccessToken();
+            $baseUri = rtrim($this->paypal->getBaseUri(), '/');
+            $url = $baseUri . '/v1/notifications/webhooks';
+
+            $ch = curl_init($url);
+            if ($ch === false) {
+                return '';
+            }
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_CUSTOMREQUEST  => 'GET',
+                CURLOPT_HTTPHEADER     => [
+                    'Authorization: Bearer ' . $accessToken,
+                    'Content-Type: application/json',
+                    'Accept: application/json',
+                ],
+                CURLOPT_TIMEOUT        => 30,
+            ]);
+            $raw = curl_exec($ch);
+            $httpCode = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            if (!is_string($raw) || $raw === '' || $httpCode < 200 || $httpCode >= 300) {
+                return '';
+            }
+
+            $decoded = json_decode($raw);
+            if (!is_object($decoded) || empty($decoded->webhooks) || !is_array($decoded->webhooks)) {
+                return '';
+            }
+
+            foreach ($decoded->webhooks as $wh) {
+                if (!is_object($wh) || empty($wh->event_types) || !is_array($wh->event_types)) {
+                    continue;
+                }
+                foreach ($wh->event_types as $eventType) {
+                    $name = $eventType->name ?? null;
+                    if (is_string($name) && $name === $eventName && !empty($wh->id)) {
+                        return (string)$wh->id;
+                    }
+                }
+            }
+            return '';
+        } catch (Exception|Error $e) {
+            $this->log->write(__FILE__ . '::' . __METHOD__ . ' Exception: ' . $e->getMessage());
+            return '';
+        }
+    }
 }

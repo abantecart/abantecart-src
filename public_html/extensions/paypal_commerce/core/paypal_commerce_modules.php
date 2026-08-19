@@ -110,3 +110,36 @@ function paypalNormalizeOrderResult($result): ?Order
         return null;
     }
 }
+
+/**
+ * Pull PayPal webhook transmission headers from a PHP $_SERVER-style array.
+ * Missing or blank required headers return null (fail-closed).
+ *
+ * @param array $server
+ *
+ * @return array{auth_algo:string,cert_url:string,transmission_id:string,transmission_sig:string,transmission_time:string}|null
+ */
+function paypalCommerceExtractWebhookHeaders(array $server): ?array
+{
+    $headers = [
+        'auth_algo'         => trim((string)($server['HTTP_PAYPAL_AUTH_ALGO'] ?? '')),
+        'cert_url'          => trim((string)($server['HTTP_PAYPAL_CERT_URL'] ?? '')),
+        'transmission_id'   => trim((string)($server['HTTP_PAYPAL_TRANSMISSION_ID'] ?? '')),
+        'transmission_sig'  => trim((string)($server['HTTP_PAYPAL_TRANSMISSION_SIG'] ?? '')),
+        'transmission_time' => trim((string)($server['HTTP_PAYPAL_TRANSMISSION_TIME'] ?? '')),
+    ];
+    foreach ($headers as $value) {
+        if ($value === '') {
+            return null;
+        }
+    }
+    return $headers;
+}
+
+/**
+ * PayPal verify-webhook-signature returns SUCCESS or FAILURE.
+ */
+function paypalCommerceWebhookVerificationIsSuccess(string $status): bool
+{
+    return strtoupper(trim($status)) === 'SUCCESS';
+}

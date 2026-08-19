@@ -1265,6 +1265,23 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             );
             return false;
         }
+
+        $headers = paypalCommerceExtractWebhookHeaders($_SERVER);
+        if (!$headers) {
+            $this->log->write(
+                "Paypal webhook " . $eventName . ": missing PayPal transmission headers."
+            );
+            return false;
+        }
+        /** @var ModelExtensionPaypalCommerce $mdl */
+        $mdl = $this->loadModel('extension/paypal_commerce');
+        if (!$mdl->verifyWebhookSignature((string)$inData['raw'], $headers, $eventName)) {
+            $this->log->write(
+                "Paypal webhook " . $eventName . ": signature verification failed."
+            );
+            return false;
+        }
+
         if ($inData['parsed']['event_type'] != $eventName) {
             $this->log->write(
                 "Paypal webhook processing: Wrong Event Type! Waiting for " . $eventName . "  but "
