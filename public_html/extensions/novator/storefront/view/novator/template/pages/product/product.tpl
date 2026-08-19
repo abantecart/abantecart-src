@@ -25,14 +25,23 @@ if ($error){ ?>
                     <div class="zoom-pane position-absolute col-12"></div>
                     <div class="carousel-inner bg-light rounded position-relative">
                         <!-- Main Image -->
-                        <?php foreach ($images as $index => $image) {
+                        <?php
+                        //add video files into carousel
+                        foreach((array)$product_media['video']['resources'] as $videoResource){
+                            $videoResource['origin'] = 'external';
+                            $videoResource['main_html'] = '<div class="ratio ratio-16x9 my-auto"><video controls><source src="'.$videoResource['main_url'].'"></video></div>';
+                            $images[] = $videoResource;
+                        }
+                        foreach ($images as $index => $image) {
                             $image['title'] = $image['title'] ? : $heading_title;
                             $image['description'] = $image['description'] ? : $heading_title; ?>
                             <div class="carousel-item <?php echo ($index === 0) ? 'active' : ''; ?>" >
                             <?php
-                                if ($image['origin'] == 'external') {
-                                    echo $image['main_html'];
-                                } else { ?>
+                                if ($image['origin'] == 'external') { ?>
+                                <div class="d-flex align-items-center" style="height: <?php echo $thmb_h;?>px">
+                                    <?php echo $image['main_html']; ?>
+                                </div>
+                                <?php } else { ?>
                                         <style>
                                             @media (min-width: 577px) {
                                                 .img<?php echo $index?> {
@@ -55,18 +64,23 @@ if ($error){ ?>
                         if (sizeof((array)$images) > 1) {
                             $imageCount = sizeof($images);
                             foreach ($images as $i => $image) {
-                                if ($image['origin'] != 'external') {
-                                    ?>
-                                    <li data-bs-target="#carouselProductImages" data-bs-slide-to="<?php echo $i; ?>"
-                                        class="product-thumb w-auto h-auto <?php echo ($i === 0) ? 'active' : ''; ?> ">
-                                            <img class="d-block wid-100 rounded "
-                                                 src="<?php echo $image['thumb_url']; ?>"
-                                                 style="max-width: <?php echo $image['thumb_width'];?>px; max-height: <?php echo $image['thumb_height'];?>px;"
-                                                 alt="<?php echo_html2view($image['title']); ?>"
-                                                 title="<?php echo_html2view($image['description']); ?>">
-                                    </li>
-                                    <?php
-                                }
+                                if ($image['origin'] == 'external') {
+                                    $image['thumb_url'] = $this->templateResource('/image/video-thumbnail.png');
+                                    $image['thumb_width'] = $image['thumb_height'] = 90;
+                                    $image['thumb_html'] = '<i class="fa-solid fa-photo-film d-block fs-1 text-primary"></i>';
+                                }else{
+                                    $image['thumb_html'] = '<img class="d-block wid-100 rounded " 
+                                    src="' . $image['thumb_url'] . '"
+                                    style="max-width: ' . $image['thumb_width'] . 'px; max-height: ' . $image['thumb_height'].'px;"
+                                    alt="' . html2view($image['title'] ?: 'thumbnail'.$i).'"
+                                    title="' . html2view($image['description']) . '">';
+                                }   
+                        ?>
+                            <li data-bs-target="#carouselProductImages" data-bs-slide-to="<?php echo $i; ?>"
+                                class="product-thumb w-auto h-auto <?php echo ($i === 0) ? 'active' : ''; ?> ">
+                                <?php echo $image['thumb_html']; ?>   
+                            </li>
+                        <?php
                             }
                         }
                         ?>

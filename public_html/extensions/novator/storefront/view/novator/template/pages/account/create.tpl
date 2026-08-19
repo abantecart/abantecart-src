@@ -33,7 +33,7 @@ foreach($form['fields'] as $group => $fields){
         <?php
         }
         foreach ($fields as $fieldKey => $field) {
-            if($field->type == 'hidden') {
+            if($field->type == 'hidden' || $fieldKey == 'g-recaptcha-response') {
                 echo $field;
                 continue;
             }?>

@@ -149,7 +149,7 @@ class ControllerResponsesExtensionStripe extends AController
         }
         foreach($this->cart->getFinalTotalData() as $totalData){
             if($totalData['id'] == 'total'){
-                $this->data['total_amount'] = $totalData['converted']* 100;
+                $this->data['total_amount'] = number_format($totalData['converted'],2) * 100;
                 break;
             }
         }

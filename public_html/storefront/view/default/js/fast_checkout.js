@@ -27,7 +27,7 @@ function orderIntegrityCheck() {
     if($('.payment-confirm-buttons').length < 1){
         return;
     }
-    if (typeof fc_order_checksum_url === 'undefined' && fc_order_checksum_url.length < 1 ){
+    if (typeof fc_order_checksum_url === 'undefined' || fc_order_checksum_url.length < 1 ){
         return;
     }
 

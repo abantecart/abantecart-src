@@ -1,0 +1,17 @@
+---
+description: AbanteCart project conventions and which skills to load
+alwaysApply: true
+---
+
+This repo is AbanteCart (PHP ecommerce). Before writing or reviewing code, read the matching skill in `.agents/skills/`.
+
+- Architecture / routing / lifecycle → `abantecart-architecture`
+- Controllers, models, views, language XML → `abantecart-mvc`
+- Extensions, install/update, hooks → `abantecart-extensions`
+- Database, `DB_PREFIX`, schema, upgrades → `abantecart-database`
+- Config, settings, cache, events, tasks → `abantecart-config-cache-tasks`
+- Resource library → `abantecart-resource-library`
+- Multi-store or multi-language → `abantecart-multistore-language`
+- Forms, validation, escaping, CSRF → `abantecart-security`
+
+Do not edit core to customize. Implement changes as extensions. Always use `$this->db->table()` for table names. Follow `.aiassistant/rules/abantecart_v1.md` for language XML, `echo_html2view`/`js_echo`, and thin controllers.

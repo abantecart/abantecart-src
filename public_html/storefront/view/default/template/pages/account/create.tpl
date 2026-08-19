@@ -34,7 +34,11 @@ if ($error_warning) { ?>
                 <h4><?php echo $groupName; ?></h4>
                 <?php
             }
-            foreach ($fields as $fieldKey => $field) {?>
+            foreach ($fields as $fieldKey => $field) {
+                if($field->type == 'hidden' || $fieldKey == 'g-recaptcha-response') {
+                    echo $field;
+                    continue;
+                }?>
                 <div class="row mb-3">
                     <label for="<?php echo $field->element_id ?>"
                            class="col-sm-4 col-form-label me-2"><?php echo $field->display_name; ?></label>

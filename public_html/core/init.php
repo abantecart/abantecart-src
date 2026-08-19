@@ -346,7 +346,7 @@ try {
         require_once(DIR_CORE . 'lib' . DS . 'form_manager.php');
         require_once(DIR_CORE . 'lib' . DS . 'extension_manager.php');
         require_once(DIR_CORE . 'lib' . DS . 'resource_manager.php');
-        require_once(DIR_CORE . 'lib' . DS . 'resource_upload.php');
+        require_once(DIR_CORE . 'lib' . DS . 'ResourceUploadHandler.php');
         require_once(DIR_CORE . 'lib' . DS . 'listing_manager.php');
         require_once(DIR_CORE . 'lib' . DS . 'attribute_manager.php');
         require_once(DIR_CORE . 'lib' . DS . 'language_manager.php');

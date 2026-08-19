@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -100,14 +100,14 @@ class ResourceUploadHandler
         return null;
     }
 
+    /**
+     * @return array
+     */
     protected function get_file_objects()
     {
         return array_values(
             array_filter(
-                array_map(
-                    [$this, 'get_file_object'],
-                    scandir($this->options['upload_dir'])
-                )
+                array_map([$this, 'get_file_object'], scandir($this->options['upload_dir']))
             )
         );
     }
@@ -124,7 +124,7 @@ class ResourceUploadHandler
             'name'     => null,
             'size'     => null,
             'type'     => null,
-            'error'    => 'emptyResult',
+            'error'    => [UPLOAD_ERR_INI_SIZE],
         ];
 
         $info = [];
@@ -168,7 +168,7 @@ class ResourceUploadHandler
         $name = $name == '' ? 'UnknownFile' : $name;
         $name = str_replace(" ", "_", stripslashes($name));
 
-        // basename removes first part of filename like тест_архив.zip (with non-latin characters).
+        // basename removes the first part of the filename like тест_архив.zip (with non-latin characters).
         // The basename of that name will be _архив.zip
         if ($this->strpos_array($name, ['/', '\'']) !== false) {
             $name = basename($name);
@@ -227,7 +227,8 @@ class ResourceUploadHandler
                     $result = move_uploaded_file($uploaded_file, $file_path);
                     if ($result === false) {
                         $file->error = 'Failed! Check error log for details.';
-                        $error_text = 'Error! Unable to move uploaded file from ' . $uploaded_file . ' to ' . $file_path;
+                        $error_text =
+                            'Error! Unable to move uploaded file from ' . $uploaded_file . ' to ' . $file_path;
                     }
                 }
             } else {
@@ -249,7 +250,8 @@ class ResourceUploadHandler
                     if (!$file_size) {
                         $error_text = 'Unable to save file on disk! Please check "resources" folder permissions!';
                     } else {
-                        $error_text = 'Unable to save file ' . basename($file_path) . ' on disk! Integrity check error!';
+                        $error_text =
+                            'Unable to save file ' . basename($file_path) . ' on disk! Integrity check error!';
                     }
                 }
             }
@@ -263,7 +265,7 @@ class ResourceUploadHandler
         if ($error_text) {
             //todo: add this into abc sys-log in the future
             $error = new AError($error_text);
-            $error->toDebug();
+            $error->toLog()->toDebug();
         }
 
         return $file;
@@ -337,14 +339,17 @@ class ResourceUploadHandler
                     'onselect',
                     'onsubmit',
                     'onunload',
-                    'xlink:href'
+                    'xlink:href',
                 ];
-                if (count(
+                if (
+                    count(
                         array_filter($arrayOfNeedles, function ($needle) use ($svg) {
-                            return strpos($svg, $needle) !== false;
+                            return str_contains($svg, $needle);
                         })
-                    ) > 0) {
-                    return 'File contains script calls. Please do not use SVG files with scripts and external links inside to prevents XSS attacks';
+                    ) > 0
+                ) {
+                    return 'File contains script calls. Please do not use SVG files with '
+                        . 'scripts and external links inside to prevent XSS attacks';
                 }
             }
         }
@@ -367,8 +372,7 @@ class ResourceUploadHandler
             return $language->get('error_minFileSize');
         }
         if (is_int($this->options['max_number_of_files'])
-            && (
-                count($this->get_file_objects()) >= $this->options['max_number_of_files'])
+            && (count($this->get_file_objects()) >= $this->options['max_number_of_files'])
         ) {
             return $language->get('error_maxNumberOfFiles');
         }
@@ -385,5 +389,4 @@ class ResourceUploadHandler
         $file_path = $this->options['upload_dir'] . $file_name;
         return is_file($file_path) && $file_name[0] !== '.' && unlink($file_path);
     }
-
 }
