@@ -170,46 +170,46 @@ function is_multi($array)
  * Function convert input text to alphanumeric string for SEO URL use
  * if optional parameter object_key_name (product, category, content, etc.) given function will return a unique SEO keyword
  *
- * @param string $string_value
- * @param string $object_key_name
- * @param int $object_id
+ * @param string $seoKeyword
+ * @param string $objectKeyName - product, category, content e.t.c. or query string
+ * @param int $objectId
  *
  * @return string
  * @throws AException
  */
-function SEOEncode($string_value, $object_key_name = '', $object_id = 0)
+function SEOEncode(string $seoKeyword, $objectKeyName = '', $objectId = 0)
 {
-    $seo_key = html_entity_decode($string_value, ENT_QUOTES, 'UTF-8');
-    $seo_key = preg_replace('/[^\pL\p{Zs}0-9\s\-_]+/u', '', $seo_key);
-    $seo_key = trim(mb_strtolower($seo_key));
-    $seo_key = str_replace(' ', SEO_URL_SEPARATOR, $seo_key);
-    if (!$object_key_name) {
-        return $seo_key;
+    $seoKey = html_entity_decode($seoKeyword, ENT_QUOTES, 'UTF-8');
+    $seoKey = preg_replace('/[^\pL\p{Zs}0-9\s\-_]+/u', '', $seoKey);
+    $seoKey = trim(mb_strtolower($seoKey));
+    $seoKey = str_replace(' ', SEO_URL_SEPARATOR, $seoKey);
+    if (!$objectKeyName) {
+        return $seoKey;
     } else {
         //if $object_key_name given - check is seo-key unique and return unique
-        return getUniqueSeoKeyword($seo_key, $object_key_name, $object_id);
+        return getUniqueSeoKeyword($seoKey, $objectKeyName, $objectId);
     }
 }
 
 /**
- * @param string $seo_key
- * @param string $object_key_name
- * @param int $object_id
+ * @param string $seoKeyword
+ * @param string $objectKeyName
+ * @param int $objectId
  *
  * @return string
  * @throws AException
  */
-function getUniqueSeoKeyword($seo_key, $object_key_name = '', $object_id = 0)
+function getUniqueSeoKeyword(string $seoKeyword, string $objectKeyName = '', int $objectId = 0)
 {
-    $object_id = (int) $object_id;
+    $objectId = (int) $objectId;
     $registry = Registry::getInstance();
     $db = $registry->get('db');
     $sql = "SELECT `keyword`
             FROM " . $db->table('url_aliases') . "
-            WHERE `keyword` like '" . $db->escape($seo_key) . "%'";
-    if ($object_id) {
+            WHERE `keyword` like '" . $db->escape($seoKeyword) . "%'";
+    if ($objectId || str_contains($objectKeyName,'&')) {
         // exclude keyword of given object (product, category, content, etc.)
-        $sql .= " AND query<>'" . $db->escape($object_key_name) . "=" . $object_id . "'";
+        $sql .= " AND query<>'" . $db->escape($objectKeyName . ($objectId ? "=" . $objectId : '')) . "'";
     }
 
     $result = $db->query($sql);
@@ -219,12 +219,12 @@ function getUniqueSeoKeyword($seo_key, $object_key_name = '', $object_id = 0)
     );
 
     $i = 0;
-    while (in_array($seo_key, $kList) && $i < 20) {
-        $seo_key = $seo_key . SEO_URL_SEPARATOR . ($object_id ? : $i);
+    while (in_array($seoKeyword, $kList) && $i < 20) {
+        $seoKeyword = $seoKeyword . SEO_URL_SEPARATOR . ($objectId ? : $i);
         $i++;
     }
 
-    return $seo_key;
+    return $seoKeyword;
 }
 
 /*
