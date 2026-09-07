@@ -156,7 +156,14 @@ function check_file_permissions($registry)
         }
     }
 
-    if (!is_writable(DIR_SYSTEM . 'logs') || !is_writable(DIR_SYSTEM . 'logs' . DS . 'error.txt')) {
+    $logsDir = rtrim(DIR_SYSTEM . 'logs', '/\\');
+    if (is_link($logsDir)) {
+        $resolvedLogsDir = realpath($logsDir);
+        if ($resolvedLogsDir !== false) {
+            $logsDir = $resolvedLogsDir;
+        }
+    }
+    if (!is_writable($logsDir) || !is_writable(DIR_SYSTEM . 'logs' . DS . 'error.txt')) {
         $ret_array[] = [
             'title' => 'Incorrect log dir/file permissions',
             'body'  => DIR_SYSTEM . 'logs' . ' directory or error.txt file needs to be set to full permissions(777)! Error logs can not be saved',

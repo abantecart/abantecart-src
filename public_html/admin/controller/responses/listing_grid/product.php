@@ -68,8 +68,19 @@ class ControllerResponsesListingGridProduct extends AController
             (array)$this->data['grid_filter_params']
         );
 
-        $filter_form = new AFilter(['method' => 'get', 'filter_params' => $filter_params]);
-        $filter_grid = new AFilter(['method' => 'post', 'grid_filter_params' => $grid_filter_params]);
+        $filter_form = new AFilter(
+            [
+                'method' => 'get', 
+                'filter_params' => $filter_params
+            ]
+        );
+        $filter_grid = new AFilter(
+            [
+                'method' => 'post', 
+                'grid_filter_params' => $grid_filter_params,
+                'additional_filter_string' => $this->data['additional_filter_string']
+            ]
+        );
         $data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
         //raw data for hooks
         $this->data['raw_data'] = $results = $this->model_catalog_product->getProducts($data);

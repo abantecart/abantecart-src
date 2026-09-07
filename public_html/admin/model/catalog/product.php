@@ -2405,7 +2405,7 @@ class ModelCatalogProduct extends Model
                 $sql .= " AND p.manufacturer_id = " . (int) $filter['manufacturer'];
             }
 
-            if ($filter['supplier_code']) {
+            if ($filter['supplier_code'] && $filter['supplier_code'] !== '') {
                 $sql .= " AND p.supplier_code = '" . $this->db->escape($filter['supplier_code']) . "'";
                 $sql .= " AND COALESCE(p.supplier_id, '') <> '' ";
             }
@@ -2441,7 +2441,7 @@ class ModelCatalogProduct extends Model
                 }
             }
 
-            if (isset($filter['keyword'])) {
+            if (isset($filter['keyword']) && $filter['keyword'] !== '') {
                 $keywords = explode(' ', $filter['keyword']);
 
                 if ($match == 'any') {
@@ -2518,7 +2518,7 @@ class ModelCatalogProduct extends Model
             if ($filter['sku']) {
                 $sql .= " AND p.sku LIKE '%" . $this->db->escape($filter['sku']) . "%'";
             }
-            if (isset($filter['status'])) {
+            if (isset($filter['status']) && $filter['status'] !== '') {
                 $sql .= " AND p.status = '" . (int) $filter['status'] . "'";
             }
 

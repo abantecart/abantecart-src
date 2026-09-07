@@ -118,7 +118,13 @@ class ACacheDriverRedis extends ACacheDriver
     public function get($key, $group, $check_expire = true)
     {
         $cache_id = $this->_getCacheId($key, $group);
-        return json_decode($this->connect->get($cache_id), true);
+        $data = $this->connect->get($cache_id);
+        // phpredis returns false for a missing key; json_decode(false) becomes null.
+        // ACache::lock() treats "not false" as "lock held" and busy-waits the full timeout.
+        if ($data === false) {
+            return false;
+        }
+        return json_decode($data, true);
     }
 
     /**
@@ -198,6 +204,63 @@ class ACacheDriverRedis extends ACacheDriver
     public function gc()
     {
         return null;
+    }
+
+    /**
+     * Lock cached item with atomic SET NX PX (do not GET + sleep).
+     *
+     * @param string $key The cache data key
+     * @param string $group The cache data group
+     * @param int $locktime Cached item max lock time in seconds
+     *
+     * @return array
+     *
+     * @since 1.3.3
+     */
+    public function lock($key, $group, $locktime)
+    {
+        $output = [];
+        $output['waited'] = false;
+
+        $loops = $locktime * 10;
+        $lock_id = $this->_getCacheId($key, $group) . '_lock';
+        $ttl_ms = max(1, (int)$locktime) * 1000;
+
+        $data_lock = $this->connect->set($lock_id, 1, ['nx', 'px' => $ttl_ms]);
+
+        if (!$data_lock) {
+            $lock_counter = 0;
+            // Retry SET NX PX until the other holder releases (or TTL expires), or we time out.
+            while (!$data_lock) {
+                if ($lock_counter > $loops) {
+                    $output['locked'] = false;
+                    $output['waited'] = true;
+                    break;
+                }
+                usleep(100);
+                $data_lock = $this->connect->set($lock_id, 1, ['nx', 'px' => $ttl_ms]);
+                $lock_counter++;
+            }
+        }
+
+        $output['locked'] = $data_lock;
+        return $output;
+    }
+
+    /**
+     * Unlock cached item
+     *
+     * @param string $key The cache data key
+     * @param string $group The cache data group
+     *
+     * @return boolean
+     * @since 1.3.3
+     */
+    public function unlock($key, $group = null)
+    {
+        $lock_id = $this->_getCacheId($key, $group) . '_lock';
+        $this->connect->del($lock_id);
+        return true;
     }
 
     protected function _getCacheId($key, $group)
