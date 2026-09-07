@@ -701,11 +701,15 @@ class ModelAccountCustomer extends Model
     public function getCustomerByEmail($email)
     {
         //assuming that data is not encrypted. Cannot call these otherwise
-        $query = $this->db->query(
-            "SELECT *
-            FROM " . $this->db->table("customers") . "
-            WHERE LOWER(`email`) = LOWER('" . $this->db->escape($email) . "')"
-        );
+        $sql = "SELECT *
+                FROM " . $this->db->table("customers") . "
+                WHERE email LIKE '" . $this->db->escape($email) . "'";
+        
+        if($this->dcrypt->active && !$this->config->get('prevent_email_as_login')) {
+            $sql .= " OR loginname LIKE '" . $this->db->escape($email) . "'";
+        }
+        
+        $query = $this->db->query( $sql );
         $output = $this->dcrypt->decrypt_data($query->row, 'customers');
         if ($output['data']) {
             $output['data'] = unserialize($output['data']);
