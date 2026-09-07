@@ -708,7 +708,7 @@ class ModelAccountCustomer extends Model
         if($this->dcrypt->active && !$this->config->get('prevent_email_as_login')) {
             $sql .= " OR loginname LIKE '" . $this->db->escape($email) . "'";
         }
-        
+        $sql .= " ORDER by status DESC, approved DESC, date_modified DESC LIMIT 1";
         $query = $this->db->query( $sql );
         $output = $this->dcrypt->decrypt_data($query->row, 'customers');
         if ($output['data']) {
