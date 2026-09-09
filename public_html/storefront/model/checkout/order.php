@@ -34,6 +34,7 @@ class ModelCheckoutOrder extends Model
             'store_url'               => 'string',
             'customer_id'             => 'int',
             'customer_group_id'       => 'int',
+            'guest_checkout'          => 'int',
             'firstname'               => 'string',
             'lastname'                => 'string',
             'email'                   => 'string',

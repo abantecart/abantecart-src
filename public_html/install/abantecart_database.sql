@@ -1073,6 +1073,7 @@ CREATE TABLE `ac_orders` (
   `store_url` varchar(255) NOT NULL,
   `customer_id` int(11) NOT NULL DEFAULT '0',
   `customer_group_id` int(11) NOT NULL DEFAULT '0',
+  `guest_checkout` int(1) NOT NULL DEFAULT '0',
   `firstname` varchar(32) NOT NULL DEFAULT '',
   `lastname` varchar(32) NOT NULL,
   `telephone` varchar(32) NOT NULL DEFAULT '',
