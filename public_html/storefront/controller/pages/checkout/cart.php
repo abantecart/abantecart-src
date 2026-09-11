@@ -44,9 +44,16 @@ class ControllerPagesCheckoutCart extends AController
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
+        /** @var ModelCatalogProduct $pMdl */
+        $pMdl = $this->loadModel('catalog/product', 'storefront');
         //process all possible requests first
         if ($this->request->is_GET() && isset($this->request->get['product_id'])) {
+            $productInfo = $pMdl->getProduct((int)$this->request->get['product_id']);
+            //if product is disabled, redirect to cart
+            if(!$productInfo){
+                redirect($this->html->getSecureURL($cart_rt));
+            }
+            
             $option = $this->request->get['option'] ?? [];
             $quantity = (int)$this->request->get['quantity'] ?: 1;
             $this->_unset_methods_data_in_session();
@@ -97,8 +104,12 @@ class ControllerPagesCheckoutCart extends AController
                     if (isset($post['quantity'])) {
                         //we update cart
                         if (!is_array($post['quantity'])) {
-                            $this->loadModel('catalog/product', 'storefront');
                             $product_id = (int)$post['product_id'];
+                            $productInfo = $pMdl->getProduct($product_id);
+                            //if product is disabled, redirect to cart
+                            if(!$productInfo){
+                                redirect($this->html->getSecureURL($cart_rt));
+                            }
                             $options = $post['option'] ?? [];
                             //for FILE-attributes
                             if (has_value($this->request->files['option']['name'])) {
