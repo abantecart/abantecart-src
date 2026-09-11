@@ -366,7 +366,9 @@ final class ADispatcher
             } else {
                 $err = new AError(
                     'Error: controller method not exist ' . $this->class . '::'
-                    . $this->method . '!' . PHP_EOL . 'GET: ' . var_export($_GET, true),
+                    . $this->method . '!' . PHP_EOL 
+                    . 'GET: ' . var_export($_GET, true) . PHP_EOL
+                    . 'IP: ' . $this?->registry->get('request')?->getRemoteIP(),
                     AC_ERR_CLASS_METHOD_NOT_EXIST
                 );
                 $err->toLog()->toDebug();
