@@ -1046,24 +1046,28 @@ class ModelCheckoutOrder extends Model
      */
     protected function sendEmail(string $to, ?bool $alertEmail = false)
     {
-        $mail = new AMail($this->config);
-        $mail->setTo($to);
-        $mail->setFrom($this->config->get('store_main_email'));
-        $mail->setReplyTo($this->config->get('store_main_email'));
-        $mail->setSender($this->data['sender']);
-        $defaultTpl = $alertEmail ? 'storefront_order_confirm_admin_notify' : 'storefront_order_confirm';
-        $mail->setTemplate(
-            $this->data['email_template_text_id'] ? : $defaultTpl,
-            $this->data['mail_template_data']
-        );
-        foreach ($this->data['attachments'] as $attachment) {
-            $mail->addAttachment(
-                $attachment['file'],
-                $attachment['name']
+        try{
+            $mail = new AMail($this->config);
+            $mail->setTo($to);
+            $mail->setFrom($this->config->get('store_main_email'));
+            $mail->setReplyTo($this->config->get('store_main_email'));
+            $mail->setSender($this->data['sender']);
+            $defaultTpl = $alertEmail ? 'storefront_order_confirm_admin_notify' : 'storefront_order_confirm';
+            $mail->setTemplate(
+                $this->data['email_template_text_id'] ? : $defaultTpl,
+                $this->data['mail_template_data']
             );
+            foreach ($this->data['attachments'] as $attachment) {
+                $mail->addAttachment(
+                    $attachment['file'],
+                    $attachment['name']
+                );
+            }
+            //silent sending
+            $mail->send(true);
+        }catch(\Exception $e){
+            $this->log->write('Order status update email for failed: ' . $e->getMessage());
         }
-        //silent sending
-        $mail->send(true);
     }
 
     /**
@@ -1170,13 +1174,17 @@ class ModelCheckoutOrder extends Model
 
         //notify via email
         if ($notify) {
-            $mail = new AMail($this->config);
-            $mail->setTo($orderData['email']);
-            $mail->setFrom($this->config->get('store_main_email'));
-            $mail->setReplyTo($this->config->get('store_main_email'));
-            $mail->setSender($orderData['store_name']);
-            $mail->setTemplate('admin_order_status_notify', $data);
-            $mail->send(true);
+            try {
+                $mail = new AMail($this->config);
+                $mail->setTo($orderData['email']);
+                $mail->setFrom($this->config->get('store_main_email'));
+                $mail->setReplyTo($this->config->get('store_main_email'));
+                $mail->setSender($orderData['store_name']);
+                $mail->setTemplate('admin_order_status_notify', $data);
+                $mail->send(true);
+            }catch(\Exception $e){
+                $this->log->write('Order status update email for Admin failed: ' . $e->getMessage());
+            }
         }
     }
 
