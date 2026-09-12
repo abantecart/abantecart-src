@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2022 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2026 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -95,13 +95,11 @@ class ACacheDriverRedis extends ACacheDriver
      */
     public function isSupported()
     {
-        if ((extension_loaded('redis') && class_exists('Redis')) != true) {
+        if (!(extension_loaded('redis') && class_exists('Redis'))) {
             return false;
         }
 
-        // Now check if we can connect to the specified Memcached server
-        $redis = new \Redis;
-        return @$redis->connect(CACHE_HOST, CACHE_PORT);
+        return true;
     }
 
     /**
@@ -222,24 +220,36 @@ class ACacheDriverRedis extends ACacheDriver
         $output = [];
         $output['waited'] = false;
 
-        $loops = $locktime * 10;
         $lock_id = $this->_getCacheId($key, $group) . '_lock';
         $ttl_ms = max(1, (int)$locktime) * 1000;
 
         $data_lock = $this->connect->set($lock_id, 1, ['nx', 'px' => $ttl_ms]);
 
         if (!$data_lock) {
-            $lock_counter = 0;
-            // Retry SET NX PX until the other holder releases (or TTL expires), or we time out.
+            // Poll roughly every 50-100ms (with jitter) instead of hammering Redis
+            // every ~0.1ms (the previous usleep(100) was 100 *microseconds*, 1000x
+            // shorter than the 100ms interval that $loops = $locktime*10 was
+            // designed around). Total wait is capped at $locktime seconds - the
+            // same window the lock itself is valid for.
+            $base_interval_us = 50000; // 50ms
+            $max_interval_us = 200000; // 200ms cap after backoff
+            $deadline = microtime(true) + max(1, (int)$locktime);
+            $interval_us = $base_interval_us;
+
             while (!$data_lock) {
-                if ($lock_counter > $loops) {
+                if (microtime(true) >= $deadline) {
                     $output['locked'] = false;
                     $output['waited'] = true;
                     break;
                 }
-                usleep(100);
+                // +/-20% jitter so concurrent waiters don't retry in lockstep
+                $jitter = (int)($interval_us * (mt_rand(-20, 20) / 100));
+                usleep(max(1000, $interval_us + $jitter));
+
                 $data_lock = $this->connect->set($lock_id, 1, ['nx', 'px' => $ttl_ms]);
-                $lock_counter++;
+
+                // gentle exponential backoff, capped
+                $interval_us = min($max_interval_us, (int)($interval_us * 1.5));
             }
         }
 
