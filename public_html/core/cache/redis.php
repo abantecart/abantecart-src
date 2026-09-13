@@ -1,4 +1,5 @@
 <?php
+
 /*
  *   $Id$
  *
@@ -27,7 +28,7 @@ include_once('driver.php');
 /**
  * Memcached driver
  *
- * NOTE: to use this driver put lines belong into your system/config.php
+ * NOTE: to use this driver, put lines belong into your system/config.php
  * NOTE: Redis php-extension required!
  * const CACHE_DRIVER = 'redis';
  * const CACHE_HOST = 'localhost';
@@ -54,6 +55,13 @@ class ACacheDriverRedis extends ACacheDriver
      */
     protected $connect;
 
+    /**
+     * Locks currently held by this process, keyed by a Redis lock key.
+     * Each entry is ['token' => string, 'expires' => float].
+     *
+     * @var array
+     */
+    protected $lock_tokens = [];
 
     /**
      * Constructor
@@ -61,6 +69,7 @@ class ACacheDriverRedis extends ACacheDriver
      * @param int $expiration
      * @param int $lock_time
      *
+     * @throws AException
      * @since   1.3.3
      */
     public function __construct($expiration, $lock_time = 0)
@@ -77,15 +86,13 @@ class ACacheDriverRedis extends ACacheDriver
         $this->connect = new \Redis();
 
         $test = $this->connect->pconnect($this->hostname, $this->port, $this->timeout, $this->persistentId);
-        $this->connect->auth($this->password);
-
         if (!$test) {
             throw new AException(AC_ERR_LOAD, 'Error: Could not connect to Redis server.');
         }
-        // Memcached has no list keys, we do our own accounting, initialise key index
-        if ($this->connect->get($this->secret . '-index') === false) {
-            $empty = [];
-            $this->connect->set($this->secret . '-index', $empty, 0);
+        // AUTH against a server without "requirepass" makes "phpredis" throw, so only
+        // authenticate when a password is actually configured.
+        if ((string) $this->password !== '') {
+            $this->connect->auth($this->password);
         }
     }
 
@@ -138,13 +145,13 @@ class ACacheDriverRedis extends ACacheDriver
      */
     public function put($key, $group, $data)
     {
-
         $cache_id = $this->_getCacheId($key, $group);
-        $status = $this->connect->set($cache_id, json_encode($data));
-        if ($status) {
-            $this->connect->expire($cache_id, $this->expire);
-        }
-        return (bool)$status;
+        $ttl = $this->expire;
+        // Set the value and its TTL in a single command. SET followed by EXPIRE left
+        // the key without expiration in between, so a crash in that window turned the
+        // entry into a permanent one.
+        $options = $ttl > 0 ? ['ex' => $ttl] : [];
+        return (bool) $this->connect->set($cache_id, json_encode($data), $options);
     }
 
     /**
@@ -173,20 +180,26 @@ class ACacheDriverRedis extends ACacheDriver
      */
     public function clean($group)
     {
-
         $group = trim($group);
         if (!$group) {
             return false;
         }
 
-        $indexes = (array)$this->connect->keys($this->secret . '*');
+        if ($group == '*') {
+            // flushDb, not flushAll: flushAll wipes every database of the instance,
+            // including keys that belong to other applications. It also used to run
+            // once per matched key instead of once in total.
+            return (bool) $this->connect->flushDb();
+        }
 
-        foreach ($indexes as $keyName) {
-            if ($group == '*') {
-                $this->connect->flushAll();
-            } elseif (is_int(strpos($keyName, $group . '.'))) {
-                $this->connect->del($keyName);
-            }
+        // SCAN instead of KEYS - KEYS walks the whole keyspace and blocks the server.
+        // Cache ids are built as "<secret>.<group>.<hash>" by _getCacheId(), so the
+        // group prefix selects the group's entries and its "_lock" keys.
+        $pattern = $this->secret . '.' . $group . '.*';
+        $this->connect->setOption(\Redis::OPT_SCAN, \Redis::SCAN_RETRY);
+        $iterator = null;
+        while ($keys = $this->connect->scan($iterator, $pattern, 500)) {
+            $this->connect->del($keys);
         }
 
         return true;
@@ -201,11 +214,11 @@ class ACacheDriverRedis extends ACacheDriver
      */
     public function gc()
     {
-        return null;
+        return false;
     }
 
     /**
-     * Lock cached item with atomic SET NX PX (do not GET + sleep).
+     * Lock the cached item with atomic SET NX PX (do not GET + sleep).
      *
      * @param string $key The cache data key
      * @param string $group The cache data group
@@ -221,39 +234,61 @@ class ACacheDriverRedis extends ACacheDriver
         $output['waited'] = false;
 
         $lock_id = $this->_getCacheId($key, $group) . '_lock';
-        $ttl_ms = max(1, (int)$locktime) * 1000;
+        $ttl_ms = max(1, (int) $locktime) * 1000;
 
-        $data_lock = $this->connect->set($lock_id, 1, ['nx', 'px' => $ttl_ms]);
+        // Re-entrant for the holder. ACache::pull() takes the lock on a cache miss and
+        // leaves releasing it to the ACache::push() that follows, so without this the
+        // process would block on a lock it owns itself and time out.
+        if (isset($this->lock_tokens[$lock_id])
+            && $this->lock_tokens[$lock_id]['expires'] > microtime(true)
+        ) {
+            $output['locked'] = true;
+            return $output;
+        }
+        unset($this->lock_tokens[$lock_id]);
+
+        $token = $this->_lockToken();
+        $data_lock = $this->connect->set($lock_id, $token, ['nx', 'px' => $ttl_ms]);
 
         if (!$data_lock) {
-            // Poll roughly every 50-100ms (with jitter) instead of hammering Redis
-            // every ~0.1ms (the previous usleep(100) was 100 *microseconds*, 1000x
-            // shorter than the 100ms interval that $loops = $locktime*10 was
-            // designed around). Total wait is capped at $locktime seconds - the
-            // same window the lock itself is valid for.
+            /* Another process holds the lock. Report the wait right away: ACache::pull()
+             re-reads the cache only when lock() comes back both locked and waited, so
+             setting 'waited' just on timeout made that re-read unreachable.*/
+            $output['waited'] = true;
+
+            /* Poll roughly every 50-200ms (with jitter) instead of hammering Redis
+             every ~0.1ms (the previous usleep(100) was 100 *microseconds*, 1000x
+             shorter than the 100ms interval that $loops = $locktime*10 was
+             designed around). The total wait is capped at $locktime seconds - the
+             same window the lock itself is valid for.*/
             $base_interval_us = 50000; // 50ms
             $max_interval_us = 200000; // 200ms cap after backoff
-            $deadline = microtime(true) + max(1, (int)$locktime);
+            $deadline = microtime(true) + max(1, (int) $locktime);
             $interval_us = $base_interval_us;
 
             while (!$data_lock) {
                 if (microtime(true) >= $deadline) {
-                    $output['locked'] = false;
-                    $output['waited'] = true;
                     break;
                 }
                 // +/-20% jitter so concurrent waiters don't retry in lockstep
-                $jitter = (int)($interval_us * (mt_rand(-20, 20) / 100));
+                $jitter = (int) ($interval_us * (mt_rand(-20, 20) / 100));
                 usleep(max(1000, $interval_us + $jitter));
 
-                $data_lock = $this->connect->set($lock_id, 1, ['nx', 'px' => $ttl_ms]);
+                $data_lock = $this->connect->set($lock_id, $token, ['nx', 'px' => $ttl_ms]);
 
                 // gentle exponential backoff, capped
-                $interval_us = min($max_interval_us, (int)($interval_us * 1.5));
+                $interval_us = min($max_interval_us, (int) ($interval_us * 1.5));
             }
         }
 
-        $output['locked'] = $data_lock;
+        if ($data_lock) {
+            $this->lock_tokens[$lock_id] = [
+                'token'   => $token,
+                'expires' => microtime(true) + $ttl_ms / 1000,
+            ];
+        }
+
+        $output['locked'] = (bool) $data_lock;
         return $output;
     }
 
@@ -269,14 +304,38 @@ class ACacheDriverRedis extends ACacheDriver
     public function unlock($key, $group = null)
     {
         $lock_id = $this->_getCacheId($key, $group) . '_lock';
-        $this->connect->del($lock_id);
+        $held = $this->lock_tokens[$lock_id] ?? null;
+        unset($this->lock_tokens[$lock_id]);
+
+        if ($held) {
+            // Compare-and-delete. A bare DEL would drop the lock of another process
+            // that acquired it after ours had already expired by TTL.
+            $script = "if redis.call('get', KEYS[1]) == ARGV[1]"
+                . " then return redis.call('del', KEYS[1]) else return 0 end";
+            $this->connect->eval($script, [$lock_id, $held['token']], 1);
+        }
+
+        // true means "handled by this driver", see ACache::unlock()
         return true;
+    }
+
+    /**
+     * Build a value that identifies this process as the owner of a lock.
+     *
+     * @return string
+     */
+    protected function _lockToken()
+    {
+        try {
+            $random = bin2hex(random_bytes(8));
+        } catch (Exception) {
+            $random = dechex(mt_rand()) . dechex(mt_rand());
+        }
+        return getmypid() . '-' . $random;
     }
 
     protected function _getCacheId($key, $group)
     {
         return $this->secret . '.' . $group . '.' . $this->_hashCacheKey($key, $group);
     }
-
-
 }
