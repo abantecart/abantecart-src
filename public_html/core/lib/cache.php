@@ -283,17 +283,8 @@ class ACache
                 $this->cache_hits[$group][$key] += 1;
                 return $this->cache[$group][$key];
             }
-            //load cache from storage
+
             $data = $this->cache_driver->get($key, $group);
-            if ($data === false) {
-                //check if cache is locked
-                $lock = $this->lock($key, $group);
-                if ($lock['locked'] && $lock['waited']) {
-                    //try to get cache again 
-                    $data = $this->cache_driver->get($key, $group);
-                    $this->unlock($key, $group);
-                }
-            }
 
             if ($data !== false) {
                 $data = unserialize($data);
@@ -303,10 +294,10 @@ class ACache
                 return $data;
             }
         }
+
         if (!isset($this->cache_misses[$group])) {
             $this->cache_misses[$group] = [];
         }
-
         $this->cache_misses[$group][$key] = $this->cache_misses[$group][$key] ?? 0;
         $this->cache_misses[$group][$key] += 1;
         return false;
