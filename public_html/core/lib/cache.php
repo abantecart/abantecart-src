@@ -57,7 +57,7 @@ class ACache
     /**
      * Cache lock time, 0 - no cache locking
      */
-    private $locktime = 10;
+    private $locktime = 0;
 
     /**
      * Holds the cached data.
@@ -239,19 +239,7 @@ class ACache
 
         if (!is_null($data) && $this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
             $data = serialize($data);
-
-            $lock = $this->lock($key, $group);
-            if (!$lock['locked'] && $lock['waited']) {
-                //cache is released, try locking again. 
-                $lock = $this->lock($key, $group);
-            }
-
             $ret = $this->cache_driver->put($key, $group, $data);
-
-            if ($lock['locked']) {
-                //unlock if cache was locked
-                $this->unlock($key, $group);
-            }
         }
         return $ret;
     }
