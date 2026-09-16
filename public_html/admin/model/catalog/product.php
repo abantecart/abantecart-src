@@ -427,7 +427,7 @@ class ModelCatalogProduct extends Model
 
     public function saveSettings(int $product_id, $settings)
     {
-        if (!$settings) {
+        if (!$settings || !$product_id) {
             return;
         }
 
@@ -436,7 +436,7 @@ class ModelCatalogProduct extends Model
              FROM " . $this->db->table("products") . " 
              WHERE product_id = " . $product_id
         )->row['settings'];
-        $priorSettings = unserialize($priorSettings) ? : [];
+        $priorSettings = unserialize((string)$priorSettings) ? : [];
         $settings = is_serialized($settings) ? unserialize($settings) : $settings;
         $newSettings = array_merge($priorSettings, (array)$settings);
         $this->db->query(
