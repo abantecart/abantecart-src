@@ -443,7 +443,7 @@ class ModelAccountCustomer extends Model
         $sql = "UPDATE " . $this->db->table('customers') . "
                 SET " . implode(', ', $upd) . "\n"
             . $key_sql .
-            " WHERE customer_id = '" . $customer_id . "'";
+            " WHERE customer_id = '" . (int)$customer_id . "'";
         $this->db->query($sql);
         return true;
     }
@@ -478,7 +478,7 @@ class ModelAccountCustomer extends Model
      */
     public function saveCustomerNotificationSettings($settings)
     {
-        $customer_id = $this->customer->getId();
+        $customer_id = (int)$this->customer->getId();
         //do not save settings for guests
         if (!$customer_id) {
             return null;
@@ -799,7 +799,7 @@ class ModelAccountCustomer extends Model
         $query = $this->db->query(
             "SELECT COUNT(*) AS total
            FROM " . $this->db->table("customers") . "
-           WHERE LOWER(`loginname`) = LOWER('" . $loginname . "')"
+           WHERE LOWER(`loginname`) = LOWER('" . $this->db->escape($loginname) . "')"
         );
         if ($query->row['total'] > 0) {
             return false;
