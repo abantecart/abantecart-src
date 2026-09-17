@@ -1,11 +1,12 @@
 <?php
+
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -29,7 +30,7 @@ if (!defined('DIR_CORE')) {
  *
  * @return array
  *
- * Note: This is English text only. Can be call before database and languages are loaded
+ * Note: This is English text only. Can be called before a database and languages are loaded
  * @throws AException
  * @since 1.2.4
  *
@@ -42,9 +43,17 @@ function run_system_check($registry, $mode = 'log')
     $mLog[] = check_install_directory();
 
     if ( //run on admin side
-        (IS_ADMIN === true && (!$registry->get('config')->get('config_system_check') || $registry->get('config')->get('config_system_check') == 1))
+        (IS_ADMIN === true
+            && (!$registry->get('config')->get('config_system_check')
+                || $registry->get('config')->get(
+                    'config_system_check'
+                ) == 1))
         || //run on storefront side
-        (IS_ADMIN !== true && (!$registry->get('config')->get('config_system_check') || $registry->get('config')->get('config_system_check') == 2))
+        (IS_ADMIN !== true
+            && (!$registry->get('config')->get('config_system_check')
+                || $registry->get('config')->get(
+                    'config_system_check'
+                ) == 2))
     ) {
         $mLog = array_merge($mLog, check_file_permissions($registry));
         $mLog = array_merge($mLog, checkPhpConfiguration());
@@ -110,7 +119,8 @@ function check_file_permissions($registry)
     if (is_writable($index) || substr(sprintf("%o", fileperms($index)), -3) == '777') {
         $ret_array[] = [
             'title' => 'Incorrect index.php file permissions',
-            'body'  => $index . ' file is writable. It is recommended to set read and execute modes for this file to keep it secured and running properly!',
+            'body'  => $index
+                . ' file is writable. It is recommended to set read and execute modes for this file to keep it secured and running properly!',
             'type'  => 'W',
         ];
     }
@@ -118,7 +128,8 @@ function check_file_permissions($registry)
     if (is_writable(DIR_SYSTEM . 'config.php')) {
         $ret_array[] = [
             'title' => 'Incorrect config.php file permissions',
-            'body'  => DIR_SYSTEM . 'config.php' . ' file needs to be set to read and execute modes to keep it secured from editing!',
+            'body'  => DIR_SYSTEM . 'config.php'
+                . ' file needs to be set to read and execute modes to keep it secured from editing!',
             'type'  => 'W',
         ];
     }
@@ -126,7 +137,8 @@ function check_file_permissions($registry)
     if (is_writable(DIR_ROOT . DS . 'vendor')) {
         $ret_array[] = [
             'title' => 'Not secure vendor directory',
-            'body'  => DIR_ROOT . DS . 'vendor' . ' directory and its content needs to be set to read and execute only!',
+            'body'  => DIR_ROOT . DS . 'vendor'
+                . ' directory and its content needs to be set to read and execute only!',
             'type'  => 'W',
         ];
     }
@@ -150,7 +162,8 @@ function check_file_permissions($registry)
         if ($cache_message) {
             $ret_array[] = [
                 'title' => 'Incorrect cache files permissions',
-                'body'  => "Following files do not have write permissions. AbanteCart will not function properly. <br/>" . $cache_message,
+                'body'  => "The following files do not have write permissions. AbanteCart will not function properly. <br/>"
+                    . $cache_message,
                 'type'  => 'E',
             ];
         }
@@ -166,7 +179,8 @@ function check_file_permissions($registry)
     if (!is_writable($logsDir) || !is_writable(DIR_SYSTEM . 'logs' . DS . 'error.txt')) {
         $ret_array[] = [
             'title' => 'Incorrect log dir/file permissions',
-            'body'  => DIR_SYSTEM . 'logs' . ' directory or error.txt file needs to be set to full permissions(777)! Error logs can not be saved',
+            'body'  => DIR_SYSTEM . 'logs'
+                . ' directory or error.txt file needs to be set to full permissions(777)! Error logs can not be saved',
             'type'  => 'W',
         ];
     }
@@ -184,7 +198,8 @@ function check_file_permissions($registry)
     if ($resource_message) {
         $ret_array[] = [
             'title' => 'Incorrect resource files permissions',
-            'body'  => "Following files(folders) do not have write permissions. AbanteCart Media Manager will not function properly. <br/>" . $resource_message,
+            'body'  => "The following files (folders) do not have write permissions. AbanteCart Media Manager will not function properly. <br/>"
+                . $resource_message,
             'type'  => 'W',
         ];
     }
@@ -202,7 +217,8 @@ function check_file_permissions($registry)
     if ($image_message) {
         $ret_array[] = [
             'title' => 'Incorrect image files permissions',
-            'body'  => "The following files do not have write permissions. AbanteCart thumbnail images will not function properly. <br/>" . $image_message,
+            'body'  => "The following files do not have write permissions. AbanteCart thumbnail images will not function properly. <br/>"
+                . $image_message,
             'type'  => 'W',
         ];
     }
@@ -210,7 +226,8 @@ function check_file_permissions($registry)
     if (!is_writable(DIR_ROOT . DS . 'admin' . DS . 'system')) {
         $ret_array[] = [
             'title' => 'Incorrect directory permission',
-            'body'  => DIR_ROOT . DS . 'admin' . DS . 'system' . ' directory needs to be set to full permissions(775)! AbanteCart backups and upgrade will not work.',
+            'body'  => DIR_ROOT . DS . 'admin' . DS . 'system'
+                . ' directory needs to be set to full permissions(775)! AbanteCart backups and upgrade will not work.',
             'type'  => 'W',
         ];
     }
@@ -219,7 +236,8 @@ function check_file_permissions($registry)
     if (is_dir($bkpDir) && !is_writable($bkpDir)) {
         $ret_array[] = [
             'title' => 'Incorrect backup directory permission',
-            'body'  => $bkpDir . ' directory needs to be set to full permissions(775)! AbanteCart backups and upgrade will not work.',
+            'body'  => $bkpDir
+                . ' directory needs to be set to full permissions(775)! AbanteCart backups and upgrade will not work.',
             'type'  => 'W',
         ];
     }
@@ -235,7 +253,8 @@ function check_file_permissions($registry)
     if (is_dir($uploadDir) && !is_writable($uploadDir)) {
         $ret_array[] = [
             'title' => 'Incorrect "uploads" directory permission',
-            'body'  => $uploadDir . ' directory needs to be set to full permissions(775)! Probably AbanteCart file uploads will not work.',
+            'body'  => $uploadDir
+                . ' directory needs to be set to full permissions(775)! Probably AbanteCart file uploads will not work.',
             'type'  => 'W',
         ];
     }
@@ -245,14 +264,14 @@ function check_file_permissions($registry)
 
 /**
  * @param array $modules - list of specific modules needs to be installed on host
- * @param string|null $phpMinVersion - minimal required version of PHP. If not set - take current
+ * @param string|null $phpMinVersion - Minimal required version of PHP. If not set, take current
  *
  * @return array
  */
 function checkPhpConfiguration($modules = [], $phpMinVersion = null)
 {
     $output = [];
-    $phpMinVersion = $phpMinVersion ?: MIN_PHP_VERSION;
+    $phpMinVersion = $phpMinVersion ? : MIN_PHP_VERSION;
     if (version_compare(phpversion(), $phpMinVersion, '<')) {
         $output['php_version'] = [
             'title' => 'Incompatible PHP version',
@@ -261,7 +280,7 @@ function checkPhpConfiguration($modules = [], $phpMinVersion = null)
         ];
     }
 
-    //if needs to check specific php-extensions
+    //if it needs to check specific php-extensions
     if ($modules) {
         foreach ($modules as $module) {
             $module = strtolower($module);
@@ -346,7 +365,7 @@ function checkPhpConfiguration($modules = [], $phpMinVersion = null)
     $last = strtolower($memory_limit[strlen($memory_limit) - 1]);
 
     switch ($last) {
-        // The 'G' modifier is available since PHP 5.1.0
+        // The 'G' modifier has been available since PHP 5.1.0
         case 'g':
             $memory_limit *= (1024 * 1024 * 1024);
             break;
@@ -387,7 +406,8 @@ function check_server_configuration($registry)
     if (isset($size['bytes']) && $size['bytes'] < 1024 * 10000) {
         $output[] = [
             'title' => 'Critically low disk space',
-            'body'  => 'AbanteCart is running on critically low disk space of ' . $size['human'] . '! Increase disk size to prevent failure.',
+            'body'  => 'AbanteCart is running on critically low disk space of ' . $size['human']
+                . '! Increase disk size to prevent failure.',
             'type'  => 'E',
         ];
     }
@@ -428,14 +448,14 @@ function check_server_configuration($registry)
         $timezone = date_default_timezone_get();
         if ($timezone) {
             $timezone = $timezone == 'UTC' ? 'Europe/London' : $timezone;
-            $registry->get('db')->query("SET time_zone='".$timezone."';");
+            $registry->get('db')->query("SET time_zone='" . $timezone . "';");
         }
-    } catch (\Exception $e) {
+    } catch (Exception) {
         $output[] = [
-            'title' => 'Database does not support timezone '.$timezone,
+            'title' => 'Database does not support timezone ' . $timezone,
             'body'  => "Looks like your database does not support timezone(s). "
-                ."Check the manual for your database-server to setup the correct timezone. "
-                ."For testing just run sql-query \"SET time_zone='".$timezone."';\"",
+                . "Check the manual for your database-server to setup the correct timezone. "
+                . "For testing just run sql-query \"SET time_zone='" . $timezone . "';\"",
             'type'  => 'W',
         ];
     }
@@ -476,12 +496,12 @@ function disk_size($path)
             $bytes = disk_free_space($path);
             $si_prefix = ['B', 'KB', 'MB', 'GB', 'TB', 'EB', 'ZB', 'YB'];
             $base = 1024;
-            $class = min((int)log($bytes, $base), count($si_prefix) - 1);
+            $class = min((int) log($bytes, $base), count($si_prefix) - 1);
             return [
                 'bytes' => $bytes,
                 'human' => sprintf('%1.2f', $bytes / pow($base, $class)) . ' ' . $si_prefix[$class],
             ];
-        } catch (Exception $e) {
+        } catch (Exception) {
             return [];
         }
     } else {
@@ -497,11 +517,10 @@ function disk_size($path)
  */
 function check_order_statuses($registry)
 {
-
     $db = $registry->get('db');
 
     $order_statuses = $registry->get('order_status')->getStatuses();
-    $language_id = (int)$registry->get('language')->getDefaultLanguageID();
+    $language_id = (int) $registry->get('language')->getDefaultLanguageID();
 
     $query = $db->query(
         "SELECT osi.order_status_id, osi.status_text_id
@@ -512,7 +531,7 @@ function check_order_statuses($registry)
     );
     $db_statuses = [];
     foreach ($query->rows as $row) {
-        $db_statuses[(int)$row['order_status_id']] = $row['status_text_id'];
+        $db_statuses[(int) $row['order_status_id']] = $row['status_text_id'];
     }
 
     $ret_array = [];
@@ -536,7 +555,6 @@ function check_order_statuses($registry)
  */
 function check_web_access()
 {
-
     $areas = [
         'system'             => ['.htaccess', 'index.php'],
         'resources/download' => ['.htaccess'],
@@ -558,17 +576,20 @@ function check_web_access()
             switch ($rule) {
                 case '.htaccess':
                     if (!is_file($dirname . DS . '.htaccess')) {
-                        $message = 'Restricted directory ' . $dirname . ' have public access. It is highly recommended to create .htaccess file and forbid access. ';
+                        $message = 'Restricted directory ' . $dirname
+                            . ' have public access. It is highly recommended to create .htaccess file and forbid access. ';
                     }
                     break;
                 case 'index.php':
                     if (!is_file($dirname . DS . 'index.php')) {
-                        $message = 'Restricted directory ' . $dirname . ' does not contain index.php file. It is highly recommended to create it.';
+                        $message = 'Restricted directory ' . $dirname
+                            . ' does not contain index.php file. It is highly recommended to create it.';
                     }
                     break;
                 case 'index.html':
                     if (!is_file($dirname . DS . 'index.html')) {
-                        $message = 'Restricted directory ' . $dirname . ' does not contain empty index.html file. It is highly recommended to create it.';
+                        $message = 'Restricted directory ' . $dirname
+                            . ' does not contain empty index.html file. It is highly recommended to create it.';
                     }
 
                     break;
@@ -596,13 +617,12 @@ function check_web_access()
  */
 function run_critical_system_check($registry, $mode = 'log')
 {
-
-    $mlog = [];
-    $mlog[] = check_session_save_path();
+    $mLog = [];
+    $mLog[] = check_session_save_path();
 
     $output = [];
 
-    foreach ($mlog as $message) {
+    foreach ($mLog as $message) {
         if ($message['body']) {
             if ($mode == 'log') {
                 //only save errors to the log
@@ -629,7 +649,8 @@ function check_session_save_path()
         $path = array_pop($parts);
         if (!is_writable($path)) {
             Registry::getInstance()?->get('log')?->write(
-                __FUNCTION__ . ': Session save path "' . $path . ' (session.save_path=' . $save_path . ')" is not writable! '
+                __FUNCTION__ . ': Session save path "' . $path . ' (session.save_path=' . $save_path
+                . ')" is not writable! '
             );
             return [
                 'title' => 'Session save path "' . $save_path . '" is not writable! ',
@@ -642,7 +663,7 @@ function check_session_save_path()
 }
 
 /**
- * Function seek an extension which made layout changes during it's installation process
+ * The function seeks an extension which made layout changes during it's installation process
  * Template-extension ignores
  *
  * @param string $excludeExtension
@@ -651,7 +672,6 @@ function check_session_save_path()
  */
 function findExtensionsLayouts($excludeExtension = '')
 {
-
     $output = [];
     $registry = Registry::getInstance();
     $config = $registry->get('config');
@@ -674,7 +694,7 @@ function findExtensionsLayouts($excludeExtension = '')
             continue;
         }
 
-        $xmlLayouts = glob(DIR_EXT . $ext['key'] . DS.'*{layout}*.xml', GLOB_BRACE);
+        $xmlLayouts = glob(DIR_EXT . $ext['key'] . DS . '*{layout}*.xml', GLOB_BRACE);
         if (!$xmlLayouts) {
             continue;
         }
@@ -686,7 +706,7 @@ function findExtensionsLayouts($excludeExtension = '')
                     continue;
                 }
                 foreach ($extensionLayout->layout as $l) {
-                    if (!in_array((string)$l->name, $currentTemplatePages)) {
+                    if (!in_array((string) $l->name, $currentTemplatePages)) {
                         $absent = true;
                         break;
                     }

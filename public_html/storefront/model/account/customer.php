@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -33,6 +33,9 @@ class ModelAccountCustomer extends Model
 {
     public $error = [];
 
+    /**
+     * @param Registry $registry
+     */
     public function __construct($registry)
     {
         parent::__construct($registry);
@@ -74,7 +77,7 @@ class ModelAccountCustomer extends Model
             $data['customer_group_id'] = (int) $this->config->get('config_customer_group_id');
         }
         if (!isset($data['status'])) {
-            // if need to activate via email  - disable status
+            // if we need to activate via email, disable status
             if ($this->config->get('config_customer_email_activation')) {
                 $data['status'] = 0;
             } else {
@@ -442,8 +445,8 @@ class ModelAccountCustomer extends Model
 
         $sql = "UPDATE " . $this->db->table('customers') . "
                 SET " . implode(', ', $upd) . "\n"
-            . $key_sql .
-            " WHERE customer_id = '" . (int)$customer_id . "'";
+            . $key_sql
+            . " WHERE customer_id = '" . (int) $customer_id . "'";
         $this->db->query($sql);
         return true;
     }
@@ -478,7 +481,7 @@ class ModelAccountCustomer extends Model
      */
     public function saveCustomerNotificationSettings($settings)
     {
-        $customer_id = (int)$this->customer->getId();
+        $customer_id = (int) $this->customer->getId();
         //do not save settings for guests
         if (!$customer_id) {
             return null;
@@ -512,7 +515,7 @@ class ModelAccountCustomer extends Model
                     $this->db->query($sql);
                 }
             }
-            //for newsletter subscription do changes inside the customers table
+            //for newsletter subscription do changes inside the customer's table
             //if at least one protocol enabled - set 1, otherwise - 0
             if (has_value($update['newsletter'])) {
                 $newsletter_status = 0;
@@ -704,12 +707,12 @@ class ModelAccountCustomer extends Model
         $sql = "SELECT *
                 FROM " . $this->db->table("customers") . "
                 WHERE email LIKE '" . $this->db->escape($email) . "'";
-        
-        if($this->dcrypt->active && !$this->config->get('prevent_email_as_login')) {
+
+        if ($this->dcrypt->active && !$this->config->get('prevent_email_as_login')) {
             $sql .= " OR loginname LIKE '" . $this->db->escape($email) . "'";
         }
         $sql .= " ORDER by status DESC, approved DESC, date_modified DESC LIMIT 1";
-        $query = $this->db->query( $sql );
+        $query = $this->db->query($sql);
         $output = $this->dcrypt->decrypt_data($query->row, 'customers');
         if ($output['data']) {
             $output['data'] = unserialize($output['data']);
@@ -850,7 +853,7 @@ class ModelAccountCustomer extends Model
         $form->loadFromDb('CustomerFrm');
         $telephoneField = $form->getField('telephone');
         $this->data['phone_pattern'] = $telephoneField['regexp_pattern'] ? : DEFAULT_PHONE_REGEX_PATTERN;
-        $isPhoneRequired = (bool)$telephoneField['required'];
+        $isPhoneRequired = (bool) $telephoneField['required'];
         $hasPhone = trim($phone) !== '';
         if (($isPhoneRequired || $hasPhone)
             && (mb_strlen($phone) < 3 || mb_strlen($phone) > 32 || !preg_match($this->data['phone_pattern'], $phone))
@@ -858,7 +861,7 @@ class ModelAccountCustomer extends Model
             $this->error['telephone'] = $this->language->get('error_telephone');
         }
 
-        //check password length considering html-entities (special case for characters " > < & )
+        //check password length considering html-entities (special case for characters " > < &)
         $pass_len = mb_strlen(htmlspecialchars_decode($data['password']));
         if ($pass_len < 4 || $pass_len > 20) {
             $this->error['password'] = $this->language->get('error_password');
@@ -997,7 +1000,7 @@ class ModelAccountCustomer extends Model
         $form->loadFromDb('CustomerFrm');
         $telephoneField = $form->getField('telephone');
         $this->data['phone_pattern'] = $telephoneField['regexp_pattern'] ? : DEFAULT_PHONE_REGEX_PATTERN;
-        $isPhoneRequired = (bool)$telephoneField['required'];
+        $isPhoneRequired = (bool) $telephoneField['required'];
         $hasPhone = trim($phone) !== '';
         if (($isPhoneRequired || $hasPhone)
             && (mb_strlen($phone) < 3 || mb_strlen($phone) > 32 || !preg_match($this->data['phone_pattern'], $phone))
