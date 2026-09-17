@@ -1,4 +1,5 @@
 <?php
+
 /*
  *   $Id$
  *
@@ -119,8 +120,19 @@ final class AConfig
         if (defined('CACHE_DRIVER')) {
             $cache_driver = CACHE_DRIVER;
         }
-        if (!$cache->setCacheStorageDriver($cache_driver)) {
-            $error = new AError ('Cache storage driver ' . $cache_driver . ' can not be loaded!');
+        try {
+            $isCacheEnabled = $cache->setCacheStorageDriver($cache_driver);
+            if (!$isCacheEnabled) {
+                throw new Exception('Cache storage driver ' . $cache_driver . ' can not be loaded!');
+            }
+        } catch (Throwable $e) {
+            $trace = $e->getMessage() . PHP_EOL . $e->getTraceAsString();
+            if (php_sapi_name() == 'cli') {
+                echo 'Cache storage driver ' . $cache_driver . ' can not be loaded!' . PHP_EOL;
+                echo $trace . PHP_EOL;
+                exit(1);
+            }
+            $error = new AError ($trace);
             $error->toLog()->toDebug()->toMessages();
         }
 
@@ -201,7 +213,7 @@ final class AConfig
 
         $domain = str_replace('www.', '', $_SERVER['HTTP_HOST']);
         if ($url != $config_url) {
-            // if requested url not a default store URL - do check other stores.
+            // if requested url not a default store URL, do check other stores.
             $foundStoreId = null;
             $subPath = '/' . trim($_SERVER['REQUEST_URI'], "/");
             $subPath = $subPath ? explode("/", $subPath) : [''];
@@ -224,7 +236,7 @@ final class AConfig
                     $testUri = $domain . '/' . $sp;
                     $testUri = str_replace('//', '/', $testUri);
                     if (str_replace('www.', '', $row['uri']) == $testUri) {
-                        $foundStoreId = (int)$row['store_id'];
+                        $foundStoreId = (int) $row['store_id'];
                         break 2;
                     }
                 }
@@ -240,7 +252,7 @@ final class AConfig
                             break 1;
                         }
                         if (is_int(strpos($row['uri'], $testUri))) {
-                            $foundStoreId = (int)$row['store_id'];
+                            $foundStoreId = (int) $row['store_id'];
                             break 2;
                         }
                         array_pop($tmp);
@@ -252,7 +264,7 @@ final class AConfig
             $sql = "SELECT se.`key`, se.`value`, st.store_id
                       FROM " . $db->table('settings') . " se
                       RIGHT JOIN " . $db->table('stores') . " st ON se.store_id = st.store_id
-                      WHERE se.store_id = " . (int)$foundStoreId . "
+                      WHERE se.store_id = " . (int) $foundStoreId . "
                             AND st.status = 1
                             AND TRIM(se.`group`) NOT IN
                                                     (SELECT TRIM(`key`) as `key`
@@ -269,7 +281,7 @@ final class AConfig
             if ($store_settings) {
                 //store found by URL, load settings
                 $this->cfg = array_merge($this->cfg, $store_settings);
-                $this->cfg['config_store_id'] = (int)$store_settings['store_id'];
+                $this->cfg['config_store_id'] = (int) $store_settings['store_id'];
             } else {
                 //write to log when system check enabled
                 if (php_sapi_name() != 'cli'
@@ -298,7 +310,7 @@ final class AConfig
             //Check if admin has a specific store in session or selected
             $store_id = $this->registry->get('request')->get['store_id'];
             if (isset($store_id)) {
-                $this->cfg['current_store_id'] = (int)$store_id;
+                $this->cfg['current_store_id'] = (int) $store_id;
             }
             //reload store settings if not what is loaded now
 //???needed for settings page
@@ -320,11 +332,11 @@ final class AConfig
         $cache_suffix = IS_ADMIN ? 'admin' : $this->cfg['config_store_id'];
         $settings = $cache->pull('settings.extension.' . $cache_suffix);
         if (empty($settings)) {
-            // all extensions settings of store
+            // all extensions' settings of store
             $sql = "SELECT se.*, e.type as extension_type, e.key as extension_txt_id
                     FROM " . $db->table('settings') . " se
                     LEFT JOIN " . $db->table('extensions') . " e ON se.`group` = e.`key`
-                    WHERE se.store_id='" . (int)$this->cfg['config_store_id'] . "' AND e.extension_id IS NOT NULL
+                    WHERE se.store_id='" . (int) $this->cfg['config_store_id'] . "' AND e.extension_id IS NOT NULL
                     ORDER BY se.store_id ASC, se.group ASC";
             $query = $db->query($sql);
             foreach ($query->rows as $row) {
@@ -371,7 +383,9 @@ final class AConfig
                 if (str_replace('www.', '', $store_settings[$confUrl]) != $protocol . '://' . $autoUri) {
                     //remove fake(store-alias-path) prefix from the seo-key which we got from .htaccess (_route_)
                     $diff =
-                        substr(str_replace('www.', '', $store_settings[$confUrl]), strlen($protocol . '://' . $autoUri));
+                        substr(
+                            str_replace('www.', '', $store_settings[$confUrl]), strlen($protocol . '://' . $autoUri)
+                        );
                     $store_settings['seo_prefix'] = $diff;
                     if (isset($get['_route_'])) {
                         //this covers both cases (when store url with slash at the end of the url and without)
@@ -389,6 +403,7 @@ final class AConfig
 
     /**
      * @param int $store_id
+     *
      * @return void
      * @throws AException
      */
@@ -400,7 +415,7 @@ final class AConfig
                     FROM " . $db->table('settings') . " se
                     RIGHT JOIN " . $db->table('stores') . " st 
                             ON se.store_id = st.store_id
-                    WHERE se.store_id = " . (int)$store_id . " AND st.status = 1
+                    WHERE se.store_id = " . (int) $store_id . " AND st.status = 1
                     AND se.`group` NOT IN (SELECT `key` FROM " . $db->table("extensions") . ");";
         $query = $db->query($sql);
         $store_settings = $query->rows;

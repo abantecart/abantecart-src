@@ -88,7 +88,7 @@ class ModelInstall extends Model
                     $data['db_user'],
                     $data['db_password'],
                     $data['db_name'],
-                    (int)$data['db_port'] ?: NULL,
+                    (int) $data['db_port'] ? : null,
                     ['table_prefix' => $data['db_prefix']]
                 );
             } catch (Exception|Error $exception) {
@@ -217,13 +217,14 @@ class ModelInstall extends Model
         $content .= "   Released under the Open Software License (OSL 3.0)" . PHP_EOL;
         $content .= "*/" . PHP_EOL . PHP_EOL;
         $content .= "const SERVER_NAME = '" . getenv('SERVER_NAME') . "';" . PHP_EOL;
-        $content .= "// Admin Section Configuration. You can change this value to any name. Will use ?s=name to access the admin" . PHP_EOL;
+        $content .= "// Admin Section Configuration. You can change this value to any name. Will use ?s=name to access the admin"
+            . PHP_EOL;
         $content .= "const ADMIN_PATH = '" . $data['admin_path'] . "';" . PHP_EOL . PHP_EOL;
         $content .= "// Database Configuration" . PHP_EOL;
         $content .= "const DB_DRIVER = '" . $data['db_driver'] . "';" . PHP_EOL;
         $content .= "const DB_HOSTNAME = '" . $data['db_host'] . "';" . PHP_EOL;
         if ($data['db_port']) {
-            $content .= "const DB_PORT = " . (int)$data['db_port'] . ";" . PHP_EOL;
+            $content .= "const DB_PORT = " . (int) $data['db_port'] . ";" . PHP_EOL;
         }
         $content .= "const DB_USERNAME = '" . $data['db_user'] . "';" . PHP_EOL;
         $content .= "const DB_PASSWORD = '" . $data['db_password'] . "';" . PHP_EOL;
@@ -232,15 +233,18 @@ class ModelInstall extends Model
         $content .= "const CACHE_DRIVER = 'file';" . PHP_EOL;
         $content .= "// Unique AbanteCart store ID" . PHP_EOL;
         $content .= "const UNIQUE_ID = '" . md5(time()) . "';" . PHP_EOL;
-        $content .= "// Encryption key for protecting sensitive information. NOTE: Change of this key will cause a loss of all existing encrypted information!" . PHP_EOL;
+        $content .= "// Encryption key for protecting sensitive information. NOTE: Change of this key will cause a loss of all existing encrypted information!"
+            . PHP_EOL;
         $content .= "const ENCRYPTION_KEY = '" . randomWord(6) . "';" . PHP_EOL;
         $content .= PHP_EOL;
-        $content .= "// details about allowed DSN settings  https://symfony.com/doc/6.0/mailer.html#transport-setup" . PHP_EOL;
+        $content .= "// details about allowed DSN settings  https://symfony.com/doc/6.0/mailer.html#transport-setup"
+            . PHP_EOL;
         $content .= "/*" . PHP_EOL;
         $content .= "const MAILER = [" . PHP_EOL;
         $content .= "    //'dsn' => null," . PHP_EOL;
         $content .= "    // OR" . PHP_EOL;
-        $content .= "    'protocol' => 'smtp', // or ses+smtp, gmail+smtp, mandrill+smtp, mailgun+smtp, mailjet+smtp, postmark+smtp, sendgrid+smtp, sendinblue+smtp, ohmysmtp+smtp" . PHP_EOL;
+        $content .= "    'protocol' => 'smtp', // or ses+smtp, gmail+smtp, mandrill+smtp, mailgun+smtp, mailjet+smtp, postmark+smtp, sendgrid+smtp, sendinblue+smtp, ohmysmtp+smtp"
+            . PHP_EOL;
         $content .= "    //we use \"username\" also as ID, KEY, API_TOKEN, ACCESS_KEY" . PHP_EOL;
         $content .= "    'username' => 'merchant@yourdomain.com'," . PHP_EOL;
         $content .= "    'password' => '****super-secret-password****'," . PHP_EOL;
@@ -263,7 +267,7 @@ class ModelInstall extends Model
             $data['db_user'],
             $data['db_password'],
             $data['db_name'],
-            $data['db_port']?:null,
+            $data['db_port'] ? : null,
             ['table_prefix' => $data['db_prefix']]
         );
 
@@ -356,7 +360,21 @@ class ModelInstall extends Model
 
         //clear cache dir in case of reinstall
         $cache = new ACache();
-        $cache->setCacheStorageDriver('file');
+        try {
+            $isCacheEnabled = $cache->setCacheStorageDriver('file');
+            if (!$isCacheEnabled) {
+                throw new Exception('Cache storage driver file can not be loaded!');
+            }
+        } catch (Throwable $e) {
+            $trace = $e->getMessage() . PHP_EOL . $e->getTraceAsString();
+            if (php_sapi_name() == 'cli') {
+                echo 'Cache storage driver file can not be loaded!' . PHP_EOL;
+                echo $trace . PHP_EOL;
+                exit(1);
+            }
+            $error = new AError ($trace);
+            $error->toLog()->toDebug()->toMessages();
+        }
         $cache->enableCache();
         $cache->remove('*');
     }
@@ -373,7 +391,7 @@ class ModelInstall extends Model
         try {
             $db->query("SET NAMES 'utf8mb4';");
             $db->query("SET CHARACTER SET utf8mb4;");
-            $file = $file ?: DIR_APP_SECTION . 'abantecart_sample_data.sql';
+            $file = $file ? : DIR_APP_SECTION . 'abantecart_sample_data.sql';
             if (!is_file($file)) {
                 return;
             } else {
@@ -396,7 +414,21 @@ class ModelInstall extends Model
 
             //clear earlier created cache by AConfig and ALanguage classes in previous step
             $cache = new ACache();
-            $cache->setCacheStorageDriver('file');
+            try {
+                $isCacheEnabled = $cache->setCacheStorageDriver('file');
+                if (!$isCacheEnabled) {
+                    throw new Exception('Cache storage driver file can not be loaded!');
+                }
+            } catch (Throwable $e) {
+                $trace = $e->getMessage() . PHP_EOL . $e->getTraceAsString();
+                if (PHP_SAPI == 'cli') {
+                    echo 'Cache storage driver file can not be loaded!' . PHP_EOL;
+                    echo $trace . PHP_EOL;
+                    exit;
+                }
+                $error = new AError ($trace);
+                $error->toLog()->toDebug()->toMessages();
+            }
             $cache->enableCache();
             $cache->remove('*');
         } catch (Exception $e) {
@@ -407,6 +439,7 @@ class ModelInstall extends Model
 
     /**
      * @param array|null $options
+     *
      * @return void
      * @throws AException
      * @throws DOMException
@@ -437,7 +470,7 @@ class ModelInstall extends Model
         }
 
         //preinstall extensions for example PageBuilder
-        $preinstall = $options['install_step_data']['install_extensions'] ?: ['page_builder'];
+        $preinstall = $options['install_step_data']['install_extensions'] ? : ['page_builder'];
         foreach ($preinstall as $pre) {
             $installSql = DIR_ABANTECART . DS . 'extensions' . DS . $pre . DS . 'install.sql';
             if (is_file($installSql) && is_readable($installSql)) {

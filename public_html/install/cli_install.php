@@ -47,7 +47,6 @@ const INSTALL = true;
 // Relative paths and directories
 const RDIR_TEMPLATE = 'view' . DS;
 
-
 //Check if cart is already installed
 if (file_exists(DIR_SYSTEM . 'config.php')) {
     require_once(DIR_SYSTEM . 'config.php');
@@ -80,7 +79,6 @@ $script = array_shift($args);
 $command = array_shift($args);
 
 switch ($command) {
-
     case "install":
 
         if ($installed) {
@@ -104,7 +102,8 @@ switch ($command) {
             echo "\t" . "Store link: " . $options['http_server'] . "\n\n";
             echo "\t" . "Admin link: " . $options['http_server'] . "?s=" . $options['admin_path'] . "\n\n";
         } catch (Exception|Error $e) {
-            echo 'FAILED!: ' . $e->getMessage() . ". File: " . $e->getFile() . " Line " . $e->getLine() . "\n" . $e->getTraceAsString();
+            echo 'FAILED!: ' . $e->getMessage() . ". File: " . $e->getFile() . " Line " . $e->getLine() . "\n"
+                . $e->getTraceAsString();
             exit(1);
         }
         break;
@@ -191,7 +190,6 @@ function help()
             $output .= "\t\t" . "[ \e[0;32moptional \e[m]";
         }
         $output .= "\n\n";
-
     }
 
     $output .= "\n\nExample:\n";
@@ -244,7 +242,7 @@ function getOptionValues($opt_name = '')
         $options[$name] = $value;
     }
 
-    $options['db_port'] = (int)$options['db_port'] ?: 3306;
+    $options['db_port'] = (int) $options['db_port'] ? : 3306;
 
     if ($opt_name) {
         return $options[$opt_name] ?? null;
@@ -274,6 +272,7 @@ function validateOptions($options)
 
 /**
  * @param $options
+ *
  * @throws AException|DOMException
  */
 function install($options)
@@ -290,12 +289,27 @@ function install($options)
         $options['install_step_data']['install_extensions'] = array_filter(
             array_map(
                 'trim',
-                explode(',', (string)$options['extensions']))
-        ) ?: [];
+                explode(',', (string) $options['extensions'])
+            )
+        ) ? : [];
         $mdl->preInstallExtensions($options);
 
         $cache = new ACache();
-        $cache->setCacheStorageDriver('file');
+        try {
+            $isCacheEnabled = $cache->setCacheStorageDriver('file');
+            if (!$isCacheEnabled) {
+                throw new Exception('Cache storage driver file can not be loaded!');
+            }
+        } catch (Throwable $e) {
+            $trace = $e->getMessage() . PHP_EOL . $e->getTraceAsString();
+            if (php_sapi_name() == 'cli') {
+                echo 'Cache storage driver file can not be loaded!' . PHP_EOL;
+                echo $trace . PHP_EOL;
+                exit(1);
+            }
+            $error = new AError ($trace);
+            $error->toLog()->toDebug()->toMessages();
+        }
         $cache->enableCache();
         $cache->remove('*');
     } else {
@@ -321,7 +335,6 @@ function checkRequirements($options)
 
 function setupDB($data)
 {
-
     $registry = Registry::getInstance();
     /** @var ModelInstall $mdl */
     $mdl = $registry->get('load')->model('install');
@@ -336,7 +349,7 @@ function setupDB($data)
             htmlspecialchars_decode($data['db_user']),
             htmlspecialchars_decode($data['db_password']),
             htmlspecialchars_decode($data['db_name']),
-            (int)$data['db_port'] ?: 3306
+            (int) $data['db_port'] ? : 3306
         );
     } catch (Exception|Error $e) {
         echo $e->getMessage();
