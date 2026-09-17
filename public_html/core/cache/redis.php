@@ -1,5 +1,4 @@
 <?php
-
 /*
  *   $Id$
  *
@@ -334,6 +333,14 @@ class ACacheDriverRedis extends ACacheDriver
         return getmypid() . '-' . $random;
     }
 
+    /**
+     * Build a cache ID from a key and group.
+     *
+     * @param string $key The cache data key
+     * @param string $group The cache data group
+     *
+     * @return string
+     */
     protected function _getCacheId($key, $group)
     {
         return $this->secret . '.' . $group . '.' . $this->_hashCacheKey($key, $group);
