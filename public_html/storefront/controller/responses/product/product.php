@@ -17,6 +17,7 @@
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 if (!defined('DIR_CORE')) {
@@ -53,9 +54,9 @@ class ControllerResponsesProductProduct extends AController
 
         $this->loadModel('catalog/product');
         $group_options = $this->model_catalog_product->getProductGroupOptions(
-            (int)$this->request->get['product_id'],
-            (int)$this->request->get['option_id'],
-            (int)$this->request->get['option_value_id']
+            (int) $this->request->get['product_id'],
+            (int) $this->request->get['option_id'],
+            (int) $this->request->get['option_value_id']
         );
 
         foreach ($group_options as $option_id => $option_values) {
@@ -80,8 +81,8 @@ class ControllerResponsesProductProduct extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $product_id = (int)$this->request->post_or_get('product_id');
-        $attribute_value_id = (int)$this->request->post_or_get('attribute_value_id');
+        $product_id = (int) $this->request->post_or_get('product_id');
+        $attribute_value_id = (int) $this->request->post_or_get('attribute_value_id');
         $output = [];
         if ($attribute_value_id) {
             $resource = new AResource('image');
@@ -147,7 +148,7 @@ class ControllerResponsesProductProduct extends AController
                     $optValId = is_array($optValId) ? current($optValId) : $optValId;
                     $images = $resource->getResourceAllObjects(
                         'product_option_value',
-                        (int)$optValId,
+                        (int) $optValId,
                         $oSizes,
                         0,
                         false
@@ -155,7 +156,7 @@ class ControllerResponsesProductProduct extends AController
                     if ($images) {
                         $output['main_images'] = $resource->getResourceAllObjects(
                             'product_option_value',
-                            (int)$optValId,
+                            (int) $optValId,
                             $mSizes,
                             0,
                             false
@@ -183,12 +184,12 @@ class ControllerResponsesProductProduct extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $product_id = (int)$this->request->get_or_post('product_id');
+        $product_id = (int) $this->request->get_or_post('product_id');
         /** @var ModelCatalogProduct $mdl */
         $mdl = $this->loadModel('catalog/product');
         $product_info = $mdl->getProduct($product_id);
         if ($product_info) {
-            $options = (array)$this->request->get_or_post('option');
+            $options = (array) $this->request->get_or_post('option');
             $key = $product_id . ($options ? ':' . md5(serialize($options)) : '');
             $text_errors = $mdl->validateProductOptions($product_id, $options);
 
@@ -198,19 +199,19 @@ class ControllerResponsesProductProduct extends AController
                     'VALIDATION_ERROR_406',
                     [
                         'error_text' => current($text_errors),
-                        'errors'     => $text_errors
+                        'errors'     => $text_errors,
                     ]
                 );
                 return;
             }
 
-            $product_info['minimum'] = (int)$product_info['minimum'] ?: 1;
+            $product_info['minimum'] = (int) $product_info['minimum'] ? : 1;
             $priorAdded = $this->cart->getProduct($key);
-            $newQuantity = (int)$priorAdded['qty'] + $this->request->get_or_post('quantity');
+            $newQuantity = (int) $priorAdded['qty'] + $this->request->get_or_post('quantity');
             $newQuantity = max($newQuantity, $product_info['minimum']);
 
-            if ((int)$product_info['maximum'] && $newQuantity > (int)$product_info['maximum']) {
-                $newQuantity = (int)$product_info['maximum'];
+            if ((int) $product_info['maximum'] && $newQuantity > (int) $product_info['maximum']) {
+                $newQuantity = (int) $product_info['maximum'];
             }
 
             if (!$priorAdded) {
@@ -227,32 +228,36 @@ class ControllerResponsesProductProduct extends AController
     public function updateQuantityCart()
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->loadModel('catalog/product');
-        $product_info = $this->model_catalog_product->getProduct($this->request->get['product_key']);
-
-        if ($product_info) {
-            if ($this->request->get['quantity']) {
-                $this->cart->update(
-                    $this->request->get['product_key'],
-                    $this->request->get['quantity']
-                );
+        /** @var ModelCatalogProduct $mdl */
+        $mdl = $this->loadModel('catalog/product');
+        $productCartKey = (string) $this->request->get['product_key'];
+        $newQuantity = (int) $this->request->get['quantity'];
+        list($productId,) = explode(':', $productCartKey);
+        $productId = (int) $productId;
+        if ($productId && $newQuantity) {
+            if ($mdl->getProduct($productId)) {
+                $this->cart->update($productCartKey, $newQuantity);
             }
         }
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        $this->getCartContent($this->request->get['product_key']);
-
+        $this->getCartContent($productCartKey);
     }
 
     public function removeProductFromCart()
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->loadModel('catalog/product');
-        $product_info = $this->model_catalog_product->getProduct($this->request->get['product_key']);
-        if ($product_info) {
-            $this->cart->remove($this->request->get['product_key']);
+        /** @var ModelCatalogProduct $mdl */
+        $mdl = $this->loadModel('catalog/product');
+        $productCartKey = (string) $this->request->get['product_key'];
+        list($productId,) = explode(':', $productCartKey);
+        $productId = (int) $productId;
+        if ($productId) {
+            if ($mdl->getProduct($productId)) {
+                $this->cart->remove($productCartKey);
+            }
+            $this->extensions->hk_UpdateData($this, __FUNCTION__);
         }
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        $this->getCartContent($this->request->get['product_key']);
+        $this->getCartContent($productCartKey);
     }
 
     public function getCartContent($productCartKey = null)
@@ -321,7 +326,7 @@ class ControllerResponsesProductProduct extends AController
         ];
         foreach ($cart_products as $result) {
             $option_data = [];
-            $thumbnail = $thumbnails[$result['product_id']] ?: $result['thumb'];
+            $thumbnail = $thumbnails[$result['product_id']] ? : $result['thumb'];
             foreach ($result['option'] as $option) {
                 //do not show hidden option
                 if ($option['element_type'] == 'H') {
@@ -352,7 +357,7 @@ class ControllerResponsesProductProduct extends AController
 
                 $main_image = $resource->getResourceAllObjects(
                     'product_option_value',
-                    (int)$option['product_option_value_id'],
+                    (int) $option['product_option_value_id'],
                     $mSizes,
                     1,
                     false
@@ -368,7 +373,7 @@ class ControllerResponsesProductProduct extends AController
             }
 
             $price = $this->tax->calculate(
-                $result['price'] ?: $result['amount'],
+                $result['price'] ? : $result['amount'],
                 $result['tax_class_id'],
                 $this->config->get('config_tax')
             );
@@ -380,11 +385,15 @@ class ControllerResponsesProductProduct extends AController
                 'stock'         => $result['stock'],
                 'price'         => $this->currency->format($price),
                 'price_num'     => $price,
-                'raw_price_num' => $this->currency->convert($price, $this->currency->getCode(), $this->config->get('config_currency')),
-                'href'          => $result['product_id'] ? $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id']) : null,
+                'raw_price_num' => $this->currency->convert(
+                    $price, $this->currency->getCode(), $this->config->get('config_currency')
+                ),
+                'href'          => $result['product_id'] ? $this->html->getSEOURL(
+                    'product/product', '&product_id=' . $result['product_id']
+                ) : null,
                 'thumb'         => $thumbnail,
                 'minimum'       => $result['minimum'],
-                'maximum'       => $result['maximum']
+                'maximum'       => $result['maximum'],
             ];
         }
 
@@ -420,11 +429,12 @@ class ControllerResponsesProductProduct extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $config_tax = $this->request->get['admin'] ? 0 : (int)$this->config->get('config_tax');
+        $config_tax = $this->request->get['admin'] ? 0 : (int) $this->config->get('config_tax');
 
         $output = [];
         //can not show price
-        if (!$this->request->get['admin'] && !$this->config->get('config_customer_price') && !$this->customer->isLogged()) {
+        if (!$this->request->get['admin'] && !$this->config->get('config_customer_price')
+            && !$this->customer->isLogged()) {
             $this->response->setOutput(AJson::encode($output));
             return;
         }
@@ -433,7 +443,7 @@ class ControllerResponsesProductProduct extends AController
             $product_id = $this->request->post['product_id'];
 
             $option = $this->request->post['option'] ?? [];
-            $quantity = (int)$this->request->post['quantity'] ?: 1;
+            $quantity = (int) $this->request->post['quantity'] ? : 1;
 
             $result = $this->cart->buildProductDetails($product_id, $quantity, $option);
             $output['price'] = $this->tax->calculate(
