@@ -373,4 +373,8 @@
 		<key>warning_capslock</key>
 		<value><![CDATA[CapsLock is On!]]></value>
 	</definition>
+	<definition>
+		<key>text_best_match</key>
+		<value><![CDATA[Best Match]]></value>
+	</definition>
 </definitions>
