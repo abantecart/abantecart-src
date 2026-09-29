@@ -101,18 +101,11 @@ class ModelAccountCustomer extends Model
 
         $data['salt'] = $salt_key = genToken(8);
         $data['password'] = passwordHash($data['password'], $salt_key);
-        $data['store_id'] = (int) $this->config->get('config_store_id');
+        $data['store_id'] = (int) ($data['store_id'] ?? $this->config->get('config_store_id'));
 
         // delete subscription accounts for given email
-        $subscriber = $this->db->query(
-            "SELECT customer_id
-            FROM " . $this->db->table("customers") . "
-            WHERE LOWER(`email`) = LOWER('" . $this->db->escape($encData['email']) . "')
-                AND customer_group_id IN (SELECT customer_group_id
-                                          FROM " . $this->db->table('customer_groups') . "
-                                          WHERE `name` = 'Newsletter Subscribers')"
-        );
-        foreach ($subscriber->rows as $row) {
+        $subscribers = $this->getSubscribersByEmail($encData['email']); 
+        foreach ($subscribers as $row) {
             $this->db->query(
                 "DELETE FROM " . $this->db->table("customers") . " 
                  WHERE customer_id = '" . (int) $row['customer_id'] . "'"
@@ -717,6 +710,35 @@ class ModelAccountCustomer extends Model
         if ($output['data']) {
             $output['data'] = unserialize($output['data']);
         }
+        return $output;
+    }    
+    
+    public function getSubscribersByEmail($email)
+    {
+        //assuming that data is not encrypted. Cannot call these otherwise
+        $sql = "SELECT *
+                FROM " . $this->db->table("customers") . "
+                WHERE (email LIKE '" . $this->db->escape($email) . "'";
+
+        if ($this->dcrypt->active && !$this->config->get('prevent_email_as_login')) {
+            $sql .= " OR loginname LIKE '" . $this->db->escape($email) . "'";
+        }
+        
+        $sql .= ") 
+        AND customer_group_id 
+                    IN (SELECT customer_group_id
+                        FROM " . $this->db->table('customer_groups') . "
+                        WHERE `name` = 'Newsletter Subscribers')
+        ORDER by status DESC, approved DESC, date_modified DESC LIMIT 1";
+        $query = $this->db->query($sql);
+        $output = [];
+        foreach ($query->rows as $k => $row) {
+            $output[$k] = $this->dcrypt->decrypt_data($row, 'customers');
+            if ($output[$k]['data']) {
+                $output[$k]['data'] = unserialize($row['data']);
+            }
+        }
+        
         return $output;
     }
 
