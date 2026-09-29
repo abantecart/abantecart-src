@@ -659,15 +659,19 @@ class ModelCatalogProduct extends Model
         } else {
             $data['placeholder'] = $data['option_placeholder'];
         }
-        
-        if($data['element_type'] == 'U'){
-            $settings = !is_array($data['settings']) 
-                ? unserialize((string)$data['settings'], ['allowed_classes' => false]) 
-                : [];
-            if(!$settings['extensions']){
-                $settings['extensions'] = 'jpeg,jpg,avif,png,gif,webp'; 
-                $data['settings'] = serialize($settings);
+
+        if ($data['element_type'] == 'U') {
+            $settings = is_array($data['settings'])
+                ? $data['settings']
+                : (unserialize((string)$data['settings'], ['allowed_classes' => false]) ?: []);
+            $settings = array_filter($settings);
+            if (empty($settings['extensions'])) {
+                $settings['extensions'] = 'jpeg,jpg,avif,png,gif,webp';
             }
+            $data['settings'] = $settings;
+        }
+        if (is_array($data['settings'])) {
+            $data['settings'] = serialize($data['settings']);
         }
 
         $this->db->query(
