@@ -645,8 +645,9 @@ class ModelCatalogProduct extends Model
         $data['with_values'] = $data['with_values'] ?? true;
         $am = new AAttribute_Manager();
 
-        $attributeInfo =
-            $data['attribute_id'] && $data['with_values'] ? $am->getAttribute((int) $data['attribute_id']) : [];
+        $attributeInfo = $data['attribute_id'] && $data['with_values'] 
+            ? $am->getAttribute((int) $data['attribute_id']) 
+            : [];
 
         if ($attributeInfo) {
             $data['element_type'] = $attributeInfo['element_type'];
@@ -657,6 +658,16 @@ class ModelCatalogProduct extends Model
             $data['settings'] = $attributeInfo['settings'];
         } else {
             $data['placeholder'] = $data['option_placeholder'];
+        }
+        
+        if($data['element_type'] == 'U'){
+            $settings = !is_array($data['settings']) 
+                ? unserialize((string)$data['settings'], ['allowed_classes' => false]) 
+                : [];
+            if(!$settings['extensions']){
+                $settings['extensions'] = 'jpeg,jpg,avif,png,gif,webp'; 
+                $data['settings'] = serialize($settings);
+            }
         }
 
         $this->db->query(
