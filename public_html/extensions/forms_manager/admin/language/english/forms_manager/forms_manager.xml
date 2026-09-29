@@ -338,4 +338,8 @@
         <key>text_edit_field_values</key>
         <value><![CDATA[Edit Field Values]]></value>
     </definition>
+	<definition>
+		<key>error_allowed_file_extensions</key>
+		<value><![CDATA[Please fill allowed file extensions]]></value>
+	</definition>
 </definitions>

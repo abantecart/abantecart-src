@@ -106,6 +106,10 @@ class ControllerResponsesFormsManagerFields extends AController
         if ($data['regexp_pattern'] && @preg_match($data['regexp_pattern'], '') === false) {
             $this->error['regexp_pattern'] = $this->language->get('error_regexp_pattern');
         }
+        
+        if(isset($data['settings']['extensions']) && !$data['settings']['extensions']) {
+            $this->error['warning'] = $this->language->get('error_allowed_file_extensions');
+        }
 
         $this->extensions->hk_ValidateData($this);
         return (!$this->error);
