@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -28,11 +28,14 @@ class ControllerPagesCheckoutFastCheckout extends AController
         $productCartKey = '';
         parent::__construct($registry, $instanceId, $controller, $parentController);
 
+        //load language for errors
+        $this->language->load('checkout/cart');
+
         $this->loadLanguage('checkout/fast_checkout');
         if ($this->request->is_POST() && $this->request->get['single_checkout']) {
-            $this->session->data['fc']['cart_key'] = $this->cart->getCartKey() ?: randomWord(5);
+            $this->session->data['fc']['cart_key'] = $this->cart->getCartKey() ? : randomWord(5);
         } elseif (!$this->session->data['fc']['cart_key']) {
-            $this->session->data['fc']['cart_key'] = $this->cart->getCartKey() ?: randomWord(5);
+            $this->session->data['fc']['cart_key'] = $this->cart->getCartKey() ? : randomWord(5);
         }
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -68,15 +71,24 @@ class ControllerPagesCheckoutFastCheckout extends AController
                     $fm = new AFile();
                     foreach ($this->request->files['option']['name'] as $id => $name) {
                         $attributeData = $this->model_catalog_product->getProductOption($productId, $id);
-                        $attributeData['settings'] = unserialize($attributeData['settings']);
-                        $filePathInfo = $fm->getUploadFilePath($attributeData['settings']['directory'], $name);
 
-                        $options[$id] = $filePathInfo['name'];
-
-                        if (!has_value($name)) {
+                        if ($attributeData['element_type'] != 'U') {
+                            continue;
+                        }
+                        $attributeData['settings'] = unserialize(
+                            $attributeData['settings'],
+                            ['allowed_classes' => false]
+                        );
+                        if (!$attributeData['settings']['extensions']) {
+                            continue;
+                        }
+                        if (!has_value($name) || str_starts_with($name, '.')) {
                             continue;
                         }
 
+                        $filePathInfo = $fm->getUploadFilePath($attributeData['settings']['directory'], $name);
+
+                        $options[$id] = $filePathInfo['name'];
                         if ($attributeData['required'] && !$this->request->files['option']['size'][$id]) {
                             $this->session->data['error'] = $this->language->get('error_required_options');
                             redirect($_SERVER['HTTP_REFERER']);
@@ -84,12 +96,12 @@ class ControllerPagesCheckoutFastCheckout extends AController
 
                         $fileData = [
                             'option_id' => $id,
-                            'name' => $filePathInfo['name'],
-                            'path' => $filePathInfo['path'],
-                            'type' => $this->request->files['option']['type'][$id],
-                            'tmp_name' => $this->request->files['option']['tmp_name'][$id],
-                            'error' => $this->request->files['option']['error'][$id],
-                            'size' => $this->request->files['option']['size'][$id],
+                            'name'      => $filePathInfo['name'],
+                            'path'      => $filePathInfo['path'],
+                            'type'      => $this->request->files['option']['type'][$id],
+                            'tmp_name'  => $this->request->files['option']['tmp_name'][$id],
+                            'error'     => $this->request->files['option']['error'][$id],
+                            'size'      => $this->request->files['option']['size'][$id],
                         ];
 
                         $fileErrors = $fm->validateFileOption($attributeData['settings'], $fileData);
@@ -100,7 +112,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
                         } else {
                             $result = move_uploaded_file($fileData['tmp_name'], $filePathInfo['path']);
 
-                            if (!$result || $this->request->files['package_file']['error']) {
+                            if (!$result || $this->request->files['option']['error'][$id]) {
                                 $this->session->data['error'] .= '<br>Error: ' . getTextUploadError(
                                         $this->request->files['option']['error'][$id]
                                     );
@@ -112,11 +124,11 @@ class ControllerPagesCheckoutFastCheckout extends AController
                         $dataset->addRows(
                             [
                                 'date_added' => date("Y-m-d H:i:s", time()),
-                                'name' => $filePathInfo['name'],
-                                'type' => $fileData['type'],
-                                'section' => 'product_option',
+                                'name'       => $filePathInfo['name'],
+                                'type'       => $fileData['type'],
+                                'section'    => 'product_option',
                                 'section_id' => $attributeData['attribute_id'],
-                                'path' => $filePathInfo['path'],
+                                'path'       => $filePathInfo['path'],
                             ]
                         );
                     }
@@ -136,7 +148,11 @@ class ControllerPagesCheckoutFastCheckout extends AController
 
                 $this->cart->add($post['product_id'], $post['quantity'], $options);
                 $productCartKey = !$options ? $productId : $productId . ':' . md5(serialize($options));
-                if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
+                if (!$this->cart->hasProducts()
+                    || (!$this->cart->hasStock()
+                        && !$this->config->get(
+                            'config_stock_checkout'
+                        ))) {
                     $this->session->data['error'] = $this->language->get('fast_checkout_text_not_enough_stock');
                     //send options values back via _GET
                     $url = '&' . http_build_query(['option' => $post['option']]);
@@ -155,8 +171,8 @@ class ControllerPagesCheckoutFastCheckout extends AController
                     'checkout/fast_checkout',
                     '&' . http_build_query(
                         [
-                            'fc' => 1,
-                            'product_key' => $productCartKey
+                            'fc'          => 1,
+                            'product_key' => $productCartKey,
                         ]
                     )
                 )
@@ -187,11 +203,11 @@ class ControllerPagesCheckoutFastCheckout extends AController
             'fc_cart_key',
             $fcSession['cart_key'],
             [
-                'path' => dirname($this->request->server['PHP_SELF']),
-                'domain' => null,
-                'secure' => (defined('HTTPS') && HTTPS),
+                'path'     => dirname($this->request->server['PHP_SELF']),
+                'domain'   => null,
+                'secure'   => (defined('HTTPS') && HTTPS),
                 'httponly' => false,
-                'samesite' => ((defined('HTTPS') && HTTPS) ? 'None' : 'lax')
+                'samesite' => ((defined('HTTPS') && HTTPS) ? 'None' : 'lax'),
             ]
         );
 
@@ -263,7 +279,11 @@ class ControllerPagesCheckoutFastCheckout extends AController
                     );
                 }
                 $this->session->data['error'] = implode(" ", $error_msg);
-                redirect($this->html->getSecureURL('product/product', '&product_id=' . current($this->cart->getProducts())['product_id']));
+                redirect(
+                    $this->html->getSecureURL(
+                        'product/product', '&product_id=' . current($this->cart->getProducts())['product_id']
+                    )
+                );
             }
             redirect($this->html->getSecureURL($this->data['cart_rt']));
         }
@@ -285,30 +305,29 @@ class ControllerPagesCheckoutFastCheckout extends AController
             }
         }
 
-
         $this->document->setTitle($this->language->get('heading_title', 'checkout/fast_checkout'));
         $this->document->resetBreadcrumbs();
 
         $this->document->addBreadcrumb(
             [
-                'href' => $this->html->getHomeURL(),
-                'text' => $this->language->get('text_home'),
+                'href'      => $this->html->getHomeURL(),
+                'text'      => $this->language->get('text_home'),
                 'separator' => false,
             ]
         );
 
         $this->document->addBreadcrumb(
             [
-                'href' => $this->html->getSecureURL('checkout/cart'),
-                'text' => $this->language->get('text_basket'),
+                'href'      => $this->html->getSecureURL('checkout/cart'),
+                'text'      => $this->language->get('text_basket'),
                 'separator' => $this->language->get('text_separator'),
             ]
         );
 
         $this->document->addBreadcrumb(
             [
-                'href' => $this->html->getSecureURL('checkout/fast_checkout'),
-                'text' => $this->language->get('fast_checkout_text_fast_checkout_title'),
+                'href'      => $this->html->getSecureURL('checkout/fast_checkout'),
+                'text'      => $this->language->get('fast_checkout_text_fast_checkout_title'),
                 'separator' => $this->language->get('text_separator'),
             ]
         );
@@ -316,13 +335,13 @@ class ControllerPagesCheckoutFastCheckout extends AController
         $this->document->addStyle(
             [
                 'href' => $this->view->templateResource('/css/bootstrap-xxs.css'),
-                'rel' => 'stylesheet',
+                'rel'  => 'stylesheet',
             ]
         );
         $this->document->addStyle(
             [
                 'href' => $this->view->templateResource('/css/pay.css'),
-                'rel' => 'stylesheet',
+                'rel'  => 'stylesheet',
             ]
         );
 
@@ -333,17 +352,16 @@ class ControllerPagesCheckoutFastCheckout extends AController
             $this->data['product_key'] = $this->request->get['product_key'];
         }
 
-
         $order_data = [
             'order_products' => $this->cart->getProducts(),
-            'totals' => $this->cart->getFinalTotalData()
+            'totals'         => $this->cart->getFinalTotalData(),
         ];
 
         $this->session->data['google_analytics_begin_checkout_data'] = AOrder::getGoogleAnalyticsOrderData(
             $order_data
         );
 
-        if($this->request->cookie['order_changed']){
+        if ($this->request->cookie['order_changed']) {
             $this->data['warning'] = $this->language->get('warning_order_changed');
         }
 

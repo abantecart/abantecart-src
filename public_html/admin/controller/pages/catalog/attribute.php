@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -174,14 +174,16 @@ class ControllerPagesCatalogAttribute extends AController
 
         if ($this->request->is_POST() && $this->validateAttributeForm()) {
             $this->data['inserted'] = $this->attribute_manager->updateAttribute(
-                $this->request->get['attribute_id'],
+                (int) $this->request->get['attribute_id'],
                 $this->request->post
             );
             $this->extensions->hk_ProcessData($this, __FUNCTION__);
             $this->session->data['success'] = $this->language->get('text_success');
-            redirect($this->html->getSecureURL(
-                'catalog/attribute/update',
-                '&attribute_id=' . $this->request->get['attribute_id'])
+            redirect(
+                $this->html->getSecureURL(
+                    'catalog/attribute/update',
+                    '&attribute_id=' . (int) $this->request->get['attribute_id']
+                )
             );
         }
 
@@ -200,17 +202,17 @@ class ControllerPagesCatalogAttribute extends AController
         $this->data['get_attribute_type'] = $this->html->getSecureURL('r/catalog/attribute/get_attribute_type');
 
         $this->document->initBreadcrumb([
-            'href'      => $this->html->getSecureURL('index/home'),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ]);
+                                            'href'      => $this->html->getSecureURL('index/home'),
+                                            'text'      => $this->language->get('text_home'),
+                                            'separator' => false,
+                                        ]);
         $this->document->addBreadcrumb([
-            'href'      => $this->html->getSecureURL('catalog/attribute'),
-            'text'      => $this->language->get('heading_title'),
-            'separator' => ' :: ',
-        ]);
+                                           'href'      => $this->html->getSecureURL('catalog/attribute'),
+                                           'text'      => $this->language->get('heading_title'),
+                                           'separator' => ' :: ',
+                                       ]);
 
-        $attribute_id = (int)$this->request->get['attribute_id'];
+        $attribute_id = (int) $this->request->get['attribute_id'];
 
         if ($attribute_id && $this->request->is_GET()) {
             $attribute_info = $this->attribute_manager->getAttribute(
@@ -219,7 +221,7 @@ class ControllerPagesCatalogAttribute extends AController
             );
 
             $attribute_type_info = $this->attribute_manager->getAttributeTypeInfoById(
-                (int)$attribute_info['attribute_type_id']
+                (int) $attribute_info['attribute_type_id']
             );
 
             //load values for attributes with options
@@ -238,13 +240,13 @@ class ControllerPagesCatalogAttribute extends AController
             }
 
             if (has_value($attribute_info['settings'])) {
-                $attribute_info['settings'] = unserialize($attribute_info['settings']);
+                $attribute_info['settings'] = unserialize($attribute_info['settings'], ['allowed_classes' => false]);
             }
         }
 
         if (has_value($this->request->get['attribute_type_id'])) {
             $attribute_type_info = $this->attribute_manager->getAttributeTypeInfoById(
-                (int)$this->request->get['attribute_type_id']
+                (int) $this->request->get['attribute_type_id']
             );
         }
 
@@ -287,9 +289,9 @@ class ControllerPagesCatalogAttribute extends AController
         }
 
         if (isset($attribute_info['attribute_type_id'])) {
-            $attribute_type_id = (int)$attribute_info['attribute_type_id'];
+            $attribute_type_id = (int) $attribute_info['attribute_type_id'];
         } else {
-            $attribute_type_id = (int)$this->request->get_or_post('attribute_type_id');
+            $attribute_type_id = (int) $this->request->get_or_post('attribute_type_id');
         }
         if (!$attribute_type_id) {
             $attribute_type_id = key($this->data['attribute_types']);
@@ -298,68 +300,75 @@ class ControllerPagesCatalogAttribute extends AController
         $this->_initTabs($attribute_type_id);
 
         if (!$attribute_id) {
-            $this->data['action'] = $this->html->getSecureURL('catalog/attribute/insert', '&attribute_type_id=' . $attribute_type_id);
+            $this->data['action'] =
+                $this->html->getSecureURL('catalog/attribute/insert', '&attribute_type_id=' . $attribute_type_id);
             $this->data['heading_title'] = $this->language->get('text_insert') . $this->language->get('text_attribute');
             $this->data['update'] = '';
             $form = new AForm('ST');
         } else {
-            $this->data['action'] = $this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $attribute_id . '&attribute_type_id=' . $attribute_type_id);
+            $this->data['action'] = $this->html->getSecureURL(
+                'catalog/attribute/update',
+                '&attribute_id=' . $attribute_id . '&attribute_type_id=' . $attribute_type_id
+            );
             $this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_attribute');
-            $this->data['update'] = $this->html->getSecureURL('listing_grid/attribute/update_field', '&id=' . $attribute_id);
+            $this->data['update'] =
+                $this->html->getSecureURL('listing_grid/attribute/update_field', '&id=' . $attribute_id);
             $form = new AForm('HT');
             $this->data['attribute_id'] = $attribute_id;
         }
 
         $this->document->addBreadcrumb([
-            'href'      => $this->data['action'],
-            'text'      => $this->data['heading_title'],
-            'separator' => ' :: ',
-            'current'   => true,
-        ]);
+                                           'href'      => $this->data['action'],
+                                           'text'      => $this->data['heading_title'],
+                                           'separator' => ' :: ',
+                                           'current'   => true,
+                                       ]);
 
         $form->setForm([
-            'form_name' => 'editFrm',
-            'update'    => $this->data['update'],
-        ]);
+                           'form_name' => 'editFrm',
+                           'update'    => $this->data['update'],
+                       ]);
 
         $this->data['form']['id'] = 'editFrm';
         $this->data['form']['form_open'] = $form->getFieldHtml([
-            'type'   => 'form',
-            'name'   => 'editFrm',
-            'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
-            'action' => $this->data['action'],
-        ]);
+                                                                   'type'   => 'form',
+                                                                   'name'   => 'editFrm',
+                                                                   'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
+                                                                   'action' => $this->data['action'],
+                                                               ]);
         $this->data['form']['submit'] = $form->getFieldHtml([
-            'type'  => 'button',
-            'name'  => 'submit',
-            'text'  => $this->language->get('button_save'),
-            'style' => 'button1',
-        ]);
+                                                                'type'  => 'button',
+                                                                'name'  => 'submit',
+                                                                'text'  => $this->language->get('button_save'),
+                                                                'style' => 'button1',
+                                                            ]);
         $this->data['form']['cancel'] = $form->getFieldHtml([
-            'type'  => 'button',
-            'name'  => 'cancel',
-            'text'  => $this->language->get('button_cancel'),
-            'style' => 'button2',
-        ]);
+                                                                'type'  => 'button',
+                                                                'name'  => 'cancel',
+                                                                'text'  => $this->language->get('button_cancel'),
+                                                                'style' => 'button2',
+                                                            ]);
 
         $this->data['form']['fields']['status'] = $form->getFieldHtml([
-            'type'  => 'checkbox',
-            'name'  => 'status',
-            'value' => $this->data['status'],
-            'style' => 'btn_switch',
-        ]);
+                                                                          'type'  => 'checkbox',
+                                                                          'name'  => 'status',
+                                                                          'value' => $this->data['status'],
+                                                                          'style' => 'btn_switch',
+                                                                      ]);
         $this->data['form']['fields']['name'] = $form->getFieldHtml([
-            'type'         => 'input',
-            'name'         => 'name',
-            'value'        => $this->data['name'],
-            'required'     => true,
-            'style'        => 'large-field',
-            'multilingual' => true,
-        ]);
+                                                                        'type'         => 'input',
+                                                                        'name'         => 'name',
+                                                                        'value'        => $this->data['name'],
+                                                                        'required'     => true,
+                                                                        'style'        => 'large-field',
+                                                                        'multilingual' => true,
+                                                                    ]);
 
         if ($attribute_type_info['type_key'] != 'download_attribute') {
             $parent_attributes = ['' => $this->language->get('text_select')];
-            $results = $this->attribute_manager->getAttributes(['attribute_type_id' => $attribute_type_id, 'limit' => null], 0, 0);
+            $results =
+                $this->attribute_manager->getAttributes(['attribute_type_id' => $attribute_type_id, 'limit' => null], 0,
+                                                        0);
             foreach ($results as $type) {
                 if ($attribute_id && $attribute_id == $type['attribute_id']) {
                     continue;
@@ -367,15 +376,16 @@ class ControllerPagesCatalogAttribute extends AController
                 $parent_attributes[$type['attribute_id']] = $type['name'];
             }
             $this->data['form']['fields']['attribute_parent'] = $form->getFieldHtml([
-                'type'    => 'selectbox',
-                'name'    => 'attribute_parent_id',
-                'value'   => $this->data['attribute_parent_id'],
-                'options' => $parent_attributes,
-            ]);
+                                                                                        'type'    => 'selectbox',
+                                                                                        'name'    => 'attribute_parent_id',
+                                                                                        'value'   => $this->data['attribute_parent_id'],
+                                                                                        'options' => $parent_attributes,
+                                                                                    ]);
         }
 
         if ($this->data['attribute_types'][$attribute_type_id]['controller']) {
-            $subform = $this->dispatch($this->data['attribute_types'][$attribute_type_id]['controller'],
+            $subform = $this->dispatch(
+                $this->data['attribute_types'][$attribute_type_id]['controller'],
                 [
                     [
                         'data'              => $this->data,
@@ -402,7 +412,6 @@ class ControllerPagesCatalogAttribute extends AController
 
     public function validateAttributeForm()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -431,8 +440,8 @@ class ControllerPagesCatalogAttribute extends AController
             $this->error,
             $this->attribute_manager->validateAttributeCommonData($this->request->post),
             $this->attribute_manager->validateAttributeValues(
-                (int)$this->request->get_or_post('attribute_id'),
-                (array)$this->request->post['values']
+                (int) $this->request->get_or_post('attribute_id'),
+                (array) $this->request->post['values']
             )
         );
 

@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /*
  *   $Id$
@@ -146,8 +147,8 @@ class AForm
      */
     protected function _loadForm($name)
     {
-        $language_id = (int)$this->config->get('storefront_language_id');
-        $store_id = (int)$this->config->get('config_store_id');
+        $language_id = (int) $this->config->get('storefront_language_id');
+        $store_id = (int) $this->config->get('config_store_id');
         $cache_key = 'forms.' . $name;
         $cache_key = preg_replace('/[^a-zA-Z0-9.]/', '', $cache_key)
             . '.store_' . $store_id
@@ -184,8 +185,8 @@ class AForm
      */
     protected function _loadFields(array $data = [])
     {
-        $languageId = (int)$data['language_id'] ?: (int)$this->config->get('storefront_language_id');
-        $storeId = (int)($data['store_id'] ?? (int)$this->config->get('config_store_id'));
+        $languageId = (int) $data['language_id'] ? : (int) $this->config->get('storefront_language_id');
+        $storeId = (int) ($data['store_id'] ?? (int) $this->config->get('config_store_id'));
         $cache_key = 'forms.' . $this->form['form_name'] . '.fields';
         $cache_key = preg_replace('/[^a-zA-Z0-9.]/', '', $cache_key)
             . '.store_' . $storeId
@@ -214,15 +215,15 @@ class AForm
             LEFT JOIN " . $this->db->table("field_group_descriptions") . " fgd
                 ON (fg.group_id = fgd.group_id AND fgd.language_id = '" . $languageId . "' )
             LEFT JOIN " . $this->db->table("field_group_to_form") . " fg2f
-                ON fg2f.group_id = fg.group_id AND fg2f.form_id = '" . (int)$this->form['form_id'] . "'    
-            WHERE f.form_id = '" . (int)$this->form['form_id'] . "'
+                ON fg2f.group_id = fg.group_id AND fg2f.form_id = '" . (int) $this->form['form_id'] . "'    
+            WHERE f.form_id = '" . (int) $this->form['form_id'] . "'
                 AND f.status = 1
             ORDER BY f.sort_order"
         );
         $this->fields = [];
         foreach ($fieldsResult->rows as $row) {
-            $row['group_txt_id'] = $row['group_txt_id'] ?: 'general';
-            $fieldId = (int)$row['field_id'];
+            $row['group_txt_id'] = $row['group_txt_id'] ? : 'general';
+            $fieldId = (int) $row['field_id'];
             $row['settings'] = $row['settings'] ? unserialize($row['settings']) : [];
             $this->fields[$fieldId] = $row;
             $valuesResult = $this->db->query(
@@ -267,8 +268,8 @@ class AForm
      */
     protected function _loadGroups()
     {
-        $language_id = (int)$this->config->get('storefront_language_id');
-        $store_id = (int)$this->config->get('config_store_id');
+        $language_id = (int) $this->config->get('storefront_language_id');
+        $store_id = (int) $this->config->get('config_store_id');
         $cache_key = 'forms.' . $this->form['form_name'] . '.groups';
         $cache_key = preg_replace('/[^a-zA-Z0-9.]/', '', $cache_key)
             . '.store_' . $store_id
@@ -290,20 +291,20 @@ class AForm
             LEFT JOIN " . $this->db->table("field_groups") . " fg 
                 ON ( f.group_id = fg.group_id)
             LEFT JOIN " . $this->db->table("field_group_to_form") . " fg2f 
-                ON ( fg2f.group_id = fg.group_id AND fg2f.form_id = " . (int)$this->form['form_id'] . ")
+                ON ( fg2f.group_id = fg.group_id AND fg2f.form_id = " . (int) $this->form['form_id'] . ")
             LEFT JOIN " . $this->db->table("field_group_descriptions") . " fgd
                 ON ( fg.group_id = fgd.group_id AND fgd.language_id = '" . $language_id . "' )
-            WHERE f.form_id = " . (int)$this->form['form_id'] . "
+            WHERE f.form_id = " . (int) $this->form['form_id'] . "
                 AND f.status = 1
             ORDER BY fg2f.sort_order, f.sort_order"
         );
         $this->groups = [];
         if ($query->num_rows) {
             foreach ($query->rows as $row) {
-                if (empty($this->groups[(int)$row['group_id']])) {
-                    $this->groups[(int)$row['group_id']] = $row;
+                if (empty($this->groups[(int) $row['group_id']])) {
+                    $this->groups[(int) $row['group_id']] = $row;
                 }
-                $this->groups[(int)$row['group_id']]['fields'][] = $row['field_name'];
+                $this->groups[(int) $row['group_id']]['fields'][] = $row['field_name'];
             }
         }
 
@@ -347,12 +348,12 @@ class AForm
             if ($field['element_type'] == 'O') {
                 /** @var ModelLocalisationCountry $mdl */
                 $mdl = $this->load->model('localisation/country');
-                $country = $mdl->getCountry((int)$field['value']);
+                $country = $mdl->getCountry((int) $field['value']);
                 $textValue = $country['name'];
             } elseif ($field['element_type'] == 'Z') {
                 /** @var ModelLocalisationZone $mdl */
                 $mdl = $this->load->model('localisation/zone');
-                $zone = $mdl->getZone((int)$field['value']);
+                $zone = $mdl->getZone((int) $field['value']);
                 $textValue = $zone['name'];
             }
             $fields[$field['field_name']] = [
@@ -486,7 +487,7 @@ class AForm
             case 'ST': //standards
                 $view->batchAssign(
                     [
-                        'id' => $this->form['form_name'] ?: $this->form['id'],
+                        'id' => $this->form['form_name'] ? : $this->form['id'],
                     ]
                 );
                 $output = $view->fetch('form/form_js_st.tpl');
@@ -494,7 +495,7 @@ class AForm
             case 'HS': //highlight on change and show the save button
                 $view->batchAssign(
                     [
-                        'id'              => $this->form['form_name'] ?: $this->form['id'],
+                        'id'              => $this->form['form_name'] ? : $this->form['id'],
                         'button_save'     => $language->get('button_save'),
                         'button_reset'    => $language->get('button_reset'),
                         'update'          => $this->form['update'] ?? '',
@@ -555,9 +556,9 @@ class AForm
                             [
                                 'element_id'  => $elm->element_id,
                                 'type'        => $elm->type,
-                                'title'       => $elm->title ?: $elm->display_name,
-                                'description' => (string)$elm->description,
-                                'error'       => (string)$this->errors[$elm->name],
+                                'title'       => $elm->title ? : $elm->display_name,
+                                'description' => (string) $elm->description,
+                                'error'       => (string) $this->errors[$elm->name],
                                 'item_html'   => $elm->getHtml(),
                             ]
                         );
@@ -633,7 +634,7 @@ class AForm
             return [];
         }
 
-        $formAlias = $formAlias ?: $this->form['form_name'];
+        $formAlias = $formAlias ? : $this->form['form_name'];
         $output = [];
         foreach ($this->fields as $field) {
             $field['attributes'] = html_entity_decode($field['attributes']);
@@ -648,7 +649,8 @@ class AForm
                 'name'                    => $field['field_name'],
                 'form'                    => $formAlias,
                 'attr'                    => $field['attributes']
-                    . ($field['regexp_pattern'] ? ' pattern="' . regexForHtmlPattern($field['regexp_pattern']) . '"' : ''),
+                    . ($field['regexp_pattern'] ? ' pattern="' . regexForHtmlPattern($field['regexp_pattern']) . '"'
+                        : ''),
                 'required'                => $field['required'],
                 'value'                   => $field['value'],
                 'options'                 => $field['options'],
@@ -686,7 +688,7 @@ class AForm
             //settings for country
             if ($field['element_type'] == 'O') {
                 if (preg_match('/data-submit-mode="([^"]+)"/', $field['attributes'], $matches)) {
-                    $submitMode = $matches[1] ?: 'id';
+                    $submitMode = $matches[1] ? : 'id';
                 } else {
                     $submitMode = 'id';
                 }
@@ -695,7 +697,7 @@ class AForm
             //zones
             if ($field['element_type'] == 'Z') {
                 if (preg_match('/data-submit-mode="([^"]+)"/', $field['attributes'], $matches)) {
-                    $submitMode = $matches[1] ?: 'id';
+                    $submitMode = $matches[1] ? : 'id';
                 } else {
                     $submitMode = 'id';
                 }
@@ -722,7 +724,7 @@ class AForm
                     $data['language_code'] = $this->language->getLanguageCode();
                     break;
             }
-            $sidx[$field['group_txt_id']] = (int)$field['group_sort_order'];
+            $sidx[$field['group_txt_id']] = (int) $field['group_sort_order'];
             $output[$field['group_txt_id']][$field['field_name']] = HtmlElementFactory::create($data);
         }
 
@@ -760,7 +762,8 @@ class AForm
             $isRequired = in_array($field['required'], [1, 'Y', '1']);
             // for multi-value required fields
             if (in_array($field['element_type'], HtmlElementFactory::getMultivalueElements())
-                && !$data[$fieldName] && $isRequired
+                && !$data[$fieldName]
+                && $isRequired
             ) {
                 $errors[$fieldName] = $fieldTitle . ' ' . $errorRequiredText;
             }
@@ -773,18 +776,20 @@ class AForm
                         $errors[$fieldName] = $fieldTitle . ' ' . $errorRequiredText;
                     }
                 } // if empty array
-                else if (!$data[$fieldName]) {
-                    $errors[$fieldName] = $fieldTitle . ' ' . $errorRequiredText;
+                else {
+                    if (!$data[$fieldName]) {
+                        $errors[$fieldName] = $fieldTitle . ' ' . $errorRequiredText;
+                    }
                 }
             }
             //email regexp pattern
             if ($field['element_type'] == 'E') {
-                $field['regexp_pattern'] = $field['regexp_pattern'] ?: EMAIL_REGEX_PATTERN;
+                $field['regexp_pattern'] = $field['regexp_pattern'] ? : EMAIL_REGEX_PATTERN;
             }
 
             // check by regexp
             if ($field['regexp_pattern']) {
-                $dataArr = is_array($data[$fieldName]) ? $data[$fieldName] : [(string)$data[$fieldName]];
+                $dataArr = is_array($data[$fieldName]) ? $data[$fieldName] : [(string) $data[$fieldName]];
                 foreach ($dataArr as $value) {
                     if (!preg_match($field['regexp_pattern'], $value)) {
                         if ($isRequired || $value) {
@@ -799,12 +804,15 @@ class AForm
             if ($field['element_type'] == 'K' || $field['element_type'] == 'J') {
                 if ($this->config->get('config_recaptcha_secret_key')) {
                     $recaptcha = new ReCaptcha($this->config->get('config_recaptcha_secret_key'));
-                    $resp = $recaptcha->verify($data['g-recaptcha-response'] ?: $data['captcha'], $this->request->getRemoteIP());
+                    $resp = $recaptcha->verify(
+                        $data['g-recaptcha-response'] ? : $data['captcha'], $this->request->getRemoteIP()
+                    );
                     if (!$resp->isSuccess() && $resp->getErrorCodes()) {
                         $errors[$fieldName] = $this->language->get('error_captcha');
                     }
                 } else {
-                    if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $data[$fieldName])
+                    if (!isset($this->session->data['captcha'])
+                        || ($this->session->data['captcha'] != $data[$fieldName])
                     ) {
                         $errors[$fieldName] = $this->language->get('error_captcha');
                     }
@@ -856,7 +864,10 @@ class AForm
 
         $output = [];
         foreach ($this->fields as $field) {
-            if ($field['element_type'] != 'U' || !$files[$field['field_name']]['tmp_name']) {
+            if ($field['element_type'] != 'U'
+                || !$files[$field['field_name']]['tmp_name']
+                || !$field['settings']['extensions']
+            ) {
                 continue;
             }
 

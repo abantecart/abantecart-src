@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -115,18 +115,27 @@ class ControllerPagesCheckoutCart extends AController
                             if (has_value($this->request->files['option']['name'])) {
                                 $fm = new AFile();
                                 foreach ($this->request->files['option']['name'] as $id => $name) {
-                                    $attribute_data = $this->model_catalog_product->getProductOption($product_id, (int)$id);
-                                    $attribute_data['settings'] = unserialize($attribute_data['settings']);
+                                    $attributeData = $this->model_catalog_product->getProductOption($product_id, (int)$id);
+                                    if($attributeData['element_type'] != 'U'){
+                                        continue;
+                                    }
+                                    $attributeData['settings'] = unserialize(
+                                        $attributeData['settings'], 
+                                        ['allowed_classes' => false]
+                                    );
+                                    if(!$attributeData['settings']['extensions']){
+                                        continue;
+                                    }
+                                    if (!has_value($name) || str_starts_with($name, '.')) {
+                                        continue;
+                                    }
                                     $file_path_info = $fm->getUploadFilePath(
-                                        $attribute_data['settings']['directory'],
+                                        $attributeData['settings']['directory'],
                                         $name
                                     );
                                     $options[$id] = $file_path_info['name'];
-                                    if (!has_value($name)) {
-                                        continue;
-                                    }
 
-                                    if ($attribute_data['required'] && !$this->request->files['option']['size'][$id]) {
+                                    if ($attributeData['required'] && !$this->request->files['option']['size'][$id]) {
                                         $this->session->data['error'] = $this->language->get('error_required_options');
                                         redirect($_SERVER['HTTP_REFERER']);
                                     }
@@ -141,14 +150,14 @@ class ControllerPagesCheckoutCart extends AController
                                         'size' => $this->request->files['option']['size'][$id],
                                     ];
 
-                                    $file_errors = $fm->validateFileOption($attribute_data['settings'], $file_data);
+                                    $file_errors = $fm->validateFileOption($attributeData['settings'], $file_data);
 
                                     if (has_value($file_errors)) {
                                         $this->session->data['error'] = implode('<br/>', $file_errors);
                                         redirect($_SERVER['HTTP_REFERER']);
                                     } else {
                                         $result = move_uploaded_file($file_data['tmp_name'], $file_path_info['path']);
-                                        if (!$result || $this->request->files['package_file']['error']) {
+                                        if (!$result || $this->request->files['option']['error'][$id]) {
                                             $this->session->data['error'] .= '<br>Error: '
                                                 . getTextUploadError(
                                                     $this->request->files['option']['error'][$id]
@@ -164,7 +173,7 @@ class ControllerPagesCheckoutCart extends AController
                                             'name' => $file_path_info['name'],
                                             'type' => $file_data['type'],
                                             'section' => 'product_option',
-                                            'section_id' => $attribute_data['attribute_id'],
+                                            'section_id' => $attributeData['attribute_id'],
                                             'path' => $file_path_info['path'],
                                         ]
                                     );
