@@ -1613,16 +1613,22 @@ function generateOrderToken($orderId, $email, $secToken = '')
  *
  * @return array
  */
-function filterIntegerIdList(?array $list = [])
+function filterIntegerIdList(?array $list = []): array
 {
-    return array_unique(
-        array_filter(
-            array_map(
-                'intval',
-                array_map('trim', (array) $list)
-            )
-        )
-    );
+    $result = [];
+    foreach ((array) $list as $item) {
+        if (is_int($item)) {
+            $id = $item;
+        } elseif (is_string($item) && preg_match('/^\s*\d+\s*$/', $item)) {
+            $id = (int) $item;
+        } else {
+            continue;
+        }
+        if ($id > 0) {
+            $result[$id] = $id;
+        }
+    }
+    return array_values($result);
 }
 
 /**

@@ -599,7 +599,7 @@ abstract class AController
         $request = $this->request->get;
         $page = (int)$request['page'] ?: 1;
         $limit = (int)$request['limit'] ?: $this->config->get('config_catalog_limit');
-        $sorting_href = $request['sort'];
+        $sorting_href = (string)$request['sort'];
         if (!$this->data['sorts']) {
             $this->prepareProductListingParameters();
         }

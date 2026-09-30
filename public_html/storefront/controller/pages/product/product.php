@@ -48,7 +48,7 @@ class ControllerPagesProductProduct extends AController
         //key of product from cart
         $key = [];
         if (has_value($request['key'])) {
-            $key = explode(':', $request['key']);
+            $key = explode(':', (string)$request['key']);
             $product_id = (int) $key[0];
         } elseif (has_value($request['product_id'])) {
             $product_id = (int) $request['product_id'];
