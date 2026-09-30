@@ -1795,3 +1795,9 @@ function canBuyProduct(string|int|null $productStockCheckout, int $inStock = 0)
     );
     return $inStock || $stockCheckout;
 }
+
+function moveUploadedFile(string $tmpName, string $destination): bool
+{
+    //Note: file_exists call needed for warm-up of inodes on some hosts
+    return file_exists($tmpName) && move_uploaded_file($tmpName, $destination);
+}

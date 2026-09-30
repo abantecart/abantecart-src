@@ -877,7 +877,7 @@ class AForm
                 $files[$field['field_name']]['name']
             );
 
-            $result = move_uploaded_file($files[$field['field_name']]['tmp_name'], $file_path_info['path']);
+            $result = moveUploadedFile($files[$field['field_name']]['tmp_name'], $file_path_info['path']);
 
             if ($result) {
                 $output[$field['field_name']] = [

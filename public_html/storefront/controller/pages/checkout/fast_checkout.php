@@ -110,7 +110,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
                             $this->session->data['error'] = implode('<br/>', $fileErrors);
                             redirect($_SERVER['HTTP_REFERER']);
                         } else {
-                            $result = move_uploaded_file($fileData['tmp_name'], $filePathInfo['path']);
+                            $result = moveUploadedFile($fileData['tmp_name'], $filePathInfo['path']);
 
                             if (!$result || $this->request->files['option']['error'][$id]) {
                                 $this->session->data['error'] .= '<br>Error: ' . getTextUploadError(

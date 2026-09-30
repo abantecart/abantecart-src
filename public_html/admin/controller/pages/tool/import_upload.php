@@ -93,7 +93,7 @@ class ControllerPagesToolImportUpload extends AController
 
         //move uploaded file to tmp processing location
         $res['file'] = DIR_DATA . 'import_' . basename($file['tmp_name']) . ".txt";
-        $result = move_uploaded_file($file['tmp_name'], $res['file']);
+        $result = moveUploadedFile($file['tmp_name'], $res['file']);
         if ($result === false) {
             //remove trunk
             unlink($file['tmp_name']);
