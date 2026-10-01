@@ -207,7 +207,7 @@ class ControllerResponsesProductProduct extends AController
 
             $product_info['minimum'] = (int) $product_info['minimum'] ? : 1;
             $priorAdded = $this->cart->getProduct($key);
-            $newQuantity = (int) $priorAdded['qty'] + $this->request->get_or_post('quantity');
+            $newQuantity = (int) $priorAdded['qty'] + (int)$this->request->get_or_post('quantity');
             $newQuantity = max($newQuantity, $product_info['minimum']);
 
             if ((int) $product_info['maximum'] && $newQuantity > (int) $product_info['maximum']) {

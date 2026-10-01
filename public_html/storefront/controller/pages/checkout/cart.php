@@ -219,7 +219,7 @@ class ControllerPagesCheckoutCart extends AController
                     }
 
                     if (isset($post['redirect'])
-                        && parse_url($post['redirect'], PHP_URL_HOST) == parse_url($this->config->get('config_url'), PHP_URL_HOST)
+                        && parse_url((string)$post['redirect'], PHP_URL_HOST) == parse_url((string)$this->config->get('config_url'), PHP_URL_HOST)
                     ) {
                         $this->session->data['redirect'] = $post['redirect'];
                     }
