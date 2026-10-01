@@ -84,14 +84,23 @@ class ACacheDriverRedis extends ACacheDriver
         }
         $this->connect = new \Redis();
 
-        $test = $this->connect->pconnect($this->hostname, $this->port, $this->timeout, $this->persistentId);
+        // ElastiCache with transit encryption: CACHE_HOST may be "tls://hostname".
+        $test = $this->connect->pconnect($this->hostname, (int)$this->port, (float)$this->timeout, $this->persistentId);
         if (!$test) {
             throw new AException(AC_ERR_LOAD, 'Error: Could not connect to Redis server.');
         }
+
         // AUTH against a server without "requirepass" makes "phpredis" throw, so only
         // authenticate when a password is actually configured.
-        if ((string) $this->password !== '') {
-            $this->connect->auth($this->password);
+        if ((string)$this->password !== '') {
+            if (!$this->connect->auth($this->password)) {
+                throw new AException(AC_ERR_LOAD, 'Error: Redis AUTH failed.');
+            }
+        }
+
+        // Persistent connections can be reused; pin to DB 0 so we never touch sessions on DB 1.
+        if (!$this->connect->select(0)) {
+            throw new AException(AC_ERR_LOAD, 'Error: Could not select Redis DB 0 for app cache.');
         }
     }
 
@@ -145,7 +154,7 @@ class ACacheDriverRedis extends ACacheDriver
     public function put($key, $group, $data)
     {
         $cache_id = $this->_getCacheId($key, $group);
-        $ttl = $this->expire;
+        $ttl = (int)$this->expire;
         // Set the value and its TTL in a single command. SET followed by EXPIRE left
         // the key without expiration in between, so a crash in that window turned the
         // entry into a permanent one.

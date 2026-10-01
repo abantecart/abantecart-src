@@ -259,7 +259,6 @@ class ControllerPagesDesignBlocks extends AController
                     foreach ($blocks as $block) {
                         if ($block['block_id'] == $this->session->data['layout_params']['parent_block_id']) {
                             $parent_instance_id = $block['instance_id'];
-                            $position = 0;
                             if ($block['children']) {
                                 foreach ($block['children'] as $child) {
                                     $position = max($child['position'], $position);
@@ -269,10 +268,10 @@ class ControllerPagesDesignBlocks extends AController
                         }
                     }
                 }
-                $savedata = $this->session->data['layout_params'];
-                $savedata['parent_instance_id'] = $parent_instance_id;
-                $savedata['position'] = $position + 10;
-                $savedata['status'] = 1;
+                $saveData = $this->session->data['layout_params'];
+                $saveData['parent_instance_id'] = $parent_instance_id;
+                $saveData['position'] = $position + 10;
+                $saveData['status'] = 1;
             } else {
                 $layout = new ALayoutManager();
             }
@@ -282,7 +281,7 @@ class ControllerPagesDesignBlocks extends AController
                 case 'listing_block':
                     $content = ['listing_datasource' => $this->request->post['listing_datasource']];
 
-                    if (strpos($content['listing_datasource'], 'custom_') === false) {
+                    if (!str_contains($content['listing_datasource'], 'custom_')) {
                         $content['limit'] = $this->request->post['limit'];
                     }
                     if ($content['listing_datasource'] == 'media') {
@@ -321,14 +320,14 @@ class ControllerPagesDesignBlocks extends AController
             );
             // save custom_block in layout
             if (isset($this->session->data['layout_params'])) {
-                $savedata['custom_block_id'] = $custom_block_id;
-                $savedata['block_id'] = $block_id;
-                $layout->saveLayoutBlocks($savedata);
+                $saveData['custom_block_id'] = $custom_block_id;
+                $saveData['block_id'] = $block_id;
+                $layout->saveLayoutBlocks($saveData);
                 unset($this->session->data['layout_params']);
             }
 
             // save list if it is custom
-            if (strpos($this->request->post['listing_datasource'], 'custom_') !== false) {
+            if (str_contains($this->request->post['listing_datasource'], 'custom_')) {
                 $listing_manager = new AListingManager($custom_block_id);
                 if ($this->request->post['selected']) {
                     $listing_manager->deleteCustomListing($this->config->get('current_store_id'));
@@ -420,7 +419,7 @@ class ControllerPagesDesignBlocks extends AController
                     $block_info['content'] = unserialize($block_info['content']);
                     // if datasource changed - drop custom list
 
-                    if (strpos($content['listing_datasource'], 'custom_') !== false) {
+                    if (str_contains($content['listing_datasource'], 'custom_')) {
                         if ($this->request->post['selected']) {
                             $listing_manager->deleteCustomListing($this->config->get('current_store_id'));
                             $k = 0;
@@ -761,7 +760,7 @@ class ControllerPagesDesignBlocks extends AController
                     continue;
                 }
                 foreach ($tpls as $tpl) {
-                    if (isset($this->data['block_wrappers'][$tpl]) || strpos($tpl, 'blocks/html_block/') === false) {
+                    if (isset($this->data['block_wrappers'][$tpl]) || !str_contains($tpl, 'blocks/html_block/')) {
                         continue;
                     }
                     $this->data['block_wrappers'][$tpl] = $tpl;
