@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  Licence details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2026 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -111,12 +111,17 @@ class ControllerResponsesExtension2Checkout extends AController
         }
         $post = $this->request->post;
         // hash check
-        if (!md5(
+        $secret = (string)$this->config->get('2checkout_secret');
+        $hash = md5(
             $post['sale_id']
             .$this->config->get('2checkout_account')
             .$post['invoice_id']
-            .$this->config->get('2checkout_secret')) == strtolower($post['md5_hash'])
-        ){
+            .$secret
+        );
+        if ($secret === ''
+            || !is_string($post['md5_hash'])
+            || !hash_equals($hash, strtolower($post['md5_hash']))
+        ) {
             exit;
         }
 
@@ -127,28 +132,29 @@ class ControllerResponsesExtension2Checkout extends AController
         if (!$order_info) {
             return null;
         }
-        $this->load->model('extension/2checkout');
+        /** @var ModelExtension2Checkout $mdl */
+        $mdl = $this->load->model('extension/2checkout');
         if ($post['message_type'] == 'ORDER_CREATED') {
             $this->model_checkout_order->confirm(
                 (int)$post['vendor_order_id'],
                 $this->config->get('2checkout_order_status_id')
             );
         } elseif ($post['message_type'] == 'REFUND_ISSUED') {
-            $order_status_id = $this->model_extension_2checkout->getOrderStatusIdByName('failed');
+            $order_status_id = $mdl->getOrderStatusIdByName('failed');
             $this->model_checkout_order->update(
                 (int)$post['vendor_order_id'],
                 $order_status_id,
                 'Status changed by 2Checkout INS'
             );
         } elseif ($post['message_type'] == 'FRAUD_STATUS_CHANGED' && $post['fraud_status'] == 'pass') {
-            $order_status_id = $this->model_extension_2checkout->getOrderStatusIdByName('processing');
+            $order_status_id = $mdl->getOrderStatusIdByName('processing');
             $this->model_checkout_order->update(
                 (int)$post['vendor_order_id'],
                 $order_status_id,
                 'Status changed by 2Checkout INS'
             );
         } elseif ($post['message_type'] == 'SHIP_STATUS_CHANGED' && $post['ship_status'] == 'shipped') {
-            $order_status_id = $this->model_extension_2checkout->getOrderStatusIdByName('complete');
+            $order_status_id = $mdl->getOrderStatusIdByName('complete');
             $this->model_checkout_order->update(
                 (int)$post['vendor_order_id'],
                 $order_status_id,
