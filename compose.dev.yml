@@ -1,0 +1,63 @@
+services:
+  web:
+    image: nginx:latest
+    volumes:
+      # Mount the src
+      - ./:/var/www
+      # Mount nginx.conf
+      - ./docker-dev/nginx/nginx.conf.template:/etc/nginx/templates/nginx.conf.template:ro
+    restart: unless-stopped
+    ports:
+      # only local access
+      - "127.0.0.1:8080:80"
+    environment:
+      NGINX_HOST: "${NGINX_HOST}"
+      NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
+    networks:
+      - abantecart-dev
+    depends_on:
+      php-fpm:
+        condition: service_started
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: ./docker-dev/php-fpm/Dockerfile
+    env_file:
+      - .env
+    volumes:
+      # Mount the src
+      - ./:/var/www
+    restart: unless-stopped
+    networks:
+      - abantecart-dev
+    depends_on:
+      mariadb:
+        condition: service_started
+
+  mariadb:
+    image: "mariadb:${MARIADB_VERSION}"
+    restart: unless-stopped
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+    expose:
+      - 3306
+    networks:
+      - abantecart-dev
+
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    networks:
+      - abantecart-dev
+
+networks:
+  abantecart-dev:
+
+volumes:
+  mariadb-data:
