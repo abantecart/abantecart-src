@@ -18,6 +18,9 @@ http {
         root /var/www/public_html;
         index index.php index.html;
 
+        access_log /var/www/public_html/system/logs/access.log;
+        error_log /var/www/public_html/system/logs/error.log;
+
         ### Abantecart Settings ###
         location = /favicon.ico {
             log_not_found off;
