@@ -8,10 +8,10 @@ services:
       - ./docker-dev/nginx/nginx.conf.template:/etc/nginx/templates/nginx.conf.template:ro
     restart: unless-stopped
     ports:
-      # only local access
       - "127.0.0.1:8080:80"
     environment:
       NGINX_HOST: "${NGINX_HOST}"
+      NGINX_ADMINER_HOST: "${NGINX_ADMINER_HOST}"
       NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
     networks:
       - abantecart-dev
@@ -53,6 +53,14 @@ services:
   redis:
     image: redis:alpine
     restart: unless-stopped
+    networks:
+      - abantecart-dev
+
+  adminer:
+    image: adminer:latest
+    restart: unless-stopped
+    environment:
+      ADMINER_DEFAULT_SERVER: mariadb
     networks:
       - abantecart-dev
 

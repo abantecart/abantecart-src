@@ -62,7 +62,7 @@ http {
               return 403;
             }
         }
-        
+
         #comment out cause it catch php requests
         #rewrite for images for retina-displays
         #location ~ / {
@@ -81,6 +81,16 @@ http {
             fastcgi_index index.php;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             include fastcgi_params;
+        }
+    }
+
+    server {
+        listen 80;
+        server_name ${NGINX_ADMINER_HOST};
+
+        location / {
+            proxy_pass http://adminer:8080;
+            proxy_set_header Host $host;
         }
     }
 }
