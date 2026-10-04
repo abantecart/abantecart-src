@@ -26,8 +26,9 @@ services:
     env_file:
       - .env
     volumes:
-      # Mount the src
       - ./:/var/www
+      - ./docker-dev/php-fpm/conf.d/98-xdebug.ini:/usr/local/etc/php/conf.d/98-xdebug.ini:ro
+      - ./docker-dev/php-fpm/conf.d/99-custom.ini:/usr/local/etc/php/conf.d/99-custom.ini:ro
     restart: unless-stopped
     networks:
       - abantecart-dev

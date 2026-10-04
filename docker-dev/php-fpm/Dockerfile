@@ -27,9 +27,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # add health check path
 COPY ./docker-dev/php-fpm/php-fpm.d/*.conf /usr/local/etc/php-fpm.d/
 
-# copy custom php settings
-COPY ./docker-dev/php-fpm/conf.d/*.ini /usr/local/etc/php/conf.d/
-
 # get actual composer directly from image
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
