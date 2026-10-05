@@ -130,6 +130,7 @@ Distributed under the [Open Software License (OSL 3.0)](https://opensource.org/l
 - 🧩 [Extension Marketplace](https://marketplace.abantecart.com)  
 - 🗣️ [Community Forum](https://forum.abantecart.com)  
 - 🎥 [YouTube Tutorials](https://www.youtube.com/@abantecart/videos)
+- 🐳 [Docker Development Guide](docker-dev/DOCKER.DEV.md)
 
 ---
 
