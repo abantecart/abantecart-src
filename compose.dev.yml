@@ -25,6 +25,8 @@ services:
       dockerfile: ./docker-dev/php-fpm/Dockerfile
     env_file:
       - .env
+    environment:
+      XDEBUG_MODE: "${XDEBUG_MODE:-off}"
     volumes:
       - ./:/var/www
       - ./docker-dev/php-fpm/conf.d/98-xdebug.ini:/usr/local/etc/php/conf.d/98-xdebug.ini:ro
@@ -34,7 +36,7 @@ services:
       - abantecart-dev
     depends_on:
       mariadb:
-        condition: service_started
+        condition: service_healthy
 
   mariadb:
     image: "mariadb:${MARIADB_VERSION}"
@@ -46,6 +48,12 @@ services:
       MYSQL_DATABASE: "${MYSQL_DATABASE}"
       MYSQL_USER: "${MYSQL_USER}"
       MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
     expose:
       - 3306
     networks:
