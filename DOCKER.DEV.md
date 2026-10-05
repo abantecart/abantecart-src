@@ -1,6 +1,6 @@
 # Docker development
 
-Run these commands from the repository root with Docker running and Docker Compose v2 installed. The stack provides Nginx, PHP-FPM, MariaDB, Redis and Adminer. Source files are mounted into `/var/www`; the web document root is `/var/www/public_html`.
+Run these commands from the repository root with Docker running and Docker Compose v2 installed. The stack includes Nginx, PHP-FPM, MariaDB, Redis and Adminer. Source files are mounted into `/var/www`; the web document root is `/var/www/public_html`.
 
 ## Contents
 
@@ -35,8 +35,6 @@ Edit `.env` for your local setup:
 | `UID`, `GID` | Host user and group IDs used by PHP-FPM. Set them with `id -u` and `id -g` to preserve ownership of files created in the bind-mounted project directory. |
 
 Use `.localhost` hostnames for local browser access. Other names require local DNS or an `/etc/hosts` entry pointing to `127.0.0.1`. 
-
-MariaDB initialization variables apply only to an empty database volume. Changing passwords or database names in `.env` does not update an existing database; update it with SQL or deliberately [reset the volume](#stop-and-clean-up).
 
 ## Start and open the application
 
