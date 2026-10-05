@@ -66,22 +66,21 @@ class ControllerPagesProductSpecial extends AController
         $pMdl = $this->loadModel('catalog/product');
         $promotion = new APromotion();
 
-        $product_total = $promotion->getTotalProductSpecials();
-
-        if ($product_total) {
+        $results = $pMdl->getSpecialProducts(
+            [
+                'sort'       => $sort,
+                'order'      => $order,
+                'start'      => ($page - 1) * $limit,
+                'limit'      => $limit,
+                'avg_rating' => true,
+            ]
+        );
+        if ($results[0]['total_num_rows']) {
             $this->loadModel('catalog/review');
             $this->loadModel('tool/seo_url');
             $this->loadModel('tool/image');
 
             $this->data['button_add_to_cart'] = $this->language->get('button_add_to_cart');
-            $results = $pMdl->getSpecialProducts(
-                [
-                    'sort'  => $sort,
-                    'order' => $order,
-                    'start' => ($page - 1) * $limit,
-                    'limit' => $limit,
-                ]
-            );
 
             $product_ids = array_column($results, 'product_id');
 
@@ -145,7 +144,7 @@ class ControllerPagesProductSpecial extends AController
                 $in_stock = false;
                 $no_stock_text = $this->language->get('text_out_of_stock');
                 $total_quantity = 0;
-                $stock_checkout = (string)$result['stock_checkout'] === ''
+                $stock_checkout = (string) $result['stock_checkout'] === ''
                     ? $this->config->get('config_stock_checkout')
                     : $result['stock_checkout'];
                 if ($stock_info[$productId]['subtract']) {
@@ -233,7 +232,7 @@ class ControllerPagesProductSpecial extends AController
                     'name'       => 'pagination',
                     'text'       => $this->language->get('text_pagination'),
                     'text_limit' => $this->language->get('text_per_page'),
-                    'total'      => $product_total,
+                    'total'      => (int) $results[0]['total_num_rows'],
                     'page'       => $page,
                     'limit'      => $limit,
                     'url'        => $pagination_url,
