@@ -11,6 +11,7 @@ Run these commands from the repository root with Docker running and Docker Compo
 - [Apply configuration and code changes](#apply-configuration-and-code-changes)
 - [Stop and clean up](#stop-and-clean-up)
 - [Known issues](#known-issues)
+- [Known limitations and follow-up work](#known-limitations-and-follow-up-work)
 
 ## Configure `.env`
 
@@ -164,3 +165,10 @@ XDEBUG_MODE=develop,debug
 docker compose -f compose.dev.yml up -d --no-deps php-fpm
 docker compose -f compose.dev.yml exec php-fpm php -r 'var_export(xdebug_info("mode"));'
 ```
+
+## Known limitations and follow-up setup
+
+1. With `INSTALL_DEMO_DATA=false`, the first installer route request takes about 15–20 seconds. The cause has not been identified and needs request-level profiling.
+2. PHP-FPM runs with the numeric `UID` and `GID` from `.env`, which should preserve ownership of files created in the bind-mounted project directory on Linux. Docker Desktop for macOS manages bind-mount ownership itself, so this still needs verification on a native Linux host.
+3. Demo data loads correctly through the web installer. The `cli_install.php` route used with `INSTALL_DEMO_DATA=true` - leaves the store without products and opens the admin Quick Start Wizard after login. Require investigation.
+4. HTTPS is not configured. The application blocks checkout on a non-secure connection, so local checkout testing requires tweaking NGINX configuration and certificates.
