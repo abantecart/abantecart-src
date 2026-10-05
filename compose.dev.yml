@@ -27,6 +27,7 @@ services:
       - .env
     environment:
       XDEBUG_MODE: "${XDEBUG_MODE:-off}"
+    user: "${UID:-1000}:${GID:-1000}"
     volumes:
       - ./:/var/www
       - ./docker-dev/php-fpm/conf.d/98-xdebug.ini:/usr/local/etc/php/conf.d/98-xdebug.ini:ro

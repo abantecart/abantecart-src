@@ -30,32 +30,12 @@ COPY ./docker-dev/php-fpm/php-fpm.d/*.conf /usr/local/etc/php-fpm.d/
 # get actual composer directly from image
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-# Add ARGs for syncing permissions
-ARG UID=1000
-ARG GID=1000
-
-# Create a new user with the specified UID and GID, reusing an existing group if GID exists
-RUN if getent group ${GID}; then \
-      useradd -m -u ${UID} -g ${GID} -s /bin/bash www; \
-    else \
-      groupadd -g ${GID} www && \
-      useradd -m -u ${UID} -g www -s /bin/bash www; \
-    fi
-
-# Dynamically update php-fpm to use the new user and group
-RUN group_name=$(getent group ${GID} | cut -d: -f1) \
-    && sed -i "s/user = www-data/user = www/g" /usr/local/etc/php-fpm.d/www.conf \
-    && sed -i "s/group = www-data/group = $group_name/g" /usr/local/etc/php-fpm.d/www.conf
-
 # Copy the entrypoint script
 COPY ./docker-dev/php-fpm/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Set the working directory inside the container
 WORKDIR /var/www
-
-# Switch to the non-privileged user to run the application
-USER www-data
 
 # Change the default command to run the entrypoint script
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

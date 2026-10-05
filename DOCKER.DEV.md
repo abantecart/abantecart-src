@@ -32,7 +32,7 @@ Edit `.env` for your local setup:
 | `MYSQL_DATABASE` | Database created on first initialization. |
 | `MYSQL_USER`, `MYSQL_PASSWORD` | Application database credentials. |
 | `MYSQL_ROOT_PASSWORD` | MariaDB root password. |
-| `UID`, `GID` | Currently not wired into Compose build arguments or its runtime user; changing these does not change the container's user IDs. |
+| `UID`, `GID` | Host user and group IDs used by PHP-FPM. Set them with `id -u` and `id -g` to preserve ownership of files created in the bind-mounted project directory. |
 
 Use `.localhost` hostnames for local browser access. Other names require local DNS or an `/etc/hosts` entry pointing to `127.0.0.1`. 
 
