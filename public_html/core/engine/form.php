@@ -1,13 +1,11 @@
 <?php
-/** @noinspection PhpMultipleClassDeclarationsInspection */
-
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -19,6 +17,8 @@
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
+
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 use ReCaptcha\ReCaptcha;
 
@@ -119,6 +119,7 @@ class AForm
      *
      * @param string $name
      *
+     * @return bool
      * @throws AException
      */
     public function loadFromDb($name)
@@ -126,27 +127,32 @@ class AForm
         $this->_loadForm($name);
         // if no form return
         if (empty($this->form)) {
-            return;
+            return false;
         }
 
         $this->_loadFields();
         // if no fields, no need to get groups
         if (empty($this->fields)) {
-            return;
+            return false;
         }
 
         $this->_loadGroups();
+        return true;
     }
 
     /**
      * load form data into this->form variable
      *
-     * @param string $name - unique form name
+     * @param string|null $name - unique form name
      *
+     * @return bool
      * @throws AException
      */
-    protected function _loadForm($name)
+    protected function _loadForm(?string $name)
     {
+        if (empty($name)) {
+            return false;
+        }
         $language_id = (int) $this->config->get('storefront_language_id');
         $store_id = (int) $this->config->get('config_store_id');
         $cache_key = 'forms.' . $name;
@@ -156,7 +162,7 @@ class AForm
         $form = $this->cache->pull($cache_key);
         if ($form !== false) {
             $this->form = $form;
-            return;
+            return true;
         }
 
         $query = $this->db->query(
@@ -171,16 +177,17 @@ class AForm
         if (!$query->num_rows) {
             $err = new AError('NOT EXIST Form with name ' . $name);
             $err->toDebug()->toLog();
-            return;
+            return false;
         }
         $this->cache->push($cache_key, $query->row);
         $this->form = $query->row;
+        return true;
     }
 
     /**
      * load form fields data into this->fields variable
-     *
-     * @return void
+     * @param array $data
+     * @return bool
      * @throws AException
      */
     protected function _loadFields(array $data = [])
@@ -194,7 +201,7 @@ class AForm
         $fields = $this->cache->pull($cache_key);
         if ($fields !== false) {
             $this->fields = $fields;
-            return;
+            return true;
         }
 
         $fieldsResult = $this->db->query(
@@ -244,6 +251,7 @@ class AForm
             }
         }
         $this->cache->push($cache_key, $this->fields);
+        return true;
     }
 
     /**
@@ -252,7 +260,7 @@ class AForm
      *
      * @return int
      */
-    protected function _sort_by_sort_order($a, $b)
+    protected function _sort_by_sort_order(array $a, array $b)
     {
         if ($a['sort_order'] == $b['sort_order']) {
             return 0;
@@ -263,7 +271,7 @@ class AForm
     /**
      * load form fields groups data into this->groups variable
      *
-     * @return void
+     * @return bool
      * @throws AException
      */
     protected function _loadGroups()
@@ -277,7 +285,7 @@ class AForm
         $groups = $this->cache->pull($cache_key);
         if ($groups !== false) {
             $this->groups = $groups;
-            return null;
+            return true;
         }
 
         $query = $this->db->query(
@@ -309,6 +317,7 @@ class AForm
         }
 
         $this->cache->push($cache_key, $this->groups);
+        return true;
     }
 
     /**
@@ -375,10 +384,10 @@ class AForm
      *
      * @param string $fieldName
      *
-     * @return array with field data
+     * @return array - array with field data or false
      * @throws AException
      */
-    public function getField($fieldName)
+    public function getField(string $fieldName): array
     {
         foreach ($this->fields as $field) {
             if ($field['field_name'] == $fieldName) {
@@ -386,9 +395,9 @@ class AForm
             }
         }
 
-        $err = new AError('NOT EXIST Form field with name ' . $fieldName);
+        $err = new AError('Form field with name ' . $fieldName.' does not exist');
         $err->toDebug()->toLog();
-        return null;
+        return [];
     }
 
     /**
@@ -410,7 +419,7 @@ class AForm
     }
 
     /**
-     * assign array of field with values.
+     * assign an array of field with values.
      *
      * @param array $values - array of field name -> value
      *
@@ -424,7 +433,7 @@ class AForm
     }
 
     /**
-     * load values to select, multiselect, checkbox group etc
+     * load values to select, multiselect, checkbox group, etc.
      *
      * @param string $fieldName
      * @param array $values
@@ -530,7 +539,7 @@ class AForm
      */
     public function getFormHtml($fieldsOnly = false)
     {
-        // if no form was loaded return empty string
+        // if no form was loaded, return empty string
         if (empty($this->form)) {
             return '';
         }
@@ -629,7 +638,7 @@ class AForm
 
     public function getFormElements(string $formAlias = '')
     {
-        // if no form was loaded return empty string
+        // if no form was loaded, return empty string
         if (!$this->form) {
             return [];
         }
