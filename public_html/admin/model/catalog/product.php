@@ -442,7 +442,7 @@ class ModelCatalogProduct extends Model
         )->row['settings'];
         $priorSettings = unserialize((string)$priorSettings) ? : [];
         $settings = is_serialized($settings) ? unserialize($settings) : $settings;
-        $newSettings = array_merge($priorSettings, (array)$settings);
+        $newSettings = array_merge((array)$priorSettings, (array)$settings);
         $this->db->query(
             "UPDATE " . $this->db->table("products") . "
              SET settings = '" . $this->db->escape(serialize($newSettings)) . "'
