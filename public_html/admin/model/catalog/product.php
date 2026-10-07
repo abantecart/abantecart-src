@@ -78,6 +78,8 @@ class ModelCatalogProduct extends Model
 
         $updArray = [];
         foreach ($this->data['product_columns'] as $column => $type) {
+            //see settings save below
+            if($column == 'settings'){ continue; }
             if (isset($data[$column])) {
                 $value = '';
                 if ($type == 'int') {
@@ -303,16 +305,18 @@ class ModelCatalogProduct extends Model
         ];
 
         $update = [];
-        foreach ($this->data['product_columns'] as $f => $type) {
-            if (isset($data[$f])) {
-                if (in_array($f, $preformat_fields)) {
-                    $data[$f] = preformatFloat($data[$f], $this->language->get('decimal_point'));
+        foreach ($this->data['product_columns'] as $column => $type) {
+            //see settings save below
+            if($column == 'settings'){ continue; }
+            if (isset($data[$column])) {
+                if (in_array($column, $preformat_fields)) {
+                    $data[$column] = preformatFloat($data[$column], $this->language->get('decimal_point'));
                 }
                 //serialize non-string data
-                if (!is_string($data[$f]) && $type == 'string') {
-                    $data[$f] = serialize($data[$f]);
+                if (!is_string($data[$column]) && $type == 'string') {
+                    $data[$column] = serialize($data[$column]);
                 }
-                $update[] = $f . " = " . $this->db->stringOrNull($data[$f]);
+                $update[] = $column . " = " . $this->db->stringOrNull($data[$column]);
             }
         }
 
