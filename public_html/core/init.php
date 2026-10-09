@@ -307,7 +307,7 @@ try {
     require_once(DIR_CORE . 'lib' . DS . 'pagination.php');
     require_once(DIR_CORE . 'lib' . DS . 'request.php');
     require_once(DIR_CORE . 'lib' . DS . 'response.php');
-    require_once(DIR_CORE . 'lib' . DS . 'session.php');
+    require_once(DIR_CORE . 'lib' . DS . 'ASession.php');
     require_once(DIR_CORE . 'lib' . DS . 'template.php');
     require_once(DIR_CORE . 'lib' . DS . 'xml2array.php');
     require_once(DIR_CORE . 'lib' . DS . 'data.php');
