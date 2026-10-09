@@ -29,6 +29,8 @@
                 <td class="summary_value"><?php echo $product['model']; ?></td>
                 <td class="summary_label"><?php echo $entry_price; ?></td>
                 <td class="summary_value"><?php echo $product['price']; ?></td>
+                <td class="summary_label"></td>
+                <td class="summary_value"></td>
             </tr>
             <tr>
                 <td class="summary_label"><?php echo $text_product_condition; ?></td>
@@ -47,6 +49,8 @@
                             <i class="fa fa-external-link"></i> <?php echo $text_view; ?></a>
                     <?php } ?>
                 </td>
+                <td class="summary_label"><?php echo $this->language->get('entry_date_modified','sale/customer'); ?></td>
+                <td class="summary_value"><?php echo  $product['date_modified']?></td>
             </tr>
             <?php echo $this->getHookVar('product_summary_hookvar'); ?>
         </table>
