@@ -1,5 +1,8 @@
 <?php /** @var AView|AController $this */
-if($this->config->get('paypal_commerce_client_id')){ ?>
+/** @var ModelSettingSetting $mdl */
+$mdl = $this->load->model('setting/setting');
+$settings = $mdl->getSetting('paypal_commerce', (int) $this->session->data['current_store_id']);
+if($settings['paypal_commerce_client_id']){ ?>
     <div id="paypal_commerce_client_configurator_container">
         <?php echo $this->html->buildElement(
             [
@@ -33,7 +36,7 @@ if($this->config->get('paypal_commerce_client_id')){ ?>
             $('#pp_cfg_modal').modal('hide');
         };
 
-        let savedConfig = <?php js_echo(json_decode(html_entity_decode($this->config->get('paypal_commerce_pay_later_message_config')),JSON_PRETTY_PRINT)?:[]);?>;
+        let savedConfig = <?php js_echo(json_decode(html_entity_decode($settings['paypal_commerce_pay_later_message_config']),JSON_PRETTY_PRINT)?:[]);?>;
         if(savedConfig.hasOwnProperty('cart') && savedConfig.cart.hasOwnProperty('placement')){
             delete savedConfig.cart.placement;
         }
@@ -46,7 +49,7 @@ if($this->config->get('paypal_commerce_client_id')){ ?>
         merchantConfigurators.Messaging(
             {
                 bnCode: <?php js_echo(base64_decode(ExtensionPaypalCommerce::getBnCode()));?>,
-                merchantIdentifier: <?php js_echo($this->config->get('paypal_commerce_client_id'));?>,
+                merchantIdentifier: <?php js_echo($settings['paypal_commerce_client_id']);?>,
                 partnerClientId: <?php js_echo(base64_decode(ExtensionPaypalCommerce::getPartnerClientId()));?>,
                 partnerName: "AbanteCart",
                 onSave: MessagingConfigHandler,

@@ -67,7 +67,7 @@ class ModelToolSeoUrl extends Model
                         $object_name = 'category';
                         $param_key = 'category_id';
                         //special case for subcategory
-                        $value = explode('_', $value);
+                        $value = explode('_', (string)$value);
                         end($value);
                         $value = current($value);
                         break;

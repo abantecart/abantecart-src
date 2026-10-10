@@ -1,11 +1,11 @@
-<?php /** @noinspection PhpUnreachableStatementInspection */
+<?php 
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -17,7 +17,7 @@
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
-
+/** @noinspection PhpUnreachableStatementInspection */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 class ControllerResponsesProductProduct extends AController
@@ -467,8 +467,9 @@ class ControllerResponsesProductProduct extends AController
                     [
                         'type'  => 'input',
                         'name'  => 'settings[extensions]',
-                        'value' => $option_settings['extensions'],
+                        'value' => $option_settings['extensions'] ? : 'jpeg,jpg,avif,png,gif,webp',
                         'style' => 'no-save  medium-field',
+                        'required' => true,
                     ]
                 );
                 $this->data['fields']['advanced']['min_size'] = $this->html->buildElement(

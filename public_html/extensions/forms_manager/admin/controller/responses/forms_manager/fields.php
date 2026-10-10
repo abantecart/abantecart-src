@@ -1,11 +1,12 @@
 <?php
+
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -36,7 +37,7 @@ class ControllerResponsesFormsManagerFields extends AController
 
     public function get_fields_list()
     {
-        $fields = $this->mdl->getFields((int)$this->request->get['form_id']);
+        $fields = $this->mdl->getFields((int) $this->request->get['form_id']);
         $this->load->library('json');
         $this->response->addJSONHeader();
         $this->response->setOutput(AJson::encode($fields));
@@ -47,7 +48,7 @@ class ControllerResponsesFormsManagerFields extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $formId = (int)$this->request->get['form_id'];
+        $formId = (int) $this->request->get['form_id'];
         $post = $this->request->post;
         if (!$formId || !$post) {
             redirect($this->html->getSecureURL('tool/forms_manager'));
@@ -57,7 +58,8 @@ class ControllerResponsesFormsManagerFields extends AController
             $error = new AError('');
             $error->toJSONResponse(
                 'VALIDATION_ERROR_406',
-                ['error_text' => $this->error]);
+                ['error_text' => $this->error]
+            );
             return;
         }
 
@@ -95,12 +97,18 @@ class ControllerResponsesFormsManagerFields extends AController
             $this->error['error_required'] = $this->language->get('error_fill_required');
         }
 
-        if (!$this->mdl->isFieldNameUnique((int)$data['form_id'], (string)$data['field_name'], (int)$data['field_id'])) {
+        if (!$this->mdl->isFieldNameUnique(
+            (int) $data['form_id'], (string) $data['field_name'], (int) $data['field_id']
+        )) {
             $this->error['field_name'] = sprintf($this->language->get('error_field_name_exists'), $data['field_name']);
         }
 
         if ($data['regexp_pattern'] && @preg_match($data['regexp_pattern'], '') === false) {
             $this->error['regexp_pattern'] = $this->language->get('error_regexp_pattern');
+        }
+        
+        if(isset($data['settings']['extensions']) && !$data['settings']['extensions']) {
+            $this->error['warning'] = $this->language->get('error_allowed_file_extensions');
         }
 
         $this->extensions->hk_ValidateData($this);
@@ -109,14 +117,15 @@ class ControllerResponsesFormsManagerFields extends AController
 
     public function updateField()
     {
-        $formId = (int)$this->request->get['form_id'];
+        $formId = (int) $this->request->get['form_id'];
         $post = $this->request->post;
         $post['form_id'] = $formId;
         if (!$this->_validateFieldForm($post) || !$formId) {
             $error = new AError('');
             $error->toJSONResponse(
                 'VALIDATION_ERROR_406',
-                ['error_text' => $this->error]);
+                ['error_text' => $this->error]
+            );
             return;
         }
 
@@ -126,7 +135,7 @@ class ControllerResponsesFormsManagerFields extends AController
 
     public function remove_field()
     {
-        $this->mdl->removeField((int)$this->request->get['form_id'], (int)$this->request->get['field_id']);
+        $this->mdl->removeField((int) $this->request->get['form_id'], (int) $this->request->get['field_id']);
         $this->response->setOutput($this->language->get('text_field_removed'));
     }
 
@@ -139,14 +148,13 @@ class ControllerResponsesFormsManagerFields extends AController
         $this->mdl->updateForm($post);
         $this->mdl->updateFormFieldData($post);
         $this->response->setOutput($this->language->get('text_success_form'));
-
     }
 
     public function update_field_values()
     {
         $this->mdl->updateFieldValues(
             $this->request->get,
-            (int)$this->language->getContentLanguageID()
+            (int) $this->language->getContentLanguageID()
         );
         $this->response->setOutput($this->language->get('text_success_form'));
     }
@@ -161,8 +169,8 @@ class ControllerResponsesFormsManagerFields extends AController
         $this->view->assign('success', $this->session->data['success']);
         unset($this->session->data['success']);
 
-        $formId = (int)$this->request->get['form_id'];
-        $fieldId = (int)$this->request->get['field_id'];
+        $formId = (int) $this->request->get['form_id'];
+        $fieldId = (int) $this->request->get['field_id'];
 
         $this->data['language_id'] = $this->language->getContentLanguageID();
         $this->data['field_data'] = $this->mdl->getField($fieldId);
@@ -179,7 +187,8 @@ class ControllerResponsesFormsManagerFields extends AController
         $elmType = $this->data['field_data']['element_type'];
         $this->data['selectable'] = in_array(
             $elmType,
-            $this->data['elements_with_options'])
+            $this->data['elements_with_options']
+        )
             ? 1
             : 0;
         $this->data['field_type'] = $this->data['element_types'][$elmType]['type'];
@@ -196,7 +205,8 @@ class ControllerResponsesFormsManagerFields extends AController
                 'name'     => 'field_name',
                 'value'    => $fieldName,
                 'required' => true,
-                'attr'     => $this->data['field_type'] == 'captcha' || $this->data['field_data']['locked'] ? ' readonly ' : ''
+                'attr'     => $this->data['field_type'] == 'captcha' || $this->data['field_data']['locked']
+                    ? ' readonly ' : '',
             ]
         );
 
@@ -224,7 +234,7 @@ class ControllerResponsesFormsManagerFields extends AController
                 'name'  => 'status',
                 'value' => $this->data['field_data']['status'],
                 'style' => 'btn_switch btn-group-xs',
-                'attr'  => $this->data['field_data']['locked'] ? 'readonly' : ''
+                'attr'  => $this->data['field_data']['locked'] ? 'readonly' : '',
             ]
         );
 
@@ -233,15 +243,14 @@ class ControllerResponsesFormsManagerFields extends AController
         if ($groups) {
             $options =
                 ['' => $this->language->get('text_none')]
-                +
-                array_column($groups, 'name', 'group_id');
+                + array_column($groups, 'name', 'group_id');
 
             $this->data['field_group'] = $this->html->buildElement(
                 [
                     'type'    => 'selectbox',
                     'name'    => 'group_id',
                     'value'   => $this->data['field_data']['group_id'],
-                    'options' => $options
+                    'options' => $options,
                 ]
             );
             $this->data['entry_field_group'] = $this->language->get('entry_group');
@@ -318,7 +327,7 @@ class ControllerResponsesFormsManagerFields extends AController
             'responses/common/resource_library/get_resources_scripts',
             [
                 'object_name' => 'field',
-                'object_id'   => (int)$formId,
+                'object_id'   => (int) $formId,
                 'types'       => ['image'],
                 'onload'      => true,
                 'mode'        => 'single',
@@ -394,7 +403,7 @@ class ControllerResponsesFormsManagerFields extends AController
         $this->data['field_values'] = [];
 
         //for country and zone field types show only links to grid
-        if(in_array($elmType,['O','Z'])){
+        if (in_array($elmType, ['O', 'Z'])) {
             $editRt = $elmType == 'O' ? 'localisation/country' : 'localisation/zone';
             $this->data['edit_url'] = $this->html->getSecureURL($editRt);
             $this->data['text_edit_values'] = $this->language->get('text_edit_field_values');
@@ -430,7 +439,6 @@ class ControllerResponsesFormsManagerFields extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
         $this->view->batchAssign($this->data);
         $this->processTemplate('responses/forms_manager/field_values.tpl');
-
     }
 
     protected function _sort_by_sort_order($a, $b)
@@ -487,7 +495,7 @@ class ControllerResponsesFormsManagerFields extends AController
                 [
                     'type'  => 'input',
                     'name'  => 'sort_order[' . $field_value_id . ']',
-                    'value' => (int)$item['sort_order'],
+                    'value' => (int) $item['sort_order'],
                     'style' => 'small-field',
                 ]
             );
@@ -504,15 +512,15 @@ class ControllerResponsesFormsManagerFields extends AController
      */
     protected function _file_upload_settings_form()
     {
-
         $this->loadLanguage('catalog/attribute');
         $this->data['form']['settings_fields'] = [
             'extensions' => $this->html->buildElement(
                 [
-                    'type'  => 'input',
-                    'name'  => 'settings[extensions]',
-                    'value' => $this->data['field_data']['settings']['extensions'],
-                    'style' => 'no-save',
+                    'type'     => 'input',
+                    'name'     => 'settings[extensions]',
+                    'value'    => $this->data['field_data']['settings']['extensions'] ? : 'jpeg,jpg,avif,png,gif,webp',
+                    'style'    => 'no-save',
+                    'required' => true,
                 ]
             ),
             'min_size'   => $this->html->buildElement(
@@ -541,12 +549,16 @@ class ControllerResponsesFormsManagerFields extends AController
             ),
         ];
 
-        $this->data['entry_upload_dir'] = sprintf($this->language->get('entry_upload_dir'), 'admin' . DS . 'system' . DS . 'uploads' . DS . '');
+        $this->data['entry_upload_dir'] =
+            sprintf($this->language->get('entry_upload_dir'), 'admin' . DS . 'system' . DS . 'uploads' . DS . '');
         $uploadsDir = DIR_APP_SECTION . DS . 'system' . DS . 'uploads';
-        $settingsDir = $uploadsDir . DS . trim(str_replace('/', DS, $this->data['attribute_data']['settings']['directory']), DS);
+        $settingsDir =
+            $uploadsDir . DS . trim(str_replace('/', DS, $this->data['attribute_data']['settings']['directory']), DS);
         //check or make writable dirs
         if (!make_writable_dir($uploadsDir) || !make_writable_dir($settingsDir)) {
-            $this->data['form']['settings_fields']['directory'] .= '<i class="error">' . $this->language->get('error_directory_not_writable') . '</i>';
+            $this->data['form']['settings_fields']['directory'] .= '<i class="error">' . $this->language->get(
+                    'error_directory_not_writable'
+                ) . '</i>';
         }
 
         $this->view->batchAssign($this->data);

@@ -521,14 +521,17 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $this->data['pp']['payer'] = [
             'name'          => [
-                'given_name' => $order_info['payment_firstname'] ?: $order_info['shipping_firstname'] ?: $order_info['firstname'],
-                'surname'    => $order_info['payment_lastname'] ?: $order_info['shipping_lastname'] ?: $order_info['lastname'],
+                'given_name' => $order_info['payment_firstname']
+                    ? : $order_info['shipping_firstname'] ? : $order_info['firstname'],
+                'surname'    => $order_info['payment_lastname']
+                    ? : $order_info['shipping_lastname'] ? : $order_info['lastname'],
             ],
             'email_address' => $order_info['email'],
         ];
         $ppOrderData = $this->shopping_data->get('paypal_data', (string) $this->cart->getCartKey());
         $this->data['pp']['purchase_units'][0] = [
             'reference_id' => $ppOrderData['data']['reference_id'] ? : $this->session->data['reference_id'],
+            'custom_id'    => $ppOrderData['data']['reference_id'] ? : $this->session->data['reference_id'],
             'amount'       => [
                 'value'         => $this->formatPaypalAmount($this->data['pp']['orderTotal']),
                 'currency_code' => $this->data['currencyCode'],
@@ -640,7 +643,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 $companyName = $result->getPaymentSource()?->getPaypal()?->getBusinessName()
                     ? : $this->session->data['fc']['guest']['company'];
                 $ppPayer = $result->getPayer();
-                $this->session->data['fc']['email'] = $ppPayer?->getEmailAddress() ?: $this->session->data['fc']['email'];
+                $this->session->data['fc']['email'] =
+                    $ppPayer?->getEmailAddress() ? : $this->session->data['fc']['email'];
                 $this->session->data['fc']['guest']['email'] = $ppPayer?->getEmailAddress()
                     ? : $this->session->data['fc']['guest']['email'];
                 $this->session->data['fc']['guest']['firstname'] = $ppPayer?->getName()?->getGivenName()
@@ -922,8 +926,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $ppData['purchase_units'][0] = [
             'reference_id' => $this->session->data['reference_id'],
+            'custom_id'    => $this->session->data['reference_id'],
             'amount'       => [
-                'value'         => $this->formatPaypalAmount(($orderTotal ?: 0.01)),
+                'value'         => $this->formatPaypalAmount(($orderTotal ? : 0.01)),
                 'currency_code' => $this->data['currencyCode'],
             ],
             'description'  => $inData['product_name'] ? substr($inData['product_name'], 0, 127) : '',
@@ -1259,22 +1264,36 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
     {
         if (!$inData['parsed']) {
             $this->log->write(
-                "Paypal webhook " . $eventName . ": incorrect incoming data! :" . PHP_EOL . var_export(
-                    $inData['raw'], true
-                )
+                "Paypal webhook " . $eventName . ": incorrect incoming data! :" . PHP_EOL
+                . var_export($inData['raw'], true)
             );
             return false;
         }
         if ($inData['parsed']['event_type'] != $eventName) {
             $this->log->write(
-                "Paypal webhook processing: Wrong Event Type! Waiting for " . $eventName . "  but "
-                . $inData['parsed']['event_type'] . " was given"
+                "Paypal webhook processing: Wrong Event Type! Waiting for " . $eventName
+                . "  but " . $inData['parsed']['event_type'] . " was given"
             );
             return false;
         }
 
         $ppOrderId = $inData['parsed']['resource']['supplementary_data']['related_ids']['order_id'];
         $orderId = $this->getOrderIdByPaypalOrderId($ppOrderId);
+
+        $refId = $inData['parsed']['resource']['custom_id'];
+        if ($refId) {
+            $shoppingData = $this->shopping_data->search(
+                         ['order_id' => $ppOrderId],
+                         'paypal_data',
+                options: ['sort' => 'order_id', 'order' => 'desc']
+            );
+            if ($shoppingData && $refId != $shoppingData[0]['data']['reference_id']) {
+                $this->log->write(
+                    "Paypal webhook validation: ReferenceId mismatch."
+                );
+                return false;
+            }
+        }
         /** @var ModelCheckoutOrder $oMdl */
         $oMdl = $this->loadModel('checkout/order');
         $orderInfo = $oMdl->getOrder($orderId);
@@ -1338,8 +1357,10 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         return (int) $result[0]['order_id'];
     }
 
-    protected function hydrateFcGuestFromPaypalOrder(array &$fcSession, ?object $ppOrderDetails, array $inData = []): void
-    {
+    protected function hydrateFcGuestFromPaypalOrder(array   &$fcSession,
+                                                     ?object $ppOrderDetails,
+                                                     array   $inData = []
+    ): void {
         $ppPayer = $ppOrderDetails?->getPayer();
         $ppShipping = $ppOrderDetails?->getPurchaseUnits()[0]?->getShipping();
         $shippingAddress = (array) ($inData['shipping_address'] ?? []);
@@ -1356,27 +1377,29 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             ];
         }
 
-        list($parsedFirstName, $parsedLastName) = $this->splitFullName((string) $ppShipping?->getName()?->getFullName());
+        list(
+            $parsedFirstName, $parsedLastName
+            ) = $this->splitFullName((string) $ppShipping?->getName()?->getFullName());
         $shippingFirstName = $parsedFirstName
-            ?: (string) $ppPayer?->getName()?->getGivenName()
-            ?: 'guest';
+            ? : (string) $ppPayer?->getName()?->getGivenName()
+                ? : 'guest';
         $shippingLastName = $parsedLastName
-            ?: (string) $ppPayer?->getName()?->getSurname()
-            ?: 'guest';
+            ? : (string) $ppPayer?->getName()?->getSurname()
+                ? : 'guest';
 
-        $fcSession['guest']['firstname'] = (string) $ppPayer?->getName()?->getGivenName() ?: $shippingFirstName;
-        $fcSession['guest']['lastname'] = (string) $ppPayer?->getName()?->getSurname() ?: $shippingLastName;
+        $fcSession['guest']['firstname'] = (string) $ppPayer?->getName()?->getGivenName() ? : $shippingFirstName;
+        $fcSession['guest']['lastname'] = (string) $ppPayer?->getName()?->getSurname() ? : $shippingLastName;
         $fcSession['guest']['email'] = (string) $ppPayer?->getEmailAddress();
         $fcSession['guest']['shipping']['firstname'] = $shippingFirstName;
         $fcSession['guest']['shipping']['lastname'] = $shippingLastName;
         $fcSession['guest']['shipping']['address_1'] = (string) ($shippingAddress['address_line_1'] ?? '')
-            ?: (string) ($shippingAddress['line1'] ?? '')
-            ?: $fcSession['guest']['shipping']['address_1'];
+            ? : (string) ($shippingAddress['line1'] ?? '')
+                ? : $fcSession['guest']['shipping']['address_1'];
         $fcSession['guest']['shipping']['address_2'] = (string) ($shippingAddress['address_line_2'] ?? '')
-            ?: (string) ($shippingAddress['line2'] ?? '')
-            ?: $fcSession['guest']['shipping']['address_2'];
+            ? : (string) ($shippingAddress['line2'] ?? '')
+                ? : $fcSession['guest']['shipping']['address_2'];
         $fcSession['guest']['shipping']['city'] =
-            (string) ($shippingAddress['city'] ?? '') ?: (string) ($shippingAddress['admin_area_2'] ?? '');
+            (string) ($shippingAddress['city'] ?? '') ? : (string) ($shippingAddress['admin_area_2'] ?? '');
 
         /** @var ModelLocalisationCountry $cMdl */
         $cMdl = $this->loadModel('localisation/country');
@@ -1425,7 +1448,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $fcSession['payment_address_id'] = $defaultAddressId;
         }
         if ($this->cart->hasShipping() && !$fcSession['shipping_address_id']) {
-            $fcSession['shipping_address_id'] = (int) ($fcSession['payment_address_id'] ?: $defaultAddressId);
+            $fcSession['shipping_address_id'] = (int) ($fcSession['payment_address_id'] ? : $defaultAddressId);
         }
     }
 

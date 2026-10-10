@@ -140,7 +140,7 @@ class ControllerTaskToolImportProcess extends AController
                         continue;
                     }
 
-                    for ($i = 0; $i <= count($columns); $i++) {
+                    for ($i = 0; $i < count($columns); $i++) {
                         $vals[$columns[$i]] = $rowData[$i];
                     }
 
@@ -211,7 +211,8 @@ class ControllerTaskToolImportProcess extends AController
         $startLine = $line_num;
         $endLine = $line_num + $range;
         //always return first line with header
-        $buffer = [0 => fgetcsv($fh, 0, $delimiter, $enclosure)];
+        $aData = new AData();
+        $buffer = [0 => $aData->normalizeCsvHeaderRow((array)fgetcsv($fh, 0, $delimiter, $enclosure))];
         while (($data = fgetcsv($fh, 0, $delimiter, $enclosure)) !== false) {
             if ($lineNo >= $startLine) {
                 $buffer[] = $data;

@@ -1,7 +1,10 @@
 <?php
-if($this->config->get('paypal_commerce_onboarding')){
+/** @var ModelSettingSetting $mdl */
+$mdl = $this->load->model('setting/setting');
+$settings = $mdl->getSetting('paypal_commerce', (int) $this->session->data['current_store_id']);
+if($settings['paypal_commerce_onboarding']){
     $visible = false;
-}elseif($this->config->get('paypal_commerce_client_id')){
+}elseif($settings['paypal_commerce_client_id']){
     $visible = true;
 }else{
     $visible = false;
@@ -18,7 +21,7 @@ if($this->config->get('paypal_commerce_onboarding')){
                     [
                         'type'  => 'checkbox',
                         'name'  => 'paypal_commerce_test_mode',
-                        'value'  => $this->config->get('paypal_commerce_test_mode'),
+                        'value'  => $settings['paypal_commerce_test_mode'],
                         'options' => [0 => 1, 1 => 1],
                         'style' => 'btn_switcher'
                     ]
@@ -35,7 +38,7 @@ if($this->config->get('paypal_commerce_onboarding')){
                     [
                         'type'  => 'input',
                         'name'  => 'paypal_commerce_client_id',
-                        'value'  => $this->config->get('paypal_commerce_client_id'),
+                        'value'  => $settings['paypal_commerce_client_id'],
                     ]
                 ); ?>
         </div>
@@ -50,7 +53,7 @@ if($this->config->get('paypal_commerce_onboarding')){
                     [
                         'type'  => 'input',
                         'name'  => 'paypal_commerce_client_secret',
-                        'value'  => $this->config->get('paypal_commerce_client_secret')
+                        'value'  => $settings['paypal_commerce_client_secret']
                     ]
                 ); ?>
         </div>
@@ -58,7 +61,7 @@ if($this->config->get('paypal_commerce_onboarding')){
 </div>
 <script type="text/javascript">
 
-    <?php if ( $this->config->get('paypal_commerce_test')){ ?>
+    <?php if ( $settings['paypal_commerce_test']){ ?>
         $('.panel-body.panel-body-nopadding.tab-content').addClass('status_test');
     <?php }else{ ?>
         $('.panel-body.panel-body-nopadding.tab-content').removeClass('status_test');

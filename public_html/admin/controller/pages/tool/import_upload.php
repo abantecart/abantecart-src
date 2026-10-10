@@ -93,7 +93,7 @@ class ControllerPagesToolImportUpload extends AController
 
         //move uploaded file to tmp processing location
         $res['file'] = DIR_DATA . 'import_' . basename($file['tmp_name']) . ".txt";
-        $result = move_uploaded_file($file['tmp_name'], $res['file']);
+        $result = moveUploadedFile($file['tmp_name'], $res['file']);
         if ($result === false) {
             //remove trunk
             unlink($file['tmp_name']);
@@ -104,7 +104,7 @@ class ControllerPagesToolImportUpload extends AController
         //detect file format
         if ($res['file_type'] == 'csv') {
             if ($fh = fopen($res['file'], 'r')) {
-                $cols = fgetcsv($fh, 0, $res['delimiter']);
+                $cols = $this->handler->normalizeCsvHeaderRow((array)fgetcsv($fh, 0, $res['delimiter']));
                 if (count($cols) < 2) {
                     return ['error' => $this->language->get('error_csv_import')];
                 }

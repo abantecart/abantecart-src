@@ -28,7 +28,7 @@ function orderIntegrityCheck() {
         return;
     }
 
-    if (typeof fc_order_checksum_url === 'undefined' && fc_order_checksum_url.length < 1 ){
+    if (typeof fc_order_checksum_url === 'undefined' || fc_order_checksum_url.length < 1 ){
         return;
     }
 

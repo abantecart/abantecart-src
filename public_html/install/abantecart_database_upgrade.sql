@@ -36,3 +36,6 @@ ALTER TABLE `ac_email_templates`
 
 ALTER TABLE `ac_field_group_to_form`
     COLLATE = utf8mb4_unicode_ci;
+
+ALTER TABLE `ac_orders`
+    ADD `guest_checkout` int(1) NOT NULL DEFAULT '0' AFTER `customer_group_id`;

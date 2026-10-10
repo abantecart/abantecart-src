@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2026 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -28,7 +28,7 @@ class ControllerApiProductReview extends AControllerAPI
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $product_id = $this->request->get['product_id'];
+        $product_id = (int)$this->request->get['product_id'];
 
         if (!$product_id) {
             $this->rest->setResponseData(array('Error' => 'Missing product ID as a required parameter'));
@@ -47,13 +47,13 @@ class ControllerApiProductReview extends AControllerAPI
         $average = $this->model_catalog_review->getAverageRating($product_id);
 
         if (isset($this->request->get['page'])) {
-            $page = $this->request->get['page'];
+            $page = (int)$this->request->get['page'] ?: 1;
         } else {
             $page = 1;
         }
 
         if (isset($this->request->get['rows'])) {
-            $rows = $this->request->get['rows'];
+            $rows = (int)$this->request->get['rows'] ?: 5;
         } else {
             $rows = 5;
         }
@@ -91,7 +91,7 @@ class ControllerApiProductReview extends AControllerAPI
     public function put()
     {
         //Allow to review only for logged in customers.
-        if (!$this->customer->isLoggedWithToken($this->request->get['token'])) {
+        if (!$this->customer->isLoggedWithToken((string)$this->request->get['token'])) {
             $this->rest->setResponseData(array('error' => 'Login attempt failed!'));
             $this->rest->sendResponse(401);
             return null;

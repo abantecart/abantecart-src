@@ -36,37 +36,65 @@ final class ALog
      */
     public function __construct($filename)
     {
-        if (is_dir($filename)) {
-            $filename .= (!str_ends_with($filename, '/') ? '/' : '') . 'error.txt';
+        $filename = (string) $filename;
+        // Trailing slash must be treated as a directory. pathinfo()/dirname() on
+        // "/path/logs/" return "/path" (the parent), and is_dir() can be false for
+        // a symlink-to-directory even when files inside it are writable.
+        if ($filename === ''
+            || is_dir($filename)
+            || str_ends_with($filename, '/')
+            || str_ends_with($filename, '\\')
+        ) {
+            $filename = rtrim($filename !== '' ? $filename : DIR_LOGS, '/\\') . DS . 'error.txt';
         }
         $this->filename = $filename;
 
-        if (!is_writable(pathinfo($filename, PATHINFO_DIRNAME))) {
+        if (!$this->ensureWritableFile()) {
             // if it happens, see errors in httpd.log!
-            throw new AException (
-                AC_ERR_LOAD, 'Error: Log directory ' . DIR_LOGS . ' is non-writable. Please change permissions.'
+            throw new AException(
+                AC_ERR_LOAD,
+                'Error: Log directory ' . dirname($this->filename) . ' is non-writable. Please change permissions.'
             );
-        }
-
-        //1.create file if it not exists
-        if (!file_exists($this->filename)) {
-            $handle = @fopen($this->filename, 'a+');
-            @fclose($handle);
-        } else {
-            if (!is_writable($this->filename)) {
-                //create second log file if original is not writable
-                $this->filename = DIR_LOGS
-                    . basename($this->filename, '.' . pathinfo($this->filename, PATHINFO_EXTENSION))
-                    . '_0.txt';
-                $handle = @fopen($this->filename, 'a+');
-                @fclose($handle);
-            }
         }
 
         if (class_exists('Registry')) {
             // for disabling via settings
             $this->mode = (bool) Registry::getInstance()?->get('config')?->get('config_error_log');
         }
+    }
+
+    /**
+     * Create the log file if needed and confirm it can be appended to.
+     * Do not gate on is_writable(): it false-negatives on symlink directories
+     * (and some NFS/SELinux setups) even when fopen() succeeds.
+     *
+     * @return bool
+     */
+    private function ensureWritableFile()
+    {
+        if (is_file($this->filename) && is_writable($this->filename)) {
+            return true;
+        }
+
+        $handle = @fopen($this->filename, 'a+');
+        if ($handle !== false) {
+            fclose($handle);
+            return true;
+        }
+
+        if (is_file($this->filename)) {
+            // original file exists but is not writable — fall back
+            $this->filename = DIR_LOGS
+                . basename($this->filename, '.' . pathinfo($this->filename, PATHINFO_EXTENSION))
+                . '_0.txt';
+            $handle = @fopen($this->filename, 'a+');
+            if ($handle !== false) {
+                fclose($handle);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

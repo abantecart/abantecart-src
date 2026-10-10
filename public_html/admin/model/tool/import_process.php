@@ -624,8 +624,11 @@ class ModelToolImportProcess extends Model
      */
     public function process_manufacturers_record(int|string $task_id, $data, $settings)
     {
-        $language_id = $settings['language_id'] ?: $this->language->getContentLanguageID();
-        $store_id = $settings['store_id'] ?: $this->session->data['current_store_id'];
+        $language_id = (int)($settings['language_id'] ?: $this->language->getContentLanguageID());
+        $store_id = (int)($settings['store_id']
+            ?? $this->session->data['current_store_id']
+            ?? $this->config->get('config_store_id')
+            ?? 0);
         $this->load->model('catalog/manufacturer');
         $this->initLogger(DIR_LOGS . "manufacturers_import_" . $task_id . ".txt");
         return $this->addUpdateBrand($data, $settings, $language_id, $store_id);
@@ -990,6 +993,10 @@ class ModelToolImportProcess extends Model
 
         $action = $data['action'][0] ?: 'update_or_insert';
         $manufacturer = $this->filterArray((array)$data['manufacturers']);
+        $manufacturer['name'] = is_array($manufacturer['name']) ? reset($manufacturer['name']) : $manufacturer['name'];
+        $manufacturer['sort_order'] = is_array($manufacturer['sort_order'])
+            ? (int)reset($manufacturer['sort_order'])
+            : (int)$manufacturer['sort_order'];
         $manufacturer_id = $this->_process_manufacturer($manufacturer['name'], $manufacturer['sort_order'], $store_id);
 
         //validate actions
@@ -1210,21 +1217,20 @@ class ModelToolImportProcess extends Model
         $language_list = $this->language->getAvailableLanguages();
         $rm = new AResourceManager();
         $rm->setType('image');
-        //delete existing resources
+        //delete existing resources once, then import every URL
         $rm->unmapAndDeleteResources($object_txt_id, $object_id, 'image');
 
         //IMAGE PROCESSING
-        $data['image'] = (array)$data['image'];
-        foreach ($data['image'] as $srcUrl) {
-            if (!$srcUrl) {
-                continue;
-            } else {
-                if (is_array($srcUrl)) {
-                    //we have an array from list of values. Run again
-                    $this->migrateImages(['image' => $srcUrl], $object_txt_id, $object_id, $title, $language_id);
-                    continue;
-                }
+        $imageUrls = [];
+        $imageData = (array)($data['image'] ?? []);
+        array_walk_recursive($imageData, function ($url) use (&$imageUrls) {
+            $url = trim((string)$url);
+            if ($url !== '') {
+                $imageUrls[] = $url;
             }
+        });
+
+        foreach ($imageUrls as $srcUrl) {
             //check if image is absolute path or remote URL
             $host = parse_url($srcUrl, PHP_URL_HOST);
             $imageBasename = basename(parse_url($srcUrl, PHP_URL_PATH));

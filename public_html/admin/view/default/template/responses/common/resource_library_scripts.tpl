@@ -210,16 +210,16 @@ echo $this->html->buildElement(
                     data_mode = ' data-mode="list_all" ';
                 }
                 $(json.items).each(function (index, item) {
-                    var src = '';
-                    if (type === 'image' && item['resource_code']) {
-                        src = '<div class="html rl_large_icon">' + item['thumbnail_url'] + '</div>';
+                    let src = '';
+                    if (type === 'image' && item['resource_code'] && item['resource_code'].indexOf('iframe') < 0) {
+                        src = '<div class="html rl_large_icon ">' + item['thumbnail_url'] + '<p>HTML</p></div>';
                     } else if (item['resource_code']) {
-                        src = '<div class="html rl_large_icon"><i class="fa fa-code fa-lg"></i></div>';
+                        src = '<div class="html rl_large_icon code"><i class="fa fa-code fa-lg"></i><p class="mt10">HTML</p></div>';
                     } else {
                         <?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
-                        src = '<img onerror="imgError(this);" class="img-responsive" ' +
-                            'style="width: 100px; height: 100px;"' +
-                            'src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
+                        src = '<img class="img-responsive rl-thumbnail" ' +
+                            'style="width: 100px; height: 100px;" src="' + item['thumbnail_url'] + '?t=' + t 
+                            + '" title="' + item['name'] + '" />';
                     }
 
                     html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">';
@@ -328,7 +328,7 @@ echo $this->html->buildElement(
                         src = item.thumbnail_url
                     } else {
                         <?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
-                        src = '<img onerror="imgError(this);" class="img-responsive" src="' + item.thumbnail_url + '?t=' + t + '" title="' + item.name + '" />';
+                        src = '<img class="img-responsive rl-thumbnail" src="' + item.thumbnail_url + '?t=' + t + '" title="' + item.name + '" />';
                     }
 
                     html += '<div class="resource_single col-sm-6 col-xs-12 text-center">';
@@ -410,6 +410,13 @@ echo $this->html->buildElement(
         <?php }
         }
         ?>
+
+        // Handle image loading errors for resource library thumbnails
+        $(document).on('error', 'img.rl-thumbnail', function () {
+            if (typeof imgError === 'function') {
+                imgError(this);
+            }
+        });
 
         //generic mode to list all resources
         $(document).on("click", 'a.list_resources', function () {

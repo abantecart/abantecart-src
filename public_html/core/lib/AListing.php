@@ -210,7 +210,7 @@ class AListing
         }
 
         $custom_block_id = (int) $this->custom_block_id;
-        $cache_key = 'blocks.custom.'.$custom_block_id.$store_id;
+        $cache_key = 'layout.blocks.custom.'.$custom_block_id.$store_id;
         $output = $this->cache->pull($cache_key);
 
         if ($output !== false) {

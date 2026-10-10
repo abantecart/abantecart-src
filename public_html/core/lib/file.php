@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -84,37 +84,38 @@ class AFile
         if (!$data['name']) {
             $errors[] = $this->language->get('error_empty_file_name');
         }
-
-        if ($settings['extensions']) {
-            $allowed_extensions = explode(',', $settings['extensions']);
-            $allowed_extensions = array_map('trim', $allowed_extensions);
-            $allowed_extensions = array_map('strtolower', $allowed_extensions);
-            $extension = strtolower(pathinfo($data['name'], PATHINFO_EXTENSION));
-            if (!in_array($extension, $allowed_extensions)) {
-                $errors[] = $this->language->getAndReplace('error_file_extension', replaces: $settings['extensions'])
-                    . ' (' . $data['name'] . ')';
-            }
+        $allowedExtensions = array_filter(explode(',', (string) $settings['extensions']));
+        $allowedExtensions = array_map('trim', $allowedExtensions);
+        $allowedExtensions = array_map('strtolower', $allowedExtensions);
+        if (!$allowedExtensions) {
+            $errors[] = $this->language->get('error_empty_file_extension');
         }
 
-        if ((int)$settings['min_size'] > 0) {
+        $extension = strtolower(pathinfo($data['name'], PATHINFO_EXTENSION));
+        if (!in_array($extension, $allowedExtensions)) {
+            $errors[] = $this->language->getAndReplace('error_file_extension', replaces: $settings['extensions'])
+                . ' (' . $data['name'] . ')';
+        }
+
+        if ((int) $settings['min_size'] > 0) {
             $min_size_kb = $settings['min_size'];
-            if ((int)$data['size'] / 1024 < $min_size_kb) {
+            if ((int) $data['size'] / 1024 < $min_size_kb) {
                 $errors[] = $this->language->getAndReplace('error_min_file_size', replaces: $min_size_kb)
                     . ' (' . $data['name'] . ')';
             }
         }
 
         //convert all to Kb and check the limits on abantecart and php side
-        $abc_upload_limit = (int)$this->config->get('config_upload_max_size'); //comes in Kb
-        $php_upload_limit = (int)ini_get('upload_max_filesize') * 1024; //comes in Mb
+        $abc_upload_limit = (int) $this->config->get('config_upload_max_size'); //comes in Kb
+        $php_upload_limit = (int) ini_get('upload_max_filesize') * 1024; //comes in Mb
         $max_size_kb = min($abc_upload_limit, $php_upload_limit);
 
         //check limit for attribute if set
-        if ((int)$settings['max_size'] > 0) {
-            $max_size_kb = min((int)$settings['max_size'], $max_size_kb);
+        if ((int) $settings['max_size'] > 0) {
+            $max_size_kb = min((int) $settings['max_size'], $max_size_kb);
         }
 
-        if ($max_size_kb < (int)$data['size'] / 1024) {
+        if ($max_size_kb < (int) $data['size'] / 1024) {
             $errors[] = $this->language->getAndReplace('error_max_file_size', replaces: $max_size_kb)
                 . ' (' . $data['name'] . ')';
         }
@@ -215,7 +216,7 @@ class AFile
             [
                 "User-Agent: AbanteCart/" . VERSION,
                 "Accept-Language: en-US,en;q=0.9",
-                "Accept-Encoding: gzip, deflate, br"
+                "Accept-Encoding: gzip, deflate, br",
             ]
         );
         curl_setopt($ch, CURLOPT_HEADER, 0);

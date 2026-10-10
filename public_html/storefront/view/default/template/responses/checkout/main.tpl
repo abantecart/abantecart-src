@@ -3,7 +3,7 @@
     fc_checkbox_post_url = <?php js_echo($this->html->getSecureUrl('r/checkout/pay/changeCheckBox'));?>;
     fc_comment_post_url = <?php js_echo($this->html->getSecureUrl('r/checkout/pay/updateOrderData')); ?>;
     fc_product_page_url = <?php js_echo($this->html->getSecureUrl('product/product'));?>;
-    fc_order_checksum_url = <?php js_echo($this->html->getSecureUrl('r/checkout/pay/checkOrderIntegrity','&checksum='.$order_checksum)); ?>;
+    fc_order_checksum_url = <?php js_echo($order_checksum ? $this->html->getSecureUrl('r/checkout/pay/checkOrderIntegrity','&checksum='.$order_checksum) : ''); ?>;;
 </script>
 
 <?php echo $head; ?>

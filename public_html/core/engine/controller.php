@@ -586,7 +586,7 @@ abstract class AController
     {
         $default_sorting = $this->config->get('config_product_default_sort_order');
         $this->data['sorts'] = [
-            $default_sorting => $this->language->get('text_default'),
+            $default_sorting => $this->language->get('text_best_match'),
             'name-ASC'       => $this->language->get('text_sorting_name_asc'),
             'name-DESC'      => $this->language->get('text_sorting_name_desc'),
             'price-ASC'      => $this->language->get('text_sorting_price_asc'),
@@ -605,7 +605,7 @@ abstract class AController
         $request = $this->request->get;
         $page = (int)$request['page'] ?: 1;
         $limit = (int)$request['limit'] ?: $this->config->get('config_catalog_limit');
-        $sorting_href = $request['sort'];
+        $sorting_href = (string)$request['sort'];
         if (!$this->data['sorts']) {
             $this->prepareProductListingParameters();
         }

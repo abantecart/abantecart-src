@@ -78,6 +78,8 @@ class ModelCatalogProduct extends Model
 
         $updArray = [];
         foreach ($this->data['product_columns'] as $column => $type) {
+            //see settings save below
+            if($column == 'settings'){ continue; }
             if (isset($data[$column])) {
                 $value = '';
                 if ($type == 'int') {
@@ -303,16 +305,18 @@ class ModelCatalogProduct extends Model
         ];
 
         $update = [];
-        foreach ($this->data['product_columns'] as $f => $type) {
-            if (isset($data[$f])) {
-                if (in_array($f, $preformat_fields)) {
-                    $data[$f] = preformatFloat($data[$f], $this->language->get('decimal_point'));
+        foreach ($this->data['product_columns'] as $column => $type) {
+            //see settings save below
+            if($column == 'settings'){ continue; }
+            if (isset($data[$column])) {
+                if (in_array($column, $preformat_fields)) {
+                    $data[$column] = preformatFloat($data[$column], $this->language->get('decimal_point'));
                 }
                 //serialize non-string data
-                if (!is_string($data[$f]) && $type == 'string') {
-                    $data[$f] = serialize($data[$f]);
+                if (!is_string($data[$column]) && $type == 'string') {
+                    $data[$column] = serialize($data[$column]);
                 }
-                $update[] = $f . " = " . $this->db->stringOrNull($data[$f]);
+                $update[] = $column . " = " . $this->db->stringOrNull($data[$column]);
             }
         }
 
@@ -427,7 +431,7 @@ class ModelCatalogProduct extends Model
 
     public function saveSettings(int $product_id, $settings)
     {
-        if (!$settings) {
+        if (!$settings || !$product_id) {
             return;
         }
 
@@ -436,9 +440,9 @@ class ModelCatalogProduct extends Model
              FROM " . $this->db->table("products") . " 
              WHERE product_id = " . $product_id
         )->row['settings'];
-        $priorSettings = unserialize($priorSettings) ? : [];
+        $priorSettings = unserialize((string)$priorSettings) ? : [];
         $settings = is_serialized($settings) ? unserialize($settings) : $settings;
-        $newSettings = array_merge($priorSettings, $settings);
+        $newSettings = array_merge((array)$priorSettings, (array)$settings);
         $this->db->query(
             "UPDATE " . $this->db->table("products") . "
              SET settings = '" . $this->db->escape(serialize($newSettings)) . "'
@@ -645,8 +649,9 @@ class ModelCatalogProduct extends Model
         $data['with_values'] = $data['with_values'] ?? true;
         $am = new AAttribute_Manager();
 
-        $attributeInfo =
-            $data['attribute_id'] && $data['with_values'] ? $am->getAttribute((int) $data['attribute_id']) : [];
+        $attributeInfo = $data['attribute_id'] && $data['with_values'] 
+            ? $am->getAttribute((int) $data['attribute_id']) 
+            : [];
 
         if ($attributeInfo) {
             $data['element_type'] = $attributeInfo['element_type'];
@@ -657,6 +662,20 @@ class ModelCatalogProduct extends Model
             $data['settings'] = $attributeInfo['settings'];
         } else {
             $data['placeholder'] = $data['option_placeholder'];
+        }
+
+        if ($data['element_type'] == 'U') {
+            $settings = is_array($data['settings'])
+                ? $data['settings']
+                : (unserialize((string)$data['settings'], ['allowed_classes' => false]) ?: []);
+            $settings = array_filter($settings);
+            if (empty($settings['extensions'])) {
+                $settings['extensions'] = 'jpeg,jpg,avif,png,gif,webp';
+            }
+            $data['settings'] = $settings;
+        }
+        if (is_array($data['settings'])) {
+            $data['settings'] = serialize($data['settings']);
         }
 
         $this->db->query(
@@ -2405,7 +2424,7 @@ class ModelCatalogProduct extends Model
                 $sql .= " AND p.manufacturer_id = " . (int) $filter['manufacturer'];
             }
 
-            if ($filter['supplier_code']) {
+            if ($filter['supplier_code'] && $filter['supplier_code'] !== '') {
                 $sql .= " AND p.supplier_code = '" . $this->db->escape($filter['supplier_code']) . "'";
                 $sql .= " AND COALESCE(p.supplier_id, '') <> '' ";
             }
@@ -2441,7 +2460,7 @@ class ModelCatalogProduct extends Model
                 }
             }
 
-            if (isset($filter['keyword'])) {
+            if (isset($filter['keyword']) && $filter['keyword'] !== '') {
                 $keywords = explode(' ', $filter['keyword']);
 
                 if ($match == 'any') {
@@ -2518,7 +2537,7 @@ class ModelCatalogProduct extends Model
             if ($filter['sku']) {
                 $sql .= " AND p.sku LIKE '%" . $this->db->escape($filter['sku']) . "%'";
             }
-            if (isset($filter['status'])) {
+            if (isset($filter['status']) && $filter['status'] !== '') {
                 $sql .= " AND p.status = '" . (int) $filter['status'] . "'";
             }
 

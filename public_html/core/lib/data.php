@@ -102,6 +102,22 @@ class AData
     }
 
     /**
+     * Normalize CSV header row values before mapping/import.
+     *
+     * @param array $headers
+     *
+     * @return array
+     */
+    public function normalizeCsvHeaderRow(array $headers = [])
+    {
+        if (isset($headers[0]) && is_string($headers[0])) {
+            $headers[0] = preg_replace('/^\xEF\xBB\xBF/', '', $headers[0]);
+        }
+
+        return $headers;
+    }
+
+    /**
      * @return array
      */
     public function getSections()
@@ -450,7 +466,7 @@ class AData
         $handle = fopen($file, 'r');
         if ($handle) {
             //get titles of columns
-            $first_row = fgetcsv($handle, 0, $delimiter);
+            $first_row = $this->normalizeCsvHeaderRow((array)fgetcsv($handle, 0, $delimiter));
             $cols = count($first_row);
             for ($i = 0; $i < $cols; $i++) {
                 $titles[$i] = str_replace($escape . $enclose, $enclose, $first_row[$i]);

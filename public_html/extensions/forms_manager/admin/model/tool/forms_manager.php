@@ -531,15 +531,29 @@ class ModelToolFormsManager extends Model
 
         $data['field_name'] = str_replace(' ', '_', $this->db->escape($data['field_name']));
         if ($this->isFieldNameUnique($formId, $data['field_name'])) {
+            if ($data['element_type'] == 'U') {
+                $settings = is_array($data['settings'])
+                    ? $data['settings']
+                    : (unserialize((string)$data['settings'], ['allowed_classes' => false]) ?: []);
+                $settings = array_filter($settings);
+                if (empty($settings['extensions'])) {
+                    $settings['extensions'] = 'jpeg,jpg,avif,png,gif,webp';
+                }
+                $data['settings'] = $settings;
+            }
+            if (is_array($data['settings'])) {
+                $data['settings'] = serialize($data['settings']);
+            }
+            
             $sql = "INSERT INTO " . $this->db->table('fields') . "
 				SET
 					form_id = " . (int)$formId . ",
 					field_name = '" . $data['field_name'] . "',
 					element_type = '" . $this->db->escape($data['element_type']) . "',
-			";
-            $sql .= " sort_order = " . (int)$data['sort_order'] . ", ";
-            $sql .= " required = '" . ((int)$data['required'] ? 1 : 0) . "', ";
-            $sql .= " status = " . (int)$data['status'];
+                    sort_order = " . (int)$data['sort_order'] . ",  
+                    required = '" . ((int)$data['required'] ? 1 : 0) . "',
+                    status = " . (int)$data['status'].",
+                    settings = '" . $this->db->escape((string)$data['settings'])."'";
 
             $this->db->query($sql);
             $fieldId = (int)$this->db->getLastId();

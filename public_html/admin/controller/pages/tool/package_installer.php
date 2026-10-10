@@ -133,7 +133,7 @@ class ControllerPagesToolPackageInstaller extends AController
                     unlink($this->request->files['package_file']['tmp_name']);
                     $this->session->data['error'] .= $this->language->get('error_archive_extension');
                 } else {
-                    $result = move_uploaded_file(
+                    $result = moveUploadedFile(
                         $this->request->files['package_file']['tmp_name'],
                         $package_info['tmp_dir'] . $this->request->files['package_file']['name']
                     );

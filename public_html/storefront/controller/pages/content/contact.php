@@ -37,7 +37,9 @@ class ControllerPagesContentContact extends AController
         $this->form = new AForm(self::formTxtId);
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->form->loadFromDb(self::formTxtId);
+        if( !$this->form->loadFromDb(self::formTxtId)){
+            redirect($this->html->getSecureURL('error/not_found'));
+        }
         $form = $this->form->getForm();
         $languageId = $this->language->getContentLanguageID() ?? $this->language->getLanguageID();
 

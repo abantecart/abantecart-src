@@ -1,3 +1,9 @@
+<?php
+/** @var ModelSettingSetting $mdl */
+$mdl = $this->load->model('setting/setting');
+$settings = $mdl->getSetting('paypal_commerce', (int) $this->session->data['current_store_id']);
+?>
+
 <style>
     #pp-info-block{
         width: 900px;
@@ -36,7 +42,7 @@
 
 <div class="container-fluid">
     <div id="pp-info-block">
-        <?php if(!$this->config->get('paypal_commerce_client_id')){ ?>
+        <?php if(!$settings['paypal_commerce_client_id']){ ?>
         <div class="row ml10 mr10 mt20">
             <div class="pull-left pp-logo">
                 <img src="extensions/paypal_commerce/image/pp-logo.png" alt="PayPal Recommended">
@@ -73,7 +79,7 @@
                     <h4 class="mb20">PayPal Checkout</h4>
                     <h6 class="pp-connected-text"><i class="fa fa-check-circle"></i> &nbsp;Your PayPal account is connected</h6>
                     <div class="pp-buttons">
-                        <?php $href = $this->config->get('paypal_commerce_test_mode')
+                        <?php $href = $settings['paypal_commerce_test_mode']
                             ? "https://www.sandbox.paypal.com/businessmanage/account/aboutBusiness"
                             : "https://www.paypal.com/businessmanage/account/aboutBusiness";
                         ?>

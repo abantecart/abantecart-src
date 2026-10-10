@@ -1,12 +1,11 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
-
+<?php
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -18,6 +17,8 @@
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
+
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 use ReCaptcha\ReCaptcha;
 
@@ -118,6 +119,7 @@ class AForm
      *
      * @param string $name
      *
+     * @return bool
      * @throws AException
      */
     public function loadFromDb($name)
@@ -125,29 +127,34 @@ class AForm
         $this->_loadForm($name);
         // if no form return
         if (empty($this->form)) {
-            return;
+            return false;
         }
 
         $this->_loadFields();
         // if no fields, no need to get groups
         if (empty($this->fields)) {
-            return;
+            return false;
         }
 
         $this->_loadGroups();
+        return true;
     }
 
     /**
      * load form data into this->form variable
      *
-     * @param string $name - unique form name
+     * @param string|null $name - unique form name
      *
+     * @return bool
      * @throws AException
      */
-    protected function _loadForm($name)
+    protected function _loadForm(?string $name)
     {
-        $language_id = (int)$this->config->get('storefront_language_id');
-        $store_id = (int)$this->config->get('config_store_id');
+        if (empty($name)) {
+            return false;
+        }
+        $language_id = (int) $this->config->get('storefront_language_id');
+        $store_id = (int) $this->config->get('config_store_id');
         $cache_key = 'forms.' . $name;
         $cache_key = preg_replace('/[^a-zA-Z0-9.]/', '', $cache_key)
             . '.store_' . $store_id
@@ -155,7 +162,7 @@ class AForm
         $form = $this->cache->pull($cache_key);
         if ($form !== false) {
             $this->form = $form;
-            return;
+            return true;
         }
 
         $query = $this->db->query(
@@ -170,22 +177,23 @@ class AForm
         if (!$query->num_rows) {
             $err = new AError('NOT EXIST Form with name ' . $name);
             $err->toDebug()->toLog();
-            return;
+            return false;
         }
         $this->cache->push($cache_key, $query->row);
         $this->form = $query->row;
+        return true;
     }
 
     /**
      * load form fields data into this->fields variable
-     *
-     * @return void
+     * @param array $data
+     * @return bool
      * @throws AException
      */
     protected function _loadFields(array $data = [])
     {
-        $languageId = (int)$data['language_id'] ?: (int)$this->config->get('storefront_language_id');
-        $storeId = (int)($data['store_id'] ?? (int)$this->config->get('config_store_id'));
+        $languageId = (int) $data['language_id'] ? : (int) $this->config->get('storefront_language_id');
+        $storeId = (int) ($data['store_id'] ?? (int) $this->config->get('config_store_id'));
         $cache_key = 'forms.' . $this->form['form_name'] . '.fields';
         $cache_key = preg_replace('/[^a-zA-Z0-9.]/', '', $cache_key)
             . '.store_' . $storeId
@@ -193,7 +201,7 @@ class AForm
         $fields = $this->cache->pull($cache_key);
         if ($fields !== false) {
             $this->fields = $fields;
-            return;
+            return true;
         }
 
         $fieldsResult = $this->db->query(
@@ -214,15 +222,15 @@ class AForm
             LEFT JOIN " . $this->db->table("field_group_descriptions") . " fgd
                 ON (fg.group_id = fgd.group_id AND fgd.language_id = '" . $languageId . "' )
             LEFT JOIN " . $this->db->table("field_group_to_form") . " fg2f
-                ON fg2f.group_id = fg.group_id AND fg2f.form_id = '" . (int)$this->form['form_id'] . "'    
-            WHERE f.form_id = '" . (int)$this->form['form_id'] . "'
+                ON fg2f.group_id = fg.group_id AND fg2f.form_id = '" . (int) $this->form['form_id'] . "'    
+            WHERE f.form_id = '" . (int) $this->form['form_id'] . "'
                 AND f.status = 1
             ORDER BY f.sort_order"
         );
         $this->fields = [];
         foreach ($fieldsResult->rows as $row) {
-            $row['group_txt_id'] = $row['group_txt_id'] ?: 'general';
-            $fieldId = (int)$row['field_id'];
+            $row['group_txt_id'] = $row['group_txt_id'] ? : 'general';
+            $fieldId = (int) $row['field_id'];
             $row['settings'] = $row['settings'] ? unserialize($row['settings']) : [];
             $this->fields[$fieldId] = $row;
             $valuesResult = $this->db->query(
@@ -243,6 +251,7 @@ class AForm
             }
         }
         $this->cache->push($cache_key, $this->fields);
+        return true;
     }
 
     /**
@@ -251,7 +260,7 @@ class AForm
      *
      * @return int
      */
-    protected function _sort_by_sort_order($a, $b)
+    protected function _sort_by_sort_order(array $a, array $b)
     {
         if ($a['sort_order'] == $b['sort_order']) {
             return 0;
@@ -262,13 +271,13 @@ class AForm
     /**
      * load form fields groups data into this->groups variable
      *
-     * @return void
+     * @return bool
      * @throws AException
      */
     protected function _loadGroups()
     {
-        $language_id = (int)$this->config->get('storefront_language_id');
-        $store_id = (int)$this->config->get('config_store_id');
+        $language_id = (int) $this->config->get('storefront_language_id');
+        $store_id = (int) $this->config->get('config_store_id');
         $cache_key = 'forms.' . $this->form['form_name'] . '.groups';
         $cache_key = preg_replace('/[^a-zA-Z0-9.]/', '', $cache_key)
             . '.store_' . $store_id
@@ -276,7 +285,7 @@ class AForm
         $groups = $this->cache->pull($cache_key);
         if ($groups !== false) {
             $this->groups = $groups;
-            return null;
+            return true;
         }
 
         $query = $this->db->query(
@@ -290,24 +299,25 @@ class AForm
             LEFT JOIN " . $this->db->table("field_groups") . " fg 
                 ON ( f.group_id = fg.group_id)
             LEFT JOIN " . $this->db->table("field_group_to_form") . " fg2f 
-                ON ( fg2f.group_id = fg.group_id AND fg2f.form_id = " . (int)$this->form['form_id'] . ")
+                ON ( fg2f.group_id = fg.group_id AND fg2f.form_id = " . (int) $this->form['form_id'] . ")
             LEFT JOIN " . $this->db->table("field_group_descriptions") . " fgd
                 ON ( fg.group_id = fgd.group_id AND fgd.language_id = '" . $language_id . "' )
-            WHERE f.form_id = " . (int)$this->form['form_id'] . "
+            WHERE f.form_id = " . (int) $this->form['form_id'] . "
                 AND f.status = 1
             ORDER BY fg2f.sort_order, f.sort_order"
         );
         $this->groups = [];
         if ($query->num_rows) {
             foreach ($query->rows as $row) {
-                if (empty($this->groups[(int)$row['group_id']])) {
-                    $this->groups[(int)$row['group_id']] = $row;
+                if (empty($this->groups[(int) $row['group_id']])) {
+                    $this->groups[(int) $row['group_id']] = $row;
                 }
-                $this->groups[(int)$row['group_id']]['fields'][] = $row['field_name'];
+                $this->groups[(int) $row['group_id']]['fields'][] = $row['field_name'];
             }
         }
 
         $this->cache->push($cache_key, $this->groups);
+        return true;
     }
 
     /**
@@ -347,12 +357,12 @@ class AForm
             if ($field['element_type'] == 'O') {
                 /** @var ModelLocalisationCountry $mdl */
                 $mdl = $this->load->model('localisation/country');
-                $country = $mdl->getCountry((int)$field['value']);
+                $country = $mdl->getCountry((int) $field['value']);
                 $textValue = $country['name'];
             } elseif ($field['element_type'] == 'Z') {
                 /** @var ModelLocalisationZone $mdl */
                 $mdl = $this->load->model('localisation/zone');
-                $zone = $mdl->getZone((int)$field['value']);
+                $zone = $mdl->getZone((int) $field['value']);
                 $textValue = $zone['name'];
             }
             $fields[$field['field_name']] = [
@@ -374,10 +384,10 @@ class AForm
      *
      * @param string $fieldName
      *
-     * @return array with field data
+     * @return array - array with field data or false
      * @throws AException
      */
-    public function getField($fieldName)
+    public function getField(string $fieldName): array
     {
         foreach ($this->fields as $field) {
             if ($field['field_name'] == $fieldName) {
@@ -385,9 +395,9 @@ class AForm
             }
         }
 
-        $err = new AError('NOT EXIST Form field with name ' . $fieldName);
+        $err = new AError('Form field with name ' . $fieldName.' does not exist');
         $err->toDebug()->toLog();
-        return null;
+        return [];
     }
 
     /**
@@ -409,7 +419,7 @@ class AForm
     }
 
     /**
-     * assign array of field with values.
+     * assign an array of field with values.
      *
      * @param array $values - array of field name -> value
      *
@@ -423,7 +433,7 @@ class AForm
     }
 
     /**
-     * load values to select, multiselect, checkbox group etc
+     * load values to select, multiselect, checkbox group, etc.
      *
      * @param string $fieldName
      * @param array $values
@@ -486,7 +496,7 @@ class AForm
             case 'ST': //standards
                 $view->batchAssign(
                     [
-                        'id' => $this->form['form_name'] ?: $this->form['id'],
+                        'id' => $this->form['form_name'] ? : $this->form['id'],
                     ]
                 );
                 $output = $view->fetch('form/form_js_st.tpl');
@@ -494,7 +504,7 @@ class AForm
             case 'HS': //highlight on change and show the save button
                 $view->batchAssign(
                     [
-                        'id'              => $this->form['form_name'] ?: $this->form['id'],
+                        'id'              => $this->form['form_name'] ? : $this->form['id'],
                         'button_save'     => $language->get('button_save'),
                         'button_reset'    => $language->get('button_reset'),
                         'update'          => $this->form['update'] ?? '',
@@ -529,7 +539,7 @@ class AForm
      */
     public function getFormHtml($fieldsOnly = false)
     {
-        // if no form was loaded return empty string
+        // if no form was loaded, return empty string
         if (empty($this->form)) {
             return '';
         }
@@ -555,9 +565,9 @@ class AForm
                             [
                                 'element_id'  => $elm->element_id,
                                 'type'        => $elm->type,
-                                'title'       => $elm->title ?: $elm->display_name,
-                                'description' => (string)$elm->description,
-                                'error'       => (string)$this->errors[$elm->name],
+                                'title'       => $elm->title ? : $elm->display_name,
+                                'description' => (string) $elm->description,
+                                'error'       => (string) $this->errors[$elm->name],
                                 'item_html'   => $elm->getHtml(),
                             ]
                         );
@@ -628,12 +638,12 @@ class AForm
 
     public function getFormElements(string $formAlias = '')
     {
-        // if no form was loaded return empty string
+        // if no form was loaded, return empty string
         if (!$this->form) {
             return [];
         }
 
-        $formAlias = $formAlias ?: $this->form['form_name'];
+        $formAlias = $formAlias ? : $this->form['form_name'];
         $output = [];
         foreach ($this->fields as $field) {
             $field['attributes'] = html_entity_decode($field['attributes']);
@@ -648,7 +658,8 @@ class AForm
                 'name'                    => $field['field_name'],
                 'form'                    => $formAlias,
                 'attr'                    => $field['attributes']
-                    . ($field['regexp_pattern'] ? ' pattern="' . regexForHtmlPattern($field['regexp_pattern']) . '"' : ''),
+                    . ($field['regexp_pattern'] ? ' pattern="' . regexForHtmlPattern($field['regexp_pattern']) . '"'
+                        : ''),
                 'required'                => $field['required'],
                 'value'                   => $field['value'],
                 'options'                 => $field['options'],
@@ -686,7 +697,7 @@ class AForm
             //settings for country
             if ($field['element_type'] == 'O') {
                 if (preg_match('/data-submit-mode="([^"]+)"/', $field['attributes'], $matches)) {
-                    $submitMode = $matches[1] ?: 'id';
+                    $submitMode = $matches[1] ? : 'id';
                 } else {
                     $submitMode = 'id';
                 }
@@ -695,7 +706,7 @@ class AForm
             //zones
             if ($field['element_type'] == 'Z') {
                 if (preg_match('/data-submit-mode="([^"]+)"/', $field['attributes'], $matches)) {
-                    $submitMode = $matches[1] ?: 'id';
+                    $submitMode = $matches[1] ? : 'id';
                 } else {
                     $submitMode = 'id';
                 }
@@ -722,7 +733,7 @@ class AForm
                     $data['language_code'] = $this->language->getLanguageCode();
                     break;
             }
-            $sidx[$field['group_txt_id']] = (int)$field['group_sort_order'];
+            $sidx[$field['group_txt_id']] = (int) $field['group_sort_order'];
             $output[$field['group_txt_id']][$field['field_name']] = HtmlElementFactory::create($data);
         }
 
@@ -760,7 +771,8 @@ class AForm
             $isRequired = in_array($field['required'], [1, 'Y', '1']);
             // for multi-value required fields
             if (in_array($field['element_type'], HtmlElementFactory::getMultivalueElements())
-                && !$data[$fieldName] && $isRequired
+                && !$data[$fieldName]
+                && $isRequired
             ) {
                 $errors[$fieldName] = $fieldTitle . ' ' . $errorRequiredText;
             }
@@ -773,18 +785,20 @@ class AForm
                         $errors[$fieldName] = $fieldTitle . ' ' . $errorRequiredText;
                     }
                 } // if empty array
-                else if (!$data[$fieldName]) {
-                    $errors[$fieldName] = $fieldTitle . ' ' . $errorRequiredText;
+                else {
+                    if (!$data[$fieldName]) {
+                        $errors[$fieldName] = $fieldTitle . ' ' . $errorRequiredText;
+                    }
                 }
             }
             //email regexp pattern
             if ($field['element_type'] == 'E') {
-                $field['regexp_pattern'] = $field['regexp_pattern'] ?: EMAIL_REGEX_PATTERN;
+                $field['regexp_pattern'] = $field['regexp_pattern'] ? : EMAIL_REGEX_PATTERN;
             }
 
             // check by regexp
             if ($field['regexp_pattern']) {
-                $dataArr = is_array($data[$fieldName]) ? $data[$fieldName] : [(string)$data[$fieldName]];
+                $dataArr = is_array($data[$fieldName]) ? $data[$fieldName] : [(string) $data[$fieldName]];
                 foreach ($dataArr as $value) {
                     if (!preg_match($field['regexp_pattern'], $value)) {
                         if ($isRequired || $value) {
@@ -799,12 +813,15 @@ class AForm
             if ($field['element_type'] == 'K' || $field['element_type'] == 'J') {
                 if ($this->config->get('config_recaptcha_secret_key')) {
                     $recaptcha = new ReCaptcha($this->config->get('config_recaptcha_secret_key'));
-                    $resp = $recaptcha->verify($data['g-recaptcha-response'] ?: $data['captcha'], $this->request->getRemoteIP());
+                    $resp = $recaptcha->verify(
+                        $data['g-recaptcha-response'] ? : $data['captcha'], $this->request->getRemoteIP()
+                    );
                     if (!$resp->isSuccess() && $resp->getErrorCodes()) {
                         $errors[$fieldName] = $this->language->get('error_captcha');
                     }
                 } else {
-                    if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $data[$fieldName])
+                    if (!isset($this->session->data['captcha'])
+                        || ($this->session->data['captcha'] != $data[$fieldName])
                     ) {
                         $errors[$fieldName] = $this->language->get('error_captcha');
                     }
@@ -856,7 +873,10 @@ class AForm
 
         $output = [];
         foreach ($this->fields as $field) {
-            if ($field['element_type'] != 'U' || !$files[$field['field_name']]['tmp_name']) {
+            if ($field['element_type'] != 'U'
+                || !$files[$field['field_name']]['tmp_name']
+                || !$field['settings']['extensions']
+            ) {
                 continue;
             }
 
@@ -866,7 +886,7 @@ class AForm
                 $files[$field['field_name']]['name']
             );
 
-            $result = move_uploaded_file($files[$field['field_name']]['tmp_name'], $file_path_info['path']);
+            $result = moveUploadedFile($files[$field['field_name']]['tmp_name'], $file_path_info['path']);
 
             if ($result) {
                 $output[$field['field_name']] = [

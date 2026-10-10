@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -44,9 +44,16 @@ class ControllerPagesCheckoutCart extends AController
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
+        /** @var ModelCatalogProduct $pMdl */
+        $pMdl = $this->loadModel('catalog/product', 'storefront');
         //process all possible requests first
         if ($this->request->is_GET() && isset($this->request->get['product_id'])) {
+            $productInfo = $pMdl->getProduct((int)$this->request->get['product_id']);
+            //if product is disabled, redirect to cart
+            if(!$productInfo){
+                redirect($this->html->getSecureURL($cart_rt));
+            }
+            
             $option = $this->request->get['option'] ?? [];
             $quantity = (int)$this->request->get['quantity'] ?: 1;
             $this->_unset_methods_data_in_session();
@@ -97,25 +104,38 @@ class ControllerPagesCheckoutCart extends AController
                     if (isset($post['quantity'])) {
                         //we update cart
                         if (!is_array($post['quantity'])) {
-                            $this->loadModel('catalog/product', 'storefront');
                             $product_id = (int)$post['product_id'];
+                            $productInfo = $pMdl->getProduct($product_id);
+                            //if product is disabled, redirect to cart
+                            if(!$productInfo){
+                                redirect($this->html->getSecureURL($cart_rt));
+                            }
                             $options = $post['option'] ?? [];
                             //for FILE-attributes
                             if (has_value($this->request->files['option']['name'])) {
                                 $fm = new AFile();
                                 foreach ($this->request->files['option']['name'] as $id => $name) {
-                                    $attribute_data = $this->model_catalog_product->getProductOption($product_id, (int)$id);
-                                    $attribute_data['settings'] = unserialize($attribute_data['settings']);
+                                    $attributeData = $this->model_catalog_product->getProductOption($product_id, (int)$id);
+                                    if($attributeData['element_type'] != 'U'){
+                                        continue;
+                                    }
+                                    $attributeData['settings'] = unserialize(
+                                        $attributeData['settings'], 
+                                        ['allowed_classes' => false]
+                                    );
+                                    if(!$attributeData['settings']['extensions']){
+                                        continue;
+                                    }
+                                    if (!has_value($name) || str_starts_with($name, '.')) {
+                                        continue;
+                                    }
                                     $file_path_info = $fm->getUploadFilePath(
-                                        $attribute_data['settings']['directory'],
+                                        $attributeData['settings']['directory'],
                                         $name
                                     );
                                     $options[$id] = $file_path_info['name'];
-                                    if (!has_value($name)) {
-                                        continue;
-                                    }
 
-                                    if ($attribute_data['required'] && !$this->request->files['option']['size'][$id]) {
+                                    if ($attributeData['required'] && !$this->request->files['option']['size'][$id]) {
                                         $this->session->data['error'] = $this->language->get('error_required_options');
                                         redirect($_SERVER['HTTP_REFERER']);
                                     }
@@ -130,14 +150,14 @@ class ControllerPagesCheckoutCart extends AController
                                         'size' => $this->request->files['option']['size'][$id],
                                     ];
 
-                                    $file_errors = $fm->validateFileOption($attribute_data['settings'], $file_data);
+                                    $file_errors = $fm->validateFileOption($attributeData['settings'], $file_data);
 
                                     if (has_value($file_errors)) {
                                         $this->session->data['error'] = implode('<br/>', $file_errors);
                                         redirect($_SERVER['HTTP_REFERER']);
                                     } else {
-                                        $result = move_uploaded_file($file_data['tmp_name'], $file_path_info['path']);
-                                        if (!$result || $this->request->files['package_file']['error']) {
+                                        $result = moveUploadedFile( $file_data['tmp_name'], $file_path_info['path'] );
+                                        if (!$result || $this->request->files['option']['error'][$id]) {
                                             $this->session->data['error'] .= '<br>Error: '
                                                 . getTextUploadError(
                                                     $this->request->files['option']['error'][$id]
@@ -153,7 +173,7 @@ class ControllerPagesCheckoutCart extends AController
                                             'name' => $file_path_info['name'],
                                             'type' => $file_data['type'],
                                             'section' => 'product_option',
-                                            'section_id' => $attribute_data['attribute_id'],
+                                            'section_id' => $attributeData['attribute_id'],
                                             'path' => $file_path_info['path'],
                                         ]
                                     );
@@ -199,7 +219,7 @@ class ControllerPagesCheckoutCart extends AController
                     }
 
                     if (isset($post['redirect'])
-                        && parse_url($post['redirect'], PHP_URL_HOST) == parse_url($this->config->get('config_url'), PHP_URL_HOST)
+                        && parse_url((string)$post['redirect'], PHP_URL_HOST) == parse_url((string)$this->config->get('config_url'), PHP_URL_HOST)
                     ) {
                         $this->session->data['redirect'] = $post['redirect'];
                     }

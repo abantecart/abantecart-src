@@ -140,7 +140,7 @@
                         <div class="form-group field_splitter hidden">
                             <div class="input-group">
                                 <label class="control-label"><?php echo $text_import_split; ?></label>
-                                <input type="text" size="5" name="split_col[<?php echo $i ?>]" value="<?php echo isset($map['split_col'][$i]) && $map['split_col'][$i] !== '' ? $map['split_col'][$i] : ','; ?>"  disabled="disabled">
+                                <input type="text" size="5" name="split_col[<?php echo $i ?>]" value="<?php echo $map['split_col'][$i]; ?>"  disabled="disabled">
                             </div>
                         </div>
                     </div>

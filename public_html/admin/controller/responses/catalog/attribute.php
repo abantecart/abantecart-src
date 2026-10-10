@@ -1,11 +1,12 @@
 <?php
+
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -29,7 +30,7 @@ class ControllerResponsesCatalogAttribute extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $am = new AAttribute_Manager();
-        $this->data['attribute_info'] = $am->getAttribute((int)$this->request->get['attribute_id']);
+        $this->data['attribute_info'] = $am->getAttribute((int) $this->request->get['attribute_id']);
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -42,6 +43,7 @@ class ControllerResponsesCatalogAttribute extends AController
      * method that returns part of an attribute form
      *
      * @param array $params
+     *
      * @throws AException
      * @internal param array $param
      *
@@ -54,7 +56,7 @@ class ControllerResponsesCatalogAttribute extends AController
 
         $this->data = array_merge($this->data, $params['data']);
 
-        unset($this->data['form']['fields']); // remove form fields that do not needed here
+        unset($this->data['form']['fields']); // remove form fields that do not need here
 
         $this->data['elements_with_options'] = HtmlElementFactory::getElementsWithOptions();
 
@@ -126,9 +128,8 @@ class ControllerResponsesCatalogAttribute extends AController
         $currency_symbol = $currency_symbol['symbol_left'] . $currency_symbol['symbol_right'];
 
         //Build attribute values part of the form
-        $attributeId = (int)$this->request->get['attribute_id'];
+        $attributeId = (int) $this->request->get['attribute_id'];
         if ($attributeId) {
-
             $this->data['child_count'] = $attribute_manager->totalChildren($attributeId);
             if ($this->data['child_count'] > 0) {
                 $children_attr = $attribute_manager->getAttributes([], 0, $attributeId);
@@ -166,7 +167,7 @@ class ControllerResponsesCatalogAttribute extends AController
                     [
                         'type'  => 'input',
                         'name'  => 'values[' . $attrValueId . '][price_modifier]',
-                        'value' => number_format((float)$atr_val['price_modifier'], 2)
+                        'value' => number_format((float) $atr_val['price_modifier'], 2),
                     ]
                 );
 
@@ -208,7 +209,7 @@ class ControllerResponsesCatalogAttribute extends AController
                 [
                     'type'  => 'input',
                     'name'  => 'values[new][price_modifier]',
-                    'value' => 0.0
+                    'value' => 0.0,
                 ]
             );
             $attributes_fields[0]['price_prefix'] = $form->getFieldHtml(
@@ -261,10 +262,11 @@ class ControllerResponsesCatalogAttribute extends AController
         $this->data['form']['settings_fields'] = [
             'extensions' => $form->getFieldHtml(
                 [
-                    'type'  => 'input',
-                    'name'  => 'settings[extensions]',
-                    'value' => $this->data['settings']['extensions'] ?? '',
-                    'style' => 'no-save',
+                    'type'     => 'input',
+                    'name'     => 'settings[extensions]',
+                    'value'    => $this->data['settings']['extensions'] ?? 'jpeg,jpg,avif,png,gif,webp',
+                    'style'    => 'no-save',
+                    'required' => true,
                 ]
             ),
             'min_size'   => $form->getFieldHtml(
@@ -293,7 +295,7 @@ class ControllerResponsesCatalogAttribute extends AController
             ),
         ];
         $this->data['entry_upload_dir'] = $this->language->getAndReplace(
-            'entry_upload_dir',
+                      'entry_upload_dir',
             replaces: 'admin/system/uploads/'
         );
         $this->data['form']['attribute_values'] = $attributes_fields;
@@ -309,6 +311,7 @@ class ControllerResponsesCatalogAttribute extends AController
      * method that returns part of an attribute form for download attribute
      *
      * @param array $params
+     *
      * @throws AException
      * @internal param array $param
      *
@@ -320,7 +323,7 @@ class ControllerResponsesCatalogAttribute extends AController
 
         $this->data = array_merge($this->data, $params['data']);
 
-        unset($this->data['form']['fields']); // remove form fields that do not needed here
+        unset($this->data['form']['fields']); // remove form fields that do not need here
 
         $this->data['elements_with_options'] = HtmlElementFactory::getElementsWithOptions();
 
@@ -365,7 +368,7 @@ class ControllerResponsesCatalogAttribute extends AController
 
         $attributesFields = [];
         //Build attribute values part of the form
-        $attributeId = (int)$this->request->get['attribute_id'];
+        $attributeId = (int) $this->request->get['attribute_id'];
         if ($attributeId) {
             $this->data['child_count'] = $attribute_manager->totalChildren();
             if ($this->data['child_count'] > 0) {
@@ -373,7 +376,9 @@ class ControllerResponsesCatalogAttribute extends AController
                 foreach ($children_attr as $attr) {
                     $this->data['children'][] = [
                         'name' => $attr['name'],
-                        'link' => $this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $attr['attribute_id']),
+                        'link' => $this->html->getSecureURL(
+                            'catalog/attribute/update', '&attribute_id=' . $attr['attribute_id']
+                        ),
                     ];
                 }
             }

@@ -1613,16 +1613,22 @@ function generateOrderToken($orderId, $email, $secToken = '')
  *
  * @return array
  */
-function filterIntegerIdList(?array $list = [])
+function filterIntegerIdList(?array $list = []): array
 {
-    return array_unique(
-        array_filter(
-            array_map(
-                'intval',
-                array_map('trim', (array) $list)
-            )
-        )
-    );
+    $result = [];
+    foreach ((array) $list as $item) {
+        if (is_int($item)) {
+            $id = $item;
+        } elseif (is_string($item) && preg_match('/^\s*\d+\s*$/', $item)) {
+            $id = (int) $item;
+        } else {
+            continue;
+        }
+        if ($id > 0) {
+            $result[$id] = $id;
+        }
+    }
+    return array_values($result);
 }
 
 /**
@@ -1794,4 +1800,10 @@ function canBuyProduct(string|int|null $productStockCheckout, int $inStock = 0)
         : Registry::getInstance()->get('config')->get('config_stock_checkout')
     );
     return $inStock || $stockCheckout;
+}
+
+function moveUploadedFile(string $tmpName, string $destination): bool
+{
+    //Note: file_exists call needed for warm-up of inodes on some hosts
+    return file_exists($tmpName) && move_uploaded_file($tmpName, $destination);
 }

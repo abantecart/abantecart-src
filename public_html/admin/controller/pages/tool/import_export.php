@@ -496,7 +496,9 @@ class ControllerPagesToolImportExport extends AController
         $this->data['cols'] = $this->data['data'] = [];
         if ($import_data['file_type'] == 'csv') {
             if ($fh = fopen($import_data['file'], 'r')) {
-                $this->data['cols'] = fgetcsv($fh, 0, $import_data['delimiter']);
+                $this->data['cols'] = $this->handler->normalizeCsvHeaderRow(
+                    (array)fgetcsv($fh, 0, $import_data['delimiter'])
+                );
                 $this->data['data'] = fgetcsv($fh, 0, $import_data['delimiter']);
             }
         }
@@ -620,7 +622,9 @@ class ControllerPagesToolImportExport extends AController
         $this->data['cols'] = $this->data['data'] = [];
         if ($import_data['file_type'] == 'csv') {
             if ($fh = fopen($import_data['file'], 'r')) {
-                $this->data['cols'] = fgetcsv($fh, 0, $import_data['delimiter']);
+                $this->data['cols'] = $this->handler->normalizeCsvHeaderRow(
+                    (array)fgetcsv($fh, 0, $import_data['delimiter'])
+                );
                 $this->data['data'] = fgetcsv($fh, 0, $import_data['delimiter']);
             }
         }

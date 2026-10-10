@@ -1,8 +1,8 @@
-<?php include($tpl_common_dir.'action_confirm.tpl'); ?>
-
-<?php echo $summary_form; ?>
-
-<?php echo $product_tabs ?>
+<?php 
+include($tpl_common_dir.'action_confirm.tpl');
+echo $summary_form;
+echo $product_tabs 
+?>
 <div id="content" class="panel panel-default">
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
@@ -22,17 +22,17 @@
 				</div>
             <?php } ?>
 		</div>
-
         <?php include($tpl_common_dir.'content_buttons.tpl'); ?>
 	</div>
 
     <?php echo $form['form_open']; ?>
 	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
-
-        <?php foreach ($form['fields'] as $section => $fields) { ?>
-			<label class="h4 heading"><?php echo ${'tab_'.$section} ?: ${'entry_'.$section}; ?></label>
-            <div class="clearfix wrapper-<?php echo $section;?>">
-        <?php
+    <?php foreach ($form['fields'] as $section => $fields) { ?>
+        <label id="label_<?php echo $section; ?>" class="h4 heading">
+            <?php echo ${'tab_'.$section} ?: ${'entry_'.$section}; ?>
+        </label>
+        <div class="clearfix wrapper-<?php echo $section;?>">
+    <?php
             foreach ($fields as $name => $field) { ?>
                 <?php
                 //Logic to calculate fields width

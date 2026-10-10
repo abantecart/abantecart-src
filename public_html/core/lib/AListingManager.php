@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2026 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -49,7 +49,7 @@ class AListingManager extends AListing
     public function __construct($custom_block_id)
     {
         parent::__construct($custom_block_id);
-        if (!IS_ADMIN) { // forbid for non admin calls
+        if (!IS_ADMIN) { // forbid for non-admin calls
             throw new AException (AC_ERR_LOAD, 'Error: permission denied to access class AListingManager');
         }
     }
@@ -58,6 +58,7 @@ class AListingManager extends AListing
      * @param array $data
      *
      * @return bool
+     * @throws AException
      */
     public function saveCustomListItem($data)
     {
@@ -81,7 +82,7 @@ class AListingManager extends AListing
                     AND store_id='".(int)$data['store_id']."'"
         );
 
-        if ($result->num_rows && $custom_block_id) {
+        if ($result->num_rows) {
             $this->db->query("UPDATE ".$this->db->table("custom_lists")."
 								SET custom_block_id = '".$custom_block_id."'
 								".(!is_null($data['sort_order']) ? ", sort_order = '".(int)$data['sort_order']."'" : "")."
@@ -105,13 +106,16 @@ class AListingManager extends AListing
 								      NOW())");
         }
 
-        $this->cache->remove('blocks.custom.'.$custom_block_id.$data ['store_id']);
+        $this->cache->remove('layout.blocks.custom.'.$custom_block_id.$data ['store_id']);
         return true;
     }
 
     // delete one item from custom list of custom listing block
+
     /**
      * @param array $data
+     *
+     * @throws AException
      */
     public function deleteCustomListItem($data)
     {
@@ -127,10 +131,10 @@ class AListingManager extends AListing
 											AND id='".$data['id']."'
 											AND data_type='".$data['data_type']."'";
         $this->db->query($sql);
-        $this->cache->remove('blocks.custom.'.$custom_block_id);
+        $this->cache->remove('layout.blocks.custom.'.$custom_block_id);
     }
 
-    // delete all custom list of custom listing block
+    // delete all custom lists of custom listing block
 
     public function deleteCustomListing($store_id)
     {
@@ -140,6 +144,6 @@ class AListingManager extends AListing
 				WHERE custom_block_id = '".$custom_block_id."'
 				    AND store_id = '".$store_id."'";
         $this->db->query($sql);
-        $this->cache->remove('blocks.custom.'.$custom_block_id.$store_id);
+        $this->cache->remove('layout.blocks.custom.'.$custom_block_id.$store_id);
     }
 }

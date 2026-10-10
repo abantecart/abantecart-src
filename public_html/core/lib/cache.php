@@ -57,7 +57,7 @@ class ACache
     /**
      * Cache lock time, 0 - no cache locking
      */
-    private $locktime = 10;
+    private $locktime = 0;
 
     /**
      * Holds the cached data.
@@ -239,19 +239,7 @@ class ACache
 
         if (!is_null($data) && $this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
             $data = serialize($data);
-
-            $lock = $this->lock($key, $group);
-            if (!$lock['locked'] && $lock['waited']) {
-                //cache is released, try locking again. 
-                $lock = $this->lock($key, $group);
-            }
-
             $ret = $this->cache_driver->put($key, $group, $data);
-
-            if ($lock['locked']) {
-                //unlock if cache was locked
-                $this->unlock($key, $group);
-            }
         }
         return $ret;
     }
@@ -283,17 +271,8 @@ class ACache
                 $this->cache_hits[$group][$key] += 1;
                 return $this->cache[$group][$key];
             }
-            //load cache from storage
+
             $data = $this->cache_driver->get($key, $group);
-            if ($data === false) {
-                //check if cache is locked
-                $lock = $this->lock($key, $group);
-                if ($lock['locked'] && $lock['waited']) {
-                    //try to get cache again 
-                    $data = $this->cache_driver->get($key, $group);
-                    $this->unlock($key, $group);
-                }
-            }
 
             if ($data !== false) {
                 $data = unserialize($data);
@@ -303,10 +282,10 @@ class ACache
                 return $data;
             }
         }
+
         if (!isset($this->cache_misses[$group])) {
             $this->cache_misses[$group] = [];
         }
-
         $this->cache_misses[$group][$key] = $this->cache_misses[$group][$key] ?? 0;
         $this->cache_misses[$group][$key] += 1;
         return false;

@@ -714,6 +714,7 @@
 						}
 						if (need_reload) {
 							$wrapper.parents('form').prop('changed','submit');
+                            $('#preloader').show();
 							window.location.reload();
 						}
 

@@ -230,6 +230,7 @@ class AOrder
         if ($this->customer->getId()) {
             $order_info['customer_id'] = $this->customer->getId();
             $order_info['customer_group_id'] = $this->customer->getCustomerGroupId();
+            $order_info['guest_checkout'] = 0;
             $order_info['firstname'] = $this->customer->getFirstName();
             $order_info['lastname'] = $this->customer->getLastName();
             $order_info['email'] = $this->customer->getEmail();
@@ -275,6 +276,7 @@ class AOrder
                 //this is a guest order
                 $order_info['customer_id'] = 0;
                 $order_info['customer_group_id'] = $this->config->get('config_customer_group_id');
+                $order_info['guest_checkout'] = 1;
                 $order_info = array_merge($order_info, $inData['guest']);
 
                 //IM addresses

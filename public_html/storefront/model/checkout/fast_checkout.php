@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -46,17 +46,20 @@ class ModelCheckoutFastCheckout extends Model
      * @param $data
      *
      * @return int
-     * @throws AException
+     * @throws AException|TransportExceptionInterface
      */
     public function addCustomer($data)
     {
-        //if address present - use core model
+        /** @var ModelAccountCustomer $mdl */
+        $mdl = $this->load->model('account/customer');
+        
+        $data['store_id'] = $data['store_id'] ?? (int)$this->config->get('config_store_id');
+        $data['store_id'] = (int)$data['store_id'];
+        //if address present, use core model
         if ($data['address_1'] || $data['address_2']) {
-            /** @var ModelAccountCustomer $mdl */
-            $mdl = $this->load->model('account/customer');
             return $mdl->addCustomer($data);
         }
-
+        //TODO: looks like code below is obsolete. Need to check
         $key_sql = '';
         if ($this->dcrypt->active) {
             $data = $this->dcrypt->encrypt_data($data, 'customers');
@@ -66,19 +69,13 @@ class ModelCheckoutFastCheckout extends Model
             $data['customer_group_id'] = (int)$this->config->get('config_customer_group_id');
         }
         if (!isset($data['status'])) {
-            // if need to activate via email  - disable status
-            if ($this->config->get('config_customer_email_activation')) {
-                $data['status'] = 0;
-            } else {
-                $data['status'] = 1;
-            }
+            // if you need to activate via email, disable status
+            $data['status'] = $this->config->get('config_customer_email_activation') ? 0 : 1;            
         }
         if (isset($data['approved'])) {
             $data['approved'] = (int)$data['approved'];
-        } else {
-            if (!$this->config->get('config_customer_approval')) {
-                $data['approved'] = 1;
-            }
+        } elseif (!$this->config->get('config_customer_approval')) {
+            $data['approved'] = 1;            
         }
 
         // delete subscription accounts for given email
@@ -106,7 +103,7 @@ class ModelCheckoutFastCheckout extends Model
 
         $salt_key = genToken(8);
         $sql = "INSERT INTO " . $this->db->table("customers") . "
-                SET store_id = '" . (int)$this->config->get('config_store_id') . "',
+                SET store_id = " . $data['store_id'] . ",
                     loginname = '" . $this->db->escape($data['loginname']) . "',
                     firstname = '" . $this->db->escape($data['firstname']) . "',
                     lastname = '" . $this->db->escape($data['lastname']) . "',
@@ -323,7 +320,7 @@ class ModelCheckoutFastCheckout extends Model
         //try to decrypt order token
         $enc = new AEncryption($this->config->get('encryption_key'));
         $decrypted = $enc->decrypt($ot);
-        list($order_id, $email, $sec_token) = explode('::', $decrypted);
+        list($order_id, $email, $sec_token) = explode('::', $decrypted,3);
 
         $order_id = (int)$order_id;
         if (!$decrypted || !$order_id || !$email || !$sec_token) {
@@ -334,11 +331,11 @@ class ModelCheckoutFastCheckout extends Model
         $order_info = $mdl->getOrder($order_id, '', 'view');
 
         //compare emails
-        if ($order_info['email'] != $email) {
+        if (strtolower((string)$order_info['email']) !== strtolower($email)) {
             return [];
         }
         //compare security token
-        if ($sec_token != $this->getGuestToken($order_id)) {
+        if (!hash_equals((string)$this->getGuestToken($order_id), (string)$sec_token)){
             return [];
         }
         return [$order_id, $email, $sec_token];

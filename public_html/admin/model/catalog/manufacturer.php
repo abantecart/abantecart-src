@@ -62,11 +62,13 @@ class ModelCatalogManufacturer extends Model
         }
 
         if (!empty($fields)) {
+            $assignments = array_map(function($field, $value) {
+                return $field . ' = ' . $value;
+            }, $fields, $values);
+
             $this->db->query(
                 "INSERT INTO " . $this->db->table("manufacturers") . " 
-                SET " . implode(' = ', array_map(function($field, $value) {
-                    return $field . ' = ' . $value;
-                }, $fields, $values))
+                SET " . implode(', ', $assignments)
             );
         }
 
