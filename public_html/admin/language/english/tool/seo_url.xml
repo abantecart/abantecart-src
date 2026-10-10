@@ -10,7 +10,7 @@
     </definition>
     <definition>
         <key>column_route</key>
-        <value><![CDATA[Route]]></value>
+        <value><![CDATA[Route<span class="help">Route must start with "pages/" or "responses/", for example: pages/product/special</span>]]></value>
     </definition>
     <definition>
         <key>column_query</key>
@@ -57,8 +57,12 @@
         <value><![CDATA[SEO Keyword must be between 1 and 255 characters!]]></value>
     </definition>
     <definition>
-        <key>error_route</key>
-        <value><![CDATA[Route is required.]]></value>
+        <key>error_route_or_query</key>
+        <value><![CDATA[Fill in Route or Query (or both).]]></value>
+    </definition>
+    <definition>
+        <key>error_route_prefix</key>
+        <value><![CDATA[Route must start with "pages/" or "responses/", for example: pages/product/special]]></value>
     </definition>
     <definition>
         <key>error_query_length</key>

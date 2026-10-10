@@ -61,11 +61,16 @@ class ControllerResponsesListingGridSeoUrl extends AController
         $response->userdata = new stdClass();
 
         foreach ($results as $i => $result) {
+            $keyword = $result['seo_keyword'];
+            $storefrontUrl = $this->html->getHomeURL() . rawurlencode($keyword);
+            $storefrontLink = '<a href="' . html2view($storefrontUrl) . '" target="_blank">'
+                . '<i class="fa fa-external-link"></i></a>';
+
             $response->rows[$i]['id'] = $result['url_alias_id'];
             $response->rows[$i]['cell'] = [
-                $result['seo_keyword'],
-                $result['route'],
-                $result['query'],
+                html2view($keyword) . '&nbsp;' . $storefrontLink,
+                html2view($result['route']),
+                html2view($result['query']),
             ];
         }
 

@@ -2,6 +2,12 @@
 <div id="content" class="panel panel-default">
     <div class="panel-heading col-xs-12">
         <div class="primary_content_actions pull-left">
+            <div class="btn-group">
+                <a class="btn btn-white tooltips back-to-grid" data-table-id="seo_url_grid" href="<?php echo $list_url; ?>"
+                   data-toggle="tooltip" data-original-title="<?php echo_html2view($text_back_to_list); ?>">
+                    <i class="fa fa-arrow-left fa-lg"></i>
+                </a>
+            </div>
             <div class="actionitem btn-group mr10 toolbar">
                 <a class="btn btn-primary lock-on-click tooltips" href="<?php echo $insert; ?>" title="<?php echo $button_add; ?>">
                     <i class="fa fa-plus"></i>

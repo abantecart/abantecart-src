@@ -155,6 +155,8 @@ class ControllerPagesToolSeoUrl extends AController
             ?? $this->language->getContentLanguageID());
         $this->data['error'] = $this->error;
         $this->data['cancel'] = $this->html->getSecureURL('tool/seo_url');
+        // "saved_list" restores the grid search and paging the user had before opening the form
+        $this->data['list_url'] = $this->html->getSecureURL('tool/seo_url', '&saved_list=seo_url_grid');
         $this->data['insert'] = $this->html->getSecureURL('tool/seo_url/insert');
         $this->data['action'] = $urlAliasId
             ? $this->html->getSecureURL('tool/seo_url/update', '&url_alias_id=' . $urlAliasId)
@@ -204,7 +206,8 @@ class ControllerPagesToolSeoUrl extends AController
                 'type' => 'input',
                 'name' => $field,
                 'value' => $this->data[$field],
-                'required' => $field !== 'query',
+                // route and query are checked together on save: one of them is enough
+                'required' => $field === 'seo_keyword',
                 'style' => 'large-field',
             ]);
         }
