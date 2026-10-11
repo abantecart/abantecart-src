@@ -13,5 +13,8 @@
 		<testsuite name="core_libs">
 			<directory>core</directory>
 		</testsuite>
+		<testsuite name="admin">
+			<directory>admin</directory>
+		</testsuite>
 	</testsuites>
 </phpunit>

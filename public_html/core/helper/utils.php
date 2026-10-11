@@ -1245,7 +1245,13 @@ function check_resize_image($orig_image, $new_image, $width, $height, $quality)
     return $new_image;
 }
 
-function redirect($url)
+/**
+ * @param string $url
+ * @param int $code HTTP status code, e.g. 301 for permanent redirect
+ *
+ * @return false|void
+ */
+function redirect($url, int $code = 302)
 {
     if (Registry::getInstance()->get('forbid_redirects')) {
         exit('Redirected to  ' . $url);
@@ -1254,7 +1260,7 @@ function redirect($url)
     if (!$url) {
         return false;
     }
-    header('Location: ' . str_replace('&amp;', '&', $url));
+    header('Location: ' . str_replace('&amp;', '&', $url), true, $code);
     exit;
 }
 

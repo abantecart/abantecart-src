@@ -123,6 +123,12 @@ class ModelToolSeoUrl extends Model
                  language_id = " . $data['language_id'] . "
              WHERE url_alias_id = " . $urlAliasId
         );
+        // keep redirects which lead to the renamed keyword working
+        if ($current['seo_keyword'] !== $data['seo_keyword']) {
+            /** @var ModelToolRedirect $mdl */
+            $mdl = $this->load->model('tool/redirect');
+            $mdl->replaceTargetKeyword($current['seo_keyword'], $data['seo_keyword']);
+        }
     }
 
     /**

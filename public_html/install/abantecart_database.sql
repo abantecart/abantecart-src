@@ -2048,6 +2048,29 @@ CREATE TABLE `ac_url_aliases` (
       UNIQUE KEY `ac_url_aliases_idx2` (`query_hash`, `language_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
 
+--
+-- DDL for table `url_redirects`
+--
+DROP TABLE IF EXISTS `ac_url_redirects`;
+CREATE TABLE `ac_url_redirects` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `source` varchar(2048) NOT NULL COMMENT 'path, seo keyword or query string',
+  `source_host` varchar(255) NOT NULL DEFAULT '' COMMENT 'empty means any host',
+  `match_type` enum('exact','prefix','regex','query') NOT NULL DEFAULT 'exact',
+  `target` varchar(2048) NOT NULL DEFAULT '',
+  `action` smallint(3) NOT NULL DEFAULT '301' COMMENT '301, 302, 403, 404, 410',
+  `keep_query` tinyint(1) NOT NULL DEFAULT '0',
+  `priority` int(11) NOT NULL DEFAULT '0',
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `hits` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `last_hit` timestamp NULL DEFAULT NULL,
+  `comment` text,
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `ac_url_redirects_idx` (`status`, `priority`)
+) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 --
 -- DDL for table `user`
@@ -11085,7 +11108,7 @@ VALUES  (14,1,1),
         (14,5,5),
         (14,6,6),
         (14,7,7),
-        (14,7,8);
+        (14,8,8);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (15,'core',1),
@@ -11101,7 +11124,6 @@ INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (40,'200',1),
         (40,'201',2),
         (40,'202',3),
-        (40,'283',4),
         (40,'283',4),
         (40,'203',5),
         (40,'204',6),
