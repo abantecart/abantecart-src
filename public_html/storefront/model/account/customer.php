@@ -104,7 +104,7 @@ class ModelAccountCustomer extends Model
         $data['store_id'] = (int) ($data['store_id'] ?? $this->config->get('config_store_id'));
 
         // delete subscription accounts for given email
-        $subscribers = $this->getSubscribersByEmail($encData['email']); 
+        $subscribers = $this->getSubscribersByEmail($encData['email']);
         foreach ($subscribers as $row) {
             $this->db->query(
                 "DELETE FROM " . $this->db->table("customers") . " 
@@ -125,9 +125,9 @@ class ModelAccountCustomer extends Model
             } elseif ($dataType == 'float') {
                 $value = (float) $data[$key];
             } elseif ($dataType == 'string') {
-                $value = $this->db->escape(trim($data[$key]));
+                $value = trim($data[$key]);
             } else {
-                $value = $this->db->escape(serialize($data[$key]));
+                $value = serialize($data[$key]);
             }
             $insertArr[$key] = $value;
         }
@@ -163,16 +163,17 @@ class ModelAccountCustomer extends Model
         }
 
         if ($extFields) {
-            $insertArr['ext_fields'] = $this->db->escape(js_encode($extFields));
+            $insertArr['ext_fields'] = js_encode($extFields);
         }
+        //encrypt raw values first, escape them right before saving
         if ($this->dcrypt->active) {
             $insertArr = $this->dcrypt->encrypt_data($insertArr, 'customers');
-            $insertArr['key_id'] = (int) $data['key_id'];
+            $insertArr['key_id'] = (int) $insertArr['key_id'];
         }
 
         $insertData = [];
         foreach ($insertArr as $k => $v) {
-            $insertData[$k] = "`" . $k . "` = '" . $v . "'";
+            $insertData[$k] = "`" . $k . "` = '" . $this->db->escape($v) . "'";
         }
 
         $sql = "INSERT INTO " . $this->db->table("customers") . "
@@ -711,8 +712,8 @@ class ModelAccountCustomer extends Model
             $output['data'] = unserialize($output['data']);
         }
         return $output;
-    }    
-    
+    }
+
     public function getSubscribersByEmail($email)
     {
         //assuming that data is not encrypted. Cannot call these otherwise
@@ -723,7 +724,7 @@ class ModelAccountCustomer extends Model
         if ($this->dcrypt->active && !$this->config->get('prevent_email_as_login')) {
             $sql .= " OR loginname LIKE '" . $this->db->escape($email) . "'";
         }
-        
+
         $sql .= ") 
         AND customer_group_id 
                     IN (SELECT customer_group_id
@@ -738,7 +739,7 @@ class ModelAccountCustomer extends Model
                 $output[$k]['data'] = unserialize($row['data']);
             }
         }
-        
+
         return $output;
     }
 
