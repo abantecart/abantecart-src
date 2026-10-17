@@ -25,6 +25,7 @@ use ADB;
 use AConfig;
 use ALoader;
 use ModelAccountCustomer;
+use PHPUnit\Framework\Attributes\DataProvider;
 use phpunit\AbanteCartTestBootstrap;
 use ReflectionMethod;
 
@@ -355,6 +356,132 @@ class ModelAccountCustomerTest extends AbanteCartTestBootstrap
 
         $this->config->set('prevent_email_as_login', 1);
         $this->assertEquals($id, $this->model->getCustomerByLogin($login)['customer_id']);
+    }
+
+    // email letter case variants
+
+    /**
+     * [email stored in db, email passed to the model]
+     */
+    public static function emailCaseProvider(): array
+    {
+        $p = self::PREFIX;
+        return [
+            'lower stored, UPPER given'  => [$p . 'case@example.com', strtoupper($p . 'case@example.com')],
+            'UPPER stored, lower given'  => [strtoupper($p . 'case@example.com'), $p . 'case@example.com'],
+            'Mixed stored, lower given'  => ['Phpunit_Cust_CaSe@Example.Com', $p . 'case@example.com'],
+            'lower stored, Mixed given'  => [$p . 'case@example.com', 'Phpunit_Cust_CaSe@Example.Com'],
+            'Mixed stored, other Mixed'  => ['Phpunit_Cust_cAsE@eXample.COM', 'pHPUNIT_cUST_CaSe@Example.com'],
+            'capitalized domain only'    => [$p . 'case@example.com', $p . 'case@EXAMPLE.COM'],
+            'capitalized local part only' => [$p . 'case@example.com', strtoupper($p . 'case') . '@example.com'],
+        ];
+    }
+
+    /**
+     * @see emailCaseProvider
+     */
+    #[DataProvider('emailCaseProvider')]
+    public function testGetTotalCustomersByEmailCaseVariants(string $stored, string $given)
+    {
+        $this->createCustomer(['email' => $stored]);
+
+        $this->assertEquals(1, $this->model->getTotalCustomersByEmail($given));
+    }
+
+    /**
+     * @see emailCaseProvider
+     */
+    #[DataProvider('emailCaseProvider')]
+    public function testGetCustomerByEmailCaseVariants(string $stored, string $given)
+    {
+        $id = $this->createCustomer(['email' => $stored]);
+
+        $result = $this->model->getCustomerByEmail($given);
+
+        $this->assertEquals($id, $result['customer_id']);
+        //the email is returned as it was stored, not as it was requested
+        $this->assertSame($stored, $result['email']);
+    }
+
+    /**
+     * @see emailCaseProvider
+     */
+    #[DataProvider('emailCaseProvider')]
+    public function testGetSubscribersByEmailCaseVariants(string $stored, string $given)
+    {
+        $id = $this->createCustomer(['email' => $stored, 'customer_group_id' => $this->subscriberGroupId]);
+
+        $result = $this->model->getSubscribersByEmail($given);
+
+        $this->assertCount(1, $result);
+        $this->assertEquals($id, $result[0]['customer_id']);
+    }
+
+    /**
+     * @see emailCaseProvider
+     */
+    #[DataProvider('emailCaseProvider')]
+    public function testGetCustomerByLoginnameAndEmailCaseVariants(string $stored, string $given)
+    {
+        $login = self::PREFIX . 'casepair';
+        $id = $this->createCustomer(['loginname' => $login, 'email' => $stored]);
+
+        $this->assertEquals($id, $this->model->getCustomerByLoginnameAndEmail($login, $given)['customer_id']);
+    }
+
+    /**
+     * @see emailCaseProvider
+     */
+    #[DataProvider('emailCaseProvider')]
+    public function testGetCustomerByLastnameAndEmailCaseVariants(string $stored, string $given)
+    {
+        $lastname = 'PhpunitCase' . uniqid();
+        $id = $this->createCustomer(['lastname' => $lastname, 'email' => $stored]);
+
+        $this->assertEquals($id, $this->model->getCustomerByLastnameAndEmail($lastname, $given)['customer_id']);
+    }
+
+    /**
+     * @see emailCaseProvider
+     */
+    #[DataProvider('emailCaseProvider')]
+    public function testGetCustomerByLoginWithEmailAsLoginCaseVariants(string $stored, string $given)
+    {
+        $id = $this->createCustomer(['email' => $stored]);
+
+        $this->config->set('prevent_email_as_login', 0);
+        $this->assertEquals($id, $this->model->getCustomerByLogin($given)['customer_id']);
+    }
+
+    /**
+     * With encryption the email is matched by the loginname that keeps the email
+     *
+     * @see emailCaseProvider
+     */
+    #[DataProvider('emailCaseProvider')]
+    public function testGetTotalCustomersByEmailCaseVariantsFindsByLoginnameWhenEncrypted(string $stored, string $given)
+    {
+        $this->createCustomer(['loginname' => $stored, 'email' => 'ciphertext-' . uniqid()]);
+
+        $this->dcrypt->active = true;
+        $this->assertEquals(1, $this->model->getTotalCustomersByEmail($given));
+    }
+
+    public function testGetTotalCustomersByEmailCaseVariantsDoNotMatchDifferentEmail()
+    {
+        $this->createCustomer(['email' => self::PREFIX . 'case@example.com']);
+
+        $this->assertEquals(0, $this->model->getTotalCustomersByEmail(strtoupper(self::PREFIX . 'other@example.com')));
+        $this->assertEquals(0, $this->model->getTotalCustomersByEmail(self::PREFIX . 'case@EXAMPLE.ORG'));
+    }
+
+    public function testGetTotalCustomersByEmailCaseVariantsSubscribersFilter()
+    {
+        $email = self::PREFIX . 'subcase@example.com';
+        $this->createCustomer(['email' => $email, 'customer_group_id' => $this->subscriberGroupId]);
+
+        $this->assertEquals(0, $this->model->getTotalCustomersByEmail(strtoupper($email)));
+        $this->assertEquals(1, $this->model->getTotalCustomersByEmail(strtoupper($email), false));
     }
 
     // is_unique_loginname()

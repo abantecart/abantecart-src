@@ -34,8 +34,16 @@ class AbanteCartTestBootstrap extends PHPUnit\Framework\TestCase
 {
     protected $registry;
 
-    protected function bootstrap()
+    /**
+     * Loads the AbanteCart core once per php process.
+     * It installs global error/exception handlers, so phpunit.xml calls it from the "bootstrap" file
+     * (before the first test starts) to keep PHPUnit from flagging the first test as risky.
+     */
+    public static function initCore(): void
     {
+        if (defined('DIR_ROOT')) {
+            return;
+        }
         $GLOBALS['error_descriptions'] = 'Abantecart PhpUnit test';
 
         $dirname = dirname(__FILE__);
@@ -62,7 +70,7 @@ class AbanteCartTestBootstrap extends PHPUnit\Framework\TestCase
         define('DIR_ROOT', $root_path);
         define('DIR_CORE', DIR_ROOT . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR);
 
-        $this->loadConfiguration(DIR_ROOT . DIRECTORY_SEPARATOR . 'system' . DIRECTORY_SEPARATOR . 'config.php');
+        self::loadConfiguration(DIR_ROOT . DIRECTORY_SEPARATOR . 'system' . DIRECTORY_SEPARATOR . 'config.php');
 
         //set server name for correct email sending
         if (defined('SERVER_NAME') && SERVER_NAME != '') {
@@ -85,6 +93,11 @@ class AbanteCartTestBootstrap extends PHPUnit\Framework\TestCase
         // Load all initial set up
         require_once(DIR_ROOT . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'init.php');
         unset($_GET['s']);// not needed anymore
+    }
+
+    protected function bootstrap()
+    {
+        self::initCore();
 
         // Registry
         $this->registry = Registry::getInstance();
@@ -103,7 +116,7 @@ class AbanteCartTestBootstrap extends PHPUnit\Framework\TestCase
         $this->registry->set($key, $value);
     }
 
-    public function loadConfiguration($path)
+    public static function loadConfiguration($path)
     {
         // Configuration
         if (file_exists($path) && filesize($path)) {
