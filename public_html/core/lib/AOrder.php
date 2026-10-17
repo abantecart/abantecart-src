@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -471,6 +471,7 @@ class AOrder
         $gaOrderData =
             [
                 'transaction_id' => (int)$orderData['order_id'],
+                'store_id' => (int)$orderData['store_id'],
                 'store_name' => $registry->get('config')->get('store_name'),
                 'currency_code' => $orderData['currency'] ?: $registry->get('currency')->getCode(),
                 'total' => (float)$currency->format_number($order_total),

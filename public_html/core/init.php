@@ -317,7 +317,7 @@ try {
 
 // Application Classes
     require_once(DIR_CORE . 'lib' . DS . 'customer.php');
-    require_once(DIR_CORE . 'lib' . DS . 'order.php');
+    require_once(DIR_CORE . 'lib' . DS . 'AOrder.php');
     require_once(DIR_CORE . 'lib' . DS . 'order_status.php');
     require_once(DIR_CORE . 'lib' . DS . 'currency.php');
     require_once(DIR_CORE . 'lib' . DS . 'tax.php');

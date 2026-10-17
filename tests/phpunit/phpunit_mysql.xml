@@ -2,7 +2,7 @@
 <phpunit
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
-		bootstrap="AbanteCartTestBootstrap.php"
+		bootstrap="bootstrap.php"
 >
 	<php>
 		<ini name="display_startup_errors" value="On"/>
@@ -12,6 +12,9 @@
 	<testsuites>
 		<testsuite name="core_libs">
 			<directory>core</directory>
+		</testsuite>
+		<testsuite name="storefront_models">
+			<directory>storefront</directory>
 		</testsuite>
 		<testsuite name="admin">
 			<directory>admin</directory>
