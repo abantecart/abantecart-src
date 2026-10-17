@@ -142,12 +142,14 @@ class ModelAccountCustomer extends Model
             array_keys($this->data['customer_column_list']),
             $addressColumnList
         );
+        //service form fields and already saved columns must not get into ext_fields
+        $skipKeys = array_merge(
+            ['csrftoken', 'csrfinstance', 'confirm', 'agree', 'captcha', 'recaptcha'],
+            $colNames
+        );
 
         foreach ($data as $key => $value) {
-            if (in_array($key, ['csrftoken', 'csrfinstance', 'confirm', 'agree', 'captcha', 'recaptcha'])) {
-                continue;
-            }
-            if (in_array($key, $colNames)) {
+            if (in_array($key, $skipKeys)) {
                 continue;
             }
             if (is_array($value)) {
@@ -410,14 +412,14 @@ class ModelAccountCustomer extends Model
         $im_protocols = $this->im->getProtocols();
         foreach ($im_protocols as $protocol) {
             if (isset($data[$protocol])) {
-                $upd[$protocol] =
-                    "`" . $this->db->escape($protocol) . "` = '" . $this->db->escape($data[$protocol]) . "'";
+                $upd[$protocol] = "`" . $this->db->escape($protocol)
+                    . "` = '" . $this->db->escape($data[$protocol]) . "'";
             }
         }
         //get all columns
         $sql = "SELECT COLUMN_NAME
                 FROM INFORMATION_SCHEMA.COLUMNS
-                WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' 
+                WHERE TABLE_SCHEMA = '" . $this->db->dbName() . "' 
                     AND TABLE_NAME = '" . $this->db->table("customers") . "'";
         $result = $this->db->query($sql);
         $columns = [];
@@ -604,8 +606,8 @@ class ModelAccountCustomer extends Model
         }
         $this->db->query(
             "UPDATE " . $this->db->table("customers") . "
-           SET status = '" . (int) $status . "'
-           WHERE customer_id = '" . $customer_id . "'"
+             SET status = '" . (int) $status . "'
+             WHERE customer_id = '" . $customer_id . "'"
         );
         return true;
     }
@@ -625,8 +627,8 @@ class ModelAccountCustomer extends Model
         }
         $this->db->query(
             "UPDATE " . $this->db->table("customers") . "
-           SET data = '" . $this->db->escape(serialize($data)) . "'
-           WHERE customer_id = '" . $customer_id . "'"
+             SET data = '" . $this->db->escape(serialize($data)) . "'
+             WHERE customer_id = '" . $customer_id . "'"
         );
         return true;
     }
@@ -641,13 +643,31 @@ class ModelAccountCustomer extends Model
     {
         $query = $this->db->query(
             "SELECT *
-            FROM " . $this->db->table("customers") . "
-            WHERE customer_id = '" . (int) $customer_id . "'"
+             FROM " . $this->db->table("customers") . "
+             WHERE customer_id = '" . (int) $customer_id . "'"
         );
         $result_row = $this->dcrypt->decrypt_data($query->row, 'customers');
         $result_row['data'] = unserialize($result_row['data']);
         $result_row['ext_fields'] = json_decode($result_row['ext_fields'], true);
         return $result_row;
+    }
+
+    /**
+     * With data encryption the email column is encrypted and cannot be matched by a plain value,
+     * but loginname keeps the email when email is used as login.
+     * Returns an SQL fragment (starting with OR) to add into a WHERE condition, or an empty string.
+     *
+     * @param string $email
+     *
+     * @return string
+     * @throws AException
+     */
+    protected function getLoginnameAsEmailCondition($email)
+    {
+        if (!$this->dcrypt->active || $this->config->get('prevent_email_as_login')) {
+            return '';
+        }
+        return " OR `loginname` = '" . $this->db->escape($email) . "'";
     }
 
     /**
@@ -661,7 +681,9 @@ class ModelAccountCustomer extends Model
     {
         $sql = "SELECT COUNT(*) AS total
                 FROM " . $this->db->table("customers") . "
-                WHERE LOWER(`email`) = LOWER('" . $this->db->escape($email) . "')";
+                WHERE (`email` = '" . $this->db->escape($email) . "'"
+            . $this->getLoginnameAsEmailCondition($email) . ")";
+
         if ($no_subscribers) {
             $sql .= " AND customer_group_id NOT IN
                             (SELECT customer_group_id
@@ -700,11 +722,8 @@ class ModelAccountCustomer extends Model
         //assuming that data is not encrypted. Cannot call these otherwise
         $sql = "SELECT *
                 FROM " . $this->db->table("customers") . "
-                WHERE email LIKE '" . $this->db->escape($email) . "'";
-
-        if ($this->dcrypt->active && !$this->config->get('prevent_email_as_login')) {
-            $sql .= " OR loginname LIKE '" . $this->db->escape($email) . "'";
-        }
+                WHERE (`email` = '" . $this->db->escape($email) . "'"
+            . $this->getLoginnameAsEmailCondition($email) . ")";
         $sql .= " ORDER by status DESC, approved DESC, date_modified DESC LIMIT 1";
         $query = $this->db->query($sql);
         $output = $this->dcrypt->decrypt_data($query->row, 'customers');
@@ -719,13 +738,10 @@ class ModelAccountCustomer extends Model
         //assuming that data is not encrypted. Cannot call these otherwise
         $sql = "SELECT *
                 FROM " . $this->db->table("customers") . "
-                WHERE (email LIKE '" . $this->db->escape($email) . "'";
+                WHERE (`email` = '" . $this->db->escape($email) . "'"
+            . $this->getLoginnameAsEmailCondition($email) . ")";
 
-        if ($this->dcrypt->active && !$this->config->get('prevent_email_as_login')) {
-            $sql .= " OR loginname LIKE '" . $this->db->escape($email) . "'";
-        }
-
-        $sql .= ") 
+        $sql .= " 
         AND customer_group_id 
                     IN (SELECT customer_group_id
                         FROM " . $this->db->table('customer_groups') . "
@@ -754,7 +770,7 @@ class ModelAccountCustomer extends Model
         $query = $this->db->query(
             "SELECT *
             FROM " . $this->db->table("customers") . "
-            WHERE LOWER(`loginname`) = LOWER('" . $this->db->escape($loginname) . "')"
+            WHERE `loginname` = '" . $this->db->escape($loginname) . "'"
         );
         $output = $this->dcrypt->decrypt_data($query->row, 'customers');
         if ($output['data']) {
@@ -793,12 +809,13 @@ class ModelAccountCustomer extends Model
         $query = $this->db->query(
             "SELECT *
             FROM " . $this->db->table("customers") . "
-            WHERE LOWER(`lastname`) = LOWER('" . $this->db->escape($lastname) . "')"
+            WHERE `lastname` = '" . $this->db->escape($lastname) . "'"
         );
         //validate if we have a row with matching decrypted email;
         $result_row = [];
         foreach ($query->rows as $result) {
-            if (strtolower($email) == strtolower($this->dcrypt->decrypt_field($result['email'], $result['key_id']))) {
+            $decryptedEmail = $this->dcrypt->decrypt_field($result['email'], $result['key_id']);
+            if (strtolower($email) == strtolower($decryptedEmail)) {
                 $result_row = $result;
                 break;
             }
@@ -825,7 +842,7 @@ class ModelAccountCustomer extends Model
         $query = $this->db->query(
             "SELECT COUNT(*) AS total
            FROM " . $this->db->table("customers") . "
-           WHERE LOWER(`loginname`) = LOWER('" . $this->db->escape($loginname) . "')"
+           WHERE `loginname` = '" . $this->db->escape($loginname) . "'"
         );
         if ($query->row['total'] > 0) {
             return false;
@@ -1087,15 +1104,7 @@ class ModelAccountCustomer extends Model
         }
 
         $query = $this->db->query(
-            "SELECT 
-                    t.customer_transaction_id,
-                    t.order_id,
-                    t.section,
-                    t.credit,
-                    t.debit,
-                    t.transaction_type,
-                    t.description,
-                    t.date_added
+            "SELECT t.*
             FROM `" . $this->db->table("customer_transactions") . "` t
             WHERE customer_id = '" . $this->customer->getId() . "'
             ORDER BY t.date_added DESC
@@ -1136,9 +1145,9 @@ class ModelAccountCustomer extends Model
         $languageId = $this->language->getLanguageID();
 
         if ($activated) {
-            $template = 'storefront_welcome_email_activated';
+            $this->data['mail_template_text_id'] = 'storefront_welcome_email_activated';
         } else {
-            $template = 'storefront_welcome_email_approval';
+            $this->data['mail_template_text_id'] = 'storefront_welcome_email_approval';
         }
 
         $this->data['mail_template_data']['login_url'] = $login_url;
@@ -1164,7 +1173,7 @@ class ModelAccountCustomer extends Model
         //allow changing email data from extensions
         $this->extensions->hk_ProcessData($this, 'sf_account_welcome_mail');
 
-        $this->_send_email($email, $template, $this->data['mail_template_data']);
+        $this->_send_email($email, $this->data['mail_template_text_id'], $this->data['mail_template_data']);
 
         return true;
     }
@@ -1202,7 +1211,6 @@ class ModelAccountCustomer extends Model
             ? : $this->config->get('config_mail_logo');
         $mailLogo = $mailLogo ? : $this->config->get('config_logo_' . $languageId);
         $mailLogo = $mailLogo ? : $this->config->get('config_logo');
-
         if ($mailLogo) {
             $result = getMailLogoDetails($mailLogo);
             $this->data['mail_template_data']['logo_uri'] = $result['uri'];
@@ -1210,28 +1218,25 @@ class ModelAccountCustomer extends Model
         }
 
         $this->data['mail_template_data']['config_mail_logo'] = $mailLogo;
-
         $this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
-        $this->data['mail_template_data']['store_url'] =
-            $this->config->get('config_url') . $this->config->get('seo_prefix');
+        $this->data['mail_template_data']['store_url'] = $this->config->get('config_url')
+            . $this->config->get('seo_prefix');
         $this->data['mail_template_data']['text_project_label'] = project_base();
 
         //allow changing email data from extensions
         $this->extensions->hk_ProcessData($this, 'sf_account_activation_mail');
-
         $this->_send_email($customer_data['email'], 'storefront_send_activate_link', $this->data['mail_template_data']);
-
         return true;
     }
 
     /**
      * @param string $email
-     * @param string $template
+     * @param string $templateTxtId
      * @param array $data
      *
      * @throws AException|TransportExceptionInterface
      */
-    protected function _send_email($email, $template, $data)
+    protected function _send_email(string $email, string $templateTxtId, array $data)
     {
         $mail = new AMail($this->config);
         $mail->setTo($email);
@@ -1239,7 +1244,7 @@ class ModelAccountCustomer extends Model
         $mail->setReplyTo($this->config->get('store_main_email'));
         $mail->setSender($this->config->get('store_name'));
 
-        $mail->setTemplate($template, $data);
+        $mail->setTemplate($templateTxtId, $data);
 
         if (is_file(DIR_RESOURCE . $data['config_mail_logo'])) {
             $mail->addAttachment(
