@@ -33,26 +33,30 @@ class ControllerPagesToolSeoUrl extends AController
 
         $this->document->setTitle($this->language->get('heading_title'));
         $this->document->initBreadcrumb();
-        $this->document->addBreadcrumb([
-            'href'      => $this->html->getSecureURL('index/home'),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ]);
-        $this->document->addBreadcrumb([
-            'href'      => $this->html->getSecureURL('tool/seo_url'),
-            'text'      => $this->language->get('heading_title'),
-            'separator' => ' :: ',
-            'current'   => true,
-        ]);
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('index/home'),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('tool/seo_url'),
+                'text'      => $this->language->get('heading_title'),
+                'separator' => ' :: ',
+                'current'   => true,
+            ]
+        );
 
         $gridSettings = [
-            'table_id'       => 'seo_url_grid',
-            'url'            => $this->html->getSecureURL('listing_grid/seo_url'),
-            'editurl'        => $this->html->getSecureURL('listing_grid/seo_url/delete'),
-            'update_field'   => $this->html->getSecureURL('listing_grid/seo_url/update_field'),
-            'sortname'       => 'seo_keyword',
-            'sortorder'      => 'asc',
-            'actions'        => [
+            'table_id'            => 'seo_url_grid',
+            'url'                 => $this->html->getSecureURL('listing_grid/seo_url'),
+            'editurl'             => $this->html->getSecureURL('listing_grid/seo_url/delete'),
+            'update_field'        => $this->html->getSecureURL('listing_grid/seo_url/update_field'),
+            'sortname'            => 'seo_keyword',
+            'sortorder'           => 'asc',
+            'actions'             => [
                 'edit'   => [
                     'text' => $this->language->get('text_edit'),
                     'href' => $this->html->getSecureURL('tool/seo_url/update', '&url_alias_id=%ID%'),
@@ -64,8 +68,8 @@ class ControllerPagesToolSeoUrl extends AController
             'multiaction_options' => [
                 'delete' => $this->language->get('text_delete_selected'),
             ],
-            'columns_search' => true,
-            'sortable'       => true,
+            'columns_search'      => true,
+            'sortable'            => true,
         ];
 
         $gridSettings['colNames'] = [
@@ -101,6 +105,7 @@ class ControllerPagesToolSeoUrl extends AController
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
         $this->view->assign('insert', $this->html->getSecureURL('tool/seo_url/insert'));
         $this->view->assign('help_url', $this->gen_help_url());
+        $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->batchAssign($this->language->getASet());
         $this->processTemplate('pages/tool/seo_url.tpl');
 
@@ -115,9 +120,10 @@ class ControllerPagesToolSeoUrl extends AController
         $model = $this->loadModel('tool/seo_url');
 
         if ($this->request->is_POST() && $this->_validateForm($model)) {
-            $urlAliasId = $model->addSeoUrl($this->request->post);
+            $this->data['urlAliasId'] = $model->addSeoUrl($this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            redirect($this->html->getSecureURL('tool/seo_url/update', '&url_alias_id=' . $urlAliasId));
+            $this->extensions->hk_ProcessData($this, __FUNCTION__, $this->request->post);
+            redirect($this->html->getSecureURL('tool/seo_url/update', '&url_alias_id=' . $this->data['urlAliasId']));
         }
         $this->_getForm($model);
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -129,7 +135,7 @@ class ControllerPagesToolSeoUrl extends AController
         $this->loadLanguage('tool/seo_url');
         /** @var ModelToolSeoUrl $model */
         $model = $this->loadModel('tool/seo_url');
-        $urlAliasId = (int)$this->request->get['url_alias_id'];
+        $urlAliasId = (int) $this->request->get['url_alias_id'];
 
         if (!$model->getSeoUrl($urlAliasId)) {
             $this->session->data['warning'] = $this->language->get('error_not_found');
@@ -138,21 +144,27 @@ class ControllerPagesToolSeoUrl extends AController
         if ($this->request->is_POST() && $this->_validateForm($model, $urlAliasId)) {
             $model->updateSeoUrl($urlAliasId, $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
+            $this->extensions->hk_ProcessData($this, __FUNCTION__, $this->request->post);
             redirect($this->html->getSecureURL('tool/seo_url/update', '&url_alias_id=' . $urlAliasId));
         }
         $this->_getForm($model, $urlAliasId);
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    protected function _getForm(ModelToolSeoUrl $model, int $urlAliasId = 0): void
+    /**
+     * @param Model|ModelToolSeoUrl $model
+     * @param int $urlAliasId
+     *
+     * @return void
+     * @throws AException
+     */
+    protected function _getForm(Model $model, int $urlAliasId = 0): void
     {
         $seoUrl = $urlAliasId ? $model->getSeoUrl($urlAliasId) : [];
         foreach (['seo_keyword', 'route', 'query'] as $field) {
             $this->data[$field] = $this->request->post[$field] ?? $seoUrl[$field] ?? '';
         }
-        $this->data['language_id'] = (int)($this->request->post['language_id']
-            ?? $seoUrl['language_id']
-            ?? $this->language->getContentLanguageID());
+
         $this->data['error'] = $this->error;
         $this->data['cancel'] = $this->html->getSecureURL('tool/seo_url');
         // "saved_list" restores the grid search and paging the user had before opening the form
@@ -173,53 +185,65 @@ class ControllerPagesToolSeoUrl extends AController
             : $this->language->get('text_add_seo_url');
 
         $this->document->setTitle($this->data['heading_title']);
-        $this->document->initBreadcrumb([
-            'href' => $this->html->getSecureURL('index/home'),
-            'text' => $this->language->get('text_home'),
-            'separator' => false,
-        ]);
-        $this->document->addBreadcrumb([
-            'href' => $this->html->getSecureURL('tool/seo_url'),
-            'text' => $this->language->get('text_seo_urls'),
-            'separator' => ' :: ',
-        ]);
-        $this->document->addBreadcrumb([
-            'href' => $this->data['action'],
-            'text' => $this->data['heading_title'],
-            'separator' => ' :: ',
-            'current' => true,
-        ]);
+        $this->document->initBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('index/home'),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('tool/seo_url'),
+                'text'      => $this->language->get('text_seo_urls'),
+                'separator' => ' :: ',
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->data['action'],
+                'text'      => $this->data['heading_title'],
+                'separator' => ' :: ',
+                'current'   => true,
+            ]
+        );
 
         $form = new AForm($urlAliasId ? 'HS' : 'ST');
         $form->setForm(['form_name' => 'editFrm', 'update' => $this->data['update']]);
-        $this->data['form']['form_open'] = $form->getFieldHtml([
-            'type' => 'form',
-            'name' => 'editFrm',
-            'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
-            'action' => $this->data['action'],
-        ]);
-        $this->data['form']['submit'] = $form->getFieldHtml([
-            'type' => 'button', 'name' => 'submit', 'text' => $this->language->get('button_save'),
-        ]);
+        $this->data['form']['form_open'] = $form->getFieldHtml(
+            [
+                'type'   => 'form',
+                'name'   => 'editFrm',
+                'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
+                'action' => $this->data['action'],
+            ]
+        );
+        $this->data['form']['submit'] = $form->getFieldHtml(
+            [
+                'type' => 'button',
+                'name' => 'submit',
+                'text' => $this->language->get('button_save'),
+            ]
+        );
         foreach (['seo_keyword', 'route', 'query'] as $field) {
-            $this->data['form']['fields'][$field] = $form->getFieldHtml([
-                'type' => 'input',
-                'name' => $field,
-                'value' => $this->data[$field],
-                // route and query are checked together on save: one of them is enough
-                'required' => $field === 'seo_keyword',
-                'style' => 'large-field',
-            ]);
+            $this->data['form']['fields'][$field] = $form->getFieldHtml(
+                [
+                    'type'     => 'input',
+                    'name'     => $field,
+                    'value'    => $this->data[$field],
+                    // route and query are checked together on save: one of them is enough
+                    'required' => $field === 'seo_keyword',
+                    'style'    => 'large-field',
+                ]
+            );
         }
-        $this->data['form']['fields']['language_id'] = $form->getFieldHtml([
-            'type' => 'hidden', 'name' => 'language_id', 'value' => $this->data['language_id'],
-        ]);
 
         $this->view->assign('success', $this->session->data['success']);
         unset($this->session->data['success']);
         $this->view->assign('error_warning', $this->error['warning']);
         $this->view->assign('help_url', $this->gen_help_url('seo_url'));
         $this->view->batchAssign($this->language->getASet());
+        $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/tool/seo_url_form.tpl');
     }

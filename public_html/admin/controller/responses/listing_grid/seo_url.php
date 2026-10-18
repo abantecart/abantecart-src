@@ -17,6 +17,11 @@
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
+
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
+use JetBrains\PhpStorm\NoReturn;
+
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -32,7 +37,7 @@ class ControllerResponsesListingGridSeoUrl extends AController
             $response = new stdClass();
             $response->userdata = new stdClass();
             $response->userdata->error = $this->language->getAndReplace(
-                'error_permission_access',
+                          'error_permission_access',
                 replaces: 'tool/seo_url'
             );
             $this->load->library('json');
@@ -40,20 +45,19 @@ class ControllerResponsesListingGridSeoUrl extends AController
             return;
         }
 
-        $gridFilterParams = array_merge(
-            ['seo_keyword', 'route', 'query'],
-            (array)$this->data['grid_filter_params']
+        $gridFilterParams = array_merge(['seo_keyword', 'route', 'query'], (array) $this->data['grid_filter_params']);
+        $filter = new AFilter(
+            [
+                'method'             => 'post',
+                'grid_filter_params' => $gridFilterParams,
+            ]
         );
-        $filter = new AFilter([
-            'method'             => 'post',
-            'grid_filter_params' => $gridFilterParams,
-        ]);
         $filterData = $filter->getFilterData();
-        /** @var ModelToolSeoUrl $model */
-        $model = $this->loadModel('tool/seo_url');
-        $total = $model->getTotalSeoUrls($filterData);
-        $results = $model->getSeoUrls($filterData);
+        /** @var ModelToolSeoUrl $mdl */
+        $mdl = $this->loadModel('tool/seo_url');
 
+        $results = $mdl->getSeoUrls($filterData);
+        $total = (int) ($results[0]['total_num_rows'] ?? 0);
         $response = new stdClass();
         $response->page = $filter->getParam('page');
         $response->total = $filter->calcTotalPages($total);
@@ -86,31 +90,31 @@ class ControllerResponsesListingGridSeoUrl extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('tool/seo_url');
         if (!$this->user->canModify('listing_grid/seo_url')) {
-            $this->jsonError('NO_PERMISSIONS_402', sprintf(
-                $this->language->get('error_permission_modify'),
-                'listing_grid/seo_url'
-            ));
-            return;
+            $this->jsonError(
+                'NO_PERMISSIONS_402',
+                sprintf(
+                    $this->language->get('error_permission_modify'),
+                    'listing_grid/seo_url'
+                )
+            );
         }
 
-        /** @var ModelToolSeoUrl $model */
-        $model = $this->loadModel('tool/seo_url');
-        $urlAliasId = (int)$this->request->get['id'];
-        $current = $model->getSeoUrl($urlAliasId);
+        /** @var ModelToolSeoUrl $mdl */
+        $mdl = $this->loadModel('tool/seo_url');
+        $urlAliasId = (int) $this->request->get['id'];
+        $current = $mdl->getSeoUrl($urlAliasId);
         if (!$current) {
             $this->jsonError('VALIDATION_ERROR_406', $this->language->get('error_not_found'));
-            return;
         }
 
-        $allowedFields = ['seo_keyword', 'route', 'query', 'language_id'];
+        $allowedFields = ['seo_keyword', 'route', 'query'];
         $changes = array_intersect_key($this->request->post, array_flip($allowedFields));
         $data = array_merge($current, $changes);
-        $errors = $model->validateSeoUrl($data, $urlAliasId);
+        $errors = $mdl->validateSeoUrl($data, $urlAliasId);
         if ($errors) {
             $this->jsonError('VALIDATION_ERROR_406', implode('<br>', $errors));
-            return;
         }
-        $model->updateSeoUrl($urlAliasId, $changes);
+        $mdl->updateSeoUrl($urlAliasId, $changes);
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
@@ -119,41 +123,47 @@ class ControllerResponsesListingGridSeoUrl extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('tool/seo_url');
         if (!$this->user->canModify('listing_grid/seo_url')) {
-            $this->jsonError('NO_PERMISSIONS_402', sprintf(
-                $this->language->get('error_permission_modify'),
-                'listing_grid/seo_url'
-            ));
-            return;
+            $this->jsonError(
+                'NO_PERMISSIONS_402',
+                sprintf(
+                    $this->language->get('error_permission_modify'),
+                    'listing_grid/seo_url'
+                )
+            );
         }
-        /** @var ModelToolSeoUrl $model */
-        $model = $this->loadModel('tool/seo_url');
-        $ids = array_unique(array_filter(array_map(
-            'intval',
-            explode(',', (string)$this->request->post['id'])
-        )));
+        /** @var ModelToolSeoUrl $mdl */
+        $mdl = $this->loadModel('tool/seo_url');
+        $ids = filterIntegerIdList(explode(',', (string) $this->request->post['id']));
         foreach ($ids as $urlAliasId) {
-            $model->deleteSeoUrl($urlAliasId);
+            $mdl->deleteSeoUrl($urlAliasId);
         }
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
         $this->response->addJSONHeader();
+        $this->load->library('json');
         $this->response->setOutput(AJson::encode(['status' => 'ok']));
     }
 
     public function validate()
     {
         $this->loadLanguage('tool/seo_url');
-        /** @var ModelToolSeoUrl $model */
-        $model = $this->loadModel('tool/seo_url');
-        $urlAliasId = (int)$this->request->get['id'];
-        $data = array_merge($model->getSeoUrl($urlAliasId), $this->request->post);
-        $errors = $model->validateSeoUrl($data, $urlAliasId);
+        /** @var ModelToolSeoUrl $mdl */
+        $mdl = $this->loadModel('tool/seo_url');
+        $urlAliasId = (int) $this->request->get['id'];
+        $data = array_merge($mdl->getSeoUrl($urlAliasId), $this->request->post);
+        $errors = $mdl->validateSeoUrl($data, $urlAliasId);
         $this->response->addJSONHeader();
-        $this->response->setOutput(AJson::encode([
-            'status' => $errors ? 'error' : 'ok',
-            'errors' => $errors,
-        ]));
+        $this->load->library('json');
+        $this->response->setOutput(
+            AJson::encode(
+                [
+                    'status' => $errors ? 'error' : 'ok',
+                    'errors' => $errors,
+                ]
+            )
+        );
     }
 
+    #[NoReturn]
     private function jsonError(string $code, string $message): void
     {
         $error = new AError('');

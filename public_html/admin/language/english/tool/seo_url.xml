@@ -10,7 +10,7 @@
     </definition>
     <definition>
         <key>column_route</key>
-        <value><![CDATA[Route<span class="help">Route must start with "pages/" or "responses/", for example: pages/product/special</span>]]></value>
+        <value><![CDATA[Route]]></value>
     </definition>
     <definition>
         <key>column_query</key>
@@ -38,7 +38,7 @@
     </definition>
     <definition>
         <key>entry_route</key>
-        <value><![CDATA[Route]]></value>
+        <value><![CDATA[Route<span class="help">Route must start with "pages/" or "responses/", for example: pages/product/special</span>]]></value>
     </definition>
     <definition>
         <key>entry_query</key>

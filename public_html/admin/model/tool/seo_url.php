@@ -48,8 +48,29 @@ class ModelToolSeoUrl extends Model
              FROM " . $this->db->table('url_aliases') . "
              WHERE url_alias_id = '" . $urlAliasId . "'"
         );
+        if (!$result->row) {
+            return [];
+        }
+        $languageId = $this->getLanguageId();
+        if ((int)$result->row['language_id'] === $languageId) {
+            return $this->prepareRow($result->row);
+        }
 
-        return $result->row ? $this->prepareRow($result->row) : [];
+        // the record belongs to another language: take the alias of the same query for the content language
+        $sibling = $this->db->query(
+            "SELECT url_alias_id, keyword, query, language_id
+             FROM " . $this->db->table('url_aliases') . "
+             WHERE query = '" . $this->db->escape($result->row['query']) . "'
+                AND language_id = " . $languageId
+        );
+        if ($sibling->row) {
+            return $this->prepareRow($sibling->row);
+        }
+        // no alias for the content language yet: same page, empty keyword
+        $row = $result->row;
+        $row['keyword'] = '';
+        $row['language_id'] = $languageId;
+        return $this->prepareRow($row);
     }
 
     /**
@@ -62,27 +83,16 @@ class ModelToolSeoUrl extends Model
     {
         $start = max(0, (int)($data['start'] ?? 0));
         $limit = max(1, (int)($data['limit'] ?? 20));
-        return $this->db->query(
+        $output = $this->db->query(
             $this->buildListSql($data)
             . " LIMIT " . $start . ", " . $limit
         )->rows;
+        if ($output) {
+            $output[0]['total_num_rows'] = $this->db->getTotalNumRows();
+        }
+        return $output;
     }
 
-    /**
-     * @param array $data
-     *
-     * @return int
-     * @throws AException
-     */
-    public function getTotalSeoUrls(array $data = []): int
-    {
-        $result = $this->db->query(
-            "SELECT COUNT(*) AS total 
-             FROM (" . $this->buildBaseSql() . ") AS seo_urls"
-            . $this->buildWhereSql($data)
-        );
-        return (int)$result->row['total'];
-    }
 
     /**
      * @param array $data
@@ -92,13 +102,7 @@ class ModelToolSeoUrl extends Model
      */
     public function addSeoUrl(array $data): int
     {
-        $this->db->query(
-            "INSERT INTO " . $this->db->table('url_aliases') . "
-             SET keyword = '" . $this->db->escape($data['seo_keyword']) . "',
-                 query = '" . $this->db->escape($this->buildStoredQuery($data)) . "',
-                 language_id = " . $this->getLanguageId($data)
-        );
-        return (int)$this->db->getLastId();
+        return $this->saveForContentLanguage($data);
     }
 
     /**
@@ -115,16 +119,24 @@ class ModelToolSeoUrl extends Model
             return;
         }
         $data = array_merge($current, $data);
-        $data['language_id'] = $this->getLanguageId($data);
-        $this->db->query(
-            "UPDATE " . $this->db->table('url_aliases') . "
-             SET keyword = '" . $this->db->escape($data['seo_keyword']) . "',
-                 query = '" . $this->db->escape($this->buildStoredQuery($data)) . "',
-                 language_id = " . $data['language_id'] . "
-             WHERE url_alias_id = " . $urlAliasId
-        );
+        $storedQuery = $this->buildStoredQuery($data);
+        $currentQuery = $this->buildStoredQuery($current);
+
+        // $current is the alias of the content language; it has a keyword only when it really exists
+        if ($current['seo_keyword'] !== '' && $storedQuery !== $currentQuery) {
+            // replaceDescriptions() looks the row up by query, so a changed query is updated by id
+            $this->db->query(
+                "UPDATE " . $this->db->table('url_aliases') . "
+                 SET keyword = '" . $this->db->escape($data['seo_keyword']) . "',
+                     query = '" . $this->db->escape($storedQuery) . "'
+                 WHERE url_alias_id = " . (int)$current['url_alias_id']
+            );
+        } else {
+            // alias of the content language is created or updated, other languages stay untouched
+            $this->saveForContentLanguage($data);
+        }
         // keep redirects which lead to the renamed keyword working
-        if ($current['seo_keyword'] !== $data['seo_keyword']) {
+        if ($current['seo_keyword'] !== '' && $current['seo_keyword'] !== $data['seo_keyword']) {
             /** @var ModelToolRedirect $mdl */
             $mdl = $this->load->model('tool/redirect');
             $mdl->replaceTargetKeyword($current['seo_keyword'], $data['seo_keyword']);
@@ -159,7 +171,7 @@ class ModelToolSeoUrl extends Model
         $route = trim((string)($data['route'] ?? ''));
         $query = trim((string)($data['query'] ?? ''));
         $storedQuery = $this->buildStoredQuery($data);
-        $languageId = $this->getLanguageId($data);
+        $languageId = $this->getLanguageId();
 
         if ($keyword === '' || mb_strlen($keyword) > 255) {
             $errors['seo_keyword'] = $this->language->get('error_seo_keyword');
@@ -176,13 +188,15 @@ class ModelToolSeoUrl extends Model
         }
 
         if (!$errors) {
+            // the edited record and its alias for the content language are not conflicts
+            $ownIds = [$urlAliasId, (int)($this->getSeoUrl($urlAliasId)['url_alias_id'] ?? 0)];
             $result = $this->db->query(
                 "SELECT url_alias_id, keyword, query
                  FROM " . $this->db->table('url_aliases') . "
                  WHERE language_id = '" . $languageId . "'
                    AND (keyword = '" . $this->db->escape($keyword) . "'
                         OR query = '" . $this->db->escape($storedQuery) . "')
-                   AND url_alias_id != '" . $urlAliasId . "'"
+                   AND url_alias_id NOT IN (" . implode(', ', $ownIds) . ")"
             );
             foreach ($result->rows as $row) {
                 // keyword is unique regardless of letter case (see table collation),
@@ -225,9 +239,10 @@ class ModelToolSeoUrl extends Model
         $allowedSort = ['seo_keyword', 'route', 'query'];
         $sort = in_array($data['sort'] ?? '', $allowedSort, true) ? $data['sort'] : 'seo_keyword';
         $order = ($data['order'] ?? '') === 'DESC' ? 'DESC' : 'ASC';
-        return 'SELECT * FROM (' . $this->buildBaseSql() . ') AS seo_urls'
-            . $this->buildWhereSql($data)
-            . ' ORDER BY `' . $sort . '` ' . $order;
+        return 'SELECT '.$this->db->getSqlCalcTotalRows().' * 
+                FROM (' . $this->buildBaseSql() . ') AS seo_urls'
+                . $this->buildWhereSql($data)
+                . ' ORDER BY `' . $sort . '` ' . $order;
     }
 
     /**
@@ -264,7 +279,8 @@ class ModelToolSeoUrl extends Model
                            ELSE `query`
                        END AS query,
                        language_id
-                FROM " . $this->db->table('url_aliases');
+                FROM " . $this->db->table('url_aliases') . "
+                WHERE language_id = " . $this->getLanguageId();
     }
 
     /**
@@ -316,12 +332,43 @@ class ModelToolSeoUrl extends Model
     }
 
     /**
+     * Inserts or updates keyword of the query for the content language only
+     *
      * @param array $data
      *
+     * @return int url_alias_id
+     * @throws AException
+     */
+    private function saveForContentLanguage(array $data): int
+    {
+        $languageId = $this->getLanguageId();
+        $storedQuery = $this->buildStoredQuery($data);
+        // no auto translation: keyword of one language must not spread to the others
+        $this->language->replaceDescriptions(
+            'url_aliases',
+            [
+                'query'       => $storedQuery,
+                'language_id' => $languageId,
+            ],
+            [
+                $languageId => ['keyword' => $data['seo_keyword']],
+            ],
+            false
+        );
+        $result = $this->db->query(
+            "SELECT url_alias_id
+             FROM " . $this->db->table('url_aliases') . "
+             WHERE query = '" . $this->db->escape($storedQuery) . "'
+                AND language_id = " . $languageId
+        );
+        return (int)($result->row['url_alias_id'] ?? 0);
+    }
+
+    /**
      * @return int
      */
-    private function getLanguageId(array $data): int
+    private function getLanguageId(): int
     {
-        return (int)($data['language_id'] ?? 0) ?: (int)$this->language->getContentLanguageID();
+        return (int)$this->language->getContentLanguageID();
     }
 }

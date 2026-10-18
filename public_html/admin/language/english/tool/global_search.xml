@@ -68,4 +68,8 @@
         <key>text_contents</key>
         <value><![CDATA[Content Pages]]></value>
     </definition>
+    <definition>
+        <key>text_seo_urls</key>
+        <value><![CDATA[Seo Urls]]></value>
+    </definition>
 </definitions>

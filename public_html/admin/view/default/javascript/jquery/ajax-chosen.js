@@ -19,6 +19,19 @@
         };
         select = this;
         chosenXhr = null;
+        //show/hide spinner inside the chosen search field while search is pending
+        var toggleSpinner = function (show) {
+            var container = select.next('.chosen-container');
+            var spinner = container.find('.ajax-chosen-spinner');
+            if (show) {
+                if (!spinner.length) {
+                    container.find('.chosen-search, .search-field').first().css('position', 'relative')
+                        .append('<i class="ajax-chosen-spinner fa fa-spinner fa-spin" style="position:absolute;right:28px;top:50%;margin-top:-7px;z-index:2;pointer-events:none;"></i>');
+                }
+            } else {
+                spinner.remove();
+            }
+        };
         options = $.extend({}, defaultOptions, $(select).data(), settings);
         this.chosen(chosenOptions ? chosenOptions : {});
         return this.each(function () {
@@ -33,8 +46,14 @@
                 $(this).data('prevVal', val);
                 if (this.timer) {
                     clearTimeout(this.timer);
+                    toggleSpinner(false);
                 }
                 if (val.length < options.minTermLength) {
+                    //term became too short (backspace) - cancel in-flight request to avoid stale response
+                    if (chosenXhr) {
+                        chosenXhr.abort();
+                        chosenXhr = null;
+                    }
                     return false;
                 }
                 field = $(this);
@@ -52,6 +71,11 @@
                     if (data == null) {
                         return;
                     }
+                    //ignore stale response: user has changed the input since this request was planned
+                    if ($.trim(field.val()) !== val) {
+                        return;
+                    }
+                    untrimmed_val = field.val();
                     selected_values = [];
                     select.find('option').each(function () {
                         if (!$(this).is(":selected")) {
@@ -128,11 +152,20 @@
                     }
                     return field.val(untrimmed_val);
                 };
+                toggleSpinner(true);
                 return this.timer = setTimeout(function () {
                     if (chosenXhr) {
                         chosenXhr.abort();
                     }
-                    return chosenXhr = $.ajax(options);
+                    toggleSpinner(true);
+                    return chosenXhr = $.ajax($.extend({}, options, {
+                        complete: function () {
+                            toggleSpinner(false);
+                            if (settings.complete != null) {
+                                settings.complete.apply(this, arguments);
+                            }
+                        }
+                    }));
                 }, options.afterTypeDelay);
             });
         });
