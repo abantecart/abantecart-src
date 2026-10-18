@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        php: ['8.2', '8.3', '8.4']
+        php: ['8.3', '8.4','8.5']
         db:
           - ver: mysql
             release: '8.0.40'  # Oldest supported
