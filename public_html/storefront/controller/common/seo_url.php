@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2026 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -38,6 +38,16 @@ class ControllerCommonSeoUrl extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        // redirect rules are checked before seo keywords
+        $rt = $this->processRedirects();
+        if ($rt) {
+            unset($this->request->get['_route_']);
+            $this->request->get['rt'] = str_starts_with($rt, 'pages/') ? substr($rt, 6) : $rt;
+            $this->router->resetController($rt);
+            return $this->dispatch($rt, $this->request->get);
+        }
+
         if (isset($this->request->get['_route_'])) {
             $parts = array_filter(explode('/', $this->request->get['_route_']));
             $result = $this->db->query(
@@ -76,11 +86,11 @@ class ControllerCommonSeoUrl extends AController
                 if (isset($httpQuery['rt'])) {
                     $this->request->get['rt'] = $httpQuery['rt'];
                     unset($httpQuery['rt']);
-                    if(count($httpQuery)>1){
-                        foreach($httpQuery as $n=>$v){
-                            if(!isset($this->request->get[$n])){
-                                $this->request->get[$n] = $v;
-                            }
+                    // pass the rest of the stored parameters to the page,
+                    // but do not override parameters given in the URL itself
+                    foreach ($httpQuery as $name => $value) {
+                        if (!isset($this->request->get[$name])) {
+                            $this->request->get[$name] = $value;
                         }
                     }
                 }
@@ -155,6 +165,51 @@ class ControllerCommonSeoUrl extends AController
             return true;
         }
         return false;
+    }
+
+    /**
+     * Applies the first matched redirect rule.
+     * Redirects and exits, or returns rt of the page to show instead of the requested one.
+     *
+     * @return string|null
+     * @throws AException
+     */
+    protected function processRedirects(): ?string
+    {
+        /** @var ModelToolRedirect $mdl */
+        $mdl = $this->loadModel('tool/redirect');
+        $storeUrl = (HTTPS === true ? HTTPS_SERVER : HTTP_SERVER) . $this->config->get('seo_prefix');
+        $resolver = new AUrlRedirect($mdl->getActiveRules(), $storeUrl);
+        // raw values: request->get is html-escaped
+        $query = $_GET;
+        unset($query['_route_']);
+
+        $result = $resolver->resolve((string)REAL_HOST, (string)($_SERVER['REQUEST_URI'] ?? '/'), $query);
+        if (!$result) {
+            return null;
+        }
+
+        $this->data['redirect_rule'] = $result['rule'];
+        $this->data['redirect_url'] = $result['url'];
+        $this->extensions->hk_ProcessData($this, 'redirect');
+        // extension can cancel the rule
+        if (!$this->data['redirect_rule']) {
+            return null;
+        }
+
+        $mdl->registerHit((int)$result['rule']['id']);
+        switch ($result['action']) {
+            case 301:
+            case 302:
+                redirect($this->data['redirect_url'], $result['action']);
+                break;
+            case 404:
+                return 'pages/error/not_found';
+            default:
+                // 403 and 410
+                redirect($this->html->getSEOURL('error/not_found'));
+        }
+        return null;
     }
 
     protected function getContentParentId(int $contentId)

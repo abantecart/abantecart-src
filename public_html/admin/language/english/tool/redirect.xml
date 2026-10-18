@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<definitions>
+    <definition>
+        <key>heading_title</key>
+        <value><![CDATA[Redirects]]></value>
+    </definition>
+    <definition>
+        <key>column_id</key>
+        <value><![CDATA[ID]]></value>
+    </definition>
+    <definition>
+        <key>column_source</key>
+        <value><![CDATA[Source<span class="help">[host:]path, SEO keyword, query string or regular expression. Hover the comment icon to see the rule comment.</span>]]></value>
+    </definition>
+    <definition>
+        <key>column_action</key>
+        <value><![CDATA[Action]]></value>
+    </definition>
+    <definition>
+        <key>column_status</key>
+        <value><![CDATA[Status]]></value>
+    </definition>
+    <definition>
+        <key>column_hits</key>
+        <value><![CDATA[Hits]]></value>
+    </definition>
+    <definition>
+        <key>column_last_hit</key>
+        <value><![CDATA[Last Hit]]></value>
+    </definition>
+    <definition>
+        <key>text_add_redirect</key>
+        <value><![CDATA[Add Redirect]]></value>
+    </definition>
+    <definition>
+        <key>text_edit_redirect</key>
+        <value><![CDATA[Edit Redirect]]></value>
+    </definition>
+    <definition>
+        <key>text_success</key>
+        <value><![CDATA[Success: Redirect has been saved!]]></value>
+    </definition>
+    <definition>
+        <key>text_any_host</key>
+        <value><![CDATA[any host]]></value>
+    </definition>
+    <definition>
+        <key>text_match_type_exact</key>
+        <value><![CDATA[Exact: path or SEO keyword]]></value>
+    </definition>
+    <definition>
+        <key>text_match_type_prefix</key>
+        <value><![CDATA[Prefix: path starts with source (the rest of the path is appended to the target)]]></value>
+    </definition>
+    <definition>
+        <key>text_match_type_regex</key>
+        <value><![CDATA[Regular expression: use $1, $2 ... in target]]></value>
+    </definition>
+    <definition>
+        <key>text_match_type_query</key>
+        <value><![CDATA[Query: request contains all source parameters]]></value>
+    </definition>
+    <definition>
+        <key>text_action_301</key>
+        <value><![CDATA[301 Moved Permanently]]></value>
+    </definition>
+    <definition>
+        <key>text_action_302</key>
+        <value><![CDATA[302 Found (temporary)]]></value>
+    </definition>
+    <definition>
+        <key>text_action_403</key>
+        <value><![CDATA[403 Forbidden]]></value>
+    </definition>
+    <definition>
+        <key>text_action_404</key>
+        <value><![CDATA[404 Not Found]]></value>
+    </definition>
+    <definition>
+        <key>text_action_410</key>
+        <value><![CDATA[410 Gone]]></value>
+    </definition>
+    <definition>
+        <key>entry_status</key>
+        <value><![CDATA[Status]]></value>
+    </definition>
+    <definition>
+        <key>entry_match_type</key>
+        <value><![CDATA[Match Type]]></value>
+    </definition>
+    <definition>
+        <key>entry_source</key>
+        <value><![CDATA[Source<span class="help">Path without domain (/old-product), SEO keyword (old-product), query string (rt=product/product&product_id=12) or regular expression without delimiters (^/old/(.*)$)</span>]]></value>
+    </definition>
+    <definition>
+        <key>entry_source_host</key>
+        <value><![CDATA[Source Host<span class="help">Domain or IP. Leave empty to apply the rule to any host.</span>]]></value>
+    </definition>
+    <definition>
+        <key>entry_action</key>
+        <value><![CDATA[Action]]></value>
+    </definition>
+    <definition>
+        <key>entry_target</key>
+        <value><![CDATA[Target<span class="help">Relative (/new-product) or absolute (https://example.com/new-product) URL. Required for 301 and 302.</span>]]></value>
+    </definition>
+    <definition>
+        <key>entry_keep_query</key>
+        <value><![CDATA[Keep Query String<span class="help">Append the original query string to the target URL.</span>]]></value>
+    </definition>
+    <definition>
+        <key>entry_priority</key>
+        <value><![CDATA[Priority<span class="help">Rules are checked from lower to higher value. The first matched rule is applied.</span>]]></value>
+    </definition>
+    <definition>
+        <key>entry_comment</key>
+        <value><![CDATA[Comment]]></value>
+    </definition>
+    <definition>
+        <key>entry_hits</key>
+        <value><![CDATA[Hits]]></value>
+    </definition>
+    <definition>
+        <key>entry_last_hit</key>
+        <value><![CDATA[Last Hit]]></value>
+    </definition>
+    <definition>
+        <key>error_permission</key>
+        <value><![CDATA[Warning: You do not have permission to modify redirects!]]></value>
+    </definition>
+    <definition>
+        <key>error_not_found</key>
+        <value><![CDATA[Redirect was not found.]]></value>
+    </definition>
+    <definition>
+        <key>error_source</key>
+        <value><![CDATA[Source must be between 1 and 2048 characters!]]></value>
+    </definition>
+    <definition>
+        <key>error_regex</key>
+        <value><![CDATA[Source is not a valid regular expression!]]></value>
+    </definition>
+    <definition>
+        <key>error_query</key>
+        <value><![CDATA[Source must be a query string, for example: rt=product/product&product_id=12]]></value>
+    </definition>
+    <definition>
+        <key>error_duplicate</key>
+        <value><![CDATA[A rule with the same source, host and match type already exists.]]></value>
+    </definition>
+    <definition>
+        <key>error_match_type</key>
+        <value><![CDATA[Unknown match type!]]></value>
+    </definition>
+    <definition>
+        <key>error_action</key>
+        <value><![CDATA[Unknown action!]]></value>
+    </definition>
+    <definition>
+        <key>error_target</key>
+        <value><![CDATA[Target is required for 301 and 302 redirects!]]></value>
+    </definition>
+    <definition>
+        <key>error_target_length</key>
+        <value><![CDATA[Target must not exceed 2048 characters!]]></value>
+    </definition>
+</definitions>

@@ -1178,6 +1178,9 @@ var searchSectionIcon = function(section) {
 		case 'downloads':
 			return '<i class="fa fa-download fa-fw"></i> ';
 			break;
+		case 'seo_urls':
+			return '<i class="fa fa-globe fa-fw"></i> ';
+			break;
 		default:
 			return '<i class="fa fa-info-circle fa-fw"></i> ';
 			break;
