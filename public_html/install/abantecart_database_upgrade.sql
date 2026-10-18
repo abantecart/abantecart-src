@@ -39,3 +39,26 @@ ALTER TABLE `ac_field_group_to_form`
 
 ALTER TABLE `ac_orders`
     ADD `guest_checkout` int(1) NOT NULL DEFAULT '0' AFTER `customer_group_id`;
+
+--
+-- DDL for table `url_redirects`
+--
+DROP TABLE IF EXISTS `ac_url_redirects`;
+CREATE TABLE `ac_url_redirects` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `source` varchar(2048) NOT NULL COMMENT 'path, seo keyword or query string',
+  `source_host` varchar(255) NOT NULL DEFAULT '' COMMENT 'empty means any host',
+  `match_type` enum('exact','prefix','regex','query') NOT NULL DEFAULT 'exact',
+  `target` varchar(2048) NOT NULL DEFAULT '',
+  `action` smallint(3) NOT NULL DEFAULT '301' COMMENT '301, 302, 403, 404, 410',
+  `keep_query` tinyint(1) NOT NULL DEFAULT '0',
+  `priority` int(11) NOT NULL DEFAULT '0',
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `hits` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `last_hit` timestamp NULL DEFAULT NULL,
+  `comment` text,
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `ac_url_redirects_idx` (`status`, `priority`)
+) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

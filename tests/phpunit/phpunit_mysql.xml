@@ -16,5 +16,8 @@
 		<testsuite name="storefront_models">
 			<directory>storefront</directory>
 		</testsuite>
+		<testsuite name="admin">
+			<directory>admin</directory>
+		</testsuite>
 	</testsuites>
 </phpunit>
