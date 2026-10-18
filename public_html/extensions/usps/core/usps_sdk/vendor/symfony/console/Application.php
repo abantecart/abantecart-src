@@ -52,6 +52,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SignalRegistry\SignalRegistry;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\ErrorHandler\ErrorHandler;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface as ComponentEventDispatcherInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Service\ResetInterface;
 
@@ -258,7 +259,7 @@ class Application implements ResetInterface
      */
     public function doRun(InputInterface $input, OutputInterface $output): int
     {
-        if (true === $input->hasParameterOption(['--version', '-V'], true)) {
+        if ($input->hasParameterOption(['--version', '-V'], true)) {
             $output->writeln($this->getLongVersion());
 
             return 0;
@@ -272,7 +273,7 @@ class Application implements ResetInterface
         }
 
         $name = $this->getCommandName($input);
-        if (true === $input->hasParameterOption(['--help', '-h'], true)) {
+        if ($input->hasParameterOption(['--help', '-h'], true)) {
             if (!$name) {
                 $name = 'help';
                 $input = new ArrayInput(['command_name' => $this->defaultCommand]);
@@ -1035,6 +1036,13 @@ class Application implements ResetInterface
             $this->getSignalRegistry()->pushCurrentHandlers();
 
             if ($this->dispatcher) {
+                // Build the lazy listeners before a signal handler needs them: a signal can interrupt the autoloading of a class they use, which cannot be loaded again from the handler
+                if ($this->signalsToDispatchEvent && $this->dispatcher instanceof ComponentEventDispatcherInterface) {
+                    foreach ([ConsoleEvents::SIGNAL, ConsoleAlarmEvent::class, ConsoleEvents::TERMINATE] as $eventName) {
+                        $this->dispatcher->getListeners($eventName);
+                    }
+                }
+
                 // We register application signals, so that we can dispatch the event
                 foreach ($this->signalsToDispatchEvent as $signal) {
                     $signalEvent = new ConsoleSignalEvent($command, $input, $output, $signal);
@@ -1316,9 +1324,7 @@ class Application implements ResetInterface
 
         $lines[] = \count($lines) ? str_pad($line, $width) : $line;
 
-        mb_convert_variables($encoding, 'utf8', $lines);
-
-        return $lines;
+        return mb_convert_encoding($lines, $encoding, 'utf8');
     }
 
     /**
@@ -1333,7 +1339,7 @@ class Application implements ResetInterface
         $namespaces = [];
 
         foreach ($parts as $part) {
-            if (\count($namespaces)) {
+            if ($namespaces) {
                 $namespaces[] = end($namespaces).':'.$part;
             } else {
                 $namespaces[] = $part;

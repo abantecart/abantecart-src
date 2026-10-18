@@ -771,6 +771,42 @@ class AvaTaxClient extends AvaTaxClientBase
     }
 
     /**
+     * Create custom rules import batch.
+     *
+     * Create a new custom rules import batch object attached to this company.
+     *  
+     * The batch payload is the Custom Rules export envelope (tax rules, custom rules, and
+     * advanced rules). It is stored as JSON and processed downstream by BatchV2.
+     *  
+     * When a custom rules import batch is created, it is added to the AvaTax Batch v2 Queue and will be
+     * processed in the order it was received. To check the
+     * status of a batch, fetch the batch and retrieve the results of the batch
+     * operation.
+     *  
+     * The maximum content length of the request body is limited to 28.6 MB. If this limit
+     * exceeds then a 404 Not Found status is returned (possibly with a CORS error if
+     * the API is called from a browser). In this situation, please split the request into
+     * smaller batches.
+     * 
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AvaTaxOnlyAccountAdmin, AvaTaxOnlyCompanyAdmin, BatchServiceAdmin, CompanyAdmin, CSPTester, FirmAdmin, SSTAdmin, SystemAdmin, SystemOperator, TechnicalSupportAdmin.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The ID of the company that owns this batch.
+     * @param CreateCustomRulesBatchRequestModel $model The custom rules import batch you wish to create.
+     * @return \stdClass
+     */
+    public function createCustomRulesBatch($companyId, $model)    {
+        $path = "/api/v2/companies/{$companyId}/batches/customrules";
+        $guzzleParams = [
+            'query' => [],
+            'body' => json_encode($model)
+        ];
+        return $this->restCall($path, 'POST', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
      * Create item import batch.
      *
      * Create a new item import batch objects attached to this company.
@@ -818,6 +854,13 @@ class AvaTaxClient extends AvaTaxClientBase
      * predict when a batch will complete. If high performance processing is
      * required, please use the
      * [CreateTransaction API](https://developer.avalara.com/api-reference/avatax/rest/v2/methods/Transactions/CreateTransaction/).
+     *  
+     * Set `skipTransactionValidation` to true to defer transaction type, company code
+     * existence, and nested model validation until BatchV2 processes each transaction.
+     * Per-transaction validation failures are then written to the batch error file without
+     * blocking upload. Skipping validation only defers those checks; transactions that omit
+     * `companyCode` still inherit the company from this URL, exactly as they do when
+     * validation runs at upload time.
      *  
      * The maximum content length of the request body is limited to 28.6 MB. If this limit
      * is exceeded, a 404 Not Found status will be returned (possibly with a CORS error if
@@ -1313,6 +1356,8 @@ class AvaTaxClient extends AvaTaxClientBase
      * * attributes - Retrieves all attributes applied to the certificate.
      * * histories - Retrieves the certificate update history
      * * jobs - Retrieves the jobs for this certificate
+     * * jobs.phases - Retrieves the jobs along with their phases
+     * * jobs.tasks - Retrieves the jobs along with their phases and the tasks within each phase
      * * logs - Retrieves the certificate log
      * * invalid_reasons - Retrieves invalid reasons for this certificate if the certificate is invalid
      * * custom_fields - Retrieves custom fields set for this certificate
@@ -1331,7 +1376,7 @@ class AvaTaxClient extends AvaTaxClientBase
      * 
      * @param int $companyId The ID number of the company that recorded this certificate
      * @param int $id The unique ID number of this certificate
-     * @param string $include OPTIONAL: A comma separated list of special fetch options. You can specify one or more of the following:      * customers - Retrieves the list of customers linked to the certificate.   * po_numbers - Retrieves all PO numbers tied to the certificate.   * attributes - Retrieves all attributes applied to the certificate.   * histories - Retrieves the certificate update history   * jobs - Retrieves the jobs for this certificate   * logs - Retrieves the certificate log   * invalid_reasons - Retrieves invalid reasons for this certificate if the certificate is invalid   * custom_fields - Retrieves custom fields set for this certificate   * jurisdictions - Retrieves the list of jurisdictions associated with the certificate
+     * @param string $include OPTIONAL: A comma separated list of special fetch options. You can specify one or more of the following:      * customers - Retrieves the list of customers linked to the certificate.   * po_numbers - Retrieves all PO numbers tied to the certificate.   * attributes - Retrieves all attributes applied to the certificate.   * histories - Retrieves the certificate update history   * jobs - Retrieves the jobs for this certificate   * jobs.phases - Retrieves the jobs along with their phases   * jobs.tasks - Retrieves the jobs along with their phases and the tasks within each phase   * logs - Retrieves the certificate log   * invalid_reasons - Retrieves invalid reasons for this certificate if the certificate is invalid   * custom_fields - Retrieves custom fields set for this certificate   * jurisdictions - Retrieves the list of jurisdictions associated with the certificate
      * @return \stdClass
      */
     public function getCertificate($companyId, $id, $include=null)    {
@@ -1487,6 +1532,46 @@ class AvaTaxClient extends AvaTaxClientBase
     }
 
     /**
+     * List the certificate tax-type hierarchy available to this company
+     *
+     * Returns the TPS multi-tax type hierarchy that is applicable when configuring exemption
+     * certificates for the given country. The returned tax types can be used to populate
+     * `taxTypeMappings` entries on a certificate jurisdiction via POST / PUT certificate.
+     *  
+     * This endpoint is scoped to the certificate (CertCapture) domain and does not return the
+     * generic AvaTax tax-type catalog. For the generic catalog see the `Definitions` APIs.
+     *  
+     * `country` is a mandatory query parameter.
+     *  
+     * Before you can use any exemption certificates endpoints, you must set up your company for exemption certificate data storage.
+     * Companies that do not have this storage system set up will see `CertCaptureNotConfiguredError` when they call exemption
+     * certificate related APIs. To check if this is set up for a company, call `GetCertificateSetup`. To request setup of exemption
+     * certificate storage for this company, call `RequestCertificateSetup`.
+     * 
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+     * * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The ID number of the company
+     * @param string $country Required. ISO-2 country code used to filter the tax-type hierarchy (e.g., "US").
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* taxTypeId, country, taxSubTypeDetails
+     * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
+     * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
+     * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+     * @return \stdClass
+     */
+    public function listCertificateTaxTypes($companyId, $country, $filter=null, $top=null, $skip=null, $orderBy=null)    {
+        $path = "/api/v2/companies/{$companyId}/certificates/taxtypes";
+        $guzzleParams = [
+            'query' => ['country' => $country, '$filter' => $filter, '$top' => $top, '$skip' => $skip, '$orderBy' => $orderBy],
+            'body' => null
+        ];
+        return $this->restCall($path, 'GET', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
      * List customers linked to this certificate
      *
      * List all customers linked to this certificate.
@@ -1553,6 +1638,56 @@ class AvaTaxClient extends AvaTaxClientBase
     }
 
     /**
+     * List the exemption matrix entries for an exposure zone
+     *
+     * Returns the entries in this company's exemption matrix for one exposure zone.
+     *  
+     * Each entry carries the `timeLength` rule used to work out when a certificate
+     * recorded for that exposure zone and exempt reason expires, and the
+     * `qualifyingStatement` shown to the customer. See the `timeLength` field
+     * description for the meaning of each rule value.
+     *  
+     * `exposureZoneId` is mandatory. Supplying `exemptReasonId` narrows the result to
+     * that one exempt reason; omitting it returns every exempt reason configured for
+     * the zone. Call `ListCertificateExposureZones` and `ListCertificateExemptReasons`
+     * to look up the available ID numbers.
+     *  
+     * An exposure zone with nothing configured returns an empty list rather than a
+     * `404`, so "nothing configured" can be told apart from "no expiration rule".
+     * Exempt reasons that are disabled, or that denote exposure rather than exemption,
+     * are never listed.
+     *  
+     * Results are paginated with `$top` and `$skip`. As with the other exemption
+     * certificate query APIs, `$skip` must be a multiple of `$top`.
+     *  
+     * Before you can use any exemption certificates endpoints, you must set up your company for exemption certificate data storage.
+     * Companies that do not have this storage system set up will see `CertCaptureNotConfiguredError` when they call exemption
+     * certificate related APIs. To check if this is set up for a company, call `GetCertificateSetup`. To request setup of exemption
+     * certificate storage for this company, call `RequestCertificateSetup`.
+     * 
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+     * * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The ID number of the company
+     * @param int $exposureZoneId Required. The ID number of the exposure zone.
+     * @param int $exemptReasonId Optional. The ID number of an exempt reason. Omit to return every exempt reason configured for the exposure zone.
+     * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
+     * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
+     * @return \stdClass
+     */
+    public function listExemptionMatrix($companyId, $exposureZoneId=null, $exemptReasonId=null, $top=null, $skip=null)    {
+        $path = "/api/v2/companies/{$companyId}/exemptionmatrix";
+        $guzzleParams = [
+            'query' => ['exposureZoneId' => $exposureZoneId, 'exemptReasonId' => $exemptReasonId, '$top' => $top, '$skip' => $skip],
+            'body' => null
+        ];
+        return $this->restCall($path, 'GET', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
      * List local exempt jurisdictions for a given exposure zone and tax code
      *
      * Returns the list of jurisdictions that are valid for a given combination of exposure zone
@@ -1607,6 +1742,8 @@ class AvaTaxClient extends AvaTaxClientBase
      * * attributes - Retrieves all attributes applied to the certificate.
      * * histories - Retrieves the certificate update history
      * * jobs - Retrieves the jobs for this certificate
+     * * jobs.phases - Retrieves the jobs along with their phases
+     * * jobs.tasks - Retrieves the jobs along with their phases and the tasks within each phase
      * * logs - Retrieves the certificate log
      * * invalid_reasons - Retrieves invalid reasons for this certificate if the certificate is invalid
      * * custom_fields - Retrieves custom fields set for this certificate
@@ -1624,8 +1761,8 @@ class AvaTaxClient extends AvaTaxClientBase
      * Swagger Name: AvaTaxClient
      * 
      * @param int $companyId The ID number of the company to search
-     * @param string $include OPTIONAL: A comma separated list of special fetch options. You can specify one or more of the following:      * customers - Retrieves the list of customers linked to the certificate.   * po_numbers - Retrieves all PO numbers tied to the certificate.   * attributes - Retrieves all attributes applied to the certificate.   * histories - Retrieves the certificate update history   * jobs - Retrieves the jobs for this certificate   * logs - Retrieves the certificate log   * invalid_reasons - Retrieves invalid reasons for this certificate if the certificate is invalid   * custom_fields - Retrieves custom fields set for this certificate   * jurisdictions - Retrieves the list of jurisdictions associated with the certificate
-     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* exemptionNumber, ecmsId, ecmsStatus, pdf, pages
+     * @param string $include OPTIONAL: A comma separated list of special fetch options. You can specify one or more of the following:      * customers - Retrieves the list of customers linked to the certificate.   * po_numbers - Retrieves all PO numbers tied to the certificate.   * attributes - Retrieves all attributes applied to the certificate.   * histories - Retrieves the certificate update history   * jobs - Retrieves the jobs for this certificate   * jobs.phases - Retrieves the jobs along with their phases   * jobs.tasks - Retrieves the jobs along with their phases and the tasks within each phase   * logs - Retrieves the certificate log   * invalid_reasons - Retrieves invalid reasons for this certificate if the certificate is invalid   * custom_fields - Retrieves custom fields set for this certificate   * jurisdictions - Retrieves the list of jurisdictions associated with the certificate
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* exemptionNumber, jurisdictions, ecmsId, ecmsStatus, pdf, pages
      * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
      * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
      * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
@@ -3267,6 +3404,177 @@ class AvaTaxClient extends AvaTaxClientBase
     }
 
     /**
+     * Create one or more currency rounding rules
+     *
+     * Create one or more currency rounding rules for this account. Each rule sets the rounding
+     * precision for a currency over an effective-date window.
+     *  
+     * Windows for the same currency may overlap - for a given tax date the rule with the latest
+     * `effDate` whose window contains that date applies. Two rules that share a `currencyCode`
+     * and `effDate` are ambiguous and are rejected, whether the duplicate is against an existing
+     * rule or against another rule in the same request.
+     *  
+     * A rule can only be created for a currency that already has an Avalara system default (see
+     * `GET api/v2/definitions/currencyroundingrules`).
+     * 
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AvaTaxOnlyAccountAdmin, BatchServiceAdmin, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $accountId The unique ID number of the account that owns these currency rounding rules.
+     * @param AccountCurrencyRoundingRuleModel[] $model The currency rounding rule object or objects you wish to create.
+     * @return \stdClass
+     */
+    public function createCurrencyRoundingRules($accountId, $model)    {
+        $path = "/api/v2/accounts/{$accountId}/currencyroundingrules";
+        $guzzleParams = [
+            'query' => [],
+            'body' => json_encode($model)
+        ];
+        return $this->restCall($path, 'POST', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Delete a single currency rounding rule
+     *
+     * Deletes the currency rounding rule identified by this URL. After deletion, calculation for
+     * that currency falls back to the Avalara default rule (or standard decimal precision if none).
+     * 
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AvaTaxOnlyAccountAdmin, BatchServiceAdmin, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $accountId The unique ID number of the account that owns this currency rounding rule.
+     * @param int $id The unique ID number of the currency rounding rule to delete.
+     * @return \stdClass
+     */
+    public function deleteCurrencyRoundingRule($accountId, $id)    {
+        $path = "/api/v2/accounts/{$accountId}/currencyroundingrules/{$id}";
+        $guzzleParams = [
+            'query' => [],
+            'body' => null
+        ];
+        return $this->restCall($path, 'DELETE', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Retrieve a single currency rounding rule
+     *
+     * Retrieves a single currency rounding rule identified by this URL.
+     * 
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ECMAccountUser, ECMCompanyUser, ReturnsOnlyAccountAdmin, ReturnsOnlyAccountUser, ReturnsOnlyCompanyAdmin, ReturnsOnlyCompanyUser, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $accountId The ID of the account that owns this currency rounding rule.
+     * @param int $id The unique ID number of the currency rounding rule to retrieve.
+     * @return \stdClass
+     */
+    public function getCurrencyRoundingRule($accountId, $id)    {
+        $path = "/api/v2/accounts/{$accountId}/currencyroundingrules/{$id}";
+        $guzzleParams = [
+            'query' => [],
+            'body' => null
+        ];
+        return $this->restCall($path, 'GET', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Retrieve all currency rounding rules for this account.
+     *
+     * Lists all account-specific currency rounding rules for this account.
+     *  
+     * Only rules created for this account are returned. When no rule exists for a currency on a
+     * transaction's tax date, the tax engine automatically applies the Avalara system default for
+     * that currency; if no system default exists, standard decimal precision is used (no rounding).
+     *  
+     * Each rule's `precision` is `0` (whole currency unit) or `2` (standard decimal cents).
+     *  
+     * Search for specific objects using the criteria in the `$filter` parameter; full documentation is available on [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/) .
+     * Paginate your results using the `$top`, `$skip`, and `$orderBy` parameters.
+     * 
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ECMAccountUser, ECMCompanyUser, ReturnsOnlyAccountAdmin, ReturnsOnlyAccountUser, ReturnsOnlyCompanyAdmin, ReturnsOnlyCompanyUser, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $accountId The ID of the account whose currency rounding rules you wish to list.
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* createdDate, createdUserId, modifiedUserId
+     * @param string $include A comma separated list of additional data to retrieve.
+     * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
+     * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
+     * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+     * @return \stdClass
+     */
+    public function listCurrencyRoundingRules($accountId, $filter=null, $include=null, $top=null, $skip=null, $orderBy=null)    {
+        $path = "/api/v2/accounts/{$accountId}/currencyroundingrules";
+        $guzzleParams = [
+            'query' => ['$filter' => $filter, '$include' => $include, '$top' => $top, '$skip' => $skip, '$orderBy' => $orderBy],
+            'body' => null
+        ];
+        return $this->restCall($path, 'GET', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Update a currency rounding rule
+     *
+     * Replace the existing currency rounding rule at this URL with an updated object.
+     *  
+     * All data from the existing object will be replaced with data in the object you PUT.
+     * 
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AvaTaxOnlyAccountAdmin, BatchServiceAdmin, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $accountId The unique ID number of the account that owns this currency rounding rule.
+     * @param int $id The unique ID number of the currency rounding rule to replace.
+     * @param AccountCurrencyRoundingRuleModel $model The new currency rounding rule object to store.
+     * @return \stdClass
+     */
+    public function updateCurrencyRoundingRule($accountId, $id, $model)    {
+        $path = "/api/v2/accounts/{$accountId}/currencyroundingrules/{$id}";
+        $guzzleParams = [
+            'query' => [],
+            'body' => json_encode($model)
+        ];
+        return $this->restCall($path, 'PUT', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Add ship-to states to a customer
+     *
+     * Adds one or more ship-to states to the specified customer.
+     *  
+     * Before you can use any exemption certificates endpoints, you must set up your company for exemption certificate data storage.
+     * Companies that do not have this storage system set up will see `CertCaptureNotConfiguredError` when they call exemption
+     * certificate related APIs. To check if this is set up for a company, call `GetCertificateSetup`. To request setup of exemption
+     * certificate storage for this company, call `RequestCertificateSetup`.
+     * 
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+     * * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The unique ID number of the company that recorded this customer
+     * @param string $customerCode The unique code representing this customer
+     * @param StateModel[] $model The list of ship-to states to add to this customer
+     * @return \stdClass
+     */
+    public function addShipToStatesForCustomer($companyId, $customerCode, $model)    {
+        $path = "/api/v2/companies/{$companyId}/customers/{$customerCode}/shiptostate";
+        $guzzleParams = [
+            'query' => [],
+            'body' => json_encode($model)
+        ];
+        return $this->restCall($path, 'POST', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
      * Create customers for this company
      *
      * Create one or more customers for this company.
@@ -3622,7 +3930,7 @@ class AvaTaxClient extends AvaTaxClientBase
      * @param int $companyId The unique ID number of the company that recorded this customer
      * @param string $customerCode The unique code representing this customer
      * @param string $include OPTIONAL: A comma separated list of special fetch options. You can specify one or more of the following:      * customers - Retrieves the list of customers linked to the certificate.   * po_numbers - Retrieves all PO numbers tied to the certificate.   * attributes - Retrieves all attributes applied to the certificate.   * histories - Retrieves the certificate update history   * jobs - Retrieves the jobs for this certificate   * logs - Retrieves the certificate log   * invalid_reasons - Retrieves invalid reasons for this certificate if the certificate is invalid   * custom_fields - Retrieves custom fields set for this certificate   * jurisdictions - Retrieves the list of jurisdictions associated with the certificate
-     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* exemptionNumber, ecmsId, ecmsStatus, pdf, pages
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* exemptionNumber, jurisdictions, ecmsId, ecmsStatus, pdf, pages
      * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
      * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
      * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
@@ -3688,6 +3996,35 @@ class AvaTaxClient extends AvaTaxClientBase
      */
     public function listInActiveCertificatesForCustomer($companyId, $customerCode)    {
         $path = "/api/v2/companies/{$companyId}/customers/{$customerCode}/certificates/inactive";
+        $guzzleParams = [
+            'query' => [],
+            'body' => null
+        ];
+        return $this->restCall($path, 'GET', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * List ship-to states linked to a customer
+     *
+     * Retrieves the ship-to states associated with the specified customer.
+     *  
+     * Before you can use any exemption certificates endpoints, you must set up your company for exemption certificate data storage.
+     * Companies that do not have this storage system set up will see `CertCaptureNotConfiguredError` when they call exemption
+     * certificate related APIs. To check if this is set up for a company, call `GetCertificateSetup`. To request setup of exemption
+     * certificate storage for this company, call `RequestCertificateSetup`.
+     * 
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+     * * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The unique ID number of the company that recorded this customer
+     * @param string $customerCode The unique code representing this customer
+     * @return \stdClass
+     */
+    public function listShipToStatesForCustomer($companyId, $customerCode)    {
+        $path = "/api/v2/companies/{$companyId}/customers/{$customerCode}/shiptostate";
         $guzzleParams = [
             'query' => [],
             'body' => null
@@ -3785,6 +4122,36 @@ class AvaTaxClient extends AvaTaxClientBase
             'body' => null
         ];
         return $this->restCall($path, 'GET', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Remove ship-to states from a customer
+     *
+     * Removes one or more ship-to states from the specified customer.
+     *  
+     * Before you can use any exemption certificates endpoints, you must set up your company for exemption certificate data storage.
+     * Companies that do not have this storage system set up will see `CertCaptureNotConfiguredError` when they call exemption
+     * certificate related APIs. To check if this is set up for a company, call `GetCertificateSetup`. To request setup of exemption
+     * certificate storage for this company, call `RequestCertificateSetup`.
+     * 
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+     * * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The unique ID number of the company that recorded this customer
+     * @param string $customerCode The unique code representing this customer
+     * @param StateModel[] $model The list of ship-to states to remove from this customer
+     * @return \stdClass
+     */
+    public function removeShipToStatesForCustomer($companyId, $customerCode, $model)    {
+        $path = "/api/v2/companies/{$companyId}/customers/{$customerCode}/shiptostate";
+        $guzzleParams = [
+            'query' => [],
+            'body' => json_encode($model)
+        ];
+        return $this->restCall($path, 'DELETE', $guzzleParams, AVATAX_SDK_VERSION );
     }
 
     /**
@@ -3926,6 +4293,601 @@ class AvaTaxClient extends AvaTaxClientBase
             'body' => json_encode($model)
         ];
         return $this->restCall($path, 'PUT', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Create a new custom rule
+     *
+     * Creates a new custom rule object attached to this company.
+     *  
+     * Custom rules modify the default AvaTax behavior during tax calculation, customizing it to
+     * match requirements specific to your business. Rules can be used to change the taxability of
+     * an item, change the tax base of an item, alter the tax rate, modify transaction fields
+     * and addresses, allocate and split line items, update the location code, and more.
+     *  
+     * Please use custom rules carefully and ensure they match the behavior agreed upon with your
+     * auditor, legal representative, and accounting team.
+     *  
+     * ---
+     *  
+     * Rules are built from modular _components_. A component can be a rule-wide variable or a
+     * _node_ in the directed acyclic graph defining the rule's behavior. To build a rule from scratch,
+     * start with `GetCustomRuleComponents` to retrieve supported components and the JSON `dataSchema` for each.
+     *  
+     * Ensure each component has a unique `id` (for _Variable_ components, this is its name) and that its `data` field conforms to the node subtype's `dataSchema`.
+     * The `data` must be a single-escaped JSON string, not a nested object. Do not quote numbers or booleans, use only valid enumeration values, and keep
+     * arrays arrays even if they only contain a single element.
+     *  
+     * _Nodes_ may be _Conditions_ or _Actions_. When deciding which node to use, prefer nodes for specific use cases,
+     * such as `MatchAddress` and `UpdateAddress`, over generic ones `MatchField` and `UpdateField` when possible.
+     *  
+     * Use the `GetCustomRuleFields` endpoint to query the fields that can be used in nodes which accept arbitrary fields, such as `MatchField` and `UpdateField`.
+     *  
+     * Each node defines its outgoing edges by specifying its child node IDs in the `next` array. The result of a node execution is a set of matches
+     * (e.g. which lines on the document met the criteria). Node results behave as follows:
+     * - Sequences *intersect* their results ("AND")
+     * - Branches *propagate* their results as the input to each child
+     * - Merges *union* their results ("OR")
+     *  
+     * The `scope` of a condition is what part of the transaction it operates on: `Document`, `SomeLines`, `OneLine`, `AllLines`, or `NoLines`.
+     * The `scope` of an action determines what part of the transaction to apply changes to: `Document`, `MatchedLines`, `NotMatchedLines`, or `AllLines`.
+     *  
+     * When using a rule to adjust taxability,
+     * - Prefer classifying the transaction so Avalara's built-in tax content applies
+     *  (for example by setting a standard tax code or entity use code with
+     *  `UpdateField`) before using a `TaxRule*` action to override that content.
+     * - To treat a line as nontaxable under Avalara's standard nontaxable code, use an
+     *  `UpdateField` node to set its tax code to `NT`.
+     *  - Place the UpdateField early in the rule so it takes effect pre-calculation.
+     * - To impact tax details, the MatchTax condition node is required to match on jurisdiction + tax type combinations.
+     *  - There can only be one MatchTax node per rule, but it can have more than one criteria set.
+     *  - Each criteria set has `matchTaxId` (unique identifier), `country`, `region`, `jurisdictionTypeId`, `jurisCode`, `taxTypeCode`, `taxSubType`, and `rateTypeCode`.
+     * - Tax subtypes and rate types may be wildcard (`*` or `ALL`) for most rule types.
+     * - Always use full names for `jurisdictionTypeId` (`Country`, `State`, `City`, `County`, `Special`) instead of their abbreviations.
+     *  - A wildcard jurisdiction code (`*` or `ALL`) applies the treatment to all jurisdictions of the given `jurisdictionTypeId`.
+     * - `TaxRule*` action nodes define how the tax is to be adjusted.
+     *  - `TaxRuleProductTaxability`: sets an item's taxability and assigns its rate type, so it requires a specific (non-wildcard) `rateTypeCode`.
+     *  - `TaxRuleRateOverride`: overrides Avalara's tax rate.
+     *  - `TaxRuleBaseOverride`: changes the tax base as a proportion of the original amount (e.g. `0.5` = 50% taxable).
+     *  - `TaxRuleExemptEntity`: after sourcing, overrides whether the matched line is
+     *  exempt for the jurisdiction and tax type.
+     * - Caps and thresholds can be applied with the `TaxRuleProductTaxability` or `TaxRuleRateOverride` actions.
+     *  - A threshold buckets amounts up to and including the threshold as non-taxable.
+     *  - A cap limits the taxable amount (per unit by default, multiplied by quantity); amounts above the cap become non-taxable.
+     *  - Add the `Document` option to apply the cap across all matching lines of the document.
+     * - A `default` value must be provided in `TaxRule*` nodes. Overrides for specific jurisdictions are optional and provided in an `overrides` array (NOT a dictionary).
+     *  - If the tax treatment (rate, taxability, etc.) is the same for all configured jurisdictions, set only the `default` value and omit `overrides`.
+     *  - You only need to set overrides for values that differ from the default.
+     *  - If a `matchTaxId` member is present in an override, it will apply to the corresponding criteria in the MatchTax node.
+     *  - If a `matchTaxId` member is NOT present in an override, pattern matching is performed on the override criteria fields with omitted fields treated as wildcards.
+     * - When multiple tax rules apply, a more specific tax type/subtype beats a wildcard, and the latest effective date wins.
+     * - A Tax Code and Tariff Code condition are mutually exclusive.
+     * - Expressions cannot be used in nodes which directly affect tax treatment.
+     *  
+     * Some nodes support _expressions_, which may have variable values evaluated at transaction time.
+     * Expression-supporting fields should be indicated on the node's data schema. Expressions allow
+     * formulas using arithmetic, substitutions, and references to transaction fields; for example:
+     * - `{{Document.TotalAmount}} * 0.1` (10% of the total document amount)
+     * - `{{Line.UserDefinedFields.Udf8}}` (Line-level user-defined field 8)
+     * - `{{Line.Ref1}}{{Line.Ref2}}` (A line's Ref1 and Ref2 values concatenated)
+     * - `2 + {{MyVar}}` (The value of the "MyVar" variable defined elsewhere in the rule, plus 2)
+     *  
+     * Use the `GetCustomRuleTokens` endpoint to enumerate or search for valid tokens that can be used in expressions.
+     *  
+     * Lookup files / reference lists may be used where expressions are supported. Use the syntax `{{FileName.ColumnName}}` to match against
+     * a column in a Condition and use the value from another column in the matched row in an Action. Matching scopes must be compatible -
+     * line-level matches cannot be used to update a document-level field.
+     *  
+     * Rule nodes are assigned execution steps based on their contents and surrounding nodes. For instance, nodes that follow tax
+     * rule actions (`TaxRule*`) or require a calculated field (such as taxable amount) are executed after tax calculation instead
+     * of before calculation. Not every node type may execute in every step. Place them accordingly to their `validSteps`.
+     * A rule will be rejected if an ordering cannot be resolved. Rules execute in the following stages:
+     * - `OnRequest`: On the API request values, before document validation.
+     * - `AfterAddressValidation`: After addresses have been geo-coded / validated once.
+     * - `AfterSourcing`: After jurisdictions and tax types have been evaluated, but before tax calculation.
+     * - `AfterDetails`: After tax calculation details have been generated.
+     * - `OnResponse`: After the document has been saved, if applicable; on the API response only.
+     *  
+     * ---
+     *  
+     * It is recommended to validate the rule with the `ValidateCustomRule` endpoint before creating it.
+     * This will let you review the rule's execution plan and any associated diagnostic information before saving it.
+     * 
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AvaTaxOnlyAccountAdmin, AvaTaxOnlyCompanyAdmin, BatchServiceAdmin, CompanyAdmin, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The ID of the company to create the rule for.
+     * @param CustomRuleInputModel $model The rule you wish to create.
+     * @return \stdClass
+     */
+    public function createCustomRule($companyId, $model=null)    {
+        $path = "/api/v2/companies/{$companyId}/customrules";
+        $guzzleParams = [
+            'query' => [],
+            'body' => json_encode($model)
+        ];
+        return $this->restCall($path, 'POST', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Delete a custom rule
+     *
+     * Delete a single custom rule object attached to this company.
+     *  
+     * To maintain tax calculation consistency for recalculation of backdated transactions, it is
+     * recommended to expire a rule (set a definite end date) instead of deleting it when the rule
+     * requirements remain accurate for a past time period. This will keep the old version of the
+     * rule active for that time period so historical transactions re-calculate with the appropriate rule.
+     *  
+     * If only minor changes are required (i.e. the overall purpose of the rule does not change),
+     * and historical transactions would not be significantly impacted by the update, prefer using
+     * the UpdateCustomRule operation instead of deleting and re-creating the rule.
+     *  
+     * Please use custom rules carefully and ensure they match the behavior agreed upon with your
+     * auditor, legal representative, and accounting team.
+     * 
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AvaTaxOnlyAccountAdmin, AvaTaxOnlyCompanyAdmin, BatchServiceAdmin, CompanyAdmin, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The ID of the company that owns the rule.
+     * @param int $id The ID of the rule to delete.
+     * @return \stdClass
+     */
+    public function deleteCustomRule($companyId, $id)    {
+        $path = "/api/v2/companies/{$companyId}/customrules/{$id}";
+        $guzzleParams = [
+            'query' => [],
+            'body' => null
+        ];
+        return $this->restCall($path, 'DELETE', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Export custom rules for a company
+     *
+     * Export all rule objects defined for this company as a portable JSON envelope.
+     *  
+     * The export set can be filtered and paginated using the same query parameters
+     * as the `ListCustomRules` endpoint.
+     *  
+     * This endpoint uses OData filter syntax in order to support querying nested properties;
+     * note the following differences from standard AvaTax filtering:
+     * - Instead of the infix form, use the contains() function, e.g. `contains(description, 'Amount')`
+     * - Query collection fields with the any()/all() lambda operators, e.g. `subtype/any(r: r eq 'UpdateLocationCode')`.
+     *  
+     * The exported envelope can be re-imported into another company or account using the
+     * `CreateCustomRulesBatch` endpoint.
+     *  
+     * By default, the export includes all rule types:
+     * - Custom Rules, the latest system which provides a new, unified, graph-based interface for engine customization
+     * - Advanced Rules, also known as transaction rules, the legacy system for modifying incoming or outgoing transaction fields
+     * - Legacy Tax Rules, traditional taxability customization
+     *  
+     * Filtering is applied in two stages: `taxRuleFilter`, `advancedRuleFilter`, and `customRuleFilter` are each
+     * applied first, against their respective inner entity type, to select which rules are included. The
+     * resulting records are then converted into summary rows, and `filter` is applied afterward against
+     * those generated summary records.
+     * 
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ReturnsOnlyAccountAdmin, ReturnsOnlyAccountUser, ReturnsOnlyCompanyAdmin, ReturnsOnlyCompanyUser, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The ID of the company to produce a rule export for.
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).
+     * @param string $taxRuleFilter A simple filter statement to select specific TaxRuleModel records. Applied to the underlying   Legacy Tax Rule entities before they are converted into summary records; evaluated before `filter`.
+     * @param string $advancedRuleFilter A simple filter statement to select specific AdvancedRuleExecutionModel records. Applied to the   underlying Advanced Rule entities before they are converted into summary records; evaluated before `filter`.
+     * @param string $customRuleFilter A simple filter statement to select specific CustomRuleOutputModel records. Applied to the   underlying Custom Rule entities before they are converted into summary records; evaluated before `filter`.
+     * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+     * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
+     * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
+     * @return \stdClass
+     */
+    public function exportCustomRules($companyId, $filter=null, $taxRuleFilter=null, $advancedRuleFilter=null, $customRuleFilter=null, $orderBy=null, $top=null, $skip=null)    {
+        $path = "/api/v2/companies/{$companyId}/customrules/export";
+        $guzzleParams = [
+            'query' => ['$filter' => $filter, '$taxRuleFilter' => $taxRuleFilter, '$advancedRuleFilter' => $advancedRuleFilter, '$customRuleFilter' => $customRuleFilter, '$orderBy' => $orderBy, '$top' => $top, '$skip' => $skip],
+            'body' => null
+        ];
+        return $this->restCall($path, 'GET', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Retrieve a single custom rule
+     *
+     * Retrieves a single custom rule object attached to this company.
+     *  
+     * Use this endpoint to verify the persisted state of a specific rule given its ID,
+     * or to fetch the latest, most detailed definition for editing and auditing.
+     *  
+     * Custom rules modify the default AvaTax behavior during tax calculation, customizing it to
+     * match requirements specific to your business. Rules can be used to change the taxability of
+     * an item, change the tax base of an item, alter the tax rate, modify transaction fields
+     * and addresses, allocate and split line items, update the location code, and more.
+     *  
+     * Please use custom rules carefully and ensure they match the behavior agreed upon with your
+     * auditor, legal representative, and accounting team.
+     * 
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ReturnsOnlyAccountAdmin, ReturnsOnlyAccountUser, ReturnsOnlyCompanyAdmin, ReturnsOnlyCompanyUser, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The ID of the company that owns the rule.
+     * @param int $id The ID of the rule.
+     * @return \stdClass
+     */
+    public function getCustomRule($companyId, $id)    {
+        $path = "/api/v2/companies/{$companyId}/customrules/{$id}";
+        $guzzleParams = [
+            'query' => [],
+            'body' => null
+        ];
+        return $this->restCall($path, 'GET', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Fetch a filtered list of components used in custom rule definitions
+     *
+     * Retrieve a list of supported custom rule components. Start here to enumerate
+     * supported Conditions, Actions, and Variables to design rule graphs.
+     *  
+     * A component may be of the following types:
+     * - *Conditions*, which are nodes which evaluate transaction-based criteria
+     * - *Actions*, which are nodes that change or update a transaction when preceding conditions pass
+     * - *Variables*, which are predefined values or expressions with rule-wide scope
+     *  
+     * A component's subtype is the specific kind of condition, action, or variable it is. Examples include:
+     * - *Conditions*: MatchField, MatchAddress, MatchCustomerCode, MatchDocumentType, MatchTariffCode, MatchTaxCode, MatchEntityUseCode, MatchTax
+     * - *Actions*: UpdateField, UpdateAddress, UpdateLocationCode, TaxRuleRateOverride, TaxRuleBaseOverride, TaxRuleExemptEntity, TaxRuleProductTaxability, AddMessage
+     * - *Variables*: Expression, Aggregation
+     *  
+     * The definition of a custom rule is a directed acyclic graph consisting of condition and action nodes.
+     * Variable components have rule-wide scope and are not part of the execution graph, but all three
+     * component types conform to the same model.
+     *  
+     * The `dataSchema` member is an escaped JSON string which defines, in JSON schema format,
+     * the expected structure of the `data` property of any rule component with the corresponding `subtype`.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The ID of the company to retrieve supported definitions for.
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).
+     * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
+     * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
+     * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+     * @return \stdClass
+     */
+    public function getCustomRuleComponents($companyId, $filter=null, $top=null, $skip=null, $orderBy=null)    {
+        $path = "/api/v2/companies/{$companyId}/customrules/definitions/components";
+        $guzzleParams = [
+            'query' => ['$filter' => $filter, '$top' => $top, '$skip' => $skip, '$orderBy' => $orderBy],
+            'body' => null
+        ];
+        return $this->restCall($path, 'GET', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Fetch a filtered list of transaction fields supported by custom rules
+     *
+     * Query the transaction properties which may be used in custom rules.
+     *  
+     * The following metadata is also included for each property:
+     * - A display name and description
+     * - The data type
+     * - Whether it exists at document and/or line level
+     * - Whether it can be read from and/or written to
+     * - Whether it is only available in certain steps; examples of such restrictions include: only after address validation, only after tax calculation
+     *  
+     * Note that the name of a field may differ between the rule system and the raw transaction models
+     * due to the abstractions the rules system provides. The values returned by this endpoint should
+     * be considered authoritative in all custom rules contexts, including:
+     * - Components which accept field names, such as `MatchField` and `UpdateField`
+     * - In variable expressions; see also `GetCustomRuleTokens`
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The ID of the company to retrieve supported fields for.
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).
+     * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
+     * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
+     * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+     * @return \stdClass
+     */
+    public function getCustomRuleFields($companyId, $filter=null, $top=null, $skip=null, $orderBy=null)    {
+        $path = "/api/v2/companies/{$companyId}/customrules/definitions/fields";
+        $guzzleParams = [
+            'query' => ['$filter' => $filter, '$top' => $top, '$skip' => $skip, '$orderBy' => $orderBy],
+            'body' => null
+        ];
+        return $this->restCall($path, 'GET', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Construct an empty template for a rule definition
+     *
+     * Generate a starter graph with empty nodes based on parameters specified in the request body.
+     *  
+     * Typically, this is used to initialize an editor interface after selecting basic parameters for rule creation
+     * such as the types of conditions and actions to include.
+     *  
+     * Note that this endpoint does not return a complete rule entity, only its behavior definition.
+     * The rule definition returned is not guaranteed to pass validation, as most fields for component content are left empty.
+     * Fill in any empty fields, then call `ValidateCustomRule` to validate and `CreateCustomRule` to persist.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The ID of the company
+     * @param CustomRuleTemplateRequestModel $model The template request
+     * @return \stdClass
+     */
+    public function getCustomRuleTemplate($companyId, $model=null)    {
+        $path = "/api/v2/companies/{$companyId}/customrules/definitions/template";
+        $guzzleParams = [
+            'query' => [],
+            'body' => json_encode($model)
+        ];
+        return $this->restCall($path, 'POST', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Fetch a filtered list of supported custom rule expression tokens
+     *
+     * Query the list of supported tokens for use in custom rule expressions.
+     *  
+     * Some rule components support _expressions_, which may have variable values evaluated
+     * each time the rule runs on a transaction. An _expression token_ is a sequence delimited
+     * by double braces, such as `{{Document.Description}}`, which refers to a variable value
+     * and evaluates to that value at transaction time when used within a supporting rule.
+     *  
+     * Expressions can contain formulas using many of these tokens. For example, the expression
+     * `{{Document.TotalAmount}} * 0.1` evaluates to 10% of the total document amount for
+     * the current transaction.
+     *  
+     * Supported tokens include all readable transaction fields, including parameters and user-defined fields,
+     * as well as company-specific reference lists. Examples of the different token types include:
+     * - Document-level fields: `{{Document.CustomerCode}}`
+     * - Line-level fields: `{{Line.TaxCode}}`
+     * - Rule-wide variables: `{{MyVar}}`
+     * - Company lookup files: `{{FileName.ColumnName}}`
+     *  
+     * String-type tokens support _functions_, which can be used for transforming the evaluated value:
+     * - `Substring(start, length)`: Extract up to `length` characters starting at 0-based index `start`; omit `length` to read to end
+     * - `Trim(str)`: Trim complete occurrences of `str` from the beginning and end of the string; omit `str` to trim whitespace
+     *  
+     * Place functions inside the braces, e.g. `{{Line.Ref1.Substring(1,2)}}`.
+     *  
+     * When using expressions in escaped JSON component `data`, include them verbatim inside the
+     * JSON string value. Only escape the surrounding double quotes required by JSON.
+     * Do not double-escape the braces in `{{...}}`.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The ID of the company to retrieve supported tokens for.
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).
+     * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
+     * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
+     * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+     * @return \stdClass
+     */
+    public function getCustomRuleTokens($companyId, $filter=null, $top=null, $skip=null, $orderBy=null)    {
+        $path = "/api/v2/companies/{$companyId}/customrules/definitions/tokens";
+        $guzzleParams = [
+            'query' => ['$filter' => $filter, '$top' => $top, '$skip' => $skip, '$orderBy' => $orderBy],
+            'body' => null
+        ];
+        return $this->restCall($path, 'GET', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Retrieve all custom rules for a company
+     *
+     * Query the custom rule objects defined for this company.
+     *  
+     * This endpoint uses OData filter syntax in order to support querying nested properties;
+     * note the following differences from standard AvaTax filtering:
+     * - Instead of the infix form, use the contains() function, e.g. `contains(description, 'Amount')`
+     * - Query collection fields with the any()/all() lambda operators, e.g. `subtype/any(r: r eq 'UpdateLocationCode')`.
+     *  
+     * By default, all rule types are included:
+     * - Custom Rules, the latest system which provides a new, unified, graph-based interface for engine customization
+     * - Advanced Rules, also known as transaction rules, the legacy system for modifying incoming or outgoing transaction fields
+     * - Legacy Tax Rules, traditional taxability customization
+     *  
+     * Note that not every rule type supports every field in `CustomRuleSummaryModel`, so information
+     * unavailable for that rule type may be omitted.
+     *  
+     * Filtering is applied in two stages: `taxRuleFilter`, `advancedRuleFilter`, and `customRuleFilter` are each
+     * applied first, against their respective inner entity type, to select which rules are included. The
+     * resulting records are then converted into summary rows, and `filter` is applied afterward against
+     * those generated `CustomRuleSummaryModel` summary records.
+     * 
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ReturnsOnlyAccountAdmin, ReturnsOnlyAccountUser, ReturnsOnlyCompanyAdmin, ReturnsOnlyCompanyUser, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The ID of the company to query the custom rules for.
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* ruleEntity
+     * @param string $taxRuleFilter A simple filter statement to select specific TaxRuleModel records. Applied to the underlying   Legacy Tax Rule entities before they are converted into summary records; evaluated before `filter`.
+     * @param string $advancedRuleFilter A simple filter statement to select specific AdvancedRuleExecutionModel records. Applied to the   underlying Advanced Rule entities before they are converted into summary records; evaluated before `filter`.
+     * @param string $customRuleFilter A simple filter statement to select specific CustomRuleOutputModel records. Applied to the   underlying Custom Rule entities before they are converted into summary records; evaluated before `filter`.
+     * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
+     * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
+     * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+     * @param boolean $includeEntities Whether or not to include the full entity definitions in the response; otherwise, only summary information is returned.
+     * @return \stdClass
+     */
+    public function listCustomRules($companyId, $filter=null, $taxRuleFilter=null, $advancedRuleFilter=null, $customRuleFilter=null, $top=null, $skip=null, $orderBy=null, $includeEntities=null)    {
+        $path = "/api/v2/companies/{$companyId}/customrules/summary";
+        $guzzleParams = [
+            'query' => ['$filter' => $filter, '$taxRuleFilter' => $taxRuleFilter, '$advancedRuleFilter' => $advancedRuleFilter, '$customRuleFilter' => $customRuleFilter, '$top' => $top, '$skip' => $skip, '$orderBy' => $orderBy, 'includeEntities' => null === $includeEntities ? null : json_encode($includeEntities)],
+            'body' => null
+        ];
+        return $this->restCall($path, 'GET', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Update a custom rule
+     *
+     * Updates an existing custom rule object attached to this company.
+     * The rule's ID must be supplied in the request body and must match the request URL path.
+     *  
+     * Prefer updating an existing rule over deletion and re-creation when the overall purpose of the rule is not changing.
+     * If required to keep different versions of a rule active (e.g. so historical transactions recalculate consistently),
+     * use this endpoint to set an explicit expiry date (end date) for a rule to limit its effective range.
+     *  
+     * Custom rules modify the default AvaTax behavior during tax calculation, customizing it to
+     * match requirements specific to your business. Rules can be used to change the taxability of
+     * an item, change the tax base of an item, alter the tax rate, modify transaction fields
+     * and addresses, allocate and split line items, update the location code, and more.
+     *  
+     * Please use custom rules carefully and ensure they match the behavior agreed upon with your
+     * auditor, legal representative, and accounting team.
+     *  
+     * ---
+     *  
+     * Rules are built from modular _components_. A component can be a rule-wide variable or a
+     * _node_ in the directed acyclic graph defining the rule's behavior. To build a rule from scratch,
+     * start with `GetCustomRuleComponents` to retrieve supported components and the JSON `dataSchema` for each.
+     *  
+     * Ensure each component has a unique `id` (for _Variable_ components, this is its name) and that its `data` field conforms to the node subtype's `dataSchema`.
+     * The `data` must be a single-escaped JSON string, not a nested object. Do not quote numbers or booleans, use only valid enumeration values, and keep
+     * arrays arrays even if they only contain a single element.
+     *  
+     * _Nodes_ may be _Conditions_ or _Actions_. When deciding which node to use, prefer nodes for specific use cases,
+     * such as `MatchAddress` and `UpdateAddress`, over generic ones `MatchField` and `UpdateField` when possible.
+     *  
+     * Use the `GetCustomRuleFields` endpoint to query the fields that can be used in nodes which accept arbitrary fields, such as `MatchField` and `UpdateField`.
+     *  
+     * Each node defines its outgoing edges by specifying its child node IDs in the `next` array. The result of a node execution is a set of matches
+     * (e.g. which lines on the document met the criteria). Node results behave as follows:
+     * - Sequences *intersect* their results ("AND")
+     * - Branches *propagate* their results as the input to each child
+     * - Merges *union* their results ("OR")
+     *  
+     * The `scope` of a condition is what part of the transaction it operates on: `Document`, `SomeLines`, `OneLine`, `AllLines`, or `NoLines`.
+     * The `scope` of an action determines what part of the transaction to apply changes to: `Document`, `MatchedLines`, `NotMatchedLines`, or `AllLines`.
+     *  
+     * When using a rule to adjust taxability,
+     * - Prefer classifying the transaction so Avalara's built-in tax content applies
+     *  (for example by setting a standard tax code or entity use code with
+     *  `UpdateField`) before using a `TaxRule*` action to override that content.
+     * - To treat a line as nontaxable under Avalara's standard nontaxable code, use an
+     *  `UpdateField` node to set its tax code to `NT`.
+     *  - Place the UpdateField early in the rule so it takes effect pre-calculation.
+     * - To impact tax details, the MatchTax condition node is required to match on jurisdiction + tax type combinations.
+     *  - There can only be one MatchTax node per rule, but it can have more than one criteria set.
+     *  - Each criteria set has `matchTaxId` (unique identifier), `country`, `region`, `jurisdictionTypeId`, `jurisCode`, `taxTypeCode`, `taxSubType`, and `rateTypeCode`.
+     * - Tax subtypes and rate types may be wildcard (`*` or `ALL`) for most rule types.
+     * - Always use full names for `jurisdictionTypeId` (`Country`, `State`, `City`, `County`, `Special`) instead of their abbreviations.
+     *  - A wildcard jurisdiction code (`*` or `ALL`) applies the treatment to all jurisdictions of the given `jurisdictionTypeId`.
+     * - `TaxRule*` action nodes define how the tax is to be adjusted.
+     *  - `TaxRuleProductTaxability`: sets an item's taxability and assigns its rate type, so it requires a specific (non-wildcard) `rateTypeCode`.
+     *  - `TaxRuleRateOverride`: overrides Avalara's tax rate.
+     *  - `TaxRuleBaseOverride`: changes the tax base as a proportion of the original amount (e.g. `0.5` = 50% taxable).
+     *  - `TaxRuleExemptEntity`: after sourcing, overrides whether the matched line is
+     *  exempt for the jurisdiction and tax type.
+     * - Caps and thresholds can be applied with the `TaxRuleProductTaxability` or `TaxRuleRateOverride` actions.
+     *  - A threshold buckets amounts up to and including the threshold as non-taxable.
+     *  - A cap limits the taxable amount (per unit by default, multiplied by quantity); amounts above the cap become non-taxable.
+     *  - Add the `Document` option to apply the cap across all matching lines of the document.
+     * - A `default` value must be provided in `TaxRule*` nodes. Overrides for specific jurisdictions are optional and provided in an `overrides` array (NOT a dictionary).
+     *  - If the tax treatment (rate, taxability, etc.) is the same for all configured jurisdictions, set only the `default` value and omit `overrides`.
+     *  - You only need to set overrides for values that differ from the default.
+     *  - If a `matchTaxId` member is present in an override, it will apply to the corresponding criteria in the MatchTax node.
+     *  - If a `matchTaxId` member is NOT present in an override, pattern matching is performed on the override criteria fields with omitted fields treated as wildcards.
+     * - When multiple tax rules apply, a more specific tax type/subtype beats a wildcard, and the latest effective date wins.
+     * - A Tax Code and Tariff Code condition are mutually exclusive.
+     * - Expressions cannot be used in nodes which directly affect tax treatment.
+     *  
+     * Some nodes support _expressions_, which may have variable values evaluated at transaction time.
+     * Expression-supporting fields should be indicated on the node's data schema. Expressions allow
+     * formulas using arithmetic, substitutions, and references to transaction fields; for example:
+     * - `{{Document.TotalAmount}} * 0.1` (10% of the total document amount)
+     * - `{{Line.UserDefinedFields.Udf8}}` (Line-level user-defined field 8)
+     * - `{{Line.Ref1}}{{Line.Ref2}}` (A line's Ref1 and Ref2 values concatenated)
+     * - `2 + {{MyVar}}` (The value of the "MyVar" variable defined elsewhere in the rule, plus 2)
+     *  
+     * Use the `GetCustomRuleTokens` endpoint to enumerate or search for valid tokens that can be used in expressions.
+     *  
+     * Lookup files / reference lists may be used where expressions are supported. Use the syntax `{{FileName.ColumnName}}` to match against
+     * a column in a Condition and use the value from another column in the matched row in an Action. Matching scopes must be compatible -
+     * line-level matches cannot be used to update a document-level field.
+     *  
+     * Rule nodes are assigned execution steps based on their contents and surrounding nodes. For instance, nodes that follow tax
+     * rule actions (`TaxRule*`) or require a calculated field (such as taxable amount) are executed after tax calculation instead
+     * of before calculation. Not every node type may execute in every step. Place them accordingly to their `validSteps`.
+     * A rule will be rejected if an ordering cannot be resolved. Rules execute in the following stages:
+     * - `OnRequest`: On the API request values, before document validation.
+     * - `AfterAddressValidation`: After addresses have been geo-coded / validated once.
+     * - `AfterSourcing`: After jurisdictions and tax types have been evaluated, but before tax calculation.
+     * - `AfterDetails`: After tax calculation details have been generated.
+     * - `OnResponse`: After the document has been saved, if applicable; on the API response only.
+     *  
+     * ---
+     *  
+     * It is recommended to validate the rule with the `ValidateCustomRule` endpoint before updating it.
+     * This will let you review the rule's execution plan and any associated diagnostic information before saving it.
+     * 
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AvaTaxOnlyAccountAdmin, AvaTaxOnlyCompanyAdmin, BatchServiceAdmin, CompanyAdmin, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The ID of the company that owns the rule to update.
+     * @param int $id The ID of the rule to update. Must match the rule ID passed in the request body.
+     * @param CustomRuleInputModel $model The new contents of the rule.
+     * @return \stdClass
+     */
+    public function updateCustomRule($companyId, $id, $model=null)    {
+        $path = "/api/v2/companies/{$companyId}/customrules/{$id}";
+        $guzzleParams = [
+            'query' => [],
+            'body' => json_encode($model)
+        ];
+        return $this->restCall($path, 'PUT', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Validate a custom rule
+     *
+     * Validates a custom rule and returns a detailed validation result.
+     *  
+     * This endpoint allows running rule validation independently of a create or update operation,
+     * enabling checking the validity of a proposed rule without persisting changes.
+     * It also returns additional diagnostic information about how a rule will be interpreted by the
+     * engine, such as how expressions were parsed and what order the graph nodes will be executed in.
+     * Therefore, it can also be used to inspect rule behavior when troubleshooting.
+     *  
+     * Validation messages are categorized into "info," "warning," and "error" severity levels:
+     * - Info-level messages provide diagnostic details about how the rule was parsed
+     * - Warning-level messages flag potential misconfigurations or scenarios which may cause unexpected behavior
+     *  and should be reviewed for intent, but do not block saving the rule
+     * - Error-level messages indicate that the rule has an issue that will prevent it from being saved or executed
+     *  
+     * Examples of validation checks which are run include:
+     * - Directed acyclic graph structure compliance
+     * - Schema conformance for each `data` string
+     * - Enumeration value validity, including scope and condition operators
+     * - Field existence and step (set/get) constraints
+     * - Requirements verification for nodes with prerequisites
+     *  
+     * Validation messages may reference a specific node in their `refersTo` field.
+     * If this field is empty, the message is rule-wide.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The ID of the company to validate the rule for.
+     * @param CustomRuleInputModel $model Rule content to be validated.
+     * @return \stdClass
+     */
+    public function validateCustomRule($companyId, $model=null)    {
+        $path = "/api/v2/companies/{$companyId}/customrules/validate";
+        $guzzleParams = [
+            'query' => [],
+            'body' => json_encode($model)
+        ];
+        return $this->restCall($path, 'POST', $guzzleParams, AVATAX_SDK_VERSION );
     }
 
     /**
@@ -4140,7 +5102,7 @@ class AvaTaxClient extends AvaTaxClientBase
      * 
      * Swagger Name: AvaTaxClient
      * 
-     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* attributesUsed
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* attributesUsed, parameterMetadata
      * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
      * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
      * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
@@ -4248,7 +5210,7 @@ class AvaTaxClient extends AvaTaxClientBase
      * check and provision account.
      * Swagger Name: AvaTaxClient
      * 
-     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* id, companyId, name, tag, description, created, modified, region, country
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* id, companyId, tag, description, created, modified, region, country
      * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
      * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
      * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
@@ -4493,6 +5455,34 @@ class AvaTaxClient extends AvaTaxClientBase
     }
 
     /**
+     * List the Avalara system default currency rounding rules.
+     *
+     * Lists the Avalara system default currency rounding rules - the rounding Avalara applies to
+     * a currency when an account has no rule of its own.
+     *  
+     * Only currencies in this list may have an account-specific
+     * `AccountCurrencyRoundingRuleModel` created for them.
+     *  
+     * Search for specific objects using the criteria in the `$filter` parameter; full documentation is available on [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/) .
+     * Paginate your results using the `$top`, `$skip`, and `$orderBy` parameters.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).
+     * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
+     * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
+     * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+     * @return \stdClass
+     */
+    public function listCurrencyRoundingRuleDefaults($filter=null, $top=null, $skip=null, $orderBy=null)    {
+        $path = "/api/v2/definitions/currencyroundingrules";
+        $guzzleParams = [
+            'query' => ['$filter' => $filter, '$top' => $top, '$skip' => $skip, '$orderBy' => $orderBy],
+            'body' => null
+        ];
+        return $this->restCall($path, 'GET', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
      * Retrieve the full list of Avalara-supported entity use codes
      *
      * Returns the full list of Avalara-supported entity use codes.
@@ -4651,6 +5641,10 @@ class AvaTaxClient extends AvaTaxClientBase
      * It is intended to allow you to create a "Jurisdiction Override", which allows an address to be configured as belonging to a nearby
      * jurisdiction in AvaTax.
      *  
+     * You can widen the search by supplying the optional `radius` parameter (in miles). Supported values are
+     * 5 (default), 10, 20, 30, and 40. If the desired tax region is not found at 5 miles, retry with a larger radius.
+     * This only affects tax-region retrieval for this request; it does not change tax calculation once a region is selected.
+     *  
      * The results of this API call can be passed to the `CreateJurisdictionOverride` API call.
      * Swagger Name: AvaTaxClient
      * 
@@ -4661,16 +5655,17 @@ class AvaTaxClient extends AvaTaxClientBase
      * @param string $region The region, state, or province code portion of this address.
      * @param string $postalCode The postal code or zip code portion of this address.
      * @param string $country The two-character ISO-3166 code of the country portion of this address.
+     * @param int $radius Optional. The search radius in miles used to find nearby tax regions. Allowed values are 5, 10,  20, 30, and 40; when omitted the default of 5 miles is used. A larger radius widens the search for  this request only and does not change the default behavior for other requests. Any other value  is rejected with a validation error.
      * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* country, Jurisdictions
      * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
      * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
      * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
      * @return \stdClass
      */
-    public function listJurisdictionsByAddress($line1=null, $line2=null, $line3=null, $city=null, $region=null, $postalCode=null, $country=null, $filter=null, $top=null, $skip=null, $orderBy=null)    {
+    public function listJurisdictionsByAddress($line1=null, $line2=null, $line3=null, $city=null, $region=null, $postalCode=null, $country=null, $radius=null, $filter=null, $top=null, $skip=null, $orderBy=null)    {
         $path = "/api/v2/definitions/jurisdictionsnearaddress";
         $guzzleParams = [
-            'query' => ['line1' => $line1, 'line2' => $line2, 'line3' => $line3, 'city' => $city, 'region' => $region, 'postalCode' => $postalCode, 'country' => $country, '$filter' => $filter, '$top' => $top, '$skip' => $skip, '$orderBy' => $orderBy],
+            'query' => ['line1' => $line1, 'line2' => $line2, 'line3' => $line3, 'city' => $city, 'region' => $region, 'postalCode' => $postalCode, 'country' => $country, 'radius' => $radius, '$filter' => $filter, '$top' => $top, '$skip' => $skip, '$orderBy' => $orderBy],
             'body' => null
         ];
         return $this->restCall($path, 'GET', $guzzleParams, AVATAX_SDK_VERSION );
@@ -4854,7 +5849,9 @@ class AvaTaxClient extends AvaTaxClientBase
      *
      * Returns the full list of all Avalara-supported nexus for all countries and regions.
      *  
-     * This API is intended to be useful if your user interface needs to display a selectable list of nexus.
+     * This API is intended to be useful if your user interface needs to display a selectable list of nexus. 
+     * 
+     * The `localNexusTypeId` field can be null. Treat null as `Selected`, the same as the Tax Calculation Service does.
      * Swagger Name: AvaTaxClient
      * 
      * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* streamlinedSalesTax, isSSTActive, taxTypeGroup, taxAuthorityId, taxName, parameters
@@ -4909,7 +5906,9 @@ class AvaTaxClient extends AvaTaxClientBase
      *
      * Returns all Avalara-supported nexus for the specified country.
      *  
-     * This API is intended to be useful if your user interface needs to display a selectable list of nexus filtered by country.
+     * This API is intended to be useful if your user interface needs to display a selectable list of nexus filtered by country. 
+     * 
+     * The `localNexusTypeId` field can be null. Treat null as `Selected`, the same as the Tax Calculation Service does.
      * Swagger Name: AvaTaxClient
      * 
      * @param string $country The country in which you want to fetch the system nexus
@@ -4934,6 +5933,8 @@ class AvaTaxClient extends AvaTaxClientBase
      * Returns all Avalara-supported nexus for the specified country and region.
      *  
      * This API is intended to be useful if your user interface needs to display a selectable list of nexus filtered by country and region.
+     * 
+     * The `localNexusTypeId` field can be null. Treat null as `Selected`, the same as the Tax Calculation Service does.
      * Swagger Name: AvaTaxClient
      * 
      * @param string $country The two-character ISO-3166 code for the country.
@@ -4991,6 +5992,8 @@ class AvaTaxClient extends AvaTaxClientBase
      * Returns all Avalara-supported nexus for the specified specified tax type group.
      *  
      * This API is intended to be useful if your user interface needs to display a selectable list of nexus filtered by tax type group.
+     * 
+     * The `localNexusTypeId` field can be null. Treat null as `Selected`, the same as the Tax Calculation Service does.
      * Swagger Name: AvaTaxClient
      * 
      * @param string $taxTypeGroup The tax type group to fetch the supporting system nexus for.
@@ -5322,16 +6325,17 @@ class AvaTaxClient extends AvaTaxClientBase
      * Some parameters are only available for use if you have subscribed to certain features of AvaTax.
      * Swagger Name: AvaTaxClient
      * 
-     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* attributeSubType, values, valueDescriptions
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* attributeSubType, values, valueDescriptions, jurisdictionTypeId, jurisdictionCode, jurisdictionName, unitOfBasis, taxSubTypeId
      * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
      * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
      * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+     * @param string $include A comma separated list of additional data to retrieve, for example "jurisdictionDetail"  (case-insensitive). When present, the response includes jurisdictionTypeId, jurisdictionCode,  jurisdictionName, unitOfBasis and taxSubTypeId for each result. These fields are not available to $filter/$orderBy.
      * @return \stdClass
      */
-    public function listParametersUsage($filter=null, $top=null, $skip=null, $orderBy=null)    {
+    public function listParametersUsage($filter=null, $top=null, $skip=null, $orderBy=null, $include=null)    {
         $path = "/api/v2/definitions/parametersusage";
         $guzzleParams = [
-            'query' => ['$filter' => $filter, '$top' => $top, '$skip' => $skip, '$orderBy' => $orderBy],
+            'query' => ['$filter' => $filter, '$top' => $top, '$skip' => $skip, '$orderBy' => $orderBy, '$include' => $include],
             'body' => null
         ];
         return $this->restCall($path, 'GET', $guzzleParams, AVATAX_SDK_VERSION );
@@ -5765,7 +6769,7 @@ class AvaTaxClient extends AvaTaxClientBase
      * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ECMAccountUser, ECMCompanyUser, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
      * Swagger Name: AvaTaxClient
      * 
-     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* hasParameters
      * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
      * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
      * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
@@ -5950,15 +6954,18 @@ class AvaTaxClient extends AvaTaxClientBase
      * @param string $taxTypeId The taxtype for which you want to retrieve the unitofbasis information
      * @param string $taxSubTypeId The taxsubtype for which you want to retrieve the unitofbasis information
      * @param string $rateTypeId The ratetype for which you want to retrieve the unitofbasis information
+     * @param string $state Optional. The State/region (e.g. ```CO```) to narrow the unitofbasis results to a specific jurisdiction. When omitted, results are not narrowed by state.
+     * @param string $jurisTypeId Optional. The jurisdiction type to filter by. Accepted values are ```STA``` (state), ```CTY``` (county), ```CIT``` (city), or ```STJ``` (special jurisdiction). When omitted, results are not narrowed by jurisdiction type.
+     * @param string $jurisCode Optional. The local jurisdiction code to filter by (used together with state/jurisTypeId). When omitted, results are not narrowed by jurisdiction code.
      * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
      * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
      * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
      * @return \stdClass
      */
-    public function listUnitOfBasisByCountryAndTaxTypeAndTaxSubTypeAndRateType($country, $taxTypeId, $taxSubTypeId, $rateTypeId, $top=null, $skip=null, $orderBy=null)    {
+    public function listUnitOfBasisByCountryAndTaxTypeAndTaxSubTypeAndRateType($country, $taxTypeId, $taxSubTypeId, $rateTypeId, $state=null, $jurisTypeId=null, $jurisCode=null, $top=null, $skip=null, $orderBy=null)    {
         $path = "/api/v2/definitions/unitofbasis/countries/{$country}/taxtypes/{$taxTypeId}/taxsubtypes/{$taxSubTypeId}";
         $guzzleParams = [
-            'query' => ['rateTypeId' => $rateTypeId, '$top' => $top, '$skip' => $skip, '$orderBy' => $orderBy],
+            'query' => ['rateTypeId' => $rateTypeId, 'state' => $state, 'jurisTypeId' => $jurisTypeId, 'jurisCode' => $jurisCode, '$top' => $top, '$skip' => $skip, '$orderBy' => $orderBy],
             'body' => null
         ];
         return $this->restCall($path, 'GET', $guzzleParams, AVATAX_SDK_VERSION );
@@ -6354,39 +7361,38 @@ class AvaTaxClient extends AvaTaxClientBase
     }
 
     /**
-     * List economic nexus threshold statuses for a company
+     * Retrieve economic nexus threshold statuses for a company
      *
-     * Returns precomputed economic nexus threshold statuses for a company, sourced from a cache
-     * refreshed weekly from Snowflake.
+     * Retrieve the economic nexus threshold status for each US region in which activity has been
+     * evaluated for this company.
      *  
-     * When the optional `region` query parameter is provided, only the matching jurisdiction row is included in `states`.
-     * If no row exists for that company and region, `states` is an empty array (still 200 OK).
+     * Each entry in `states` describes the measurement window used, the sales and transaction
+     * thresholds that apply to that region, the company's totals for the window, and whether
+     * the threshold has been met.
      *  
-     * TPS currently binds this filter as query parameter `state`; use the same value. If the public contract standardizes on `region`,
-     * TPS or api-gateway should accept or rewrite `region` so filtering still applies.
+     * Threshold statuses are evaluated on a recurring schedule rather than at request time.
+     * Use `lastRefreshedAt` to determine how current the returned data is; when it is absent
+     * from the response, the age of the data is not known.
      *  
-     * Production traffic is served by TPS; api-gateway should route this path to TPS.
+     * When the optional `region` query parameter is provided, only the matching region is included
+     * in `states`. If no threshold status exists for that company and region, `states` is returned
+     * as an empty array with a 200 response.
      *  
-     * This endpoint requires the `NexusFetch` permission. If EcoNexus is not configured in TPS or the cache has not loaded, TPS returns 503.
+     * Requires the `NexusFetch` permission for the target company.
      * 
      * ### Security Policies
      * 
      * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, Compliance Root User, ComplianceAdmin, ComplianceUser, CSPAdmin, CSPTester, FirmAdmin, FirmUser, ReturnsOnlyAccountAdmin, ReturnsOnlyAccountUser, ReturnsOnlyCompanyAdmin, ReturnsOnlyCompanyUser, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
      * Swagger Name: AvaTaxClient
      * 
-     * @param int $companyId The Avalara company identifier.
-     * @param string $region Optional two-letter US state/region postal code (case-insensitive), same meaning as the `state` column in the data store. When provided, `states` contains at most one item; if there is no data for that company and region, `states` is an empty array (200 OK).
-     * @param string $include Standard Avalara `$include` query option (see other v2 list APIs).
-     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).
-     * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
-     * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
-     * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+     * @param int $companyId The ID of the company to retrieve threshold statuses for.
+     * @param string $region Optional two-letter US region postal code used to filter the results (case-insensitive).   When provided, `states` contains at most one entry, matched against the `region` field of each entry.   Must be exactly two characters; otherwise this endpoint returns 400.
      * @return \stdClass
      */
-    public function getEcoNexusThresholds($companyId, $region=null, $include=null, $filter=null, $top=null, $skip=null, $orderBy=null)    {
+    public function getEcoNexusThresholds($companyId, $region=null)    {
         $path = "/api/v2/companies/{$companyId}/econexusthresholds";
         $guzzleParams = [
-            'query' => ['region' => $region, '$include' => $include, '$filter' => $filter, '$top' => $top, '$skip' => $skip, '$orderBy' => $orderBy],
+            'query' => ['region' => $region],
             'body' => null
         ];
         return $this->restCall($path, 'GET', $guzzleParams, AVATAX_SDK_VERSION );
@@ -7010,16 +8016,20 @@ class AvaTaxClient extends AvaTaxClientBase
      * Swagger Name: AvaTaxClient
      * 
      * @param int $companyId The ID of the company that owns this items.
+     * @param string $x_Avalara_Batch_Id Optional. The `X-Avalara-Batch-Id` header (for example: `batchv2-98421`). Ties chunks of one source file together; consumed by downstream services.
+     * @param string $x_Avalara_Is_Last_Chunk Optional. The `X-Avalara-Is-Last-Chunk` header. Accepts the string values `true` or `false`. Marks the final chunk of a file; consumed by downstream services.
+     * @param string $x_Avalara_Tax_Mode Optional. The `X-Avalara-Tax-Mode` header (for example: `HIGH`). Governs downstream ICP tax code classification; consumed by downstream services.
      * @param ItemBulkUploadInputModel $model The items you wish to upload.
      * @return \stdClass
      */
-    public function bulkUploadItems($companyId, $model)    {
+    public function bulkUploadItems($companyId, $x_Avalara_Batch_Id=null, $x_Avalara_Is_Last_Chunk=null, $x_Avalara_Tax_Mode=null, $model=null)    {
         $path = "/api/v2/companies/{$companyId}/items/upload";
         $guzzleParams = [
             'query' => [],
             'body' => json_encode($model)
         ];
-        return $this->restCall($path, 'POST', $guzzleParams, AVATAX_SDK_VERSION );
+        $headerParams=['x-Avalara-Batch-Id' => $x_Avalara_Batch_Id, 'x-Avalara-Is-Last-Chunk' => $x_Avalara_Is_Last_Chunk, 'x-Avalara-Tax-Mode' => $x_Avalara_Tax_Mode];
+        return $this->restCall($path, 'POST', $guzzleParams, AVATAX_SDK_VERSION, $headerParams );
     }
 
     /**
@@ -7145,16 +8155,18 @@ class AvaTaxClient extends AvaTaxClientBase
      * 
      * @param int $companyId The ID of the company that owns this item.
      * @param boolean $processRecommendationsSynchronously If true then Indix api will be called synchronously to get tax code recommendations.
+     * @param string $x_Avalara_Tax_Mode Optional. The `X-Avalara-Tax-Mode` header (for example: `HIGH`). Governs downstream ICP tax code classification; consumed by downstream services.
      * @param ItemModel[] $model The item you wish to create.
      * @return \stdClass
      */
-    public function createItems($companyId, $processRecommendationsSynchronously=null, $model=null)    {
+    public function createItems($companyId, $processRecommendationsSynchronously=null, $x_Avalara_Tax_Mode=null, $model=null)    {
         $path = "/api/v2/companies/{$companyId}/items";
         $guzzleParams = [
             'query' => ['processRecommendationsSynchronously' => null === $processRecommendationsSynchronously ? null : json_encode($processRecommendationsSynchronously)],
             'body' => json_encode($model)
         ];
-        return $this->restCall($path, 'POST', $guzzleParams, AVATAX_SDK_VERSION );
+        $headerParams=['x-Avalara-Tax-Mode' => $x_Avalara_Tax_Mode];
+        return $this->restCall($path, 'POST', $guzzleParams, AVATAX_SDK_VERSION, $headerParams );
     }
 
     /**
@@ -7863,16 +8875,18 @@ class AvaTaxClient extends AvaTaxClientBase
      * Swagger Name: AvaTaxClient
      * 
      * @param int $companyId The unique ID of the company.
+     * @param string $x_Avalara_Tax_Mode Optional. The `X-Avalara-Tax-Mode` header (Accepted values:'HIGH', 'MEDIUM', 'LOW'). Governs downstream ICP tax code classification.
      * @param ItemTaxcodeRecommendationBatchesInputModel[] $model The list of items to analyze for tax code recommendations (maximum 50).
      * @return \stdClass
      */
-    public function getSyncTaxCodeRecommendations($companyId, $model)    {
+    public function getSyncTaxCodeRecommendations($companyId, $x_Avalara_Tax_Mode=null, $model=null)    {
         $path = "/api/v2/companies/{$companyId}/$taxcode-recommendations";
         $guzzleParams = [
             'query' => [],
             'body' => json_encode($model)
         ];
-        return $this->restCall($path, 'POST', $guzzleParams, AVATAX_SDK_VERSION );
+        $headerParams=['x-Avalara-Tax-Mode' => $x_Avalara_Tax_Mode];
+        return $this->restCall($path, 'POST', $guzzleParams, AVATAX_SDK_VERSION, $headerParams );
     }
 
     /**
@@ -8101,15 +9115,16 @@ class AvaTaxClient extends AvaTaxClientBase
      *  
      * You can specify a comma-separated list of countries in the `hsCodeDoesNotExistsInCountries` query parameter if you want to filter items on the basis of whether an HS code does not exist for the provided countries.
      *  
+     * `tagName`, `itemStatus`, `taxCodeRecommendationStatus`, `hsCodeClassificationStatus`, `hsCodeExistsInCountries`, and `hsCodeDoesNotExistsInCountries`
+     * are mutually exclusive: if more than one is supplied in the same request, only the first one in that listed order is applied and the rest are ignored.
+     * `tagName`, `itemStatus`, `taxCodeRecommendationStatus`, and `hsCodeClassificationStatus` require a `companyId`;
+     * they are not supported on the cross-company `QueryItems` endpoint.
+     *  
      * You may specify one or more of the following values in the `$include` parameter to fetch additional nested data, using commas to separate multiple values:
      *  
      * * Parameters
      * * Classifications
      * * Tags
-     * * Properties
-     * * TaxCodeRecommendationStatus
-     * * HsCodeClassificationStatus
-     * * TaxCodeDetails
      * 
      * ### Security Policies
      * 
@@ -8117,7 +9132,7 @@ class AvaTaxClient extends AvaTaxClientBase
      * Swagger Name: AvaTaxClient
      * 
      * @param int $companyId The ID of the company that defined these items
-     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* taxCode, source, sourceEntityId, itemType, upc, summary, classifications, parameters, customParameters, tags, properties, itemStatus, taxCodeRecommendationStatus, taxCodeRecommendations, taxCodeDetails, hsCodeClassificationStatus, image
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* source, sourceEntityId, itemType, upc, summary, classifications, parameters, customParameters, tags, properties, itemStatus, taxCodeRecommendationStatus, taxCodeRecommendations, taxCodeDetails, hsCodeClassificationStatus, image
      * @param string $include A comma separated list of additional data to retrieve.
      * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
      * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
@@ -8223,7 +9238,7 @@ class AvaTaxClient extends AvaTaxClientBase
      * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ReturnsOnlyAccountAdmin, ReturnsOnlyAccountUser, ReturnsOnlyCompanyAdmin, ReturnsOnlyCompanyUser, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
      * Swagger Name: AvaTaxClient
      * 
-     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* taxCode, source, sourceEntityId, itemType, upc, summary, classifications, parameters, customParameters, tags, properties, itemStatus, taxCodeRecommendationStatus, taxCodeRecommendations, taxCodeDetails, hsCodeClassificationStatus, image
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* source, sourceEntityId, itemType, upc, summary, classifications, parameters, customParameters, tags, properties, itemStatus, taxCodeRecommendationStatus, taxCodeRecommendations, taxCodeDetails, hsCodeClassificationStatus, image
      * @param string $include A comma separated list of additional data to retrieve.
      * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
      * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
@@ -8298,7 +9313,7 @@ class AvaTaxClient extends AvaTaxClientBase
      * 
      * @param int $companyId The ID of the company that defined these items.
      * @param string $tag The master tag to be associated with item.
-     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* taxCode, source, sourceEntityId, itemType, upc, summary, classifications, parameters, customParameters, tags, properties, itemStatus, taxCodeRecommendationStatus, taxCodeRecommendations, taxCodeDetails, hsCodeClassificationStatus, image
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* source, sourceEntityId, itemType, upc, summary, classifications, parameters, customParameters, tags, properties, itemStatus, taxCodeRecommendationStatus, taxCodeRecommendations, taxCodeDetails, hsCodeClassificationStatus, image
      * @param string $include A comma separated list of additional data to retrieve.
      * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
      * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
@@ -8385,6 +9400,28 @@ class AvaTaxClient extends AvaTaxClientBase
             'body' => json_encode($model)
         ];
         return $this->restCall($path, 'POST', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Update HS Duty Details for an item.
+     *
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AvaTaxOnlyAccountAdmin, AvaTaxOnlyCompanyAdmin, BatchServiceAdmin, CompanyAdmin, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The ID of the company for which you want to update HS Duty Details.
+     * @param int $itemId The ID of the item for which you want to update HS Duty Details.
+     * @param ItemHSCodeDutyDetailModel[] $model The complete HS Code Duty Details body (as returned by fetch-additional-hsdutydetails) to update.
+     * @return \stdClass
+     */
+    public function updateHSCodeDutyDetails($companyId, $itemId, $model=null)    {
+        $path = "/api/v2/companies/{$companyId}/items/{$itemId}/hsdutydetails";
+        $guzzleParams = [
+            'query' => [],
+            'body' => json_encode($model)
+        ];
+        return $this->restCall($path, 'PUT', $guzzleParams, AVATAX_SDK_VERSION );
     }
 
     /**
@@ -8704,7 +9741,7 @@ class AvaTaxClient extends AvaTaxClientBase
      * Swagger Name: AvaTaxClient
      * 
      * @param int $companyId The ID of the company for which you want to create the registration.
-     * @param ItemReverseSyncRegistrationInputModel $model The webhook registration details to create.
+     * @param ItemReverseSyncRegistrationInputModel[] $model The webhook registration details to create.
      * @return \stdClass
      */
     public function createReverseSyncRegistration($companyId, $model)    {
@@ -8807,6 +9844,295 @@ class AvaTaxClient extends AvaTaxClientBase
             'body' => json_encode($model)
         ];
         return $this->restCall($path, 'PATCH', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Create a new job for a company
+     *
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+     * * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The unique ID number of the company
+     * @param JobModel $model The job to create
+     * @return \stdClass
+     */
+    public function createJob($companyId, $model)    {
+        $path = "/api/v2/companies/{$companyId}/jobs";
+        $guzzleParams = [
+            'query' => [],
+            'body' => json_encode($model)
+        ];
+        return $this->restCall($path, 'POST', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Create a new phase on a job
+     *
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+     * * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The unique ID number of the company
+     * @param int $jobId The unique ID number of the job
+     * @param JobPhaseModel $model The phase to create
+     * @return \stdClass
+     */
+    public function createJobPhase($companyId, $jobId, $model)    {
+        $path = "/api/v2/companies/{$companyId}/jobs/{$jobId}/phases";
+        $guzzleParams = [
+            'query' => [],
+            'body' => json_encode($model)
+        ];
+        return $this->restCall($path, 'POST', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Create a new task on a phase
+     *
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+     * * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The unique ID number of the company
+     * @param int $jobId The unique ID number of the job
+     * @param int $phaseId The unique ID number of the phase
+     * @param JobTaskModel $model The task to create
+     * @return \stdClass
+     */
+    public function createJobTask($companyId, $jobId, $phaseId, $model)    {
+        $path = "/api/v2/companies/{$companyId}/jobs/{$jobId}/phases/{$phaseId}/tasks";
+        $guzzleParams = [
+            'query' => [],
+            'body' => json_encode($model)
+        ];
+        return $this->restCall($path, 'POST', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Delete a job
+     *
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+     * * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The unique ID number of the company
+     * @param int $id The unique ID number of the job to delete
+     * @return \stdClass
+     */
+    public function deleteJob($companyId, $id)    {
+        $path = "/api/v2/companies/{$companyId}/jobs/{$id}";
+        $guzzleParams = [
+            'query' => [],
+            'body' => null
+        ];
+        return $this->restCall($path, 'DELETE', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Delete a phase from a job
+     *
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+     * * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The unique ID number of the company
+     * @param int $jobId The unique ID number of the job
+     * @param int $phaseId The unique ID number of the phase to delete
+     * @return \stdClass
+     */
+    public function deleteJobPhase($companyId, $jobId, $phaseId)    {
+        $path = "/api/v2/companies/{$companyId}/jobs/{$jobId}/phases/{$phaseId}";
+        $guzzleParams = [
+            'query' => [],
+            'body' => null
+        ];
+        return $this->restCall($path, 'DELETE', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Delete a task from a phase
+     *
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+     * * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The unique ID number of the company
+     * @param int $jobId The unique ID number of the job
+     * @param int $phaseId The unique ID number of the phase
+     * @param int $taskId The unique ID number of the task to delete
+     * @return \stdClass
+     */
+    public function deleteJobTask($companyId, $jobId, $phaseId, $taskId)    {
+        $path = "/api/v2/companies/{$companyId}/jobs/{$jobId}/phases/{$phaseId}/tasks/{$taskId}";
+        $guzzleParams = [
+            'query' => [],
+            'body' => null
+        ];
+        return $this->restCall($path, 'DELETE', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Retrieve a single job
+     *
+     * Retrieve a single job by its unique ID.
+     *  
+     * A job represents construction or project work that exemption certificates can be associated with. Each
+     * job can contain one or more phases, and each phase can contain one or more tasks.
+     *  
+     * You can use the `$include` parameter to fetch the following additional objects for expansion:
+     *  
+     * * phases - Retrieves the list of phases for this job.
+     * * tasks - Retrieves the list of tasks within each phase. Tasks are nested under phases, so requesting `tasks` will also expand `phases`.
+     *  
+     * Before you can use any exemption certificates endpoints, you must set up your company for exemption certificate data storage.
+     * Companies that do not have this storage system set up will see `CertCaptureNotConfiguredError` when they call exemption
+     * certificate related APIs. To check if this is set up for a company, call `GetCertificateSetup`. To request setup of exemption
+     * certificate storage for this company, call `RequestCertificateSetup`.
+     * 
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+     * * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The unique ID number of the company
+     * @param int $id The unique ID number of the job
+     * @param string $include OPTIONAL: A comma separated list of special fetch options. You can specify one or more of the following:      * phases - Retrieves the list of phases for this job.   * tasks - Retrieves the list of tasks within each phase. Tasks are nested under phases, so requesting `tasks` will also expand `phases`.
+     * @return \stdClass
+     */
+    public function getJob($companyId, $id, $include=null)    {
+        $path = "/api/v2/companies/{$companyId}/jobs/{$id}";
+        $guzzleParams = [
+            'query' => ['$include' => $include],
+            'body' => null
+        ];
+        return $this->restCall($path, 'GET', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * List all jobs for a company
+     *
+     * List all jobs recorded by a company.
+     *  
+     * A job represents construction or project work that exemption certificates can be associated with. Each
+     * job can contain one or more phases, and each phase can contain one or more tasks.
+     *  
+     * You can use the `$include` parameter to fetch the following additional objects for expansion:
+     *  
+     * * phases - Retrieves the list of phases for each job.
+     * * tasks - Retrieves the list of tasks within each phase. Tasks are nested under phases, so requesting `tasks` will also expand `phases`.
+     *  
+     * Before you can use any exemption certificates endpoints, you must set up your company for exemption certificate data storage.
+     * Companies that do not have this storage system set up will see `CertCaptureNotConfiguredError` when they call exemption
+     * certificate related APIs. To check if this is set up for a company, call `GetCertificateSetup`. To request setup of exemption
+     * certificate storage for this company, call `RequestCertificateSetup`.
+     * 
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+     * * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The unique ID number of the company
+     * @param string $include OPTIONAL: A comma separated list of special fetch options. You can specify one or more of the following:      * phases - Retrieves the list of phases for each job.   * tasks - Retrieves the list of tasks within each phase. Tasks are nested under phases
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* exposureZone, phases
+     * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
+     * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
+     * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+     * @return \stdClass
+     */
+    public function listJobs($companyId, $include=null, $filter=null, $top=null, $skip=null, $orderBy=null)    {
+        $path = "/api/v2/companies/{$companyId}/jobs";
+        $guzzleParams = [
+            'query' => ['$include' => $include, '$filter' => $filter, '$top' => $top, '$skip' => $skip, '$orderBy' => $orderBy],
+            'body' => null
+        ];
+        return $this->restCall($path, 'GET', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Update an existing job
+     *
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+     * * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The unique ID number of the company
+     * @param int $id The unique ID number of the job to update
+     * @param JobModel $model The updated job data
+     * @return \stdClass
+     */
+    public function updateJob($companyId, $id, $model)    {
+        $path = "/api/v2/companies/{$companyId}/jobs/{$id}";
+        $guzzleParams = [
+            'query' => [],
+            'body' => json_encode($model)
+        ];
+        return $this->restCall($path, 'PUT', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Update an existing phase on a job
+     *
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+     * * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The unique ID number of the company
+     * @param int $jobId The unique ID number of the job
+     * @param int $phaseId The unique ID number of the phase
+     * @param JobPhaseModel $model The updated phase data
+     * @return \stdClass
+     */
+    public function updateJobPhase($companyId, $jobId, $phaseId, $model)    {
+        $path = "/api/v2/companies/{$companyId}/jobs/{$jobId}/phases/{$phaseId}";
+        $guzzleParams = [
+            'query' => [],
+            'body' => json_encode($model)
+        ];
+        return $this->restCall($path, 'PUT', $guzzleParams, AVATAX_SDK_VERSION );
+    }
+
+    /**
+     * Update an existing task on a phase
+     *
+     * ### Security Policies
+     * 
+     * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+     * * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+     * Swagger Name: AvaTaxClient
+     * 
+     * @param int $companyId The unique ID number of the company
+     * @param int $jobId The unique ID number of the job
+     * @param int $phaseId The unique ID number of the phase
+     * @param int $taskId The unique ID number of the task
+     * @param JobTaskModel $model The updated task data
+     * @return \stdClass
+     */
+    public function updateJobTask($companyId, $jobId, $phaseId, $taskId, $model)    {
+        $path = "/api/v2/companies/{$companyId}/jobs/{$jobId}/phases/{$phaseId}/tasks/{$taskId}";
+        $guzzleParams = [
+            'query' => [],
+            'body' => json_encode($model)
+        ];
+        return $this->restCall($path, 'PUT', $guzzleParams, AVATAX_SDK_VERSION );
     }
 
     /**
@@ -10040,7 +11366,8 @@ class AvaTaxClient extends AvaTaxClientBase
      * taxes. The legal requirements for nexus may vary per country and per jurisdiction; please seek advice from your
      * accountant or lawyer prior to declaring nexus.
      * You may specify one or more of the following values in the '$include' parameter to fetch additional nested data, using commas to separate multiple values:
-     *  
+     * 
+     * The `localNexusTypeId` field can be null. Treat null as `Selected`, the same as the Tax Calculation Service does.
      *  * Parameters
      * 
      * ### Security Policies
@@ -10139,6 +11466,7 @@ class AvaTaxClient extends AvaTaxClientBase
      * Paginate your results using the `$top`, `$skip`, and `$orderby` parameters.
      * You may specify one or more of the following values in the '$include' parameter to fetch additional nested data, using commas to separate multiple values:
      *  
+     * The `localNexusTypeId` field can be null. Treat null as `Selected`, the same as the Tax Calculation Service does.
      *  * Parameters
      * 
      * ### Security Policies
@@ -10249,6 +11577,7 @@ class AvaTaxClient extends AvaTaxClientBase
      * Paginate your results using the `$top`, `$skip`, and `$orderby` parameters.
      * You may specify one or more of the following values in the '$include' parameter to fetch additional nested data, using commas to separate multiple values:
      *  
+     * The `localNexusTypeId` field can be null. Treat null as `Selected`, the same as the Tax Calculation Service does.
      *  * Parameters
      * 
      * ### Security Policies
@@ -10926,15 +12255,27 @@ class AvaTaxClient extends AvaTaxClientBase
     /**
      * Download an audit log report
      *
-     * Downloads the file associated with an audit log report.
-     * If the report is not yet complete, you will receive a `ReportNotFinished` error.
+     * This API downloads the file associated with an audit log report.
+     *  
+     * If the report is not yet complete, you will receive a `ReportNotFinished` error. To check if a report is complete,
+     * use the `GetAuditLogReport` API.
+     *  
+     * Reports are run on the server. When complete, the report file will be available for download
+     * for up to 30 days after completion. To run a report, you should follow these steps:
+     *  
+     * * Begin a report by calling the report's ExportAuditLogs API.
+     * * In the result of the ExportAuditLogs API, you receive back a report's `id` value.
+     * * Check the status of a report by calling `GetAuditLogReport` and passing in the report's `id` value.
+     * * When a report's status is `Completed`, call `DownloadAuditLogReport` to retrieve the file.
+     *  
+     * * We throttle this API. You can only call this API up to 5 times in a minute.
      * 
      * ### Security Policies
      * 
      * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ProStoresOperator, ReturnsOnlyAccountAdmin, ReturnsOnlyAccountUser, ReturnsOnlyCompanyAdmin, ReturnsOnlyCompanyUser, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
      * Swagger Name: AvaTaxClient
      * 
-     * @param string $id The unique ID of the audit log report
+     * @param string $id The unique ID number of this report
      * @return \stdClass
      */
     public function downloadAuditLogReport($id)    {
@@ -10985,13 +12326,42 @@ class AvaTaxClient extends AvaTaxClientBase
      * Initiate an ExportAuditLogs report task
      *
      * Begins running an `ExportAuditLogs` report task and returns the identity of the report.
+     *  
+     * Reports are run on the server. When complete, the report file will be available for download
+     * for up to 30 days after completion. To run a report, you should follow these steps:
+     *  
+     * * Begin a report by calling the report's ExportAuditLogs API.
+     * * In the result of the ExportAuditLogs API, you receive a report's `id` value.
+     * * All reports with `InQueue` status are picked up by the report service and processed in the background.
+     * * Reports that are picked up by the report service will have an `InProgress` status.
+     * * Reports will be updated to `Completed` status when the report is ready for download.
+     * * Check the status of a report by calling `GetAuditLogReport` and passing in the report's `id` value.
+     * * When a report's status is `Completed`, call `DownloadAuditLogReport` to retrieve the file.
+     *  
+     * The `ExportAuditLogs` report produces information about audit records within your account.
+     *  
+     * The following `reportType` values are supported:
+     * * `audit` - Exports audit records for configuration changes. Requires `reportSubType` to specify the table name.
+     * * `audittransactionlogs` - Exports transaction audit logs.
+     *  
+     * When `reportType` is `audit`, the `reportSubType` field supports the following valid table names:
+     * `NEXUS`, `USER`, `COMPANY`, `ACCOUNT`, `COMPANYLOCATION`, `ACCOUNTSETTING`, `COMPANYLOCATIONSETTING`,
+     * `COMPANYSETTING`, `TAXCODE`, `TAXRULE`, `ADDRESSSERVICECONFIG`, `AUDITADVANCEDRULE`, `COMPANYCONTACT`,
+     * `COMPANYLOCATIONPARAMETERDETAIL`, `COMPANYLOCATIONSETTINGCONFIG`, `COMPANYPARAMETERDETAIL`, `COMPANYRETURN`,
+     * `COMPANYRETURNSETTING`, `ITEM`, `SERVICE`, `EXEMPTCERT`, `AVACERTSERVICECONFIG`, `JURISDICTIONOVERRIDE`, `COSTCENTER`,
+     * `FILINGTASKSTATUSHISTORY`, `COMPANYSTATUSHISTORY`.
+     *  
+     * Use `reportSubType` = `All` to run the report across all supported tables. When `All` is used it must be
+     * the only `reportSubType` and cannot carry filters.
+     *  
+     * Set `compression` to `GZIP` to reduce the size of the report file and increase download speed.
      * 
      * ### Security Policies
      * 
      * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ProStoresOperator, ReturnsOnlyAccountAdmin, ReturnsOnlyAccountUser, ReturnsOnlyCompanyAdmin, ReturnsOnlyCompanyUser, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
      * Swagger Name: AvaTaxClient
      * 
-     * @param ReportAuditLogModel $model Options to filter the audit log export.
+     * @param ReportAuditLogModel $model Options that may be configured to customize the report.
      * @return \stdClass
      */
     public function exportAuditLogs($model)    {
@@ -11004,16 +12374,26 @@ class AvaTaxClient extends AvaTaxClientBase
     }
 
     /**
-     * Get an audit log report by id
+     * Retrieve a single audit log report
      *
-     * Retrieves the status and details of an audit log report task.
+     * Retrieve a single audit log report by its unique ID number.
+     *  
+     * Reports are run on the server. When complete, the report file will be available for download
+     * for up to 30 days after completion. To run a report, you should follow these steps:
+     *  
+     * * Begin a report by calling the report's ExportAuditLogs API.
+     * * In the result of the ExportAuditLogs API, you receive back a report's `id` value.
+     * * Check the status of a report by calling `GetAuditLogReport` and passing in the report's `id` value.
+     * * When a report's status is `Completed`, call `DownloadAuditLogReport` to retrieve the file.
+     *  
+     * This API call returns information about audit log report types.
      * 
      * ### Security Policies
      * 
      * * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ProStoresOperator, ReturnsOnlyAccountAdmin, ReturnsOnlyAccountUser, ReturnsOnlyCompanyAdmin, ReturnsOnlyCompanyUser, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
      * Swagger Name: AvaTaxClient
      * 
-     * @param string $id The unique ID of the audit log report
+     * @param string $id The unique ID number of the report to retrieve
      * @return \stdClass
      */
     public function getAuditLogReport($id)    {
@@ -11073,7 +12453,7 @@ class AvaTaxClient extends AvaTaxClientBase
      *  
      * Set `compression` to `GZIP` to reduce the size of the report file and increase download speed.
      *  
-     * The currently supported reports are: **Document Line**, **Document Line Detail**, **Multitax Line Detail**, **Liability**, **Tax Region**, **AP Document**, **AP Document Detail**, and **Document Line Detail All Taxes**.
+     * The currently supported reports are: **Document**, **Document Summary**, **Document Line**, **Document Line Detail**, **Multitax Line Detail**, **Liability**, **Tax Region**, **AP Document**, **AP Document Detail**, and **Document Line Detail All Taxes**.
      * 
      * ### Security Policies
      * 
@@ -11107,6 +12487,13 @@ class AvaTaxClient extends AvaTaxClientBase
      * * When a report's status is `Completed`, call `DownloadReport` to retrieve the file.
      *  
      * This API call returns information about all report types across your entire account.
+     *  
+     * Audit-log report types (`audit`, `audittransactionlogs`) are not included in this list; retrieve those via the
+     * `GetAuditLogReport` / `DownloadAuditLogReport` APIs.
+     *  
+     * Pagination note: when the response includes a non-null `pageKey` (next link), more results may exist and the
+     * caller should follow it, even if the current page returned fewer than the requested number of records. This can
+     * happen when a `$filter` is applied, because matches are evaluated server-side across backend pages.
      * 
      * ### Security Policies
      * 
@@ -11117,12 +12504,13 @@ class AvaTaxClient extends AvaTaxClientBase
      * @param string $pageKey Provide a page key to retrieve the next page of results.
      * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
      * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* reportType, parameters, status, size, format, file, createdUser, completedDate
      * @return \stdClass
      */
-    public function listReports($companyId=null, $pageKey=null, $skip=null, $top=null)    {
+    public function listReports($companyId=null, $pageKey=null, $skip=null, $top=null, $filter=null)    {
         $path = "/api/v2/reports";
         $guzzleParams = [
-            'query' => ['companyId' => $companyId, 'pageKey' => $pageKey, '$skip' => $skip, '$top' => $top],
+            'query' => ['companyId' => $companyId, 'pageKey' => $pageKey, '$skip' => $skip, '$top' => $top, '$filter' => $filter],
             'body' => null
         ];
         return $this->restCall($path, 'GET', $guzzleParams, AVATAX_SDK_VERSION );
@@ -11252,7 +12640,7 @@ class AvaTaxClient extends AvaTaxClientBase
      * Swagger Name: AvaTaxClient
      * 
      * @param int $companyId The ID of the company that owns these settings
-     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* modifiedDate, ModifiedUserId
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).
      * @param string $include A comma separated list of additional data to retrieve.
      * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
      * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
@@ -11290,7 +12678,7 @@ class AvaTaxClient extends AvaTaxClientBase
      * * This API requires one of the following user roles: AccountAdmin, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, Compliance Root User, ComplianceAdmin, ComplianceUser, CSPAdmin, CSPTester, ECMAccountUser, ECMCompanyUser, FirmAdmin, FirmUser, ProStoresOperator, ReturnsOnlyAccountAdmin, ReturnsOnlyAccountUser, ReturnsOnlyCompanyAdmin, ReturnsOnlyCompanyUser, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
      * Swagger Name: AvaTaxClient
      * 
-     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* modifiedDate, ModifiedUserId
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).
      * @param string $include A comma separated list of additional data to retrieve.
      * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
      * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
@@ -12857,7 +14245,7 @@ class AvaTaxClient extends AvaTaxClientBase
      * @param string $companyCode The company code of the company that recorded this transaction
      * @param int $dataSourceId Optionally filter transactions to those from a specific data source.
      * @param string $include Specifies objects to include in this fetch call
-     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* exchangeRateCurrencyCode, totalDiscount, lines, addresses, locationTypes, summary, taxDetailsByTaxType, parameters, userDefinedFields, messages, invoiceMessages, isFakeTransaction, deliveryTerms, apStatusCode, apStatus, vendorName, varianceAmount
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* exchangeRateCurrencyCode, exchangeRateProvider, totalDiscount, lines, addresses, locationTypes, summary, taxDetailsByTaxType, parameters, userDefinedFields, messages, invoiceMessages, isFakeTransaction, deliveryTerms, apStatusCode, apStatus, vendorName, varianceAmount, customClearanceFees
      * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
      * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
      * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
@@ -13471,7 +14859,7 @@ class AvaTaxClient extends AvaTaxClientBase
      * Swagger Name: AvaTaxClient
      * 
      * @param int $companyId 
-     * @param string $udfType Document or Line level UDF (See UserDefinedFieldType::* for a list of allowable values)
+     * @param string $udfType Document, Line, or Detail level UDF (See UserDefinedFieldType::* for a list of allowable values)
      * @param boolean $allowDefaults If true this will add defaulted UDFs to the list that are not named yet
      * @return \stdClass
      */
@@ -13887,7 +15275,7 @@ class AvaTaxClient extends AvaTaxClientBase
      * 
      * @param int $companyId The ID number of the company to search
      * @param string $include OPTIONAL: A comma separated list of special fetch options. You can specify one or more of the following:      * customers - Retrieves the list of vendors linked to the certificate.   * po_numbers - Retrieves all PO numbers tied to the certificate.   * attributes - Retrieves all attributes applied to the certificate.   * histories - Retrieves the certificate update history   * jobs - Retrieves the jobs for this certificate   * logs - Retrieves the certificate log   * invalid_reasons - Retrieves invalid reasons for this certificate if the certificate is invalid   * custom_fields - Retrieves custom fields set for this certificate
-     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* documentTypeId, documentTypeDescription, exemptionNumber, ecmsId, ecmsStatus, pdf, pages
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* documentTypeId, documentTypeDescription, exemptionNumber, jurisdictions, ecmsId, ecmsStatus, pdf, pages
      * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
      * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
      * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
@@ -14049,7 +15437,7 @@ class AvaTaxClient extends AvaTaxClientBase
      * @param int $companyId The unique ID number of the company that recorded this vendor
      * @param string $vendorCode The unique code representing this vendor
      * @param string $include OPTIONAL: A comma separated list of special fetch options. You can specify one or more of the following:      * vendors - Retrieves the list of vendors linked to the certificate.   * po_numbers - Retrieves all PO numbers tied to the certificate.   * attributes - Retrieves all attributes applied to the certificate.   * histories - Retrieves the certificate update history   * jobs - Retrieves the jobs for this certificate   * logs - Retrieves the certificate log   * invalid_reasons - Retrieves invalid reasons for this certificate if the certificate is invalid   * custom_fields - Retrieves custom fields set for this certificate
-     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* documentTypeId, documentTypeDescription, exemptionNumber, ecmsId, ecmsStatus, pdf, pages
+     * @param string $filter A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* documentTypeId, documentTypeDescription, exemptionNumber, jurisdictions, ecmsId, ecmsStatus, pdf, pages
      * @param int $top If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
      * @param int $skip If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
      * @param string $orderBy A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.

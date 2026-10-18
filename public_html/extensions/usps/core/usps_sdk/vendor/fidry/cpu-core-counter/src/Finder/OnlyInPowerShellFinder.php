@@ -13,9 +13,14 @@ declare(strict_types=1);
 
 namespace Fidry\CpuCoreCounter\Finder;
 
-use function getenv;
+use Fidry\CpuCoreCounter\Env;
 use function sprintf;
 
+/**
+ * @deprecated Use OnlyOnOSFamilyFinder::forWindows() instead. The PSModulePath
+ *             environment variable is set system-wide on Windows and is not a
+ *             sign that commands run in PowerShell.
+ */
 final class OnlyInPowerShellFinder implements CpuCoreFinder
 {
     /**
@@ -30,7 +35,7 @@ final class OnlyInPowerShellFinder implements CpuCoreFinder
 
     public function diagnose(): string
     {
-        $powerShellModulePath = getenv('PSModulePath');
+        $powerShellModulePath = Env::get('PSModulePath');
 
         return $this->skip()
             ? sprintf(
@@ -57,6 +62,6 @@ final class OnlyInPowerShellFinder implements CpuCoreFinder
 
     private function skip(): bool
     {
-        return false === getenv('PSModulePath');
+        return false === Env::get('PSModulePath');
     }
 }

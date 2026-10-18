@@ -359,10 +359,12 @@ final class Runner
                 $fileChunk = $getFileChunk();
 
                 if (0 === \count($fileChunk)) {
+                    // @codeCoverageIgnoreStart
                     $process->request(['action' => ParallelAction::RUNNER_THANK_YOU]);
                     $processPool->endProcessIfKnown($identifier);
 
                     return;
+                    // @codeCoverageIgnoreEnd
                 }
 
                 $process->request(['action' => ParallelAction::RUNNER_REQUEST_ANALYSIS, 'files' => $fileChunk]);
@@ -459,9 +461,11 @@ final class Runner
                             return;
                         }
 
+                        // @codeCoverageIgnoreStart
                         $process->request(['action' => ParallelAction::RUNNER_REQUEST_ANALYSIS, 'files' => $fileChunk]);
 
                         return;
+                        // @codeCoverageIgnoreEnd
                     }
 
                     if (ParallelAction::WORKER_ERROR_REPORT === $workerResponse['action']) {
@@ -489,6 +493,7 @@ final class Runner
 
                 // [REACT] Handle worker's shutdown
                 static function ($exitCode, string $output) use ($processPool, $identifier): void {
+                    // @codeCoverageIgnoreStart
                     $processPool->endProcessIfKnown($identifier);
 
                     if (0 === $exitCode || null === $exitCode) {
@@ -506,6 +511,7 @@ final class Runner
                             json_decode($matches[1][0], true, 512, \JSON_THROW_ON_ERROR),
                         );
                     }
+                    // @codeCoverageIgnoreEnd
                 },
             );
         }

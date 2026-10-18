@@ -1,6 +1,6 @@
 {
     "name": "abantecart/ups-php",
-    "version": "1.4.4",
+    "version": "1.4.5",
     "description": "UPS PHP SDK based on OAuth",
     "keywords": [
         "ups",
@@ -30,13 +30,13 @@
         }
     },
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "wikimedia/composer-merge-plugin": "^2.1.0",
-        "guzzlehttp/guzzle": "7.12.1",
-        "guzzlehttp/psr7": "2.12.1",
+        "wikimedia/composer-merge-plugin": "2.1.0",
+        "guzzlehttp/guzzle": "7.12.3",
+        "guzzlehttp/psr7": "2.12.5",
         "symfony/process": "v7.4.13",
         "symfony/http-client": "v7.4.13"
     },

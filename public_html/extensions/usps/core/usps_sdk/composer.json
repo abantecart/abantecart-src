@@ -1,6 +1,6 @@
 {
     "name": "abantecart/usps-php",
-    "version": "1.0.0",
+    "version": "1.4.5",
     "description": "USPS PHP SDK based on OAuth",
     "keywords": [
         "usps",
@@ -26,13 +26,13 @@
         }
     },
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "wikimedia/composer-merge-plugin": "v2.1.0",
-        "guzzlehttp/guzzle": "7.12.1",
-        "guzzlehttp/psr7": "2.12.1"
+        "guzzlehttp/guzzle": "^7.15",
+        "guzzlehttp/psr7": "^2.13"
     },
     "extra": {
         "merge-plugin": {

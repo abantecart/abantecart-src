@@ -788,8 +788,7 @@ final class BinaryOperatorSpacesFixer extends AbstractFixer implements Configura
             // there is also no need to analyse the second arrow of a line
             if ($token->isGivenKind(\T_DOUBLE_ARROW) && $newLineFoundSinceLastPlaceholder) {
                 if ($yieldFoundSinceLastPlaceholder) {
-                    ++$this->deepestLevel;
-                    ++$this->currentLevel;
+                    $this->currentLevel = ++$this->deepestLevel;
                 }
                 $tokenContent = \sprintf(self::ALIGN_PLACEHOLDER, $this->currentLevel).$token->getContent();
 
@@ -816,7 +815,7 @@ final class BinaryOperatorSpacesFixer extends AbstractFixer implements Configura
 
             if ($token->equals(',')) {
                 for ($i = $index; $i < $endAt - 1; ++$i) {
-                    if (str_contains($tokens[$i - 1]->getContent(), "\n")) {
+                    if (str_contains($tokens[$i]->getContent(), "\n")) {
                         $newLineFoundSinceLastPlaceholder = true;
 
                         break;

@@ -2,7 +2,7 @@
 namespace Avalara;
 use GuzzleHttp\Client;
 
-define('AVATAX_SDK_VERSION', '26.6.0');
+define('AVATAX_SDK_VERSION', '26.10.0');
 
 /*****************************************************************************
  *                                                                           *
@@ -304,6 +304,11 @@ class UserDefinedFieldType
      */
     const C_LINE = 2;
 
+    /**
+     * Represents line detail level user defined type.
+     */
+    const C_DETAIL = 3;
+
 }
 
 /**
@@ -568,6 +573,12 @@ class AdjustmentReason
      * Offline
      */
     const C_OFFLINE = 9;
+
+    /**
+     * Transaction was created by the /offset endpoint to reverse a previously committed,
+     *  locked document while preserving the original jurisdiction-level tax splits.
+     */
+    const C_OFFSET = 10;
 
 }
 
@@ -972,6 +983,11 @@ class ErrorCodeId
     const C_RULEVALIDATIONERROR = 1621;
 
     /**
+     * Represents an error occurred in custom rules
+     */
+    const C_CUSTOMRULEERROR = 1699;
+
+    /**
      * Miscellaneous
      */
     const C_TAXRULEREQUIRESNEXUS = 1701;
@@ -1264,6 +1280,11 @@ class ErrorCodeId
     const C_APTHRESHOLDINHERITANCERESTRICTION = 4034;
 
     /**
+     * Input contains unsupported characters which cannot be recognized
+     */
+    const C_INPUTCONTAINSUNSUPPORTEDCHARACTERS = 4035;
+
+    /**
      * Error string from the service unknown
      */
     const C_UNEXPECTEDERROR = -1;
@@ -1519,6 +1540,12 @@ class BatchType
      */
     const C_VATVALIDATIONIMPORT = 19;
     const C_TXNWITHDYNAMICPARAMBAG = 20;
+
+    /**
+     * This batch type represents import of Custom Rules.
+     *  They can contain legacy tax rules and custom rules.
+     */
+    const C_CUSTOMRULEIMPORT = 21;
 
 }
 
@@ -1880,342 +1907,9 @@ class DeliveryTerms
 
 /**
  * Swagger Name: AvaTaxClient
- * The status of a custom rule as returned by the custom rule summary endpoint.
+ * Represents the type of component in a graph-based custom rule.
  */
-class CustomRuleStatus
-{
-    /**
-     * The status of the rule is unknown.
-     */
-    const C_UNKNOWN = 0;
-
-    /**
-     * The rule is enabled and effective on the current date.
-     */
-    const C_ACTIVE = 1;
-
-    /**
-     * The rule is not enabled.
-     */
-    const C_INACTIVE = 2;
-
-    /**
-     * The rule is marked enabled, but it is past the end date of the rule.
-     */
-    const C_EXPIRED = 3;
-
-    /**
-     * The rule is marked enabled, but it is before the first effective date of the rule.
-     */
-    const C_FUTURE = 4;
-
-    /**
-     * The rule is marked as draft and will not execute unless specifically enabled for testing.
-     */
-    const C_DRAFT = 5;
-
-}
-
-/**
- * Swagger Name: AvaTaxClient
- * The type of a custom rule
- */
-class CustomRuleType
-{
-    /**
-     * An unknown rule type.
-     */
-    const C_UNKNOWN = 0;
-
-    /**
-     * A tax rule.
-     */
-    const C_TAXRULE = 1;
-
-    /**
-     * An advanced rule.
-     */
-    const C_ADVANCEDRULE = 2;
-
-    /**
-     * A dynamic rule.
-     */
-    const C_DYNAMICRULE = 3;
-
-}
-
-/**
- * Swagger Name: AvaTaxClient
- * The subtype of a custom rule
- */
-class CustomRuleSubtype
-{
-    /**
-     * The unknown rule type
-     */
-    const C_UNKNOWN = 0;
-
-    /**
-     * A product taxability tax rule
-     */
-    const C_PRODUCTTAXABILITYRULE = 1;
-
-    /**
-     * An exempt entity tax rule
-     */
-    const C_EXEMPTENTITYRULE = 2;
-
-    /**
-     * A rate override tax rule
-     */
-    const C_RATEOVERRIDERULE = 3;
-
-    /**
-     * A base override tax rule
-     */
-    const C_BASEOVERRIDERULE = 4;
-
-    /**
-     * A Marketplace advanced rule
-     */
-    const C_MARKETPLACE = 5;
-
-    /**
-     * A Bundled Items Allocation advanced rule
-     */
-    const C_BUNDLEDITEMSALLOCATION = 6;
-
-    /**
-     * A Multiple Points of Use Allocation advanced rule
-     */
-    const C_MULTIPLEPOINTSOFUSEALLOCATION = 7;
-
-    /**
-     * A Find and Replace Before Calculationadvanced rule
-     */
-    const C_FINDANDREPLACEBEFORECALCULATION = 8;
-
-    /**
-     * A Find and Replace After Calculation advanced rule
-     */
-    const C_FINDANDREPLACEAFTERCALCULATION = 9;
-
-    /**
-     * A Reporting Location advanced rule
-     */
-    const C_REPORTINGLOCATION = 10;
-
-    /**
-     * A Seller Remits Aggregator advanced rule
-     */
-    const C_SELLERREMITSAGGREGATOR = 11;
-
-    /**
-     * A Consumer Use Allocation advanced rule
-     */
-    const C_CONSUMERUSEALLOCATION = 12;
-
-    /**
-     * A Find and Replace Jurisdiction Match advanced rule
-     */
-    const C_FINDANDREPLACEJURISDICTIONMATCH = 13;
-
-    /**
-     * Updates a transaction field with a value.
-     */
-    const C_UPDATEFIELD = 14;
-
-    /**
-     * Copies a value from one field to another.
-     */
-    const C_COPYFIELD = 15;
-
-    /**
-     * Updates address-related fields.
-     */
-    const C_UPDATEADDRESS = 16;
-
-    /**
-     * Copies address values between address types.
-     */
-    const C_COPYADDRESS = 17;
-
-    /**
-     * Updates a parameter value.
-     */
-    const C_UPDATEPARAMETER = 18;
-
-    /**
-     * Updates a user-defined field value.
-     */
-    const C_UPDATEUSERDEFINEDFIELD = 19;
-
-    /**
-     * Updates a tax override value.
-     */
-    const C_UPDATETAXOVERRIDE = 20;
-
-    /**
-     * Updates the location code.
-     */
-    const C_UPDATELOCATIONCODE = 21;
-
-    /**
-     * Updates the marketplace location code.
-     */
-    const C_UPDATEMARKETPLACE = 22;
-
-    /**
-     * Allocates values based on a field.
-     */
-    const C_ALLOCATEBYFIELD = 23;
-
-    /**
-     * Allocates values based on an address.
-     */
-    const C_ALLOCATEBYADDRESS = 24;
-
-    /**
-     * Allocates consumer use tax.
-     */
-    const C_ALLOCATECONSUMERUSE = 25;
-
-    /**
-     * Aggregates line values post-allocation.
-     */
-    const C_AGGREGATELINES = 26;
-
-    /**
-     * Overrides the tax rate.
-     */
-    const C_TAXRULERATEOVERRIDE = 27;
-
-    /**
-     * Overrides the taxable base.
-     */
-    const C_TAXRULEBASEOVERRIDE = 28;
-
-    /**
-     * Overrides product taxability.
-     */
-    const C_TAXRULEPRODUCTTAXABILITY = 29;
-
-    /**
-     * Updates an exemption stauts.
-     */
-    const C_TAXRULEEXEMPTENTITY = 30;
-
-    /**
-     * Defines one or more custom content rules.
-     */
-    const C_CUSTOMTAX = 31;
-
-}
-
-/**
- * Swagger Name: AvaTaxClient
- * Jurisdiction Type
- */
-class JurisdictionType
-{
-    /**
-     * Country
-     */
-    const C_COUNTRY = 0;
-
-    /**
-     * State
-     */
-    const C_STATE = 1;
-
-    /**
-     * County
-     */
-    const C_COUNTY = 2;
-
-    /**
-     * City
-     */
-    const C_CITY = 3;
-
-    /**
-     * Special Tax Jurisdiction
-     */
-    const C_SPECIAL = 4;
-
-}
-
-/**
- * Swagger Name: AvaTaxClient
- * Filing Frequency types
- */
-class FilingFrequencyId
-{
-    /**
-     * File once per month
-     */
-    const C_MONTHLY = 1;
-
-    /**
-     * File once per three months
-     */
-    const C_QUARTERLY = 2;
-
-    /**
-     * File twice per year
-     */
-    const C_SEMIANNUALLY = 3;
-
-    /**
-     * File once per year
-     */
-    const C_ANNUALLY = 4;
-
-    /**
-     * File every other month
-     */
-    const C_BIMONTHLY = 5;
-
-    /**
-     * File only when there are documents to report
-     */
-    const C_OCCASIONAL = 6;
-
-    /**
-     * File for the first two months of each quarter, then do not file on the quarterly month.
-     */
-    const C_INVERSEQUARTERLY = 7;
-
-    /**
-     * File every week
-     */
-    const C_WEEKLY = 8;
-
-}
-
-/**
- * Swagger Name: AvaTaxClient
- * Status when deleting an error transaction
- */
-class AvataxDeleteErrorTransactionStatus
-{
-    /**
-     * Successful delete
-     */
-    const C_SUCCESS = 0;
-
-    /**
-     * Failed delete
-     */
-    const C_FAILURE = 1;
-
-}
-
-/**
- * Swagger Name: AvaTaxClient
- * Represents the type of component in a dynamic rule.
- */
-class DynamicRuleComponentType
+class CustomRuleComponentType
 {
     /**
      * Unknown component type.
@@ -2241,10 +1935,10 @@ class DynamicRuleComponentType
 
 /**
  * Swagger Name: AvaTaxClient
- * Identifier for the specific varieties of component behavior.
+ * Identifier for the specific varieties of custom rule component behavior.
  *  The subtype determines the expected format of a component's data property.
  */
-class DynamicRuleComponentSubtype
+class CustomRuleComponentSubtype
 {
     /**
      * An unknown or uninitialized subtype.
@@ -2330,6 +2024,12 @@ class DynamicRuleComponentSubtype
      * Matches based on after-calculation messages.
      */
     const C_MATCHMESSAGE = 16;
+
+    /**
+     * Match on data source, origination site, and destination state, with effective ranges.
+     *  This emulates the conditions of the "Seller Remits Aggregator" advanced rule.
+     */
+    const C_MATCHSELLERREMITS = 17;
 
     /**
      * Unspecified action.
@@ -2422,6 +2122,11 @@ class DynamicRuleComponentSubtype
     const C_TAXRULEEXEMPTENTITY = 273;
 
     /**
+     * Override a liability decision.
+     */
+    const C_UPDATELIABILITYDECISION = 274;
+
+    /**
      * Adds a message or invoice message to the transaction response.
      */
     const C_ADDMESSAGE = 288;
@@ -2430,6 +2135,11 @@ class DynamicRuleComponentSubtype
      * Adds a line to the transaction.
      */
     const C_ADDLINE = 289;
+
+    /**
+     * Wraps a legacy advanced rule.
+     */
+    const C_ADVANCEDRULE = 511;
 
     /**
      * Unspecified variable.
@@ -2445,6 +2155,171 @@ class DynamicRuleComponentSubtype
      * Named aggregation computation.
      */
     const C_AGGREGATION = 514;
+
+}
+
+/**
+ * Swagger Name: AvaTaxClient
+ * Jurisdiction Type
+ */
+class JurisdictionType
+{
+    /**
+     * Country
+     */
+    const C_COUNTRY = 0;
+
+    /**
+     * State
+     */
+    const C_STATE = 1;
+
+    /**
+     * County
+     */
+    const C_COUNTY = 2;
+
+    /**
+     * City
+     */
+    const C_CITY = 3;
+
+    /**
+     * Special Tax Jurisdiction
+     */
+    const C_SPECIAL = 4;
+
+}
+
+/**
+ * Swagger Name: AvaTaxClient
+ * The status of a custom rule as returned by the custom rule summary endpoint.
+ */
+class CustomRuleStatus
+{
+    /**
+     * The status of the rule is unknown.
+     */
+    const C_UNKNOWN = 0;
+
+    /**
+     * The rule is enabled and effective on the current date.
+     */
+    const C_ACTIVE = 1;
+
+    /**
+     * The rule is not enabled.
+     */
+    const C_INACTIVE = 2;
+
+    /**
+     * The rule is marked enabled, but it is past the end date of the rule.
+     */
+    const C_EXPIRED = 3;
+
+    /**
+     * The rule is marked enabled, but it is before the first effective date of the rule.
+     */
+    const C_FUTURE = 4;
+
+    /**
+     * The rule is marked as draft and will not execute unless specifically enabled for testing.
+     */
+    const C_DRAFT = 5;
+
+}
+
+/**
+ * Swagger Name: AvaTaxClient
+ * The type of a custom rule
+ */
+class CustomRuleType
+{
+    /**
+     * An unknown rule type.
+     */
+    const C_UNKNOWN = 0;
+
+    /**
+     * A legacy tax rule.
+     */
+    const C_TAXRULE = 1;
+
+    /**
+     * A legacy advanced rule.
+     */
+    const C_ADVANCEDRULE = 2;
+
+    /**
+     * A graph-based custom rule.
+     */
+    const C_DYNAMICRULE = 3;
+
+}
+
+/**
+ * Swagger Name: AvaTaxClient
+ * Filing Frequency types
+ */
+class FilingFrequencyId
+{
+    /**
+     * File once per month
+     */
+    const C_MONTHLY = 1;
+
+    /**
+     * File once per three months
+     */
+    const C_QUARTERLY = 2;
+
+    /**
+     * File twice per year
+     */
+    const C_SEMIANNUALLY = 3;
+
+    /**
+     * File once per year
+     */
+    const C_ANNUALLY = 4;
+
+    /**
+     * File every other month
+     */
+    const C_BIMONTHLY = 5;
+
+    /**
+     * File only when there are documents to report
+     */
+    const C_OCCASIONAL = 6;
+
+    /**
+     * File for the first two months of each quarter, then do not file on the quarterly month.
+     */
+    const C_INVERSEQUARTERLY = 7;
+
+    /**
+     * File every week
+     */
+    const C_WEEKLY = 8;
+
+}
+
+/**
+ * Swagger Name: AvaTaxClient
+ * Status when deleting an error transaction
+ */
+class AvataxDeleteErrorTransactionStatus
+{
+    /**
+     * Successful delete
+     */
+    const C_SUCCESS = 0;
+
+    /**
+     * Failed delete
+     */
+    const C_FAILURE = 1;
 
 }
 
@@ -2732,6 +2607,20 @@ class DocumentStatus
      * This new status is added for Reporting API to download get reports with Saved(1) and Posted(2) state.
      */
     const C_UNCOMMITTED = 12;
+
+    /**
+     * Filter-only status that selects documents in `Saved`(1), `Posted`(2), `Committed`(3), and
+     *  `Cancelled`(4) status.
+     *  
+     *  This exact set is fixed. Statuses added to this enum in the future are NOT included
+     *  automatically; expanding the set requires a deliberate change here and in every consumer.
+     *  
+     *  This value is only valid when filtering or searching. Like `Any`(-1) it is negative and so
+     *  can never be stored in the `Document.DocumentStatusId` column, which is a `byte`. Do not
+     *  cast it to `byte` either - an unchecked cast silently yields 254. Expand it to the ids
+     *  above instead.
+     */
+    const C_ALL = -2;
 
     /**
      * DEPRECATED - Represents "a document in any status" when searching. Please search using the
@@ -3143,6 +3032,8 @@ class FilingStatusId
     const C_RETURNREJECTEDONBEHALF = 15;
     const C_APPROVEDTOFILEONBEHALF = 16;
     const C_FILEDBYCUSTOMER = 17;
+    const C_MAILED = 18;
+    const C_PAYMENTMADENOTFILED = 19;
 
 }
 
@@ -3498,29 +3389,6 @@ class AddressCategoryId
 
 /**
  * Swagger Name: AvaTaxClient
- * 
- */
-class MemoryAlertSeverity
-{    const C_INFO = 0;
-    const C_WARNING = 1;
-    const C_CRITICAL = 2;
-
-}
-
-/**
- * Swagger Name: AvaTaxClient
- * 
- */
-class MemoryRecommendationPriority
-{    const C_LOW = 0;
-    const C_MEDIUM = 1;
-    const C_HIGH = 2;
-    const C_CRITICAL = 3;
-
-}
-
-/**
- * Swagger Name: AvaTaxClient
  * Describes the different types of statuses which describe an entity (company).
  */
 class NexusTypeId
@@ -3551,6 +3419,11 @@ class NexusTypeId
      *  Only your SST administrator may set this option.
      */
     const C_SSTNONVOLUNTEER = 4;
+
+    /**
+     * Indicates the entity is only required to collect seller's use tax.
+     */
+    const C_SELLERSUSETAX = 5;
 
 }
 
@@ -4155,6 +4028,16 @@ class LiabilityType
      */
     const C_THIRDPARTY = 3;
 
+    /**
+     * Marketplace
+     */
+    const C_MARKETPLACE = 4;
+
+    /**
+     * OTA
+     */
+    const C_OTA = 5;
+
 }
 
 /**
@@ -4177,6 +4060,36 @@ class ChargedTo
      * ThirdParty
      */
     const C_THIRDPARTY = 2;
+
+}
+
+/**
+ * Swagger Name: AvaTaxClient
+ * Identifies the party that collects tax from the consumer, as distinct from
+ *  LiabilityType (who remits it) and ChargedTo (who pays it). Introduced for
+ *  AVT-99436 — OTA Marketplace Liability Decision.
+ */
+class CollectedBy
+{
+    /**
+     * Seller
+     */
+    const C_SELLER = 0;
+
+    /**
+     * Marketplace
+     */
+    const C_MARKETPLACE = 1;
+
+    /**
+     * Buyer
+     */
+    const C_BUYER = 2;
+
+    /**
+     * OTA
+     */
+    const C_OTA = 3;
 
 }
 
@@ -4225,6 +4138,9 @@ class APStatus
     const C_PENDINGSHORTPAYITEMSMATCH = 25;
     const C_PENDINGSHORTPAYITEMSOVERCHARGE = 26;
     const C_NOACCRUALEXEMPTEDMAPPING = 27;
+    const C_ACCRUEDDPPAPPLIEDMATCH = 28;
+    const C_ACCRUEDDPPAPPLIEDUNDERCHARGE = 29;
+    const C_ACCRUEDDPPAPPLIEDOVERCHARGE = 30;
     const C_SHORTPAYITEMSACCRUEMATCH = -1;
     const C_MARKFORREVIEWMATCH = -1;
     const C_REJECTMATCH = -1;

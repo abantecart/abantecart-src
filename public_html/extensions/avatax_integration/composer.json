@@ -1,5 +1,5 @@
 {
   "require": {
-    "avalara/avataxclient": "26.6.0"
+    "avalara/avataxclient": "26.10.0"
   }
 }

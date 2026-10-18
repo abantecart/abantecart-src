@@ -17,6 +17,7 @@ use Fidry\CpuCoreCounter\Finder\CpuCoreFinder;
 use Fidry\CpuCoreCounter\Finder\EnvVariableFinder;
 use Fidry\CpuCoreCounter\Finder\FinderRegistry;
 use InvalidArgumentException;
+use function function_exists;
 use function implode;
 use function max;
 use function sprintf;
@@ -31,16 +32,26 @@ final class CpuCoreCounter
     private $finders;
 
     /**
+     * @var CpuCoreFinder
+     */
+    private $countLimitFinder;
+
+    /**
      * @var positive-int|null
      */
     private $count;
 
     /**
      * @param list<CpuCoreFinder>|null $finders
+     * @param CpuCoreFinder|null       $countLimitFinder Finds the count limit to use when none is given
+     *                                                   to getAvailableForParallelisation().
      */
-    public function __construct(?array $finders = null)
-    {
+    public function __construct(
+        ?array $finders = null,
+        ?CpuCoreFinder $countLimitFinder = null
+    ) {
         $this->finders = $finders ?? FinderRegistry::getDefaultLogicalFinders();
+        $this->countLimitFinder = $countLimitFinder ?? FinderRegistry::getDefaultCountLimitFinder();
     }
 
     /**
@@ -49,31 +60,36 @@ final class CpuCoreCounter
      *                                             process is going to be busy still, you may want to set
      *                                             this value to 1.
      * @param non-zero-int|null $countLimit        The maximum number of CPUs to return. If not provided, it
-     *                                             may look for a limit in the environment variables, e.g.
-     *                                             KUBERNETES_CPU_LIMIT. If negative, the limit will be
+     *                                             uses the limit found by the count limit finder: by
+     *                                             default the CPU quota of the cgroup, e.g. with
+     *                                             `docker run --cpus=2`, or KUBERNETES_CPU_LIMIT
+     *                                             if there is none. If negative, the limit will be
      *                                             the total number of cores found minus the absolute value.
      *                                             For instance if the system has 10 cores and countLimit=-2,
      *                                             then the effective limit considered will be 8.
      * @param float|null        $loadLimit         Element of [0., 1.]. Percentage representing the
      *                                             amount of cores that should be used among the available
      *                                             resources. For instance, if set to 0.7, it will use 70%
-     *                                             of the available cores, i.e. if 1 core is reserved, 11
-     *                                             cores are available and 5 are busy, it will use 70%
-     *                                             of (11-1-5)=5 cores, so 3 cores. Set this parameter to null
-     *                                             to skip this check. Beware that 1 does not mean "no limit",
-     *                                             but 100% of the _available_ resources, i.e. with the
-     *                                             previous example, it will return 5 cores. How busy is
-     *                                             the system is determined by the system load average
-     *                                             (see $systemLoadAverage).
-     * @param float|null        $systemLoadAverage The system load average. If passed, it will use
-     *                                             this information to limit the available cores based
-     *                                             on the _available_ resources. For instance, if there
-     *                                             is 10 cores but 3 are busy, then only 7 cores will
-     *                                             be considered for further calculation. If set to
+     *                                             of the available cores, i.e. if the system has 11 cores,
+     *                                             1 core is reserved and 5 are busy, it will use 70%
+     *                                             of (11-1-5)=5 cores, so 3 cores (3.5 rounded down).
+     *                                             Set this parameter to null to skip this check. Beware
+     *                                             that 1 does not mean "no limit", but 100% of the
+     *                                             _available_ resources, i.e. with the previous example,
+     *                                             it will return 5 cores. The system load average
+     *                                             tells how busy the system is (see $systemLoadAverage).
+     * @param float|null        $systemLoadAverage The system load average. It is only used when
+     *                                             $loadLimit is not null, to limit the available cores
+     *                                             based on the _available_ resources. For instance, if
+     *                                             there are 10 cores but 3 are busy, then only 7 cores
+     *                                             will be considered for further calculation. If set to
      *                                             `null`, it will use `sys_getloadavg()` to check the
-     *                                             load of the system in the past minute. You can
+     *                                             load of the system in the past minute, or 0 if
+     *                                             it is unavailable (e.g. on Windows). You can
      *                                             otherwise pass an arbitrary value. Should be a
-     *                                             positive float.
+     *                                             positive float. Inside a virtual machine, the
+     *                                             load average excludes the host's load. Inside
+     *                                             a container, it may be the host's load.
      *
      * @see https://php.net/manual/en/function.sys-getloadavg.php
      */
@@ -92,10 +108,8 @@ final class CpuCoreCounter
 
         // Adjust available CPUs based on current load
         if (null !== $loadLimit) {
-            // https://github.com/phpstan/phpstan/issues/13198
-            /** @var float $correctedSystemLoadAverage */
             $correctedSystemLoadAverage = null === $systemLoadAverage
-                ? sys_getloadavg()[0] ?? 0.
+                ? self::getSystemLoadAverage()
                 : $systemLoadAverage;
 
             $availableCores = max(
@@ -105,7 +119,7 @@ final class CpuCoreCounter
         }
 
         if (null === $countLimit) {
-            $correctedCountLimit = self::getKubernetesLimit();
+            $correctedCountLimit = $this->countLimitFinder->find();
         } else {
             $correctedCountLimit = $countLimit > 0
                 ? $countLimit
@@ -129,6 +143,11 @@ final class CpuCoreCounter
     }
 
     /**
+     * The count does not account for CPU quotas or limits, e.g. the CPU quota
+     * of the cgroup set with `docker run --cpus=2` or KUBERNETES_CPU_LIMIT.
+     * To know how many CPUs to use for parallel processes, use
+     * getAvailableForParallelisation() instead.
+     *
      * @throws NumberOfCpuCoreNotFound
      *
      * @return positive-int
@@ -222,6 +241,8 @@ final class CpuCoreCounter
     }
 
     /**
+     * @deprecated Since 1.4.0. The limit finder is injected in the constructor instead.
+     *
      * @return positive-int|null
      */
     public static function getKubernetesLimit(): ?int
@@ -266,5 +287,17 @@ final class CpuCoreCounter
                 )
             );
         }
+    }
+
+    /**
+     * sys_getloadavg() is not available on Windows, and it can be disabled.
+     */
+    private static function getSystemLoadAverage(): float
+    {
+        if (!function_exists('sys_getloadavg')) {
+            return 0.;
+        }
+
+        return sys_getloadavg()[0] ?? 0.;
     }
 }
