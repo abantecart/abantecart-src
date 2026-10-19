@@ -1,21 +1,22 @@
 <?php
+
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -44,9 +45,11 @@ class ControllerResponsesCommonCommon extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $seo_key = SEOEncode($this->request->get['seo_name'],
-            $this->request->get['object_key_name'],
-            (int)$this->request->get['id']);
+        $seo_key = SEOEncode(
+            (string) $this->request->get['seo_name'],
+            (string) $this->request->get['object_key_name'],
+            (int) $this->request->get['id']
+        );
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -116,18 +119,27 @@ class ControllerResponsesCommonCommon extends AController
         $message_link = $this->html->getSecureURL('tool/message_manager');
         $logs_link = $this->html->getSecureURL('tool/error_log');
 
-        //if enabled system check for all 0 or for admin only 1
+        //if enabled, system check for all 0 or for admin-only 1
         //run system check to make sure system is stable to run the request
         list($system_messages, $counts) = run_system_check($this->registry, 'log');
         if (count($system_messages) > 0) {
             if ($counts['error_count']) {
-                $this->data['result']['error'] = sprintf($this->language->get('text_system_error'), $message_link, $logs_link);
+                $this->data['result']['error'] = $this->language->getAndReplace(
+                    'text_system_error', 
+                    replaces:[$message_link, $logs_link ]
+                );
             }
             if ($counts['warning_count']) {
-                $this->data['result']['warning'] = sprintf($this->language->get('text_system_warning'), $message_link);
+                $this->data['result']['warning'] = $this->language->getAndReplace(
+                    'text_system_warning', 
+                    replaces: $message_link
+                );
             }
             if ($counts['notice_count']) {
-                $this->data['result']['notice'] = sprintf($this->language->get('text_system_notice'), $message_link);
+                $this->data['result']['notice'] = $this->language->getAndReplace(
+                    'text_system_notice', 
+                    replaces: $message_link
+                );
             }
         }
         $this->session->data['system_check_last_time'] = time();
@@ -159,7 +171,7 @@ class ControllerResponsesCommonCommon extends AController
 
         $this->view->batchAssign($get);
         $this->view->batchAssign($output);
-        $this->view->assign('title', $this->language->get('text_data_history').' - '.$get['field']);
+        $this->view->assign('title', $this->language->get('text_data_history') . ' - ' . $get['field']);
         $this->processTemplate('responses/common/fields_history.tpl');
 
         $this->load->library('json');

@@ -87,7 +87,7 @@ class ModelCatalogManufacturer extends Model
         if ($data['keyword'] && !is_array($data['keyword'])) {
             $seo_keys = [
                 $language_id => [
-                    'keyword' => SEOEncode($data['keyword'], 'manufacturer_id', $manufacturer_id),
+                    'keyword' => SEOEncode((string)$data['keyword'], 'manufacturer_id', $manufacturer_id),
                 ],
             ];
         } else {
@@ -102,13 +102,13 @@ class ModelCatalogManufacturer extends Model
                         continue;
                     }
                     $seo_keys[(int)$lang_id] = [
-                        'keyword' => SEOEncode($seo_key, 'manufacturer_id', $manufacturer_id),
+                        'keyword' => SEOEncode((string)$seo_key, 'manufacturer_id', $manufacturer_id),
                     ];
                 }
             } else {
                 $seo_keys = [
                     $language_id => [
-                        'keyword' => SEOEncode($data['name'], 'manufacturer_id', $manufacturer_id),
+                        'keyword' => SEOEncode((string)$data['name'], 'manufacturer_id', $manufacturer_id),
                     ],
                 ];
             }
@@ -183,7 +183,7 @@ class ModelCatalogManufacturer extends Model
         }
 
         if (isset($data['keyword'])) {
-            $data['keyword'] = SEOEncode($data['keyword'], 'manufacturer_id', $manufacturer_id);
+            $data['keyword'] = SEOEncode((string)$data['keyword'], 'manufacturer_id', $manufacturer_id);
             $languageId = (int)$this->language->getContentLanguageID();
             if ($data['keyword']) {
                 //NOTE: Even though we only support 1 language for manufacture,
@@ -262,10 +262,11 @@ class ModelCatalogManufacturer extends Model
     public function getManufacturer($manufacturer_id)
     {
         $query = $this->db->query(
-            "SELECT DISTINCT *, ( SELECT keyword
-                                FROM " . $this->db->table("url_aliases") . " 
-                                WHERE query = 'manufacturer_id=" . (int)$manufacturer_id . "'
-                                    AND language_id='" . (int)$this->language->getContentLanguageID() . "') AS keyword
+            "SELECT DISTINCT *, 
+                ( SELECT keyword
+                FROM " . $this->db->table("url_aliases") . " 
+                WHERE query = 'manufacturer_id=" . (int)$manufacturer_id . "'
+                    AND language_id='" . (int)$this->language->getContentLanguageID() . "') AS keyword
             FROM " . $this->db->table("manufacturers") . " 
             WHERE manufacturer_id = '" . (int)$manufacturer_id . "'"
         );

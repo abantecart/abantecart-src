@@ -1,5 +1,4 @@
-<?php 
-
+<?php
 /*
  *   $Id$
  *
@@ -18,6 +17,7 @@
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -44,11 +44,11 @@ class ModelCatalogCategory extends Model
         ];
 
         $this->data['category_description_columns'] = [
-                'name'             => 'string',
-                'meta_keywords'    => 'string',
-                'meta_description' => 'string',
-                'description'      => 'string'
-            ];
+            'name'             => 'string',
+            'meta_keywords'    => 'string',
+            'meta_description' => 'string',
+            'description'      => 'string',
+        ];
     }
 
     /**
@@ -60,7 +60,7 @@ class ModelCatalogCategory extends Model
     public function addCategory($data)
     {
         $contentLangId = $this->language->getContentLanguageID();
-        
+
         $fields = [];
         foreach ($this->data['category_columns'] as $field => $type) {
             if ($field === 'category_id') {
@@ -80,7 +80,7 @@ class ModelCatalogCategory extends Model
             "INSERT INTO " . $this->db->table("categories") . " 
             SET " . implode(', ', $fields)
         );
-        $category_id = (int)$this->db->getLastId();
+        $category_id = (int) $this->db->getLastId();
 
         foreach ($data['category_description'] as $language_id => $value) {
             $update = [];
@@ -104,18 +104,18 @@ class ModelCatalogCategory extends Model
             foreach ($data['category_store'] as $store_id) {
                 $this->db->query(
                     "INSERT INTO " . $this->db->table("categories_to_stores") . " 
-                    SET category_id = '" . (int)$category_id . "', 
-                    store_id = '" . (int)$store_id . "'"
+                    SET category_id = '" . (int) $category_id . "', 
+                    store_id = '" . (int) $store_id . "'"
                 );
             }
         }
 
         if ($data['keyword']) {
-            $seo_key = SEOEncode($data['keyword'], 'category_id', $category_id);
+            $seo_key = SEOEncode((string) $data['keyword'], 'category_id', $category_id);
         } else {
             //Default behavior to save SEO URL keyword from category name in default language
             $seo_key = SEOEncode(
-                $data['category_description'][$this->language->getDefaultLanguageID()]['name'],
+                (string) $data['category_description'][$this->language->getDefaultLanguageID()]['name'],
                 'category_id',
                 $category_id
             );
@@ -123,15 +123,15 @@ class ModelCatalogCategory extends Model
         if ($seo_key) {
             $this->language->replaceDescriptions(
                 'url_aliases',
-                ['query' => "category_id=" . (int)$category_id],
-                [(int)$contentLangId => ['keyword' => $seo_key]]
+                ['query' => "category_id=" . (int) $category_id],
+                [(int) $contentLangId => ['keyword' => $seo_key]]
             );
         } else {
             $this->db->query(
                 "DELETE
                 FROM " . $this->db->table("url_aliases") . " 
-                WHERE query = 'category_id=" . (int)$category_id . "'
-                    AND language_id = '" . (int)$contentLangId . "'"
+                WHERE query = 'category_id=" . (int) $category_id . "'
+                    AND language_id = '" . (int) $contentLangId . "'"
             );
         }
 
@@ -166,7 +166,7 @@ class ModelCatalogCategory extends Model
             $this->db->query(
                 "UPDATE " . $this->db->table("categories") . " 
                 SET " . implode(',', $update) . " 
-                WHERE category_id = '" . (int)$category_id . "'"
+                WHERE category_id = '" . (int) $category_id . "'"
             );
         }
 
@@ -180,11 +180,11 @@ class ModelCatalogCategory extends Model
                     $update[$field] = $value[$field];
                 }
 
-                if($update) {
+                if ($update) {
                     // insert or update
                     $this->language->replaceDescriptions(
-                    'category_descriptions',
-                        ['category_id' => (int)$category_id],
+                        'category_descriptions',
+                        ['category_id' => (int) $category_id],
                         [$language_id => $update]
                     );
                 }
@@ -194,31 +194,31 @@ class ModelCatalogCategory extends Model
         if (isset($data['category_store'])) {
             $this->db->query(
                 "DELETE FROM " . $this->db->table("categories_to_stores") . " 
-                WHERE category_id = '" . (int)$category_id . "'"
+                WHERE category_id = '" . (int) $category_id . "'"
             );
             foreach ($data['category_store'] as $store_id) {
                 $this->db->query(
                     "INSERT INTO " . $this->db->table("categories_to_stores") . " 
-                    SET category_id = '" . (int)$category_id . "', 
-                        store_id = '" . (int)$store_id . "'"
+                    SET category_id = '" . (int) $category_id . "', 
+                        store_id = '" . (int) $store_id . "'"
                 );
             }
         }
 
         if (isset($data['keyword'])) {
-            $data['keyword'] = SEOEncode($data['keyword']);
+            $data['keyword'] = SEOEncode((string) $data['keyword']);
             if ($data['keyword']) {
                 $this->language->replaceDescriptions(
                     'url_aliases',
-                    ['query' => "category_id=" . (int)$category_id],
-                    [(int)$this->language->getContentLanguageID() => ['keyword' => $data['keyword']]]
+                    ['query' => "category_id=" . (int) $category_id],
+                    [(int) $this->language->getContentLanguageID() => ['keyword' => $data['keyword']]]
                 );
             } else {
                 $this->db->query(
                     "DELETE
                     FROM " . $this->db->table("url_aliases") . " 
-                    WHERE query = 'category_id=" . (int)$category_id . "'
-                       AND language_id = '" . (int)$this->language->getContentLanguageID() . "'"
+                    WHERE query = 'category_id=" . (int) $category_id . "'
+                       AND language_id = '" . (int) $this->language->getContentLanguageID() . "'"
                 );
             }
         }
@@ -233,22 +233,21 @@ class ModelCatalogCategory extends Model
      */
     public function deleteCategory($category_id)
     {
-
         $this->db->query(
             "DELETE FROM " . $this->db->table("category_descriptions") . " 
-            WHERE category_id = '" . (int)$category_id . "'"
+            WHERE category_id = '" . (int) $category_id . "'"
         );
         $this->db->query(
             "DELETE FROM " . $this->db->table("categories_to_stores") . " 
-            WHERE category_id = '" . (int)$category_id . "'"
+            WHERE category_id = '" . (int) $category_id . "'"
         );
         $this->db->query(
             "DELETE FROM " . $this->db->table("url_aliases") . " 
-            WHERE query = 'category_id=" . (int)$category_id . "'"
+            WHERE query = 'category_id=" . (int) $category_id . "'"
         );
         $this->db->query(
             "DELETE FROM " . $this->db->table("products_to_categories") . "
-             WHERE category_id = '" . (int)$category_id . "'"
+             WHERE category_id = '" . (int) $category_id . "'"
         );
 
         //delete resources
@@ -256,7 +255,7 @@ class ModelCatalogCategory extends Model
         $resources = $rm->getResourcesList(
             [
                 'object_name' => 'categories',
-                'object_id'   => (int)$category_id,
+                'object_id'   => (int) $category_id,
             ]
         );
         foreach ($resources as $r) {
@@ -274,7 +273,7 @@ class ModelCatalogCategory extends Model
         $query = $this->db->query(
             "SELECT category_id
             FROM " . $this->db->table("categories") . "
-            WHERE parent_id = '" . (int)$category_id . "'"
+            WHERE parent_id = '" . (int) $category_id . "'"
         );
 
         foreach ($query->rows as $result) {
@@ -283,7 +282,7 @@ class ModelCatalogCategory extends Model
 
         $this->db->query(
             "DELETE FROM " . $this->db->table("categories") . " 
-            WHERE category_id = '" . (int)$category_id . "'"
+            WHERE category_id = '" . (int) $category_id . "'"
         );
 
         $this->cache->remove(['product', 'collection', 'category', 'storefront_menu']);
@@ -301,10 +300,10 @@ class ModelCatalogCategory extends Model
             "SELECT DISTINCT *,
                 (SELECT keyword
                 FROM " . $this->db->table("url_aliases") . " 
-                WHERE query = 'category_id=" . (int)$category_id . "'
-                    AND language_id = '" . (int)$this->language->getContentLanguageID() . "' ) AS keyword
+                WHERE query = 'category_id=" . (int) $category_id . "'
+                    AND language_id = '" . (int) $this->language->getContentLanguageID() . "' ) AS keyword
             FROM " . $this->db->table("categories") . " 
-            WHERE category_id = '" . (int)$category_id . "'"
+            WHERE category_id = '" . (int) $category_id . "'"
         );
         return $query->row;
     }
@@ -346,7 +345,7 @@ class ModelCatalogCategory extends Model
                 if (is_array($store_id) && !empty($store_id)) {
                     $sql .= "store_id IN (" . implode(', ', $store_id) . ")";
                 } else {
-                    $sql .= "store_id = " . (int)$store_id;
+                    $sql .= "store_id = " . (int) $store_id;
                 }
                 $sql .= ") ";
             }
@@ -354,8 +353,8 @@ class ModelCatalogCategory extends Model
             $sql .= " 
                     LEFT JOIN " . $this->db->table('stores') . " s 
                        ON s.store_id = cs.store_id 
-                    WHERE c.parent_id = '" . (int)$parent_id . "'
-                        AND cd.language_id = '" . (int)$language_id . "'
+                    WHERE c.parent_id = '" . (int) $parent_id . "'
+                        AND cd.language_id = '" . (int) $language_id . "'
                     ORDER BY c.sort_order, cd.name ASC";
             $query = $this->db->query($sql);
 
@@ -388,9 +387,8 @@ class ModelCatalogCategory extends Model
      */
     public function getCategoriesData($data, $mode = 'default')
     {
-        $language_id = (int)$data['language_id'] ?: (int)$this->language->getContentLanguageID();
-        $store_id = (int)($data['store_id'] ?: $this->config->get('current_store_id'));
-
+        $language_id = (int) $data['language_id'] ? : (int) $this->language->getContentLanguageID();
+        $store_id = (int) ($data['store_id'] ? : $this->config->get('current_store_id'));
 
         if ($mode == 'total_only') {
             $total_sql = 'count(*) as total';
@@ -398,7 +396,7 @@ class ModelCatalogCategory extends Model
             $total_sql = $this->db->getSqlCalcTotalRows() . " *,
                           c.category_id ";
         }
-        $where = (isset($data['parent_id']) ? "WHERE c.parent_id = '" . (int)$data['parent_id'] . "'" : '');
+        $where = (isset($data['parent_id']) ? "WHERE c.parent_id = '" . (int) $data['parent_id'] . "'" : '');
         $sql = "SELECT " . $total_sql . "
                 FROM " . $this->db->table('categories') . " c
                 LEFT JOIN " . $this->db->table('category_descriptions') . " cd
@@ -444,7 +442,7 @@ class ModelCatalogCategory extends Model
                 $data['limit'] = 20;
             }
 
-            $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+            $sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
         }
 
         $query = $this->db->query($sql);
@@ -458,7 +456,7 @@ class ModelCatalogCategory extends Model
                 'status'         => $result['status'],
                 'sort_order'     => $result['sort_order'],
                 'products_count' => $this->getProductCount($result['category_id']),
-                'total_num_rows' => $total_num_rows
+                'total_num_rows' => $total_num_rows,
             ];
         }
         return $category_data;
@@ -466,12 +464,13 @@ class ModelCatalogCategory extends Model
 
     /**
      * @param int $parent_id
+     *
      * @return int
      * @throws AException
      */
     function getProductCount($parent_id)
     {
-        $store_id = (int)$this->session->data['current_store_id'];
+        $store_id = (int) $this->session->data['current_store_id'];
         $cache_key = 'category.admin.product.count.' . $parent_id . '.' . '.store_' . $store_id;
         $output = $this->cache->pull($cache_key);
         if ($output !== false) {
@@ -487,7 +486,7 @@ class ModelCatalogCategory extends Model
                 WHERE p2c.category_id in (" . implode(",", $idList) . ") ";
 
         $query = $this->db->query($sql);
-        $output = (int)$query->row['product_count'];
+        $output = (int) $query->row['product_count'];
         $this->cache->push($cache_key, $output);
         return $output;
     }
@@ -505,7 +504,7 @@ class ModelCatalogCategory extends Model
                 ON (c.parent_id = c1.category_id)
              LEFT JOIN " . $this->db->table("category_descriptions") . " cd 
                 ON (c1.category_id = cd.category_id)
-             WHERE cd.language_id = '" . (int)$this->language->getContentLanguageID() . "'
+             WHERE cd.language_id = '" . (int) $this->language->getContentLanguageID() . "'
              ORDER BY c.sort_order, cd.name"
         );
         $result = [];
@@ -546,17 +545,17 @@ class ModelCatalogCategory extends Model
      */
     public function getPath($category_id, $language_id = 0)
     {
-        $category_id = (int)$category_id;
-        $language_id = (int)$language_id;
+        $category_id = (int) $category_id;
+        $language_id = (int) $language_id;
         if (!$language_id) {
-            $language_id = (int)$this->language->getContentLanguageID();
+            $language_id = (int) $this->language->getContentLanguageID();
         }
         $query = $this->db->query(
             "SELECT name, parent_id
             FROM " . $this->db->table("categories") . " c
             LEFT JOIN " . $this->db->table("category_descriptions") . " cd
                 ON (c.category_id = cd.category_id)
-            WHERE c.category_id = '" . (int)$category_id . "' 
+            WHERE c.category_id = '" . (int) $category_id . "' 
                 AND cd.language_id = '" . $language_id . "'
             ORDER BY c.sort_order, cd.name"
         );
@@ -586,7 +585,7 @@ class ModelCatalogCategory extends Model
         $query = $this->db->query(
             "SELECT * 
             FROM " . $this->db->table("category_descriptions") . " 
-            WHERE category_id = '" . (int)$category_id . "'"
+            WHERE category_id = '" . (int) $category_id . "'"
         );
 
         foreach ($query->rows as $result) {
@@ -632,7 +631,7 @@ class ModelCatalogCategory extends Model
                 ON (ss.store_id = c2s.store_id AND ss.`key`='config_url')
             LEFT JOIN " . $this->db->table("settings") . " sss
                 ON (sss.store_id = c2s.store_id AND sss.`key`='config_ssl_url')
-            WHERE category_id = '" . (int)$category_id . "'"
+            WHERE category_id = '" . (int) $category_id . "'"
         );
         return $query->rows;
     }
@@ -651,6 +650,7 @@ class ModelCatalogCategory extends Model
     /**
      * @param int|array $parentId
      * @param bool $active_only
+     *
      * @return array
      * @throws AException
      */
@@ -660,7 +660,7 @@ class ModelCatalogCategory extends Model
             return [];
         }
         $storeId = $this->config->get('config_store_id');
-        $cacheKey = 'category.admin.children.' . $storeId . md5(var_export($parentId, true)) . '.' . (int)$active_only;
+        $cacheKey = 'category.admin.children.' . $storeId . md5(var_export($parentId, true)) . '.' . (int) $active_only;
         $cache = $this->cache->pull($cacheKey);
         if ($cache !== false) {
             return $cache;
@@ -684,8 +684,8 @@ class ModelCatalogCategory extends Model
         $output = [];
 
         foreach ($result->rows as $category) {
-            $output[] = (int)$category['category_id'];
-            $output = array_merge($output, $this->getChildrenIDs((int)$category['category_id'], $active_only));
+            $output[] = (int) $category['category_id'];
+            $output = array_merge($output, $this->getChildrenIDs((int) $category['category_id'], $active_only));
         }
         $this->cache->push($cacheKey, $output);
         return $output;
@@ -694,6 +694,7 @@ class ModelCatalogCategory extends Model
     /**
      * @param int $category_id
      * @param int $parent_id
+     *
      * @return bool
      * @throws AException
      */
@@ -701,9 +702,9 @@ class ModelCatalogCategory extends Model
     {
         //check for deadlock
         $sql = "SELECT * 
-                FROM ".$this->db->table('categories')." 
-                WHERE category_id = ".$parent_id." 
-                    AND parent_id = ".$category_id;
+                FROM " . $this->db->table('categories') . " 
+                WHERE category_id = " . $parent_id . " 
+                    AND parent_id = " . $category_id;
         $result = $this->db->query($sql);
         return !($result->num_rows);
     }

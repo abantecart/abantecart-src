@@ -79,7 +79,9 @@ class ModelCatalogProduct extends Model
         $updArray = [];
         foreach ($this->data['product_columns'] as $column => $type) {
             //see settings save below
-            if($column == 'settings'){ continue; }
+            if ($column == 'settings') {
+                continue;
+            }
             if (isset($data[$column])) {
                 $value = '';
                 if ($type == 'int') {
@@ -153,7 +155,7 @@ class ModelCatalogProduct extends Model
                             continue;
                         }
                         $seo_keys[(int) $lang_id] = [
-                            'keyword' => SEOEncode($seo_key, 'product_id', $product_id),
+                            'keyword' => SEOEncode((string) $seo_key, 'product_id', $product_id),
                         ];
                     }
                 }
@@ -161,7 +163,7 @@ class ModelCatalogProduct extends Model
             elseif (is_string($data['keyword'])) {
                 $seo_keys = [
                     $language_id => [
-                        'keyword' => SEOEncode($data['keyword'], 'product_id', $product_id),
+                        'keyword' => SEOEncode((string) $data['keyword'], 'product_id', $product_id),
                     ],
                 ];
             }
@@ -176,14 +178,16 @@ class ModelCatalogProduct extends Model
                         continue;
                     }
                     $seo_keys[(int) $lang_id] = [
-                        'keyword' => SEOEncode($seo_key, 'product_id', $product_id),
+                        'keyword' => SEOEncode((string) $seo_key, 'product_id', $product_id),
                     ];
                 }
             } // when new product
             elseif (!is_int(key($data['product_description']))) {
                 $seo_keys = [
                     $language_id => [
-                        'keyword' => SEOEncode($data['product_description']['name'], 'product_id', $product_id),
+                        'keyword' => SEOEncode(
+                            (string) $data['product_description']['name'], 'product_id', $product_id
+                        ),
                     ],
                 ];
             }
@@ -307,7 +311,9 @@ class ModelCatalogProduct extends Model
         $update = [];
         foreach ($this->data['product_columns'] as $column => $type) {
             //see settings save below
-            if($column == 'settings'){ continue; }
+            if ($column == 'settings') {
+                continue;
+            }
             if (isset($data[$column])) {
                 if (in_array($column, $preformat_fields)) {
                     $data[$column] = preformatFloat($data[$column], $this->language->get('decimal_point'));
@@ -359,7 +365,7 @@ class ModelCatalogProduct extends Model
         }
 
         if (isset($data['keyword'])) {
-            $data['keyword'] = SEOEncode($data['keyword'], 'product_id', $product_id);
+            $data['keyword'] = SEOEncode((string) $data['keyword'], 'product_id', $product_id);
             if ($data['keyword']) {
                 //if seo-key of new clone more than 255 characters, just do hash
                 if (mb_strlen($data['keyword']) > 250) {
@@ -440,9 +446,9 @@ class ModelCatalogProduct extends Model
              FROM " . $this->db->table("products") . " 
              WHERE product_id = " . $product_id
         )->row['settings'];
-        $priorSettings = unserialize((string)$priorSettings) ? : [];
+        $priorSettings = unserialize((string) $priorSettings) ? : [];
         $settings = is_serialized($settings) ? unserialize($settings) : $settings;
-        $newSettings = array_merge((array)$priorSettings, (array)$settings);
+        $newSettings = array_merge((array) $priorSettings, (array) $settings);
         $this->db->query(
             "UPDATE " . $this->db->table("products") . "
              SET settings = '" . $this->db->escape(serialize($newSettings)) . "'
@@ -649,8 +655,8 @@ class ModelCatalogProduct extends Model
         $data['with_values'] = $data['with_values'] ?? true;
         $am = new AAttribute_Manager();
 
-        $attributeInfo = $data['attribute_id'] && $data['with_values'] 
-            ? $am->getAttribute((int) $data['attribute_id']) 
+        $attributeInfo = $data['attribute_id'] && $data['with_values']
+            ? $am->getAttribute((int) $data['attribute_id'])
             : [];
 
         if ($attributeInfo) {
@@ -667,7 +673,7 @@ class ModelCatalogProduct extends Model
         if ($data['element_type'] == 'U') {
             $settings = is_array($data['settings'])
                 ? $data['settings']
-                : (unserialize((string)$data['settings'], ['allowed_classes' => false]) ?: []);
+                : (unserialize((string) $data['settings'], ['allowed_classes' => false]) ? : []);
             $settings = array_filter($settings);
             if (empty($settings['extensions'])) {
                 $settings['extensions'] = 'jpeg,jpg,avif,png,gif,webp';

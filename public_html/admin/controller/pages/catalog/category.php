@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -592,7 +592,7 @@ class ControllerPagesCatalogCategory extends AController
                 'value'        => $this->data['keyword'],
                 'help_url'     => $this->gen_help_url('seo_keyword'),
                 'multilingual' => true,
-                'attr'         => ' gen-value="' . SEOEncode($this->data['category_description']['name']) . '" ',
+                'attr'         => ' gen-value="' . SEOEncode((string)$this->data['category_description']['name']) . '" ',
             ]
         );
 
@@ -723,7 +723,7 @@ class ControllerPagesCatalogCategory extends AController
             'catalog/category/edit_layout',
             '&category_id=' . $categoryId
         );
-        //note: category can not be ID of 0.
+        //note: category cannot be ID of 0.
         if (!$categoryId) {
             redirect($this->html->getSecureURL('catalog/category'));
         }

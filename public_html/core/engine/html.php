@@ -463,7 +463,7 @@ class AHtml extends AController
         if (!$keyword) {
             return '';
         }
-        $seo_key = SEOEncode($keyword);
+        $seo_key = SEOEncode((string)$keyword);
 
         $db = $this->registry->get('db');
         $sql = "SELECT *

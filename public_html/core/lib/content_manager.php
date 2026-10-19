@@ -96,14 +96,14 @@ class AContentManager
                     'meta_keywords'    => $data['meta_keywords'],
                     'content'          => $data['content'],
                     'tags'             => $data['tags'],
-                    # if keyword is not set it will be generated based on the title
+                    # if keyword is not set, it will be generated based on the title
                     'keyword'          => $data['keyword'] ? : $data['title'],
                 ];
             }
         }
 
         $this->saveMLData($content_id, $mlData);
-        $this->saveStores($content_id, $data['store_id']);
+        $this->saveStores($content_id, (array) $data['store_id']);
         $this->cache->remove(['content', 'storefront_menu']);
         return $content_id;
     }
@@ -148,7 +148,7 @@ class AContentManager
 
         if ($update) {
             $this->db->query(
-                "UPDATE `" . $this->db->table("contents`")
+                "UPDATE " . $this->db->table("contents")
                 . " SET " . implode(',', $update)
                 . " WHERE content_id = '" . $content_id . "'"
             );
@@ -156,18 +156,12 @@ class AContentManager
 
         //save multilingual language content
         $mlData = [];
-        if ($data['languages']) {
+        if (!empty($data['languages'])) {
             $mlData = $data['languages'];
         } else {
-            $mlData[$language_id] = [
-                'title'            => $data['title'],
-                'description'      => $data['description'],
-                'meta_description' => $data['meta_description'],
-                'meta_keywords'    => $data['meta_keywords'],
-                'content'          => $data['content'],
-                'tags'             => $data['tags'],
-                'keyword'          => $data['keyword'],
-            ];
+            // take only passed fields to avoid wiping the rest of descriptions and SEO keyword
+            $mlFields = ['title', 'description', 'meta_description', 'meta_keywords', 'content', 'tags', 'keyword'];
+            $mlData[$language_id] = array_intersect_key($data, array_flip($mlFields));
         }
         $this->saveMLData($content_id, $mlData);
 
@@ -319,7 +313,7 @@ class AContentManager
         $this->cache->remove(['content', 'storefront_menu']);
         $layout_clone_result = $this->cloneProductLayout($content_id, $new_content_id);
         return [
-            'name'         => $data['title'],
+            'name'         => $data['title'] . ' ( Copy )',
             'id'           => $new_content_id,
             'layout_clone' => $layout_clone_result,
         ];
@@ -372,7 +366,7 @@ class AContentManager
      * @param int $content_id
      * @param int $language_id
      *
-     * @return array
+     * @return array|string
      * @throws AException
      */
     public function getContentTags($content_id, $language_id = 0)
@@ -396,7 +390,7 @@ class AContentManager
         }
 
         if ($language_id) {
-            return $tagStr[$language_id];
+            return $tagStr[$language_id] ?? '';
         } else {
             return $tagStr;
         }
@@ -459,8 +453,8 @@ class AContentManager
             $sql .= " AND " . str_replace('`name`', 'id.name', $data ['subsql_filter']);
         }
 
-        if (isset($filter['id.title']) && !is_null($filter['id.title'])) {
-            $sql .= " AND id.title LIKE '%" . (float) $filter['pfrom'] . "%' ";
+        if (isset($filter['id.title']) && is_string($filter['id.title'])) {
+            $sql .= " AND id.title LIKE '%" . $filter['id.title'] . "%' ";
         }
         if (isset($filter['status'])) {
             $sql .= " AND i.status = '" . (int) $filter['status'] . "'";
@@ -476,7 +470,7 @@ class AContentManager
         }
 
         $sort_data = [
-            'parent_content_id ' => 'i.parent_content_id',
+            'parent_content_id' => 'i.parent_content_id',
             'title'              => 'id.title',
             'sort_order'         => 'i.sort_order',
             'status'             => 'i.status',
@@ -674,20 +668,16 @@ class AContentManager
      */
     protected function saveMLData($content_id, $mlData)
     {
+        $descFields = ['title', 'description', 'meta_description', 'meta_keywords', 'content'];
         foreach ($mlData as $languageID => $data) {
-            $this->language->replaceDescriptions(
-                'content_descriptions',
-                ['content_id' => $content_id],
-                [
-                    $languageID => [
-                        'title'            => $data['title'],
-                        'description'      => $data['description'],
-                        'meta_description' => $data['meta_description'],
-                        'meta_keywords'    => $data['meta_keywords'],
-                        'content'          => $data['content'],
-                    ],
-                ]
-            );
+            $descriptions = array_intersect_key($data, array_flip($descFields));
+            if ($descriptions) {
+                $this->language->replaceDescriptions(
+                    'content_descriptions',
+                    ['content_id' => $content_id],
+                    [$languageID => $descriptions]
+                );
+            }
 
             if (isset($data['tags'])) {
                 $this->language->saveTags(
@@ -698,7 +688,9 @@ class AContentManager
                 );
             }
 
-            $this->saveSEOURL($content_id, $data['keyword'], $languageID);
+            if (array_key_exists('keyword', $data)) {
+                $this->saveSEOURL($content_id, $data['keyword'], $languageID);
+            }
         }
         return true;
     }
@@ -743,7 +735,7 @@ class AContentManager
      */
     protected function saveSEOURL($content_id, $keyword, $languageID)
     {
-        $keyword = SEOEncode($keyword, 'content_id', $content_id);
+        $keyword = SEOEncode((string) $keyword, 'content_id', $content_id);
         if ($keyword) {
             $this->language->replaceDescriptions(
                 'url_aliases',
@@ -771,7 +763,7 @@ class AContentManager
      */
     protected function cloneProductLayout($content_id, $new_content_id)
     {
-        if (!has_value($content_id) && !has_value($new_content_id)) {
+        if (!has_value($content_id) || !has_value($new_content_id)) {
             return false;
         }
 

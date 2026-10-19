@@ -1,21 +1,22 @@
 <?php
+
 /*
- * $Id$
+ *   $Id$
  *
- * AbanteCart, Ideal OpenSource Ecommerce Solution
- * http://www.AbanteCart.com
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
  *
- * Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
- * This source file is subject to Open Software License (OSL 3.0)
- * License details is bundled with this package in the file LICENSE.txt.
- * It is also available at this URL:
- * <http://www.opensource.org/licenses/OSL-3.0>
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
  *
- * UPGRADE NOTE:
- * Do not edit or add to this file if you wish to upgrade AbanteCart to newer
- * versions in the future. If you wish to customize AbanteCart for your
- * needs please refer to http://www.AbanteCart.com for more information.
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -83,33 +84,41 @@ class ControllerPagesCatalogManufacturer extends AController
                     'text'     => $this->language->get('text_edit'),
                     'href'     => $this->html->getSecureURL('catalog/manufacturer/update', '&manufacturer_id=%ID%'),
                     'children' => array_merge(
-                        [
-                            'quickview' => [
-                                'text'  => $this->language->get('text_quick_view'),
-                                'href'  => $this->html->getSecureURL(
-                                    'catalog/manufacturer/update', '&manufacturer_id=%ID%'
-                                ),
-                                //quick view port URL
-                                'vhref' => $this->html->getSecureURL(
-                                    'r/common/viewport/modal',
-                                    '&viewport_rt=catalog/manufacturer/update&manufacturer_id=%ID%'
-                                ),
-                            ],
-                            'general'   => [
-                                'text' => $this->language->get('entry_edit'),
-                                'href' => $this->html->getSecureURL(
-                                    'catalog/manufacturer/update',
-                                    '&manufacturer_id=%ID%'
-                                ),
-                            ],
-                            'layout'    => [
-                                'text' => $this->language->get('text_design'),
-                                'href' => $this->html->getSecureURL(
-                                    'catalog/manufacturer_layout',
-                                    '&manufacturer_id=%ID%'
-                                ),
-                            ],
-                        ], (array) $this->data['grid_edit_expand']
+                                                                                                               [
+                                                                                                                   'quickview' => [
+                                                                                                                       'text'  => $this->language->get(
+                                                                                                                           'text_quick_view'
+                                                                                                                       ),
+                                                                                                                       'href'  => $this->html->getSecureURL(
+                                                                                                                           'catalog/manufacturer/update',
+                                                                                                                           '&manufacturer_id=%ID%'
+                                                                                                                       ),
+                                                                                                                       //quick view port URL
+                                                                                                                       'vhref' => $this->html->getSecureURL(
+                                                                                                                           'r/common/viewport/modal',
+                                                                                                                           '&viewport_rt=catalog/manufacturer/update&manufacturer_id=%ID%'
+                                                                                                                       ),
+                                                                                                                   ],
+                                                                                                                   'general'   => [
+                                                                                                                       'text' => $this->language->get(
+                                                                                                                           'entry_edit'
+                                                                                                                       ),
+                                                                                                                       'href' => $this->html->getSecureURL(
+                                                                                                                           'catalog/manufacturer/update',
+                                                                                                                           '&manufacturer_id=%ID%'
+                                                                                                                       ),
+                                                                                                                   ],
+                                                                                                                   'layout'    => [
+                                                                                                                       'text' => $this->language->get(
+                                                                                                                           'text_design'
+                                                                                                                       ),
+                                                                                                                       'href' => $this->html->getSecureURL(
+                                                                                                                           'catalog/manufacturer_layout',
+                                                                                                                           '&manufacturer_id=%ID%'
+                                                                                                                       ),
+                                                                                                                   ],
+                                                                                                               ],
+                                                                                                               (array) $this->data['grid_edit_expand']
                     ),
                 ],
             ],
@@ -185,7 +194,7 @@ class ControllerPagesCatalogManufacturer extends AController
             redirect(
                 $this->html->getSecureURL(
                     'catalog/manufacturer/update',
-                    '&manufacturer_id='.$manufacturer_id
+                    '&manufacturer_id=' . $manufacturer_id
                 )
             );
         }
@@ -214,7 +223,7 @@ class ControllerPagesCatalogManufacturer extends AController
         if (($this->request->is_POST()) && $this->_validateForm()) {
             $this->model_catalog_manufacturer->editManufacturer($manufacturer_id, $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            redirect($this->html->getSecureURL('catalog/manufacturer/update', '&manufacturer_id='.$manufacturer_id));
+            redirect($this->html->getSecureURL('catalog/manufacturer/update', '&manufacturer_id=' . $manufacturer_id));
         }
 
         $this->_getForm($args);
@@ -267,7 +276,7 @@ class ControllerPagesCatalogManufacturer extends AController
         }
 
         foreach ($this->fields as $f) {
-           $this->data[$f] = $this->request->post[$f] ?? $manufacturer_info[$f] ?? '';
+            $this->data[$f] = $this->request->post[$f] ?? $manufacturer_info[$f] ?? '';
         }
 
         $this->loadModel('setting/store');
@@ -279,7 +288,7 @@ class ControllerPagesCatalogManufacturer extends AController
                 $manufacturer_id
             );
         } else {
-            $this->data['manufacturer_store'] = [(int)$this->session->data['current_store_id']];
+            $this->data['manufacturer_store'] = [(int) $this->session->data['current_store_id']];
         }
 
         $stores = [0 => $this->language->get('text_default')];
@@ -290,33 +299,33 @@ class ControllerPagesCatalogManufacturer extends AController
         if (!$manufacturer_id) {
             $this->data['action'] = $this->html->getSecureURL('catalog/manufacturer/insert');
             $this->data['heading_title'] = $this->language->get('text_insert')
-                .$this->language->get('text_manufacturer');
+                . $this->language->get('text_manufacturer');
             $this->data['update'] = '';
             $form = new AForm('ST');
         } else {
             $this->data['action'] = $this->html->getSecureURL(
                 'catalog/manufacturer/update',
-                '&manufacturer_id='.$manufacturer_id
+                '&manufacturer_id=' . $manufacturer_id
             );
             $this->data['heading_title'] = $this->language->get('text_edit')
-                .$this->language->get('text_manufacturer')
-                .' - '
-                .$this->data['name'];
+                . $this->language->get('text_manufacturer')
+                . ' - '
+                . $this->data['name'];
             $this->data['update'] = $this->html->getSecureURL(
                 'listing_grid/manufacturer/update_field',
-                '&id='.$manufacturer_id
+                '&id=' . $manufacturer_id
             );
             $form = new AForm('HS');
 
             $this->data['manufacturer_edit'] = $this->html->getSecureURL(
                 'catalog/manufacturer/update',
-                '&manufacturer_id='.$manufacturer_id
+                '&manufacturer_id=' . $manufacturer_id
             );
             $this->data['tab_edit'] = $this->language->get('entry_edit');
             $this->data['tab_layout'] = $this->language->get('text_design');
             $this->data['manufacturer_layout'] = $this->html->getSecureURL(
                 'catalog/manufacturer_layout',
-                '&manufacturer_id='.$manufacturer_id
+                '&manufacturer_id=' . $manufacturer_id
             );
         }
 
@@ -391,7 +400,7 @@ class ControllerPagesCatalogManufacturer extends AController
             ]
         );
         $this->data['generate_seo_url'] = $this->html->getSecureURL(
-            'common/common/getseokeyword', '&object_key_name=manufacturer_id&id='.$manufacturer_id
+            'common/common/getseokeyword', '&object_key_name=manufacturer_id&id=' . $manufacturer_id
         );
 
         $this->data['form']['fields']['general']['keyword'] = $form->getFieldHtml(
@@ -399,7 +408,7 @@ class ControllerPagesCatalogManufacturer extends AController
                 'type'     => 'input',
                 'name'     => 'keyword',
                 'value'    => $this->data['keyword'],
-                'attr'     => ' gen-value="'.SEOEncode($this->data['category_description']['name']).'" ',
+                'attr'     => ' gen-value="' . SEOEncode((string) $this->data['category_description']['name']) . '" ',
                 'help_url' => $this->gen_help_url('seo_keyword'),
             ]
         );
@@ -416,9 +425,9 @@ class ControllerPagesCatalogManufacturer extends AController
         $this->view->assign('help_url', $this->gen_help_url('manufacturer_edit'));
 
         $this->data['list_url'] = $this->html->getSecureURL(
-                'catalog/manufacturer',
-                '&saved_list=manufacturer_grid'
-            );
+            'catalog/manufacturer',
+            '&saved_list=manufacturer_grid'
+        );
 
         if ($viewport_mode != 'modal') {
             $this->addChild(
@@ -454,7 +463,7 @@ class ControllerPagesCatalogManufacturer extends AController
             $this->error['warning'][] = $this->language->get('error_name');
         }
         $error_text = $this->html->isSEOkeywordExists(
-            'manufacturer_id='.$this->request->get['manufacturer_id'],
+            'manufacturer_id=' . $this->request->get['manufacturer_id'],
             $this->request->post['keyword']
         );
         if ($error_text) {

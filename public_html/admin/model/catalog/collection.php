@@ -28,7 +28,7 @@ class ModelCatalogCollection extends Model
     public function __construct($registry)
     {
         parent::__construct($registry);
-        $this->data['description_column_list'] = ['title', 'meta_keywords', 'meta_description','content'];
+        $this->data['description_column_list'] = ['title', 'meta_keywords', 'meta_description', 'content'];
     }
 
     /**
@@ -44,7 +44,7 @@ class ModelCatalogCollection extends Model
         }
         $languageId = (int) $inData['language_id'] ? : $this->language->getContentLanguageID();
 
-        $stores = array_map( 'intval', array_map('trim', (array) $inData['stores']));
+        $stores = array_map('intval', array_map('trim', (array) $inData['stores']));
         unset($inData['stores']);
 
         if (isset($inData['condition_object'])) {
@@ -81,11 +81,11 @@ class ModelCatalogCollection extends Model
         $this->updateOrCreateDescription($collectionId, $languageId, $descriptionData);
 
         if ($keyword) {
-            $seo_key = SEOEncode($keyword, 'collection_id', $collectionId);
+            $seo_key = SEOEncode((string) $keyword, 'collection_id', $collectionId);
         } else {
             //Default behavior to save SEO URL keyword from collection name in default language
             $seo_key = SEOEncode(
-                $descriptionData['title'] ? : $inData['name'],
+                (string) ($descriptionData['title'] ? : $inData['name']),
                 'collection_id',
                 $collectionId
             );
@@ -113,7 +113,7 @@ class ModelCatalogCollection extends Model
                 );
             }
         }
-        
+
         return $this->getById($collectionId);
     }
 
@@ -129,8 +129,8 @@ class ModelCatalogCollection extends Model
         if (!$collectionId || !$inData) {
             return false;
         }
-        $languageId = (int) $inData['language_id'] ? : $this->language->getContentLanguageID();
-        $stores = array_map( 'intval', array_map('trim', (array) $inData['stores']));
+        $languageId = (int) ($inData['language_id'] ? : $this->language->getContentLanguageID());
+        $stores = array_map('intval', array_map('trim', (array) $inData['stores']));
         unset($inData['stores']);
 
         $descriptionData = [
@@ -177,13 +177,13 @@ class ModelCatalogCollection extends Model
                 $this->db->query(
                     "INSERT INTO " . $this->db->table("collections_to_stores") . " 
                     SET collection_id = '" . $collectionId . "', 
-                        store_id = '" . (int)$storeId . "'"
+                        store_id = '" . (int) $storeId . "'"
                 );
             }
         }
 
         if (isset($keyword)) {
-            $keyword = SEOEncode($keyword);
+            $keyword = SEOEncode((string) $keyword);
             if ($keyword) {
                 $this->language->replaceDescriptions(
                     'url_aliases',
@@ -225,7 +225,7 @@ class ModelCatalogCollection extends Model
             "DELETE FROM " . $this->db->table("url_aliases") . " 
             WHERE query = 'collection_id=" . $collectionId . "'"
         );
-        
+
         $this->db->query(
             "DELETE FROM " . $this->db->table("collections_to_stores") . " 
             WHERE collection_id = '" . $collectionId . "'"
@@ -346,7 +346,7 @@ class ModelCatalogCollection extends Model
                     'collection_descriptions',
                     ['collection_id' => $collectionId],
                     [
-                        $languageId => $arUpdate
+                        $languageId => $arUpdate,
                     ]
                 );
                 return true;
@@ -385,11 +385,11 @@ class ModelCatalogCollection extends Model
         if ($result->num_rows) {
             $output = $result->row;
             $output['conditions'] = json_decode($output['conditions'], true);
-            if($output){
+            if ($output) {
                 $sql = "SELECT store_id 
-                        FROM ".$this->db->table('collections_to_stores') ." 
-                        WHERE collection_id=".$collectionId;
-                $output['stores'] = array_column($this->db->query($sql)->rows,'store_id');
+                        FROM " . $this->db->table('collections_to_stores') . " 
+                        WHERE collection_id=" . $collectionId;
+                $output['stores'] = array_column($this->db->query($sql)->rows, 'store_id');
             }
             return $output;
         }

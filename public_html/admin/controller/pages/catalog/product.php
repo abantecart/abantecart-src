@@ -1106,7 +1106,7 @@ class ControllerPagesCatalogProduct extends AController
                 'name'         => 'keyword',
                 'value'        => $this->data['keyword'],
                 'help_url'     => $this->gen_help_url('seo_keyword'),
-                'attr'         => ' gen-value="' . SEOEncode($this->data['product_description']['name']) . '" ',
+                'attr'         => ' gen-value="' . SEOEncode((string)$this->data['product_description']['name']) . '" ',
                 'multilingual' => true,
             ]
         );

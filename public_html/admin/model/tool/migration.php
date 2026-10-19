@@ -561,9 +561,9 @@ class ModelToolMigration extends Model
             // add seo keyword
             if ($this->config->get('enable_seo_url')) {
                 if (!$data['seo_keyword']) {
-                    $seo_key = SEOEncode($data['name'], 'product_id', $product_id);
+                    $seo_key = SEOEncode((string)$data['name'], 'product_id', $product_id);
                 } else {
-                    $seo_key = SEOEncode($data['seo_keyword'], 'product_id', $product_id);
+                    $seo_key = SEOEncode((string)$data['seo_keyword'], 'product_id', $product_id);
                 }
                 $this->language->replaceDescriptions(
                     'url_aliases',
