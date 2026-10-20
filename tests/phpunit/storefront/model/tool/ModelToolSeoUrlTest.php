@@ -90,11 +90,7 @@ class ModelToolSeoUrlTest extends AbanteCartTestBootstrap
             "DELETE FROM " . $this->db->table('url_aliases') . "
              WHERE keyword LIKE 'phpunit-%'"
         );
-        foreach (['product', 'category', 'manufacturer', 'content', 'collection'] as $object) {
-            foreach ([self::LANG_A, self::LANG_B] as $languageId) {
-                $this->cache->remove($object . '.url_aliases.lang_' . $languageId);
-            }
-        }
+        $this->cache->remove('url_aliases');
     }
 
     private function alias(string $query, string $keyword, int $languageId): void
@@ -265,6 +261,13 @@ class ModelToolSeoUrlTest extends AbanteCartTestBootstrap
         $this->assertSame(
             'http://localhost:8080/phpunit-product',
             $this->model->rewrite($this->link('product/product&product_id=900001'))
+        );
+
+        // admin side drops the whole "url_aliases" cache group after any change of aliases
+        $this->cache->remove('url_aliases');
+        $this->assertSame(
+            'phpunit-changed',
+            $this->model->getSEOKeyword('product', 'product_id', 900001, self::LANG_A)
         );
     }
 }

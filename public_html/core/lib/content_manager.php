@@ -104,7 +104,7 @@ class AContentManager
 
         $this->saveMLData($content_id, $mlData);
         $this->saveStores($content_id, (array) $data['store_id']);
-        $this->cache->remove(['content', 'storefront_menu']);
+        $this->cache->remove(['content', 'storefront_menu', 'url_aliases']);
         return $content_id;
     }
 
@@ -169,7 +169,7 @@ class AContentManager
             $this->saveStores($content_id, $data['store_id']);
         }
 
-        $this->cache->remove(['content', 'storefront_menu']);
+        $this->cache->remove(['content', 'storefront_menu', 'url_aliases']);
         return true;
     }
 
@@ -240,7 +240,7 @@ class AContentManager
                 );
         }
 
-        $this->cache->remove(['content', 'storefront_menu']);
+        $this->cache->remove(['content', 'storefront_menu', 'url_aliases']);
         return true;
     }
 
@@ -268,7 +268,7 @@ class AContentManager
         );
         $this->db->query("DELETE FROM " . $this->db->table("contents") . " WHERE content_id = '" . $content_id . "'");
 
-        $this->cache->remove(['content', 'storefront_menu']);
+        $this->cache->remove(['content', 'storefront_menu', 'url_aliases']);
     }
 
     /**
@@ -310,7 +310,7 @@ class AContentManager
         }
 
         $new_content_id = $this->addContent($data);
-        $this->cache->remove(['content', 'storefront_menu']);
+        $this->cache->remove(['content', 'storefront_menu', 'url_aliases']);
         $layout_clone_result = $this->cloneProductLayout($content_id, $new_content_id);
         return [
             'name'         => $data['title'] . ' ( Copy )',

@@ -20,6 +20,7 @@
 
 namespace model;
 
+use ACache;
 use ADB;
 use ALoader;
 use ASession;
@@ -30,6 +31,7 @@ use Registry;
 /**
  * Admin model of SEO urls (url_aliases table). Test records contain "phpunit" in the keyword.
  *
+ * @property ACache $cache
  * @property ADB $db
  * @property ALoader $load
  * @property ASession $session
@@ -258,6 +260,50 @@ class ToolSeoUrlTest extends AbanteCartTestBootstrap
         $this->model->deleteSeoUrl($id);
         $this->assertSame([], $this->model->getSeoUrl($id));
         $this->assertSame([], $this->rows('phpunit_id=1'));
+    }
+
+    /**
+     * storefront keeps aliases in the "url_aliases" cache group (see storefront ModelToolSeoUrl::getSEOKeyword())
+     */
+    private function warmUpAliasCache(): string
+    {
+        $cacheKey = 'url_aliases.product.lang_' . self::LANG_A;
+        $this->cache->push($cacheKey, ['900001' => 'phpunit-cached']);
+        if ($this->cache->pull($cacheKey) === false) {
+            $this->markTestSkipped('cache is not available');
+        }
+        return $cacheKey;
+    }
+
+    public function testAddClearsAliasCache(): void
+    {
+        $cacheKey = $this->warmUpAliasCache();
+        $this->add();
+        $this->assertFalse($this->cache->pull($cacheKey));
+    }
+
+    public function testUpdateClearsAliasCache(): void
+    {
+        $id = $this->add();
+        $cacheKey = $this->warmUpAliasCache();
+        $this->model->updateSeoUrl($id, ['seo_keyword' => 'phpunit-renamed']);
+        $this->assertFalse($this->cache->pull($cacheKey));
+    }
+
+    public function testUpdateQueryClearsAliasCache(): void
+    {
+        $id = $this->add();
+        $cacheKey = $this->warmUpAliasCache();
+        $this->model->updateSeoUrl($id, ['query' => 'phpunit_id=2']);
+        $this->assertFalse($this->cache->pull($cacheKey));
+    }
+
+    public function testDeleteClearsAliasCache(): void
+    {
+        $id = $this->add();
+        $cacheKey = $this->warmUpAliasCache();
+        $this->model->deleteSeoUrl($id);
+        $this->assertFalse($this->cache->pull($cacheKey));
     }
 
     public function testValidateRequiredAndLimits(): void

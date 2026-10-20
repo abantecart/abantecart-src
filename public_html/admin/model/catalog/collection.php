@@ -113,7 +113,7 @@ class ModelCatalogCollection extends Model
                 );
             }
         }
-
+        $this->cache->remove(['collection', 'url_aliases']);
         return $this->getById($collectionId);
     }
 
@@ -205,7 +205,7 @@ class ModelCatalogCollection extends Model
                 );
             }
         }
-        $this->cache->remove('collection');
+        $this->cache->remove(['collection', 'url_aliases']);
         return true;
     }
 
@@ -238,6 +238,7 @@ class ModelCatalogCollection extends Model
             "DELETE FROM " . $this->db->table('collections') . " 
             WHERE id=" . $collectionId
         );
+        $this->cache->remove(['collection', 'url_aliases']);
         return true;
     }
 

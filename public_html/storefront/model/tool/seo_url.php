@@ -127,7 +127,7 @@ class ModelToolSeoUrl extends Model
     public function getSEOKeyword(string $object_name, ?string $param_key = '', ?int $param_value = 0, ?int $language_id = 1)
     {
         if ($this->config->get('config_cache_enable')) {
-            $cache_key = $object_name . '.url_aliases.lang_' . (int)$language_id;
+            $cache_key = 'url_aliases.' . $object_name . '.lang_' . (int)$language_id;
             $aliases = $this->cache->pull($cache_key);
             //if no cache - push
             if ($aliases === false) {

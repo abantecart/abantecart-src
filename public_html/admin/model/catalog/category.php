@@ -135,7 +135,7 @@ class ModelCatalogCategory extends Model
             );
         }
 
-        $this->cache->remove(['category', 'storefront_menu']);
+        $this->cache->remove(['category', 'storefront_menu', 'url_aliases']);
 
         return $category_id;
     }
@@ -223,7 +223,7 @@ class ModelCatalogCategory extends Model
             }
         }
 
-        $this->cache->remove(['product', 'collection', 'category', 'storefront_menu']);
+        $this->cache->remove(['product', 'collection', 'category', 'storefront_menu', 'url_aliases']);
     }
 
     /**
@@ -285,7 +285,7 @@ class ModelCatalogCategory extends Model
             WHERE category_id = '" . (int) $category_id . "'"
         );
 
-        $this->cache->remove(['product', 'collection', 'category', 'storefront_menu']);
+        $this->cache->remove(['product', 'collection', 'category', 'storefront_menu', 'url_aliases']);
     }
 
     /**

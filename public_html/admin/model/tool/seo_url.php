@@ -141,6 +141,7 @@ class ModelToolSeoUrl extends Model
             $mdl = $this->load->model('tool/redirect');
             $mdl->replaceTargetKeyword($current['seo_keyword'], $data['seo_keyword']);
         }
+        $this->cache->remove('url_aliases');
     }
 
     /**
@@ -155,6 +156,7 @@ class ModelToolSeoUrl extends Model
             "DELETE FROM " . $this->db->table('url_aliases') . "
              WHERE url_alias_id = " . $urlAliasId
         );
+        $this->cache->remove('url_aliases');
     }
 
     /**
@@ -361,6 +363,7 @@ class ModelToolSeoUrl extends Model
              WHERE query = '" . $this->db->escape($storedQuery) . "'
                 AND language_id = " . $languageId
         );
+        $this->cache->remove('url_aliases');
         return (int)($result->row['url_alias_id'] ?? 0);
     }
 

@@ -134,7 +134,7 @@ class ModelCatalogManufacturer extends Model
             );
         }
 
-        $this->cache->remove(['manufacturer', 'collection', 'storefront_menu']);
+        $this->cache->remove(['manufacturer', 'collection', 'storefront_menu', 'url_aliases']);
 
         return $manufacturer_id;
     }
@@ -209,7 +209,7 @@ class ModelCatalogManufacturer extends Model
             }
         }
 
-        $this->cache->remove(['manufacturer', 'product', 'category', 'collection', 'storefront_menu']);
+        $this->cache->remove(['manufacturer', 'product', 'category', 'collection', 'storefront_menu', 'url_aliases']);
     }
 
     /**
@@ -250,7 +250,7 @@ class ModelCatalogManufacturer extends Model
                 $rm->deleteResource($r['resource_id']);
             }
         }
-        $this->cache->remove(['manufacturer', 'product', 'category', 'collection', 'storefront_menu']);
+        $this->cache->remove(['manufacturer', 'product', 'category', 'collection', 'storefront_menu', 'url_aliases']);
     }
 
     /**

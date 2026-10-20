@@ -300,7 +300,7 @@ class AContentManagerTest extends AbanteCartTestBootstrap
     public function testEditContentClearsCache(): void
     {
         $this->manager()->editContent(5, ['status' => 1]);
-        $this->assertSame([['content', 'storefront_menu']], $this->cache->removed);
+        $this->assertSame([['content', 'storefront_menu', 'url_aliases']], $this->cache->removed);
     }
 
     // ----------------------------------------------------------------- addContent
@@ -331,7 +331,7 @@ class AContentManagerTest extends AbanteCartTestBootstrap
         $this->assertStringContainsString("parent_content_id = '3'", $insert[0]);
         $this->assertStringContainsString("author = 'Jane'", $insert[0]);
         $this->assertStringContainsString('publish_date = NULL', $insert[0]);
-        $this->assertSame([['content', 'storefront_menu']], $this->cache->removed);
+        $this->assertSame([['content', 'storefront_menu', 'url_aliases']], $this->cache->removed);
     }
 
     public function testAddContentSavesAllLanguagesAndGeneratesKeywordFromTitle(): void

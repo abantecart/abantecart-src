@@ -231,7 +231,7 @@ class ModelCatalogProduct extends Model
             $this->saveSettings($product_id, $data['settings']);
         }
 
-        $this->cache->remove(['product', 'category', 'collection', 'storefront_menu']);
+        $this->cache->remove(['product', 'category', 'collection', 'storefront_menu', 'url_aliases']);
         return $product_id;
     }
 
@@ -390,6 +390,7 @@ class ModelCatalogProduct extends Model
                         AND language_id = '" . $language_id . "'"
                 );
             }
+            $this->cache->remove('url_aliases');
         }
 
         if (isset($data['product_tags'])) {
@@ -1675,7 +1676,7 @@ class ModelCatalogProduct extends Model
         $lm = new ALayoutManager();
         $lm->deletePageLayout('pages/product/product', 'product_id', (int) $product_id);
 
-        $this->cache->remove(['product', 'category', 'collection', 'storefront_menu']);
+        $this->cache->remove(['product', 'category', 'collection', 'storefront_menu', 'url_aliases']);
         return true;
     }
 
