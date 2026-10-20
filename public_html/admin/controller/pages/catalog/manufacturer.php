@@ -408,7 +408,7 @@ class ControllerPagesCatalogManufacturer extends AController
                 'type'     => 'input',
                 'name'     => 'keyword',
                 'value'    => $this->data['keyword'],
-                'attr'     => ' gen-value="' . SEOEncode((string) $this->data['category_description']['name']) . '" ',
+                'attr'     => ' gen-value="' . SEOEncode((string) $this->data['name']) . '" ',
                 'help_url' => $this->gen_help_url('seo_keyword'),
             ]
         );

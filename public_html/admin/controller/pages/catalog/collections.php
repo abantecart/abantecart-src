@@ -450,7 +450,7 @@ class ControllerPagesCatalogCollections extends AController
                 'value'        => $this->data['keyword'],
                 'help_url'     => $this->gen_help_url('seo_keyword'),
                 'multilingual' => true,
-                'attr'         => ' gen-value="' . SEOEncode($this->data['name']) . '" ',
+                'attr'         => ' gen-value="' . SEOEncode((string) $this->data['name']) . '" ',
             ]
         );
 
