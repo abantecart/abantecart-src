@@ -19,5 +19,9 @@
 		<testsuite name="admin">
 			<directory>admin</directory>
 		</testsuite>
+		<!-- tests of extensions: public_html/extensions/<any>/test[s]/phpunit -->
+		<testsuite name="extensions">
+			<directory>../../public_html/extensions/*/tests/phpunit</directory>
+		</testsuite>
 	</testsuites>
 </phpunit>
