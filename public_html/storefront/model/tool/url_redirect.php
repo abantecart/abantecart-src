@@ -21,7 +21,7 @@ if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
-class ModelToolRedirect extends Model
+class ModelToolURLRedirect extends Model
 {
     /** admin model clears this cache key on any rule change */
     public const CACHE_KEY = 'url_redirects';
@@ -37,7 +37,7 @@ class ModelToolRedirect extends Model
             return (array)$rules;
         }
         $rules = $this->db->query(
-            "SELECT id, source, source_host, match_type, target, action, keep_query
+            "SELECT id, source, source_host, source_http_headers, match_type, target, action, keep_query
              FROM " . $this->db->table('url_redirects') . "
              WHERE status = 1
              ORDER BY priority ASC, id ASC"

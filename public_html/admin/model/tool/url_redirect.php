@@ -21,7 +21,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
-class ModelToolRedirect extends Model
+class ModelToolURLRedirect extends Model
 {
     public const MATCH_TYPES = ['exact', 'prefix', 'regex', 'query'];
     public const ACTIONS = [301, 302, 403, 404, 410];
@@ -31,6 +31,7 @@ class ModelToolRedirect extends Model
     private const FIELDS = [
         'source',
         'source_host',
+        'source_http_headers',
         'match_type',
         'target',
         'action',
@@ -49,7 +50,7 @@ class ModelToolRedirect extends Model
     public function getRedirect(int $id): array
     {
         $result = $this->db->query(
-            "SELECT id, source, source_host, match_type, target, action, keep_query,
+            "SELECT id, source, source_host, source_http_headers, match_type, target, action, keep_query,
                     priority, status, hits, last_hit, comment
              FROM " . $this->db->table('url_redirects') . "
              WHERE id = " . $id
@@ -100,6 +101,7 @@ class ModelToolRedirect extends Model
         $data = array_merge(
             [
                 'source_host' => '',
+                'source_http_headers' => '',
                 'match_type'  => 'exact',
                 'target'      => '',
                 'action'      => 301,
@@ -175,8 +177,16 @@ class ModelToolRedirect extends Model
         if (!in_array($action, self::ACTIONS, true)) {
             $errors['action'] = $this->language->get('error_action');
         }
-        if ($source === '' || $source === '/' || mb_strlen($source) > 2048) {
+        $headers = $data['source_http_headers'] ?? '';
+        if ($source === '' && ($data['source_host'] ?? '') === '' && $headers === '') {
+            // at least one of source, source_host and source_http_headers is required
             $errors['source'] = $this->language->get('error_source');
+            $errors['source_host'] = $this->language->get('error_source');
+            $errors['source_http_headers'] = $this->language->get('error_source');
+        } elseif (mb_strlen($source) > 2048) {
+            $errors['source'] = $this->language->get('error_source');
+        } elseif ($source === '') {
+            // restricted by source_host only
         } elseif ($matchType === 'regex' && @preg_match(AUrlRedirect::regexPattern($source), '') === false) {
             $errors['source'] = $this->language->get('error_regex');
         } elseif ($matchType === 'query') {
@@ -184,6 +194,9 @@ class ModelToolRedirect extends Model
             if (!$params) {
                 $errors['source'] = $this->language->get('error_query');
             }
+        }
+        if ($headers !== '' && (mb_strlen($headers) > 2048 || AUrlRedirect::parseHeaders($headers) === null)) {
+            $errors['source_http_headers'] = $this->language->get('error_http_headers');
         }
         $target = $data['target'] ?? '';
         if (in_array($action, AUrlRedirect::REDIRECT_ACTIONS, true) && $target === '') {
@@ -199,6 +212,7 @@ class ModelToolRedirect extends Model
                  FROM " . $this->db->table('url_redirects') . "
                  WHERE source = '" . $this->db->escape($source) . "'
                    AND source_host = '" . $this->db->escape($data['source_host'] ?? '') . "'
+                   AND source_http_headers = '" . $this->db->escape($headers) . "'
                    AND match_type = '" . $this->db->escape($matchType) . "'
                    AND id != " . $id
             );
@@ -285,7 +299,7 @@ class ModelToolRedirect extends Model
     private function prepareData(array $data): array
     {
         $data = array_intersect_key($data, array_flip(self::FIELDS));
-        foreach (['source', 'source_host', 'target', 'match_type', 'comment'] as $field) {
+        foreach (['source', 'source_host', 'source_http_headers', 'target', 'match_type', 'comment'] as $field) {
             if (isset($data[$field])) {
                 $data[$field] = trim((string)$data[$field]);
             }
@@ -308,6 +322,13 @@ class ModelToolRedirect extends Model
                 $host = $matches[1];
             }
             $data['source_host'] = $host;
+        }
+        if (isset($data['source_http_headers'])) {
+            // one "Name: value" per line, normalized line breaks
+            $pairs = AUrlRedirect::parseHeaders($data['source_http_headers']);
+            if ($pairs !== null) {
+                $data['source_http_headers'] = implode("\n", array_map(fn($pair) => $pair[0] . ': ' . $pair[1], $pairs));
+            }
         }
         if (isset($data['source'], $data['match_type'])) {
             $data['source'] = $this->normalizeSource($data['source'], $data['match_type']);
@@ -358,7 +379,7 @@ class ModelToolRedirect extends Model
         $allowedSort = ['id', 'source', 'action', 'status', 'hits', 'last_hit', 'priority'];
         $sort = in_array($data['sort'] ?? '', $allowedSort, true) ? $data['sort'] : 'priority';
         $order = ($data['order'] ?? '') === 'DESC' ? 'DESC' : 'ASC';
-        return "SELECT id, source, source_host, match_type, target, action, keep_query,
+        return "SELECT id, source, source_host, source_http_headers, match_type, target, action, keep_query,
                        priority, status, hits, last_hit, comment
                 FROM " . $this->db->table('url_redirects')
             . $this->buildWhereSql($data)

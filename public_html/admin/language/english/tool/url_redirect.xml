@@ -10,7 +10,7 @@
     </definition>
     <definition>
         <key>column_source</key>
-        <value><![CDATA[Source<span class="help">[host:]path, SEO keyword, query string or regular expression. Hover the comment icon to see the rule comment.</span>]]></value>
+        <value><![CDATA[Source]]></value>
     </definition>
     <definition>
         <key>column_action</key>
@@ -42,7 +42,7 @@
     </definition>
     <definition>
         <key>text_any_host</key>
-        <value><![CDATA[any host]]></value>
+        <value><![CDATA[referer domain or visitor IP]]></value>
     </definition>
     <definition>
         <key>text_match_type_exact</key>
@@ -50,7 +50,7 @@
     </definition>
     <definition>
         <key>text_match_type_prefix</key>
-        <value><![CDATA[Prefix: path starts with source (the rest of the path is appended to the target)]]></value>
+        <value><![CDATA[Prefix: path starts with a source (the rest of the path is appended to the target)]]></value>
     </definition>
     <definition>
         <key>text_match_type_regex</key>
@@ -90,11 +90,19 @@
     </definition>
     <definition>
         <key>entry_source</key>
-        <value><![CDATA[Source<span class="help">Path without domain (/old-product), SEO keyword (old-product), query string (rt=product/product&product_id=12) or regular expression without delimiters (^/old/(.*)$)</span>]]></value>
+        <value><![CDATA[Source<span class="help">Optional when Source Host is set (the rule then applies to any URL). Path without domain (/old-product), SEO keyword (old-product), query string (rt=product/product&product_id=12) or regular expression without delimiters (^/old/(.*)$)</span>]]></value>
     </definition>
     <definition>
         <key>entry_source_host</key>
-        <value><![CDATA[Source Host<span class="help">Domain or IP. Leave empty to apply the rule to any host.</span>]]></value>
+        <value><![CDATA[Source Host<span class="help">Domain of the HTTP referer (the site the visitor came from) or IP address of the visitor. Leave empty to apply the rule to any visitor. Required if Source and Source HTTP Headers are empty.</span>]]></value>
+    </definition>
+    <definition>
+        <key>entry_source_http_headers</key>
+        <value><![CDATA[Source HTTP Headers<span class="help">Visitor request headers in the HTTP format, one per line: <i>User-Agent: Googlebot</i>. The rule works when ALL listed headers are present in the request and contain the given text (case-insensitive). Without a value (<i>Accept-Language:</i>) only the presence of the header is checked.</span>]]></value>
+    </definition>
+    <definition>
+        <key>error_http_headers</key>
+        <value><![CDATA[Source HTTP Headers must be in the HTTP format "Name: value", one header per line, up to 2048 characters in total!]]></value>
     </definition>
     <definition>
         <key>entry_action</key>
@@ -134,7 +142,7 @@
     </definition>
     <definition>
         <key>error_source</key>
-        <value><![CDATA[Source must be between 1 and 2048 characters!]]></value>
+        <value><![CDATA[Fill in Source, Source Host or Source HTTP Headers. Source must not exceed 2048 characters!]]></value>
     </definition>
     <definition>
         <key>error_regex</key>
@@ -142,11 +150,11 @@
     </definition>
     <definition>
         <key>error_query</key>
-        <value><![CDATA[Source must be a query string, for example: rt=product/product&product_id=12]]></value>
+        <value><![CDATA[Source must be a query string, for example, rt=product/product&product_id=12]]></value>
     </definition>
     <definition>
         <key>error_duplicate</key>
-        <value><![CDATA[A rule with the same source, host and match type already exists.]]></value>
+        <value><![CDATA[A rule with the same source, source host and match type already exists.]]></value>
     </definition>
     <definition>
         <key>error_match_type</key>

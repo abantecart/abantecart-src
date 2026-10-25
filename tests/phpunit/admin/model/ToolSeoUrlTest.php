@@ -244,8 +244,8 @@ class ToolSeoUrlTest extends AbanteCartTestBootstrap
     public function testUpdateKeepsRedirectsWorking(): void
     {
         $id = $this->add('phpunit-old');
-        /** @var \ModelToolRedirect $redirects */
-        $redirects = $this->load->model('tool/redirect');
+        /** @var \ModelToolURLRedirect $redirects */
+        $redirects = $this->load->model('tool/url_redirect');
         $redirectId = $redirects->addRedirect(['source' => '/phpunit-src', 'target' => '/phpunit-old']);
 
         $this->model->updateSeoUrl($id, ['seo_keyword' => 'phpunit-new']);

@@ -55,6 +55,7 @@ class AUrlRedirectTest extends AbanteCartTestBootstrap
                 'id'          => ++$id,
                 'source'      => '',
                 'source_host' => '',
+                'source_http_headers' => '',
                 'match_type'  => 'exact',
                 'target'      => '',
                 'action'      => 301,
@@ -204,14 +205,93 @@ class AUrlRedirectTest extends AbanteCartTestBootstrap
         $this->assertSame(410, $this->resolve($rules, '/', ['rt' => 'account/old'])['action']);
     }
 
-    public function testSourceHost(): void
+    public function testSourceHostMatchesReferer(): void
     {
-        $rules = [self::rule(['source' => '/old', 'source_host' => 'shop.test', 'target' => '/new'])];
-        $this->assertNotNull($this->resolve($rules, '/old', [], 'shop.test'));
-        $this->assertNotNull($this->resolve($rules, '/old', [], 'SHOP.test:8080'));
-        $this->assertNotNull($this->resolve($rules, '/old', [], 'shop.test, proxy.test'));
-        $this->assertNull($this->resolve($rules, '/old', [], 'other.test'));
-        $this->assertNull($this->resolve($rules, '/old', [], 'www.shop.test'));
+        $rules = [self::rule(['source' => '/old', 'source_host' => 'google.com', 'target' => '/new'])];
+        $resolve = fn(string $referer, string $ip = '') => (new AUrlRedirect($rules, self::STORE_URL))
+            ->resolve(self::HOST, '/old', [], $referer, $ip);
+        $this->assertNotNull($resolve('https://google.com/search?q=1'));
+        $this->assertNotNull($resolve('HTTPS://Google.com:8080/'));
+        $this->assertNull($resolve('https://www.google.com/'));
+        $this->assertNull($resolve('https://other.test/'));
+        $this->assertNull($resolve(''));
+    }
+
+    public function testSourceHostMatchesVisitorIp(): void
+    {
+        $rules = [self::rule(['source' => '/old', 'source_host' => '203.0.113.7', 'target' => '/new'])];
+        $resolver = new AUrlRedirect($rules, self::STORE_URL);
+        $this->assertNotNull($resolver->resolve(self::HOST, '/old', [], '', '203.0.113.7'));
+        $this->assertNull($resolver->resolve(self::HOST, '/old', [], '', '203.0.113.8'));
+        // the request host does not matter
+        $this->assertNull($resolver->resolve('203.0.113.7', '/old', []));
+    }
+
+    public function testEmptySourceWithSourceHostMatchesAnyUrl(): void
+    {
+        $rules = [self::rule(['source' => '', 'source_host' => '203.0.113.7', 'target' => '/blocked', 'action' => 302])];
+        $resolver = new AUrlRedirect($rules, self::STORE_URL);
+        $result = $resolver->resolve(self::HOST, '/any/page', [], '', '203.0.113.7');
+        $this->assertSame('https://shop.test/blocked', $result['url']);
+        $this->assertNull($resolver->resolve(self::HOST, '/any/page', [], '', '10.0.0.1'));
+    }
+
+    /**
+     * @dataProvider headersProvider
+     */
+    public function testSourceHttpHeaders(string $ruleHeaders, array $requestHeaders, bool $expected): void
+    {
+        $rules = [self::rule(['source' => '/old', 'source_http_headers' => $ruleHeaders, 'target' => '/new'])];
+        $result = (new AUrlRedirect($rules, self::STORE_URL))
+            ->resolve(self::HOST, '/old', [], '', '', $requestHeaders);
+        $this->assertSame($expected, $result !== null);
+    }
+
+    public static function headersProvider(): array
+    {
+        $ua = ['User-Agent' => 'Mozilla/5.0 (compatible; Googlebot/2.1)'];
+        return [
+            'no header in rule'              => ['', [], true],
+            'header found'                   => ['User-Agent: Googlebot', $ua, true],
+            'name is case-insensitive'       => ['user-agent: Googlebot', ['USER-AGENT' => 'Googlebot/2.1'], true],
+            'value is case-insensitive'      => ['User-Agent: googlebot', $ua, true],
+            'value differs'                  => ['User-Agent: Bingbot', $ua, false],
+            'header is absent'               => ['User-Agent: Googlebot', [], false],
+            'presence only'                  => ['Accept-Language:', ['Accept-Language' => 'ru'], true],
+            'presence only, absent'          => ['Accept-Language:', $ua, false],
+            'all headers found'              => [
+                "User-Agent: Googlebot\r\nAccept-Language: ru",
+                $ua + ['Accept-Language' => 'ru-RU,ru;q=0.9'],
+                true,
+            ],
+            'one of headers is absent'       => ["User-Agent: Googlebot\nAccept-Language: ru", $ua, false],
+            'one of headers differs'         => [
+                "User-Agent: Googlebot\nAccept-Language: ru",
+                $ua + ['Accept-Language' => 'en'],
+                false,
+            ],
+            'invalid rule headers never match' => ['not a header', $ua, false],
+        ];
+    }
+
+    public function testSourceHttpHeadersWithEmptySource(): void
+    {
+        $rules = [self::rule(['source' => '', 'source_http_headers' => 'User-Agent: badbot', 'action' => 403])];
+        $resolver = new AUrlRedirect($rules, self::STORE_URL);
+        $this->assertSame(403, $resolver->resolve(self::HOST, '/any', [], '', '', ['User-Agent' => 'BadBot/1'])['action']);
+        $this->assertNull($resolver->resolve(self::HOST, '/any', [], '', '', ['User-Agent' => 'Firefox']));
+    }
+
+    public function testParseHeaders(): void
+    {
+        $this->assertSame([], AUrlRedirect::parseHeaders(" \n\r\n"));
+        $this->assertSame(
+            [['User-Agent', 'Mozilla/5.0 (X11; Linux)'], ['Accept', ''], ['X-Test', 'a:b']],
+            AUrlRedirect::parseHeaders("User-Agent:  Mozilla/5.0 (X11; Linux) \r\nAccept:\n\nX-Test : a:b")
+        );
+        foreach (['no colon', ': value', 'Bad Name: value', "X-A: va\x01lue", 'Имя: value'] as $invalid) {
+            $this->assertNull(AUrlRedirect::parseHeaders($invalid), $invalid);
+        }
     }
 
     public function testFirstMatchedRuleWins(): void

@@ -46,8 +46,9 @@ ALTER TABLE `ac_orders`
 DROP TABLE IF EXISTS `ac_url_redirects`;
 CREATE TABLE `ac_url_redirects` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `source` varchar(2048) NOT NULL COMMENT 'path, seo keyword or query string',
-  `source_host` varchar(255) NOT NULL DEFAULT '' COMMENT 'empty means any host',
+  `source` varchar(2048) NOT NULL DEFAULT '' COMMENT 'path, seo keyword or query string. Can be empty if source_host or source_http_headers is set',
+  `source_host` varchar(255) NOT NULL DEFAULT '' COMMENT 'HTTP_REFERER host or visitor ip. Empty means any visitor',
+  `source_http_headers` text COMMENT 'request headers in the http format, one "Name: value" per line. All of them must be present in the request',
   `match_type` enum('exact','prefix','regex','query') NOT NULL DEFAULT 'exact',
   `target` varchar(2048) NOT NULL DEFAULT '',
   `action` smallint(3) NOT NULL DEFAULT '301' COMMENT '301, 302, 403, 404, 410',

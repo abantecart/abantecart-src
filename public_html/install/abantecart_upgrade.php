@@ -73,7 +73,7 @@ $seoSubmenu = [
     ],
     'redirect' => [
         'item_text'  => 'text_redirect',
-        'item_url'   => 'tool/redirect',
+        'item_url'   => 'tool/url_redirect',
         'icon_name'  => 'Icon Menu Redirect',
         'icon_code'  => '<i class="fa fa-random"></i>&nbsp;',
         'sort_order' => 2,

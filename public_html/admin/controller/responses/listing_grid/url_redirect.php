@@ -21,19 +21,19 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
-class ControllerResponsesListingGridRedirect extends AController
+class ControllerResponsesListingGridURLRedirect extends AController
 {
     public function main()
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->loadLanguage('tool/redirect');
+        $this->loadLanguage('tool/url_redirect');
 
-        if (!$this->user->canAccess('tool/redirect')) {
+        if (!$this->user->canAccess('tool/url_redirect')) {
             $response = new stdClass();
             $response->userdata = new stdClass();
             $response->userdata->error = $this->language->getAndReplace(
                 'error_permission_access',
-                replaces: 'tool/redirect'
+                replaces: 'tool/url_redirect'
             );
             $this->load->library('json');
             $this->response->setOutput(AJson::encode($response));
@@ -49,8 +49,8 @@ class ControllerResponsesListingGridRedirect extends AController
             'grid_filter_params' => $gridFilterParams,
         ]);
         $filterData = $filter->getFilterData();
-        /** @var ModelToolRedirect $model */
-        $model = $this->loadModel('tool/redirect');
+        /** @var ModelToolURLRedirect $model */
+        $model = $this->loadModel('tool/url_redirect');
         $total = $model->getTotalRedirects($filterData);
         $results = $model->getRedirects($filterData);
 
@@ -62,7 +62,7 @@ class ControllerResponsesListingGridRedirect extends AController
 
         $dateFormat = $this->language->get('date_format_short') . ' ' . $this->language->get('time_format');
         foreach ($results as $i => $result) {
-            $source = ($result['source_host'] !== '' ? $result['source_host'] . ':' : '') . $result['source'];
+            $source = ($result['source_host'] !== '' ? '[' . $result['source_host'] . '] ' : '') . $result['source'];
             $source = html2view($source);
             if ($result['comment'] !== null && trim($result['comment']) !== '') {
                 $source = '<span class="tooltips" data-toggle="tooltip" data-placement="right"'
@@ -98,17 +98,17 @@ class ControllerResponsesListingGridRedirect extends AController
     public function update_field()
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->loadLanguage('tool/redirect');
-        if (!$this->user->canModify('listing_grid/redirect')) {
+        $this->loadLanguage('tool/url_redirect');
+        if (!$this->user->canModify('listing_grid/url_redirect')) {
             $this->jsonError('NO_PERMISSIONS_402', sprintf(
                 $this->language->get('error_permission_modify'),
-                'listing_grid/redirect'
+                'listing_grid/url_redirect'
             ));
             return;
         }
 
-        /** @var ModelToolRedirect $model */
-        $model = $this->loadModel('tool/redirect');
+        /** @var ModelToolURLRedirect $model */
+        $model = $this->loadModel('tool/url_redirect');
         $post = $this->request->post;
         // grid switch posts "status[id]=value"
         if (is_array($post['status'])) {
@@ -126,7 +126,7 @@ class ControllerResponsesListingGridRedirect extends AController
             return;
         }
         $allowedFields = [
-            'source', 'source_host', 'match_type', 'target', 'action', 'keep_query', 'priority', 'status', 'comment',
+            'source', 'source_host', 'source_http_headers', 'match_type', 'target', 'action', 'keep_query', 'priority', 'status', 'comment',
         ];
         $data = array_merge($current, array_intersect_key($post, array_flip($allowedFields)));
         $errors = $model->validateRedirect($data, $id);
@@ -145,16 +145,16 @@ class ControllerResponsesListingGridRedirect extends AController
     public function update()
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->loadLanguage('tool/redirect');
-        if (!$this->user->canModify('listing_grid/redirect')) {
+        $this->loadLanguage('tool/url_redirect');
+        if (!$this->user->canModify('listing_grid/url_redirect')) {
             $this->jsonError('NO_PERMISSIONS_402', sprintf(
                 $this->language->get('error_permission_modify'),
-                'listing_grid/redirect'
+                'listing_grid/url_redirect'
             ));
             return;
         }
-        /** @var ModelToolRedirect $model */
-        $model = $this->loadModel('tool/redirect');
+        /** @var ModelToolURLRedirect $model */
+        $model = $this->loadModel('tool/url_redirect');
         $post = $this->request->post;
         if ($post['oper'] === 'del') {
             $ids = filterIntegerIdList(explode(',', (string)$post['id']));

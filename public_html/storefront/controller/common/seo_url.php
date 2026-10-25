@@ -176,15 +176,22 @@ class ControllerCommonSeoUrl extends AController
      */
     protected function processRedirects(): ?string
     {
-        /** @var ModelToolRedirect $mdl */
-        $mdl = $this->loadModel('tool/redirect');
+        /** @var ModelToolURLRedirect $mdl */
+        $mdl = $this->loadModel('tool/url_redirect');
         $storeUrl = (HTTPS === true ? HTTPS_SERVER : HTTP_SERVER) . $this->config->get('seo_prefix');
         $resolver = new AUrlRedirect($mdl->getActiveRules(), $storeUrl);
         // raw values: request->get is html-escaped
         $query = $_GET;
         unset($query['_route_']);
 
-        $result = $resolver->resolve((string)REAL_HOST, (string)($_SERVER['REQUEST_URI'] ?? '/'), $query);
+        $result = $resolver->resolve(
+            (string)REAL_HOST,
+            (string)($_SERVER['REQUEST_URI'] ?? '/'),
+            $query,
+            (string)($_SERVER['HTTP_REFERER'] ?? ''),
+            (string)$this->request->getRemoteIP(),
+            $this->getRequestHeaders()
+        );
         if (!$result) {
             return null;
         }
@@ -210,6 +217,22 @@ class ControllerCommonSeoUrl extends AController
                 redirect($this->html->getSEOURL('error/not_found'));
         }
         return null;
+    }
+
+    /**
+     * @return array request headers, name => value
+     */
+    protected function getRequestHeaders(): array
+    {
+        $headers = [];
+        foreach ($_SERVER as $key => $value) {
+            if (str_starts_with($key, 'HTTP_')) {
+                $headers[str_replace('_', '-', substr($key, 5))] = $value;
+            } elseif (in_array($key, ['CONTENT_TYPE', 'CONTENT_LENGTH'], true) && $value !== '') {
+                $headers[str_replace('_', '-', $key)] = $value;
+            }
+        }
+        return $headers;
     }
 
     protected function getContentParentId(int $contentId)

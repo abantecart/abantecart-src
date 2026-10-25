@@ -22,7 +22,7 @@ namespace model;
 
 use ADB;
 use ALoader;
-use ModelToolRedirect;
+use ModelToolURLRedirect;
 use phpunit\AbanteCartTestBootstrap;
 use Registry;
 
@@ -32,9 +32,9 @@ use Registry;
  * @property ADB $db
  * @property ALoader $load
  */
-class ToolRedirectTest extends AbanteCartTestBootstrap
+class ToolURLRedirectTest extends AbanteCartTestBootstrap
 {
-    /** @var ModelToolRedirect */
+    /** @var ModelToolURLRedirect */
     private $model;
 
     protected function setUp(): void
@@ -45,7 +45,7 @@ class ToolRedirectTest extends AbanteCartTestBootstrap
         } else {
             $this->registry = Registry::getInstance();
         }
-        $this->model = $this->load->model('tool/redirect');
+        $this->model = $this->load->model('tool/url_redirect');
     }
 
     protected function tearDown(): void
@@ -142,6 +142,53 @@ class ToolRedirectTest extends AbanteCartTestBootstrap
         }
     }
 
+    public function testSourceOrSourceHostRequired(): void
+    {
+        $data = ['source' => '', 'source_host' => '', 'match_type' => 'exact', 'target' => '/x', 'action' => 301];
+        $errors = $this->model->validateRedirect($data);
+        $this->assertArrayHasKey('source', $errors);
+        $this->assertArrayHasKey('source_host', $errors);
+        $this->assertSame([], $this->model->validateRedirect(['source_host' => '203.0.113.7'] + $data));
+        $this->assertSame([], $this->model->validateRedirect(['source' => '/phpunit-a'] + $data));
+    }
+
+    public function testSourceHttpHeadersValidation(): void
+    {
+        $data = ['source' => '', 'source_host' => '', 'match_type' => 'exact', 'target' => '/x', 'action' => 301];
+        // headers alone are enough
+        $this->assertSame([], $this->model->validateRedirect(['source_http_headers' => "User-Agent: bot\nAccept-Language: ru"] + $data));
+        $this->assertSame([], $this->model->validateRedirect(['source_http_headers' => 'Accept-Language:'] + $data));
+        foreach (['no colon', 'Bad Name: value', ': value', str_repeat('X-A: a' . "\n", 400)] as $invalid) {
+            $errors = $this->model->validateRedirect(['source' => '/phpunit-a', 'source_http_headers' => $invalid] + $data);
+            $this->assertArrayHasKey('source_http_headers', $errors, $invalid);
+        }
+        // empty headers with other fields are fine
+        $this->assertSame([], $this->model->validateRedirect(['source' => '/phpunit-a', 'source_http_headers' => ''] + $data));
+        $this->assertArrayHasKey('source_http_headers', $this->model->validateRedirect($data));
+    }
+
+    public function testSourceHttpHeadersNormalizedAndSaved(): void
+    {
+        $id = $this->add(['source_http_headers' => " User-Agent :  Googlebot \r\n\r\nAccept-Language: ru\r\n"]);
+        $this->assertSame(
+            "User-Agent: Googlebot\nAccept-Language: ru",
+            $this->model->getRedirect($id)['source_http_headers']
+        );
+        $this->assertSame('', $this->model->getRedirect($this->add(['source' => '/phpunit-b']))['source_http_headers']);
+    }
+
+    public function testDuplicateConsidersHttpHeaders(): void
+    {
+        $this->add(['source' => '/phpunit-dup2', 'source_http_headers' => 'User-Agent: bot']);
+        $data = ['source' => '/phpunit-dup2', 'match_type' => 'exact', 'target' => '/x', 'action' => 301];
+        $this->assertArrayHasKey(
+            'source',
+            $this->model->validateRedirect($data + ['source_http_headers' => 'user-agent:  bot'])
+        );
+        $this->assertSame([], $this->model->validateRedirect($data + ['source_http_headers' => 'User-Agent: other']));
+        $this->assertSame([], $this->model->validateRedirect($data));
+    }
+
     public function testDuplicate(): void
     {
         $id = $this->add(['source' => '/phpunit-dup']);
@@ -149,8 +196,9 @@ class ToolRedirectTest extends AbanteCartTestBootstrap
         $this->assertArrayHasKey('source', $this->model->validateRedirect($data));
         // the rule itself is not a duplicate
         $this->assertSame([], $this->model->validateRedirect($data, $id));
-        // same source for another host or match type is allowed
+        // same source for another referer/ip or match type is allowed
         $this->assertSame([], $this->model->validateRedirect($data + ['source_host' => 'other.test']));
+        $this->assertSame([], $this->model->validateRedirect($data + ['source_host' => '203.0.113.7']));
         $this->assertSame([], $this->model->validateRedirect(['match_type' => 'prefix'] + $data));
     }
 

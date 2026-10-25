@@ -22,14 +22,14 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
-class ControllerPagesToolRedirect extends AController
+class ControllerPagesToolURLRedirect extends AController
 {
     protected $error = [];
 
     public function main()
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->loadLanguage('tool/redirect');
+        $this->loadLanguage('tool/url_redirect');
 
         $this->document->setTitle($this->language->get('heading_title'));
         $this->document->initBreadcrumb();
@@ -39,7 +39,7 @@ class ControllerPagesToolRedirect extends AController
             'separator' => false,
         ]);
         $this->document->addBreadcrumb([
-            'href'      => $this->html->getSecureURL('tool/redirect'),
+            'href'      => $this->html->getSecureURL('tool/url_redirect'),
             'text'      => $this->language->get('heading_title'),
             'separator' => ' :: ',
             'current'   => true,
@@ -47,15 +47,15 @@ class ControllerPagesToolRedirect extends AController
 
         $gridSettings = [
             'table_id'       => 'redirect_grid',
-            'url'            => $this->html->getSecureURL('listing_grid/redirect'),
-            'editurl'        => $this->html->getSecureURL('listing_grid/redirect/update'),
-            'update_field'   => $this->html->getSecureURL('listing_grid/redirect/update_field'),
+            'url'            => $this->html->getSecureURL('listing_grid/url_redirect'),
+            'editurl'        => $this->html->getSecureURL('listing_grid/url_redirect/update'),
+            'update_field'   => $this->html->getSecureURL('listing_grid/url_redirect/update_field'),
             'sortname'       => 'priority',
             'sortorder'      => 'asc',
             'actions'        => [
                 'edit'   => [
                     'text' => $this->language->get('text_edit'),
-                    'href' => $this->html->getSecureURL('tool/redirect/update', '&id=%ID%'),
+                    'href' => $this->html->getSecureURL('tool/url_redirect/update', '&id=%ID%'),
                 ],
                 'delete' => [
                     'text' => $this->language->get('button_delete'),
@@ -128,10 +128,10 @@ class ControllerPagesToolRedirect extends AController
 
         $grid = $this->dispatch('common/listing_grid', [$gridSettings]);
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
-        $this->view->assign('insert', $this->html->getSecureURL('tool/redirect/insert'));
+        $this->view->assign('insert', $this->html->getSecureURL('tool/url_redirect/insert'));
         $this->view->assign('help_url', $this->gen_help_url());
         $this->view->batchAssign($this->language->getASet());
-        $this->processTemplate('pages/tool/redirect.tpl');
+        $this->processTemplate('pages/tool/url_redirect.tpl');
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
@@ -139,15 +139,15 @@ class ControllerPagesToolRedirect extends AController
     public function insert()
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->loadLanguage('tool/redirect');
-        /** @var ModelToolRedirect $model */
-        $model = $this->loadModel('tool/redirect');
+        $this->loadLanguage('tool/url_redirect');
+        /** @var ModelToolURLRedirect $model */
+        $model = $this->loadModel('tool/url_redirect');
 
         if ($this->request->is_POST() && $this->_validateForm($model)) {
             // unchecked switches may be missing in the post
             $id = $model->addRedirect($this->request->post + ['status' => 0, 'keep_query' => 0]);
             $this->session->data['success'] = $this->language->get('text_success');
-            redirect($this->html->getSecureURL('tool/redirect/update', '&id=' . $id));
+            redirect($this->html->getSecureURL('tool/url_redirect/update', '&id=' . $id));
         }
         $this->_getForm($model);
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -156,30 +156,31 @@ class ControllerPagesToolRedirect extends AController
     public function update()
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->loadLanguage('tool/redirect');
-        /** @var ModelToolRedirect $model */
-        $model = $this->loadModel('tool/redirect');
+        $this->loadLanguage('tool/url_redirect');
+        /** @var ModelToolURLRedirect $model */
+        $model = $this->loadModel('tool/url_redirect');
         $id = (int)$this->request->get['id'];
 
         if (!$model->getRedirect($id)) {
             $this->session->data['warning'] = $this->language->get('error_not_found');
-            redirect($this->html->getSecureURL('tool/redirect'));
+            redirect($this->html->getSecureURL('tool/url_redirect'));
         }
         if ($this->request->is_POST() && $this->_validateForm($model, $id)) {
             $model->updateRedirect($id, $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            redirect($this->html->getSecureURL('tool/redirect/update', '&id=' . $id));
+            redirect($this->html->getSecureURL('tool/url_redirect/update', '&id=' . $id));
         }
         $this->_getForm($model, $id);
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    protected function _getForm(ModelToolRedirect $model, int $id = 0): void
+    protected function _getForm(ModelToolURLRedirect $model, int $id = 0): void
     {
         $redirect = $id ? $model->getRedirect($id) : [];
         $defaults = [
             'source'      => '',
             'source_host' => '',
+            'source_http_headers' => '',
             'match_type'  => 'exact',
             'target'      => '',
             'action'      => 301,
@@ -192,15 +193,15 @@ class ControllerPagesToolRedirect extends AController
             $this->data[$field] = $this->request->post[$field] ?? $redirect[$field] ?? $default;
         }
         $this->data['error'] = $this->error;
-        $this->data['cancel'] = $this->html->getSecureURL('tool/redirect');
+        $this->data['cancel'] = $this->html->getSecureURL('tool/url_redirect');
         // "saved_list" restores the grid search and paging the user had before opening the form
-        $this->data['list_url'] = $this->html->getSecureURL('tool/redirect', '&saved_list=redirect_grid');
-        $this->data['insert'] = $this->html->getSecureURL('tool/redirect/insert');
+        $this->data['list_url'] = $this->html->getSecureURL('tool/url_redirect', '&saved_list=redirect_grid');
+        $this->data['insert'] = $this->html->getSecureURL('tool/url_redirect/insert');
         $this->data['action'] = $id
-            ? $this->html->getSecureURL('tool/redirect/update', '&id=' . $id)
+            ? $this->html->getSecureURL('tool/url_redirect/update', '&id=' . $id)
             : $this->data['insert'];
         $this->data['update'] = $id
-            ? $this->html->getSecureURL('listing_grid/redirect/update_field', '&id=' . $id)
+            ? $this->html->getSecureURL('listing_grid/url_redirect/update_field', '&id=' . $id)
             : '';
         $this->data['heading_title'] = $id
             ? $this->language->get('text_edit_redirect')
@@ -213,7 +214,7 @@ class ControllerPagesToolRedirect extends AController
             'separator' => false,
         ]);
         $this->document->addBreadcrumb([
-            'href' => $this->html->getSecureURL('tool/redirect'),
+            'href' => $this->html->getSecureURL('tool/url_redirect'),
             'text' => $this->language->get('heading_title'),
             'separator' => ' :: ',
         ]);
@@ -244,7 +245,7 @@ class ControllerPagesToolRedirect extends AController
             'style' => 'btn_switch',
         ]);
         $matchTypes = [];
-        foreach (ModelToolRedirect::MATCH_TYPES as $type) {
+        foreach (ModelToolURLRedirect::MATCH_TYPES as $type) {
             $matchTypes[$type] = $this->language->get('text_match_type_' . $type);
         }
         $fields['match_type'] = $form->getFieldHtml([
@@ -253,13 +254,6 @@ class ControllerPagesToolRedirect extends AController
             'options' => $matchTypes,
             'value'   => $this->data['match_type'],
         ]);
-        $fields['source'] = $form->getFieldHtml([
-            'type'     => 'input',
-            'name'     => 'source',
-            'value'    => $this->data['source'],
-            'required' => true,
-            'style'    => 'large-field',
-        ]);
         $fields['source_host'] = $form->getFieldHtml([
             'type'        => 'input',
             'name'        => 'source_host',
@@ -267,8 +261,21 @@ class ControllerPagesToolRedirect extends AController
             'placeholder' => $this->language->get('text_any_host'),
             'style'       => 'large-field',
         ]);
+        $fields['source'] = $form->getFieldHtml([
+            'type'  => 'input',
+            'name'  => 'source',
+            'value' => $this->data['source'],
+            'style' => 'large-field',
+        ]);
+        $fields['source_http_headers'] = $form->getFieldHtml([
+            'type'        => 'textarea',
+            'name'        => 'source_http_headers',
+            'value'       => $this->data['source_http_headers'],
+            'placeholder' => "User-Agent: Googlebot\nAccept-Language: ru",
+            'style'       => 'large-field',
+        ]);
         $actions = [];
-        foreach (ModelToolRedirect::ACTIONS as $action) {
+        foreach (ModelToolURLRedirect::ACTIONS as $action) {
             $actions[$action] = $this->language->get('text_action_' . $action);
         }
         $fields['action'] = $form->getFieldHtml([
@@ -321,12 +328,12 @@ class ControllerPagesToolRedirect extends AController
         $this->view->assign('help_url', $this->gen_help_url('redirect'));
         $this->view->batchAssign($this->language->getASet());
         $this->view->batchAssign($this->data);
-        $this->processTemplate('pages/tool/redirect_form.tpl');
+        $this->processTemplate('pages/tool/url_redirect_form.tpl');
     }
 
-    protected function _validateForm(ModelToolRedirect $model, int $id = 0): bool
+    protected function _validateForm(ModelToolURLRedirect $model, int $id = 0): bool
     {
-        if (!$this->user->canModify('tool/redirect')) {
+        if (!$this->user->canModify('tool/url_redirect')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
         $data = array_merge($id ? $model->getRedirect($id) : [], $this->request->post);

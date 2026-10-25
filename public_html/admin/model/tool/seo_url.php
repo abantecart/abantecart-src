@@ -137,8 +137,8 @@ class ModelToolSeoUrl extends Model
         }
         // keep redirects which lead to the renamed keyword working
         if ($current['seo_keyword'] !== '' && $current['seo_keyword'] !== $data['seo_keyword']) {
-            /** @var ModelToolRedirect $mdl */
-            $mdl = $this->load->model('tool/redirect');
+            /** @var ModelToolURLRedirect $mdl */
+            $mdl = $this->load->model('tool/url_redirect');
             $mdl->replaceTargetKeyword($current['seo_keyword'], $data['seo_keyword']);
         }
         $this->cache->remove('url_aliases');

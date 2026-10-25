@@ -58,21 +58,65 @@ class AUrlRedirect
     }
 
     /**
-     * @param string $host request host, port is allowed
+     * Parses headers written in the http format: "Name: value", one header per line.
+     * The value can be empty, it means that the header must be present in the request.
+     *
+     * @param string $headers
+     *
+     * @return array|null list of [name, value] pairs, null when the text is not valid
+     */
+    public static function parseHeaders(string $headers): ?array
+    {
+        $result = [];
+        foreach (preg_split('~\r\n|\r|\n~', $headers) as $line) {
+            $line = trim($line);
+            if ($line === '') {
+                continue;
+            }
+            // token (RFC 7230) followed by colon and printable value
+            if (!preg_match('~^([!#$%&\'*+.^_`|0-9a-z-]+)[ \t]*:[ \t]*([^\x00-\x08\x0A-\x1F\x7F]*)$~i', $line, $m)) {
+                return null;
+            }
+            $result[] = [$m[1], rtrim($m[2])];
+        }
+        return $result;
+    }
+
+    /**
+     * @param string $host request host, port is allowed. Used to skip rules leading to the same page
      * @param string $requestUri e.g. "/shop/old-product?a=1"
      * @param array $get raw query parameters without "_route_"
+     * @param string $referer value of HTTP_REFERER
+     * @param string $ip visitor ip address
+     * @param array $headers request headers, name => value. Names are case-insensitive
      *
      * @return array|null ['rule' => array, 'action' => int, 'url' => string], url is empty for non-redirect actions
      */
-    public function resolve(string $host, string $requestUri, array $get): ?array
-    {
+    public function resolve(
+        string $host,
+        string $requestUri,
+        array $get,
+        string $referer = '',
+        string $ip = '',
+        array $headers = []
+    ): ?array {
         if (!$this->rules) {
             return null;
         }
         $host = $this->normalizeHost($host);
         $path = $this->getRequestPath($requestUri);
+        $refererHost = $this->normalizeHost((string)parse_url($referer, PHP_URL_HOST));
+        $ip = mb_strtolower(trim($ip));
+        $headers = array_change_key_case($headers, CASE_LOWER);
         foreach ($this->rules as $rule) {
-            if ($rule['source_host'] !== '' && $rule['source_host'] !== $host) {
+            // source_host is the host of HTTP_REFERER or the ip of the visitor
+            if ($rule['source_host'] !== ''
+                && $rule['source_host'] !== $refererHost
+                && $rule['source_host'] !== $ip
+            ) {
+                continue;
+            }
+            if (!$this->matchHeaders((string)($rule['source_http_headers'] ?? ''), $headers)) {
                 continue;
             }
             $match = $this->matchRule($rule, $path, $get);
@@ -94,6 +138,31 @@ class AUrlRedirect
     }
 
     /**
+     * @param string $ruleHeaders headers of the rule in the http format
+     * @param array $headers request headers with lower case names
+     *
+     * @return bool true when every header of the rule is found in the request
+     */
+    protected function matchHeaders(string $ruleHeaders, array $headers): bool
+    {
+        $pairs = self::parseHeaders($ruleHeaders);
+        if ($pairs === null) {
+            return false;
+        }
+        foreach ($pairs as [$name, $value]) {
+            $name = strtolower($name);
+            if (!isset($headers[$name]) || !is_scalar($headers[$name])) {
+                return false;
+            }
+            // the value of the rule is a case-insensitive part of the request header value
+            if ($value !== '' && mb_stripos((string)$headers[$name], $value) === false) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * @param array $rule
      * @param string $path
      * @param array $query
@@ -104,6 +173,10 @@ class AUrlRedirect
     {
         $source = $rule['source'];
         $target = $rule['target'];
+        // rule restricted by source_host only
+        if ($source === '') {
+            return ['target' => $target, 'query' => $query];
+        }
         switch ($rule['match_type']) {
             case 'exact':
                 if (mb_strtolower($path) !== mb_strtolower($source)) {
