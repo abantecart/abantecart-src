@@ -50,12 +50,17 @@ class ControllerCommonSeoUrl extends AController
 
         if (isset($this->request->get['_route_'])) {
             $parts = array_map('mb_strtolower', array_filter(explode('/', $this->request->get['_route_'])));
-            $result = $this->db->query(
-                "SELECT query, keyword
-                 FROM " . $this->db->table('url_aliases') . "
-                 WHERE keyword IN ('" . implode("','", array_map([$this->db, 'escape'], $parts)) . "')"
-            );
-            $seoQueries = array_column($result->rows, 'query', 'keyword');
+            $cacheKey = 'url_aliases.' . implode('_', $parts);
+            $seoQueries = $this->cache->pull($cacheKey);
+            if($seoQueries === false) {
+                $result = $this->db->query(
+                    "SELECT query, keyword
+                     FROM " . $this->db->table('url_aliases') . "
+                     WHERE keyword IN ('" . implode("','", array_map([$this->db, 'escape'], $parts)) . "')"
+                );
+                $seoQueries = array_column($result->rows, 'query', 'keyword');
+                $this->cache->push($cacheKey, $seoQueries);
+            }            
 
             end($parts);
             $part = current($parts);
