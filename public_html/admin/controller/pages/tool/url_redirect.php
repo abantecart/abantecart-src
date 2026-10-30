@@ -96,8 +96,8 @@ class ControllerPagesToolURLRedirect extends AController
                 'sorttype' => 'string',
             ],
             [
-                'name'     => 'action',
-                'index'    => 'action',
+                'name'     => 'url_action',
+                'index'    => 'url_action',
                 'width'    => 60,
                 'align'    => 'center',
                 'sorttype' => 'int',
