@@ -86,6 +86,37 @@ class ToolURLRedirectTest extends AbanteCartTestBootstrap
         $this->assertSame('^/phpunit/(\d+)/$', $this->model->getRedirect($id)['source']);
     }
 
+    public function testSourceIsStoredInLowerCase(): void
+    {
+        $id = $this->add(['source' => ' /PHPUnit-Old/Sub/ ']);
+        $this->assertSame('/phpunit-old/sub', $this->model->getRedirect($id)['source']);
+
+        $id = $this->add(['source' => 'PHPUnit-Cat', 'match_type' => 'prefix']);
+        $this->assertSame('/phpunit-cat', $this->model->getRedirect($id)['source']);
+
+        // regex and query sources are case sensitive by nature
+        $id = $this->add(['source' => '^/PHPUnit/(\d+)/$', 'match_type' => 'regex']);
+        $this->assertSame('^/PHPUnit/(\d+)/$', $this->model->getRedirect($id)['source']);
+        $id = $this->add(['source' => '?rt=phpunit/Page&ID=1', 'match_type' => 'query']);
+        $this->assertSame('rt=phpunit/Page&ID=1', $this->model->getRedirect($id)['source']);
+    }
+
+    public function testDuplicateIgnoresSourceLetterCase(): void
+    {
+        $this->add(['source' => '/phpunit-old']);
+        $errors = $this->model->validateRedirect(
+            ['source' => '/PHPUnit-OLD', 'target' => '/phpunit-new', 'match_type' => 'exact', 'action' => 301]
+        );
+        $this->assertArrayHasKey('source', $errors);
+    }
+
+    public function testReplaceTargetKeywordLetterCase(): void
+    {
+        $id = $this->add(['source' => '/phpunit-src', 'target' => '/PHPUnit-KW']);
+        $this->assertSame(1, $this->model->replaceTargetKeyword('phpunit-kw', 'PHPUnit-New-KW'));
+        $this->assertSame('/phpunit-new-kw', $this->model->getRedirect($id)['target']);
+    }
+
     public function testUpdateAndDelete(): void
     {
         $id = $this->add([]);

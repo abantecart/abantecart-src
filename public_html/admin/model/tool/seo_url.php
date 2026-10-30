@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /*
  *   $Id$
  *
@@ -102,6 +103,7 @@ class ModelToolSeoUrl extends Model
      */
     public function addSeoUrl(array $data): int
     {
+        $data['seo_keyword'] = $this->normalizeKeyword((string)($data['seo_keyword'] ?? ''));
         return $this->saveForContentLanguage($data);
     }
 
@@ -119,6 +121,7 @@ class ModelToolSeoUrl extends Model
             return;
         }
         $data = array_merge($current, $data);
+        $data['seo_keyword'] = $this->normalizeKeyword((string)$data['seo_keyword']);
         $storedQuery = $this->buildStoredQuery($data);
         $currentQuery = $this->buildStoredQuery($current);
 
@@ -169,7 +172,7 @@ class ModelToolSeoUrl extends Model
     public function validateSeoUrl(array $data, int $urlAliasId = 0): array
     {
         $errors = [];
-        $keyword = trim((string)($data['seo_keyword'] ?? ''));
+        $keyword = $this->normalizeKeyword((string)($data['seo_keyword'] ?? ''));
         $route = trim((string)($data['route'] ?? ''));
         $query = trim((string)($data['query'] ?? ''));
         $storedQuery = $this->buildStoredQuery($data);
@@ -334,7 +337,19 @@ class ModelToolSeoUrl extends Model
     }
 
     /**
-     * Inserts or updates keyword of the query for the content language only
+     * Seo keyword is always stored in lower case, the storefront looks it up in lower case
+     *
+     * @param string $keyword
+     *
+     * @return string
+     */
+    private function normalizeKeyword(string $keyword): string
+    {
+        return mb_strtolower(trim($keyword));
+    }
+
+    /**
+     * Inserts or updates the keyword of the query for the content language only
      *
      * @param array $data
      *

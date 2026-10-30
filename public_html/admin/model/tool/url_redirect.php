@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /*
  *   $Id$
  *
@@ -25,7 +26,7 @@ class ModelToolURLRedirect extends Model
 {
     public const MATCH_TYPES = ['exact', 'prefix', 'regex', 'query'];
     public const ACTIONS = [301, 302, 403, 404, 410];
-    /** storefront model reads active rules from this cache key */
+    /** the storefront model reads active rules from this cache key */
     public const CACHE_KEY = 'url_redirects';
 
     private const FIELDS = [
@@ -179,7 +180,7 @@ class ModelToolURLRedirect extends Model
         }
         $headers = $data['source_http_headers'] ?? '';
         if ($source === '' && ($data['source_host'] ?? '') === '' && $headers === '') {
-            // at least one of source, source_host and source_http_headers is required
+            // at least one of sources, source_host and source_http_headers is required
             $errors['source'] = $this->language->get('error_source');
             $errors['source_host'] = $this->language->get('error_source');
             $errors['source_http_headers'] = $this->language->get('error_source');
@@ -236,6 +237,7 @@ class ModelToolURLRedirect extends Model
      */
     public function replaceTargetKeyword(string $oldKeyword, string $newKeyword): int
     {
+        $newKeyword = mb_strtolower($newKeyword);
         if ($oldKeyword === '' || $oldKeyword === $newKeyword) {
             return 0;
         }
@@ -283,7 +285,7 @@ class ModelToolURLRedirect extends Model
         $head = $slashPos === false ? '' : substr($trimmedPath, 0, $slashPos + 1);
         $segment = $slashPos === false ? $trimmedPath : substr($trimmedPath, $slashPos + 1);
         // "https://old-keyword" is a host, not a keyword
-        if (str_ends_with($head, '//') || rawurldecode($segment) !== $old) {
+        if (str_ends_with($head, '//') || rawurldecode($segment) !== $old && mb_strtolower(rawurldecode($segment)) !== mb_strtolower($old)) {
             return null;
         }
         return $head . $new . $trailingSlash . $tail;
@@ -350,8 +352,9 @@ class ModelToolURLRedirect extends Model
         if ($matchType === 'regex') {
             return $source;
         }
-        // seo keyword "old-product" and path "/old-product/" are the same url
-        $source = '/' . trim($source, '/');
+        // seo keyword "old-product" and path "/old-product/" are the same url.
+        // Keywords are stored in lower case, so is the source
+        $source = '/' . mb_strtolower(trim($source, '/'));
         return $source === '/' ? '' : $source;
     }
 
@@ -359,6 +362,7 @@ class ModelToolURLRedirect extends Model
      * @param array $data prepared data
      *
      * @return string
+     * @throws AException
      */
     private function buildSetSql(array $data): string
     {

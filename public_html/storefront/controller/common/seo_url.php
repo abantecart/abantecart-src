@@ -49,7 +49,7 @@ class ControllerCommonSeoUrl extends AController
         }
 
         if (isset($this->request->get['_route_'])) {
-            $parts = array_filter(explode('/', $this->request->get['_route_']));
+            $parts = array_map('mb_strtolower', array_filter(explode('/', $this->request->get['_route_'])));
             $result = $this->db->query(
                 "SELECT query, keyword
                  FROM " . $this->db->table('url_aliases') . "

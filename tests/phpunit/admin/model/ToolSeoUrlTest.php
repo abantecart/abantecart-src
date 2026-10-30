@@ -201,6 +201,43 @@ class ToolSeoUrlTest extends AbanteCartTestBootstrap
         $this->assertEquals($id, $rows[0]['url_alias_id']);
     }
 
+    public function testAddStoresKeywordInLowerCase(): void
+    {
+        $this->add(' PHPUnit-Seo-ÄБВ ');
+        $this->assertSame('phpunit-seo-äбв', $this->rows('phpunit_id=1')[0]['keyword']);
+    }
+
+    public function testUpdateStoresKeywordInLowerCase(): void
+    {
+        $id = $this->add('phpunit-old');
+        $this->model->updateSeoUrl($id, ['seo_keyword' => 'PHPUnit-NEW']);
+        $this->assertSame('phpunit-new', $this->rows('phpunit_id=1')[0]['keyword']);
+
+        // the changed query takes another branch of the update
+        $this->model->updateSeoUrl($id, ['seo_keyword' => 'PHPUnit-Newer', 'query' => 'phpunit_id=2']);
+        $this->assertSame('phpunit-newer', $this->rows('phpunit_id=2')[0]['keyword']);
+    }
+
+    public function testUpdateKeywordInUpperCaseKeepsRedirectsWorking(): void
+    {
+        $id = $this->add('phpunit-old');
+        /** @var \ModelToolURLRedirect $redirects */
+        $redirects = $this->load->model('tool/url_redirect');
+        $redirectId = $redirects->addRedirect(['source' => '/phpunit-src', 'target' => '/phpunit-old']);
+
+        $this->model->updateSeoUrl($id, ['seo_keyword' => 'PHPUnit-NEW']);
+
+        $this->assertSame('/phpunit-new', $redirects->getRedirect($redirectId)['target']);
+        $redirects->deleteRedirect($redirectId);
+    }
+
+    public function testValidateKeywordIsCheckedInLowerCase(): void
+    {
+        $this->add('phpunit-seo', 'phpunit_id=1');
+        $errors = $this->model->validateSeoUrl(['seo_keyword' => ' PhpUnit-Seo ', 'query' => 'phpunit_id=2']);
+        $this->assertArrayHasKey('seo_keyword', $errors);
+    }
+
     public function testUpdateQueryChangesRowById(): void
     {
         $id = $this->add('phpunit-seo', 'phpunit_id=1');
