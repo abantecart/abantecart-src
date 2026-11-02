@@ -272,87 +272,89 @@ class ModelAccountCustomer extends Model
     }
 
     /**
-     * @param array $data
+     * @param array $inData
      *
      * @return bool
      * @throws AException|TransportExceptionInterface
      */
-    public function editCustomer($data)
+    public function editCustomer($inData)
     {
-        $data = (array) $data;
-        if (!$data) {
+        $inData = (array) $inData;
+        if (!$inData) {
             return false;
         }
 
-        $data['store_name'] = $this->config->get('store_name');
+        $inData['store_name'] = $this->config->get('store_name');
 
         $language = new ALanguage($this->registry);
         $language->load($language->language_details['directory']);
         $language->load('common/im');
 
         //update login only if needed
-        if ($data['loginname'] && trim($data['loginname']) != $this->customer->getLoginName()) {
+        if ($inData['loginname'] && trim($inData['loginname']) != $this->customer->getLoginName()) {
             $message_arr = [
                 0 => [
                     'message' => $language->getAndReplace(
                                   'im_customer_account_update_login_to_customer',
-                        replaces: $data['loginname']
+                        replaces: $inData['loginname']
                     ),
                 ],
             ];
-            $data['old_loginname'] = $this->customer->getLoginName();
-            $this->im->send('customer_account_update', $message_arr, 'storefront_customer_account_update', $data);
+            $inData['old_loginname'] = $this->customer->getLoginName();
+            $this->im->send('customer_account_update', $message_arr, 'storefront_customer_account_update', $inData);
         }
 
         //get existing data and compare
         $priorData = $this->getCustomer($this->customer->getId());
         foreach ($priorData as $rec => $val) {
-            if ($rec == 'email' && $val != $data['email']) {
+            if ($rec == 'email' && $val != $inData['email']) {
                 $message_arr = [
                     0 => [
                         'message' => $language->getAndReplace(
                                       'im_customer_account_update_email_to_customer',
-                            replaces: $data['email']
+                            replaces: $inData['email']
                         ),
                     ],
                 ];
-                $data['old_email'] = $val;
-                $this->im->send('customer_account_update', $message_arr, 'storefront_customer_account_update', $data);
+                $inData['old_email'] = $val;
+                $this->im->send('customer_account_update', $message_arr, 'storefront_customer_account_update', $inData);
             }
         }
 
         if (
-            trim($data['firstname']) != $this->customer->getFirstName()
-            || trim($data['lastname']) != $this->customer->getLastName()
-            || trim($data['telephone']) != $this->customer->getTelephone()
-            || trim($data['fax']) != $this->customer->getFax()
+            trim($inData['firstname']) != $this->customer->getFirstName()
+            || trim($inData['lastname']) != $this->customer->getLastName()
+            || trim($inData['telephone']) != $this->customer->getTelephone()
+            || trim($inData['fax']) != $this->customer->getFax()
         ) {
             $message_arr = [
                 0 => [
                     'message' => $language->get('im_customer_account_update_text_to_customer'),
                 ],
             ];
-            $this->im->send('customer_account_update', $message_arr, 'storefront_customer_account_update', $data);
+            $this->im->send('customer_account_update', $message_arr, 'storefront_customer_account_update', $inData);
         }
 
         $updateArr = [];
         if ($this->dcrypt->active) {
-            $data = $this->dcrypt->encrypt_data($data, 'customers');
-            $updateArr[] = "`key_id` = '" . (int) $data['key_id'] . "'";
+            //encrypt full data set (case with deprecated key) 
+            $inData = array_merge($priorData, $inData);
+            $inData = $this->dcrypt->encrypt_data($inData, 'customers');
+            $updateArr[] = "`key_id` = '" . (int) $inData['key_id'] . "'";
         }
 
         foreach ($this->data['customer_column_list'] as $key => $dataType) {
-            if (!isset($data[$key])) {
+            if (!isset($inData[$key])) {
                 continue;
             }
             if ($dataType == 'int') {
-                $value = (int) $data[$key];
+                $value = (int) $inData[$key];
             } elseif ($dataType == 'float') {
-                $value = (float) $data[$key];
+                $value = (float) $inData[$key];
             } elseif ($dataType == 'string') {
-                $value = $this->db->escape(trim($data[$key]));
+                $value = $this->db->escape(trim($inData[$key]));
             } else {
-                $value = $this->db->escape(serialize($data[$key]));
+                $value = $this->db->escape(serialize($inData[$key]));
             }
             $updateArr[] = "`" . $key . "` = '" . $value . "'";
         }
@@ -362,14 +364,17 @@ class ModelAccountCustomer extends Model
         $colNames = array_keys($this->data['customer_column_list']);
         //ignore store_name.
         $colNames[] = 'store_name';
+        if($this->dcrypt->active){
+            $colNames[] = 'key_id';
+        }        
 
-        foreach ($data as $key => $value) {
+        foreach ($inData as $key => $value) {
             if (in_array($key, $colNames)) {
                 continue;
             }
             if (is_array($value)) {
                 foreach ($value as $subKey => $subValue) {
-                    if (in_array($key, $colNames)) {
+                    if (in_array($subKey, $colNames)) {
                         continue;
                     }
                     $extFields[$key][$subKey] = $subValue;
