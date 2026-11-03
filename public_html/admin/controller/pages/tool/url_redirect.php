@@ -197,7 +197,7 @@ class ControllerPagesToolURLRedirect extends AController
         // "saved_list" restores the grid search and paging the user had before opening the form
         $this->data['list_url'] = $this->html->getSecureURL('tool/url_redirect', '&saved_list=redirect_grid');
         $this->data['insert'] = $this->html->getSecureURL('tool/url_redirect/insert');
-        $this->data['action'] = $id
+        $this->data['form_action'] = $id
             ? $this->html->getSecureURL('tool/url_redirect/update', '&id=' . $id)
             : $this->data['insert'];
         $this->data['update'] = $id
@@ -219,7 +219,7 @@ class ControllerPagesToolURLRedirect extends AController
             'separator' => ' :: ',
         ]);
         $this->document->addBreadcrumb([
-            'href' => $this->data['action'],
+            'href' => $this->data['form_action'],
             'text' => $this->data['heading_title'],
             'separator' => ' :: ',
             'current' => true,
@@ -227,15 +227,21 @@ class ControllerPagesToolURLRedirect extends AController
 
         $form = new AForm($id ? 'HS' : 'ST');
         $form->setForm(['form_name' => 'editFrm', 'update' => $this->data['update']]);
-        $this->data['form']['form_open'] = $form->getFieldHtml([
-            'type' => 'form',
-            'name' => 'editFrm',
-            'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
-            'action' => $this->data['action'],
-        ]);
-        $this->data['form']['submit'] = $form->getFieldHtml([
-            'type' => 'button', 'name' => 'submit', 'text' => $this->language->get('button_save'),
-        ]);
+        $this->data['form']['form_open'] = $form->getFieldHtml(
+            [
+                'type' => 'form',
+                'name' => 'editFrm',
+                'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
+                'action' => $this->data['form_action'],
+            ]
+        );
+        $this->data['form']['submit'] = $form->getFieldHtml(
+            [
+            'type' => 'button', 
+            'name' => 'submit', 
+            'text' => $this->language->get('button_save'),
+        ]
+        );
 
         $fields = &$this->data['form']['fields'];
         $fields['status'] = $form->getFieldHtml([
@@ -271,7 +277,7 @@ class ControllerPagesToolURLRedirect extends AController
             'type'        => 'textarea',
             'name'        => 'source_http_headers',
             'value'       => $this->data['source_http_headers'],
-            'placeholder' => "User-Agent: Googlebot\nAccept-Language: ru",
+            'placeholder' => "User-Agent: Googlebot",
             'style'       => 'large-field',
         ]);
         $actions = [];
