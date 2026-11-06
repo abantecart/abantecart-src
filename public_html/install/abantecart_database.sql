@@ -721,6 +721,7 @@ CREATE TABLE `ac_customers` (
 
 CREATE INDEX `ac_customers_idx` ON `ac_customers` ( `store_id`, `address_id`, `customer_group_id` );
 CREATE FULLTEXT INDEX `ac_customers_name_idx` ON `ac_customers` (`firstname`, `lastname`);
+CREATE INDEX `ac_customers_date_added_idx` ON `ac_customers` (`date_added`);
 --
 -- DDL for table `customer_groups`
 --

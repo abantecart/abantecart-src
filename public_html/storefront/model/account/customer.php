@@ -701,7 +701,10 @@ class ModelAccountCustomer extends Model
      */
     public function getTotalCustomersByEmail($email, $no_subscribers = true)
     {
-        $cacheKey = 'customers.total_by_email.' . md5(var_export(func_get_args(), true));
+        $cacheKey = 'customers.total_by_email.' 
+            . md5(
+                var_export([func_get_args(), $this->getLoginnameAsEmailCondition($email)], true)
+            );
         $output = $this->cache->pull($cacheKey);
         if ($output === false) {
             $sql = "SELECT COUNT(*) AS total
@@ -747,7 +750,7 @@ class ModelAccountCustomer extends Model
      */
     public function getCustomerByEmail($email)
     {
-        $cacheKey = 'customers.by_email.' . md5(var_export(func_get_args(), true));
+        $cacheKey = 'customers.by_email.' . md5(var_export([func_get_args(), $this->getLoginnameAsEmailCondition($email)], true));
         $output = $this->cache->pull($cacheKey);
         if ($output === false) {
             //assuming that data is not encrypted. Cannot call these otherwise
@@ -774,7 +777,7 @@ class ModelAccountCustomer extends Model
      */
     public function getSubscribersByEmail($email)
     {
-        $cacheKey = 'customers.subscribers_by_email.' . md5(var_export(func_get_args(), true));
+        $cacheKey = 'customers.subscribers_by_email.' . md5(var_export([func_get_args(), $this->getLoginnameAsEmailCondition($email)], true));
         $output = $this->cache->pull($cacheKey);
         if ($output === false) {
             //assuming that data is not encrypted. Cannot call these otherwise

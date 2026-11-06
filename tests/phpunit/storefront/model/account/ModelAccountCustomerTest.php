@@ -20,6 +20,7 @@
 
 namespace storefront\model\account;
 
+use ACache;
 use ADataEncryption;
 use ADB;
 use AConfig;
@@ -36,6 +37,7 @@ use ReflectionMethod;
  * @property AConfig $config
  * @property ALoader $load
  * @property ADataEncryption $dcrypt
+ * @property ACache $cache
  */
 class ModelAccountCustomerTest extends AbanteCartTestBootstrap
 {
@@ -108,6 +110,8 @@ class ModelAccountCustomerTest extends AbanteCartTestBootstrap
             "DELETE FROM " . $this->db->table('customers') . "
             WHERE loginname LIKE '" . self::PREFIX . "%'"
         );
+        //rows are deleted bypassing the model, so the model cache must be reset manually
+        $this->cache->remove('customers');
     }
 
     /**
@@ -136,7 +140,10 @@ class ModelAccountCustomerTest extends AbanteCartTestBootstrap
             "INSERT INTO " . $this->db->table('customers') . "
             SET " . implode(', ', $set)
         );
-        return (int) $this->db->getLastId();
+        $id = (int) $this->db->getLastId();
+        //row is inserted bypassing the model, so the model cache must be reset manually
+        $this->cache->remove('customers');
+        return $id;
     }
 
     private function callLoginnameCondition(string $email): string
@@ -530,5 +537,63 @@ class ModelAccountCustomerTest extends AbanteCartTestBootstrap
         $customer = $this->model->getCustomer($id);
         $this->assertSame(['a' => "it's"], $customer['data']);
         $this->assertSame(['x' => 'y'], $customer['ext_fields']);
+    }
+
+    // cache
+
+    public function testGetCustomerIsCachedUntilModelUpdate()
+    {
+        $id = $this->createCustomer(['status' => 1]);
+        $this->assertEquals(1, $this->model->getCustomer($id)['status']);
+
+        //direct change bypassing the model is not visible because of cache
+        $this->db->query(
+            "UPDATE " . $this->db->table('customers') . "
+            SET status = 0
+            WHERE customer_id = " . $id
+        );
+        if ($this->cache->isCacheEnabled()) {
+            $this->assertEquals(1, $this->model->getCustomer($id)['status']);
+        }
+
+        //any change via the model resets the cache
+        $this->model->editNewsletter(1, $id);
+        $customer = $this->model->getCustomer($id);
+        $this->assertEquals(0, $customer['status']);
+        $this->assertEquals(1, $customer['newsletter']);
+    }
+
+    public function testIsUniqueLoginnameCacheIsResetOnAddCustomer()
+    {
+        $login = self::PREFIX . 'cached_unique';
+        $this->assertTrue($this->model->is_unique_loginname($login));
+
+        $this->db->query(
+            "INSERT INTO " . $this->db->table('customers') . "
+            SET loginname = '" . $this->db->escape($login) . "',
+                email = '" . $this->db->escape($login . '@example.com') . "',
+                customer_group_id = " . (int) $this->customerGroupId
+        );
+        if ($this->cache->isCacheEnabled()) {
+            $this->assertTrue($this->model->is_unique_loginname($login));
+        }
+
+        $this->model->editStatus((int) $this->db->getLastId(), 1);
+        $this->assertFalse($this->model->is_unique_loginname($login));
+    }
+
+    /**
+     * Cache key must depend on encryption and email-as-login settings, not only on arguments
+     */
+    public function testGetTotalCustomersByEmailCacheDependsOnLoginSettings()
+    {
+        $login = self::PREFIX . 'cache-login@example.com';
+        $this->createCustomer(['loginname' => $login, 'email' => 'ciphertext-' . uniqid()]);
+
+        $this->assertEquals(0, $this->model->getTotalCustomersByEmail($login));
+        $this->dcrypt->active = true;
+        $this->assertEquals(1, $this->model->getTotalCustomersByEmail($login));
+        $this->config->set('prevent_email_as_login', 1);
+        $this->assertEquals(0, $this->model->getTotalCustomersByEmail($login));
     }
 }

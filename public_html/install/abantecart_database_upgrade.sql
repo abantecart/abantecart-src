@@ -63,3 +63,5 @@ CREATE TABLE `ac_url_redirects` (
   PRIMARY KEY (`id`),
   KEY `ac_url_redirects_idx` (`status`, `priority`)
 ) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE INDEX `ac_customers_date_added_idx` ON `ac_customers` (`date_added`);

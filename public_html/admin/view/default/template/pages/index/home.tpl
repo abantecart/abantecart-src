@@ -271,8 +271,12 @@ if($quick_start_url){ ?>
 	}
 	?>
 
-	loadPerformanceChart($('#range').val());
-	$('#range').aform({triggerChanged: false});
+<?php if ($viewchart && $chart_url) { ?>
+	if ($('#report_flot').length && $('#range').length) {
+		loadPerformanceChart($('#range').val());
+		$('#range').aform({triggerChanged: false});
+	}
+<?php } ?>
 
 	function loadPerformanceChart(range) {
 		$.ajax({

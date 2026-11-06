@@ -23,130 +23,134 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerResponsesIndexChart extends AController
 {
+    /** cache lifetime slot in seconds. Data can be stale for up to this period */
+    const CACHE_SLOT = 600;
+
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('common/home');
 
-        $data = array();
-
-        $data['order'] = array();
-        $data['customer'] = array();
-        $data['xaxis'] = array();
-
-        $data['order']['label'] = $this->language->get('text_order');
-        $data['customer']['label'] = $this->language->get('text_customer');
-
-        if (isset($this->request->get['range'])) {
-            $range = $this->request->get['range'];
-        } else {
+        $range = $this->request->get['range'] ?? 'month';
+        if (!in_array($range, ['day', 'week', 'month', 'year'])) {
             $range = 'month';
         }
 
-        switch ($range) {
-            case 'day':
-                for ($i = 0; $i < 24; $i++) {
-                    $query = $this->db->query("SELECT COUNT(*) AS total FROM `".$this->db->table("orders")."` WHERE order_status_id > '0' AND (DATE(date_added) = DATE(NOW()) AND HOUR(date_added) = '".(int)$i."') GROUP BY HOUR(date_added) ORDER BY date_added ASC");
-
-                    if ($query->num_rows) {
-                        $data['order']['data'][] = array($i, (int)$query->row['total']);
-                    } else {
-                        $data['order']['data'][] = array($i, 0);
-                    }
-
-                    $query = $this->db->query("SELECT COUNT(*) AS total FROM ".$this->db->table("customers")." WHERE DATE(date_added) = DATE(NOW()) AND HOUR(date_added) = '".(int)$i."' GROUP BY HOUR(date_added) ORDER BY date_added ASC");
-
-                    if ($query->num_rows) {
-                        $data['customer']['data'][] = array($i, (int)$query->row['total']);
-                    } else {
-                        $data['customer']['data'][] = array($i, 0);
-                    }
-
-                    $data['xaxis'][] = array($i, date('H', mktime($i, 0, 0, date('n'), date('j'), date('Y'))));
-                }
-                break;
-            case 'week':
-                $date_start = strtotime('-'.date('w').' days');
-
-                for ($i = 0; $i < 7; $i++) {
-                    $date = date('Y-m-d', $date_start + ($i * 86400));
-
-                    $query = $this->db->query("SELECT COUNT(*) AS total FROM `".$this->db->table("orders")."` WHERE order_status_id > '0' AND DATE(date_added) = '".$this->db->escape($date)."' GROUP BY DATE(date_added)");
-
-                    if ($query->num_rows) {
-                        $data['order']['data'][] = array($i, (int)$query->row['total']);
-                    } else {
-                        $data['order']['data'][] = array($i, 0);
-                    }
-
-                    $query = $this->db->query("SELECT COUNT(*) AS total FROM `".$this->db->table("customers")."` WHERE DATE(date_added) = '".$this->db->escape($date)."' GROUP BY DATE(date_added)");
-
-                    if ($query->num_rows) {
-                        $data['customer']['data'][] = array($i, (int)$query->row['total']);
-                    } else {
-                        $data['customer']['data'][] = array($i, 0);
-                    }
-
-                    $data['xaxis'][] = array($i, date('D', strtotime($date)));
-                }
-
-                break;
-            default:
-            case 'month':
-                for ($i = 1; $i <= date('t'); $i++) {
-                    $date = date('Y').'-'.date('m').'-'.$i;
-
-                    $query = $this->db->query("SELECT COUNT(*) AS total FROM `".$this->db->table("orders")."` WHERE order_status_id > '0' AND (DATE(date_added) = '".$this->db->escape($date)."') GROUP BY DAY(date_added)");
-
-                    if ($query->num_rows) {
-                        $data['order']['data'][] = array($i, (int)$query->row['total']);
-                    } else {
-                        $data['order']['data'][] = array($i, 0);
-                    }
-
-                    $query = $this->db->query("SELECT COUNT(*) AS total FROM ".$this->db->table("customers")." WHERE DATE(date_added) = '".$this->db->escape($date)."' GROUP BY DAY(date_added)");
-
-                    if ($query->num_rows) {
-                        $data['customer']['data'][] = array($i, (int)$query->row['total']);
-                    } else {
-                        $data['customer']['data'][] = array($i, 0);
-                    }
-
-                    $data['xaxis'][] = array($i, date('j', strtotime($date)));
-                }
-                break;
-            case 'year':
-                for ($i = 1; $i <= 12; $i++) {
-                    $query = $this->db->query("SELECT COUNT(*) AS total FROM `".$this->db->table("orders")."` WHERE order_status_id > '0' AND YEAR(date_added) = '".date('Y')."' AND MONTH(date_added) = '".$i."' GROUP BY MONTH(date_added)");
-
-                    if ($query->num_rows) {
-                        $data['order']['data'][] = array($i, (int)$query->row['total']);
-                    } else {
-                        $data['order']['data'][] = array($i, 0);
-                    }
-
-                    $query = $this->db->query("SELECT COUNT(*) AS total FROM ".$this->db->table("customers")." WHERE YEAR(date_added) = '".date('Y')."' AND MONTH(date_added) = '".$i."' GROUP BY MONTH(date_added)");
-
-                    if ($query->num_rows) {
-                        $data['customer']['data'][] = array($i, (int)$query->row['total']);
-                    } else {
-                        $data['customer']['data'][] = array($i, 0);
-                    }
-
-                    $data['xaxis'][] = array($i, date('M', mktime(0, 0, 0, $i, 1, date('Y'))));
-                }
-                break;
+        $cacheKey = 'chart.admin.dashboard.' . $range . '.' . $this->language->getLanguageID()
+            . '.' . floor(time() / self::CACHE_SLOT);
+        $data = $this->cache->pull($cacheKey);
+        if ($data === false) {
+            $data = $this->buildChartData($range);
+            $this->cache->push($cacheKey, $data);
         }
+        $this->data['chart'] = $data;
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
         $this->load->library('json');
-        $this->response->setOutput(AJson::encode($data));
+        $this->response->setOutput(AJson::encode($this->data['chart']));
+    }
+
+    /**
+     * @param string $range
+     *
+     * @return array
+     * @throws AException
+     */
+    protected function buildChartData(string $range)
+    {
+        $data = [
+            'order'    => [
+                'label' => $this->language->get('text_order'),
+                'data'  => [],
+            ],
+            'customer' => [
+                'label' => $this->language->get('text_customer'),
+                'data'  => [],
+            ],
+            'xaxis'    => [],
+        ];
+
+        $points = [];
+        switch ($range) {
+            case 'day':
+                $dateFrom = date('Y-m-d 00:00:00');
+                $dateTo = date('Y-m-d 00:00:00', strtotime('+1 day'));
+                $groupBy = 'HOUR(date_added)';
+                for ($i = 0; $i < 24; $i++) {
+                    $points[$i] = date('H', mktime($i, 0, 0, date('n'), date('j'), date('Y')));
+                }
+                break;
+            case 'week':
+                $weekStart = strtotime(date('Y-m-d') . ' -' . date('w') . ' days');
+                $dateFrom = date('Y-m-d 00:00:00', $weekStart);
+                $dateTo = date('Y-m-d 00:00:00', strtotime('+7 days', $weekStart));
+                //0 - Sunday
+                $groupBy = 'DATEDIFF(DATE(date_added), \'' . date('Y-m-d', $weekStart) . '\')';
+                for ($i = 0; $i < 7; $i++) {
+                    $points[$i] = date('D', strtotime('+' . $i . ' days', $weekStart));
+                }
+                break;
+            case 'year':
+                $dateFrom = date('Y-01-01 00:00:00');
+                $dateTo = (date('Y') + 1) . '-01-01 00:00:00';
+                $groupBy = 'MONTH(date_added)';
+                for ($i = 1; $i <= 12; $i++) {
+                    $points[$i] = date('M', mktime(0, 0, 0, $i, 1, date('Y')));
+                }
+                break;
+            case 'month':
+            default:
+                $dateFrom = date('Y-m-01 00:00:00');
+                $dateTo = date('Y-m-01 00:00:00', strtotime('first day of next month'));
+                $groupBy = 'DAY(date_added)';
+                for ($i = 1; $i <= date('t'); $i++) {
+                    $points[$i] = (string) $i;
+                }
+                break;
+        }
+
+        $orders = $this->getTotals('orders', $groupBy, $dateFrom, $dateTo, "order_status_id > '0'");
+        $customers = $this->getTotals('customers', $groupBy, $dateFrom, $dateTo);
+
+        foreach ($points as $i => $label) {
+            $data['order']['data'][] = [$i, (int) ($orders[$i] ?? 0)];
+            $data['customer']['data'][] = [$i, (int) ($customers[$i] ?? 0)];
+            $data['xaxis'][] = [$i, $label];
+        }
+
+        return $data;
+    }
+
+    /**
+     * Returns totals grouped by given expression with single query
+     *
+     * @param string $table
+     * @param string $groupBy
+     * @param string $dateFrom
+     * @param string $dateTo
+     * @param string $extraWhere
+     *
+     * @return array - [point => total]
+     * @throws AException
+     */
+    protected function getTotals(string $table, string $groupBy, string $dateFrom, string $dateTo, string $extraWhere = '')
+    {
+        $query = $this->db->query(
+            "SELECT " . $groupBy . " AS point, COUNT(*) AS total
+            FROM `" . $this->db->table($table) . "`
+            WHERE date_added >= '" . $this->db->escape($dateFrom) . "'
+                AND date_added < '" . $this->db->escape($dateTo) . "'
+                " . ($extraWhere ? " AND " . $extraWhere : "") . "
+            GROUP BY point"
+        );
+        $output = [];
+        foreach ($query->rows as $row) {
+            $output[(int) $row['point']] = (int) $row['total'];
+        }
+        return $output;
     }
 }
-
-?>
