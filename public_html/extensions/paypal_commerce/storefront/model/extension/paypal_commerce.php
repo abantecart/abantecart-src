@@ -286,6 +286,7 @@ class ModelExtensionPaypalCommerce extends Model
                 WHERE customer_id = '" . (int)$this->customer->getId() . "'"
             );
         }
+        $this->cache->remove('customers');
 
         return $address_id;
     }

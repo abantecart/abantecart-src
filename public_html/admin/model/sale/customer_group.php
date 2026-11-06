@@ -30,7 +30,9 @@ class ModelSaleCustomerGroup extends Model
             SET name = '".$this->db->escape($data['name'])."',
                 tax_exempt = '".$this->db->escape($data['tax_exempt'])."'
             ");
-        return $this->db->getLastId();
+        $groupId = $this->db->getLastId();
+        $this->cache->remove('customers');
+        return $groupId;
     }
 
     public function editCustomerGroup($customer_group_id, $data)
@@ -49,6 +51,7 @@ class ModelSaleCustomerGroup extends Model
                 WHERE customer_group_id = '".(int)$customer_group_id."'"
             );
         }
+        $this->cache->remove('customers');
     }
 
     public function deleteCustomerGroup($customer_group_id)
@@ -61,6 +64,7 @@ class ModelSaleCustomerGroup extends Model
             "DELETE FROM ".$this->db->table("product_discounts")." 
             WHERE customer_group_id = '".(int)$customer_group_id."'"
         );
+        $this->cache->remove('customers');
     }
 
     public function getCustomerGroup($customer_group_id)

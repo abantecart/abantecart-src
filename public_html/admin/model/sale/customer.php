@@ -73,6 +73,7 @@ class ModelSaleCustomer extends Model
         }
 
         $this->editCustomerNotifications($customer_id, $data);
+        $this->cache->remove('customers');
         return $customer_id;
     }
 
@@ -108,7 +109,9 @@ class ModelSaleCustomer extends Model
             . $key_sql . ",
                 zone_id = '" . (int) $address['zone_id'] . "'"
         );
-        return (int) $this->db->getLastId();
+        $addressId = (int) $this->db->getLastId();
+        $this->cache->remove('customers');
+        return $addressId;
     }
 
     /**
@@ -163,6 +166,7 @@ class ModelSaleCustomer extends Model
                 $customer_id, ['newsletter' => ['email' => (int) $data['newsletter']]]
             );
         }
+        $this->cache->remove('customers');
     }
 
     /**
@@ -201,6 +205,7 @@ class ModelSaleCustomer extends Model
             . $key_sql . ",
                 zone_id = '" . (int) $address['zone_id'] . "'"
         );
+        $this->cache->remove('customers');
         return true;
     }
 
@@ -221,6 +226,7 @@ class ModelSaleCustomer extends Model
              WHERE customer_id = '" . (int) $customer_id . "' 
                 AND address_id = '" . (int) $address_id . "'"
         );
+        $this->cache->remove('customers');
         return true;
     }
 
@@ -291,6 +297,7 @@ class ModelSaleCustomer extends Model
         if ($field == 'newsletter') {
             $this->saveCustomerNotificationSettings($customer_id, ['newsletter' => ['email' => (int) $value]]);
         }
+        $this->cache->remove('customers');
         return true;
     }
 
@@ -338,6 +345,7 @@ class ModelSaleCustomer extends Model
             . $key_sql .
             " WHERE customer_id = '" . (int) $customer_id . "'";
         $this->db->query($sql);
+        $this->cache->remove('customers');
         return true;
     }
 
@@ -380,6 +388,7 @@ class ModelSaleCustomer extends Model
                     $this->db->query($sql);
                 }
             }
+            $this->cache->remove('customers');
         }
         return true;
     }
@@ -398,6 +407,7 @@ class ModelSaleCustomer extends Model
                 SET address_id = '" . (int) $default_address_id . "'
                 WHERE customer_id = '" . (int) $customer_id . "'"
             );
+            $this->cache->remove('customers');
         }
     }
 
@@ -438,6 +448,7 @@ class ModelSaleCustomer extends Model
           SET " . $field_name . " = '" . $this->db->escape($value) . "'
           WHERE address_id = '" . (int) $address_id . "'"
         );
+        $this->cache->remove('customers');
     }
 
     /**
@@ -448,6 +459,11 @@ class ModelSaleCustomer extends Model
      */
     public function getAddressesByCustomerId($customer_id)
     {
+        $cacheKey = 'customers.admin.addresses_by_customer_id.' . (int) $customer_id;
+        $address_data = $this->cache->pull($cacheKey);
+        if ($address_data !== false) {
+            return $address_data;
+        }
         $address_data = [];
         $query = $this->db->query(
             "SELECT *
@@ -485,6 +501,7 @@ class ModelSaleCustomer extends Model
                 ]
             );
         }
+        $this->cache->push($cacheKey, $address_data);
         return $address_data;
     }
 
@@ -507,6 +524,7 @@ class ModelSaleCustomer extends Model
             "DELETE FROM " . $this->db->table("customer_notifications") . " 
             WHERE customer_id = '" . (int) $customer_id . "'"
         );
+        $this->cache->remove('customers');
     }
 
     /**
@@ -517,18 +535,30 @@ class ModelSaleCustomer extends Model
      */
     public function getCustomer($customer_id)
     {
-        $query = $this->db->query(
-            "SELECT DISTINCT *,
-            (SELECT COUNT(order_id)
+        $cacheKey = 'customers.admin.' . (int) $customer_id;
+        $output = $this->cache->pull($cacheKey);
+        if ($output === false) {
+            $query = $this->db->query(
+                "SELECT DISTINCT *
+               FROM " . $this->db->table("customers") . "
+               WHERE customer_id = '" . (int) $customer_id . "'"
+            );
+
+            $output = $this->dcrypt->decrypt_data($query->row, 'customers');
+            $output['ext_fields'] = $output['ext_fields'] ? json_decode($output['ext_fields'], true) : [];
+            $this->cache->push($cacheKey, $output);
+        }
+
+        //orders count is not cached because orders are changed outside the customers model
+        if (!empty($output['customer_id'])) {
+            $query = $this->db->query(
+                "SELECT COUNT(order_id) as orders_count
                 FROM " . $this->db->table("orders") . "
                 WHERE customer_id = '" . (int) $customer_id . "'
-                    AND order_status_id>0) as orders_count
-           FROM " . $this->db->table("customers") . "
-           WHERE customer_id = '" . (int) $customer_id . "'"
-        );
-
-        $output = $this->dcrypt->decrypt_data($query->row, 'customers');
-        $output['ext_fields'] = $output['ext_fields'] ? json_decode($output['ext_fields'], true) : [];
+                    AND order_status_id>0"
+            );
+            $output['orders_count'] = $query->row['orders_count'];
+        }
         return $output;
     }
 
@@ -685,8 +715,14 @@ class ModelSaleCustomer extends Model
 
         //If for total, we're done building the query
         if ($mode == 'total_only') {
-            $query = $this->db->query($sql);
-            return $query->row['total'];
+            $cacheKey = 'customers.admin.total.' . md5($sql);
+            $total = $this->cache->pull($cacheKey);
+            if ($total === false) {
+                $query = $this->db->query($sql);
+                $total = (int) $query->row['total'];
+                $this->cache->push($cacheKey, $total);
+            }
+            return $total;
         }
 
         $sort_data = array_merge(
@@ -727,6 +763,17 @@ class ModelSaleCustomer extends Model
             }
         }
 
+        //do not cache results with orders count, because orders are changed outside the customers model
+        $cacheKey = '';
+        if ($mode != 'default') {
+            $cacheKey = 'customers.admin.list.'
+                . md5($sql . var_export([$mode, $filter['telephone'] ?? null, $filter['sms'] ?? null], true));
+            $result_rows = $this->cache->pull($cacheKey);
+            if ($result_rows !== false) {
+                return $result_rows;
+            }
+        }
+
         $query = $this->db->query($sql);
         $result_rows = $query->rows;
 
@@ -748,6 +795,9 @@ class ModelSaleCustomer extends Model
         for ($i = 0; $i < count($result_rows); $i++) {
             $result_rows[$i] = $this->dcrypt->decrypt_data($result_rows[$i], 'customers');
             $result_rows[$i]['total_num_rows'] = $totalRows;
+        }
+        if ($cacheKey) {
+            $this->cache->push($cacheKey, $result_rows);
         }
 
         return $result_rows;
@@ -795,6 +845,7 @@ class ModelSaleCustomer extends Model
             SET approved = '1'
                 WHERE customer_id = '" . (int) $customer_id . "'"
         );
+        $this->cache->remove('customers');
     }
 
     /**
@@ -807,15 +858,20 @@ class ModelSaleCustomer extends Model
         if (isset($this->session->data['current_store_id']) && has_value($this->session->data['current_store_id'])) {
             $store_based = " AND store_id = " . (int) $this->session->data['current_store_id'];
         }
-        $query = $this->db->query(
-            "SELECT *
-            FROM " . $this->db->table("customers") . "
-            WHERE newsletter = '1' " . $store_based . "
-            ORDER BY firstname, lastname, email"
-        );
-        $result_rows = [];
-        foreach ($query->rows as $row) {
-            $result_rows[] = $this->dcrypt->decrypt_data($row, 'customers');
+        $cacheKey = 'customers.admin.by_newsletter.' . md5($store_based);
+        $result_rows = $this->cache->pull($cacheKey);
+        if ($result_rows === false) {
+            $query = $this->db->query(
+                "SELECT *
+                FROM " . $this->db->table("customers") . "
+                WHERE newsletter = '1' " . $store_based . "
+                ORDER BY firstname, lastname, email"
+            );
+            $result_rows = [];
+            foreach ($query->rows as $row) {
+                $result_rows[] = $this->dcrypt->decrypt_data($row, 'customers');
+            }
+            $this->cache->push($cacheKey, $result_rows);
         }
         return $result_rows;
     }
@@ -834,16 +890,21 @@ class ModelSaleCustomer extends Model
         }
 
         if ($keyword) {
-            $query = $this->db->query(
-                "SELECT *
-                FROM " . $this->db->table("customers") . "
-                WHERE LCASE(CONCAT(firstname, ' ', lastname)) LIKE '%" . $this->db->escape(strtolower($keyword), true) . "%'
-                     OR LCASE(email) LIKE '%" . $this->db->escape(strtolower($keyword), true) . "%' " . $store_based . "
-                ORDER BY firstname, lastname, email"
-            );
-            $result_rows = [];
-            foreach ($query->rows as $row) {
-                $result_rows[] = $this->dcrypt->decrypt_data($row, 'customers');
+            $cacheKey = 'customers.admin.by_keyword.' . md5(var_export([$keyword, $store_based], true));
+            $result_rows = $this->cache->pull($cacheKey);
+            if ($result_rows === false) {
+                $query = $this->db->query(
+                    "SELECT *
+                    FROM " . $this->db->table("customers") . "
+                    WHERE LCASE(CONCAT(firstname, ' ', lastname)) LIKE '%" . $this->db->escape(strtolower($keyword), true) . "%'
+                         OR LCASE(email) LIKE '%" . $this->db->escape(strtolower($keyword), true) . "%' " . $store_based . "
+                    ORDER BY firstname, lastname, email"
+                );
+                $result_rows = [];
+                foreach ($query->rows as $row) {
+                    $result_rows[] = $this->dcrypt->decrypt_data($row, 'customers');
+                }
+                $this->cache->push($cacheKey, $result_rows);
             }
             return $result_rows;
         } else {
@@ -876,10 +937,15 @@ class ModelSaleCustomer extends Model
             $sql .= implode(' OR ', $where) . $store_based;
             $sql .= " ORDER BY firstname, lastname, email";
 
-            $query = $this->db->query($sql);
-            $result_rows = [];
-            foreach ($query->rows as $row) {
-                $result_rows[] = $this->dcrypt->decrypt_data($row, 'customers');
+            $cacheKey = 'customers.admin.by_emails.' . md5($sql);
+            $result_rows = $this->cache->pull($cacheKey);
+            if ($result_rows === false) {
+                $query = $this->db->query($sql);
+                $result_rows = [];
+                foreach ($query->rows as $row) {
+                    $result_rows[] = $this->dcrypt->decrypt_data($row, 'customers');
+                }
+                $this->cache->push($cacheKey, $result_rows);
             }
             return $result_rows;
         } else {
@@ -925,14 +991,19 @@ class ModelSaleCustomer extends Model
      */
     public function getAddresses($customer_id)
     {
-        $query = $this->db->query(
-            "SELECT *
-            FROM " . $this->db->table("addresses") . "
-            WHERE customer_id = '" . (int) $customer_id . "'"
-        );
-        $result_rows = [];
-        foreach ($query->rows as $row) {
-            $result_rows[] = $this->dcrypt->decrypt_data($row, 'addresses');
+        $cacheKey = 'customers.admin.addresses.' . (int) $customer_id;
+        $result_rows = $this->cache->pull($cacheKey);
+        if ($result_rows === false) {
+            $query = $this->db->query(
+                "SELECT *
+                FROM " . $this->db->table("addresses") . "
+                WHERE customer_id = '" . (int) $customer_id . "'"
+            );
+            $result_rows = [];
+            foreach ($query->rows as $row) {
+                $result_rows[] = $this->dcrypt->decrypt_data($row, 'addresses');
+            }
+            $this->cache->push($cacheKey, $result_rows);
         }
         return $result_rows;
     }
@@ -954,16 +1025,18 @@ class ModelSaleCustomer extends Model
         if (has_value($customer_id)) {
             $not_current_customer = "AND customer_id <> '$customer_id'";
         }
-        $query = $this->db->query(
-            "SELECT COUNT(*) AS total
-           FROM " . $this->db->table("customers") . "
-           WHERE LOWER(`loginname`) = LOWER('" . $loginname . "') " . $not_current_customer
-        );
-        if ($query->row['total'] > 0) {
-            return false;
-        } else {
-            return true;
+        $cacheKey = 'customers.admin.total_by_loginname.' . md5(var_export(func_get_args(), true));
+        $total = $this->cache->pull($cacheKey);
+        if ($total === false) {
+            $query = $this->db->query(
+                "SELECT COUNT(*) AS total
+               FROM " . $this->db->table("customers") . "
+               WHERE LOWER(`loginname`) = LOWER('" . $loginname . "') " . $not_current_customer
+            );
+            $total = (int) $query->row['total'];
+            $this->cache->push($cacheKey, $total);
         }
+        return !($total > 0);
     }
 
     /**
@@ -972,12 +1045,18 @@ class ModelSaleCustomer extends Model
      */
     public function getTotalCustomersAwaitingApproval()
     {
-        $query = $this->db->query(
-            "SELECT COUNT(*) AS total
-           FROM " . $this->db->table("customers") . "
-           WHERE approved = '0'"
-        );
-        return $query->row['total'];
+        $cacheKey = 'customers.admin.total_awaiting_approval';
+        $total = $this->cache->pull($cacheKey);
+        if ($total === false) {
+            $query = $this->db->query(
+                "SELECT COUNT(*) AS total
+               FROM " . $this->db->table("customers") . "
+               WHERE approved = '0'"
+            );
+            $total = (int) $query->row['total'];
+            $this->cache->push($cacheKey, $total);
+        }
+        return $total;
     }
 
     /**
@@ -988,12 +1067,18 @@ class ModelSaleCustomer extends Model
      */
     public function getTotalAddressesByCustomerId($customer_id)
     {
-        $query = $this->db->query(
-            "SELECT COUNT(*) AS total
-            FROM " . $this->db->table("addresses") . "
-            WHERE customer_id = '" . (int) $customer_id . "'"
-        );
-        return $query->row['total'];
+        $cacheKey = 'customers.admin.total_addresses_by_customer_id.' . (int) $customer_id;
+        $total = $this->cache->pull($cacheKey);
+        if ($total === false) {
+            $query = $this->db->query(
+                "SELECT COUNT(*) AS total
+                FROM " . $this->db->table("addresses") . "
+                WHERE customer_id = '" . (int) $customer_id . "'"
+            );
+            $total = (int) $query->row['total'];
+            $this->cache->push($cacheKey, $total);
+        }
+        return $total;
     }
 
     /**
@@ -1004,12 +1089,18 @@ class ModelSaleCustomer extends Model
      */
     public function getTotalAddressesByCountryId($country_id)
     {
-        $query = $this->db->query(
-            "SELECT COUNT(*) AS total
-            FROM " . $this->db->table("addresses") . "
-            WHERE country_id = '" . (int) $country_id . "'"
-        );
-        return (int) $query->row['total'];
+        $cacheKey = 'customers.admin.total_addresses_by_country_id.' . (int) $country_id;
+        $total = $this->cache->pull($cacheKey);
+        if ($total === false) {
+            $query = $this->db->query(
+                "SELECT COUNT(*) AS total
+                FROM " . $this->db->table("addresses") . "
+                WHERE country_id = '" . (int) $country_id . "'"
+            );
+            $total = (int) $query->row['total'];
+            $this->cache->push($cacheKey, $total);
+        }
+        return $total;
     }
 
     /**
@@ -1020,12 +1111,18 @@ class ModelSaleCustomer extends Model
      */
     public function getTotalAddressesByZoneId($zone_id)
     {
-        $query = $this->db->query(
-            "SELECT COUNT(*) AS total
-            FROM " . $this->db->table("addresses") . "
-            WHERE zone_id = '" . (int) $zone_id . "'"
-        );
-        return (int) $query->row['total'];
+        $cacheKey = 'customers.admin.total_addresses_by_zone_id.' . (int) $zone_id;
+        $total = $this->cache->pull($cacheKey);
+        if ($total === false) {
+            $query = $this->db->query(
+                "SELECT COUNT(*) AS total
+                FROM " . $this->db->table("addresses") . "
+                WHERE zone_id = '" . (int) $zone_id . "'"
+            );
+            $total = (int) $query->row['total'];
+            $this->cache->push($cacheKey, $total);
+        }
+        return $total;
     }
 
     /**
@@ -1036,12 +1133,18 @@ class ModelSaleCustomer extends Model
      */
     public function getTotalCustomersByCustomerGroupId($customer_group_id)
     {
-        $query = $this->db->query(
-            "SELECT COUNT(*) AS total
-           FROM " . $this->db->table("customers") . "
-           WHERE customer_group_id = '" . (int) $customer_group_id . "'"
-        );
-        return (int) $query->row['total'];
+        $cacheKey = 'customers.admin.total_by_customer_group_id.' . (int) $customer_group_id;
+        $total = $this->cache->pull($cacheKey);
+        if ($total === false) {
+            $query = $this->db->query(
+                "SELECT COUNT(*) AS total
+               FROM " . $this->db->table("customers") . "
+               WHERE customer_group_id = '" . (int) $customer_group_id . "'"
+            );
+            $total = (int) $query->row['total'];
+            $this->cache->push($cacheKey, $total);
+        }
+        return $total;
     }
 
     /**
@@ -1127,14 +1230,19 @@ class ModelSaleCustomer extends Model
      */
     public function getSubscribersCustomerGroupId()
     {
-        $query = $this->db->query(
-            "SELECT customer_group_id
-                                    FROM `" . $this->db->table("customer_groups") . "`
-                                    WHERE `name` = 'Newsletter Subscribers'
-                                    LIMIT 0,1"
-        );
-        return !$query->row['customer_group_id'] ? (int) $this->config->get('config_customer_group_id')
-            : (int) $query->row['customer_group_id'];
+        $cacheKey = 'customers.admin.subscribers_customer_group_id';
+        $groupId = $this->cache->pull($cacheKey);
+        if ($groupId === false) {
+            $query = $this->db->query(
+                "SELECT customer_group_id
+                FROM `" . $this->db->table("customer_groups") . "`
+                WHERE `name` = 'Newsletter Subscribers'
+                LIMIT 0,1"
+            );
+            $groupId = (int) $query->row['customer_group_id'];
+            $this->cache->push($cacheKey, $groupId);
+        }
+        return $groupId ?: (int) $this->config->get('config_customer_group_id');
     }
 
     /**
@@ -1145,12 +1253,19 @@ class ModelSaleCustomer extends Model
      */
     public function isSubscriber($customer_id)
     {
-        $sql = "SELECT * 
-                FROM `" . $this->db->table("customers") . "`
-                WHERE customer_id = " . (int) $customer_id . " 
-                    AND customer_group_id = '" . $this->getSubscribersCustomerGroupId() . "'";
-        $result = $this->db->query($sql);
-        return (bool) $result->num_rows;
+        $cacheKey = 'customers.admin.is_subscriber.' . (int) $customer_id;
+        $output = $this->cache->pull($cacheKey);
+        if ($output === false) {
+            $sql = "SELECT customer_id
+                    FROM `" . $this->db->table("customers") . "`
+                    WHERE customer_id = " . (int) $customer_id . " 
+                        AND customer_group_id = '" . $this->getSubscribersCustomerGroupId() . "'";
+            $result = $this->db->query($sql);
+            //cache stores integer because boolean false means "no cache"
+            $output = (int) $result->num_rows;
+            $this->cache->push($cacheKey, $output);
+        }
+        return (bool) $output;
     }
 
     /**

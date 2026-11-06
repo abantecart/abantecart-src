@@ -148,6 +148,7 @@ class ModelCheckoutFastCheckout extends Model
                     NOW());";
             $this->db->query($sql);
         }
+        $this->cache->remove('customers');
 
         //notify admin
         $language = new ALanguage($this->registry);

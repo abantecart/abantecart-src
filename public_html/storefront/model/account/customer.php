@@ -268,6 +268,7 @@ class ModelAccountCustomer extends Model
             ],
         ];
         $this->im->send('new_customer', $message_arr, $templateId, $data);
+        $this->cache->remove('customers');
         return $customer_id;
     }
 
@@ -364,9 +365,9 @@ class ModelAccountCustomer extends Model
         $colNames = array_keys($this->data['customer_column_list']);
         //ignore store_name.
         $colNames[] = 'store_name';
-        if($this->dcrypt->active){
+        if ($this->dcrypt->active) {
             $colNames[] = 'key_id';
-        }        
+        }
 
         foreach ($inData as $key => $value) {
             if (in_array($key, $colNames)) {
@@ -392,6 +393,7 @@ class ModelAccountCustomer extends Model
                 SET " . implode(', ', $updateArr) . "
                 WHERE customer_id = '" . $this->customer->getId() . "'";
         $this->db->query($sql);
+        $this->cache->remove('customers');
         return true;
     }
 
@@ -427,10 +429,7 @@ class ModelAccountCustomer extends Model
                 WHERE TABLE_SCHEMA = '" . $this->db->dbName() . "' 
                     AND TABLE_NAME = '" . $this->db->table("customers") . "'";
         $result = $this->db->query($sql);
-        $columns = [];
-        foreach ($result->rows as $row) {
-            $columns[] = $row['column_name'];
-        }
+        $columns = array_column($result->rows, 'COLUMN_NAME');
 
         //remove not IM data
         $diff = array_diff($im_protocols, $columns);
@@ -449,6 +448,7 @@ class ModelAccountCustomer extends Model
             . $key_sql
             . " WHERE customer_id = '" . (int) $customer_id . "'";
         $this->db->query($sql);
+        $this->cache->remove('customers');
         return true;
     }
 
@@ -461,11 +461,18 @@ class ModelAccountCustomer extends Model
         //get only active IM drivers
         $im_protocols = $this->im->getProtocols();
         $im_settings = [];
-        $sql = "SELECT *
-                FROM " . $this->db->table('customer_notifications') . "
-                WHERE customer_id = " . $this->customer->getId();
-        $result = $this->db->query($sql);
-        foreach ($result->rows as $row) {
+        $customer_id = (int) $this->customer->getId();
+        $cacheKey = 'customers.notifications.' . $customer_id;
+        $rows = $this->cache->pull($cacheKey);
+        if ($rows === false) {
+            $sql = "SELECT *
+                    FROM " . $this->db->table('customer_notifications') . "
+                    WHERE customer_id = " . $customer_id;
+            $result = $this->db->query($sql);
+            $rows = $result->rows;
+            $this->cache->push($cacheKey, $rows);
+        }
+        foreach ($rows as $row) {
             if (!in_array($row['protocol'], $im_protocols)) {
                 continue;
             }
@@ -528,6 +535,7 @@ class ModelAccountCustomer extends Model
                 }
                 $this->editNewsletter($newsletter_status, $customer_id);
             }
+            $this->cache->remove('customers');
         }
 
         return true;
@@ -577,6 +585,7 @@ class ModelAccountCustomer extends Model
                 ]
             );
         }
+        $this->cache->remove('customers');
     }
 
     /**
@@ -593,6 +602,7 @@ class ModelAccountCustomer extends Model
             SET newsletter = '" . (int) $newsletter . "'
             WHERE customer_id = '" . $customer_id . "'"
         );
+        $this->cache->remove('customers');
     }
 
     /**
@@ -614,6 +624,7 @@ class ModelAccountCustomer extends Model
              SET status = '" . (int) $status . "'
              WHERE customer_id = '" . $customer_id . "'"
         );
+        $this->cache->remove('customers');
         return true;
     }
 
@@ -635,6 +646,7 @@ class ModelAccountCustomer extends Model
              SET data = '" . $this->db->escape(serialize($data)) . "'
              WHERE customer_id = '" . $customer_id . "'"
         );
+        $this->cache->remove('customers');
         return true;
     }
 
@@ -646,15 +658,20 @@ class ModelAccountCustomer extends Model
      */
     public function getCustomer($customer_id)
     {
-        $query = $this->db->query(
-            "SELECT *
-             FROM " . $this->db->table("customers") . "
-             WHERE customer_id = '" . (int) $customer_id . "'"
-        );
-        $result_row = $this->dcrypt->decrypt_data($query->row, 'customers');
-        $result_row['data'] = unserialize($result_row['data']);
-        $result_row['ext_fields'] = json_decode($result_row['ext_fields'], true);
-        return $result_row;
+        $cacheKey = 'customers.' . $customer_id;
+        $output = $this->cache->pull($cacheKey);
+        if ($output === false) {
+            $query = $this->db->query(
+                "SELECT *
+                 FROM " . $this->db->table("customers") . "
+                 WHERE customer_id = '" . (int) $customer_id . "'"
+            );
+            $output = $this->dcrypt->decrypt_data($query->row, 'customers');
+            $output['data'] = unserialize($output['data']);
+            $output['ext_fields'] = json_decode($output['ext_fields'], true);
+            $this->cache->push($cacheKey, $output);
+        }
+        return $output;
     }
 
     /**
@@ -684,19 +701,25 @@ class ModelAccountCustomer extends Model
      */
     public function getTotalCustomersByEmail($email, $no_subscribers = true)
     {
-        $sql = "SELECT COUNT(*) AS total
-                FROM " . $this->db->table("customers") . "
-                WHERE (`email` = '" . $this->db->escape($email) . "'"
-            . $this->getLoginnameAsEmailCondition($email) . ")";
+        $cacheKey = 'customers.total_by_email.' . md5(var_export(func_get_args(), true));
+        $output = $this->cache->pull($cacheKey);
+        if ($output === false) {
+            $sql = "SELECT COUNT(*) AS total
+                    FROM " . $this->db->table("customers") . "
+                    WHERE (`email` = '" . $this->db->escape($email) . "'"
+                . $this->getLoginnameAsEmailCondition($email) . ")";
 
-        if ($no_subscribers) {
-            $sql .= " AND customer_group_id NOT IN
+            if ($no_subscribers) {
+                $sql .= " AND customer_group_id NOT IN
                             (SELECT customer_group_id
                             FROM " . $this->db->table('customer_groups') . "
                             WHERE `name` = 'Newsletter Subscribers')";
+            }
+            $query = $this->db->query($sql);
+            $output = (int) $query->row['total'];
+            $this->cache->push($cacheKey, $output);
         }
-        $query = $this->db->query($sql);
-        return $query->row['total'];
+        return $output;
     }
 
     /**
@@ -724,41 +747,57 @@ class ModelAccountCustomer extends Model
      */
     public function getCustomerByEmail($email)
     {
-        //assuming that data is not encrypted. Cannot call these otherwise
-        $sql = "SELECT *
-                FROM " . $this->db->table("customers") . "
-                WHERE (`email` = '" . $this->db->escape($email) . "'"
-            . $this->getLoginnameAsEmailCondition($email) . ")";
-        $sql .= " ORDER by status DESC, approved DESC, date_modified DESC LIMIT 1";
-        $query = $this->db->query($sql);
-        $output = $this->dcrypt->decrypt_data($query->row, 'customers');
-        if ($output['data']) {
-            $output['data'] = unserialize($output['data']);
+        $cacheKey = 'customers.by_email.' . md5(var_export(func_get_args(), true));
+        $output = $this->cache->pull($cacheKey);
+        if ($output === false) {
+            //assuming that data is not encrypted. Cannot call these otherwise
+            $sql = "SELECT *
+                    FROM " . $this->db->table("customers") . "
+                    WHERE (`email` = '" . $this->db->escape($email) . "'"
+                . $this->getLoginnameAsEmailCondition($email) . ")";
+            $sql .= " ORDER by status DESC, approved DESC, date_modified DESC LIMIT 1";
+            $query = $this->db->query($sql);
+            $output = $this->dcrypt->decrypt_data($query->row, 'customers');
+            if ($output['data']) {
+                $output['data'] = unserialize($output['data']);
+            }
+            $this->cache->push($cacheKey, $output);
         }
         return $output;
     }
 
+    /**
+     * @param $email
+     *
+     * @return array
+     * @throws AException
+     */
     public function getSubscribersByEmail($email)
     {
-        //assuming that data is not encrypted. Cannot call these otherwise
-        $sql = "SELECT *
-                FROM " . $this->db->table("customers") . "
-                WHERE (`email` = '" . $this->db->escape($email) . "'"
-            . $this->getLoginnameAsEmailCondition($email) . ")";
+        $cacheKey = 'customers.subscribers_by_email.' . md5(var_export(func_get_args(), true));
+        $output = $this->cache->pull($cacheKey);
+        if ($output === false) {
+            //assuming that data is not encrypted. Cannot call these otherwise
+            $sql = "SELECT *
+                    FROM " . $this->db->table("customers") . "
+                    WHERE (`email` = '" . $this->db->escape($email) . "'"
+                . $this->getLoginnameAsEmailCondition($email) . ")";
 
-        $sql .= " 
-        AND customer_group_id 
-                    IN (SELECT customer_group_id
-                        FROM " . $this->db->table('customer_groups') . "
-                        WHERE `name` = 'Newsletter Subscribers')
-        ORDER by status DESC, approved DESC, date_modified DESC LIMIT 1";
-        $query = $this->db->query($sql);
-        $output = [];
-        foreach ($query->rows as $k => $row) {
-            $output[$k] = $this->dcrypt->decrypt_data($row, 'customers');
-            if ($output[$k]['data']) {
-                $output[$k]['data'] = unserialize($row['data']);
+            $sql .= "
+            AND customer_group_id
+                        IN (SELECT customer_group_id
+                            FROM " . $this->db->table('customer_groups') . "
+                            WHERE `name` = 'Newsletter Subscribers')
+            ORDER by status DESC, approved DESC, date_modified DESC LIMIT 1";
+            $query = $this->db->query($sql);
+            $output = [];
+            foreach ($query->rows as $k => $row) {
+                $output[$k] = $this->dcrypt->decrypt_data($row, 'customers');
+                if ($output[$k]['data']) {
+                    $output[$k]['data'] = unserialize($row['data']);
+                }
             }
+            $this->cache->push($cacheKey, $output);
         }
 
         return $output;
@@ -772,14 +811,19 @@ class ModelAccountCustomer extends Model
      */
     public function getCustomerByLoginname($loginname)
     {
-        $query = $this->db->query(
-            "SELECT *
-            FROM " . $this->db->table("customers") . "
-            WHERE `loginname` = '" . $this->db->escape($loginname) . "'"
-        );
-        $output = $this->dcrypt->decrypt_data($query->row, 'customers');
-        if ($output['data']) {
-            $output['data'] = unserialize($output['data']);
+        $cacheKey = 'customers.by_loginname.' . md5(var_export(func_get_args(), true));
+        $output = $this->cache->pull($cacheKey);
+        if ($output === false) {
+            $query = $this->db->query(
+                "SELECT *
+                FROM " . $this->db->table("customers") . "
+                WHERE `loginname` = '" . $this->db->escape($loginname) . "'"
+            );
+            $output = $this->dcrypt->decrypt_data($query->row, 'customers');
+            if ($output['data']) {
+                $output['data'] = unserialize($output['data']);
+            }
+            $this->cache->push($cacheKey, $output);
         }
         return $output;
     }
@@ -811,26 +855,28 @@ class ModelAccountCustomer extends Model
      */
     public function getCustomerByLastnameAndEmail($lastname, $email)
     {
-        $query = $this->db->query(
-            "SELECT *
-            FROM " . $this->db->table("customers") . "
-            WHERE `lastname` = '" . $this->db->escape($lastname) . "'"
-        );
-        //validate if we have a row with matching decrypted email;
-        $result_row = [];
-        foreach ($query->rows as $result) {
-            $decryptedEmail = $this->dcrypt->decrypt_field($result['email'], $result['key_id']);
-            if (strtolower($email) == strtolower($decryptedEmail)) {
-                $result_row = $result;
-                break;
+        $cacheKey = 'customers.by_lastname_email.' . md5(var_export(func_get_args(), true));
+        $output = $this->cache->pull($cacheKey);
+        if ($output === false) {
+            $query = $this->db->query(
+                "SELECT *
+                FROM " . $this->db->table("customers") . "
+                WHERE `lastname` = '" . $this->db->escape($lastname) . "'"
+            );
+            //validate if we have a row with matching decrypted email;
+            $result_row = [];
+            foreach ($query->rows as $result) {
+                $decryptedEmail = $this->dcrypt->decrypt_field($result['email'], $result['key_id']);
+                if (strtolower($email) == strtolower($decryptedEmail)) {
+                    $result_row = $result;
+                    break;
+                }
             }
-        }
 
-        if (count($result_row)) {
-            return $this->dcrypt->decrypt_data($result_row, 'customers');
-        } else {
-            return [];
+            $output = count($result_row) ? $this->dcrypt->decrypt_data($result_row, 'customers') : [];
+            $this->cache->push($cacheKey, $output);
         }
+        return $output;
     }
 
     /**
@@ -844,16 +890,18 @@ class ModelAccountCustomer extends Model
         if (empty($loginname)) {
             return false;
         }
-        $query = $this->db->query(
-            "SELECT COUNT(*) AS total
-           FROM " . $this->db->table("customers") . "
-           WHERE `loginname` = '" . $this->db->escape($loginname) . "'"
-        );
-        if ($query->row['total'] > 0) {
-            return false;
-        } else {
-            return true;
+        $cacheKey = 'customers.total_by_loginname.' . md5(var_export(func_get_args(), true));
+        $total = $this->cache->pull($cacheKey);
+        if ($total === false) {
+            $query = $this->db->query(
+                "SELECT COUNT(*) AS total
+               FROM " . $this->db->table("customers") . "
+               WHERE `loginname` = '" . $this->db->escape($loginname) . "'"
+            );
+            $total = (int) $query->row['total'];
+            $this->cache->push($cacheKey, $total);
         }
+        return !($total > 0);
     }
 
     /**
@@ -1119,6 +1167,10 @@ class ModelAccountCustomer extends Model
         return $query->rows;
     }
 
+    /**
+     * @return int
+     * @throws AException
+     */
     public function getSubscribersCustomerGroupId()
     {
         $query = $this->db->query(
@@ -1129,7 +1181,7 @@ class ModelAccountCustomer extends Model
         );
         return !$query->row['customer_group_id']
             ? (int) $this->config->get('config_customer_group_id')
-            : $query->row['customer_group_id'];
+            : (int) $query->row['customer_group_id'];
     }
 
     /**
@@ -1171,8 +1223,8 @@ class ModelAccountCustomer extends Model
         $this->data['mail_template_data']['config_mail_logo'] = $mailLogo;
 
         $this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
-        $this->data['mail_template_data']['store_url'] =
-            $this->config->get('config_url') . $this->config->get('seo_prefix');
+        $this->data['mail_template_data']['store_url'] = $this->config->get('config_url')
+            . $this->config->get('seo_prefix');
         $this->data['mail_template_data']['text_project_label'] = project_base();
 
         //allow changing email data from extensions

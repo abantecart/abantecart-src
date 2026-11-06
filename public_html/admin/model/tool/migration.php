@@ -145,6 +145,7 @@ class ModelToolMigration extends Model
             if (!$this->migrateCustomers()) {
                 return $this->logger;
             }
+            $this->cache->remove('customers');
         }
 
         if ($this->session->data['migration']['migrate_products']) {
@@ -238,7 +239,8 @@ class ModelToolMigration extends Model
             'product_to_category',
             'url_alias',
             'product_special',
-            'product_discount'
+            'product_discount',
+            'customers'
         ]);
     }
 

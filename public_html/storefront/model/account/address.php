@@ -128,6 +128,7 @@ class ModelAccountAddress extends Model
                 WHERE customer_id = '" . $customerId . "'"
             );
         }
+        $this->cache->remove('customers');
 
         return $address_id;
     }
@@ -203,6 +204,7 @@ class ModelAccountAddress extends Model
                     WHERE customer_id = '" . (int)$this->customer->getId() . "'"
             );
         }
+        $this->cache->remove('customers');
         return true;
     }
 
@@ -218,6 +220,7 @@ class ModelAccountAddress extends Model
             WHERE address_id = '" . (int)$address_id . "' 
                 AND customer_id = '" . (int)$this->customer->getId() . "'"
         );
+        $this->cache->remove('customers');
     }
 
     /**
