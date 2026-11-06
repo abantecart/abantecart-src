@@ -3838,3 +3838,8 @@ blockquote p::after {
 .product-dimensions-item {
     flex: 0 0 auto;
 }
+
+.form-group .input-group label
+{
+    margin: 7px 0;
+}

@@ -63,6 +63,9 @@ class ControllerResponsesListingGridURLRedirect extends AController
         $dateFormat = $this->language->get('date_format_short') . ' ' . $this->language->get('time_format');
         foreach ($results as $i => $result) {
             $source = ($result['source_host'] !== '' ? '[' . $result['source_host'] . '] ' : '') . $result['source'];
+            if(!$source){
+                $source = $result['source_http_headers'];
+            }
             $source = html2view($source);
             if ($result['comment'] !== null && trim($result['comment']) !== '') {
                 $source = '<span class="tooltips" data-toggle="tooltip" data-placement="right"'
