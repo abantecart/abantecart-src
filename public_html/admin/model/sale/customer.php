@@ -596,7 +596,7 @@ class ModelSaleCustomer extends Model
                         WHERE c.customer_id = o.customer_id AND o.order_status_id>0) as orders_count";
         }
 
-        if ($this->dcrypt->active) {
+        if ($this->dcrypt->active && $mode != 'total_only') {
             $sql .= ", c.key_id ";
         }
 
