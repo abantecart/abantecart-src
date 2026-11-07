@@ -66,20 +66,14 @@ class ControllerPagesToolErrorLog extends AController
             glob(DIR_LOGS . '{*.log,*.txt,*.gz}', GLOB_BRACE),
             glob(DIR_LOGS . '*/{*.log,*.txt,*.gz}', GLOB_BRACE)
         );
-        $options = [];
+        $logFiles = [];
         foreach ($all_logs as $f) {
             $subDir = str_replace(DIR_LOGS, '', dirname($f) . '/');
-            $fileShortName = $subDir . basename($f);
-            $options[$fileShortName] = $fileShortName . ' ' . human_filesize(filesize($f));
+            $logFiles[$subDir][$subDir . basename($f)] = basename($f) . ' ' . human_filesize(filesize($f));
         }
-        $this->data['log_list'] = $this->html->buildElement(
-            [
-                'type'    => 'selectbox',
-                'name'    => 'filename',
-                'options' => $options,
-                'value'   => $filename,
-            ]
-        );
+
+        $this->data['logfile_list'] = $logFiles;
+        $this->data['current_logfile'] = $filename;
 
         $heading_title = $this->language->get('heading_title');
         $this->document->setTitle($heading_title);
@@ -141,17 +135,16 @@ class ControllerPagesToolErrorLog extends AController
                     'title' => $this->language->get('button_download'),
                 ]
             );
-            $this->data['clear_btn'] =
-                $this->html->buildElement(
-                    [
-                        'name' => 'clear',
-                        'href' => $this->html->getSecureURL('tool/error_log/clearlog', '&filename=' . $filename),
-                        'text' => $this->language->get('button_clear'),
-                        'type' => 'button',
-                    ]
-                );
         }
-
+        $this->data['clear_btn'] =
+            $this->html->buildElement(
+                [
+                    'name' => 'clear',
+                    'href' => $this->html->getSecureURL('tool/error_log/clearlog', '&filename=' . $filename),
+                    'text' => $this->language->get('button_clear'),
+                    'type' => 'button',
+                ]
+            );
         $log = htmlentities(str_replace(['<br/>', '<br />'], "\n", $log), ENT_QUOTES | ENT_IGNORE, 'UTF-8');
         //filter empty string
         $lines = array_filter(explode("\n", $log), 'strlen');
