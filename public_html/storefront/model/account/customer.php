@@ -795,7 +795,7 @@ class ModelAccountCustomer extends Model
         $query = $this->db->query(
             "SELECT COUNT(*) AS total
            FROM " . $this->db->table("customers") . "
-           WHERE LOWER(`loginname`) = LOWER('" . $loginname . "')"
+           WHERE LOWER(`loginname`) = LOWER('" . $this->db->escape($loginname) . "')"
         );
         if ($query->row['total'] > 0) {
             return false;
