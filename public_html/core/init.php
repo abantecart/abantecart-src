@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -282,7 +282,7 @@ try {
     require_once(DIR_CORE . 'engine' . DS . 'hook.php');
     require_once(DIR_CORE . 'engine' . DS . 'attribute.php');
     require_once(DIR_CORE . 'engine' . DS . 'promotion.php');
-    require_once(DIR_CORE . 'engine' . DS . 'language.php');
+    require_once(DIR_CORE . 'engine' . DS . 'ALanguage.php');
 
     require_once(DIR_CORE . 'helper' . DS . 'constants.php');
 
