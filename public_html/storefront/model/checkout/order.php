@@ -1378,7 +1378,9 @@ class ModelCheckoutOrder extends Model
      */
     public function productIsPurchasedByCustomer($customerId, $productId)
     {
-        if (!(int) $customerId || !(int) $productId) {
+        $customerId = (int) $customerId;
+        $productId = (int) $productId;
+        if (!$customerId || !$productId) {
             return false;
         }
         $orderProductsTable = $this->db->table('order_products');
@@ -1390,7 +1392,7 @@ class ModelCheckoutOrder extends Model
                     ON ' . $ordersTable . '.order_id=' . $orderProductsTable . '.order_id 
                         AND ' . $ordersTable . '.customer_id=' . $customerId . ' 
                         AND ' . $ordersTable . '.order_status_id>0 
-                        AND ' . $ordersTable . '.store_id=' . $this->config->get('config_store_id')
+                        AND ' . $ordersTable . '.store_id=' . (int) $this->config->get('config_store_id')
             . ' WHERE ' . $orderProductsTable . '.product_id=' . $productId . ' 
                  LIMIT 1';
         $result = $this->db->query($sql);

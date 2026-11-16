@@ -2136,9 +2136,9 @@ class ModelCatalogProduct extends Model
         $languageId = (int) $this->config->get('storefront_language_id');
         $conditions = $data['collectionData']['conditions'];
         $sort = $data['sort'];
-        $order = $data['order'];
-        $start = $data['start'];
-        $limit = $data['limit'];
+        $sortOrder = strtoupper((string) $data['order']) === 'DESC' ? 'DESC' : 'ASC';
+        $start = isset($data['start']) ? max(0, (int) $data['start']) : null;
+        $limit = (int) $data['limit'];
         $cache_key = 'collection.listing.products_collection.' . (int) $collectionId
             . '.store_' . $storeId . '_lang_' . $languageId
             . '_' . md5(var_export(func_get_args(), true));
@@ -2262,12 +2262,12 @@ class ModelCatalogProduct extends Model
             ];
 
             if ($allowedSort[$sort]) {
-                $sql .= " ORDER BY " . $allowedSort[$sort] . " " . ($order ? : 'ASC');
+                $sql .= " ORDER BY " . $allowedSort[$sort] . " " . $sortOrder;
             } else {
-                $sql .= " ORDER BY p.date_modified " . ($order ? : 'ASC');
+                $sql .= " ORDER BY p.date_modified " . $sortOrder;
             }
 
-            if (isset($start) && $limit) {
+            if (isset($start) && $limit > 0) {
                 $sql .= " LIMIT " . $start . "," . $limit;
             }
 

@@ -543,12 +543,19 @@ abstract class AController
             }
             case 3:
             { //allow who purchase
-                $this->loadModel('checkout/order');
-                if (!$this->customer || !$this->customer->isLogged() || !$this->customer->getId()
-                    || !(int)$productId) {
+                $productId = (int)$productId;
+                if (!$this->customer 
+                    || !$this->customer->isLogged() 
+                    || !$this->customer->getId()
+                    || !$productId)
+                {
                     return false;
                 }
-                return $this->model_checkout_order->productIsPurchasedByCustomer($this->customer->getId(), $productId);
+                $this->loadModel('checkout/order');
+                return $this->model_checkout_order->productIsPurchasedByCustomer(
+                    (int)$this->customer->getId(),
+                    $productId
+                );
             }
             default:
                 return false;

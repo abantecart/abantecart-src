@@ -483,6 +483,11 @@ class ControllerResponsesEmbedJS extends AController
 
     public function collection()
     {
+        // if embedding disabled or enabled maintenance mode - return empty
+        if (!$this->config->get('config_embed_status') || $this->config->get('config_maintenance')) {
+            return null;
+        }
+
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $collection_id = (int) $this->request->get['collection_id'];
         if (!$collection_id) {
@@ -517,12 +522,13 @@ class ControllerResponsesEmbedJS extends AController
             list ($sort, $order) = explode('-', $sortOrder);
 
             $collectionProducts = $pMdl->getCollectionProducts(
-                $collection['conditions'],
-                $sort ? : 'date_modified',
-                $order ? : 'DESC',
-                (int)$this->request->get['start'],
-                (int)$this->request->get['limit'] ?: 1000,
-                $collection_id
+                [
+                    'collectionData' => $collection,
+                    'sort'           => $sort ? : 'date_modified',
+                    'order'          => $order ? : 'DESC',
+                    'start'          => max(0, (int)$this->request->get['start']),
+                    'limit'          => (int)$this->request->get['limit'] ?: 1000,
+                ]
             );
         }
         $resource = new AResource('image');
