@@ -13,6 +13,20 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
            <?php }
+            if($system_check_warning){ ?>
+                    <div class="alert alert-warning alert-dismissible mb-2">
+                        <i class="fa-solid fa-circle-exclamation fa-xl me-2"></i>
+                        <b><?php echo $system_check_warning;?></b>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+           <?php }
+            if($debug_warning){ ?>
+                    <div class="alert alert-warning alert-dismissible mb-2">
+                        <i class="fa-solid fa-circle-exclamation fa-xl me-2"></i>
+                        <b><?php echo $debug_warning;?></b>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+           <?php }
                 if($act_on_behalf_warning && !$maintenance_warning){ ?>
                     <div class="alert alert-warning alert-dismissible mb-2">
                         <i class="fa-solid fa-circle-exclamation me-2"></i>

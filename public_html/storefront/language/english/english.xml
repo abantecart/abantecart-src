@@ -266,6 +266,14 @@
 		<value><![CDATA[Notice: Maintenance mode is on.]]></value>
 	</definition>
 	<definition>
+		<key>text_system_check_notice</key>
+		<value><![CDATA[Notice: system checks are enabled, which affects application performance.]]></value>
+	</definition>
+	<definition>
+		<key>text_debug_notice</key>
+		<value><![CDATA[Notice: debug level 2 or greater is enabled, which affects application performance.]]></value>
+	</definition>
+	<definition>
 		<key>text_act_on_behalf</key>
 		<value><![CDATA[Notice: Impersonate mode for customer "%s" by "%s"]]></value>
 	</definition>

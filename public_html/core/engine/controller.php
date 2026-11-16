@@ -563,6 +563,13 @@ abstract class AController
         if ($this->config->get('config_maintenance') && isset($this->session->data['merchant'])) {
             $this->view->assign('maintenance_warning', $this->language->get('text_maintenance_notice'));
         }
+        if (in_array($this->config->get( 'config_system_check' ),[0,2])) {
+            $this->view->assign('system_check_warning', $this->language->get('text_system_check_notice'));
+        }
+        if ($this->config->get( 'config_debug_level' ) >= 2) {
+            $this->view->assign('debug_warning', $this->language->get('text_debug_notice'));
+        }
+        
 
         if (isset($this->session->data['merchant'])) {
             unset($this->session->data['guest']);

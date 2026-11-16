@@ -1,4 +1,39 @@
 <header>
+    <div class="container">
+        <?php
+        /** @var AView $this */
+        if($maintenance_warning){ ?>
+            <div class="alert alert-warning alert-dismissible mb-2">
+                <i class="fa-solid fa-circle-exclamation fa-xl me-2"></i>
+                <b><?php echo $maintenance_warning;?></b>
+                <?php if($act_on_behalf_warning){ ?>
+                    <b><?php echo $act_on_behalf_warning;?></b>
+                <?php } ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php }
+        if($system_check_warning){ ?>
+            <div class="alert alert-warning alert-dismissible mb-2">
+                <i class="fa-solid fa-circle-exclamation fa-xl me-2"></i>
+                <b><?php echo $system_check_warning;?></b>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php }
+        if($debug_warning){ ?>
+            <div class="alert alert-warning alert-dismissible mb-2">
+                <i class="fa-solid fa-circle-exclamation fa-xl me-2"></i>
+                <b><?php echo $debug_warning;?></b>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php }
+        if($act_on_behalf_warning && !$maintenance_warning){ ?>
+            <div class="alert alert-warning alert-dismissible mb-2">
+                <i class="fa-solid fa-circle-exclamation me-2"></i>
+                <b><?php echo $act_on_behalf_warning;?></b>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php } ?>
+    </div>
     <div class="navbar navbar-expand-md navbar-dark bg-dark" role="navigation">
         <div class="mb-auto col-12 col-md-3 d-flex flex-wrap flex-md-nowrap justify-content-between">
             <?php if (is_file(DIR_RESOURCE . $logo)) { ?>

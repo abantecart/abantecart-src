@@ -16,24 +16,7 @@ echo $this->getHookVar('top_page'); ?>
 
 <div class="container-fixed" style="max-width: <?php echo $layout_width; ?>">
 
-<?php if($maintenance_warning){ ?>
-    <div class="alert alert-warning alert-dismissible mb-0">
-        <i class="fa-solid fa-circle-exclamation fa-xl me-2"></i>
-        <b><?php echo $maintenance_warning;?></b>
-        <?php if($act_on_behalf_warning){ ?>
-           <b><?php echo $act_on_behalf_warning;?></b>
-        <?php } ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-<?php
-}
-if($act_on_behalf_warning && !$maintenance_warning){ ?>
-    <div class="alert alert-warning alert-dismissible mb-0">
-        <i class="fa-solid fa-circle-exclamation me-2"></i>
-        <b><?php echo $act_on_behalf_warning;?></b>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-<?php }
+<?php 
 echo $$header; ?>
 <?php if ( !empty( $$header_bottom ) ) { ?>
     <!-- header_bottom blocks placeholder -->

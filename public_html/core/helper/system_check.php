@@ -45,18 +45,15 @@ function run_system_check($registry, $mode = 'log')
     if ( //run on admin side
         (IS_ADMIN === true
             && (!$registry->get('config')->get('config_system_check')
-                || $registry->get('config')->get(
-                    'config_system_check'
-                ) == 1))
+                || $registry->get('config')->get( 'config_system_check') == 1))
         || //run on storefront side
         (IS_ADMIN !== true
             && (!$registry->get('config')->get('config_system_check')
-                || $registry->get('config')->get(
-                    'config_system_check'
-                ) == 2))
+                || $registry->get('config')->get( 'config_system_check' ) == 2))
     ) {
         $mLog = array_merge($mLog, check_file_permissions($registry));
         $mLog = array_merge($mLog, checkPhpConfiguration());
+        $mLog = array_merge($mLog, checkDangerousPhpFunctions());
         $mLog = array_merge($mLog, check_server_configuration($registry));
         $mLog = array_merge($mLog, check_order_statuses($registry));
         $mLog = array_merge($mLog, check_web_access());
@@ -383,6 +380,66 @@ function checkPhpConfiguration($modules = [], $phpMinVersion = null)
             'title' => 'Memory limitation',
             'body'  => 'Low PHP memory setting. Some Abantecart features will not work with memory limit less than 64Mb! '
                 . 'Check <a href="https://php.net/manual/en/ini.core.php#ini.memory-limit" target="_help_doc">PHP memory-limit setting</a>',
+            'type'  => 'W',
+        ];
+    }
+
+    return $output;
+}
+
+/**
+ * Checks if dangerous PHP functions are still available.
+ * They should be disabled via the "disable_functions" directive (see public_html/php.ini)
+ *
+ * @return array
+ */
+function checkDangerousPhpFunctions()
+{
+    $output = [];
+    $dangerous = [
+        'exec',
+        'passthru',
+        'shell_exec',
+        'system',
+        'proc_open',
+        'popen',
+        'pcntl_exec',
+        'pcntl_fork',
+        'pcntl_signal',
+        'pcntl_waitpid',
+        'pcntl_wexitstatus',
+        'pcntl_alarm',
+        'posix_kill',
+        'posix_setuid',
+        'posix_setgid',
+        'posix_setsid',
+        'posix_setpgid',
+        'posix_mkfifo',
+        'posix_getpwuid',
+        'posix_uname',
+    ];
+
+    $disabled = array_filter(
+        array_map(
+            fn($f) => strtolower(trim($f)),
+            explode(',', (string) ini_get('disable_functions'))
+        )
+    );
+
+    $enabled = [];
+    foreach ($dangerous as $func) {
+        if (function_exists($func) && !in_array($func, $disabled, true)) {
+            $enabled[] = $func;
+        }
+    }
+
+    if ($enabled) {
+        $output['dangerous_functions'] = [
+            'title' => 'Dangerous PHP functions are enabled',
+            'body'  => 'The following PHP functions are enabled and can be used to run system commands: <b>'
+                . implode(', ', $enabled) . '</b>. '
+                . 'It is recommended to disable them with the "disable_functions" directive in your php.ini. '
+                . 'Check <a href="https://www.php.net/manual/en/ini.core.php#ini.disable-functions" target="_help_doc">PHP disable_functions setting</a>',
             'type'  => 'W',
         ];
     }
