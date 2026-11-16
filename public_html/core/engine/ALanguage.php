@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -187,7 +187,10 @@ class ALanguage
         try {
             $text = sprintf($text, ...$replaces);
         } catch (Exception|Error $e) {
-            $e = new AError("Wrong language definition for key " . $key . "\n " . $e->getMessage());
+            $e = new AError(
+                "Wrong language definition for key " . $key . ' and replaces: ' . var_export($replaces, true) . PHP_EOL
+                . $e->getMessage()
+            );
             $e->toDebug()->toLog();
             try {
                 //try to cut off or fill replacements
@@ -272,13 +275,12 @@ class ALanguage
      */
     public function getActiveLanguages()
     {
-        $active_languages = [];
-        foreach ($this->available_languages as $code => $result) {
-            if ($result['status'] == 1) {
-                $active_languages[$code] = $result;
+        return array_filter(
+            $this->available_languages, 
+            function ($result) {
+                return $result['status'] == 1;
             }
-        }
-        return $active_languages;
+        );
     }
 
     /**
@@ -665,7 +667,7 @@ class ALanguage
 
         if ($load_data === false) {
             //Check that filename has proper name with no other special characters.
-            //prevent error for pre and post controllers
+            //prevent error for "pre" and "post" controllers
             $block_name = str_replace(['/', DS, '.'], '_', $filename);
             if (preg_match("/[\W]+/", $block_name)) {
                 $error = new AError('Error! Trying to load language with invalid path: "' . $filename . '"!');

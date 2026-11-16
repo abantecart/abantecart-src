@@ -154,7 +154,7 @@ try {
     require_once(DIR_CORE.'engine'.DS.'layout.php');
     require_once(DIR_CORE.'engine'.DS.'form.php');
     require_once(DIR_CORE.'engine'.DS.'extensions.php');
-    require_once(DIR_CORE.'engine'.DS.'language.php');
+    require_once(DIR_CORE.'engine'.DS.'ALanguage.php');
     require_once(DIR_CORE.'engine'.DS.'resources.php');
 
     require_once(DIR_CORE.'helper'.DS.'html.php');

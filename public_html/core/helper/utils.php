@@ -838,38 +838,24 @@ function gzip($src, $level = 5, $dst = false)
 }
 
 /**
- * Generate random word
+ * Generate random word using cryptographically secure generator.
+ * All characters of the alphabet have equal probability.
  *
- * @param $length int  - {word length}
+ * @param int $length word length
+ * @param bool $lowerCase use only digits and lowercase latin letters
  *
  * @return string
+ * @throws Exception
  */
-function randomWord($length = 4)
+function randomWord(int $length = 4, bool $lowerCase = false): string
 {
-    $new_code_length = 0;
-    $new_code = '';
-    $a = $b = 0;
-    while ($new_code_length < $length) {
-        $x = 1;
-        $y = 3;
-        $part = rand($x, $y);
-        if ($part == 1) {// Numbers
-            $a = 48;
-            $b = 57;
-        }
-        if ($part == 2) {// UpperCase
-            $a = 65;
-            $b = 90;
-        }
-        if ($part == 3) {// LowerCase
-            $a = 97;
-            $b = 122;
-        }
-        $code_part = chr(rand($a, $b));
-        $new_code_length = $new_code_length + 1;
-        $new_code = $new_code . $code_part;
+    $alphabet = '0123456789abcdefghijklmnopqrstuvwxyz' . ($lowerCase ? '' : 'ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+    $max = strlen($alphabet) - 1;
+    $output = '';
+    for ($i = 0; $i < $length; $i++) {
+        $output .= $alphabet[random_int(0, $max)];
     }
-    return $new_code;
+    return $output;
 }
 
 /**
