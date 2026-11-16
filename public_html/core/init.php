@@ -342,7 +342,7 @@ try {
     if (IS_ADMIN === true) {
         require_once(DIR_CORE . 'lib' . DS . 'order_manager.php');
         require_once(DIR_CORE . 'lib' . DS . 'layout_manager.php');
-        require_once(DIR_CORE . 'lib' . DS . 'content_manager.php');
+        require_once(DIR_CORE . 'lib' . DS . 'AContentManager.php');
         require_once(DIR_CORE . 'lib' . DS . 'package_manager.php');
         require_once(DIR_CORE . 'lib' . DS . 'form_manager.php');
         require_once(DIR_CORE . 'lib' . DS . 'extension_manager.php');

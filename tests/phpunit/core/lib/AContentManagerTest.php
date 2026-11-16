@@ -62,9 +62,11 @@ class AContentManagerTest extends AbanteCartTestBootstrap
                 return 'ac_' . $name;
             }
 
-            public function escape($value)
+            public function escape($value, $with_special_chars = false)
             {
-                return addslashes((string) $value);
+                $output = addslashes((string) $value);
+                // same as aMySQLi::escape()
+                return $with_special_chars ? str_replace('%', '\%', $output) : $output;
             }
 
             public function stringOrNull($value)
@@ -463,6 +465,143 @@ class AContentManagerTest extends AbanteCartTestBootstrap
         $this->db->results = ['/IS NULL/' => [['content_id' => 4], ['content_id' => 9]]];
 
         $this->assertSame([4 => 4, 9 => 9], $this->manager()->getLeafContents());
+    }
+
+    // ---------------------------------------------------------------- getContents
+
+    /**
+     * @param array $data
+     * @param string $mode
+     * @param int|null $storeId
+     * @param bool $parentOnly
+     *
+     * @return string the only sql executed by getContents()
+     */
+    private function contentsSql(array $data = [], $mode = 'default', $storeId = 0, $parentOnly = false): string
+    {
+        $this->manager()->getContents($data, $mode, $storeId, $parentOnly);
+        $this->assertCount(1, $this->db->queries);
+        return $this->db->queries[0];
+    }
+
+    public function testGetContentsDefaultSortAndLanguage(): void
+    {
+        $sql = $this->contentsSql();
+
+        $this->assertMatchesRegularExpression('/ORDER BY i\.parent_content_id, i\.sort_order\s+ASC$/', trim($sql));
+        $this->assertStringContainsString("id.language_id = '" . self::CONTENT_LANGUAGE_ID . "'", $sql);
+        $this->assertStringContainsString("cd.language_id = '" . self::CONTENT_LANGUAGE_ID . "'", $sql);
+        $this->assertStringContainsString("COALESCE(cs.store_id, 0) = '0'", $sql);
+        $this->assertStringNotContainsString('LIMIT', $sql);
+    }
+
+    public static function sortProvider(): array
+    {
+        return [
+            'title'             => ['title', 'id.title'],
+            'sort_order'        => ['sort_order', 'i.sort_order'],
+            'status'            => ['status', 'i.status'],
+            'parent_content_id' => ['parent_content_id', 'i.parent_content_id'],
+        ];
+    }
+
+    /**
+     * Grid sort keys are mapped to qualified columns (title exists in both "id" and "cd" aliases)
+     *
+     * @dataProvider sortProvider
+     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('sortProvider')]
+    public function testGetContentsMapsSortKeyToColumn(string $sort, string $column): void
+    {
+        $sql = $this->contentsSql(['sort' => $sort, 'order' => 'desc']);
+
+        $this->assertMatchesRegularExpression('/ORDER BY ' . preg_quote($column, '/') . '\s+DESC$/', trim($sql));
+    }
+
+    public function testGetContentsIgnoresNotAllowedSort(): void
+    {
+        $sql = $this->contentsSql(['sort' => 'i.status; DROP TABLE ac_contents', 'order' => 'ASC; --']);
+
+        $this->assertStringNotContainsString('DROP', $sql);
+        $this->assertStringNotContainsString('--', $sql);
+        $this->assertMatchesRegularExpression('/ORDER BY i\.parent_content_id, i\.sort_order\s+ASC$/', trim($sql));
+    }
+
+    public function testGetContentsTitleFilterIsEscaped(): void
+    {
+        $sql = $this->contentsSql(['filter' => ['id.title' => "O'Neil 100%"]]);
+
+        $this->assertStringContainsString("id.title LIKE '%O\\'Neil 100\\%%'", $sql);
+    }
+
+    public function testGetContentsStatusAndParentFiltersAreCasted(): void
+    {
+        $sql = $this->contentsSql(['filter' => ['status' => '1 OR 1=1', 'parent_id' => '3x']]);
+
+        $this->assertStringContainsString("i.status = '1'", $sql);
+        $this->assertStringContainsString("i.parent_content_id = '3'", $sql);
+        $this->assertStringNotContainsString('1=1', $sql);
+    }
+
+    public function testGetContentsAppendsSubsqlFilter(): void
+    {
+        $sql = $this->contentsSql(['subsql_filter' => "id.`title` = 'x'"]);
+
+        $this->assertStringContainsString("AND id.`title` = 'x'", $sql);
+    }
+
+    public function testGetContentsLimitIsNormalized(): void
+    {
+        $sql = $this->contentsSql(['start' => -10, 'limit' => 0]);
+        $this->assertMatchesRegularExpression('/LIMIT 0,20$/', trim($sql));
+
+        $this->db->queries = [];
+        $sql = $this->contentsSql(['start' => '40', 'limit' => '20; DROP']);
+        $this->assertMatchesRegularExpression('/LIMIT 40,20$/', trim($sql));
+    }
+
+    public function testGetContentsStoreIdFromData(): void
+    {
+        $sql = $this->contentsSql(['store_id' => '3abc']);
+
+        $this->assertStringContainsString("COALESCE(cs.store_id, 0) = '3'", $sql);
+    }
+
+    public function testGetContentsTotalOnly(): void
+    {
+        $this->db->results = ['/count\(\*\) as total/' => [['total' => 7]]];
+
+        $this->assertSame(7, $this->manager()->getContents(['sort' => 'title', 'limit' => 5], 'total_only'));
+        $sql = $this->db->queries[0];
+        $this->assertStringNotContainsString('ORDER BY', $sql);
+        $this->assertStringNotContainsString('LIMIT', $sql);
+    }
+
+    public function testGetTotalContentsUsesTotalOnlyMode(): void
+    {
+        $this->db->results = ['/count\(\*\) as total/' => [['total' => 3]]];
+
+        $this->assertEquals(3, $this->manager()->getTotalContents([]));
+    }
+
+    public function testGetContentsIsIndexedByContentId(): void
+    {
+        $this->db->results = ['/FROM ac_contents i/' => [['content_id' => '8'], ['content_id' => '2']]];
+
+        $this->assertSame([8, 2], array_keys($this->manager()->getContents()));
+    }
+
+    public function testGetContentsParentOnly(): void
+    {
+        $this->db->results = ['/FROM ac_contents i/' => [['content_id' => '8'], ['content_id' => '2']]];
+
+        $result = $this->manager()->getContents(['subsql_filter' => 'i.status = 1'], 'default', 0, true);
+
+        // plain list, not indexed by id
+        $this->assertSame([0, 1], array_keys($result));
+        $sql = $this->db->queries[0];
+        $this->assertMatchesRegularExpression('/i\.status = 1 AND i\.content_id IN \(SELECT parent_content_id/', $sql);
+        $this->assertMatchesRegularExpression('/ORDER BY i\.parent_content_id, i\.sort_order\s+ASC$/', trim($sql));
     }
 
     // ------------------------------------------------------------ buildContentTree

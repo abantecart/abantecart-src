@@ -37,10 +37,18 @@ class ControllerResponsesListingGridContent extends AController
         $this->acm = new AContentManager();
 
         //Prepare filter config
-        $grid_filter_params = array_merge(
-            ['sort_order', 'id.title', 'status', 'nodeid'],
-            (array)$this->data['grid_filter_params']
-        );
+        // grid field name => sql column (table alias required for "title",
+        // because content_descriptions is joined twice: as "id" and "cd")
+        $grid_filter_params = [
+            'sort_order' => 'i.sort_order',
+            'title'      => 'id.title',
+            'status'     => 'i.status',
+            'nodeid'     => 'nodeid',
+        ];
+        // support both plain and associative lists from extensions
+        foreach ((array)$this->data['grid_filter_params'] as $k => $v) {
+            $grid_filter_params[is_int($k) ? $v : $k] = $v;
+        }
         //Build advanced filter
         $filter_data = [
             'method'             => 'post',
@@ -90,8 +98,6 @@ class ControllerResponsesListingGridContent extends AController
                 }
             }
         }
-
-        $leaf_nodes = $this->config->get('config_show_tree_data') ? $this->acm->getLeafContents() : [];
 
         $total = $this->acm->getTotalContents($filterData);
         $response = new stdClass();

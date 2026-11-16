@@ -439,10 +439,10 @@ class AContentManager
                 FROM " . $this->db->table("contents") . " i
                 LEFT JOIN " . $this->db->table("content_descriptions") . " id
                     ON (i.content_id = id.content_id
-                        AND id.language_id = '" . ( int ) $this->language->getContentLanguageID() . "')
+                        AND id.language_id = '" . $this->language->getContentLanguageID() . "')
                 LEFT JOIN " . $this->db->table("content_descriptions") . " cd
                     ON (cd.content_id = i.parent_content_id
-                        AND cd.language_id = '" . ( int ) $this->language->getContentLanguageID() . "')
+                        AND cd.language_id = '" . $this->language->getContentLanguageID() . "')
                 LEFT JOIN " . $this->db->table('contents_to_stores') . " cs
                     ON i.content_id = cs.content_id
                 ";
@@ -454,7 +454,7 @@ class AContentManager
         }
 
         if (isset($filter['id.title']) && is_string($filter['id.title'])) {
-            $sql .= " AND id.title LIKE '%" . $filter['id.title'] . "%' ";
+            $sql .= " AND id.title LIKE '%" . $this->db->escape($filter['id.title'], true) . "%' ";
         }
         if (isset($filter['status'])) {
             $sql .= " AND i.status = '" . (int) $filter['status'] . "'";
@@ -471,13 +471,13 @@ class AContentManager
 
         $sort_data = [
             'parent_content_id' => 'i.parent_content_id',
-            'title'              => 'id.title',
-            'sort_order'         => 'i.sort_order',
-            'status'             => 'i.status',
+            'title'             => 'id.title',
+            'sort_order'        => 'i.sort_order',
+            'status'            => 'i.status',
         ];
 
         if (isset($data['sort']) && in_array($data['sort'], array_keys($sort_data))) {
-            $sql .= " ORDER BY " . $data ['sort'];
+            $sql .= " ORDER BY " . $sort_data[$data ['sort']];
         } else {
             $sql .= " ORDER BY i.parent_content_id, i.sort_order";
         }
@@ -489,14 +489,8 @@ class AContentManager
         }
 
         if (isset ($data ['start']) || isset ($data ['limit'])) {
-            if ($data ['start'] < 0) {
-                $data ['start'] = 0;
-            }
-
-            if ($data ['limit'] < 1) {
-                $data ['limit'] = 20;
-            }
-
+            $data ['start'] = max(0, $data ['start']);
+            $data ['limit'] = $data ['limit'] < 1 ? 20 : $data ['limit'];
             $sql .= " LIMIT " . ( int ) $data ['start'] . "," . ( int ) $data ['limit'];
         }
 
