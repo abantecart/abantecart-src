@@ -369,7 +369,7 @@ class ControllerResponsesListingGridCustomer extends AController
                 } else {
                     /** @var ModelSaleCustomer $cMdl */
                     $cMdl = $this->loadModel('sale/customer');
-                    if (!$cMdl->is_unique_loginname($value, $customer_id)) {
+                    if (!$cMdl->is_unique_loginname((string)$value, $customer_id)) {
                         $this->error = $this->language->get('error_loginname_notunique');
                     }
                 }

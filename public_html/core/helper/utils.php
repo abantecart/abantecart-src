@@ -201,7 +201,6 @@ function SEOEncode(string $seoKeyword, $objectKeyName = '', $objectId = 0)
  */
 function getUniqueSeoKeyword(string $seoKeyword, string $objectKeyName = '', int $objectId = 0)
 {
-    $objectId = (int) $objectId;
     $registry = Registry::getInstance();
     $db = $registry->get('db');
     $sql = "SELECT `keyword`
@@ -295,7 +294,7 @@ function versionCompare($version1, $version2, $operator)
         if (isset($version2[$i])) {
             $version2[$i] = (int) $version2[$i];
         } else {
-            $version2[$i] = $i == 2 ? (int) $version1[$i] : 99;
+            $version2[$i] = $i == 2 ? $version1[$i] : 99;
         }
         $i++;
     }
@@ -313,33 +312,17 @@ function versionCompare($version1, $version2, $operator)
 
 function getTextUploadError($error)
 {
-    switch ($error) {
-        case UPLOAD_ERR_INI_SIZE:
-            $error_txt = 'The uploaded file exceeds the upload_max_filesize directive in php.ini (now '
-                . ini_get('upload_max_filesize') . ')';
-            break;
-        case UPLOAD_ERR_FORM_SIZE:
-            $error_txt = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
-            break;
-        case UPLOAD_ERR_PARTIAL:
-            $error_txt = 'The uploaded file was only partially uploaded';
-            break;
-        case UPLOAD_ERR_NO_FILE:
-            $error_txt = 'No file was uploaded';
-            break;
-        case UPLOAD_ERR_NO_TMP_DIR:
-            $error_txt = 'Missing a php temporary folder';
-            break;
-        case UPLOAD_ERR_CANT_WRITE:
-            $error_txt = 'Failed to write file to disk';
-            break;
-        case UPLOAD_ERR_EXTENSION:
-            $error_txt = 'File upload stopped by php-extension';
-            break;
-        default:
-            $error_txt = 'Some problem happen with file upload. Check error log for more information';
-    }
-    return $error_txt;
+    return match ($error) {
+        UPLOAD_ERR_INI_SIZE => 'The uploaded file exceeds the upload_max_filesize directive in php.ini (now '
+            . ini_get('upload_max_filesize') . ')',
+        UPLOAD_ERR_FORM_SIZE => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
+        UPLOAD_ERR_PARTIAL => 'The uploaded file was only partially uploaded',
+        UPLOAD_ERR_NO_FILE => 'No file was uploaded',
+        UPLOAD_ERR_NO_TMP_DIR => 'Missing a php temporary folder',
+        UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk',
+        UPLOAD_ERR_EXTENSION => 'File upload stopped by php-extension',
+        default => 'Some problem happen with file upload. Check error log for more information',
+    };
 }
 
 /*
@@ -630,6 +613,7 @@ function getExtensionConfigXml($extension_txt_id)
  * @param array $data data for writing into new session storage
  *
  * @return bool
+ * @throws AException
  */
 function startStorefrontSession($user_id, $data = [])
 {
@@ -842,7 +826,7 @@ function gzip($src, $level = 5, $dst = false)
  * All characters of the alphabet have equal probability.
  *
  * @param int $length word length
- * @param bool $lowerCase use only digits and lowercase latin letters
+ * @param bool $lowerCase use only digits and lowercase Latin letters
  *
  * @return string
  * @throws Exception
@@ -1069,18 +1053,16 @@ function make_writable_path($path)
     if (empty($path)) {
         return false;
     } else {
-        if (is_writable_dir($path)) {
-            return true;
-        } else {
+        if (!is_writable_dir($path)) {
             //recurse if parent directory does not exist
             $parent = dirname($path);
             if (strlen($parent) > 1 && !file_exists($parent)) {
                 make_writable_path($parent);
             }
             mkdir($path, 0777, true);
-            chmod($path, 0777);
-            return true;
+            return chmod($path, 0777);
         }
+        return true;
     }
 }
 
@@ -1376,7 +1358,6 @@ function isExtensionSupportsCart($versions)
 
     foreach ($versions as $item) {
         $version = (string) $item;
-        $versions[] = $version;
         $subVersionArray = explode('.', preg_replace('/[^0-9.]/', '', $version));
         $full_check = versionCompare($version, VERSION, '<=');
         $minor_check = !$minor_check
@@ -1592,7 +1573,7 @@ function renderDefaultRatingStars($value, $text)
 function generateOrderToken($orderId, $email, $secToken = '')
 {
     $registry = Registry::getInstance();
-    $enc = new AEncryption($registry->get('config')->get('encryption_key'));
+    $enc = new AEncryption((string)$registry->get('config')->get('encryption_key'));
     /** @var ModelCheckoutFastCheckout $mdl */
     $mdl = $registry->get('load')->model('checkout/fast_checkout', 'storefront');
     $secToken = $secToken ? : genToken(32);
@@ -1760,9 +1741,7 @@ function regexForHtmlPattern(?string $regex): ?string
     $regex = str_replace('\w', '[a-zA-Z0-9_]', $regex);
     $regex = str_replace('\D', '[^0-9]', $regex);
     $regex = str_replace('\S', '[^ ]', $regex);
-    $regex = str_replace('\W', '[^a-zA-Z0-9_]', $regex);
-
-    return $regex;
+    return str_replace('\W', '[^a-zA-Z0-9_]', $regex);
 }
 
 /**

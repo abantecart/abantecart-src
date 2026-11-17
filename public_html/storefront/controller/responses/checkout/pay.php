@@ -1608,7 +1608,7 @@ class ControllerResponsesCheckoutPay extends AController
                     && $customer_info['data']['email_activation']
                 ) {
                     //show link for resend activation code to email
-                    $enc = new AEncryption($this->config->get('encryption_key'));
+                    $enc = new AEncryption((string)$this->config->get('encryption_key'));
                     $rid = $enc->encrypt($customer_info['customer_id'] . '::' . $customer_info['data']['email_activation']);
                     $this->error['login_message'] = $this->language->getAndReplace(
                         'text_resend_activation_email',

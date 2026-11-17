@@ -391,7 +391,10 @@ class ControllerPagesSaleCustomer extends AController
                     $this->model_sale_customer->sendApproveMail($customer_id);
                 }
             }
-            $this->model_sale_customer->editCustomer($this->request->get['customer_id'], $this->request->post);
+            $this->model_sale_customer->editCustomer(
+                (int)$this->request->get['customer_id'], 
+                $this->request->post
+            );
             $this->data['redirect_url'] = $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $customer_id);
 
             $this->session->data['success'] = $this->language->get('text_success');
@@ -1206,7 +1209,7 @@ class ControllerPagesSaleCustomer extends AController
             $this->error['loginname'] = $this->language->get('error_loginname');
             //check uniqueness of login name
         } else {
-            if (!$this->model_sale_customer->is_unique_loginname($data['loginname'], $customer_id)) {
+            if (!$this->model_sale_customer->is_unique_loginname((string)$data['loginname'], $customer_id)) {
                 $this->error['loginname'] = $this->language->get('error_loginname_notunique');
             }
         }

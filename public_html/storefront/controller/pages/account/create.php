@@ -24,7 +24,7 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesAccountCreate extends AController
 {
-    const formTxtId = 'RegisterCustomerFrm';
+    const string formTxtId = 'RegisterCustomerFrm';
     public $errors = [];
 
     public function main()
@@ -308,7 +308,7 @@ class ControllerPagesAccountCreate extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         /** @var ModelAccountCustomer $mdl */
         $mdl = $this->loadModel('account/customer');
-        $enc = new AEncryption($this->config->get('encryption_key'));
+        $enc = new AEncryption((string)$this->config->get('encryption_key'));
         list($customer_id, $activation_code) = explode("::", $enc->decrypt($this->request->get['rid']));
         if ($customer_id && $activation_code) {
             try {

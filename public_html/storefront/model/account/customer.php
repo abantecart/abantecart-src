@@ -667,7 +667,7 @@ class ModelAccountCustomer extends Model
                  WHERE customer_id = '" . (int) $customer_id . "'"
             );
             $output = $this->dcrypt->decrypt_data($query->row, 'customers');
-            $output['data'] = unserialize($output['data']);
+            $output['data'] = unserialize(($output['data'] ?? ''));
             $output['ext_fields'] = json_decode($output['ext_fields'], true);
             $this->cache->push($cacheKey, $output);
         }
@@ -791,7 +791,7 @@ class ModelAccountCustomer extends Model
                         IN (SELECT customer_group_id
                             FROM " . $this->db->table('customer_groups') . "
                             WHERE `name` = 'Newsletter Subscribers')
-            ORDER by status DESC, approved DESC, date_modified DESC LIMIT 1";
+            ORDER by status DESC, approved DESC, date_modified DESC";
             $query = $this->db->query($sql);
             $output = [];
             foreach ($query->rows as $k => $row) {
@@ -869,7 +869,7 @@ class ModelAccountCustomer extends Model
             //validate if we have a row with matching decrypted email;
             $result_row = [];
             foreach ($query->rows as $result) {
-                $decryptedEmail = $this->dcrypt->decrypt_field($result['email'], $result['key_id']);
+                $decryptedEmail = $this->dcrypt->decrypt_field($result['email'], (int)$result['key_id']);
                 if (strtolower($email) == strtolower($decryptedEmail)) {
                     $result_row = $result;
                     break;
@@ -1253,7 +1253,7 @@ class ModelAccountCustomer extends Model
         $customer_data = $this->getCustomer($customer_id);
 
         //encrypt token and data
-        $enc = new AEncryption($this->config->get('encryption_key'));
+        $enc = new AEncryption((string)$this->config->get('encryption_key'));
         $code = genToken();
         //store activation code
         $customer_data['data']['email_activation'] = $code;

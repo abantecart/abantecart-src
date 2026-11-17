@@ -342,7 +342,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController
         ]);
         $data_enc['note'] = $this->language->get('post_encrypting_notice');
 
-        $enc_config_tables = $enc_data->getEcryptedTables();
+        $enc_config_tables = $enc_data->getEncryptedTables();
         if (has_value($enc_config_tables)) {
             /*
             $enc_tables_options = [];
@@ -472,7 +472,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController
 
         //generate keys	and save	
         $enc_data = new ADataEncryption($key_name);
-        foreach ($enc_data->getEcryptedTables() as $table_name) {
+        foreach ($enc_data->getEncryptedTables() as $table_name) {
             //use tables with postfix in the name via $this->db->table()
             $enc_table_name = $this->db->table($table_name);
             $id_field = $enc_data->getEncryptedTableID($table_name);
@@ -557,8 +557,8 @@ class ControllerPagesExtensionEncryptionDataManager extends AController
 
         //generate keys	and save	
         $enc_data = new ADataEncryption($key_name);
-        foreach ($enc_data->getEcryptedTables() as $table_name) {
-            $enc_fields = $enc_data->getEcryptedFields($table_name);
+        foreach ($enc_data->getEncryptedTables() as $table_name) {
+            $enc_fields = $enc_data->getEncryptedFields($table_name);
             $id_field = $enc_data->getEncryptedTableID($table_name);
             // important to use encrypted table.
             $query_read = $this->db->query(
@@ -674,7 +674,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController
     {
         $usage = [];
 
-        $enc_config_tables = $enc_data->getEcryptedTables();
+        $enc_config_tables = $enc_data->getEncryptedTables();
         foreach ($enc_config_tables as $table_name) {
             $row = [];
             $row['table'] = $table_name;
@@ -700,7 +700,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController
     {
         $usage = [];
 
-        $enc_config_tables = $enc_data->getEcryptedTables();
+        $enc_config_tables = $enc_data->getEncryptedTables();
         foreach ($enc_config_tables as $table_name) {
             $row = [];
             $row['table'] = $table_name;

@@ -319,7 +319,7 @@ class ModelCheckoutFastCheckout extends Model
         }
 
         //try to decrypt order token
-        $enc = new AEncryption($this->config->get('encryption_key'));
+        $enc = new AEncryption((string)$this->config->get('encryption_key'));
         $decrypted = $enc->decrypt($ot);
         list($order_id, $email, $sec_token) = explode('::', $decrypted,3);
 

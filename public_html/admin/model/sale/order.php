@@ -1155,7 +1155,7 @@ class ModelSaleOrder extends Model
                 if ($this->dcrypt->active) {
                     $customer_email = $this->dcrypt->decrypt_field(
                         $order_query->row['email'],
-                        $order_query->row['key_id']
+                        (int)$order_query->row['key_id']
                     );
                 } else {
                     $customer_email = $order_query->row['email'];

@@ -117,9 +117,11 @@ class ExtensionUps extends Extension
         $order_id = null;
         if (isset($that->request->get['ot']) && $that->config->get('config_guest_checkout')) {
             //try to decrypt order token
-            $order_token = $that->request->get['ot'];
+            $order_token = (string)$that->request->get['ot'];
             if ($order_token) {
-                list($order_id,) = $that->model_account_customer->parseOrderToken($order_token);
+                /** @var ModelCheckoutFastCheckout $cMdl */
+                $cMdl = $that->loadModel('checkout/fast_checkout', 'storefront');
+                list($order_id,) = $cMdl->parseOrderToken($order_token);
             }
         } else {
             $order_id = $that->request->get['order_id'];

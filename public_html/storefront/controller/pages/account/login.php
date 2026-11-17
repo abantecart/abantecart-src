@@ -1,21 +1,22 @@
-<?php
+<?php /** @noinspection PhpUnused */
+
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -77,7 +78,7 @@ class ControllerPagesAccountLogin extends AController
             }
         } elseif (has_value($this->request->get['ac'])) {
             //activation of account via email-code.
-            $enc = new AEncryption($this->config->get('encryption_key'));
+            $enc = new AEncryption((string)$this->config->get('encryption_key'));
             list($customer_id, $activation_code) = explode("::", $enc->decrypt($this->request->get['ac']));
             if ($customer_id && $activation_code) {
                 //get customer
@@ -268,7 +269,7 @@ class ControllerPagesAccountLogin extends AController
                     && $customer_info['data']['email_activation']
                 ) {
                     //show link for resend activation code to email
-                    $enc = new AEncryption($this->config->get('encryption_key'));
+                    $enc = new AEncryption((string)$this->config->get('encryption_key'));
                     $rid = $enc->encrypt($customer_info['customer_id'] . '::' . $customer_info['data']['email_activation']);
                     $this->error['message'] .= sprintf($this->language->get('text_resend_activation_email'),
                         "\n" . $this->html->getSecureURL('account/create/resend', '&rid=' . $rid)

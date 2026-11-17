@@ -310,13 +310,13 @@ try {
     require_once(DIR_CORE . 'lib' . DS . 'ASession.php');
     require_once(DIR_CORE . 'lib' . DS . 'template.php');
     require_once(DIR_CORE . 'lib' . DS . 'xml2array.php');
-    require_once(DIR_CORE . 'lib' . DS . 'data.php');
+    require_once(DIR_CORE . 'lib' . DS . 'AData.php');
     require_once(DIR_CORE . 'lib' . DS . 'file.php');
     require_once(DIR_CORE . 'lib' . DS . 'download.php');
     require_once(DIR_CORE . 'lib' . DS . 'AUrlRedirect.php');
 
 // Application Classes
-    require_once(DIR_CORE . 'lib' . DS . 'customer.php');
+    require_once(DIR_CORE . 'lib' . DS . 'ACustomer.php');
     require_once(DIR_CORE . 'lib' . DS . 'AOrder.php');
     require_once(DIR_CORE . 'lib' . DS . 'order_status.php');
     require_once(DIR_CORE . 'lib' . DS . 'currency.php');
@@ -326,7 +326,10 @@ try {
     require_once(DIR_CORE . 'lib' . DS . 'cart.php');
     require_once(DIR_CORE . 'lib' . DS . 'user.php');
     require_once(DIR_CORE . 'lib' . DS . 'dataset.php');
-    require_once(DIR_CORE . 'lib' . DS . 'encryption.php');
+    require_once(DIR_CORE . 'lib' . DS . 'AEncryption.php');
+    require_once(DIR_CORE . 'lib' . DS . 'ASSLEncryption.php');
+    require_once(DIR_CORE . 'lib' . DS . 'ADataEncryption.php');
+    
     require_once(DIR_CORE . 'lib' . DS . 'menu_control.php');
     require_once(DIR_CORE . 'lib' . DS . 'menu_control_storefront.php');
     require_once(DIR_CORE . 'lib' . DS . 'rest.php');

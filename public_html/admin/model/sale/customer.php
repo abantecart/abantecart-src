@@ -1,5 +1,4 @@
 <?php
-
 /*
  *   $Id$
  *
@@ -19,9 +18,9 @@
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
-/** @noinspection PhpMultipleClassDeclarationsInspection */
-
-/** @noinspection PhpUndefinedClassInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection
+ * @noinspection PhpUndefinedClassInspection
+ */
 
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
@@ -40,10 +39,13 @@ class ModelSaleCustomer extends Model
      */
     public function addCustomer($data)
     {
+        //keep plain data for IM-fields update (it encrypts data by itself)
+        $plainData = $data;
         //encrypt customer data
         $key_sql = '';
         if ($this->dcrypt->active) {
             $data = $this->dcrypt->encrypt_data($data, 'customers');
+            $plainData['key_id'] = (int) $data['key_id'];
             $key_sql = ", key_id = '" . (int) $data['key_id'] . "'";
         }
         $salt_key = genToken(8);
@@ -72,7 +74,7 @@ class ModelSaleCustomer extends Model
             $this->saveCustomerNotificationSettings($customer_id, ['newsletter' => ['email' => 1]]);
         }
 
-        $this->editCustomerNotifications($customer_id, $data);
+        $this->editCustomerNotifications($customer_id, $plainData);
         $this->cache->remove('customers');
         return $customer_id;
     }
@@ -115,16 +117,17 @@ class ModelSaleCustomer extends Model
     }
 
     /**
-     * @param int $customer_id
+     * @param int $customerId
      * @param array $data
      *
      * @throws AException
      */
-    public function editCustomer($customer_id, $data)
+    public function editCustomer($customerId, $data)
     {
+        $customerId = (int) $customerId;
         //encrypt address data
         $key_sql = '';
-        $this->editCustomerNotifications($customer_id, $data);
+        $this->editCustomerNotifications($customerId, $data);
         if ($this->dcrypt->active) {
             $data = $this->dcrypt->encrypt_data($data, 'customers');
             $key_sql = ", key_id = '" . (int) $data['key_id'] . "'";
@@ -143,7 +146,7 @@ class ModelSaleCustomer extends Model
                 status = '" . (int) $data['status'] . "'"
             . $key_sql . ", 
                 approved = '" . (int) $data['approved'] . "'
-            WHERE customer_id = '" . $customer_id . "'"
+            WHERE customer_id = '" . $customerId . "'"
         );
 
         if ($data['password']) {
@@ -153,17 +156,17 @@ class ModelSaleCustomer extends Model
                 SET
                     salt = '" . $this->db->escape($salt_key) . "', 
                     password = '" . $this->db->escape(passwordHash($data['password'], $salt_key)) . "'
-                WHERE customer_id = '" . $customer_id . "'"
+                WHERE customer_id = '" . $customerId . "'"
             );
             //destroy all active sessions
             $customer = new ACustomer($this->registry);
-            $customer->deleteActiveSessionsByID($customer_id);
+            $customer->deleteActiveSessionsByID($customerId);
         }
 
         if (isset($data['newsletter'])) {
             //enable notification setting for newsletter via email
             $this->saveCustomerNotificationSettings(
-                $customer_id, ['newsletter' => ['email' => (int) $data['newsletter']]]
+                $customerId, ['newsletter' => ['email' => (int) $data['newsletter']]]
             );
         }
         $this->cache->remove('customers');
@@ -240,51 +243,39 @@ class ModelSaleCustomer extends Model
      */
     public function editCustomerField($customer_id, $field, $value)
     {
+        $customer_id = (int) $customer_id;
+        $field = (string) $field;
         if (!$customer_id || !$field) {
             return false;
         }
 
-        $data = [
-            'loginname',
-            'firstname',
-            'lastname',
-            'email',
-            'telephone',
-            'fax',
-            'newsletter',
-            'customer_group_id',
-            'status',
-            'approved',
-        ];
-
-        //adds IM fields
-        //get only active IM drivers
-        $im_protocols = $this->im->getProtocols();
-        foreach ($im_protocols as $protocol) {
-            if (!in_array($protocol, $data)) {
-                $data[] = $protocol;
+        //password is stored as a salted hash. See below
+        if ($field != 'password') {
+            //allow to change only existing non-service columns
+            //(list of form fields can be extended by hooks, so do not hardcode it)
+            $protectedColumns = ['customer_id', 'salt', 'password', 'key_id', 'date_added', 'date_modified'];
+            if (in_array($field, $protectedColumns)
+                || !in_array($field, $this->getTableColumns('customers'), true)
+            ) {
+                return false;
             }
-        }
 
-        if (in_array($field, $data)) {
             if ($this->dcrypt->active && in_array($field, $this->dcrypt->getEncryptedFields("customers"))) {
                 //check key_id to use
                 $query_key = $this->db->query(
                     "SELECT key_id
                      FROM " . $this->db->table("customers") . "
-                     WHERE customer_id = '" . (int) $customer_id . "'"
+                     WHERE customer_id = '" . $customer_id . "'"
                 );
-                $key_id = $query_key->rows[0]['key_id'];
+                $key_id = (int) ($query_key->row['key_id'] ?? 0);
                 $value = $this->dcrypt->encrypt_field($value, $key_id);
             }
-        }
-        $this->db->query(
-            "UPDATE " . $this->db->table("customers") . "
-            SET " . $field . " = '" . $this->db->escape($value) . "'
-            WHERE customer_id = '" . (int) $customer_id . "'"
-        );
-
-        if ($field == 'password') {
+            $this->db->query(
+                "UPDATE " . $this->db->table("customers") . "
+                SET `" . $field . "` = '" . $this->db->escape($value) . "'
+                WHERE customer_id = '" . $customer_id . "'"
+            );
+        } else {
             $salt_key = genToken(8);
             $this->db->query(
                 "UPDATE " . $this->db->table("customers") . "
@@ -301,56 +292,50 @@ class ModelSaleCustomer extends Model
         return true;
     }
 
-    public function editCustomerNotifications($customer_id, $data)
+    public function editCustomerNotifications($customerId, $data)
     {
-        if (!$data || !$customer_id) {
+        $customerId = (int) $customerId;
+        if (!$data || !$customerId) {
             return false;
         }
 
+        //NOTE: $data must contain plain (not encrypted) values!
         $upd = [];
-        //get only active IM drivers
-        $im_protocols = $this->im->getProtocols();
-        foreach ($im_protocols as $protocol) {
-            if (isset($data[$protocol])) {
-                $upd[$protocol] =
-                    "`" . $this->db->escape($protocol) . "` = '" . $this->db->escape($data[$protocol]) . "'";
+        //get only active IM drivers which have a column in the customers table
+        $columns = $this->getTableColumns('customers');
+        foreach ($this->im->getProtocols() as $protocol) {
+            if (isset($data[$protocol]) && in_array($protocol, $columns, true)) {
+                $upd[$protocol] = $data[$protocol];
             }
         }
-
-        //get all columns
-        $sql = "SELECT COLUMN_NAME
-                FROM INFORMATION_SCHEMA.COLUMNS
-                WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' 
-                    AND TABLE_NAME = '" . $this->db->table("customers") . "'";
-        $result = $this->db->query($sql);
-        $columns = [];
-        foreach ($result->rows as $row) {
-            $columns[] = $row['COLUMN_NAME'];
+        if (!$upd) {
+            return true;
         }
 
-        //remove not IM data
-        $diff = array_diff($im_protocols, $columns);
-        foreach ($diff as $k) {
-            unset($data[$k]);
-        }
-
-        $key_sql = '';
         if ($this->dcrypt->active) {
-            $data = $this->dcrypt->encrypt_data($data, 'customers');
-            $key_sql = ", key_id = '" . (int) $data['key_id'] . "'";
+            //use the same key as customer record (default key if not set)
+            $upd['key_id'] = (int) ($data['key_id'] ?? 0);
+            //encrypts only encrypted fields and sets actual key_id
+            $upd = $this->dcrypt->encrypt_data($upd, 'customers');
+            $upd['key_id'] = (int) $upd['key_id'];
         }
 
-        $sql = "UPDATE " . $this->db->table('customers') . "
-                SET " . implode(', ', $upd) . "\n"
-            . $key_sql .
-            " WHERE customer_id = '" . (int) $customer_id . "'";
-        $this->db->query($sql);
+        $update = [];
+        foreach ($upd as $k => $v) {
+            $update[] = "`" . $k . "` = '" . $this->db->escape($v) . "'";
+        }
+        $this->db->query(
+            "UPDATE " . $this->db->table('customers') . "
+            SET " . implode(', ', $update) . "
+            WHERE customer_id = '" . $customerId . "'"
+        );
         $this->cache->remove('customers');
         return true;
     }
 
     public function saveCustomerNotificationSettings($customer_id, $settings = [])
     {
+        $customer_id = (int) $customer_id;
         if (!$customer_id) {
             return null;
         }
@@ -416,39 +401,62 @@ class ModelSaleCustomer extends Model
      * @param string $field_name
      * @param mixed $value
      *
+     * @return bool
      * @throws AException
      */
     public function editAddressField($address_id, $field_name, $value)
     {
-        $data = [
-            'firstname',
-            'lastname',
-            'company',
-            'address_1',
-            'address_2',
-            'city',
-            'postcode',
-            'country_id',
-            'zone_id',
-        ];
-        if (in_array($field_name, $data)) {
-            if ($this->dcrypt->active && in_array($field_name, $this->dcrypt->getEncryptedFields("addresses"))) {
-                //check key_id to use
-                $query_key = $this->db->query(
-                    "SELECT key_id
-                    FROM " . $this->db->table("addresses") . "
-                    WHERE customer_id = '" . (int) $address_id . "'"
-                );
-                $key_id = $query_key->rows[0]['key_id'];
-                $value = $this->dcrypt->encrypt_field($value, $key_id);
-            }
+        $address_id = (int) $address_id;
+        $field_name = (string) $field_name;
+        //allow to change only existing non-service columns
+        $protectedColumns = ['address_id', 'customer_id', 'key_id', 'date_added', 'date_modified'];
+        if (!$address_id
+            || in_array($field_name, $protectedColumns)
+            || !in_array($field_name, $this->getTableColumns('addresses'), true)
+        ) {
+            return false;
+        }
+
+        if ($this->dcrypt->active && in_array($field_name, $this->dcrypt->getEncryptedFields("addresses"))) {
+            //check key_id to use
+            $query_key = $this->db->query(
+                "SELECT key_id
+                FROM " . $this->db->table("addresses") . "
+                WHERE address_id = '" . $address_id . "'"
+            );
+            $key_id = (int) ($query_key->row['key_id'] ?? 0);
+            $value = $this->dcrypt->encrypt_field($value, $key_id);
         }
         $this->db->query(
             "UPDATE " . $this->db->table("addresses") . "
-          SET " . $field_name . " = '" . $this->db->escape($value) . "'
-          WHERE address_id = '" . (int) $address_id . "'"
+             SET `" . $field_name . "` = '" . $this->db->escape($value) . "'
+             WHERE address_id = '" . $address_id . "'"
         );
         $this->cache->remove('customers');
+        return true;
+    }
+
+    /**
+     * Returns list of column names of the given table (without prefix)
+     *
+     * @param string $table
+     *
+     * @return array
+     * @throws AException
+     */
+    protected function getTableColumns(string $table)
+    {
+        static $columns = [];
+        if (!isset($columns[$table])) {
+            $result = $this->db->query(
+                "SELECT COLUMN_NAME
+                FROM INFORMATION_SCHEMA.COLUMNS
+                WHERE TABLE_SCHEMA = '" . $this->db->escape(DB_DATABASE) . "'
+                    AND TABLE_NAME = '" . $this->db->escape($this->db->table($table)) . "'"
+            );
+            $columns[$table] = array_column($result->rows, 'COLUMN_NAME');
+        }
+        return $columns[$table];
     }
 
     /**
@@ -630,25 +638,32 @@ class ModelSaleCustomer extends Model
             $whereArr[] = "c.lastname LIKE '" . $this->db->escape($filter['lastname'], true) . "%' ";
         }
         //select differently if encrypted
+        $byEmail = trim((string) ($filter['email'] ?? ''));
+        //fields which values are encrypted cannot be filtered by sql. See filtering after query below
+        $encryptedFields = $this->dcrypt->active ? $this->dcrypt->getEncryptedFields('customers') : [];
+        $postFilterFields = [];
+        foreach (['telephone', 'sms'] as $fName) {
+            if (!isset($filter[$fName]) || !has_value($filter[$fName])) {
+                continue;
+            }
+            if (in_array($fName, $encryptedFields)) {
+                $postFilterFields[$fName] = $filter[$fName];
+            } else {
+                $whereArr[] = "c." . $fName . " LIKE '%" . $this->db->escape($filter[$fName], true) . "%' ";
+            }
+        }
         if (!$this->dcrypt->active) {
-            if (isset($filter['email']) && has_value($filter['email'])) {
-                $whereArr[] = "c.email LIKE '%" . $this->db->escape($filter['email'], true) . "%' ";
-            }
-            if (isset($filter['telephone']) && has_value($filter['telephone'])) {
-                $whereArr[] = "c.telephone LIKE '%" . $this->db->escape($filter['telephone'], true) . "%' ";
-            }
-            if (isset($filter['sms']) && has_value($filter['sms'])) {
-                $whereArr[] = "c.sms LIKE '%" . $this->db->escape($filter['sms'], true) . "%' ";
+            if ($byEmail) {
+                $whereArr[] = "c.email LIKE '%" . $this->db->escape($byEmail, true) . "%' ";
             }
         } //if encryption enabled
         else {
-            $email = trim($filter['email']);
             //if we do not require login name, this means email is loginname and we can search by it
-            if ($email
+            if ($byEmail
                 && !$this->config->get('prevent_email_as_login')
                 && !in_array('loginname', $this->dcrypt->getEncryptedFields('customers'))
             ) {
-                $whereArr[] = "c.loginname LIKE '%" . $this->db->escape($email, true) . "%' ";
+                $whereArr[] = "c.loginname LIKE '%" . $this->db->escape($byEmail, true) . "%' ";
             }
         }
 
@@ -744,23 +759,21 @@ class ModelSaleCustomer extends Model
 
         //Total calculation for encrypted mode
         // NOTE: Performance slowdown might be noticed or larger search results
-        if ($mode != 'total_only') {
-            $sql .= " ORDER BY " . ($sort_data[$data['sort']] ? : 'name');
-            if (isset($data['order']) && (strtoupper($data['order']) == 'DESC')) {
-                $sql .= " DESC";
-            } else {
-                $sql .= " ASC";
-            }
+        $sql .= " ORDER BY " . ($sort_data[$data['sort']] ? : 'name');
+        if (isset($data['order']) && (strtoupper($data['order']) == 'DESC')) {
+            $sql .= " DESC";
+        } else {
+            $sql .= " ASC";
+        }
 
-            if (isset($data['start']) || isset($data['limit'])) {
-                if ($data['start'] < 0) {
-                    $data['start'] = 0;
-                }
-                if ($data['limit'] < 1) {
-                    $data['limit'] = 20;
-                }
-                $sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
+        if (isset($data['start']) || isset($data['limit'])) {
+            if ($data['start'] < 0) {
+                $data['start'] = 0;
             }
+            if ($data['limit'] < 1) {
+                $data['limit'] = 20;
+            }
+            $sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
         }
 
         //do not cache results with orders count, because orders are changed outside the customers model
@@ -776,22 +789,14 @@ class ModelSaleCustomer extends Model
 
         $query = $this->db->query($sql);
         $result_rows = $query->rows;
-
-        if ($this->dcrypt->active) {
-            if (isset($filter['telephone']) && has_value($filter['telephone'])) {
-                $result_rows = $this->_filter_by_encrypted_field($result_rows, 'telephone', $filter['telephone']);
-            }
-            if (isset($filter['sms']) && has_value($filter['sms'])) {
-                $result_rows = $this->_filter_by_encrypted_field($result_rows, 'sms', $filter['sms']);
-            }
-        }
-
-        if ($mode == 'total_only') {
-            //we get here only if in data encryption mode
-            return count($result_rows);
-        }
-        //finally, decrypt data and return result
+        //call it right after main query, because found_rows() relates to the last executed query
         $totalRows = $this->db->getTotalNumRows();
+
+        foreach ($postFilterFields as $fName => $fValue) {
+            $result_rows = $this->_filter_by_encrypted_field($result_rows, $fName, $fValue);
+        }
+
+        //finally, decrypt data and return result
         for ($i = 0; $i < count($result_rows); $i++) {
             $result_rows[$i] = $this->dcrypt->decrypt_data($result_rows[$i], 'customers');
             $result_rows[$i]['total_num_rows'] = $totalRows;
@@ -811,7 +816,7 @@ class ModelSaleCustomer extends Model
      * @return array
      * @throws AException
      */
-    private function _filter_by_encrypted_field($data, $field, $value)
+    private function _filter_by_encrypted_field(array $data, string $field, $value)
     {
         if (!count($data)) {
             return [];
@@ -819,31 +824,29 @@ class ModelSaleCustomer extends Model
         if (!has_value($field) || !has_value($value)) {
             return $data;
         }
-        $result_rows = [];
-        foreach ($data as $result) {
-            if ($this->dcrypt->active) {
-                $f_value = $this->dcrypt->decrypt_field($result[$field], $result['key_id']);
-            } else {
-                $f_value = $result[$field];
-            }
-            if (!(strpos(strtolower($f_value), strtolower($value)) === false)) {
-                $result_rows[] = $result;
+        $output = [];
+        foreach ($data as $row) {
+            $fValue = $this->dcrypt->active
+                ? $this->dcrypt->decrypt_field($row[$field], (int) ($row['key_id'] ?? 0))
+                : $row[$field];
+            if (str_contains(mb_strtolower((string) $fValue), mb_strtolower((string) $value))) {
+                $output[] = $row;
             }
         }
-        return $result_rows;
+        return $output;
     }
 
     /**
-     * @param int $customer_id
+     * @param int $customerId
      *
      * @throws AException
      */
-    public function approve($customer_id)
+    public function approve($customerId)
     {
         $this->db->query(
             "UPDATE " . $this->db->table("customers") . "
             SET approved = '1'
-                WHERE customer_id = '" . (int) $customer_id . "'"
+            WHERE customer_id = '" . (int) $customerId . "'"
         );
         $this->cache->remove('customers');
     }
@@ -859,21 +862,21 @@ class ModelSaleCustomer extends Model
             $store_based = " AND store_id = " . (int) $this->session->data['current_store_id'];
         }
         $cacheKey = 'customers.admin.by_newsletter.' . md5($store_based);
-        $result_rows = $this->cache->pull($cacheKey);
-        if ($result_rows === false) {
+        $output = $this->cache->pull($cacheKey);
+        if ($output === false) {
             $query = $this->db->query(
                 "SELECT *
                 FROM " . $this->db->table("customers") . "
                 WHERE newsletter = '1' " . $store_based . "
                 ORDER BY firstname, lastname, email"
             );
-            $result_rows = [];
+            $output = [];
             foreach ($query->rows as $row) {
-                $result_rows[] = $this->dcrypt->decrypt_data($row, 'customers');
+                $output[] = $this->dcrypt->decrypt_data($row, 'customers');
             }
-            $this->cache->push($cacheKey, $result_rows);
+            $this->cache->push($cacheKey, $output);
         }
-        return $result_rows;
+        return $output;
     }
 
     /**
@@ -891,22 +894,25 @@ class ModelSaleCustomer extends Model
 
         if ($keyword) {
             $cacheKey = 'customers.admin.by_keyword.' . md5(var_export([$keyword, $store_based], true));
-            $result_rows = $this->cache->pull($cacheKey);
-            if ($result_rows === false) {
+            $output = $this->cache->pull($cacheKey);
+            if ($output === false) {
                 $query = $this->db->query(
                     "SELECT *
                     FROM " . $this->db->table("customers") . "
-                    WHERE LCASE(CONCAT(firstname, ' ', lastname)) LIKE '%" . $this->db->escape(strtolower($keyword), true) . "%'
-                         OR LCASE(email) LIKE '%" . $this->db->escape(strtolower($keyword), true) . "%' " . $store_based . "
+                    WHERE LCASE(CONCAT(firstname, ' ', lastname)) LIKE '%" . $this->db->escape(
+                        strtolower($keyword), true
+                    ) . "%'
+                         OR LCASE(email) LIKE '%" . $this->db->escape(strtolower($keyword), true) . "%' " . $store_based
+                    . "
                     ORDER BY firstname, lastname, email"
                 );
-                $result_rows = [];
+                $output = [];
                 foreach ($query->rows as $row) {
-                    $result_rows[] = $this->dcrypt->decrypt_data($row, 'customers');
+                    $output[] = $this->dcrypt->decrypt_data($row, 'customers');
                 }
-                $this->cache->push($cacheKey, $result_rows);
+                $this->cache->push($cacheKey, $output);
             }
-            return $result_rows;
+            return $output;
         } else {
             return [];
         }
@@ -1010,28 +1016,30 @@ class ModelSaleCustomer extends Model
 
     /**
      * @param string $loginname
-     * @param string $customer_id
+     * @param int $customer_id
      *
      * @return bool
      * @throws AException
      */
-    public function is_unique_loginname($loginname, $customer_id = '')
+    public function is_unique_loginname(string $loginname, $customer_id = 0)
     {
         if (empty($loginname)) {
             return false;
         }
         //exclude given customer from checking
+        $customer_id = (int) $customer_id;
         $not_current_customer = '';
-        if (has_value($customer_id)) {
-            $not_current_customer = "AND customer_id <> '$customer_id'";
+        if ($customer_id) {
+            $not_current_customer = "AND customer_id <> '" . $customer_id . "'";
         }
-        $cacheKey = 'customers.admin.total_by_loginname.' . md5(var_export(func_get_args(), true));
+        $cacheKey = 'customers.admin.total_by_loginname.' . md5(var_export([$loginname, $customer_id], true));
         $total = $this->cache->pull($cacheKey);
         if ($total === false) {
+            //do not use LIKE here: "_" is a wildcard and allowed in login names
             $query = $this->db->query(
                 "SELECT COUNT(*) AS total
                FROM " . $this->db->table("customers") . "
-               WHERE LOWER(`loginname`) = LOWER('" . $loginname . "') " . $not_current_customer
+               WHERE LOWER(loginname) = LOWER('" . $this->db->escape($loginname) . "') " . $not_current_customer
             );
             $total = (int) $query->row['total'];
             $this->cache->push($cacheKey, $total);
@@ -1242,7 +1250,7 @@ class ModelSaleCustomer extends Model
             $groupId = (int) $query->row['customer_group_id'];
             $this->cache->push($cacheKey, $groupId);
         }
-        return $groupId ?: (int) $this->config->get('config_customer_group_id');
+        return $groupId ? : (int) $this->config->get('config_customer_group_id');
     }
 
     /**

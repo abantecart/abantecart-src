@@ -112,7 +112,7 @@ class ACustomer
             }
         } elseif (isset($this->request->cookie['customer'])) {
             //we have an unauthenticated customer
-            $encryption = new AEncryption($this->config->get('encryption_key'));
+            $encryption = new AEncryption((string)$this->config->get('encryption_key'));
             $this->unauth_customer = unserialize($encryption->decrypt($this->request->cookie['customer']));
             //the customer is not valid or not from the same store (under the same domain)
             if (
@@ -225,7 +225,7 @@ class ACustomer
             $shoppingData->save('cart', $this->registry->get('cart')->getCartKey(), $cartData);
 
             //set cookie for unauthenticated user (expire in 1 year)
-            $encryption = new AEncryption($this->config->get('encryption_key'));
+            $encryption = new AEncryption((string)$this->config->get('encryption_key'));
             $customer_data = $encryption->encrypt(
                 serialize(
                     [
@@ -273,9 +273,9 @@ class ACustomer
         $this->firstname = $data['firstname'];
         $this->lastname = $data['lastname'];
         if ($this->dcrypt->active) {
-            $data['email'] = $this->email = $this->dcrypt->decrypt_field($data['email'], $data['key_id']);
-            $data['telephone'] = $this->telephone = $this->dcrypt->decrypt_field($data['telephone'], $data['key_id']);
-            $data['fax'] = $this->fax = $this->dcrypt->decrypt_field($data['fax'], $data['key_id']);
+            $data['email'] = $this->email = $this->dcrypt->decrypt_field($data['email'], (int)$data['key_id']);
+            $data['telephone'] = $this->telephone = $this->dcrypt->decrypt_field($data['telephone'], (int)$data['key_id']);
+            $data['fax'] = $this->fax = $this->dcrypt->decrypt_field($data['fax'], (int)$data['key_id']);
         } else {
             $this->email = $data['email'];
             $this->telephone = $data['telephone'];

@@ -19,12 +19,12 @@
  */
 
 // AbanteCart Version
-require_once(DIR_CORE.'version.php');
-const VERSION = MASTER_VERSION.'.'.MINOR_VERSION.'.'.VERSION_BUILT;
+require_once(DIR_CORE . 'version.php');
+const VERSION = MASTER_VERSION . '.' . MINOR_VERSION . '.' . VERSION_BUILT;
 
 //define minimal system requirements
-$composerJson = file_get_contents(DIR_ABANTECART.'/composer.json');
-if($composerJson){
+$composerJson = file_get_contents(DIR_ABANTECART . '/composer.json');
+if ($composerJson) {
     $composer = json_decode($composerJson, true);
     // Required PHP Version
     define("MIN_PHP_VERSION", preg_replace('/[^0-9.]/', '', $composer['require']['php']));
@@ -49,10 +49,10 @@ if (!isset($_SERVER['HTTP_HOST'])) {
 // Detect http host
 define('REAL_HOST', $_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST']);
 
-require_once(DIR_CORE.'lib/debug.php');
-require_once(DIR_CORE.'lib/exceptions.php');
-require_once(DIR_CORE.'lib/error.php');
-require_once(DIR_CORE.'lib/warning.php');
+require_once(DIR_CORE . 'lib/debug.php');
+require_once(DIR_CORE . 'lib/exceptions.php');
+require_once(DIR_CORE . 'lib/error.php');
+require_once(DIR_CORE . 'lib/warning.php');
 
 // relative paths for extensions
 const DIR_EXT = DIR_ABANTECART . 'extensions' . DS;
@@ -70,15 +70,14 @@ const POSTFIX_POST = '.post';
 const IS_ADMIN = true;
 const SESSION_ID = 'PHPSESSID_AC';
 
-define('DIR_RESOURCE', dirname(DIR_ROOT).DS.'resources'.DS);
+define('DIR_RESOURCE', dirname(DIR_ROOT) . DS . 'resources' . DS);
 
 try {
-
 // Check Version
     if (version_compare(phpversion(), MIN_PHP_VERSION, '<')) {
         exit(
-            MIN_PHP_VERSION.'+ Required for AbanteCart to work properly! '
-            .'Please contact your system administrator or host service provider.'
+            MIN_PHP_VERSION . '+ Required for AbanteCart to work properly! '
+            . 'Please contact your system administrator or host service provider.'
         );
     }
 
@@ -86,7 +85,6 @@ try {
     ini_set('session.use_trans_sid', 'Off');
     ini_set('session.use_cookies', 'On');
     ini_set('session.cookie_httponly', 'On');
-
 
 // Magic Quotes
     if (ini_get('magic_quotes_gpc')) {
@@ -136,68 +134,69 @@ try {
         $_SERVER['REQUEST_URI'] = substr($_SERVER['PHP_SELF'], 1);
 
         if (isset($_SERVER['QUERY_STRING'])) {
-            $_SERVER['REQUEST_URI'] .= '?'.$_SERVER['QUERY_STRING'];
+            $_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
         }
     }
 
 // Include Engine
-    require_once(DIR_CORE.'engine'.DS.'router.php');
-    require_once(DIR_CORE.'engine'.DS.'page.php');
-    require_once(DIR_CORE.'engine'.DS.'response.php');
-    require_once(DIR_CORE.'engine'.DS.'dispatcher.php');
-    require_once(DIR_CORE.'engine'.DS.'controller.php');
-    require_once(DIR_CORE.'engine'.DS.'view.php');
-    require_once(DIR_CORE.'engine'.DS.'loader.php');
-    require_once(DIR_CORE.'engine'.DS.'model.php');
-    require_once(DIR_CORE.'engine'.DS.'registry.php');
-    require_once(DIR_CORE.'engine'.DS.'html.php');
-    require_once(DIR_CORE.'engine'.DS.'layout.php');
-    require_once(DIR_CORE.'engine'.DS.'form.php');
-    require_once(DIR_CORE.'engine'.DS.'extensions.php');
-    require_once(DIR_CORE.'engine'.DS.'ALanguage.php');
-    require_once(DIR_CORE.'engine'.DS.'resources.php');
+    require_once(DIR_CORE . 'engine' . DS . 'router.php');
+    require_once(DIR_CORE . 'engine' . DS . 'page.php');
+    require_once(DIR_CORE . 'engine' . DS . 'response.php');
+    require_once(DIR_CORE . 'engine' . DS . 'dispatcher.php');
+    require_once(DIR_CORE . 'engine' . DS . 'controller.php');
+    require_once(DIR_CORE . 'engine' . DS . 'view.php');
+    require_once(DIR_CORE . 'engine' . DS . 'loader.php');
+    require_once(DIR_CORE . 'engine' . DS . 'model.php');
+    require_once(DIR_CORE . 'engine' . DS . 'registry.php');
+    require_once(DIR_CORE . 'engine' . DS . 'html.php');
+    require_once(DIR_CORE . 'engine' . DS . 'layout.php');
+    require_once(DIR_CORE . 'engine' . DS . 'form.php');
+    require_once(DIR_CORE . 'engine' . DS . 'extensions.php');
+    require_once(DIR_CORE . 'engine' . DS . 'ALanguage.php');
+    require_once(DIR_CORE . 'engine' . DS . 'resources.php');
 
-    require_once(DIR_CORE.'helper'.DS.'html.php');
-    require_once(DIR_CORE.'helper'.DS.'utils.php');
-    require_once(DIR_CORE.'helper'.DS.'system_check.php');
-
+    require_once(DIR_CORE . 'helper' . DS . 'html.php');
+    require_once(DIR_CORE . 'helper' . DS . 'utils.php');
+    require_once(DIR_CORE . 'helper' . DS . 'system_check.php');
 
 // Include library files
-    require_once(DIR_CORE.'lib'.DS.'cache.php');
-    require_once(DIR_CORE.'lib'.DS.'config.php');
-    require_once(DIR_CORE.'lib'.DS.'db.php');
-    require_once(DIR_CORE.'lib'.DS.'connect.php');
-    require_once(DIR_CORE.'lib'.DS.'ADocument.php');
-    require_once(DIR_CORE.'lib'.DS.'image.php');
-    require_once(DIR_CORE.'lib'.DS.'language_manager.php');
-    require_once(DIR_CORE.'lib'.DS.'log.php');
-    require_once(DIR_CORE.'lib'.DS.'mail.php');
-    require_once(DIR_CORE.'lib'.DS.'message.php');
-    require_once(DIR_CORE.'lib'.DS.'request.php');
-    require_once(DIR_CORE.'lib'.DS.'response.php');
-    require_once(DIR_CORE.'lib'.DS.'ASession.php');
-    require_once(DIR_CORE.'lib'.DS.'template.php');
-    require_once(DIR_CORE.'lib'.DS.'xml2array.php');
-    require_once(DIR_CORE.'lib'.DS.'json.php');
-    require_once(DIR_CORE.'lib'.DS.'layout_manager.php');
-    require_once(DIR_CORE.'lib'.DS.'package_manager.php');
-    require_once(DIR_CORE.'lib'.DS.'extension_manager.php');
-    require_once(DIR_CORE.'lib'.DS.'resource_manager.php');
-    require_once(DIR_CORE.'lib'.DS.'language_manager.php');
-    require_once(DIR_CORE.'lib'.DS.'menu_control.php');
+    require_once(DIR_CORE . 'lib' . DS . 'cache.php');
+    require_once(DIR_CORE . 'lib' . DS . 'config.php');
+    require_once(DIR_CORE . 'lib' . DS . 'db.php');
+    require_once(DIR_CORE . 'lib' . DS . 'connect.php');
+    require_once(DIR_CORE . 'lib' . DS . 'ADocument.php');
+    require_once(DIR_CORE . 'lib' . DS . 'image.php');
+    require_once(DIR_CORE . 'lib' . DS . 'language_manager.php');
+    require_once(DIR_CORE . 'lib' . DS . 'log.php');
+    require_once(DIR_CORE . 'lib' . DS . 'mail.php');
+    require_once(DIR_CORE . 'lib' . DS . 'message.php');
+    require_once(DIR_CORE . 'lib' . DS . 'request.php');
+    require_once(DIR_CORE . 'lib' . DS . 'response.php');
+    require_once(DIR_CORE . 'lib' . DS . 'ASession.php');
+    require_once(DIR_CORE . 'lib' . DS . 'template.php');
+    require_once(DIR_CORE . 'lib' . DS . 'xml2array.php');
+    require_once(DIR_CORE . 'lib' . DS . 'json.php');
+    require_once(DIR_CORE . 'lib' . DS . 'layout_manager.php');
+    require_once(DIR_CORE . 'lib' . DS . 'package_manager.php');
+    require_once(DIR_CORE . 'lib' . DS . 'extension_manager.php');
+    require_once(DIR_CORE . 'lib' . DS . 'resource_manager.php');
+    require_once(DIR_CORE . 'lib' . DS . 'language_manager.php');
+    require_once(DIR_CORE . 'lib' . DS . 'menu_control.php');
 
 //plugins api
 
 // Application Classes
-    require_once(DIR_CORE.'lib'.DS.'customer.php');
-    require_once(DIR_CORE.'lib'.DS.'currency.php');
-    require_once(DIR_CORE.'lib'.DS.'tax.php');
-    require_once(DIR_CORE.'lib'.DS.'weight.php');
-    require_once(DIR_CORE.'lib'.DS.'length.php');
-    require_once(DIR_CORE.'lib'.DS.'cart.php');
-    require_once(DIR_CORE.'lib'.DS.'user.php');
-    require_once(DIR_CORE.'lib'.DS.'dataset.php');
-    require_once(DIR_CORE.'lib'.DS.'encryption.php');
+    require_once(DIR_CORE . 'lib' . DS . 'ACustomer.php');
+    require_once(DIR_CORE . 'lib' . DS . 'currency.php');
+    require_once(DIR_CORE . 'lib' . DS . 'tax.php');
+    require_once(DIR_CORE . 'lib' . DS . 'weight.php');
+    require_once(DIR_CORE . 'lib' . DS . 'length.php');
+    require_once(DIR_CORE . 'lib' . DS . 'cart.php');
+    require_once(DIR_CORE . 'lib' . DS . 'user.php');
+    require_once(DIR_CORE . 'lib' . DS . 'dataset.php');
+    require_once(DIR_CORE . 'lib' . DS . 'AEncryption.php');
+    require_once(DIR_CORE . 'lib' . DS . 'ASSLEncryption.php');
+    require_once(DIR_CORE . 'lib' . DS . 'ADataEncryption.php');
 // Registry
     $registry = Registry::getInstance();
 
@@ -227,7 +226,9 @@ try {
 
     if (defined('DB_HOSTNAME') && DB_HOSTNAME) {
         $registry = Registry::getInstance();
-        $db = new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, (defined('DB_PORT') ? DB_PORT : NULL));
+        $db = new ADB(
+            DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, (defined('DB_PORT') ? DB_PORT : null)
+        );
         $registry->set('db', $db);
         // Cache
         $registry->set('cache', new ACache());
@@ -247,17 +248,15 @@ try {
         $extensions->loadEnabledExtensions();
         $registry->set('extensions', $extensions);
 
-        $r = $db->query("SELECT * FROM ".DB_PREFIX."settings");
+        $r = $db->query("SELECT * FROM " . DB_PREFIX . "settings");
         $data_exist = $r->num_rows;
         if ($data_exist && !isset($session->data['finish'])) {
             session_destroy();
             header('Location: ../');
         }
-
-    }else {
+    } else {
         unset($session->data['finish']);
     }
-
 } catch (AException $e) {
     ac_exception_handler($e);
 }

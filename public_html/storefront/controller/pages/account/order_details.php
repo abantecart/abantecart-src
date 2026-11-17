@@ -69,7 +69,7 @@ class ControllerPagesAccountOrderDetails extends AController
             } else {
                 if ($this->request->is_POST() && $this->_validate()) {
                     $this->data['guest'] = true;
-                    $enc = new AEncryption($this->config->get('encryption_key'));
+                    $enc = new AEncryption((string)$this->config->get('encryption_key'));
 
                     $orderId = $this->request->post['order_id'];
                     $email = $this->request->post['email'];
@@ -535,7 +535,7 @@ class ControllerPagesAccountOrderDetails extends AController
             }
         }
 
-        //if can access and info presents - retrieve file and output
+        //if we can access and info presents, retrieve file and output
         if ($can_access && $download_info && is_array($download_info)) {
             //if it's ok - send file and exit, otherwise do nothing
             $this->download->sendDownload($download_info);
@@ -559,7 +559,7 @@ class ControllerPagesAccountOrderDetails extends AController
         $guest = false;
         if (isset($this->request->get['ot']) && $this->config->get('config_guest_checkout')) {
             //try to decrypt order token
-            $enc = new AEncryption($this->config->get('encryption_key'));
+            $enc = new AEncryption((string)$this->config->get('encryption_key'));
             $decrypted = $enc->decrypt($this->request->get['ot']);
             list($order_id, $email) = explode('::', $decrypted);
 

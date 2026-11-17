@@ -63,7 +63,7 @@ class ControllerPagesAccountForgotten extends AController
                         ['password_reset' => $code]
                     );
                     //build reset link
-                    $enc = new AEncryption($this->config->get('encryption_key'));
+                    $enc = new AEncryption((string)$this->config->get('encryption_key'));
                     $rToken = $enc->encrypt($customerId . '::' . $code);
 
                     //do the trick for the correct url
@@ -205,7 +205,7 @@ class ControllerPagesAccountForgotten extends AController
         $this->loadModel('account/customer');
         //validate token
         $rToken = $this->request->get['rtoken'];
-        $enc = new AEncryption($this->config->get('encryption_key'));
+        $enc = new AEncryption((string)$this->config->get('encryption_key'));
         list($customerId, $code) = explode("::", $enc->decrypt($rToken));
         $customerId = (int) $customerId;
         $customerDetails = $this->model_account_customer->getCustomer($customerId);
