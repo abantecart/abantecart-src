@@ -101,6 +101,24 @@ class ToolURLRedirectTest extends AbanteCartTestBootstrap
         $this->assertSame('rt=phpunit/Page&ID=1', $this->model->getRedirect($id)['source']);
     }
 
+    public function testSourceQueryKeepsLetterCase(): void
+    {
+        // only the seo keyword (path) is lower-cased, parameter values are kept as is
+        $id = $this->add(['source' => ' PHPUnit-Old/?Color=Red&SIZE=XL ']);
+        $this->assertSame('/phpunit-old?Color=Red&SIZE=XL', $this->model->getRedirect($id)['source']);
+
+        $id = $this->add(['source' => '/PHPUnit-Cat/Sub/?&Sort=ASC&', 'match_type' => 'prefix']);
+        $this->assertSame('/phpunit-cat/sub?Sort=ASC', $this->model->getRedirect($id)['source']);
+
+        // slashes inside parameter values are not trimmed
+        $id = $this->add(['source' => 'PHPUnit-Q?Path=/A/B/']);
+        $this->assertSame('/phpunit-q?Path=/A/B/', $this->model->getRedirect($id)['source']);
+
+        // empty query is dropped
+        $id = $this->add(['source' => '/PHPUnit-Empty/?']);
+        $this->assertSame('/phpunit-empty', $this->model->getRedirect($id)['source']);
+    }
+
     public function testDuplicateIgnoresSourceLetterCase(): void
     {
         $this->add(['source' => '/phpunit-old']);

@@ -352,10 +352,19 @@ class ModelToolURLRedirect extends Model
         if ($matchType === 'regex') {
             return $source;
         }
+        // "/Old-Product/?Color=Red" -> path "/Old-Product/" and query "Color=Red"
+        $queryPos = strpos($source, '?');
+        $path = $queryPos === false ? $source : substr($source, 0, $queryPos);
+        $query = $queryPos === false ? '' : trim(substr($source, $queryPos + 1), '&');
+
         // seo keyword "old-product" and path "/old-product/" are the same url.
-        // Keywords are stored in lower case, so is the source
-        $source = '/' . mb_strtolower(trim($source, '/'));
-        return $source === '/' ? '' : $source;
+        // Keywords are stored in lower case, so is the path.
+        // Parameter values are case-sensitive and stay untouched.
+        $path = mb_strtolower(trim($path, '/'));
+        if ($query !== '') {
+            return '/' . $path . '?' . $query;
+        }
+        return $path === '' ? '' : '/' . $path;
     }
 
     /**

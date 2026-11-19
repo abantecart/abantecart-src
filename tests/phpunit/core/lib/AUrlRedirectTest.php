@@ -102,6 +102,7 @@ class AUrlRedirectTest extends AbanteCartTestBootstrap
     public static function redirectProvider(): array
     {
         $exact = ['source' => '/old-product', 'target' => '/new-product'];
+        $exactParams = ['source' => '/old-product?Color=Red&SIZE=XL', 'target' => '/new-product'];
         $prefix = ['match_type' => 'prefix', 'source' => '/old-cat', 'target' => '/new-cat', 'action' => 302];
         $regex = ['match_type' => 'regex', 'source' => '^/item/(\d+)/(\w+)$', 'target' => '/product/$2-$1'];
         $query = [
@@ -139,8 +140,37 @@ class AUrlRedirectTest extends AbanteCartTestBootstrap
             'exact relative target w/o slash' => [
                 ['source' => '/old', 'target' => 'new'], '/old', [], 'https://shop.test/new',
             ],
+            // exact with parameters: path is case-insensitive, values are case-sensitive
+            'exact params match'             => [
+                $exactParams, '/OLD-Product/?Color=Red&SIZE=XL', ['Color' => 'Red', 'SIZE' => 'XL'],
+                'https://shop.test/new-product',
+            ],
+            'exact params, others kept'      => [
+                $exactParams + ['keep_query' => 1], '/old-product', ['Color' => 'Red', 'SIZE' => 'XL', 'utm' => 'x'],
+                'https://shop.test/new-product?utm=x',
+            ],
+            'exact params value case'        => [$exactParams, '/old-product', ['Color' => 'red', 'SIZE' => 'XL'], null],
+            'exact params name case'         => [$exactParams, '/old-product', ['color' => 'Red', 'SIZE' => 'XL'], null],
+            'exact params missing'           => [$exactParams, '/old-product', ['Color' => 'Red'], null],
+            'exact params other path'        => [$exactParams, '/other', ['Color' => 'Red', 'SIZE' => 'XL'], null],
+            'exact params root path'         => [
+                ['source' => '/?Ref=Promo', 'target' => '/sale'], '/', ['Ref' => 'Promo'], 'https://shop.test/sale',
+            ],
+            'exact params root other path'   => [
+                ['source' => '/?Ref=Promo', 'target' => '/sale'], '/page', ['Ref' => 'Promo'], null,
+            ],
+            // prefix with parameters
+            'prefix params tail appended'    => [
+                array_merge($prefix, ['source' => '/old-cat?Sort=ASC']), '/OLD-CAT/Item', ['Sort' => 'ASC'],
+                'https://shop.test/new-cat/Item',
+            ],
+            'prefix params value differs'    => [array_merge($prefix, ['source' => '/old-cat?Sort=ASC']), '/old-cat/item', ['Sort' => 'asc'], null],
+            'prefix params root any path'    => [
+                ['match_type' => 'prefix', 'source' => '/?Ref=Promo', 'target' => '/sale'], '/a/b', ['Ref' => 'Promo'],
+                'https://shop.test/sale/a/b',
+            ],
             // prefix
-            'prefix equal to source'         => [$prefix, '/old-cat', [], 'https://shop.test/new-cat'],
+            'prefix equal to source'       => [$prefix, '/old-cat', [], 'https://shop.test/new-cat'],
             'prefix tail appended'           => [$prefix, '/old-cat/sub/item', [], 'https://shop.test/new-cat/sub/item'],
             'prefix tail encoded'            => [$prefix, '/old-cat/a%20b', [], 'https://shop.test/new-cat/a%20b'],
             'prefix letter case'             => [$prefix, '/OLD-CAT/Item', [], 'https://shop.test/new-cat/Item'],
