@@ -145,7 +145,9 @@ class ControllerPagesToolURLRedirect extends AController
 
         if ($this->request->is_POST() && $this->_validateForm($model)) {
             // unchecked switches may be missing in the post
-            $id = $model->addRedirect($this->request->post + ['status' => 0, 'keep_query' => 0]);
+            $id = $model->addRedirect(
+                ModelToolURLRedirect::decodeRequestData($this->request->post) + ['status' => 0, 'keep_query' => 0]
+            );
             $this->session->data['success'] = $this->language->get('text_success');
             redirect($this->html->getSecureURL('tool/url_redirect/update', '&id=' . $id));
         }
@@ -166,7 +168,7 @@ class ControllerPagesToolURLRedirect extends AController
             redirect($this->html->getSecureURL('tool/url_redirect'));
         }
         if ($this->request->is_POST() && $this->_validateForm($model, $id)) {
-            $model->updateRedirect($id, $this->request->post);
+            $model->updateRedirect($id, ModelToolURLRedirect::decodeRequestData($this->request->post));
             $this->session->data['success'] = $this->language->get('text_success');
             redirect($this->html->getSecureURL('tool/url_redirect/update', '&id=' . $id));
         }
@@ -189,8 +191,9 @@ class ControllerPagesToolURLRedirect extends AController
             'status'      => 1,
             'comment'     => '',
         ];
+        $post = ModelToolURLRedirect::decodeRequestData($this->request->post);
         foreach ($defaults as $field => $default) {
-            $this->data[$field] = $this->request->post[$field] ?? $redirect[$field] ?? $default;
+            $this->data[$field] = $post[$field] ?? $redirect[$field] ?? $default;
         }
         $this->data['error'] = $this->error;
         $this->data['cancel'] = $this->html->getSecureURL('tool/url_redirect');
@@ -263,20 +266,20 @@ class ControllerPagesToolURLRedirect extends AController
         $fields['source_host'] = $form->getFieldHtml([
             'type'        => 'input',
             'name'        => 'source_host',
-            'value'       => $this->data['source_host'],
+            'value'       => html2view($this->data['source_host']),
             'placeholder' => $this->language->get('text_any_host'),
             'style'       => 'large-field',
         ]);
         $fields['source'] = $form->getFieldHtml([
             'type'  => 'input',
             'name'  => 'source',
-            'value' => $this->data['source'],
+            'value' => html2view($this->data['source']),
             'style' => 'large-field',
         ]);
         $fields['source_http_headers'] = $form->getFieldHtml([
             'type'        => 'textarea',
             'name'        => 'source_http_headers',
-            'value'       => $this->data['source_http_headers'],
+            'value'       => html2view($this->data['source_http_headers']),
             'placeholder' => "User-Agent: Googlebot",
             'style'       => 'large-field',
         ]);
@@ -293,7 +296,7 @@ class ControllerPagesToolURLRedirect extends AController
         $fields['target'] = $form->getFieldHtml([
             'type'  => 'input',
             'name'  => 'target',
-            'value' => $this->data['target'],
+            'value' => html2view($this->data['target']),
             'style' => 'large-field',
         ]);
         $fields['keep_query'] = $form->getFieldHtml([
@@ -311,7 +314,7 @@ class ControllerPagesToolURLRedirect extends AController
         $fields['comment'] = $form->getFieldHtml([
             'type'  => 'textarea',
             'name'  => 'comment',
-            'value' => $this->data['comment'],
+            'value' => html2view($this->data['comment']),
             'style' => 'large-field',
         ]);
         if ($redirect) {
@@ -342,7 +345,10 @@ class ControllerPagesToolURLRedirect extends AController
         if (!$this->user->canModify('tool/url_redirect')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
-        $data = array_merge($id ? $model->getRedirect($id) : [], $this->request->post);
+        $data = array_merge(
+            $id ? $model->getRedirect($id) : [],
+            ModelToolURLRedirect::decodeRequestData($this->request->post)
+        );
         $this->error = array_merge($this->error, $model->validateRedirect($data, $id));
         $this->extensions->hk_ValidateData($this);
         if ($this->error && empty($this->error['warning'])) {

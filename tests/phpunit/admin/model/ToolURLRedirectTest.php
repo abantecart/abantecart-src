@@ -226,6 +226,46 @@ class ToolURLRedirectTest extends AbanteCartTestBootstrap
         $this->assertSame('', $this->model->getRedirect($this->add(['source' => '/phpunit-b']))['source_http_headers']);
     }
 
+    public function testDecodeRequestData(): void
+    {
+        $raw = [
+            'source'              => '^/phpunit\?((?:.*&)?)a="1"<b>&c=\'2\'',
+            'source_host'         => 'shop.test',
+            'source_http_headers' => 'Accept: text/html&"x"',
+            'target'              => '/phpunit-new?a=1&b=2',
+            'comment'             => 'R&D <note>',
+        ];
+        // ARequest::clean() escapes post values this way
+        $post = array_map(fn($value) => trim(htmlspecialchars($value, ENT_COMPAT, 'UTF-8')), $raw);
+        $post += ['match_type' => 'regex&amp;', 'status' => ['1' => '1']];
+
+        $decoded = ModelToolURLRedirect::decodeRequestData($post);
+        foreach ($raw as $field => $value) {
+            $this->assertSame($value, $decoded[$field], $field);
+        }
+        // not text fields are untouched
+        $this->assertSame('regex&amp;', $decoded['match_type']);
+        $this->assertSame(['1' => '1'], $decoded['status']);
+    }
+
+    public function testRuleFromFormIsStoredUnescaped(): void
+    {
+        $source = '^/phpunit\?((?:.*&)?)utm_content=MINE&(.*&)?utm_content=[^&]*(.*)$';
+        $target = '/phpunit?$1$2utm_content=MINE$3&x=1';
+        $post = [
+            'source'     => htmlspecialchars($source, ENT_COMPAT, 'UTF-8'),
+            'match_type' => 'regex',
+            'target'     => htmlspecialchars($target, ENT_COMPAT, 'UTF-8'),
+            'action'     => 301,
+        ];
+        $data = ModelToolURLRedirect::decodeRequestData($post);
+        $this->assertSame([], $this->model->validateRedirect($data));
+
+        $row = $this->model->getRedirect($this->model->addRedirect($data));
+        $this->assertSame($source, $row['source']);
+        $this->assertSame($target, $row['target']);
+    }
+
     public function testDuplicateConsidersHttpHeaders(): void
     {
         $this->add(['source' => '/phpunit-dup2', 'source_http_headers' => 'User-Agent: bot']);

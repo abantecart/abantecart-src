@@ -90,7 +90,7 @@
     </definition>
     <definition>
         <key>entry_source</key>
-        <value><![CDATA[Source<span class="help">Optional when Source Host is set (the rule then applies to any URL). Path without domain (/old-product), SEO keyword (old-product), query string (rt=product/product&product_id=12) or regular expression without delimiters (^/old/(.*)$)</span>]]></value>
+        <value><![CDATA[Source<span class="help">Optional when Source Host is set (the rule then applies to any URL). Path without domain (/old-product), SEO keyword (old-product), query string (rt=product/product&product_id=12) or regular expression without delimiters (^/old/(.*)$). A regular expression with an escaped question mark is checked against the path with the query string: ^/old\?id=(\d+)</span>]]></value>
     </definition>
     <definition>
         <key>entry_source_host</key>

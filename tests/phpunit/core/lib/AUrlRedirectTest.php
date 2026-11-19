@@ -105,6 +105,12 @@ class AUrlRedirectTest extends AbanteCartTestBootstrap
         $exactParams = ['source' => '/old-product?Color=Red&SIZE=XL', 'target' => '/new-product'];
         $prefix = ['match_type' => 'prefix', 'source' => '/old-cat', 'target' => '/new-cat', 'action' => 302];
         $regex = ['match_type' => 'regex', 'source' => '^/item/(\d+)/(\w+)$', 'target' => '/product/$2-$1'];
+        // other system appends its own utm_content which overrides ours
+        $regexQuery = [
+            'match_type' => 'regex',
+            'source'     => '^/nra\?((?:.*&)?)utm_content=MINE&(.*&)?utm_content=[^&]*(.*)$',
+            'target'     => '/nra?$1$2utm_content=MINE$3',
+        ];
         $query = [
             'match_type' => 'query',
             'source'     => 'rt=product/product&product_id=12',
@@ -192,6 +198,30 @@ class AUrlRedirectTest extends AbanteCartTestBootstrap
             ],
             'regex invalid pattern'          => [
                 ['match_type' => 'regex', 'source' => '^/(unclosed', 'target' => '/c'], '/(unclosed', [], null,
+            ],
+            // regex with escaped "?" is checked against "path?query"
+            'regex query repeated param'     => [
+                $regexQuery, '/nra?utm_content=MINE&utm_content=12345', ['utm_content' => '12345'],
+                'https://shop.test/nra?utm_content=MINE',
+            ],
+            'regex query other params kept'  => [
+                $regexQuery, '/nra?a=1&utm_content=MINE&b=2&utm_content=xyz&c=3', ['utm_content' => 'xyz'],
+                'https://shop.test/nra?a=1&b=2&utm_content=MINE&c=3',
+            ],
+            'regex query single param'       => [$regexQuery, '/nra?utm_content=MINE', ['utm_content' => 'MINE'], null],
+            'regex query foreign param only' => [$regexQuery, '/nra?utm_content=12345', ['utm_content' => '12345'], null],
+            'regex query without query'      => [$regexQuery, '/nra', [], null],
+            'regex query is url-encoded'     => [
+                ['match_type' => 'regex', 'source' => '^/search\?q=a%20b$', 'target' => '/found'],
+                '/search?q=a%20b', ['q' => 'a b'], 'https://shop.test/found',
+            ],
+            'regex query group to target'    => [
+                ['match_type' => 'regex', 'source' => '^/old\?id=(\d+)$', 'target' => '/new/$1'],
+                '/old?id=42', ['id' => '42'], 'https://shop.test/new/42',
+            ],
+            'regex without "?" ignores query' => [
+                ['match_type' => 'regex', 'source' => '^/old$', 'target' => '/new'], '/old?x=1', ['x' => '1'],
+                'https://shop.test/new',
             ],
             // query
             'query match'                    => [$query, '/index.php?rt=product/product&product_id=12', $productGet, 'https://shop.test/new-product'],

@@ -105,6 +105,7 @@ class AUrlRedirect
         }
         $host = $this->normalizeHost($host);
         $path = $this->getRequestPath($requestUri);
+        $rawQuery = (string)parse_url($requestUri, PHP_URL_QUERY);
         $refererHost = $this->normalizeHost((string)parse_url($referer, PHP_URL_HOST));
         $ip = mb_strtolower(trim($ip));
         $headers = array_change_key_case($headers, CASE_LOWER);
@@ -119,7 +120,7 @@ class AUrlRedirect
             if (!$this->matchHeaders((string)($rule['source_http_headers'] ?? ''), $headers)) {
                 continue;
             }
-            $match = $this->matchRule($rule, $path, $get);
+            $match = $this->matchRule($rule, $path, $get, $rawQuery);
             if ($match === null) {
                 continue;
             }
@@ -166,10 +167,11 @@ class AUrlRedirect
      * @param array $rule
      * @param string $path
      * @param array $query
+     * @param string $rawQuery query string of the request as is (url-encoded, repeated parameters are kept)
      *
      * @return array|null target and query parameters to keep, null when the rule does not match
      */
-    protected function matchRule(array $rule, string $path, array $query): ?array
+    protected function matchRule(array $rule, string $path, array $query, string $rawQuery = ''): ?array
     {
         $source = $rule['source'];
         $target = $rule['target'];
@@ -213,7 +215,12 @@ class AUrlRedirect
                 }
                 break;
             case 'regex':
-                if (!@preg_match(self::regexPattern($source), $path, $matches)) {
+                // pattern with escaped "\?" is checked against "path?query", e.g. "^/nra\?utm_content=1&utm_content="
+                $subject = $path;
+                if (str_contains($source, '\\?')) {
+                    $subject .= $rawQuery !== '' ? '?' . $rawQuery : '';
+                }
+                if (!@preg_match(self::regexPattern($source), $subject, $matches)) {
                     return null;
                 }
                 $target = preg_replace_callback(

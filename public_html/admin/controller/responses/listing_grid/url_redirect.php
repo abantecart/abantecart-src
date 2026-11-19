@@ -112,7 +112,7 @@ class ControllerResponsesListingGridURLRedirect extends AController
 
         /** @var ModelToolURLRedirect $model */
         $model = $this->loadModel('tool/url_redirect');
-        $post = $this->request->post;
+        $post = ModelToolURLRedirect::decodeRequestData($this->request->post);
         // grid switch posts "status[id]=value"
         if (is_array($post['status'])) {
             foreach ($post['status'] as $id => $value) {

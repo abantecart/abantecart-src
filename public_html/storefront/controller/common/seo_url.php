@@ -185,15 +185,15 @@ class ControllerCommonSeoUrl extends AController
         $mdl = $this->loadModel('tool/url_redirect');
         $storeUrl = (HTTPS === true ? HTTPS_SERVER : HTTP_SERVER) . $this->config->get('seo_prefix');
         $resolver = new AUrlRedirect($mdl->getActiveRules(), $storeUrl);
-        // raw values: request->get is html-escaped
-        $query = $_GET;
+        // ARequest html-escapes $_GET and $_SERVER ("&" -> "&amp;"), rules are compared with raw values
+        $query = $this->unescape($_GET);
         unset($query['_route_']);
 
         $result = $resolver->resolve(
             (string)REAL_HOST,
-            (string)($_SERVER['REQUEST_URI'] ?? '/'),
+            $this->unescape((string)($_SERVER['REQUEST_URI'] ?? '/')),
             $query,
-            (string)($_SERVER['HTTP_REFERER'] ?? ''),
+            $this->unescape((string)($_SERVER['HTTP_REFERER'] ?? '')),
             (string)$this->request->getRemoteIP(),
             $this->getRequestHeaders()
         );
@@ -225,6 +225,25 @@ class ControllerCommonSeoUrl extends AController
     }
 
     /**
+     * Reverts ARequest::clean() which html-escapes keys and values.
+     *
+     * @param array|string $value
+     *
+     * @return array|string
+     */
+    protected function unescape($value)
+    {
+        if (is_array($value)) {
+            $result = [];
+            foreach ($value as $key => $item) {
+                $result[is_string($key) ? htmlspecialchars_decode($key, ENT_COMPAT) : $key] = $this->unescape($item);
+            }
+            return $result;
+        }
+        return is_string($value) ? htmlspecialchars_decode($value, ENT_COMPAT) : $value;
+    }
+
+    /**
      * @return array request headers, name => value
      */
     protected function getRequestHeaders(): array
@@ -237,7 +256,7 @@ class ControllerCommonSeoUrl extends AController
                 $headers[str_replace('_', '-', $key)] = $value;
             }
         }
-        return $headers;
+        return $this->unescape($headers);
     }
 
     protected function getContentParentId(int $contentId)

@@ -41,6 +41,26 @@ class ModelToolURLRedirect extends Model
         'status',
         'comment',
     ];
+    /** fields stored as raw text: they are compared with the request and sent in the Location header */
+    public const TEXT_FIELDS = ['source', 'source_host', 'source_http_headers', 'target', 'comment'];
+
+    /**
+     * ARequest html-escapes all post values ("&" -> "&amp;").
+     * Rules are stored unescaped, otherwise "a=1&b=2" never matches the request.
+     *
+     * @param array $post
+     *
+     * @return array
+     */
+    public static function decodeRequestData(array $post): array
+    {
+        foreach (self::TEXT_FIELDS as $field) {
+            if (isset($post[$field]) && is_string($post[$field])) {
+                $post[$field] = htmlspecialchars_decode($post[$field], ENT_COMPAT);
+            }
+        }
+        return $post;
+    }
 
     /**
      * @param int $id
