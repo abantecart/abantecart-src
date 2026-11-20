@@ -101,6 +101,24 @@ class ToolURLRedirectTest extends AbanteCartTestBootstrap
         $this->assertSame('rt=phpunit/Page&ID=1', $this->model->getRedirect($id)['source']);
     }
 
+    public function testSourceQueryKeepsLetterCase(): void
+    {
+        // only the seo keyword (path) is lower-cased, parameter values are kept as is
+        $id = $this->add(['source' => ' PHPUnit-Old/?Color=Red&SIZE=XL ']);
+        $this->assertSame('/phpunit-old?Color=Red&SIZE=XL', $this->model->getRedirect($id)['source']);
+
+        $id = $this->add(['source' => '/PHPUnit-Cat/Sub/?&Sort=ASC&', 'match_type' => 'prefix']);
+        $this->assertSame('/phpunit-cat/sub?Sort=ASC', $this->model->getRedirect($id)['source']);
+
+        // slashes inside parameter values are not trimmed
+        $id = $this->add(['source' => 'PHPUnit-Q?Path=/A/B/']);
+        $this->assertSame('/phpunit-q?Path=/A/B/', $this->model->getRedirect($id)['source']);
+
+        // empty query is dropped
+        $id = $this->add(['source' => '/PHPUnit-Empty/?']);
+        $this->assertSame('/phpunit-empty', $this->model->getRedirect($id)['source']);
+    }
+
     public function testDuplicateIgnoresSourceLetterCase(): void
     {
         $this->add(['source' => '/phpunit-old']);
@@ -206,6 +224,46 @@ class ToolURLRedirectTest extends AbanteCartTestBootstrap
             $this->model->getRedirect($id)['source_http_headers']
         );
         $this->assertSame('', $this->model->getRedirect($this->add(['source' => '/phpunit-b']))['source_http_headers']);
+    }
+
+    public function testDecodeRequestData(): void
+    {
+        $raw = [
+            'source'              => '^/phpunit\?((?:.*&)?)a="1"<b>&c=\'2\'',
+            'source_host'         => 'shop.test',
+            'source_http_headers' => 'Accept: text/html&"x"',
+            'target'              => '/phpunit-new?a=1&b=2',
+            'comment'             => 'R&D <note>',
+        ];
+        // ARequest::clean() escapes post values this way
+        $post = array_map(fn($value) => trim(htmlspecialchars($value, ENT_COMPAT, 'UTF-8')), $raw);
+        $post += ['match_type' => 'regex&amp;', 'status' => ['1' => '1']];
+
+        $decoded = ModelToolURLRedirect::decodeRequestData($post);
+        foreach ($raw as $field => $value) {
+            $this->assertSame($value, $decoded[$field], $field);
+        }
+        // not text fields are untouched
+        $this->assertSame('regex&amp;', $decoded['match_type']);
+        $this->assertSame(['1' => '1'], $decoded['status']);
+    }
+
+    public function testRuleFromFormIsStoredUnescaped(): void
+    {
+        $source = '^/phpunit\?((?:.*&)?)utm_content=MINE&(.*&)?utm_content=[^&]*(.*)$';
+        $target = '/phpunit?$1$2utm_content=MINE$3&x=1';
+        $post = [
+            'source'     => htmlspecialchars($source, ENT_COMPAT, 'UTF-8'),
+            'match_type' => 'regex',
+            'target'     => htmlspecialchars($target, ENT_COMPAT, 'UTF-8'),
+            'action'     => 301,
+        ];
+        $data = ModelToolURLRedirect::decodeRequestData($post);
+        $this->assertSame([], $this->model->validateRedirect($data));
+
+        $row = $this->model->getRedirect($this->model->addRedirect($data));
+        $this->assertSame($source, $row['source']);
+        $this->assertSame($target, $row['target']);
     }
 
     public function testDuplicateConsidersHttpHeaders(): void

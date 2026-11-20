@@ -105,6 +105,7 @@ class AUrlRedirect
         }
         $host = $this->normalizeHost($host);
         $path = $this->getRequestPath($requestUri);
+        $rawQuery = (string)parse_url($requestUri, PHP_URL_QUERY);
         $refererHost = $this->normalizeHost((string)parse_url($referer, PHP_URL_HOST));
         $ip = mb_strtolower(trim($ip));
         $headers = array_change_key_case($headers, CASE_LOWER);
@@ -119,7 +120,7 @@ class AUrlRedirect
             if (!$this->matchHeaders((string)($rule['source_http_headers'] ?? ''), $headers)) {
                 continue;
             }
-            $match = $this->matchRule($rule, $path, $get);
+            $match = $this->matchRule($rule, $path, $get, $rawQuery);
             if ($match === null) {
                 continue;
             }
@@ -166,10 +167,11 @@ class AUrlRedirect
      * @param array $rule
      * @param string $path
      * @param array $query
+     * @param string $rawQuery query string of the request as is (url-encoded, repeated parameters are kept)
      *
      * @return array|null target and query parameters to keep, null when the rule does not match
      */
-    protected function matchRule(array $rule, string $path, array $query): ?array
+    protected function matchRule(array $rule, string $path, array $query, string $rawQuery = ''): ?array
     {
         $source = $rule['source'];
         $target = $rule['target'];
@@ -177,7 +179,19 @@ class AUrlRedirect
         if ($source === '') {
             return ['target' => $target, 'query' => $query];
         }
-        switch ($rule['match_type']) {
+        $matchType = $rule['match_type'];
+        if (in_array($matchType, ['exact', 'prefix'], true)) {
+            // "/old-product?Color=Red": path is case-insensitive, parameters must be present with the same values
+            $queryPos = strpos($source, '?');
+            if ($queryPos !== false) {
+                $query = $this->matchQuery(substr($source, $queryPos + 1), $query);
+                if ($query === null) {
+                    return null;
+                }
+                $source = '/' . trim(substr($source, 0, $queryPos), '/');
+            }
+        }
+        switch ($matchType) {
             case 'exact':
                 if (mb_strtolower($path) !== mb_strtolower($source)) {
                     return null;
@@ -186,11 +200,14 @@ class AUrlRedirect
             case 'prefix':
                 $lowerPath = mb_strtolower($path);
                 $lowerSource = mb_strtolower($source);
-                if ($lowerPath !== $lowerSource && !str_starts_with($lowerPath, $lowerSource . '/')) {
+                if ($lowerPath !== $lowerSource
+                    && $lowerSource !== '/'
+                    && !str_starts_with($lowerPath, $lowerSource . '/')
+                ) {
                     return null;
                 }
                 // "/old-cat/sub/item" with source "/old-cat" and target "/new-cat" -> "/new-cat/sub/item"
-                $tail = (string)mb_substr($path, mb_strlen($source));
+                $tail = $lowerSource === '/' ? rtrim($path, '/') : (string)mb_substr($path, mb_strlen($source));
                 if ($tail !== '') {
                     $tail = implode('/', array_map('rawurlencode', explode('/', $tail)));
                     $splitPos = strcspn($target, '?#');
@@ -198,7 +215,12 @@ class AUrlRedirect
                 }
                 break;
             case 'regex':
-                if (!@preg_match(self::regexPattern($source), $path, $matches)) {
+                // pattern with escaped "\?" is checked against "path?query", e.g. "^/nra\?utm_content=1&utm_content="
+                $subject = $path;
+                if (str_contains($source, '\\?')) {
+                    $subject .= $rawQuery !== '' ? '?' . $rawQuery : '';
+                }
+                if (!@preg_match(self::regexPattern($source), $subject, $matches)) {
                     return null;
                 }
                 $target = preg_replace_callback(
@@ -208,26 +230,41 @@ class AUrlRedirect
                 );
                 break;
             case 'query':
-                parse_str($source, $params);
-                if (!$params) {
+                $query = $this->matchQuery($source, $query);
+                if ($query === null) {
                     return null;
-                }
-                foreach ($params as $name => $value) {
-                    if (!isset($query[$name])
-                        || !is_scalar($value)
-                        || !is_scalar($query[$name])
-                        || (string)$query[$name] !== (string)$value
-                    ) {
-                        return null;
-                    }
-                    // matched parameters are replaced by the target
-                    unset($query[$name]);
                 }
                 break;
             default:
                 return null;
         }
         return ['target' => $target, 'query' => $query];
+    }
+
+    /**
+     * @param string $source parameters of the rule, e.g. "rt=product/product&product_id=12"
+     * @param array $query request parameters
+     *
+     * @return array|null request parameters without matched ones, null when any parameter does not match
+     */
+    protected function matchQuery(string $source, array $query): ?array
+    {
+        parse_str($source, $params);
+        if (!$params) {
+            return null;
+        }
+        foreach ($params as $name => $value) {
+            if (!isset($query[$name])
+                || !is_scalar($value)
+                || !is_scalar($query[$name])
+                || (string)$query[$name] !== (string)$value
+            ) {
+                return null;
+            }
+            // matched parameters are replaced by the target
+            unset($query[$name]);
+        }
+        return $query;
     }
 
     /**

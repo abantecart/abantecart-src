@@ -41,6 +41,26 @@ class ModelToolURLRedirect extends Model
         'status',
         'comment',
     ];
+    /** fields stored as raw text: they are compared with the request and sent in the Location header */
+    public const TEXT_FIELDS = ['source', 'source_host', 'source_http_headers', 'target', 'comment'];
+
+    /**
+     * ARequest html-escapes all post values ("&" -> "&amp;").
+     * Rules are stored unescaped, otherwise "a=1&b=2" never matches the request.
+     *
+     * @param array $post
+     *
+     * @return array
+     */
+    public static function decodeRequestData(array $post): array
+    {
+        foreach (self::TEXT_FIELDS as $field) {
+            if (isset($post[$field]) && is_string($post[$field])) {
+                $post[$field] = htmlspecialchars_decode($post[$field], ENT_COMPAT);
+            }
+        }
+        return $post;
+    }
 
     /**
      * @param int $id
@@ -352,10 +372,19 @@ class ModelToolURLRedirect extends Model
         if ($matchType === 'regex') {
             return $source;
         }
+        // "/Old-Product/?Color=Red" -> path "/Old-Product/" and query "Color=Red"
+        $queryPos = strpos($source, '?');
+        $path = $queryPos === false ? $source : substr($source, 0, $queryPos);
+        $query = $queryPos === false ? '' : trim(substr($source, $queryPos + 1), '&');
+
         // seo keyword "old-product" and path "/old-product/" are the same url.
-        // Keywords are stored in lower case, so is the source
-        $source = '/' . mb_strtolower(trim($source, '/'));
-        return $source === '/' ? '' : $source;
+        // Keywords are stored in lower case, so is the path.
+        // Parameter values are case-sensitive and stay untouched.
+        $path = mb_strtolower(trim($path, '/'));
+        if ($query !== '') {
+            return '/' . $path . '?' . $query;
+        }
+        return $path === '' ? '' : '/' . $path;
     }
 
     /**
