@@ -409,44 +409,55 @@ class ModelAccountCustomer extends Model
         if (!$data) {
             return false;
         }
-
+        $customer_id = (int) $customer_id;
         if (!$customer_id) {
             $customer_id = $this->customer->getId();
         }
-
-        $upd = [];
-        //get only active IM drivers
-        $im_protocols = $this->im->getProtocols();
-        foreach ($im_protocols as $protocol) {
-            if (isset($data[$protocol])) {
-                $upd[$protocol] = "`" . $this->db->escape($protocol)
-                    . "` = '" . $this->db->escape($data[$protocol]) . "'";
-            }
+        
+        if (!$customer_id) {
+            return false;
         }
+
         //get all columns
         $sql = "SELECT COLUMN_NAME
                 FROM INFORMATION_SCHEMA.COLUMNS
-                WHERE TABLE_SCHEMA = '" . $this->db->dbName() . "' 
+                WHERE TABLE_SCHEMA = '" . $this->db->dbName() . "'
                     AND TABLE_NAME = '" . $this->db->table("customers") . "'";
         $result = $this->db->query($sql);
         $columns = array_column($result->rows, 'COLUMN_NAME');
 
-        //remove not IM data
-        $diff = array_diff($im_protocols, $columns);
-        foreach ($diff as $k) {
-            unset($data[$k]);
+        //NOTE: collect plain (not encrypted) values of active IM drivers which have a column in the customers table
+        $upd = [];
+        foreach ($this->im->getProtocols() as $protocol) {
+            if (isset($data[$protocol]) && in_array($protocol, $columns, true)) {
+                $upd[$protocol] = $data[$protocol];
+            }
+        }
+        if (!$upd) {
+            return true;
         }
 
-        $key_sql = '';
         if ($this->dcrypt->active) {
-            $data = $this->dcrypt->encrypt_data($data, 'customers');
-            $key_sql = ", key_id = '" . (int) $data['key_id'] . "'";
+            //use the same key as the customer record has
+            $query_key = $this->db->query(
+                "SELECT key_id
+                 FROM " . $this->db->table("customers") . "
+                 WHERE customer_id = '" . $customer_id . "'"
+            );
+            $upd['key_id'] = (int) ($query_key->row['key_id'] ?? 0);
+            //encrypts only encrypted fields and sets actual key_id
+            $upd = $this->dcrypt->encrypt_data($upd, 'customers');
+            $upd['key_id'] = (int) $upd['key_id'];
+        }
+
+        $update = [];
+        foreach ($upd as $k => $v) {
+            $update[] = "`" . $k . "` = '" . $this->db->escape($v) . "'";
         }
 
         $sql = "UPDATE " . $this->db->table('customers') . "
-                SET " . implode(', ', $upd) . "\n"
-            . $key_sql
-            . " WHERE customer_id = '" . (int) $customer_id . "'";
+                SET " . implode(', ', $update) . "
+                WHERE customer_id = '" . $customer_id . "'";
         $this->db->query($sql);
         $this->cache->remove('customers');
         return true;
