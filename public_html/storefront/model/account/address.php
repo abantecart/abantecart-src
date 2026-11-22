@@ -1,11 +1,12 @@
 <?php
+
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -55,7 +56,7 @@ class ModelAccountAddress extends Model
             return false;
         }
 
-        $customerId = (int)$data['customer_id'] ?: (int)$this->customer->getId();
+        $customerId = (int) $data['customer_id'] ? : (int) $this->customer->getId();
         if (!$customerId) {
             throw new AException(AC_ERR_USER_ERROR, 'Cannot add new address. Customer ID is unknown');
         }
@@ -69,13 +70,13 @@ class ModelAccountAddress extends Model
                 continue;
             }
             if ($dataType == 'int') {
-                $value = (int)$data[$key];
+                $value = (int) $data[$key];
             } elseif ($dataType == 'float') {
-                $value = (float)$data[$key];
+                $value = (float) $data[$key];
             } elseif ($dataType == 'string') {
-                $value = $this->db->escape(trim($data[$key]));
+                $value = trim($data[$key]);
             } else {
-                $value = $this->db->escape(serialize($data[$key]));
+                $value = serialize($data[$key]);
             }
             $insertArr[$key] = $value;
         }
@@ -103,16 +104,15 @@ class ModelAccountAddress extends Model
             }
         }
         if ($extFields) {
-            $insertArr['ext_fields'] = $this->db->escape(js_encode($extFields));
+            $insertArr['ext_fields'] = js_encode($extFields);
         }
         if ($this->dcrypt->active) {
             $insertArr = $this->dcrypt->encrypt_data($insertArr, 'addresses');
-            $insertArr['key_id'] = "`key_id` = " . (int)$data['key_id'];
         }
 
         $insertData = [];
         foreach ($insertArr as $k => $v) {
-            $insertData[$k] = "`" . $k . "` = '" . $v . "'";
+            $insertData[$k] = "`" . $k . "` = '" . $this->db->escape($v) . "'";
         }
 
         $this->db->query(
@@ -124,7 +124,7 @@ class ModelAccountAddress extends Model
         if (isset($data['default']) && $data['default'] == '1') {
             $this->db->query(
                 "UPDATE " . $this->db->table("customers") . "
-                SET address_id = '" . (int)$address_id . "'
+                SET address_id = '" . (int) $address_id . "'
                 WHERE customer_id = '" . $customerId . "'"
             );
         }
@@ -142,7 +142,7 @@ class ModelAccountAddress extends Model
      */
     public function editAddress($address_id, $data)
     {
-        $address_id = (int)$address_id;
+        $address_id = (int) $address_id;
         if (!$address_id || !$data) {
             return false;
         }
@@ -152,7 +152,7 @@ class ModelAccountAddress extends Model
         //encrypt customer data
         if ($this->dcrypt->active) {
             $data = $this->dcrypt->encrypt_data($data, 'addresses');
-            $updateArr[] = "`key_id` = '" . (int)$data['key_id'] . "'";
+            $updateArr[] = "`key_id` = '" . (int) $data['key_id'] . "'";
         }
 
         foreach ($this->data['address_column_list'] as $key => $dataType) {
@@ -160,9 +160,9 @@ class ModelAccountAddress extends Model
                 continue;
             }
             if ($dataType == 'int') {
-                $value = (int)$data[$key];
+                $value = (int) $data[$key];
             } elseif ($dataType == 'float') {
-                $value = (float)$data[$key];
+                $value = (float) $data[$key];
             } elseif ($dataType == 'string') {
                 $value = $this->db->escape(trim($data[$key]));
             } else {
@@ -181,7 +181,7 @@ class ModelAccountAddress extends Model
         if ($extFields) {
             //get prior data to prevent overriding
             $priorData = $this->getAddress($address_id);
-            $extArray = (array)$priorData['ext_fields'];
+            $extArray = (array) $priorData['ext_fields'];
             foreach ($extFields as $extFieldName) {
                 $extArray[$extFieldName] = $data[$extFieldName];
             }
@@ -192,16 +192,16 @@ class ModelAccountAddress extends Model
             $this->db->query(
                 "UPDATE " . $this->db->table("addresses") . "
                 SET " . implode(', ', $updateArr) . "
-                WHERE address_id  = '" . (int)$address_id . "' 
-                    AND customer_id = '" . (int)$this->customer->getId() . "'"
+                WHERE address_id  = '" . (int) $address_id . "' 
+                    AND customer_id = '" . (int) $this->customer->getId() . "'"
             );
         }
 
         if (isset($data['default'])) {
             $this->db->query(
                 "UPDATE " . $this->db->table("customers") . "
-                    SET address_id = '" . (int)$address_id . "'
-                    WHERE customer_id = '" . (int)$this->customer->getId() . "'"
+                    SET address_id = '" . (int) $address_id . "'
+                    WHERE customer_id = '" . (int) $this->customer->getId() . "'"
             );
         }
         $this->cache->remove('customers');
@@ -217,8 +217,8 @@ class ModelAccountAddress extends Model
     {
         $this->db->query(
             "DELETE FROM " . $this->db->table("addresses") . "
-            WHERE address_id = '" . (int)$address_id . "' 
-                AND customer_id = '" . (int)$this->customer->getId() . "'"
+            WHERE address_id = '" . (int) $address_id . "' 
+                AND customer_id = '" . (int) $this->customer->getId() . "'"
         );
         $this->cache->remove('customers');
     }
@@ -234,8 +234,8 @@ class ModelAccountAddress extends Model
         $address_query = $this->db->query(
             "SELECT DISTINCT *
              FROM " . $this->db->table("addresses") . "
-             WHERE address_id = '" . (int)$address_id . "' 
-                AND customer_id = '" . (int)$this->customer->getId() . "'"
+             WHERE address_id = '" . (int) $address_id . "' 
+                AND customer_id = '" . (int) $this->customer->getId() . "'"
         );
 
         if ($address_query->num_rows) {
@@ -256,7 +256,7 @@ class ModelAccountAddress extends Model
         $query = $this->db->query(
             "SELECT *
             FROM " . $this->db->table("addresses") . "
-            WHERE customer_id = '" . (int)$this->customer->getId() . "'"
+            WHERE customer_id = '" . (int) $this->customer->getId() . "'"
         );
 
         foreach ($query->rows as $result) {
@@ -274,14 +274,15 @@ class ModelAccountAddress extends Model
         $query = $this->db->query(
             "SELECT COUNT(*) AS total
             FROM " . $this->db->table("addresses") . "
-            WHERE customer_id = '" . (int)$this->customer->getId() . "'"
+            WHERE customer_id = '" . (int) $this->customer->getId() . "'"
         );
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
 
     /**
      * @param array $data
      * @param string $formTxtId
+     *
      * @return array
      * @throws AException
      */
@@ -320,7 +321,7 @@ class ModelAccountAddress extends Model
         $output['format'] = $countryInfo['address_format'] ?? DEFAULT_ADDRESS_FORMAT;
         $output['iso_code_2'] = $countryInfo['iso_code_2'] ?? '';
         $output['iso_code_3'] = $countryInfo['iso_code_3'] ?? '';
-        $output = array_merge((array)$output['ext_fields'], $output);
+        $output = array_merge((array) $output['ext_fields'], $output);
 
         //backward compatibility. Todo: remove in 1.5.*
         $output['address_format'] = $output['format'];

@@ -21,6 +21,7 @@
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /** @noinspection PhpUndefinedClassInspection */
+
 class ModelCatalogProduct extends Model
 {
     protected $customer_group_id;
@@ -209,7 +210,7 @@ class ModelCatalogProduct extends Model
                     $total_quantity += max($row['quantity'], 0);
                 }
             }
-            //if some of option value have a "subtract" "NO", think product is available
+            //if some of the option value have a "subtract" "NO", think product is available
             if ($total_quantity == 0 && !$trackable) {
                 $total_quantity = true;
             }
@@ -1318,6 +1319,7 @@ class ModelCatalogProduct extends Model
      */
     public function getProductsFromIDs($products)
     {
+        $products = filterIntegerIdList($products);
         if (!$products) {
             return [];
         }
@@ -2353,9 +2355,9 @@ class ModelCatalogProduct extends Model
              FROM " . $this->db->table("products") . " 
              WHERE product_id = " . $product_id
         )->row['settings'];
-        $priorSettings = unserialize((string)$priorSettings) ? : [];
+        $priorSettings = unserialize((string) $priorSettings) ? : [];
         $settings = is_serialized($settings) ? unserialize($settings) : $settings;
-        $newSettings = array_merge($priorSettings, (array)$settings);
+        $newSettings = array_merge($priorSettings, (array) $settings);
         $this->db->query(
             "UPDATE " . $this->db->table("products") . "
              SET settings = '" . $this->db->escape(serialize($newSettings)) . "'

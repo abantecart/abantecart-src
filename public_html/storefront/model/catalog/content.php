@@ -6,18 +6,20 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
+
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -35,8 +37,8 @@ class ModelCatalogContent extends Model
     public function getContent($content_id, $store_id = null, $language_id = 0)
     {
         $content_id = (int) $content_id;
-        $store_id = $store_id ?? (int) $this->config->get('config_store_id');
-        $language_id = $language_id ? : (int) $this->config->get('storefront_language_id');
+        $store_id = (int) ($store_id ?? (int) $this->config->get('config_store_id'));
+        $language_id = (int) $language_id ? : (int) $this->config->get('storefront_language_id');
         $cache_key = 'content.' . $content_id . '.store_' . $store_id . '_lang_' . $language_id;
         $output = $this->cache->pull($cache_key);
 

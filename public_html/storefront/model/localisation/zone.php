@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -62,7 +62,7 @@ class ModelLocalisationZone extends Model
      */
     public function getZoneByCode(string $code, int $countryId)
     {
-        $code = preg_replace('[^A-Z]', '', strtoupper($code));
+        $code = preg_replace('/[^A-Z0-9]/', '', strtoupper($code));
 
         if (!$code || !$countryId) {
             return [];

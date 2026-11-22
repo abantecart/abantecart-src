@@ -1,10 +1,11 @@
-<?php /*
+<?php
+/*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -15,11 +16,10 @@
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs, please refer to http://www.AbanteCart.com for more information.
- */ /** @noinspection PhpMultipleClassDeclarationsInspection */
-
-/**
- * Class ModelLocalisationCountry
  */
+
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 class ModelLocalisationCountry extends Model
 {
     /**
@@ -40,10 +40,10 @@ class ModelLocalisationCountry extends Model
             "SELECT *, COALESCE( cd1.name,cd2.name) as name
             FROM " . $this->db->table("countries") . " c
             LEFT JOIN " . $this->db->table("country_descriptions") . " cd1
-                ON (c.country_id = cd1.country_id AND cd1.language_id = '" . (int)$language_id . "')
+                ON (c.country_id = cd1.country_id AND cd1.language_id = '" . (int) $language_id . "')
             LEFT JOIN " . $this->db->table("country_descriptions") . " cd2
-                ON (c.country_id = cd2.country_id AND cd2.language_id = '" . (int)$default_language_id . "')
-            WHERE c.country_id = '" . (int)$country_id . "' AND status = '1'"
+                ON (c.country_id = cd2.country_id AND cd2.language_id = '" . (int) $default_language_id . "')
+            WHERE c.country_id = '" . (int) $country_id . "' AND status = '1'"
         );
         return $query->row;
     }
@@ -51,12 +51,13 @@ class ModelLocalisationCountry extends Model
     /**
      * @param string $code
      * @param int $length
+     *
      * @return array
      * @throws AException
      */
     public function getCountryByCode(string $code, int $length = 2)
     {
-        $code = preg_replace('[^A-Z]', '', strtoupper($code));
+        $code = preg_replace('/[^A-Z]/', '', strtoupper($code));
         if (!$code || !in_array($length, [2, 3])) {
             return [];
         }
@@ -67,9 +68,9 @@ class ModelLocalisationCountry extends Model
             "SELECT *, COALESCE( cd1.name,cd2.name) as name
             FROM " . $this->db->table("countries") . " c
             LEFT JOIN " . $this->db->table("country_descriptions") . " cd1
-                ON (c.country_id = cd1.country_id AND cd1.language_id = '" . (int)$language_id . "')
+                ON (c.country_id = cd1.country_id AND cd1.language_id = '" . (int) $language_id . "')
             LEFT JOIN " . $this->db->table("country_descriptions") . " cd2
-                ON (c.country_id = cd2.country_id AND cd2.language_id = '" . (int)$default_language_id . "')
+                ON (c.country_id = cd2.country_id AND cd2.language_id = '" . (int) $default_language_id . "')
             WHERE c.iso_code_" . $length . " = '" . $code . "' AND status = '1'"
         );
         return $query->row;
@@ -92,9 +93,9 @@ class ModelLocalisationCountry extends Model
                     "SELECT *
                     FROM " . $this->db->table("countries") . " c
                     LEFT JOIN " . $this->db->table("country_descriptions") . " cd 
-                        ON (c.country_id = cd.country_id AND cd.language_id = '" . (int)$language_id . "') 
+                        ON (c.country_id = cd.country_id AND cd.language_id = '" . (int) $language_id . "') 
                     WHERE c.status = '1'
-                    ORDER BY cd.name ASC"
+                    ORDER BY cd.name"
                 );
             } else {
                 //merge text for missing country translations.
@@ -105,16 +106,17 @@ class ModelLocalisationCountry extends Model
                             COALESCE( cd1.name,cd2.name) as name
                     FROM " . $this->db->table("countries") . " c
                     LEFT JOIN " . $this->db->table("country_descriptions") . " cd1
-                        ON (c.country_id = cd1.country_id AND cd1.language_id = '" . (int)$language_id . "')
+                        ON (c.country_id = cd1.country_id AND cd1.language_id = '" . (int) $language_id . "')
                     LEFT JOIN " . $this->db->table("country_descriptions") . " cd2
-                        ON (c.country_id = cd2.country_id AND cd2.language_id = '" . (int)$default_language_id . "')
-                    WHERE c.status = '1'
-                    ORDER BY cd1.name,cd2.name ASC");
+                        ON (c.country_id = cd2.country_id AND cd2.language_id = '" . (int) $default_language_id . "')
+                    WHERE c.status = 1
+                    ORDER BY cd1.name, cd2.name"
+                );
             }
             $country_data = $query->rows;
             $this->cache->push($cache_key, $country_data);
         }
-        return (array)$country_data;
+        return (array) $country_data;
     }
 
     protected function getCountryNameByIsoCode2($code, $language_id = 0)
@@ -124,7 +126,7 @@ class ModelLocalisationCountry extends Model
             FROM " . $this->db->table("countries") . " c
             LEFT JOIN " . $this->db->table("country_descriptions") . " cd
                 ON (c.country_id = cd1.country_id "
-            . ($language_id ? "AND cd1.language_id = '" . (int)$language_id . "'" : '') . ")
+            . ($language_id ? "AND cd1.language_id = '" . (int) $language_id . "'" : '') . ")
             WHERE c.iso_code_2 = '" . $this->db->escape($code) . "' AND status = '1'
             ORDER BY language_id"
         );

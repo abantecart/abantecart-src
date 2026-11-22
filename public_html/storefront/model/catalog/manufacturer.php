@@ -1,23 +1,25 @@
 <?php
-
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
+
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -186,7 +188,9 @@ class ModelCatalogManufacturer extends Model
         if ($rates) {
             $sql .= " INNER JOIN " . $this->db->table('reviews') . " r
                     ON (r.product_id = p.product_id AND r.status = 1
-                        AND r.rating IN (" . implode(',', (array) $data['filter']['rating']) . "))";
+                        AND r.rating IN (" . implode(
+                    ',', array_map([$this->db, 'escape'], (array) $data['filter']['rating'])
+                ) . "))";
         }
         $sql .= " WHERE p.status = '1'
                     AND COALESCE(p.date_available,'1970-01-01')< NOW() 

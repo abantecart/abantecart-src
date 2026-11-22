@@ -77,6 +77,8 @@ class ModelCheckoutOrder extends Model
             'payment_method_key'      => 'string',
             'comment'                 => 'string',
         ];
+        //keep the list of base columns to distinguish extension's custom columns
+        $this->data['base_order_column_list'] = $this->data['order_column_list'];
         $this->data['order_product_column_list'] = [
             'product_id'      => 'int',
             'name'            => 'string',
@@ -258,9 +260,13 @@ class ModelCheckoutOrder extends Model
                 //remove
             } else {
                 //do not clear custom columns during order rebuild
-                $priorData = array_intersect($query->row, (array) $this->data['order_column_list']);
+                $customColumns = array_diff_key(
+                    (array) $this->data['order_column_list'],
+                    (array) $this->data['base_order_column_list']
+                );
+                $priorData = array_intersect_key($query->row, $customColumns);
                 foreach ($priorData as $key => $value) {
-                    if ($value) {
+                    if ($value && !isset($data[$key])) {
                         $data[$key] = $value;
                     }
                 }
@@ -318,9 +324,9 @@ class ModelCheckoutOrder extends Model
             } elseif ($dataType == 'float') {
                 $value = (float) $data[$key];
             } elseif ($dataType == 'string') {
-                $value = $this->db->escape($data[$key]);
+                $value = $data[$key];
             } else {
-                $value = $this->db->escape(serialize($data[$key]));
+                $value = serialize($data[$key]);
             }
             $insertArr[$key] = $value;
         }
@@ -363,16 +369,15 @@ class ModelCheckoutOrder extends Model
         }
 
         if ($extFields) {
-            $insertArr['ext_fields'] = $this->db->escape(js_encode($extFields));
+            $insertArr['ext_fields'] = js_encode($extFields);
         }
 
         if ($this->dcrypt->active) {
             $insertArr = $this->dcrypt->encrypt_data($insertArr, 'orders');
-            $insertArr['key_id'] = (int) $data['key_id'];
         }
         $insertData = [];
         foreach ($insertArr as $k => $v) {
-            $insertData[$k] = "`" . $k . "` = '" . $v . "'";
+            $insertData[$k] = "`" . $k . "` = '" . $this->db->escape($v) . "'";
         }
 
         $this->db->query("INSERT INTO `" . $this->db->table("orders") . "` SET " . implode(', ', $insertData));
@@ -1046,7 +1051,7 @@ class ModelCheckoutOrder extends Model
      */
     protected function sendEmail(string $to, ?bool $alertEmail = false)
     {
-        try{
+        try {
             $mail = new AMail($this->config);
             $mail->setTo($to);
             $mail->setFrom($this->config->get('store_main_email'));
@@ -1065,7 +1070,7 @@ class ModelCheckoutOrder extends Model
             }
             //silent sending
             $mail->send(true);
-        }catch(\Exception $e){
+        } catch (Exception $e) {
             $this->log->write('Order status update email for failed: ' . $e->getMessage());
         }
     }
@@ -1182,7 +1187,7 @@ class ModelCheckoutOrder extends Model
                 $mail->setSender($orderData['store_name']);
                 $mail->setTemplate('admin_order_status_notify', $data);
                 $mail->send(true);
-            }catch(\Exception $e){
+            } catch (Exception $e) {
                 $this->log->write('Order status update email for Admin failed: ' . $e->getMessage());
             }
         }
@@ -1411,7 +1416,8 @@ class ModelCheckoutOrder extends Model
      */
     public function getProductsPurchasedByCustomer($customerId, $productIds)
     {
-        if (!(int) $customerId || !is_array($productIds) || empty($productIds)) {
+        $productIds = filterIntegerIdList($productIds);
+        if (!(int) $customerId || empty($productIds)) {
             return [];
         }
 
