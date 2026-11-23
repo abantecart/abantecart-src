@@ -114,15 +114,16 @@ class AHtml extends AController
      *
      * @param string $rt
      * @param string $params
+     * @param array $options
      *
      * @return string
      * @throws AException
      */
-    private function buildURL($rt, $params = '')
+    private function buildURL($rt, $params = '', $options = [])
     {
         $subUrl = '';
         //#PR Add admin path if we are in admin
-        if (IS_ADMIN) {
+        if (IS_ADMIN && ($options['mode'] ?? '') != 'storefront') {
             $subUrl .= '&s=' . ADMIN_PATH;
         }
         //add template if present
@@ -174,15 +175,16 @@ class AHtml extends AController
      * @param string $rt
      * @param string $params
      * @param string $encode
+     * @param array $options
      *
      * @return string
      *
      * Note: Non-secure URL is base on store_url setting. If this setting is using https URL, all URLs will be secure
      * @throws AException
      */
-    public function getNonSecureURL($rt, $params = '', $encode = '')
+    public function getNonSecureURL($rt, $params = '', $encode = '', $options = [])
     {
-        return $this->getURL($rt, $params, $encode, true);
+        return $this->getURL($rt, $params, $encode, true, $options);
     }
 
     /**
@@ -192,11 +194,12 @@ class AHtml extends AController
      * @param string $params
      * @param string $encode
      * @param bool $nonsecure - force to be non-secure
+     * @param array $options
      *
      * @return string
      * @throws AException
      */
-    public function getURL($rt, $params = '', $encode = '', $nonsecure = false)
+    public function getURL($rt, $params = '', $encode = '', $nonsecure = false, $options = [])
     {
         $seo_prefix = $this->registry->get('config')->get('seo_prefix');
 
@@ -226,7 +229,7 @@ class AHtml extends AController
         if ($this->registry->get('session')->data['session_mode'] == 'embed_token') {
             $params .= '&' . EMBED_TOKEN_NAME . '=' . session_id();
         }
-        return $server . INDEX_FILE . $this->url_encode($this->buildURL($rt, $params), $encode);
+        return $server . INDEX_FILE . $this->url_encode($this->buildURL($rt, $params, $options), $encode);
     }
 
     /**
@@ -239,7 +242,7 @@ class AHtml extends AController
      * @return string
      * @throws AException
      */
-    public function getSecureURL($rt, $params = '', $encode = '')
+    public function getSecureURL($rt, $params = '', $encode = '', $options = [])
     {
         $session = $this->registry->get('session');
         $config = $this->registry->get('config');
@@ -249,7 +252,7 @@ class AHtml extends AController
             $params .= '&session_id=' . session_id();
         }
 
-        $subUrl = $this->buildURL($rt, $params);
+        $subUrl = $this->buildURL($rt, $params, $options);
 
         if (IS_ADMIN === true || (defined('IS_API') && IS_API === true)) {
             //Add session token for admin and API
@@ -286,10 +289,14 @@ class AHtml extends AController
         if ($this->registry->get('config')->get('embed_mode')) {
             return $this->getURL($rt, $params);
         }
-        $this->loadModel('tool/seo_url');
         //#PR Generate SEO URL based on standard URL
         //NOTE: SEO URL is non-secure url
-        return $this->url_encode($this->model_tool_seo_url->rewrite($this->getNonSecureURL($rt, $params)), $encode);
+        return $this->url_encode(
+            (new ASeoUrl($this->registry))->rewrite(
+                $this->getNonSecureURL($rt, $params,options: ['mode' => 'storefront'])
+            ),
+            $encode
+        );
     }
 
     /**
@@ -309,8 +316,11 @@ class AHtml extends AController
             $params .= '&' . EMBED_TOKEN_NAME . '=' . session_id();
         }
         //#PR Generate SEO URL based on standard URL
-        $this->loadModel('tool/seo_url');
-        return $this->url_encode($this->model_tool_seo_url->rewrite($this->getSecureURL($rt, $params)), $encode);
+        return $this->url_encode(
+            (new ASeoUrl($this->registry))->rewrite(
+                $this->getSecureURL($rt, $params,options: ['mode' => 'storefront'])), 
+            $encode
+        );
     }
 
     /**

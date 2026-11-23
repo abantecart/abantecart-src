@@ -396,4 +396,155 @@ class ModelCatalogCollection extends Model
         }
         return [];
     }
+
+    /**
+     * Returns collections of the store which contain the product.
+     * Conditions are processed the same way as in storefront ModelCatalogProduct::getCollectionProducts().
+     * NOTE: "product_price" condition is checked by base product price (without specials, discounts etc.)
+     *
+     * @param int $productId
+     * @param int $storeId
+     *
+     * @return array
+     * @throws AException
+     */
+    public function getCollectionsWithProduct(int $productId, int $storeId)
+    {
+        $result = $this->db->query(
+            "SELECT c.id, c.name, c.conditions
+            FROM " . $this->db->table('collections') . " c
+            INNER JOIN " . $this->db->table('collections_to_stores') . " c2s
+                ON (c2s.collection_id = c.id AND c2s.store_id = " . $storeId . ")
+            ORDER BY c.name"
+        );
+        $output = [];
+        foreach ($result->rows as $row) {
+            $conditions = json_decode((string) $row['conditions'], true);
+            if (!is_array($conditions) || !$this->isProductMatchConditions($productId, $storeId, $conditions)) {
+                continue;
+            }
+            $output[] = [
+                'id'   => (int) $row['id'],
+                'name' => $row['name'],
+            ];
+        }
+        return $output;
+    }
+
+    /**
+     * @param int $productId
+     * @param int $storeId
+     * @param array $conditions
+     *
+     * @return bool
+     * @throws AException
+     */
+    protected function isProductMatchConditions(int $productId, int $storeId, array $conditions)
+    {
+        if (!is_array($conditions['relation']) || !is_array($conditions['conditions'])) {
+            return false;
+        }
+        $relation = $conditions['relation'];
+        $languageId = (int) $this->language->getContentLanguageID();
+        $arWhere = [];
+        $arJoins = [
+            "INNER JOIN " . $this->db->table('products_to_stores') . " pts 
+                ON (pts.product_id = p.product_id AND pts.store_id=" . $storeId . ")",
+        ];
+        foreach ($conditions['conditions'] as $k => $condition) {
+            if (is_array($condition['value']) && $condition['value']) {
+                if ($condition['object'] === 'brands') {
+                    $values = filterIntegerIdList($condition['value']);
+                    if ($values) {
+                        $arWhere[] = "p.manufacturer_id "
+                            . $this->getInOperator($condition['operator'], $relation['value'])
+                            . " (" . implode(',', $values) . ")";
+                    }
+                }
+                if ($condition['object'] === 'categories') {
+                    $alias = " p2c" . $k;
+                    $arJoins[] = "LEFT JOIN " . $this->db->table('products_to_categories') . " " . $alias . " 
+                                  ON " . $alias . ".product_id = p.product_id";
+                    /** @var ModelCatalogCategory $mdl */
+                    $mdl = $this->load->model('catalog/category');
+                    $allCategoryChildren = $condition['value'];
+                    foreach ($condition['value'] as $cId) {
+                        $allCategoryChildren = array_merge($allCategoryChildren, $mdl->getChildrenIDs((int) $cId));
+                    }
+                    $allCategoryChildren = filterIntegerIdList($allCategoryChildren);
+                    if ($allCategoryChildren) {
+                        $arWhere[] = $alias . ".category_id "
+                            . $this->getInOperator($condition['operator'], $relation['value'])
+                            . " (" . implode(',', $allCategoryChildren) . ")";
+                    }
+                }
+                if ($condition['object'] === 'products') {
+                    $values = filterIntegerIdList($condition['value']);
+                    if ($values) {
+                        $arWhere[] = "p.product_id "
+                            . $this->getInOperator($condition['operator'], $relation['value'])
+                            . " (" . implode(',', $values) . ")";
+                    }
+                }
+                if ($condition['object'] === 'tags') {
+                    $alias = ' pt' . $k;
+                    $arJoins[] = "LEFT JOIN " . $this->db->table('product_tags') . $alias . "
+                                 ON (" . $alias . ".product_id = p.product_id
+                                    AND " . $alias . ".language_id =" . $languageId . ')';
+                    $values = [];
+                    foreach ($condition['value'] as $value) {
+                        $values[] = "'" . $this->db->escape($value) . "'";
+                    }
+                    $arWhere[] = $alias . ".tag "
+                        . $this->getInOperator($condition['operator'], $relation['value'])
+                        . " (" . implode(',', $values) . ")";
+                }
+            }
+            if ($condition['object'] === 'product_price' && (float) $condition['value'] > 0) {
+                $arWhere[] = "p.price "
+                    . $this->getEqualOperator($condition['operator'], $relation['value'])
+                    . (float) $condition['value'];
+            }
+        }
+        if (!$arWhere) {
+            return false;
+        }
+
+        $sql = "SELECT 1 
+                FROM " . $this->db->table('products') . " p "
+            . implode(PHP_EOL, $arJoins)
+            . " WHERE p.product_id = " . $productId
+            . " AND (" . implode(($relation['if'] == 'any') ? ' OR ' : ' AND ', $arWhere) . ")"
+            . " LIMIT 1";
+        return (bool) $this->db->query($sql)->num_rows;
+    }
+
+    /**
+     * @see ModelCatalogProduct::gerEqualOperator() (storefront)
+     */
+    protected function getEqualOperator($operator, $invert)
+    {
+        $invert = is_bool($invert) ? ($invert ? 'true' : 'false') : (string) $invert;
+        $map = [
+            'eq'   => ['true' => '=', 'false' => '<>'],
+            'neq'  => ['true' => '<>', 'false' => '='],
+            'eqlt' => ['true' => '<=', 'false' => '>'],
+            'eqgt' => ['true' => '>=', 'false' => '<'],
+            'lt'   => ['true' => '<', 'false' => '>='],
+            'gt'   => ['true' => '>', 'false' => '<='],
+        ];
+        return $map[$operator][$invert] ?? '=';
+    }
+
+    /**
+     * @see ModelCatalogProduct::gerInOperator() (storefront)
+     */
+    protected function getInOperator($operator, $invert)
+    {
+        $invert = is_bool($invert) ? ($invert ? 'true' : 'false') : (string) $invert;
+        if (($operator == 'in' && $invert == 'false') || ($operator == 'notin' && $invert == 'true')) {
+            return 'NOT IN';
+        }
+        return 'IN';
+    }
 }

@@ -314,6 +314,7 @@ try {
     require_once(DIR_CORE . 'lib' . DS . 'file.php');
     require_once(DIR_CORE . 'lib' . DS . 'download.php');
     require_once(DIR_CORE . 'lib' . DS . 'AUrlRedirect.php');
+    require_once(DIR_CORE . 'lib' . DS . 'ASeoUrl.php');
 
 // Application Classes
     require_once(DIR_CORE . 'lib' . DS . 'customer.php');
