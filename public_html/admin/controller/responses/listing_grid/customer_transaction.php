@@ -1,22 +1,23 @@
-<?php
-/*------------------------------------------------------------------------------
-  $Id$
+<?php /** @noinspection PhpUnused */
 
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2026 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 
 class ControllerResponsesListingGridCustomerTransaction extends AController
 {
@@ -27,7 +28,8 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('sale/customer');
-        $this->loadModel('sale/customer_transaction');
+        /** @var ModelSaleCustomerTransaction $ctMdl */
+        $ctMdl = $this->loadModel('sale/customer_transaction');
         $this->load->library('json');
 
         $page = $this->request->post['page']; // get the requested page
@@ -78,7 +80,7 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
             }
         }
 
-        $total = $this->model_sale_customer_transaction->getTotalCustomerTransactions($data);
+        $total = $ctMdl->getTotalCustomerTransactions($data);
 
         if ($total > 0) {
             $total_pages = ceil($total / $limit);
@@ -96,7 +98,7 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
         $response->total = $total_pages;
         $response->records = $total;
 
-        $results = $this->model_sale_customer_transaction->getCustomerTransactions($data);
+        $results = $ctMdl->getCustomerTransactions($data);
         $i = 0;
         foreach ($results as $result) {
             $response->rows[$i]['id'] = $result['customer_transaction_id'];
@@ -156,7 +158,7 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
     {
         if (!$this->csrftoken->isTokenValid()) {
             $error = new AError('');
-            return $error->toJSONResponse(
+            $error->toJSONResponse(
                 'NO_PERMISSIONS_402',
                 ['error_text' => 'Unknown error']
             );
@@ -166,7 +168,7 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
 
         if (!$this->user->canModify('listing_grid/customer_transaction') || $this->request->is_GET()) {
             $error = new AError('');
-            return $error->toJSONResponse(
+            $error->toJSONResponse(
                 'NO_PERMISSIONS_402',
                 [
                     'error_text'  => sprintf(
@@ -179,7 +181,8 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
         }
 
         $this->loadLanguage('sale/customer');
-        $this->loadModel('sale/customer_transaction');
+        /** @var ModelSaleCustomerTransaction $ctMdl */
+        $ctMdl = $this->loadModel('sale/customer_transaction');
 
         //check is data valid
         $post = $this->request->post;
@@ -194,17 +197,20 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
         $valid_data['customer_id'] = $this->request->get['customer_id'];
 
         if (!$this->error) {
-            $this->model_sale_customer_transaction->addCustomerTransaction($valid_data);
+            $ctMdl->addCustomerTransaction($valid_data);
             $result['result'] = true;
             $result['result_text'] = $this->language->get('text_transaction_success');
-            $balance = $this->model_sale_customer_transaction->getBalance($this->request->get['customer_id']);
-            $result['balance'] = $this->language->get('text_balance').' '.$this->currency->format(
+            $balance = $ctMdl->getBalance(
+                (int)$this->request->get['customer_id']
+            );
+            $result['balance'] = $this->language->get('text_balance').' '
+                . $this->currency->format(
                     $balance,
                     $this->config->get('config_currency')
                 );
         } else {
             $error = new AError('');
-            return $error->toJSONResponse(
+            $error->toJSONResponse(
                 'VALIDATION_ERROR_406',
                 [
                     'error_text'   => $this->error,
@@ -229,11 +235,12 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->load->library('json');
         $this->loadLanguage('sale/customer');
-        $this->loadModel('sale/customer_transaction');
+        /** @var ModelSaleCustomerTransaction $ctMdl */
+        $ctMdl = $this->loadModel('sale/customer_transaction');
 
         if (!$this->user->canAccess('listing_grid/customer_transaction')) {
             $error = new AError('');
-            return $error->toJSONResponse(
+            $error->toJSONResponse(
                 'NO_PERMISSIONS_402',
                 [
                     'error_text'  => sprintf(
@@ -249,9 +256,7 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
         $this->data['customer_transaction_id'] = $transaction_id;
 
         if ($transaction_id) {
-            $info = $this->model_sale_customer_transaction->getCustomerTransaction(
-                $this->request->get['customer_transaction_id']
-            );
+            $info = $ctMdl->getCustomerTransaction( $transaction_id );
 
             $this->data['text_title'] = $this->language->get('popup_title_info');
             $readonly = true;

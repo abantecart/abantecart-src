@@ -1,29 +1,34 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2026 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
 class ModelUserUserGroup extends Model
 {
-
+    /**
+     * @param array $data
+     *
+     * @return int
+     * @throws AException
+     */
     public function addUserGroup($data)
     {
         if (!isset($data['permission'])) {
@@ -36,22 +41,30 @@ class ModelUserUserGroup extends Model
             }
         }
         $this->db->query(
-            "INSERT INTO ".$this->db->table("user_groups")." 
-            SET name = '".$this->db->escape($data['name'])."',
-                permission = '".(isset($data['permission']) ? serialize($data['permission']) : '')."'"
+            "INSERT INTO " . $this->db->table("user_groups") . " 
+            SET name = '" . $this->db->escape($data['name']) . "',
+                permission = '" . $this->db->escape(
+                (isset($data['permission']) ? serialize($data['permission']) : '')
+            ) . "'"
         );
         return $this->db->getLastId();
     }
 
-    public function editUserGroup($user_group_id, $data)
+    /**
+     * @param int $userGroupId
+     * @param array $data
+     *
+     * @return void
+     * @throws AException
+     */
+    public function editUserGroup($userGroupId, $data)
     {
-
-        $user_group_id = !$user_group_id ? $this->addUserGroup($data['name']) : $user_group_id;
-        $user_group = $this->getUserGroup($user_group_id);
+        $userGroupId = !$userGroupId ? $this->addUserGroup($data['name']) : $userGroupId;
+        $user_group = $this->getUserGroup($userGroupId);
 
         $update = [];
         if (isset($data['name'])) {
-            $update[] = "name = '".$this->db->escape($data['name'])."'";
+            $update[] = "name = '" . $this->db->escape($data['name']) . "'";
         }
 
         if (isset($data['permission'])) {
@@ -75,59 +88,79 @@ class ModelUserUserGroup extends Model
                     }
                 }
             }
-            $update[] = "permission = '".serialize($p)."'";
+            $update[] = "permission = '" . $this->db->escape(serialize($p)) . "'";
         }
 
         if (!empty($update)) {
             $this->db->query(
-                "UPDATE ".$this->db->table("user_groups")." 
-                SET ".implode(',', $update)." 
-                WHERE user_group_id = '".(int) $user_group_id."'"
+                "UPDATE " . $this->db->table("user_groups") . " 
+                SET " . implode(',', $update) . " 
+                WHERE user_group_id = '" . (int) $userGroupId . "'"
             );
         }
     }
 
-    public function deleteUserGroup($user_group_id)
+    /**
+     * @param int $userGroupId
+     *
+     * @return void
+     * @throws AException
+     */
+    public function deleteUserGroup($userGroupId)
     {
         $this->db->query(
-            "DELETE FROM ".$this->db->table("user_groups")." 
-            WHERE user_group_id = '".(int) $user_group_id."'"
+            "DELETE FROM " . $this->db->table("user_groups") . " 
+            WHERE user_group_id = '" . (int) $userGroupId . "'"
         );
     }
 
-    public function addPermission($user_id, $type, $page)
+    /**
+     * @param int $userId
+     * @param string $type
+     * @param string $page
+     *
+     * @return void
+     * @throws AException
+     */
+    public function addPermission($userId, $type, $page)
     {
         $user_query = $this->db->query(
             "SELECT DISTINCT user_group_id 
-            FROM ".$this->db->table("users")." 
-            WHERE user_id = '".(int) $user_id."'"
+            FROM " . $this->db->table("users") . " 
+            WHERE user_id = '" . (int) $userId . "'"
         );
 
         if ($user_query->num_rows) {
             $user_group_query = $this->db->query(
                 "SELECT DISTINCT * 
-                FROM ".$this->db->table("user_groups")." 
-                WHERE user_group_id = '".(int) $user_query->row['user_group_id']."'"
+                FROM " . $this->db->table("user_groups") . " 
+                WHERE user_group_id = '" . (int) $user_query->row['user_group_id'] . "'"
             );
 
             if ($user_group_query->num_rows) {
                 $data = unserialize($user_group_query->row['permission']);
                 $data[$type][$page] = 1;
                 $this->db->query(
-                    "UPDATE ".$this->db->table("user_groups")." 
-                    SET permission = '".serialize($data)."' 
-                    WHERE user_group_id = '".(int) $user_query->row['user_group_id']."'"
+                    "UPDATE " . $this->db->table("user_groups") . " 
+                    SET permission = '" . $this->db->escape(serialize($data)) . "' 
+                    WHERE user_group_id = '" . (int) $user_query->row['user_group_id'] . "'"
                 );
             }
         }
     }
 
-    public function getUserGroup($user_group_id)
+    /**
+     * @param int $userGroupId
+     *
+     * @return array
+     * @throws AException
+     */
+    public function getUserGroup($userGroupId)
     {
         $query = $this->db->query(
             "SELECT DISTINCT * 
-             FROM ".$this->db->table("user_groups")." 
-             WHERE user_group_id = '".(int) $user_group_id."'"
+             FROM " . $this->db->table("user_groups") . " 
+             WHERE user_group_id = '" . (int) $userGroupId . "'"
         );
 
         return [
@@ -136,10 +169,16 @@ class ModelUserUserGroup extends Model
         ];
     }
 
+    /**
+     * @param array $data
+     *
+     * @return array
+     * @throws AException
+     */
     public function getUserGroups($data = [])
     {
         $sql = "SELECT *
-                FROM ".$this->db->table("user_groups")." 
+                FROM " . $this->db->table("user_groups") . " 
                 ORDER BY name";
 
         if (isset($data['order']) && ($data['order'] == 'DESC')) {
@@ -157,19 +196,23 @@ class ModelUserUserGroup extends Model
                 $data['limit'] = 20;
             }
 
-            $sql .= " LIMIT ".(int)$data['start'].",".(int)$data['limit'];
+            $sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
         }
 
         $query = $this->db->query($sql);
         return $query->rows;
     }
 
+    /**
+     * @return int
+     * @throws AException
+     */
     public function getTotalUserGroups()
     {
-        $sql = "SELECT COUNT(*) AS total FROM ".$this->db->table("user_groups")." ";
+        $sql = "SELECT COUNT(*) AS total FROM " . $this->db->table("user_groups") . " ";
         $query = $this->db->query($sql);
 
-        return $query->row['total'];
+        return (int) $query->row['total'];
     }
 
     /**
@@ -194,34 +237,34 @@ class ModelUserUserGroup extends Model
         ];
 
         $controllers_list = [];
-        $files_pages = glob(DIR_APP_SECTION.'controller/pages/*/*.php');
+        $files_pages = glob(DIR_APP_SECTION . 'controller/pages/*/*.php');
         //NOTE: if controllers joins to group - take group as rt for permissions
-        $files_pages = array_merge($files_pages, glob(DIR_APP_SECTION.'controller/pages/*/*'));
-        $files_response = glob(DIR_APP_SECTION.'controller/responses/*/*.php');
-        $files_response = array_merge($files_response, glob(DIR_APP_SECTION.'controller/responses/*'));
-        $files_api = glob(DIR_APP_SECTION.'controller/api/*/*.php');
-        $files_api = array_merge($files_api, glob(DIR_APP_SECTION.'controller/api/*'));
+        $files_pages = array_merge($files_pages, glob(DIR_APP_SECTION . 'controller/pages/*/*'));
+        $files_response = glob(DIR_APP_SECTION . 'controller/responses/*/*.php');
+        $files_response = array_merge($files_response, glob(DIR_APP_SECTION . 'controller/responses/*'));
+        $files_api = glob(DIR_APP_SECTION . 'controller/api/*/*.php');
+        $files_api = array_merge($files_api, glob(DIR_APP_SECTION . 'controller/api/*'));
         $files = array_merge($files_pages, $files_response, $files_api);
 
         // looking for controllers inside core
         foreach ($files as $file) {
             $data = explode('/', dirname($file));
-            $controller = end($data).'/'.basename($file, '.php');
+            $controller = end($data) . '/' . basename($file, '.php');
             if (!in_array($controller, $ignore)) {
                 $controllers_list[] = $controller;
             }
         }
         // looking for controllers inside extensions
-        $files_pages = glob(DIR_EXT.'/*/admin/controller/pages/*/*.php');
-        $files_pages = array_merge($files_pages, glob(DIR_EXT.'/*/admin/controller/pages/*/*'));
-        $files_response = glob(DIR_EXT.'/*/admin/controller/responses/*/*.php');
-        $files_response = array_merge($files_response, glob(DIR_EXT.'/*/admin/controller/responses/*/*'));
-        $files_api = glob(DIR_EXT.'/*/admin/controller/api/*/*.php');
-        $files_api = array_merge($files_api, glob(DIR_EXT.'/*/admin/controller/api/*/*'));
+        $files_pages = glob(DIR_EXT . '/*/admin/controller/pages/*/*.php');
+        $files_pages = array_merge($files_pages, glob(DIR_EXT . '/*/admin/controller/pages/*/*'));
+        $files_response = glob(DIR_EXT . '/*/admin/controller/responses/*/*.php');
+        $files_response = array_merge($files_response, glob(DIR_EXT . '/*/admin/controller/responses/*/*'));
+        $files_api = glob(DIR_EXT . '/*/admin/controller/api/*/*.php');
+        $files_api = array_merge($files_api, glob(DIR_EXT . '/*/admin/controller/api/*/*'));
         $files = array_merge($files_pages, $files_response, $files_api);
         foreach ($files as $file) {
             $data = explode('/', dirname($file));
-            $controller = end($data).'/'.basename($file, '.php');
+            $controller = end($data) . '/' . basename($file, '.php');
             if (!in_array($controller, $ignore)) {
                 $controllers_list[] = $controller;
             }

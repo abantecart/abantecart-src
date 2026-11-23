@@ -65,12 +65,12 @@ class ModelCatalogCollection extends Model
             }
         }
 
-        $keys = array_keys($inData);
         $values = array_values($inData);
-
         foreach ($values as &$value) {
-            $value = $this->db->escape(is_array($value) ? json_encode($value) : $value);
+            $value = is_array($value) ? json_encode($value) : $value;
         }
+        $keys = array_map([$this->db, 'escape'], array_keys($inData));
+        $values = array_map([$this->db, 'escape'], $values);
 
         $query = "INSERT INTO " . $this->db->table("collections") . " 
                     (" . implode(',', $keys) . ") 

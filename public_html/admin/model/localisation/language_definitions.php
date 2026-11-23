@@ -181,9 +181,9 @@ class ModelLocalisationLanguageDefinitions extends Model
         foreach ($result->rows as $row) {
             $this->db->query(
                 "DELETE FROM " . $this->db->table("language_definitions") . " 
-							  WHERE `section` = '" . $row['section'] . "'
-							  		AND `block` = '" . $row['block'] . "'
-							  		AND `language_key` = '" . $row['language_key'] . "'"
+                WHERE `section` = '" . $row['section'] . "'
+                    AND `block` = '" . $this->db->escape($row['block']) . "'
+                    AND `language_key` = '" . $this->db->escape($row['language_key']) . "'"
             );
         }
         $this->cache->remove(['localization', 'admin_menu']);
@@ -424,7 +424,7 @@ class ModelLocalisationLanguageDefinitions extends Model
                 return (['redirect_params' => $parms]);
             }
 
-            //special case then the main file is edited (English, Russian e.t.c. ).
+            //special case then the main file is edited (English, Russian e.t.c.).
             //Candidate for improvement. Rename these files to main.xml
             $main_block = $this->language->isMainBlock($def_det['block'], $def_det['language_id']);
 
@@ -498,24 +498,24 @@ class ModelLocalisationLanguageDefinitions extends Model
             if ($data['section']) {
                 $section_txt = $this->language->get('text_admin');
             }
-            $data['form']['fields']['section'] = $section_txt .
-                $form->getFieldHtml(
+            $data['form']['fields']['section'] = $section_txt
+                . $form->getFieldHtml(
                     [
                         'type'  => 'hidden',
                         'name'  => 'section',
                         'value' => $data['section'],
                     ]
                 );
-            $data['form']['fields']['block'] = $data['block'] .
-                $form->getFieldHtml(
+            $data['form']['fields']['block'] = $data['block']
+                . $form->getFieldHtml(
                     [
                         'type'  => 'hidden',
                         'name'  => 'block',
                         'value' => $data['block'],
                     ]
                 );
-            $data['form']['fields']['language_key'] = $data['language_key'] .
-                $form->getFieldHtml(
+            $data['form']['fields']['language_key'] = $data['language_key']
+                . $form->getFieldHtml(
                     [
                         'type'  => 'hidden',
                         'name'  => 'language_key',

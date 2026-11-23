@@ -1,23 +1,23 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2026 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -33,16 +33,16 @@ class ModelSaleCoupon extends Model
      * @return int
      * @throws AException
      */
-    public function addCoupon($data)
+    public function addCoupon(array $data)
     {
         if (isset($data['date_start']) && $data['date_start']) {
-            $data['date_start'] = "DATE('".$data['date_start']."')";
+            $data['date_start'] = "DATE('" . $data['date_start'] . "')";
         } else {
             $data['date_start'] = "NULL";
         }
 
         if (isset($data['date_end']) && $data['date_end']) {
-            $data['date_end'] = "DATE('".$data['date_end']."')";
+            $data['date_end'] = "DATE('" . $data['date_end'] . "')";
         } else {
             $data['date_end'] = "NULL";
         }
@@ -50,27 +50,27 @@ class ModelSaleCoupon extends Model
         $data['condition_rule'] = $data['condition_rule'] == 'AND' ? 'AND' : 'OR';
 
         $this->db->query(
-            "INSERT INTO ".$this->db->table("coupons")." 
-            SET code = '".$this->db->escape($data['code'])."',
-                discount = '".(float) $data['discount']."',
-                type = '".$this->db->escape($data['type'])."',
-                total = '".(float) $data['total']."',
-                logged = '".(int) $data['logged']."',
-                shipping = '".(int) $data['shipping']."',
-                date_start = ".$data['date_start'].",
-                date_end = ".$data['date_end'].",
-                uses_total = '".(int) $data['uses_total']."',
-                uses_customer = '".(int) $data['uses_customer']."',
-                status = '".(int) $data['status']."',
-                condition_rule = '".$data['condition_rule']."',
+            "INSERT INTO " . $this->db->table("coupons") . " 
+            SET code = '" . $this->db->escape($data['code']) . "',
+                discount = '" . (float) $data['discount'] . "',
+                type = '" . $this->db->escape($data['type']) . "',
+                total = '" . (float) $data['total'] . "',
+                logged = '" . (int) $data['logged'] . "',
+                shipping = '" . (int) $data['shipping'] . "',
+                date_start = " . $data['date_start'] . ",
+                date_end = " . $data['date_end'] . ",
+                uses_total = '" . (int) $data['uses_total'] . "',
+                uses_customer = '" . (int) $data['uses_customer'] . "',
+                status = '" . (int) $data['status'] . "',
+                condition_rule = '" . $data['condition_rule'] . "',
                 date_added = NOW()"
         );
-        $coupon_id = $this->db->getLastId();
+        $coupon_id = (int) $this->db->getLastId();
 
         foreach ($data['coupon_description'] as $language_id => $value) {
             $this->language->replaceDescriptions(
                 'coupon_descriptions',
-                ['coupon_id' => (int) $coupon_id],
+                ['coupon_id' => $coupon_id],
                 [
                     $language_id => [
                         'name'        => $value['name'],
@@ -83,9 +83,9 @@ class ModelSaleCoupon extends Model
             foreach ($data['coupon_products'] as $product_id) {
                 if ((int) $product_id) {
                     $this->db->query(
-                        "INSERT INTO ".$this->db->table("coupons_products")." 
-                        SET coupon_id = '".(int) $coupon_id."', 
-                            product_id = '".(int) $product_id."'"
+                        "INSERT INTO " . $this->db->table("coupons_products") . " 
+                        SET coupon_id = '" . $coupon_id . "', 
+                            product_id = '" . (int) $product_id . "'"
                     );
                 }
             }
@@ -94,9 +94,9 @@ class ModelSaleCoupon extends Model
             foreach ($data['coupon_categories'] as $category_id) {
                 if ((int) $category_id) {
                     $this->db->query(
-                        "INSERT INTO ".$this->db->table("coupons_categories")." 
-                        SET coupon_id = '".(int) $coupon_id."', 
-                            category_id = '".(int) $category_id."'"
+                        "INSERT INTO " . $this->db->table("coupons_categories") . " 
+                        SET coupon_id = '" . $coupon_id . "', 
+                            category_id = '" . (int) $category_id . "'"
                     );
                 }
             }
@@ -117,13 +117,13 @@ class ModelSaleCoupon extends Model
             return false;
         }
         if (isset($data['date_start']) && $data['date_start']) {
-            $data['date_start'] = "DATE('".$data['date_start']."')";
+            $data['date_start'] = "DATE('" . $this->db->escape($data['date_start']) . "')";
         } elseif (array_key_exists('date_start', $data)) {
             $data['date_start'] = 'NULL';
         }
 
         if (isset($data['date_end']) && $data['date_end']) {
-            $data['date_end'] = "DATE('".$data['date_end']."')";
+            $data['date_end'] = "DATE('" . $this->db->escape($data['date_end']) . "')";
         } elseif (array_key_exists('date_end', $data)) {
             $data['date_end'] = 'NULL';
         }
@@ -149,18 +149,18 @@ class ModelSaleCoupon extends Model
         $update = [];
         foreach ($coupon_table_fields as $f) {
             if (isset($data[$f])) {
-                if (!in_array($f, ['date_start', 'date_end'])) {
-                    $update[] = $f." = '".$this->db->escape($data[$f])."'";
-                } else {
-                    $update[] = $f." = ".$data[$f]."";
+                if (str_starts_with($f, 'date_')) {
+                    $update[] = $f . " = " . $data[$f];
+                } else {                    
+                    $update[] = $f . " = '" . $this->db->escape($data[$f]) . "'";
                 }
             }
         }
         if (!empty($update)) {
             $this->db->query(
-                "UPDATE ".$this->db->table("coupons")." 
-                SET ".implode(',', $update)."
-                WHERE coupon_id = '".(int) $coupon_id."'"
+                "UPDATE " . $this->db->table("coupons") . " 
+                SET " . implode(',', $update) . "
+                WHERE coupon_id = '" . (int) $coupon_id . "'"
             );
         }
 
@@ -198,16 +198,16 @@ class ModelSaleCoupon extends Model
             return false;
         }
         $this->db->query(
-            "DELETE FROM ".$this->db->table("coupons_products")." 
-            WHERE coupon_id = '".(int) $coupon_id."'"
+            "DELETE FROM " . $this->db->table("coupons_products") . " 
+            WHERE coupon_id = '" . (int) $coupon_id . "'"
         );
         if (isset($data['coupon_products'])) {
             foreach ($data['coupon_products'] as $product_id) {
                 if ((int) $product_id) {
                     $this->db->query(
-                        "INSERT INTO ".$this->db->table("coupons_products")." 
-                        SET coupon_id = '".(int) $coupon_id."',
-                            product_id = '".(int) $product_id."'"
+                        "INSERT INTO " . $this->db->table("coupons_products") . " 
+                        SET coupon_id = '" . (int) $coupon_id . "',
+                            product_id = '" . (int) $product_id . "'"
                     );
                 }
             }
@@ -228,16 +228,16 @@ class ModelSaleCoupon extends Model
             return false;
         }
         $this->db->query(
-            "DELETE FROM ".$this->db->table("coupons_categories")." 
-            WHERE coupon_id = '".(int) $coupon_id."'"
+            "DELETE FROM " . $this->db->table("coupons_categories") . " 
+            WHERE coupon_id = '" . (int) $coupon_id . "'"
         );
         if (isset($data['coupon_categories'])) {
             foreach ($data['coupon_categories'] as $category_id) {
                 if ((int) $category_id) {
                     $this->db->query(
-                        "INSERT INTO ".$this->db->table("coupons_categories")." 
-                    SET coupon_id = '".(int) $coupon_id."',
-                        category_id = '".(int) $category_id."'"
+                        "INSERT INTO " . $this->db->table("coupons_categories") . " 
+                    SET coupon_id = '" . (int) $coupon_id . "',
+                        category_id = '" . (int) $category_id . "'"
                     );
                 }
             }
@@ -257,16 +257,16 @@ class ModelSaleCoupon extends Model
             return false;
         }
         $this->db->query(
-            "DELETE FROM ".$this->db->table("coupons")." 
-            WHERE coupon_id = '".(int) $coupon_id."'"
+            "DELETE FROM " . $this->db->table("coupons") . " 
+            WHERE coupon_id = '" . (int) $coupon_id . "'"
         );
         $this->db->query(
-            "DELETE FROM ".$this->db->table("coupon_descriptions")." 
-            WHERE coupon_id = '".(int) $coupon_id."'"
+            "DELETE FROM " . $this->db->table("coupon_descriptions") . " 
+            WHERE coupon_id = '" . (int) $coupon_id . "'"
         );
         $this->db->query(
-            "DELETE FROM ".$this->db->table("coupons_products")." 
-            WHERE coupon_id = '".(int) $coupon_id."'"
+            "DELETE FROM " . $this->db->table("coupons_products") . " 
+            WHERE coupon_id = '" . (int) $coupon_id . "'"
         );
         return true;
     }
@@ -281,8 +281,8 @@ class ModelSaleCoupon extends Model
     {
         $query = $this->db->query(
             "SELECT DISTINCT * 
-            FROM ".$this->db->table("coupons")." 
-            WHERE coupon_id = '".(int) $coupon_id."'"
+            FROM " . $this->db->table("coupons") . " 
+            WHERE coupon_id = '" . (int) $coupon_id . "'"
         );
         return $query->row;
     }
@@ -313,25 +313,25 @@ class ModelSaleCoupon extends Model
             c.discount, 
             c.date_start, 
             c.date_end, 
-            ".$sqlDateRange." as status ";
+            " . $sqlDateRange . " as status ";
         }
 
-        $sql = "SELECT ".$total_sql." 
-                FROM ".$this->db->table("coupons")." c
-                LEFT JOIN ".$this->db->table("coupon_descriptions")." cd
-                    ON (c.coupon_id = cd.coupon_id AND cd.language_id = '".$language_id."')
+        $sql = "SELECT " . $total_sql . " 
+                FROM " . $this->db->table("coupons") . " c
+                LEFT JOIN " . $this->db->table("coupon_descriptions") . " cd
+                    ON (c.coupon_id = cd.coupon_id AND cd.language_id = '" . $language_id . "')
                 WHERE 1=1 ";
 
         if (!empty($data['search'])) {
-            $sql .= " AND ".$data['search'];
+            $sql .= " AND " . $data['search'];
         }
 
         if (isset($data['filter']['status'])) {
-            $sql .= " AND ".$sqlDateRange." = ".$data['filter']['status'];
+            $sql .= " AND " . $sqlDateRange . " = " . (int) $data['filter']['status'];
         }
 
         if (!empty($data['subsql_filter'])) {
-            $sql .= " AND ".$data['subsql_filter'];
+            $sql .= " AND " . $data['subsql_filter'];
         }
 
         //If for total, we're done building the query
@@ -350,7 +350,7 @@ class ModelSaleCoupon extends Model
         ];
 
         if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
-            $sql .= " ORDER BY ".$sort_data[$data['sort']];
+            $sql .= " ORDER BY " . $sort_data[$data['sort']];
         } else {
             $sql .= " ORDER BY cd.name";
         }
@@ -369,7 +369,7 @@ class ModelSaleCoupon extends Model
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-            $sql .= " LIMIT ".(int) $data['start'].",".(int) $data['limit'];
+            $sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
         }
         $query = $this->db->query($sql);
         return $query->rows;
@@ -398,8 +398,8 @@ class ModelSaleCoupon extends Model
 
         $query = $this->db->query(
             "SELECT *
-            FROM ".$this->db->table("coupon_descriptions")." 
-            WHERE coupon_id = '".(int) $coupon_id."'"
+            FROM " . $this->db->table("coupon_descriptions") . " 
+            WHERE coupon_id = '" . (int) $coupon_id . "'"
         );
 
         foreach ($query->rows as $result) {
@@ -422,8 +422,8 @@ class ModelSaleCoupon extends Model
     {
         $query = $this->db->query(
             "SELECT *
-            FROM ".$this->db->table("coupons_products")." 
-            WHERE coupon_id = '".(int) $coupon_id."'"
+            FROM " . $this->db->table("coupons_products") . " 
+            WHERE coupon_id = '" . (int) $coupon_id . "'"
         );
         return array_map('intval', array_column($query->rows, 'product_id'));
     }
@@ -438,8 +438,8 @@ class ModelSaleCoupon extends Model
     {
         $query = $this->db->query(
             "SELECT *
-            FROM ".$this->db->table("coupons_categories")." 
-            WHERE coupon_id = '".(int) $coupon_id."'"
+            FROM " . $this->db->table("coupons_categories") . " 
+            WHERE coupon_id = '" . (int) $coupon_id . "'"
         );
         return array_map('intval', array_column($query->rows, 'category_id'));
     }

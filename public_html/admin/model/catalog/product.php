@@ -163,7 +163,7 @@ class ModelCatalogProduct extends Model
             elseif (is_string($data['keyword'])) {
                 $seo_keys = [
                     $language_id => [
-                        'keyword' => SEOEncode((string) $data['keyword'], 'product_id', $product_id),
+                        'keyword' => SEOEncode($data['keyword'], 'product_id', $product_id),
                     ],
                 ];
             }
@@ -448,7 +448,9 @@ class ModelCatalogProduct extends Model
              WHERE product_id = " . $product_id
         )->row['settings'];
         $priorSettings = unserialize((string) $priorSettings) ? : [];
-        $settings = is_serialized($settings) ? unserialize($settings) : $settings;
+        $settings = is_serialized($settings)
+            ? unserialize($settings, ['allowed_classes' => false])
+            : $settings;
         $newSettings = array_merge((array) $priorSettings, (array) $settings);
         $this->db->query(
             "UPDATE " . $this->db->table("products") . "
@@ -475,7 +477,7 @@ class ModelCatalogProduct extends Model
             if (isset($data[$f])) {
                 $newValue = $data[$f];
                 if (str_starts_with($f, 'date_')) {
-                    $newValue = "DATE('" . $newValue . "')";
+                    $newValue = "DATE('" . $this->db->escape($newValue) . "')";
                 } else {
                     $newValue = "'" . $this->db->escape($data[$f]) . "'";
                 }
@@ -512,7 +514,7 @@ class ModelCatalogProduct extends Model
             if (isset($data[$f])) {
                 $newValue = $data[$f];
                 if (str_starts_with($f, 'date_')) {
-                    $newValue = "DATE('" . $newValue . "')";
+                    $newValue = "DATE('" . $this->db->escape($newValue) . "')";
                 } else {
                     $newValue = "'" . $this->db->escape($data[$f]) . "'";
                 }
@@ -2008,7 +2010,7 @@ class ModelCatalogProduct extends Model
                 'product_option_descriptions',
                 ['product_option_id' => (int) $product_option_id],
                 [
-                    (int) $language_id => [
+                    $language_id => [
                         'name'               => $data['name'],
                         'error_text'         => $data['error_text'],
                         'option_placeholder' => $data['option_placeholder'],
@@ -3154,7 +3156,7 @@ class ModelCatalogProduct extends Model
                     LEFT JOIN  `" . $this->db->table("product_option_descriptions") . "` pod
                         ON (pod.product_option_id = pov.product_option_id 
                             AND pod.language_id = '" . $this->language->getContentLanguageID() . "')
-                    WHERE `txt_id` IN ('" . implode("','", $txtIds) . "')";
+                    WHERE `txt_id` IN ('" . implode("','", array_map([$this->db, 'escape'], $txtIds)) . "')";
             if ($optionId) {
                 $sql .= " AND pov.product_option_id <> " . $optionId;
             }

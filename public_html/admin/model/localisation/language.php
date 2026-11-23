@@ -1,10 +1,11 @@
-<?php /*
+<?php
+/*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -16,6 +17,7 @@
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -40,12 +42,12 @@ class ModelLocalisationLanguage extends Model
                 locale = '" . $this->db->escape($data['locale']) . "',
                 directory = '" . $this->db->escape($data['directory']) . "',
                 filename = '" . $this->db->escape($data['directory']) . "',
-                sort_order = '" . (int)$data['sort_order'] . "',
-                status = '" . (int)$data['status'] . "'"
+                sort_order = '" . (int) $data['sort_order'] . "',
+                status = '" . (int) $data['status'] . "'"
         );
 
         $this->cache->remove('localization');
-        $language_id = (int)$this->db->getLastId();
+        $language_id = (int) $this->db->getLastId();
 
         //add menu items for a new language
         $menu = new AMenu_Storefront();
@@ -58,19 +60,20 @@ class ModelLocalisationLanguage extends Model
     /**
      * @param int $language_id
      * @param array $data
+     *
      * @throws AException
      */
     public function editLanguage($language_id, $data)
     {
         $update_data = [];
         foreach ($data as $key => $val) {
-            $update_data[] = "`$key` = '" . $this->db->escape($val) . "' ";
+            $update_data[] = "`" . $this->db->escape($key) . "` = '" . $this->db->escape($val) . "' ";
         }
         if ($update_data) {
             $this->db->query(
                 "UPDATE " . $this->db->table("languages") . " 
                 SET " . implode(',', $update_data) . " 
-                WHERE language_id = '" . (int)$language_id . "'"
+                WHERE language_id = '" . (int) $language_id . "'"
             );
         }
 
@@ -86,15 +89,15 @@ class ModelLocalisationLanguage extends Model
     {
         $this->db->query(
             "DELETE FROM " . $this->db->table("languages") . " 
-            WHERE language_id = '" . (int)$language_id . "'"
+            WHERE language_id = '" . (int) $language_id . "'"
         );
-        $this->language->deleteAllLanguageEntries((int)$language_id);
+        $this->language->deleteAllLanguageEntries((int) $language_id);
         //too many changes and better clear all cache
         $this->cache->remove('*');
 
         //delete menu items for a given language
         $menu = new AMenu_Storefront();
-        $menu->deleteLanguage((int)$language_id);
+        $menu->deleteLanguage((int) $language_id);
     }
 
     /**
@@ -108,12 +111,13 @@ class ModelLocalisationLanguage extends Model
         $query = $this->db->query(
             "SELECT DISTINCT * 
            FROM " . $this->db->table("languages") . " 
-           WHERE language_id = '" . (int)$language_id . "'"
+           WHERE language_id = '" . (int) $language_id . "'"
         );
         $result = $query->row;
         if (!$result['image']) {
             if (file_exists(DIR_ROOT . DS . 'admin' . DS . 'language' . DS . $result['directory'] . DS . 'flag.png')) {
-                $result['image'] = AUTO_SERVER . 'admin' . DS . 'language' . DS . $result['directory'] . DS . 'flag.png';
+                $result['image'] =
+                    AUTO_SERVER . 'admin' . DS . 'language' . DS . $result['directory'] . DS . 'flag.png';
             }
         } else {
             $result['image'] = AUTO_SERVER . $result['image'];
@@ -145,7 +149,7 @@ class ModelLocalisationLanguage extends Model
 
         $sql .= " WHERE 1=1";
         if (isset($filter['status'])) {
-            $sql .= " AND `status` = '" . (int)$filter['status'] . "' ";
+            $sql .= " AND `status` = '" . (int) $filter['status'] . "' ";
         }
 
         if (isset($filter['name'])) {
@@ -159,7 +163,7 @@ class ModelLocalisationLanguage extends Model
         //If for total, we're done building the query
         if ($mode == 'total_only') {
             $query = $this->db->query($sql);
-            return (int)$query->row['total'];
+            return (int) $query->row['total'];
         }
 
         $sort_data = [
@@ -187,7 +191,7 @@ class ModelLocalisationLanguage extends Model
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-            $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+            $sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
         }
 
         $query = $this->db->query($sql);
@@ -205,7 +209,6 @@ class ModelLocalisationLanguage extends Model
         }
         $this->cache->push($cacheKey, $language_data);
         return $language_data;
-
     }
 
     /**
@@ -217,13 +220,12 @@ class ModelLocalisationLanguage extends Model
      */
     public function createTask($task_name, $data = [])
     {
-
         if (!$task_name) {
             $this->errors[] = 'Can not to create task. Empty task name has been given.';
         }
 
         //get URIs of recipients
-        $tables = $this->getTablesInfo((int)$data['source_language']);
+        $tables = $this->getTablesInfo((int) $data['source_language']);
         $task_controller = 'task/localisation/language/translate';
 
         if (!$tables) {
@@ -249,7 +251,7 @@ class ModelLocalisationLanguage extends Model
                 'starter'            => 1, //admin-side is a starter
                 'created_by'         => $this->user->getId(), //get starter id
                 'status'             => $tm::STATUS_READY,
-                'start_time'         => date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), (int)date('d') + 1, date('Y'))),
+                'start_time'         => date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), (int) date('d') + 1, date('Y'))),
                 'last_time_run'      => null,
                 'progress'           => '0',
                 'last_result'        => '1', // think all fine until some failed step sets 0 here
@@ -263,7 +265,8 @@ class ModelLocalisationLanguage extends Model
             return false;
         }
 
-        $tm->updateTaskDetails($task_id,
+        $tm->updateTaskDetails(
+            $task_id,
             [
                 'created_by' => $this->user->getId(),
                 'settings'   => [
@@ -283,7 +286,7 @@ class ModelLocalisationLanguage extends Model
             //get all indexes of descriptions of the table
             $sql = "SELECT " . implode(', ', $info['primary_keys']) . "
                     FROM " . $table_name . "
-                    WHERE language_id = " . $data['source_language'];
+                    WHERE language_id = " . (int) $data['source_language'];
             $result = $this->db->query($sql);
 
             if ($divider >= $info['description_count']) {
@@ -295,8 +298,8 @@ class ModelLocalisationLanguage extends Model
                 }
 
                 $settings[0] = [
-                    'src_language_id'  => (int)$data['source_language'],
-                    'language_id'      => (int)$data['language_id'],
+                    'src_language_id'  => (int) $data['source_language'],
+                    'language_id'      => (int) $data['language_id'],
                     'translate_method' => $data['translate_method'],
                     'table'            =>
                         [
@@ -315,8 +318,8 @@ class ModelLocalisationLanguage extends Model
                         }
                     }
                     $settings[] = [
-                        'src_language_id'  => (int)$data['source_language'],
-                        'language_id'      => (int)$data['language_id'],
+                        'src_language_id'  => (int) $data['source_language'],
+                        'language_id'      => (int) $data['language_id'],
                         'translate_method' => $data['translate_method'],
                         'table'            =>
                             [
@@ -365,6 +368,7 @@ class ModelLocalisationLanguage extends Model
 
     /**
      * @param int $srcLanguageId
+     *
      * @return array|false
      * @throws AException
      */
@@ -386,7 +390,7 @@ class ModelLocalisationLanguage extends Model
             $this->db->table('language_definitions'),
             $this->db->table('orders'),
             $this->db->table('fields_history'),
-            $this->db->table('order_data_types')
+            $this->db->table('order_data_types'),
         ];
         foreach ($dbTableList as $dbTableName => $rowCount) {
             if (in_array($dbTableName, $excludes) || !$dbTableName) {
@@ -403,7 +407,7 @@ class ModelLocalisationLanguage extends Model
                 'primary_keys'      => $pKeys,
                 'fields'            => $cols2Translate,
                 'row_count'         => $rowCount,
-                'description_count' => (int)$rowCount * count($cols2Translate)
+                'description_count' => (int) $rowCount * count($cols2Translate),
             ];
         }
         return $output;

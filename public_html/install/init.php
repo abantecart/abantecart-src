@@ -166,7 +166,7 @@ try {
     require_once(DIR_CORE . 'lib' . DS . 'connect.php');
     require_once(DIR_CORE . 'lib' . DS . 'ADocument.php');
     require_once(DIR_CORE . 'lib' . DS . 'image.php');
-    require_once(DIR_CORE . 'lib' . DS . 'language_manager.php');
+    require_once(DIR_CORE . 'lib' . DS . 'ALanguageManager.php');
     require_once(DIR_CORE . 'lib' . DS . 'log.php');
     require_once(DIR_CORE . 'lib' . DS . 'mail.php');
     require_once(DIR_CORE . 'lib' . DS . 'message.php');
@@ -180,7 +180,7 @@ try {
     require_once(DIR_CORE . 'lib' . DS . 'package_manager.php');
     require_once(DIR_CORE . 'lib' . DS . 'extension_manager.php');
     require_once(DIR_CORE . 'lib' . DS . 'resource_manager.php');
-    require_once(DIR_CORE . 'lib' . DS . 'language_manager.php');
+    require_once(DIR_CORE . 'lib' . DS . 'ALanguageManager.php');
     require_once(DIR_CORE . 'lib' . DS . 'menu_control.php');
 
 //plugins api

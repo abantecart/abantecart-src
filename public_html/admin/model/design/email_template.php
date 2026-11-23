@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -145,7 +145,7 @@ class ModelDesignEmailTemplate extends Model
      */
     public function getByTextIdAndLanguageId(string $textId, int $languageId)
     {
-        if (!$textId || !(int)$languageId) {
+        if (!$textId || !$languageId) {
             return false;
         }
         $storeId = (int)$this->config->get('current_store_id');
@@ -172,7 +172,8 @@ class ModelDesignEmailTemplate extends Model
         $keys = array_map([$this->db, 'escape'], array_keys($data));
         $values = array_map([$this->db, 'escape'], array_values($data));
 
-        $sql = "INSERT INTO " . $this->db->table('email_templates') . " (" . implode(',', $keys) . ") 
+        $sql = "INSERT INTO " . $this->db->table('email_templates') . " 
+                (" . implode(',', $keys) . ") 
                   VALUES ('" . implode("','", $values) . "')";
         if ($this->db->query($sql)) {
             return $this->getByTextIdAndLanguageId($data['text_id'], $data['language_id']);

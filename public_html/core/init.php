@@ -353,7 +353,7 @@ try {
         require_once(DIR_CORE . 'lib' . DS . 'ResourceUploadHandler.php');
         require_once(DIR_CORE . 'lib' . DS . 'AListingManager.php');
         require_once(DIR_CORE . 'lib' . DS . 'attribute_manager.php');
-        require_once(DIR_CORE . 'lib' . DS . 'language_manager.php');
+        require_once(DIR_CORE . 'lib' . DS . 'ALanguageManager.php');
         require_once(DIR_CORE . 'lib' . DS . 'backup.php');
         require_once(DIR_CORE . 'lib' . DS . 'file_uploads_manager.php');
         require_once(DIR_CORE . 'lib' . DS . 'admin_commands.php');

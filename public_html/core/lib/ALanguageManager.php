@@ -1,11 +1,10 @@
-<?php /** @noinspection PhpUndefinedClassInspection */
-/*
+<?php /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2025 Belavier Commerce LLC
+ *   Copyright © 2011-2026 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details are bundled with this package in the file LICENSE.txt.
@@ -16,8 +15,7 @@
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs, please refer to http://www.AbanteCart.com for more information.
- */
-
+ */ /** @noinspection PhpUndefinedClassInspection */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -28,7 +26,7 @@ class ALanguageManager extends Alanguage
     /** @see ExtensionsApi::__ExtensionsApiCall() */
     public $ExtensionsApi;
     private $translatable_fields = [];
-    const TAG_REGEX_PATTERN = '/[^\\d\s\p{L}\-_]/u';
+    const string TAG_REGEX_PATTERN = '/[^\\d\s\p{L}\-_]/u';
 
     public $excludeTableList = ['url_aliases'];
 
@@ -477,13 +475,10 @@ class ALanguageManager extends Alanguage
         }
 
         foreach ($txt_data as $lang_id => $lang_data) {
-            //sanitize data
-            foreach ($lang_data as $key => $value) {
-                $lang_data[$key] = $this->db->escape($value);
-            }
             $load_data = array_merge($lang_data, $index, ['language_id' => $lang_id]);
             $sql = "INSERT INTO " . $this->db->table($table_name) . " ";
-            $sql .= "(`" . implode("`, `", array_keys($load_data)) . "`) VALUES ('" . implode("', '", $load_data) . "') ";
+            $sql .= "(`" . implode("`, `", array_map([$this->db,'escape'], array_keys($load_data))) . "`) 
+            VALUES ('" . implode("', '", array_map([$this->db,'escape'], $load_data)) . "') ";
             $this->db->query($sql);
         }
     }

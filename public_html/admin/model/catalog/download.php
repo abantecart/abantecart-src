@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2026 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -45,29 +44,29 @@ class ModelCatalogDownload extends Model
             $data['max_downloads'] = 0;
         }
         $this->db->query(
-            "INSERT INTO ".$this->db->table('downloads')."
-              SET filename  = '".$this->db->escape($data['filename'])."',
-                  mask = '".$this->db->escape($data['mask'])."',
-                  max_downloads = ".((int) $data['max_downloads'] ? "'".(int) $data['max_downloads']."'" : 'NULL').",
-                  ".(isset($data['shared']) ? "shared = ".(int) $data['shared'].", " : '')."
-                  expire_days = ".((int) $data['expire_days'] ? "'".(int) $data['expire_days']."'" : 'NULL').",
-                  sort_order = '".(int) $data['sort_order']."',
-                  activate = '".$this->db->escape($data['activate'])."',
-                  activate_order_status_id = '".$this->db->escape(serialize($data['activate_order_status_id']))."',
-                  status = '".(int) $data['status']."',
+            "INSERT INTO " . $this->db->table('downloads') . "
+              SET filename  = '" . $this->db->escape($data['filename']) . "',
+                  mask = '" . $this->db->escape($data['mask']) . "',
+                  max_downloads = " . ((int) $data['max_downloads'] ? "'" . (int) $data['max_downloads'] . "'" : 'NULL')
+            . ",
+                  " . (isset($data['shared']) ? "shared = " . (int) $data['shared'] . ", " : '') . "
+                  expire_days = " . ((int) $data['expire_days'] ? "'" . (int) $data['expire_days'] . "'" : 'NULL') . ",
+                  sort_order = '" . (int) $data['sort_order'] . "',
+                  activate = '" . $this->db->escape($data['activate']) . "',
+                  activate_order_status_id = '" . $this->db->escape(serialize($data['activate_order_status_id'])) . "',
+                  status = '" . (int) $data['status'] . "',
                   date_added = NOW()"
         );
 
-        $download_id = $this->db->getLastId();
+        $download_id = (int) $this->db->getLastId();
 
         $this->language->replaceDescriptions(
             'download_descriptions',
-            ['download_id' => (int) $download_id],
+            ['download_id' => $download_id],
             [
                 $this->language->getContentLanguageID() => [
-                        'name' => $data['name'
-                    ]
-                ]
+                    'name' => $data['name'],
+                ],
             ]
         );
 
@@ -117,27 +116,28 @@ class ModelCatalogDownload extends Model
         foreach ($fields as $field_name => $type) {
             if (isset($data[$field_name])) {
                 if ($type == 'string') {
-                    if($field_name == 'activate_order_status_id'){
-                        $update[] = "`".$field_name."` = '".$this->db->escape(serialize($data[$field_name]))."'";
-                    }else {
-                        $update[] = "`".$field_name."` = '".$this->db->escape($data[$field_name])."'";
+                    if ($field_name == 'activate_order_status_id') {
+                        $update[] =
+                            "`" . $field_name . "` = '" . $this->db->escape(serialize($data[$field_name])) . "'";
+                    } else {
+                        $update[] = "`" . $field_name . "` = '" . $this->db->escape($data[$field_name]) . "'";
                     }
                 } elseif ($type == 'int') {
                     if (in_array($field_name, ['max_downloads', 'expire_days'])) {
-                        $update[] = "`".$field_name."` = ".((int) $data[$field_name]
-                                                                ? "'".(int) $data[$field_name]."'"
-                                                                : 'NULL');
+                        $update[] = "`" . $field_name . "` = " . ((int) $data[$field_name]
+                                ? "'" . (int) $data[$field_name] . "'"
+                                : 'NULL');
                     } else {
-                        $update[] = "`".$field_name."` = '".(int) $data[$field_name]."'";
+                        $update[] = "`" . $field_name . "` = '" . (int) $data[$field_name] . "'";
                     }
                 }
             }
         }
         if ($update) {
             $this->db->query(
-                "UPDATE ".$this->db->table('downloads')."
-                SET ".implode(', ', $update)."
-                WHERE download_id = ".(int) $download_id
+                "UPDATE " . $this->db->table('downloads') . "
+                SET " . implode(', ', $update) . "
+                WHERE download_id = " . (int) $download_id
             );
         }
 
@@ -175,16 +175,16 @@ class ModelCatalogDownload extends Model
         }
 
         $this->db->query(
-            "DELETE FROM ".$this->db->table('products_to_downloads')."
-            WHERE product_id = '".(int) $product_id."'
-                AND download_id = '".(int) $download_id."'"
+            "DELETE FROM " . $this->db->table('products_to_downloads') . "
+            WHERE product_id = '" . (int) $product_id . "'
+                AND download_id = '" . (int) $download_id . "'"
         );
 
         $this->db->query(
-            "INSERT INTO ".$this->db->table('products_to_downloads')."
+            "INSERT INTO " . $this->db->table('products_to_downloads') . "
             SET
-                product_id = '".(int) $product_id."',
-                download_id = '".(int) $download_id."'"
+                product_id = '" . (int) $product_id . "',
+                download_id = '" . (int) $download_id . "'"
         );
 
         return $this->db->getLastId();
@@ -206,9 +206,9 @@ class ModelCatalogDownload extends Model
         }
 
         $this->db->query(
-            "DELETE FROM ".$this->db->table('products_to_downloads')."
-             WHERE product_id = '".(int) $product_id."'
-               AND download_id = '".(int) $download_id."'"
+            "DELETE FROM " . $this->db->table('products_to_downloads') . "
+             WHERE product_id = '" . (int) $product_id . "'
+               AND download_id = '" . (int) $download_id . "'"
         );
         return true;
     }
@@ -227,8 +227,8 @@ class ModelCatalogDownload extends Model
         }
 
         $this->db->query(
-            "DELETE FROM ".$this->db->table('products_to_downloads')."
-             WHERE product_id = '".(int) $product_id."'"
+            "DELETE FROM " . $this->db->table('products_to_downloads') . "
+             WHERE product_id = '" . (int) $product_id . "'"
         );
         return true;
     }
@@ -251,11 +251,11 @@ class ModelCatalogDownload extends Model
 
         $result = $this->db->query(
             "SELECT  pd.product_id, pd.name
-            FROM ".$this->db->table('products_to_downloads')." ptd
-            LEFT JOIN ".$this->db->table('product_descriptions')." pd
+            FROM " . $this->db->table('products_to_downloads') . " ptd
+            LEFT JOIN " . $this->db->table('product_descriptions') . " pd
             ON (pd.product_id = ptd.product_id 
-               AND pd.language_id = '".$this->language->getContentLanguageID()."')
-            WHERE ptd.download_id = '".(int) $download_id."'"
+               AND pd.language_id = '" . $this->language->getContentLanguageID() . "')
+            WHERE ptd.download_id = '" . (int) $download_id . "'"
         );
         foreach ($result->rows as $row) {
             if (!in_array($row['product_id'], $exclude_products)) {
@@ -293,20 +293,20 @@ class ModelCatalogDownload extends Model
         }
 
         $this->db->query(
-            "DELETE FROM ".$this->db->table("downloads")." 
-            WHERE download_id = '".(int) $download_id."'"
+            "DELETE FROM " . $this->db->table("downloads") . " 
+            WHERE download_id = '" . (int) $download_id . "'"
         );
         $this->db->query(
-            "DELETE FROM ".$this->db->table("download_descriptions")." 
-            WHERE download_id = '".(int) $download_id."'"
+            "DELETE FROM " . $this->db->table("download_descriptions") . " 
+            WHERE download_id = '" . (int) $download_id . "'"
         );
         $this->db->query(
-            "DELETE FROM ".$this->db->table("download_attribute_values")." 
-            WHERE download_id = '".(int) $download_id."'"
+            "DELETE FROM " . $this->db->table("download_attribute_values") . " 
+            WHERE download_id = '" . (int) $download_id . "'"
         );
         $this->db->query(
-            "DELETE FROM ".$this->db->table("products_to_downloads")." 
-            WHERE download_id = '".(int) $download_id."'"
+            "DELETE FROM " . $this->db->table("products_to_downloads") . " 
+            WHERE download_id = '" . (int) $download_id . "'"
         );
     }
 
@@ -337,11 +337,11 @@ class ModelCatalogDownload extends Model
                   shared,
                   date_added,
                   date_modified
-            FROM ".$this->db->table('downloads')." d
-            LEFT JOIN ".$this->db->table('download_descriptions')." dc
+            FROM " . $this->db->table('downloads') . " d
+            LEFT JOIN " . $this->db->table('download_descriptions') . " dc
                 ON d.download_id=dc.download_id 
-                    AND dc.language_id = '".(int) $this->language->getContentLanguageID()."'
-            WHERE d.download_id = '".(int) $download_id."'"
+                    AND dc.language_id = '" . $this->language->getContentLanguageID() . "'
+            WHERE d.download_id = '" . (int) $download_id . "'"
         );
         return $query->row;
     }
@@ -359,14 +359,14 @@ class ModelCatalogDownload extends Model
             return [];
         }
         $sql = "SELECT dd.*, d.*, p2d.*
-                 FROM ".$this->db->table("products_to_downloads")." p2d
-                 LEFT JOIN ".$this->db->table("downloads")." d ON (p2d.download_id = d.download_id)
-                 LEFT JOIN ".$this->db->table("download_descriptions")." dd
+                 FROM " . $this->db->table("products_to_downloads") . " p2d
+                 LEFT JOIN " . $this->db->table("downloads") . " d ON (p2d.download_id = d.download_id)
+                 LEFT JOIN " . $this->db->table("download_descriptions") . " dd
                     ON (d.download_id = dd.download_id
-                            AND dd.language_id = '".(int) $this->language->getContentLanguageID()."')
-                 WHERE p2d.product_id = '".(int) $product_id."'";
+                            AND dd.language_id = '" . $this->language->getContentLanguageID() . "')
+                 WHERE p2d.product_id = '" . (int) $product_id . "'";
         if (!empty($data['subsql_filter'])) {
-            $sql .= " ".$data['subsql_filter'];
+            $sql .= " " . $data['subsql_filter'];
         }
         $sql .= " ORDER BY d.sort_order ASC";
         $query = $this->db->query($sql);
@@ -390,7 +390,7 @@ class ModelCatalogDownload extends Model
         if (!empty($data['content_language_id'])) {
             $language_id = ( int ) $data['content_language_id'];
         } else {
-            $language_id = (int) $this->language->getContentLanguageID();
+            $language_id = $this->language->getContentLanguageID();
         }
 
         if ($mode == 'total_only') {
@@ -398,20 +398,20 @@ class ModelCatalogDownload extends Model
         } else {
             $total_sql = 'dd.*, d.*, 
                             (SELECT COUNT(*) as cnt 
-                            FROM '.$this->db->table("products_to_downloads").' ptd 
+                            FROM ' . $this->db->table("products_to_downloads") . ' ptd 
                             WHERE ptd.download_id = d.download_id) as product_count';
         }
 
         $sql = "SELECT $total_sql
-                FROM ".$this->db->table("downloads")." d
-                LEFT JOIN ".$this->db->table("download_descriptions")." dd
-                    ON (d.download_id = dd.download_id AND dd.language_id = '".$language_id."')";
+                FROM " . $this->db->table("downloads") . " d
+                LEFT JOIN " . $this->db->table("download_descriptions") . " dd
+                    ON (d.download_id = dd.download_id AND dd.language_id = '" . $language_id . "')";
 
         if (!empty($data['subsql_filter'])) {
-            $sql .= " WHERE ".$data['subsql_filter'];
+            $sql .= " WHERE " . $data['subsql_filter'];
         }
 
-        //If for total, we done building the query
+        //If for total, we're done building the query
         if ($mode == 'total_only') {
             $query = $this->db->query($sql);
             return $query->row['total'];
@@ -423,7 +423,7 @@ class ModelCatalogDownload extends Model
         ];
 
         if (isset($data['sort']) && in_array($data['sort'], array_keys($sort_data))) {
-            $sql .= " ORDER BY ".$data['sort'];
+            $sql .= " ORDER BY " . $data['sort'];
         } else {
             $sql .= " ORDER BY dd.name";
         }
@@ -443,7 +443,7 @@ class ModelCatalogDownload extends Model
                 $data['limit'] = 20;
             }
 
-            $sql .= " LIMIT ".(int) $data['start'].",".(int) $data['limit'];
+            $sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
         }
         $query = $this->db->query($sql);
         return $query->rows;
@@ -482,8 +482,8 @@ class ModelCatalogDownload extends Model
 
         $query = $this->db->query(
             "SELECT *
-            FROM ".$this->db->table("download_descriptions")." 
-            WHERE download_id = '".(int) $download_id."'"
+            FROM " . $this->db->table("download_descriptions") . " 
+            WHERE download_id = '" . (int) $download_id . "'"
         );
 
         foreach ($query->rows as $result) {
@@ -502,9 +502,9 @@ class ModelCatalogDownload extends Model
     public function addDownloadAttributeValues($download_id, $data)
     {
         $download_id = (int) $download_id;
-        $attr_mngr = new AAttribute_Manager('download_attribute');
-        $attribute_info = $attr_mngr->getAttributeTypeInfo('download_attribute');
-        $attributes = $attr_mngr->getAttributes(
+        $am = new AAttribute_Manager('download_attribute');
+        $attribute_info = $am->getAttributeTypeInfo('download_attribute');
+        $attributes = $am->getAttributes(
             [
                 'attribute_type_id' => $attribute_info['attribute_type_id'],
                 'limit'             => null,
@@ -515,8 +515,13 @@ class ModelCatalogDownload extends Model
             if (isset($data[$attribute['attribute_id']])) {
                 $value = serialize($data[$attribute['attribute_id']]);
                 $this->db->query(
-                    "INSERT INTO ".$this->db->table('download_attribute_values')." (attribute_id, download_id, attribute_value_ids)
-                     VALUES ('".$attribute['attribute_id']."', '".$download_id."', '".$value."')"
+                    "INSERT INTO " . $this->db->table('download_attribute_values') . " 
+                    (attribute_id, download_id, attribute_value_ids)
+                     VALUES (
+                         '" . $attribute['attribute_id'] . "', 
+                         '" . $download_id . "', 
+                         '" . $this->db->escape($value) . "'
+                     )"
                 );
             }
         }
@@ -531,9 +536,9 @@ class ModelCatalogDownload extends Model
     public function editDownloadAttributes($download_id, $data)
     {
         $download_id = (int) $download_id;
-        $attr_mngr = new AAttribute_Manager('download_attribute');
-        $attribute_info = $attr_mngr->getAttributeTypeInfo('download_attribute');
-        $attributes = $attr_mngr->getAttributes(
+        $am = new AAttribute_Manager('download_attribute');
+        $attribute_info = $am->getAttributeTypeInfo('download_attribute');
+        $attributes = $am->getAttributes(
             [
                 'attribute_type_id' => $attribute_info['attribute_type_id'],
                 'limit'             => null,
@@ -546,16 +551,16 @@ class ModelCatalogDownload extends Model
 
                 $this->db->query(
                     "DELETE
-                   FROM ".$this->db->table('download_attribute_values')."
-                   WHERE attribute_id = '".$attribute['attribute_id']."' 
-                        AND download_id = '".$download_id."'"
+                   FROM " . $this->db->table('download_attribute_values') . "
+                   WHERE attribute_id = '" . $attribute['attribute_id'] . "' 
+                        AND download_id = '" . $download_id . "'"
                 );
 
                 $this->db->query(
-                    "INSERT INTO ".$this->db->table('download_attribute_values')."
-                    SET attribute_value_ids = '".$this->db->escape($value)."',
-                        attribute_id = '".$attribute['attribute_id']."',
-                        download_id = '".$download_id."'"
+                    "INSERT INTO " . $this->db->table('download_attribute_values') . "
+                    SET attribute_value_ids = '" . $this->db->escape($value) . "',
+                        attribute_id = '" . $attribute['attribute_id'] . "',
+                        download_id = '" . $download_id . "'"
                 );
             }
         }
@@ -570,9 +575,9 @@ class ModelCatalogDownload extends Model
     public function getDownloadAttributes($download_id)
     {
         $download_id = (int) $download_id;
-        $attr_mngr = new AAttribute_Manager('download_attribute');
-        $attribute_info = $attr_mngr->getAttributeTypeInfo('download_attribute');
-        $attributes = $attr_mngr->getAttributes(
+        $am = new AAttribute_Manager('download_attribute');
+        $attribute_info = $am->getAttributeTypeInfo('download_attribute');
+        $attributes = $am->getAttributes(
             [
                 'attribute_type_id' => $attribute_info['attribute_type_id'],
                 'sort'              => 'sort_order',
@@ -584,15 +589,15 @@ class ModelCatalogDownload extends Model
         $output = $ids = [];
         foreach ($attributes as $attribute) {
             $ids[] = (int) $attribute['attribute_id'];
-            $attribute['values'] = $attr_mngr->getAttributeValues($attribute['attribute_id']);
+            $attribute['values'] = $am->getAttributeValues($attribute['attribute_id']);
             $output[$attribute['attribute_id']] = $attribute;
         }
         if ($ids) {
             $result = $this->db->query(
                 "SELECT attribute_id, attribute_value_ids as value
-                FROM ".$this->db->table('download_attribute_values')."
-                WHERE attribute_id IN (".implode(',', $ids).") 
-                    AND download_id = '".$download_id."'"
+                FROM " . $this->db->table('download_attribute_values') . "
+                WHERE attribute_id IN (" . implode(',', $ids) . ") 
+                    AND download_id = '" . $download_id . "'"
             );
 
             foreach ($result->rows as $row) {
@@ -620,34 +625,34 @@ class ModelCatalogDownload extends Model
 
         if (isset($data['expire_date'])) {
             if ($data['expire_date']) {
-                $expire = "'".$this->db->escape($data['expire_date'])."'";
+                $expire = "'" . $this->db->escape($data['expire_date']) . "'";
             } else {
                 $expire = 'NULL';
             }
-            $update[] = "`expire_date` = ".$expire;
+            $update[] = "`expire_date` = " . $expire;
         }
         if (isset($data['remaining_count'])) {
             if ($data['remaining_count'] != '') {
-                $update[] = "`remaining_count` = '".(int) $data['remaining_count']."'";
+                $update[] = "`remaining_count` = '" . (int) $data['remaining_count'] . "'";
             } else {
                 $update[] = "`remaining_count` = NULL";
             }
         }
         if (has_value($data['status'])) {
-            $update[] = "`status` = '".(int) $data['status']."'";
+            $update[] = "`status` = '" . (int) $data['status'] . "'";
         }
         if ($update) {
             $this->db->query(
-                "UPDATE ".$this->db->table("order_downloads")." 
-                SET ".implode(', ', $update)."
-                WHERE order_download_id='".(int) $order_download_id."'"
+                "UPDATE " . $this->db->table("order_downloads") . " 
+                SET " . implode(', ', $update) . "
+                WHERE order_download_id='" . (int) $order_download_id . "'"
             );
         }
         return true;
     }
 
     /**
-     * @param  int       $product_id
+     * @param int $product_id
      * @param int|string $download_id (optional)
      *
      * @return array
@@ -660,15 +665,15 @@ class ModelCatalogDownload extends Model
         }
         if ($download_id) {
             $sql = "SELECT DISTINCT op.order_id, op.order_product_id
-                    FROM ".$this->db->table('order_products')." op, 
-                         ".$this->db->table('order_downloads')." od
+                    FROM " . $this->db->table('order_products') . " op, 
+                         " . $this->db->table('order_downloads') . " od
                     WHERE  od.order_id = op.order_id 
-                        AND op.product_id = '".(int) $product_id."' 
-                        AND od.download_id='".(int) $download_id."'";
+                        AND op.product_id = '" . (int) $product_id . "' 
+                        AND od.download_id='" . (int) $download_id . "'";
         } else {
             $sql = "SELECT DISTINCT op.order_id, op.order_product_id
-                    FROM ".$this->db->table('order_products')." op 
-                    WHERE  op.product_id = '".(int) $product_id."'";
+                    FROM " . $this->db->table('order_products') . " op 
+                    WHERE  op.product_id = '" . (int) $product_id . "'";
         }
 
         $result = $this->db->query($sql);
@@ -704,7 +709,7 @@ class ModelCatalogDownload extends Model
         }
 
         if ($download_info['remaining_count'] == '0') {
-            $text_status[] = $this->language->get('text_download_remaining_count').': 0';
+            $text_status[] = $this->language->get('text_download_remaining_count') . ': 0';
         }
         //exclude "immediate" order status id (0)
         $activateStatuses = array_filter((array) unserialize($download_info['activate_order_status_id']));
@@ -712,12 +717,12 @@ class ModelCatalogDownload extends Model
             $names = [];
             if (!in_array((int) $download_info['order_status_id'], $activateStatuses)) {
                 $this->load->model('localisation/order_status');
-                foreach ($activateStatuses as $id){
+                foreach ($activateStatuses as $id) {
                     $names[] = $this->model_localisation_order_status->getOrderStatus($id)['name'];
                 }
                 $text_status[] = sprintf(
                     $this->language->get('text_order_status_required'),
-                    implode(',',$names)
+                    implode(',', $names)
                 );
             }
         }
