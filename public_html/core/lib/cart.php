@@ -1175,4 +1175,119 @@ class ACart
             $this->shopping_data->save('cart', $this->getCartKey(), $this->cust_data['cart']);
         }
     }
+
+    /**
+     * Returns list of payment methods available for the current cart content and totals.
+     * Rules are the same as on fast checkout:
+     *  - zero final total => "no_payment_required" only
+     *  - accepted payments restriction of selected shipping method (if cart requires shipping)
+     *  - payment minimum/maximum total
+     *  - payment customer groups
+     *  - payment location (via payment model getMethod())
+     *
+     * @param array $address payment address (country_id, zone_id etc.). Store location is used if empty.
+     * @param string $shippingMethodId selected shipping method id, e.g. "default_flat_rate_shipping.default_flat_rate_shipping"
+     * @param int|null $customerGroupId
+     *
+     * @return array
+     * @throws AException
+     */
+    public function getPaymentMethods(array $address = [], string $shippingMethodId = '', ?int $customerGroupId = null)
+    {
+        $output = [];
+        if (!$this->hasProducts() && !$this->getVirtualProducts()) {
+            return $output;
+        }
+
+        //nothing to pay
+        if (round($this->getFinalTotal(true), 4) == 0) {
+            return [
+                'no_payment_required' => [
+                    'id'         => 'no_payment_required',
+                    'title'      => $this->language->get('no_payment_required'),
+                    'sort_order' => 1,
+                ],
+            ];
+        }
+        $cartTotal = (float) $this->getFinalTotal();
+
+        if (!$address['country_id']) {
+            $address['country_id'] = (int) $this->config->get('config_country_id');
+            $address['zone_id'] = (int) $this->config->get('config_zone_id');
+        }
+
+        $customerGroupId = $customerGroupId
+            ?: (int) $this->cust_data['customer_group_id']
+            ?: (int) $this->config->get('config_customer_group_id');
+
+        /** @var ModelCheckoutExtension $extMdl */
+        $extMdl = $this->load->model('checkout/extension', 'storefront');
+        $payments = $extMdl->getExtensions('payment');
+
+        //restriction of accepted payments by selected shipping method
+        if ($shippingMethodId && $this->hasShipping()) {
+            $shippingExt = explode('.', $shippingMethodId)[0];
+            $acceptIds = $extMdl->getSettings($shippingExt)[$shippingExt . '_accept_payments'];
+            if (is_array($acceptIds) && $acceptIds) {
+                $payments = array_filter(
+                    $payments,
+                    function ($item) use ($acceptIds) {
+                        return in_array($item['extension_id'], $acceptIds);
+                    }
+                );
+            }
+        }
+
+        foreach ($payments as $payment) {
+            $pKey = $payment['key'];
+            $settings = $extMdl->getSettings($pKey);
+            $min = $settings[$pKey . '_payment_minimum_total'] ?? null;
+            $max = $settings[$pKey . '_payment_maximum_total'] ?? null;
+            $customerGroups = filterIntegerIdList((array) $settings[$pKey . '_customer_groups']);
+
+            if ((has_value($min) && $cartTotal < $min)
+                || (has_value($max) && $cartTotal > $max)
+                || ($customerGroups && !in_array($customerGroupId, $customerGroups))
+            ) {
+                continue;
+            }
+
+            try {
+                /** @var ModelExtensionDefaultCOD $mdl */
+                $mdl = $this->load->model('extension/' . $pKey, 'storefront');
+            } catch (AException $e) {
+                continue;
+            }
+            if (!$mdl || !method_exists($mdl, 'getMethod')) {
+                continue;
+            }
+            $method = $mdl->getMethod($address);
+            if (!$method) {
+                continue;
+            }
+
+            $icon = $settings[$pKey . '_payment_storefront_icon'];
+            if (has_value($icon)) {
+                $iconData = $extMdl->getSettingImage($icon);
+                $iconData['image'] = is_numeric($icon)
+                    ? $iconData['type_dir'] . '/' . $iconData['resource_path']
+                    : $icon;
+                $method['icon'] = $iconData;
+            }
+            if ($settings[$pKey . '_redirect_payment']) {
+                $method['is_redirect_payment'] = true;
+            }
+            $method['autoselect'] = (bool) $settings[$pKey . '_autoselect'];
+            $output[$pKey] = $method;
+        }
+
+        uasort(
+            $output,
+            function ($a, $b) {
+                return (int) $a['sort_order'] <=> (int) $b['sort_order'];
+            }
+        );
+
+        return $output;
+    }
 }

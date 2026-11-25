@@ -518,4 +518,48 @@ class ControllerResponsesProductProduct extends AController
         }
         $this->getCartContent();
     }
+
+    /**
+     * Returns JSON list of payment methods available for current cart content and totals
+     *
+     * @throws AException
+     */
+    public function getAvailablePayments()
+    {
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        $fcSession = (array) $this->session->data['fc'];
+
+        //payment address: fast checkout -> checkout -> customer default -> guest data
+        $address = [];
+        if ($this->customer->isLogged()) {
+            $addressId = $fcSession['payment_address_id']
+                ?: $this->session->data['payment_address_id']
+                ?: $this->customer->getAddressId();
+            if ($addressId) {
+                $this->loadModel('account/address');
+                $address = (array) $this->model_account_address->getAddress($addressId);
+            }
+        } else {
+            $address = (array) ($fcSession['guest'] ?: $this->session->data['guest']);
+        }
+
+        $shippingMethod = $fcSession['shipping_method'] ?: $this->session->data['shipping_method'];
+
+        $this->data['payment_methods'] = $this->cart->getPaymentMethods(
+            $address,
+            (string) $shippingMethod['id'],
+            $this->customer->getCustomerGroupId()
+        );
+
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+        $this->load->library('json');
+        $this->response->addJSONHeader();
+        $this->response->setOutput(
+            AJson::encode($this->data)
+        );
+    }
 }
