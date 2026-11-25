@@ -1,4 +1,4 @@
-<?php
+<?php 
 /*
  *   $Id$
  *
@@ -659,8 +659,7 @@ class ControllerResponsesCheckoutPay extends AController
             if (!$this->data['payment_method'] && !$selected_payment) {
                 //check autoselect payment
                 foreach ($this->data['payment_methods'] as $id => $payment) {
-                    $pSettings = $this->model_checkout_extension->getSettings($id);
-                    if ($pSettings[$id . '_autoselect']) {
+                    if ($payment['autoselect']) {
                         $this->data['payment_method'] = $id;
                     }
                 }
@@ -1636,58 +1635,7 @@ class ControllerResponsesCheckoutPay extends AController
      */
     protected function _get_payment_methods()
     {
-        $this->loadModel('checkout/extension');
         $this->loadModel('account/address');
-        $method_data = [];
-        $no_payment = false;
-
-        // If the total amount of order is zero - do redirect on the confirmation page
-        $total = $this->cart->buildTotalDisplay(true);
-
-        $results = $this->model_checkout_extension->getExtensions('payment');
-
-        $ac_payments = [];
-        //#Check config of the selected shipping method and see if we have accepted payments restriction
-        $shipping_ext = explode('.', $this->fc_session['shipping_method']['id']);
-        $ship_ext_config = $this->model_checkout_extension->getSettings($shipping_ext[0]);
-        $accept_payment_ids = $ship_ext_config[$shipping_ext[0] . "_accept_payments"];
-        if ($this->fc_session['used_balance_full']) {
-            $accept_payment_ids = [];
-        }
-
-        if (round($this->cart->getFinalTotal(), 4) == 0) {
-            $paymentHTML = $this->html->buildButton(
-                [
-                    'text'  => $this->language->get('order_confirm'),
-                    'title' => $this->language->get('order_confirm'),
-                    'id'    => 'no_payment_confirm',
-                    'style' => 'btn btn-primary btn-lg btn-block',
-                    'icon'  => 'fa fa-check',
-                ]
-            );
-            $this->view->assign('payment_form', $paymentHTML);
-            $no_payment = true;
-        } elseif (is_array($accept_payment_ids) && count($accept_payment_ids)) {
-            //#filter only allowed payment methods based on shipping
-            foreach ($results as $result) {
-                if (in_array($result['extension_id'], $accept_payment_ids)) {
-                    $ac_payments[] = $result;
-                }
-            }
-        } elseif ($this->fc_session['used_balance_full']) {
-            $paymentHTML = $this->html->buildButton(
-                [
-                    'text'  => $this->language->get('order_confirm'),
-                    'title' => $this->language->get('order_confirm'),
-                    'id'    => 'no_payment_confirm',
-                    'style' => 'btn btn-primary btn-lg btn-block',
-                    'icon'  => 'fa fa-check',
-                ]
-            );
-            $this->view->assign('payment_form', $paymentHTML);
-        } else {
-            $ac_payments = $results;
-        }
 
         $this->data['payment_address'] = $payment_address = $this->customer->isLogged()
             ? $this->model_account_address->getAddress(
@@ -1695,57 +1643,41 @@ class ControllerResponsesCheckoutPay extends AController
             )
             : $this->fc_session['guest'];
 
-        $paymentSettings = [];
-        $customerGroupId = $this->customer->getCustomerGroupId() ?? (int)$this->config->get('config_customer_group_id');
-        foreach ($ac_payments as $result) {
-            //#filter only allowed payment methods based on total min/max
-            $pkey = $result['key'];
-            $paymentSettings[$pkey] = $this->model_checkout_extension->getSettings($pkey);
-            $min = $paymentSettings[$pkey][$pkey . "_payment_minimum_total"] ?? null;
-            $max = $paymentSettings[$pkey][$pkey . "_payment_maximum_total"] ?? null;
-            $autoselect = $paymentSettings[$pkey][$pkey . "_autoselect"] ?? null;
-            $customerGroups = filterIntegerIdList((array)$paymentSettings[$pkey][$pkey . "_customer_groups"]);
+        $method_data = $this->cart->getPaymentMethods(
+            (array) $payment_address,
+            (string) $this->fc_session['shipping_method']['id'],
+            $this->customer->getCustomerGroupId()
+        );
 
-            if ((has_value($min) && $total['total'] < $min)
-                || (has_value($max) && $total['total'] > $max)
-                || ($customerGroups && !in_array($customerGroupId, $customerGroups))
-            ) {
-                continue;
-            }
-            /** @var ModelExtensionDefaultCOD $mdl */
-            $mdl = $this->loadModel('extension/' . $pkey);
-            $method = $mdl->getMethod($payment_address);
-            if ($method) {
-                $method_data[$pkey] = $method;
-                //# Add storefront icon if available
-                $icon = $paymentSettings[$pkey][$pkey . "_payment_storefront_icon"];
-                if (has_value($icon)) {
-                    $icon_data = $this->model_checkout_extension->getSettingImage($icon);
-                    $icon_data['image'] = is_numeric($icon)
-                        ? $icon_data['type_dir'] . '/' . $icon_data['resource_path']
-                        : $icon;
-                    $method_data[$pkey]['icon'] = $icon_data;
-                }
-                //check if this is a redirect type of the payment
-                if ($paymentSettings[$pkey][$pkey . "_redirect_payment"]) {
-                    $method_data[$pkey]['is_redirect_payment'] = true;
-                }
-                //if payment with autoselect presents in the list - set first as preselected
-                if (!$this->data['payment_method'] && $autoselect && !$this->fc_session['payment_method']) {
-                    $this->data['payment_method'] = $method['id'];
-                }
-            }
+        $no_payment = isset($method_data['no_payment_required']);
+        if (!$no_payment && $this->fc_session['used_balance_full']) {
+            //order is fully paid by balance - no payment methods needed
+            $method_data = [];
         }
 
-        if ($no_payment) {
-            $method_data = [
-                'no_payment_required' => [
-                    'id'         => 'no_payment_required',
-                    'title'      => $this->language->get('no_payment_required'),
-                    'sort_order' => 1,
+        if ($no_payment || $this->fc_session['used_balance_full']) {
+            $paymentHTML = $this->html->buildButton(
+                [
+                    'text'  => $this->language->get('order_confirm'),
+                    'title' => $this->language->get('order_confirm'),
+                    'id'    => 'no_payment_confirm',
+                    'style' => 'btn btn-primary btn-lg btn-block',
+                    'icon'  => 'fa fa-check',
                 ]
-            ];
+            );
+            $this->view->assign('payment_form', $paymentHTML);
         }
+
+        //if payment with autoselect presents in the list - set first as preselected
+        if (!$this->data['payment_method'] && !$this->fc_session['payment_method']) {
+            foreach ($method_data as $method) {
+                if ($method['autoselect']) {
+                    $this->data['payment_method'] = $method['id'];
+                    break;
+                }
+            }
+        }
+
         // if no "autoselect" methods - set first as preselected
         if (!$this->data['payment_method']) {
             if ($this->fc_session['payment_method']['id']

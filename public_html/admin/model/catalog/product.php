@@ -3248,4 +3248,201 @@ class ModelCatalogProduct extends Model
         $result = $this->db->query($query);
         return $result->rows;
     }
+
+    /**
+     * Builds SQL pre-filter (LIKE) for searching product mentions in text columns.
+     * Result needs to be checked by isProductMentionedInText() to exclude false positives.
+     *
+     * @param array $columns
+     * @param int $productId
+     * @param array $keywords - SEO keywords of product
+     *
+     * @return string
+     */
+    public function getProductMentionSqlCondition(array $columns, int $productId, array $keywords)
+    {
+        $needles = ['product_id=' . $productId];
+        foreach ($keywords as $keyword) {
+            $needles[] = $keyword;
+        }
+        $arWhere = [];
+        foreach ($columns as $column) {
+            foreach ($needles as $needle) {
+                $arWhere[] = $column . " LIKE '%" . $this->db->escape(addcslashes($needle, '%_\\')) . "%'";
+            }
+        }
+        return $arWhere ? '(' . implode(' OR ', $arWhere) . ')' : '0';
+    }
+
+    /**
+     * Checks if text (html, url) contains link to the product
+     *
+     * @param string|null $text
+     * @param int $productId
+     * @param array $keywords - SEO keywords of product
+     *
+     * @return bool
+     */
+    public function isProductMentionedInText(?string $text, int $productId, array $keywords)
+    {
+        if (!$text) {
+            return false;
+        }
+        $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        if (preg_match('/[?&]product_id=' . $productId . '(?!\d)/', $text)) {
+            return true;
+        }
+        foreach ($keywords as $keyword) {
+            $pattern = '/(?:^|[\/"\'\s=])' . preg_quote($keyword, '/') . '(?=$|[\/"\'\s?#&<>])/iu';
+            if (preg_match($pattern, $text)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns custom blocks (listing and html) which mention the product
+     *
+     * @param int $productId
+     * @param array $keywords - SEO keywords of product
+     * @param array $collectionIds - IDs of collections which contain the product
+     *
+     * @return array
+     * @throws AException
+     */
+    public function getCustomBlocksMentioningProduct(int $productId, array $keywords, array $collectionIds = [])
+    {
+        $languageId = (int) $this->language->getContentLanguageID();
+        $sql = "SELECT cb.custom_block_id, b.block_txt_id, bd.name, bd.language_id, bd.content,
+                    EXISTS(
+                        SELECT 1 FROM " . $this->db->table('custom_lists') . " cl
+                        WHERE cl.custom_block_id = cb.custom_block_id
+                            AND cl.data_type = 'product_id' AND cl.id = " . $productId . "
+                    ) as in_list
+                FROM " . $this->db->table('custom_blocks') . " cb
+                INNER JOIN " . $this->db->table('blocks') . " b
+                    ON b.block_id = cb.block_id
+                INNER JOIN " . $this->db->table('block_descriptions') . " bd
+                    ON bd.custom_block_id = cb.custom_block_id
+                WHERE b.block_txt_id IN ('listing_block', 'html_block')
+                ORDER BY cb.custom_block_id, (bd.language_id = " . $languageId . ") DESC";
+        $result = $this->db->query($sql);
+
+        $output = [];
+        foreach ($result->rows as $row) {
+            $id = (int) $row['custom_block_id'];
+            if (!isset($output[$id])) {
+                //first row is a row with content language (see ORDER BY)
+                $output[$id] = [
+                    'custom_block_id' => $id,
+                    'block_txt_id'    => $row['block_txt_id'],
+                    'name'            => $row['name'],
+                    'mentioned'       => false,
+                ];
+            }
+            if ($output[$id]['mentioned']) {
+                continue;
+            }
+            if ($row['block_txt_id'] == 'listing_block') {
+                $content = is_serialized($row['content']) ? unserialize($row['content']) : [];
+                $mentioned = ($row['in_list'] && str_contains((string) ($content['listing_datasource'] ?? ''), 'custom_products'))
+                    || (($content['listing_datasource'] ?? '') == 'collection'
+                        && in_array((int) ($content['collection_id'] ?? 0), $collectionIds));
+            } else {
+                $mentioned = $this->isProductMentionedInText($row['content'], $productId, $keywords);
+            }
+            $output[$id]['mentioned'] = $mentioned;
+        }
+        return array_values(array_filter($output, fn($item) => $item['mentioned']));
+    }
+
+    /**
+     * Returns banners (banner_manager extension) which mention the product in the target URL or description
+     * and banner blocks which contain these banners
+     *
+     * @param int $productId
+     * @param array $keywords - SEO keywords of product
+     *
+     * @return array ['banners' => [...], 'blocks' => [...]]
+     * @throws AException
+     */
+    public function getBannersMentioningProduct(int $productId, array $keywords)
+    {
+        $output = ['banners' => [], 'blocks' => []];
+        $exists = $this->db->query(
+            "SHOW TABLES LIKE '" . $this->db->escape($this->db->table('banners')) . "'"
+        );
+        if (!$exists->num_rows) {
+            return $output;
+        }
+        $languageId = (int) $this->language->getContentLanguageID();
+        $result = $this->db->query(
+            "SELECT b.banner_id, b.banner_group_name, b.target_url, bd.name, bd.language_id, bd.description, bd.meta
+            FROM " . $this->db->table('banners') . " b
+            LEFT JOIN " . $this->db->table('banner_descriptions') . " bd
+                ON bd.banner_id = b.banner_id
+            WHERE " . $this->getProductMentionSqlCondition(
+                ['b.target_url', 'bd.description', 'bd.meta'],
+                $productId,
+                $keywords
+            ) . "
+            ORDER BY b.banner_id, (bd.language_id = " . $languageId . ") DESC"
+        );
+
+        foreach ($result->rows as $row) {
+            $id = (int) $row['banner_id'];
+            if (isset($output['banners'][$id])) {
+                continue;
+            }
+            if ($this->isProductMentionedInText($row['target_url'], $productId, $keywords)
+                || $this->isProductMentionedInText($row['description'], $productId, $keywords)
+                || $this->isProductMentionedInText($row['meta'], $productId, $keywords)
+            ) {
+                $output['banners'][$id] = [
+                    'banner_id'         => $id,
+                    'name'              => $row['name'],
+                    'banner_group_name' => $row['banner_group_name'],
+                ];
+            }
+        }
+        if (!$output['banners']) {
+            return $output;
+        }
+
+        $bannerIds = array_keys($output['banners']);
+        $groups = array_unique(array_filter(array_column($output['banners'], 'banner_group_name')));
+
+        $result = $this->db->query(
+            "SELECT cb.custom_block_id, bd.name, bd.language_id, bd.content,
+                (SELECT COUNT(*) FROM " . $this->db->table('custom_lists') . " cl
+                    WHERE cl.custom_block_id = cb.custom_block_id
+                        AND cl.data_type = 'banner_id'
+                        AND cl.id IN (" . implode(',', $bannerIds) . ")
+                ) as in_list
+            FROM " . $this->db->table('custom_blocks') . " cb
+            INNER JOIN " . $this->db->table('blocks') . " b
+                ON b.block_id = cb.block_id
+            INNER JOIN " . $this->db->table('block_descriptions') . " bd
+                ON bd.custom_block_id = cb.custom_block_id
+            WHERE b.block_txt_id = 'banner_block'
+            ORDER BY cb.custom_block_id, (bd.language_id = " . $languageId . ") DESC"
+        );
+        foreach ($result->rows as $row) {
+            $id = (int) $row['custom_block_id'];
+            if (isset($output['blocks'][$id])) {
+                continue;
+            }
+            $content = is_serialized($row['content']) ? unserialize($row['content']) : [];
+            if ($row['in_list'] || (($content['banner_group_name'] ?? '') && in_array($content['banner_group_name'], $groups))) {
+                $output['blocks'][$id] = [
+                    'custom_block_id' => $id,
+                    'name'            => $row['name'],
+                ];
+            }
+        }
+        $output['banners'] = array_values($output['banners']);
+        $output['blocks'] = array_values($output['blocks']);
+        return $output;
+    }
 }

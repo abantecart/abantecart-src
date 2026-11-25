@@ -671,4 +671,56 @@
 		<key>text_fixed_amount_off</key>
 		<value><![CDATA[Fixed Amount Off]]></value>
 	</definition>
+	<definition>
+		<key>text_product_mentions</key>
+		<value><![CDATA[Mentions]]></value>
+	</definition>
+	<definition>
+		<key>text_mentions_storefront</key>
+		<value><![CDATA[Storefront]]></value>
+	</definition>
+	<definition>
+		<key>text_mentions_admin</key>
+		<value><![CDATA[Admin]]></value>
+	</definition>
+	<definition>
+		<key>text_mention_product</key>
+		<value><![CDATA[Product Page]]></value>
+	</definition>
+	<definition>
+		<key>text_mention_product_category</key>
+		<value><![CDATA[Product Page within Category]]></value>
+	</definition>
+	<definition>
+		<key>text_mention_manufacturer</key>
+		<value><![CDATA[Brand]]></value>
+	</definition>
+	<definition>
+		<key>text_mention_categories</key>
+		<value><![CDATA[Categories]]></value>
+	</definition>
+	<definition>
+		<key>text_mention_collections</key>
+		<value><![CDATA[Collections]]></value>
+	</definition>
+	<definition>
+		<key>text_mention_contents</key>
+		<value><![CDATA[Content Pages]]></value>
+	</definition>
+	<definition>
+		<key>text_mention_listing_blocks</key>
+		<value><![CDATA[Custom Blocks]]></value>
+	</definition>
+	<definition>
+		<key>text_mention_banner_blocks</key>
+		<value><![CDATA[Banner Blocks]]></value>
+	</definition>
+	<definition>
+		<key>text_mention_banners</key>
+		<value><![CDATA[Banners]]></value>
+	</definition>
+	<definition>
+		<key>text_mention_reviews</key>
+		<value><![CDATA[Reviews]]></value>
+	</definition>
 </definitions>
