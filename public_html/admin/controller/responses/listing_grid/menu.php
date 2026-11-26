@@ -261,7 +261,7 @@ class ControllerResponsesListingGridMenu extends AController
                 }
 
                 if( $key == 'settings'){
-                    $value = array_merge($menuData[$key], $value);
+                    $value = array_merge($menuData[$key], (array)$value);
                     $value = serialize($value);
                 }
                 $data = [$key => $value];
