@@ -678,7 +678,7 @@ if ($error){ ?>
                 items: [{
                     item_name: <?php js_echo($heading_title);?>,
                     item_id: <?php echo (int)$product_info['product_id']; ?>,
-                    price: $('#product_price_num') ? $('#product_price_num').val() :  0 ,
+                    price: $('#product_price_num').length > 0 ? $('#product_price_num').val() :  0 ,
                     item_brand: <?php js_echo($manufacturer);?>,
                     quantity: <?php echo (int)$form['minimum']->value;?>
                 }]
@@ -818,7 +818,8 @@ if ($error){ ?>
                     thumbnails.addClass('spinner-grow text-light');
                 },
                 success: function (data) {
-                    if (data.length === 0) {
+                    //no images - keep current gallery
+                    if (!data || !data.images || Object.keys(data.images).length < 1) {
                         thumbnails.removeClass('spinner-grow text-light');
                         return false;
                     }
@@ -826,7 +827,9 @@ if ($error){ ?>
                     let mainPicHtml = '', smallPicsHtml = '';
                     for (let key in data.images) {
                         let image = data.images[key];
-                        if(image.length == 0 ){ continue; }
+                        if (image.length === 0) {
+                            continue;
+                        }
                         let active = parseInt(key) === 0 ? 'active' : '';
                         mainPicHtml += '<div class="carousel-item ' + active + '">';
                         smallPicsHtml += '<li data-bs-target="#carouselProductImages" data-bs-slide-to="' + key +
@@ -838,29 +841,28 @@ if ($error){ ?>
                         } else {
 
                             mainPicHtml += '<style>' +
-                            '@media (min-width: 577px) {'+
-                            '.imgc'+key+' {'+
-                                    'width: '+image.thumb2_width+'px;'+
-                                    'height: '+image.thumb2_height+'px;'+
-                                '}'+
-                            '}'+
-                            '</style>';
-                            mainPicHtml += '<img class="zoom-trigger d-block w-auto mx-auto product-main-img imgc'+key+'" ' +
-                                'data-zoom="'+image.main_url+'" ' +
-                                'alt="'+escapeHtml(image.title)+'" ' +
-                                'title="'+escapeHtml(image.description)+'" ' +
-                                'src="' + image.thumb2_url + '"/>';
+                                '@media (min-width: 577px) {' +
+                                '.imgc' + key + ' {' +
+                                'width: ' + image.thumb2_width + 'px;' +
+                                'height: ' + image.thumb2_height + 'px;' +
+                                '}' +
+                                '}' +
+                                '</style>';
+                            mainPicHtml += '<img class="zoom-trigger d-block w-auto mx-auto product-main-img imgc' + key + '" ' +
+                                'data-zoom="' + escapeHtml(image.main_url) + '" ' +
+                                'alt="' + escapeHtml(image.title) + '" ' +
+                                'title="' + escapeHtml(image.description) + '" ' +
+                                'src="' + escapeHtml(image.thumb2_url) + '"/>';
 
                             smallPicsHtml += '<img class="d-block wid-100 rounded" ' +
-                                'style="width: '+image.thumb_width+'px; height: '+image.thumb_height+'px;" ' +
-                                'src="' + image.thumb_url + '" ' +
-                                'alt="'+escapeHtml(image.title)+'" ' +
-                                'title="'+escapeHtml(image.description)+'"/>';
+                                'style="width: ' + image.thumb_width + 'px; height: ' + image.thumb_height + 'px;" ' +
+                                'src="' + escapeHtml(image.thumb_url) + '" ' +
+                                'alt="' + escapeHtml(image.title) + '" ' +
+                                'title="' + escapeHtml(image.description) + '"/>';
                         }
                         mainPicHtml += '</div>';
                         smallPicsHtml += '</li>';
                     }
-
                     $('#carouselProductImages .carousel-inner').html(mainPicHtml)
                     $('#carouselProductImages ul.thumbnails').html(smallPicsHtml);
                     initZoom();
@@ -881,7 +883,7 @@ if ($error){ ?>
                         $('.total-price-holder').show()
                             .css('visibility', 'visible');
                         $('.total-price').html(data.total);
-                        if( $('product_price_num') ){
+                        if( $('#product_price_num').length > 0 ){
                             $('#product_price_num').val( data.raw_price_num);
                             $('#product_total_num').val( data.raw_total_num);
                         }
@@ -948,7 +950,7 @@ if ($error){ ?>
 
                         $('input[name=\'name\']').val('');
                         $('textarea[name=\'text\']').val('');
-                        $('input[name=\'rating\']:checked').attr('checked', '');
+                        $('input[name=\'rating\']:checked').prop('checked', false);
                     }
                     $('input[name=\'captcha\']').val('');
                     $('img[alt=captcha]').attr('src', $('img[alt=captcha]').attr('src') + '&' + Math.random());
@@ -958,7 +960,7 @@ if ($error){ ?>
 
         $(document).on('click','#wishlist_add', function(e) {
             e.preventDefault();
-            var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+            var dismiss = '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
             $.ajax({
                 type: 'POST',
                 url: '<?php echo $product_wishlist_add_url; ?>',
@@ -972,17 +974,17 @@ if ($error){ ?>
                 },
                 error: function (jqXHR, exception) {
                     var text = jqXHR.statusText + ": " + jqXHR.responseText;
-                    $('.wishlist .alert').remove();
-                    $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
+                    $('.wishlist-alert').remove();
+                    $('.wishlist').after('<div class="wishlist-alert alert alert-danger alert-dismissible">' + text + dismiss + '</div>');
                     $('#wishlist_add').removeClass('d-none').addClass('d-block');
                 },
                 success: function (data) {
                     if (data.error) {
-                        $('.wishlist .alert').remove();
-                        $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+                        $('.wishlist-alert').remove();
+                        $('.wishlist').after('<div class="wishlist-alert alert alert-danger alert-dismissible">' + data.error + dismiss + '</div>');
                         $('#wishlist_add').removeClass('d-none').addClass('d-block');
                     } else {
-                        $('.wishlist .alert').remove();
+                        $('.wishlist-alert').remove();
                         $('#wishlist_remove').removeClass('d-none').addClass('d-block');
                         ga_event_fire("add_to_wishlist");
                     }
@@ -992,7 +994,7 @@ if ($error){ ?>
 
         $(document).on('click','#wishlist_remove', function(e) {
             e.preventDefault();
-            var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+            var dismiss = '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
             $.ajax({
                 type: 'POST',
                 url: '<?php echo $product_wishlist_remove_url; ?>',
@@ -1006,17 +1008,17 @@ if ($error){ ?>
                 },
                 error: function (jqXHR, exception) {
                     var text = jqXHR.statusText + ": " + jqXHR.responseText;
-                    $('.wishlist .alert').remove();
-                    $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
+                    $('.wishlist-alert').remove();
+                    $('.wishlist').after('<div class="wishlist-alert alert alert-danger alert-dismissible">' + text + dismiss + '</div>');
                     $('#wishlist_remove').removeClass('d-none').addClass('d-block');
                 },
                 success: function (data) {
                     if (data.error) {
-                        $('.wishlist .alert').remove();
-                        $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+                        $('.wishlist-alert').remove();
+                        $('.wishlist').after('<div class="wishlist-alert alert alert-danger alert-dismissible">' + data.error + dismiss + '</div>');
                         $('#wishlist_remove').removeClass('d-none').addClass('d-block');
                     } else {
-                        $('.wishlist .alert').remove();
+                        $('.wishlist-alert').remove();
                         $('#wishlist_add').removeClass('d-none').addClass('d-block');
                     }
                 }
@@ -1034,13 +1036,13 @@ if ($error){ ?>
             let prodName = card.find('h1').text();
             gtag("event", evtName, {
                 currency: default_currency,
-                value: $('#product_total_num') ? $('#product_total_num').val() :  0 ,
+                value: $('#product_total_num').length > 0 ? $('#product_total_num').val() :  0 ,
                 items: [
                     {
                         item_id: <?php echo (int)$product_info['product_id']; ?>,
                         item_name: prodName.trim(),
                         affiliation: storeName,
-                        price: $('#product_price_num') ? $('#product_price_num').val() :  0 ,
+                        price: $('#product_price_num').length > 0 ? $('#product_price_num').val() :  0 ,
                         quantity: $('#product_quantity').val()
                     }
                 ]
