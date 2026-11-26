@@ -22,7 +22,8 @@
         "symfony/brevo-mailer": "v7.4.13",
         "symfony/mail-pace-mailer": "v7.4.0",
         "google/recaptcha": "1.3.1",
-        "mustache/mustache": "v2.14.2"
+        "mustache/mustache": "v2.14.2",
+        "guzzlehttp/guzzle": "8.6.0"
     },
     "suggest": {
         "mysql": ">=8.0.19",
