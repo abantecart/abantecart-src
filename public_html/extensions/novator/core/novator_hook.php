@@ -7,8 +7,11 @@ if (! defined ( 'DIR_CORE' )) {
 require_once(__DIR__.DS.'helper.php');
 
 class ExtensionNovator extends Extension {
-    public function onHook_InitEnd(){
-        if(Registry::getInstance()->get('config')->get('novator_status') && IS_ADMIN !== true) {
+    public function onAHook_InitEnd(){
+        if(Registry::getInstance()->get('config')->get('novator_status') 
+            && IS_ADMIN !== true
+            && Registry::getInstance()->get('config')->get('config_storefront_template') == 'novator'
+        ) {
             Registry::getInstance()->get('language')->load('novator/novator');
         }
     }
