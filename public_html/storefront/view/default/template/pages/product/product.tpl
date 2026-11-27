@@ -632,7 +632,7 @@ if( $hookVarArray ){
                 items: [{
                     item_name: <?php js_echo($heading_title);?>,
                     item_id: <?php echo (int)$product_info['product_id']; ?>,
-                    price: $('#product_price_num') ? $('#product_price_num').val() :  0 ,
+                    price: $('#product_price_num').length>0 ? $('#product_price_num').val() :  0 ,
                     item_brand: <?php js_echo($manufacturer);?>,
                     quantity: <?php echo (int)$form['minimum']->value;?>
                 }]
@@ -663,19 +663,19 @@ if( $hookVarArray ){
         start_easyzoom();
         display_total_price();
 
-        $('#product_add_to_cart').click(function (e) {
+        $(document).on('click', '#product_add_to_cart', function (e) {
             e.preventDefault();
             ga_event_fire('add_to_cart');
             $('#product').submit();
         });
-        $('#review_submit').click(function () {
+        $(document).on('click', '#review_submit', function () {
             review();
         });
 
         //process clicks in review pagination
         $('#current_reviews').on('click', '.pagination a', function () {
 <?php // note: if direct_url property is set in the pagination show it but works with ajax-url (data-url attribute) ?>
-            reload_review($(this).attr('data-url')?.$(this).attr('href'));
+            reload_review($(this).attr('data-url') || $(this).attr('href'));
             $([document.documentElement, document.body]).animate(
                 {
                     scrollTop: $("#headingReview").offset().top
@@ -686,21 +686,16 @@ if( $hookVarArray ){
         });
 
         /* Process images for product options */
-        let $select = $('input[name^=\'option\'], select[name^=\'option\']');
-        $select.on('change',function () {
+        const optionSelector = 'input[name^=\'option\'], select[name^=\'option\']';
+        const $select = $(optionSelector);
+        $(document).on('change', optionSelector, function () {
             let valId = $(this).val();
             valId = this.type === 'checkbox' && $(this).attr('data-attribute-value-id') ? $(this).attr('data-attribute-value-id') : valId;
             load_option_images(valId, '<?php echo $product_id; ?>');
             display_total_price();
         });
 
-        $('input[name=quantity]').on(
-            'change keyup',
-            function () {
-                display_total_price();
-            }
-        );
-
+        $(document).on('change keyup', 'input[name=quantity]', display_total_price );
 
         $.ajax({
             url: '<?php echo $update_view_count_url; ?>',
@@ -796,7 +791,7 @@ if( $hookVarArray ){
                                 smallPicsHtml += '<a data-href="' + image.main_url + '" href="Javascript:void(0);" ' +
                                             'data-standard="' + tmb2_url + '">' +
                                             '<img class="border" style="width:' + image.thumb_width + 'px; height:' + image.thumb_height + 'px;" '+
-                                                ' src="' + tmb_url + '" alt="' + image.title + '" title="' + image.title + '" /></a>';
+                                                ' src="' + tmb_url + '" alt="' + escapeHtml(image.title) + '" title="' + escapeHtml(image.title) + '" /></a>';
                             }
                             smallPicsHtml += '</li>';
                         }
@@ -828,7 +823,7 @@ if( $hookVarArray ){
                         $('.total-price-holder').show()
                             .css('visibility', 'visible');
                         $('.total-price').html(data.total);
-                        if( $('product_price_num') ){
+                        if( $('#product_price_num').length > 0 ){
                             $('#product_price_num').val( data.raw_price_num);
                             $('#product_total_num').val( data.raw_total_num);
                         }
@@ -895,7 +890,7 @@ if( $hookVarArray ){
 
                         $('input[name=\'name\']').val('');
                         $('textarea[name=\'text\']').val('');
-                        $('input[name=\'rating\']:checked').attr('checked', '');
+                        $('input[name=\'rating\']:checked').prop('checked', false);
                     }
                     $('input[name=\'captcha\']').val('');
                     $('img[alt=captcha]').attr('src', $('img[alt=captcha]').attr('src') + '&' + Math.random());
@@ -905,7 +900,7 @@ if( $hookVarArray ){
 
         $(document).on('click','#wishlist_add', function(e) {
             e.preventDefault();
-            var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+            var dismiss = '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
             $.ajax({
                 type: 'POST',
                 url: '<?php echo $product_wishlist_add_url; ?>',
@@ -919,17 +914,17 @@ if( $hookVarArray ){
                 },
                 error: function (jqXHR, exception) {
                     var text = jqXHR.statusText + ": " + jqXHR.responseText;
-                    $('.wishlist .alert').remove();
-                    $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
+                    $('.wishlist-alert').remove();
+                    $('.wishlist').after('<div class="wishlist-alert alert alert-danger alert-dismissible">' + text + dismiss + '</div>');
                     $('#wishlist_add').removeClass('d-none').addClass('d-block');
                 },
                 success: function (data) {
                     if (data.error) {
-                        $('.wishlist .alert').remove();
-                        $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+                        $('.wishlist-alert').remove();
+                        $('.wishlist').after('<div class="wishlist-alert alert alert-danger alert-dismissible">' + data.error + dismiss + '</div>');
                         $('#wishlist_add').removeClass('d-none').addClass('d-block');
                     } else {
-                        $('.wishlist .alert').remove();
+                        $('.wishlist-alert').remove();
                         $('#wishlist_remove').removeClass('d-none').addClass('d-block');
                         ga_event_fire("add_to_wishlist");
                     }
@@ -939,7 +934,7 @@ if( $hookVarArray ){
 
         $(document).on('click','#wishlist_remove', function(e) {
             e.preventDefault();
-            var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+            var dismiss = '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
             $.ajax({
                 type: 'POST',
                 url: '<?php echo $product_wishlist_remove_url; ?>',
@@ -953,17 +948,17 @@ if( $hookVarArray ){
                 },
                 error: function (jqXHR, exception) {
                     var text = jqXHR.statusText + ": " + jqXHR.responseText;
-                    $('.wishlist .alert').remove();
-                    $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
+                    $('.wishlist-alert').remove();
+                    $('.wishlist').after('<div class="wishlist-alert alert alert-danger alert-dismissible">' + text + dismiss + '</div>');
                     $('#wishlist_remove').removeClass('d-none').addClass('d-block');
                 },
                 success: function (data) {
                     if (data.error) {
-                        $('.wishlist .alert').remove();
-                        $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+                        $('.wishlist-alert').remove();
+                        $('.wishlist').after('<div class="wishlist-alert alert alert-danger alert-dismissible">' + data.error + dismiss + '</div>');
                         $('#wishlist_remove').removeClass('d-none').addClass('d-block');
                     } else {
-                        $('.wishlist .alert').remove();
+                        $('.wishlist-alert').remove();
                         $('#wishlist_add').removeClass('d-none').addClass('d-block');
                     }
                 }
@@ -981,13 +976,13 @@ if( $hookVarArray ){
             let prodName = card.find('h1').text();
             gtag("event", evtName, {
                 currency: default_currency,
-                value: $('#product_total_num') ? $('#product_total_num').val() :  0 ,
+                value: $('#product_total_num').length >0 ? $('#product_total_num').val() :  0 ,
                 items: [
                     {
                         item_id: <?php echo (int)$product_info['product_id']; ?>,
                         item_name: prodName.trim(),
                         affiliation: storeName,
-                        price: $('#product_price_num') ? $('#product_price_num').val() :  0 ,
+                        price: $('#product_price_num').length > 0 ? $('#product_price_num').val() :  0 ,
                         quantity: $('#product_quantity').val()
                     }
                 ]
