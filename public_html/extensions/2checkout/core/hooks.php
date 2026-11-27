@@ -41,7 +41,7 @@ class Extension2Checkout extends Extension
     }
 
     //delete sign after success
-    public function onControllerPagesCheckoutFinalize_UpdateData()
+    public function onControllerPagesCheckoutFinalize_ProcessData()
     {
         unset($this->baseObject->session->data['2checkout_pending_ipn_skip']);
     }
