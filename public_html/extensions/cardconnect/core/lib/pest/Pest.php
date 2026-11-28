@@ -13,13 +13,13 @@ class Pest
     /**
      * @var array Default CURL options
      */
-    public $curl_opts = array(
+    public $curl_opts = [
         CURLOPT_RETURNTRANSFER => true, // return result instead of echoing
         CURLOPT_SSL_VERIFYPEER => false, // stop cURL from verifying the peer's certificate
         CURLOPT_FOLLOWLOCATION => false, // follow redirects, Location: headers
         CURLOPT_MAXREDIRS      => 10, // but dont redirect more than 10 times
-        CURLOPT_HTTPHEADER     => array(),
-    );
+        CURLOPT_HTTPHEADER     => [],
+    ];
 
     /**
      * @var string Base URL
@@ -71,7 +71,7 @@ class Pest
 
         // The callback to handle return headers
         // Using PHP 5.2, it cannot be initialised in the static context
-        $this->curl_opts[CURLOPT_HEADERFUNCTION] = array($this, 'handle_header');
+        $this->curl_opts[CURLOPT_HEADERFUNCTION] = [$this, 'handle_header'];
     }
 
     /**
@@ -100,7 +100,7 @@ class Pest
         if (empty($cookies)) {
             return;
         }
-        $cookie_list = array();
+        $cookie_list = [];
         foreach ($cookies as $cookie_name => $cookie_value) {
             $cookie = urlencode($cookie_name);
             if (isset($cookie_value)) {
@@ -139,7 +139,7 @@ class Pest
      *
      * @return string
      */
-    public function get($url, $data = array(), $headers = array())
+    public function get($url, $data = [], $headers = [])
     {
         if (!empty($data)) {
             $pos = strpos($url, '?');
@@ -177,16 +177,16 @@ class Pest
 
         $curl = curl_init($url);
         if ($curl === false) {
-            throw new Pest_Curl_Init($this->processError(curl_error($curl), 'curl'));
+            throw new Pest_Curl_Init('Unable to initialize cURL for URL: '.$url);
         }
 
         foreach ($opts as $opt => $val) {
             curl_setopt($curl, $opt, $val);
         }
 
-        $this->last_request = array(
+        $this->last_request = [
             'url' => $url,
-        );
+        ];
 
         if (isset($opts[CURLOPT_CUSTOMREQUEST])) {
             $this->last_request['method'] = $opts[CURLOPT_CUSTOMREQUEST];
@@ -227,7 +227,7 @@ class Pest
             return $headers;
         }
 
-        $flattened = array();
+        $flattened = [];
         foreach ($headers as $name => $value) {
             $flattened[] = $name.': '.$value;
         }
@@ -262,8 +262,8 @@ class Pest
      */
     private function doRequest($curl)
     {
-        $this->last_headers = array();
-        $this->last_response = array();
+        $this->last_headers = [];
+        $this->last_response = [];
 
         // curl_error() needs to be tested right after function failure
         $this->last_response["body"] = curl_exec($curl);
@@ -396,7 +396,7 @@ class Pest
      *
      * @return string
      */
-    public function post($url, $data, $headers = array())
+    public function post($url, $data, $headers = [])
     {
         $data = $this->prepData($data);
 
@@ -450,7 +450,7 @@ class Pest
      *
      * @return string
      */
-    public function put($url, $data, $headers = array())
+    public function put($url, $data, $headers = [])
     {
         $data = $this->prepData($data);
 
@@ -479,7 +479,7 @@ class Pest
      *
      * @return string
      */
-    public function patch($url, $data, $headers = array())
+    public function patch($url, $data, $headers = [])
     {
         $data = (is_array($data)) ? http_build_query($data) : $data;
 
@@ -505,7 +505,7 @@ class Pest
      *
      * @return string
      */
-    public function delete($url, $headers = array())
+    public function delete($url, $headers = [])
     {
         $curl_opts = $this->curl_opts;
         $curl_opts[CURLOPT_CUSTOMREQUEST] = 'DELETE';
