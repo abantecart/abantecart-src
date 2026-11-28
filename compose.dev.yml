@@ -1,0 +1,81 @@
+services:
+  web:
+    image: nginx:latest
+    volumes:
+      # Mount the src
+      - ./:/var/www
+      # Mount nginx.conf
+      - ./docker-dev/nginx/nginx.conf.template:/etc/nginx/templates/nginx.conf.template:ro
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:80"
+    environment:
+      NGINX_HOST: "${NGINX_HOST}"
+      NGINX_ADMINER_HOST: "${NGINX_ADMINER_HOST}"
+      NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
+    networks:
+      - abantecart-dev
+    depends_on:
+      php-fpm:
+        condition: service_started
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: ./docker-dev/php-fpm/Dockerfile
+    env_file:
+      - .env
+    environment:
+      XDEBUG_MODE: "${XDEBUG_MODE:-off}"
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ./:/var/www
+      - ./docker-dev/php-fpm/conf.d/98-xdebug.ini:/usr/local/etc/php/conf.d/98-xdebug.ini:ro
+      - ./docker-dev/php-fpm/conf.d/99-custom.ini:/usr/local/etc/php/conf.d/99-custom.ini:ro
+    restart: unless-stopped
+    networks:
+      - abantecart-dev
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+  mariadb:
+    image: "mariadb:${MARIADB_VERSION}"
+    restart: unless-stopped
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+    expose:
+      - 3306
+    networks:
+      - abantecart-dev
+
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    networks:
+      - abantecart-dev
+
+  adminer:
+    image: adminer:latest
+    restart: unless-stopped
+    environment:
+      ADMINER_DEFAULT_SERVER: mariadb
+    networks:
+      - abantecart-dev
+
+networks:
+  abantecart-dev:
+
+volumes:
+  mariadb-data:

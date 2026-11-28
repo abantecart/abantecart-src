@@ -6,6 +6,7 @@
 *.swp
 .svn
 .DS_Store
+.env
 
 #abantecart working files
 /public_html/admin/system/updates.xml
