@@ -47,7 +47,7 @@ class ControllerPagesExtensionStripeSettings extends AController
         $this->loadLanguage('stripe/stripe');
         $this->document->setTitle($this->language->get('stripe_name'));
         $this->load->model('setting/setting');
-        $store_id = $this->session->data['current_store_id'];
+        $store_id = (int)$this->session->data['current_store_id'];
 
         $this->document->addStyle(
             [
