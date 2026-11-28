@@ -70,6 +70,7 @@ class ModelCatalogManufacturer extends Model
         } else {
             $cache_key = 'manufacturer.list.store_' . $store_id;
         }
+        $data['limit'] = (int)$data['limit'] ?: 200;
 
         $output = $this->cache->pull($cache_key);
         if ($output !== false) {
