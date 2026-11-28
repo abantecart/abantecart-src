@@ -187,7 +187,7 @@ class ModelSettingStore extends Model
             "banner_stat",
             "user_notifications",
             "custom_lists",
-            "collections"
+            "collections_to_stores"
         ];
 
         foreach ($tables as $table) {
